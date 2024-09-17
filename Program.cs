@@ -7,6 +7,9 @@ using Ecommerce_Product.Data;
 using Serilog;
 using Serilog.Events;
 using Ecommerce_Product.Models;
+using Ecommerce_Product.Repository;
+using Ecommerce_Product.Service;
+using Ecommerce_Product.Support_Serive;
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -23,9 +26,23 @@ Log.Logger = new LoggerConfiguration()
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddScoped<ILoginRepository,LoginService>();
+
+builder.Services.AddTransient<Service>();
+
+builder.Services.AddTransient<SmtpService>();
+
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.Configure<SmtpModel>(builder.Configuration.GetSection("SmtpModel"));
+
+
+
  builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
+
+
 
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog();
@@ -93,6 +110,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Login}/{action=Index}/{id?}");
+    pattern: "{controller=LoginAdmin}/{action=Index}/{id?}"
+    );
 
 app.Run();
