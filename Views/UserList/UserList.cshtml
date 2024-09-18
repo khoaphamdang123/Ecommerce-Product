@@ -421,19 +421,89 @@
      else{
       <a class="page-item" title="Previous" aria-label="previous" disabled></a>
      }
-     @for(int i=1;i<=Model.totalPage;i++)
-     { if(i==Model.currentPage)
-     {
-      <span class="page-item active" title="@i">i</span>
-     }
-     else{
-         <a class="page-item" title="@i" href="@Url.Action("UserList",new{page=i})">i</a>
-     }
-       @* <a class="page-item" title="1" href="#">1</a>
-       <a class="page-item" title="2" href="#">2</a>
-       <a class="page-item" title="3" href="#">3</a>
-       <a class="page-item" title="4" href="#">4</a> *@
+ 
+    @if(Model.totalPage<=7)
+    {
+      for(int i=1;i<=Model.totalPage;i++)
+      {
+        if(i==Model.currentPage)
+        {
+           <span class="page-item active" disable>@i</span> 
+        }
+       else{
+         <a class="page-item" title="@i" href="@Url.Action("UserList",new{page=i})">@i</a>
        }
+      }
+    }
+    else
+    {
+     if(Model.currentPage<5)
+     {
+      for(int i=1;i<=7;i++)
+      {
+        if(i<6)
+        {
+          if(i==Model.currentPage)
+        {
+           <span class="page-item active" disable>i</span> 
+        }
+       else{
+         <a class="page-item" title="@i" href="@Url.Action("UserList",new{page=i})">@i</a>
+       }
+        }
+        else{
+          if(i==6)
+          {
+            <span class="page-item" disabled>...</span>
+          }
+        else{
+            <a class="page-item" title="@i" href="@Url.Action("UserList",new{page=Model.totalPage})">@Model.totalPage</a>
+        }
+        }
+      }
+     }
+    else
+    {
+    if((Model.currentPage>=5 && (Model.currentPage<(Model.totalPage-3))))
+    {
+    <a class="page-item" title="1" href="@Url.Action("UserList",new{page=1})">1</a>
+    <span class="page-item" disabled>...</span>
+    <a class="page-item" title="@(Model.currentPage-2)" href="@Url.Action("UserList",new{page=(Model.currentPage-2)})">@(Model.currentPage-2)</a>
+    <a class="page-item" title="@(Model.currentPage-1)" href="@Url.Action("UserList",new{page=(Model.currentPage-1)})">@(Model.currentPage-1)</a>
+    <span class="page-item active" disabled>@(Model.currentPage)</span>
+    <span class="page-item" disabled>...</span>
+    <a class="page-item" title="@Model.totalPage" href="@Url.Action("UserList",new{page=Model.totalPage})">@Model.totalPage</a>
+    }
+    else{
+      <a class="page-item" title="1" href="@Url.Action("UserList",new{page=1})">1</a>
+    <span class="page-item" disabled>...</span>
+    <a class="page-item" title="@(Model.currentPage-4)" href="@Url.Action("UserList",new{page=(Model.currentPage-4)})">@(Model.currentPage-4)</a>
+     for(int i=Model.totalPage-3;i<=Model.totalPage;i++)
+     {
+      if(i==Model.currentPage)
+      {
+          <span class="page-item active" disabled>@(Model.currentPage)</span>
+      }
+    else{
+          <a class="page-item" title="@(i)" href="@Url.Action("UserList",new{page=(i)})">@(i)</a>
+    }
+     }
+    }
+    }
+    }
+   
+        @* <a class="page-item" title="1" href="@Url.Action("UserList",new{page=1})">1</a>
+       
+    
+         <a class="page-item" title="@i" href="@Url.Action("UserList",new{page=i})">i</a>
+         <a class="page-item" title="@i" href="@Url.Action("UserList",new{page=i})">i</a>
+         <a class="page-item" title="@i" href="@Url.Action("UserList",new{page=i})">i</a>
+
+         <a class="page-item" title="@i" href="@Url.Action("UserList",new{page=i})">i</a>
+
+         <a class="page-item" title="@i" href="@Url.Action("UserList",new{page=i})">i</a> *@
+
+       
       @if(Model.hasNextPage)
       {
        <a class="page-item" title="Next" href="@Url.Action("UserList",new{page=Model.currentPage+1})">></a>
