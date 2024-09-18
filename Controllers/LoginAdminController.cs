@@ -49,12 +49,7 @@ namespace Ecommerce_Product.Controllers
             return View();
         }
         
-        [Route("admin/user_list")]
-        [HttpGet]
-        public IActionResult UserList()
-        {
-            return View();
-        }
+     
         [Route("admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -208,20 +203,20 @@ namespace Ecommerce_Product.Controllers
         }
          
      
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> FilterUser(FilterUser model)
-        {
-          if(ModelState.IsValid)
-          {
-            string username=model.UserName;
-            string email = model.Email;
-            string phone = model.PhoneNumber;
-            string birth_time = model.DateTime;
-            Console.WriteLine("Username here is:"+username);
-          }
-          return View(model);
-        }
+        // [HttpPost]
+        // [ValidateAntiForgeryToken]
+        // public async Task<IActionResult> FilterUser(FilterUser model)
+        // {
+        //   if(ModelState.IsValid)
+        //   {
+        //     string username=model.UserName;
+        //     string email = model.Email;
+        //     string phone = model.PhoneNumber;
+        //     string birth_time = model.DateTime;
+        //     Console.WriteLine("Username here is:"+username);
+        //   }
+        //   return View(model);
+        // }
 
         // private IActionResult RedirectToLocal(string returnUrl)
         // {

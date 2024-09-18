@@ -28,6 +28,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<ILoginRepository,LoginService>();
 
+builder.Services.AddScoped<IUserListRepository,UserListService>();
+
 builder.Services.AddTransient<Service>();
 
 builder.Services.AddTransient<SmtpService>();
