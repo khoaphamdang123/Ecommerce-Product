@@ -144,9 +144,9 @@ public class LoginService:ILoginRepository
         {
         string new_password=this._support_service.generateRandomPassword();        
         var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-        Console.WriteLine("new-password"+new_password);
-        Console.WriteLine("token:"+code);
-        Console.WriteLine(user.Email);
+        // Console.WriteLine("new-password"+new_password);
+        // Console.WriteLine("token:"+code);
+        // Console.WriteLine(user.Email);
 
        var is_reset= await this._userManager.ResetPasswordAsync(user,code,new_password);
        
@@ -156,10 +156,11 @@ public class LoginService:ILoginRepository
         is_send=true;
         return is_send;
        }
-       else{
+       else
+       {
         foreach(var er in is_reset.Errors)
         {   this._logger.LogTrace("Reset Password Exception:"+er.Description);
-            Console.WriteLine("reset password error:"+er.Description);
+            //Console.WriteLine("reset password error:"+er.Description);
         }
        }
        

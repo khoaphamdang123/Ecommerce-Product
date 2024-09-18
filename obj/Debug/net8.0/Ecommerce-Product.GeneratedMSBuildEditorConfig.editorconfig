@@ -18,10 +18,6 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = c:\Users\QuanDEV\Ecommerce-Product
 build_property._RazorSourceGeneratorDebug = 
 
-[c:/Users/QuanDEV/Ecommerce-Product/Views/Admin/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW5kZXguY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [c:/Users/QuanDEV/Ecommerce-Product/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -40,6 +36,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [c:/Users/QuanDEV/Ecommerce-Product/Views/LoginAdmin/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5BZG1pblxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/QuanDEV/Ecommerce-Product/Views/LoginAdmin/UserInfo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5BZG1pblxVc2VySW5mby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/QuanDEV/Ecommerce-Product/Views/LoginAdmin/UserList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5BZG1pblxVc2VyTGlzdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [c:/Users/QuanDEV/Ecommerce-Product/Views/Shared/Error.cshtml]

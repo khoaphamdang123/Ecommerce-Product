@@ -17,4 +17,5 @@ public Task<ApplicationUser> getUser(string email);
 public Task<bool> deleteUser(string email);
 
 public Task<bool> sendEmail(string email,string receiver,string subject);
+
 }

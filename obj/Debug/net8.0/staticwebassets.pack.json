@@ -769,12 +769,28 @@
       "PackagePath": "staticwebassets\\vendor\\js\\menu.js"
     },
     {
+      "Id": "C:\\Users\\QuanDEV\\Ecommerce-Product\\wwwroot\\vendor\\libs\\@form-validation\\form-validation.css",
+      "PackagePath": "staticwebassets\\vendor\\libs\\@form-validation\\form-validation.css"
+    },
+    {
       "Id": "C:\\Users\\QuanDEV\\Ecommerce-Product\\wwwroot\\vendor\\libs\\apex-charts\\apex-charts.css",
       "PackagePath": "staticwebassets\\vendor\\libs\\apex-charts\\apex-charts.css"
     },
     {
       "Id": "C:\\Users\\QuanDEV\\Ecommerce-Product\\wwwroot\\vendor\\libs\\apex-charts\\apexcharts.js",
       "PackagePath": "staticwebassets\\vendor\\libs\\apex-charts\\apexcharts.js"
+    },
+    {
+      "Id": "C:\\Users\\QuanDEV\\Ecommerce-Product\\wwwroot\\vendor\\libs\\datatables-bs5\\datatables.bootstrap5.css",
+      "PackagePath": "staticwebassets\\vendor\\libs\\datatables-bs5\\datatables.bootstrap5.css"
+    },
+    {
+      "Id": "C:\\Users\\QuanDEV\\Ecommerce-Product\\wwwroot\\vendor\\libs\\datatables-buttons-bs5\\button.bootstrap5.css",
+      "PackagePath": "staticwebassets\\vendor\\libs\\datatables-buttons-bs5\\button.bootstrap5.css"
+    },
+    {
+      "Id": "C:\\Users\\QuanDEV\\Ecommerce-Product\\wwwroot\\vendor\\libs\\datatables-responsive-bs5\\responsive.bootstrap5.css",
+      "PackagePath": "staticwebassets\\vendor\\libs\\datatables-responsive-bs5\\responsive.bootstrap5.css"
     },
     {
       "Id": "C:\\Users\\QuanDEV\\Ecommerce-Product\\wwwroot\\vendor\\libs\\highlight\\highlight-github.css",
@@ -807,6 +823,14 @@
     {
       "Id": "C:\\Users\\QuanDEV\\Ecommerce-Product\\wwwroot\\vendor\\libs\\popper\\popper.js",
       "PackagePath": "staticwebassets\\vendor\\libs\\popper\\popper.js"
+    },
+    {
+      "Id": "C:\\Users\\QuanDEV\\Ecommerce-Product\\wwwroot\\vendor\\libs\\select2\\select2.css",
+      "PackagePath": "staticwebassets\\vendor\\libs\\select2\\select2.css"
+    },
+    {
+      "Id": "C:\\Users\\QuanDEV\\Ecommerce-Product\\wwwroot\\vendor\\libs\\typeahead-js\\typeahead.css",
+      "PackagePath": "staticwebassets\\vendor\\libs\\typeahead-js\\typeahead.css"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Ecommerce-Product.Microsoft.AspNetCore.StaticWebAssets.props",
