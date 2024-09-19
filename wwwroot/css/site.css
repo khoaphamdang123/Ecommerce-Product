@@ -132,3 +132,10 @@ background-color: rgba(105,108,255,.16);
 color: #696cff;
 }
 
+
+.activate
+{
+  background-color: #696cff!important;
+  pointer-events: none;
+  color: white!important;
+}

@@ -36,26 +36,10 @@
 
     <meta name="description" content="" />
 
-    <!-- Favicon -->
     
     <link rel="icon" type="image/x-icon" href="/img/favicon/favicon.ico"/>
 
-    <!-- Fonts -->
- 
-
-    <!-- Icons. Uncomment required icon fonts -->
-
-    <!-- Core CSS -->
-
-
-    <!-- Vendors CSS -->
-
-    <!-- Page CSS -->
-
-    <!-- Helpers -->
-
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+  
     <script src="~/assets/js/config.js"></script>
   </head>
 
@@ -313,7 +297,7 @@
                 <div class="card">
                     <div class="card-header border-bottom">
                      <h5 class="card-title mb-0">Lọc User</h5>
-                <form method="post" asp-controller="UserList">
+                <form method="post" asp-controller="UserList" asp-action="UserList">
                     <div class="d-flex justify-content-between align-items-center row pt-4 gap-4 gap-md-0 g-6">
                      <div class="col-md-4">
                     <input type="search" class="form-control" name="Username" placeholder="Tên khách hàng">
@@ -346,7 +330,7 @@
                             <div class="ms-2">   
                             <div class="data-length">
                                 <label>
-                                    <select class="form-select">
+                                    <select class="form-select" id="page-size">
                                         <option value="10">10</option>
                                         <option value="25">25</option>
                                         <option value="50">50</option>
@@ -407,19 +391,19 @@
                             <td class="text-center">@user.Created_Date</td>
                          </tr>
                          }
-                        
                     </tbody>
                 </table>
                 </div>
-    <div class="pagination-container">
-      <div class="page-total">Tổng số User:100</div>
+    <div class="pagination-container mt-4">
+      <div class="page-total">Tổng số User:@Model.totalCount</div>
       <div class="page-list justify-content-center">
      @if(Model.hasPreviousPage)
      {
-       <a class="page-item" title="Previous" href="@Url.Action("UserList",new{page=Model.currentPage-1})"><i class="bx bx-chevron-left"></a>
+       <a class="page-item" title="Previous" href="@Url.Action("UserListPaging",new{page=Model.currentPage-1})"><i class="bx bx-chevron-left"></a>
        }
-     else{
-      <a class="page-item" title="Previous" aria-label="previous" disabled></a>
+     else
+     {
+      <span class="page-item" title="Previous" aria-label="previous" disabled><i class="bx bx-chevron-left"></i></span>
      }
  
     @if(Model.totalPage<=7)
@@ -428,10 +412,10 @@
       {
         if(i==Model.currentPage)
         {
-           <span class="page-item active" disable>@i</span> 
+           <a class="page-item activate" disabled>@i</a> 
         }
        else{
-         <a class="page-item" title="@i" href="@Url.Action("UserList",new{page=i})">@i</a>
+         <a class="page-item" title="@i" href="@Url.Action("UserListPaging",new{page_size=4,page=i})">@i</a>
        }
       }
     }
@@ -510,7 +494,7 @@
        }
       else 
       {
-        <a class="page-item" title="Next" disabled></a>
+        <span class="page-item" title="Next" disabled> <i class="bx bx-chevron-right"></i></span>
       }
       </div>
     </div>  
@@ -527,6 +511,19 @@
       <div class="layout-overlay layout-menu-toggle"></div>
     </div>
     </div>
+  <script>
 
+     document.getElementById("page-size").addEventListener("change",()=>{
+    
+     var selected_value=document.getElementById("page-size").value;
+     if(selected_value)
+     {
+      selected_value=parseInt(selected_value);
+      alert(selected_value);
+      //window.location.href=`${Url.Action("handleNumberItem",new{page_size=selected_value})}`;
+      window.location.href= '@Url.Action("UserListPaging", "UserList")' + "?page_size=" + selected_value;
+     }
+     });
+  </script>
   </body>
 </html>

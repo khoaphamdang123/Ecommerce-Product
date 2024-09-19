@@ -65,7 +65,29 @@ public class UserListService:IUserListRepository
         {
             userList.Add(user);
         }
-      }
+      }      
       return userList;
     }
+   
+   public async Task<PageList<ApplicationUser>> pagingUser(int page_size,int page)
+   { 
+    
+    if(page_size<page)
+    {
+        return PageList<ApplicationUser>.CreateItem(new List<ApplicationUser>().AsQueryable(),0,0);
+    }
+ 
+   IEnumerable<ApplicationUser> all_user= await this.getAllUserList();
+
+   //List<ApplicationUser> users=all_user.OrderByDescending(u=>u.No).ToList(); 
+
+   var users=this._userManager.Users;
+   
+   var user_list=PageList<ApplicationUser>.CreateItem(users.AsQueryable(),page,page_size);
+   
+   return user_list;
+   
+   }
+
+
  }

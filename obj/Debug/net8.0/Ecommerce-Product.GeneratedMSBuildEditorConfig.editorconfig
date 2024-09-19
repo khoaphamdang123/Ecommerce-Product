@@ -9,59 +9,59 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Ecommerce_Product
 build_property.RootNamespace = Ecommerce_Product
-build_property.ProjectDir = D:\Ecommerce-Product\Ecommerce-Product\
+build_property.ProjectDir = c:\Users\QuanDEV\Ecommerce-Product\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\Ecommerce-Product\Ecommerce-Product
+build_property.MSBuildProjectDirectory = c:\Users\QuanDEV\Ecommerce-Product
 build_property._RazorSourceGeneratorDebug = 
 
-[D:/Ecommerce-Product/Ecommerce-Product/Views/Home/Index.cshtml]
+[c:/Users/QuanDEV/Ecommerce-Product/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Ecommerce-Product/Ecommerce-Product/Views/Home/Privacy.cshtml]
+[c:/Users/QuanDEV/Ecommerce-Product/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Ecommerce-Product/Ecommerce-Product/Views/LoginAdmin/ChangePassword.cshtml]
+[c:/Users/QuanDEV/Ecommerce-Product/Views/LoginAdmin/ChangePassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5BZG1pblxDaGFuZ2VQYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Ecommerce-Product/Ecommerce-Product/Views/LoginAdmin/ForgotPassword.cshtml]
+[c:/Users/QuanDEV/Ecommerce-Product/Views/LoginAdmin/ForgotPassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5BZG1pblxGb3Jnb3RQYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Ecommerce-Product/Ecommerce-Product/Views/LoginAdmin/Index.cshtml]
+[c:/Users/QuanDEV/Ecommerce-Product/Views/LoginAdmin/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5BZG1pblxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Ecommerce-Product/Ecommerce-Product/Views/Shared/Error.cshtml]
+[c:/Users/QuanDEV/Ecommerce-Product/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Ecommerce-Product/Ecommerce-Product/Views/Shared/_ValidationScriptsPartial.cshtml]
+[c:/Users/QuanDEV/Ecommerce-Product/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Ecommerce-Product/Ecommerce-Product/Views/UserInfo/UserInfo.cshtml]
+[c:/Users/QuanDEV/Ecommerce-Product/Views/UserInfo/UserInfo.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlckluZm9cVXNlckluZm8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Ecommerce-Product/Ecommerce-Product/Views/UserList/UserList.cshtml]
+[c:/Users/QuanDEV/Ecommerce-Product/Views/UserList/UserList.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlckxpc3RcVXNlckxpc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Ecommerce-Product/Ecommerce-Product/Views/_ViewImports.cshtml]
+[c:/Users/QuanDEV/Ecommerce-Product/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Ecommerce-Product/Ecommerce-Product/Views/_ViewStart.cshtml]
+[c:/Users/QuanDEV/Ecommerce-Product/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Ecommerce-Product/Ecommerce-Product/Views/Shared/_Layout.cshtml]
+[c:/Users/QuanDEV/Ecommerce-Product/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-cgr5vv8clk

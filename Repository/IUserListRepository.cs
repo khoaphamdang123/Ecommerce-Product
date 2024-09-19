@@ -9,7 +9,7 @@ public Task<IEnumerable<ApplicationUser>> filterUserList(FilterUser user);
 
 public Task<IEnumerable<ApplicationUser>> getAllUserList();
 
-public PageList<ApplicationUser> pagingUser(int page,int page_size);
+public Task<PageList<ApplicationUser>> pagingUser(int page_size,int page);
 
 // public Task<IEnumerable<ApplicationUser>> getUserListByRole(string role);
 
