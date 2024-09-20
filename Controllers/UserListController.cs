@@ -26,8 +26,14 @@ public class UserListController : Controller
         {         
           var users=await this._userList.pagingUser(10,1);
 
-          ViewBag.page_size=10;
+ string select_size="10";
+          ViewBag.select_size=select_size;
+          List<string> options=new List<string>(){"3","25","50","100"};
+          
+          ViewBag.options=options;
 
+          
+          
           return View(users);
         }
         catch(Exception er)
@@ -37,13 +43,25 @@ public class UserListController : Controller
         return View();
     }
 
- [Route("user_list_paging")]
+ [Route("user_list/page")]
    [HttpGet]
-    public async Task<IActionResult> UserListPaging([FromQuery]int page_size,[FromQuery] int page=1)
+    public async Task<IActionResult> UserListPaging([FromQuery]int page_size,[FromQuery] int page=1,string username="",string email="",string phonenumber="",string datetime="")
     {Console.WriteLine("task here");
        try
         { 
           var users=await this._userList.pagingUser(page_size,page);
+
+          if(!string.IsNullOrEmpty(username) || !string.IsNullOrEmpty(email) || !string.IsNullOrEmpty(phonenumber) || !string.IsNullOrEmpty(datetime))
+          {
+          FilterUser filter_obj=new FilterUser(username,email,phonenumber,datetime);
+          var filtered_user_list=await this._userList.filterUserList(filter_obj);
+          users=PageList<ApplicationUser>.CreateItem(filtered_user_list.AsQueryable(),page,page_size);
+          ViewBag.filter_user=filter_obj;
+          }
+          List<string> options=new List<string>(){"10","25","50","100"};
+          ViewBag.options=options;
+          string select_size=page_size.ToString();
+          ViewBag.select_size=select_size;
           return View("~/Views/UserList/UserList.cshtml",users);
         }
         catch(Exception er)
@@ -52,21 +70,38 @@ public class UserListController : Controller
         }
      return View("~/Views/UserList/UserList.cshtml");
     }
+
+    
+
+
+
     [Route("user_list")]
     [HttpPost]
     public async Task<IActionResult> UserList(string username,string email,string phonenumber,string datetime)
     {
+
+
+     List<string> options=new List<string>(){"10","25","50","100"};
+     
+      string select_size="10";
+      
+      ViewBag.select_size=select_size;
+     
+      ViewBag.options=options;
      try
      {
     //  {string username=model.UserName;
     //  string email=model.Email;
     //  string phonenumber=model.PhoneNumber; 
+   Console.WriteLine("here again");
 
     FilterUser user_list=new FilterUser(username,email,phonenumber,datetime);
     
     var users=await this._userList.filterUserList(user_list);
 
     var user_paging=PageList<ApplicationUser>.CreateItem(users.AsQueryable(),1,10);
+
+    ViewBag.filter_user=user_list;
 
     return View(user_paging);     
      }
@@ -76,6 +111,12 @@ public class UserListController : Controller
      }
      return View();
     }
+    [Route("user_list/add")]
+   [HttpGet]
+  public IActionResult AddUserList()
+  {
+    return View();
+  }
   //  [Route("user_list")]
   //  [HttpGet]
   //  public async Task<IActionResult> handleNumberItem(int page_size)

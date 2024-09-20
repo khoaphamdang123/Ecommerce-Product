@@ -15,6 +15,8 @@
 @model PageList<ApplicationUser>
 @{
   int count_id= 0;
+  var selected_size=ViewBag.select_size;
+  var filtered_user=ViewBag.filter_user;
 }
 <html
   lang="en"
@@ -331,10 +333,19 @@
                             <div class="data-length">
                                 <label>
                                     <select class="form-select" id="page-size">
-                                        <option value="10">10</option>
+                                        @* <option value="10">10</option>
                                         <option value="25">25</option>
                                         <option value="50">50</option>
-                                        <option value="100">100</option>
+                                        <option value="100">100</option> *@
+                                        @foreach(var option in ViewBag.options)
+                                        { if(option==selected_size)
+                                        {
+                                          <option value="@option" selected>@option</option>
+                                        }
+                                        else{
+                                           <option value="@option">@option</option>
+                                        }
+                                        }
                                     </select>
                                 </label>
                             </div>
@@ -375,6 +386,9 @@
                            <th class="text-center">
                             Ngày tạo
                            </th>
+                           <th class="text-center">
+                            Thao tác
+                           </th>
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
@@ -389,6 +403,16 @@
                             <td class="text-center">@user.Address1</td>
                             <td class="text-center">@user.Address2</td>
                             <td class="text-center">@user.Created_Date</td>
+                            <td class="text-center">
+                            <div class="d-flex align-items-center">
+                              <a href="" class="btn btn-icon delete-record">
+                                <i class="bx bx-trash bx-md"></i>
+                              </a>
+                                <a href="" class="btn btn-icon">
+                                <i class="bx bx-show bx-md"></i>
+                              </a>
+                            </div>
+                            </td>
                          </tr>
                          }
                     </tbody>
@@ -399,11 +423,11 @@
       <div class="page-list justify-content-center">
      @if(Model.hasPreviousPage)
      {
-       <a class="page-item" title="Previous" href="@Url.Action("UserListPaging",new{page=Model.currentPage-1})"><i class="bx bx-chevron-left"></a>
+       <a class="page-item" title="Previous" href="@Url.Action("UserListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage-1})"><i class="bx bx-chevron-left"></i></a>
        }
      else
      {
-      <span class="page-item" title="Previous" aria-label="previous" disabled><i class="bx bx-chevron-left"></i></span>
+      <span class="page-item" title="Previous" aria-label="previous"><i class="bx bx-chevron-left"></i></span>
      }
  
     @if(Model.totalPage<=7)
@@ -415,11 +439,11 @@
            <a class="page-item activate" disabled>@i</a> 
         }
        else{
-         <a class="page-item" title="@i" href="@Url.Action("UserListPaging",new{page_size=4,page=i})">@i</a>
+         <a class="page-item" title="@i" href="@Url.Action("UserListPaging",new{page_size=int.Parse(selected_size),page=i,username=filtered_user.Username,email=filtered_user.Email,phonenumber=filtered_user.PhoneNumber,datetime=filtered_user.DateTime})">@i</a>
        }
       }
     }
-    else
+    @* else
     {
      if(Model.currentPage<5)
      {
@@ -474,7 +498,7 @@
      }
     }
     }
-    }
+    } *@
    
         @* <a class="page-item" title="1" href="@Url.Action("UserList",new{page=1})">1</a>
        
@@ -490,7 +514,7 @@
        
       @if(Model.hasNextPage)
       {
-       <a class="page-item" title="Next" href="@Url.Action("UserList",new{page=Model.currentPage+1})">></a>
+       <a class="page-item" title="Next" href="@Url.Action("UserListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage+1})">></a>
        }
       else 
       {

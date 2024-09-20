@@ -50,6 +50,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlckluZm9cVXNlckluZm8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[c:/Users/QuanDEV/Ecommerce-Product/Views/UserList/AddUserList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlckxpc3RcQWRkVXNlckxpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [c:/Users/QuanDEV/Ecommerce-Product/Views/UserList/UserList.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlckxpc3RcVXNlckxpc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
