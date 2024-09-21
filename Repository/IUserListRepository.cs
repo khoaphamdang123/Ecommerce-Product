@@ -11,6 +11,10 @@ public Task<IEnumerable<ApplicationUser>> getAllUserList();
 
 public Task<PageList<ApplicationUser>> pagingUser(int page_size,int page);
 
+public Task<bool> checkUserExist(string email,string username);
+
+public Task<int> createUser(Register user);
+
 // public Task<IEnumerable<ApplicationUser>> getUserListByRole(string role);
 
 // public Task<bool> checkUserRole(string email,string role);

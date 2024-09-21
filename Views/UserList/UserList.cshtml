@@ -17,11 +17,16 @@
   int count_id= 0;
   var selected_size=ViewBag.select_size;
   var filtered_user=ViewBag.filter_user;
+  if((filtered_user)==null)
+  {
+    filtered_user=new FilterUser("","","","");
+  }
+  Console.WriteLine("filtered_user:"+filtered_user);
 }
 <html
   lang="en"
   class="light-style layout-menu-fixed"
-    using Org.BouncyCastle.Bcpg;
+  using Org.BouncyCastle.Bcpg;
   dir="ltr"
   data-theme="theme-default"
   data-assets-path="~/"
@@ -139,60 +144,20 @@
               </a>
               <ul class="menu-sub">
                 <li class="menu-item active">
-                  <a href="pages-account-settings-account.html" class="menu-link">
+                  <a href="http://localhost:5160/admin/user_list" class="menu-link">
                     <div data-i18n="Account">Danh sách khách hàng</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="pages-account-settings-notifications.html" class="menu-link">
+                  <a href="http://localhost:5160/admin/user_list/add" class="menu-link">
                     <div data-i18n="Notifications">Thêm khách hàng</div>
                   </a>
                 </li>
               </ul>
             </li>
-            <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
-                <div data-i18n="Authentications">Authentications</div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="auth-login-basic.html" class="menu-link" target="_blank">
-                    <div data-i18n="Basic">Login</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="auth-register-basic.html" class="menu-link" target="_blank">
-                    <div data-i18n="Basic">Register</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="auth-forgot-password-basic.html" class="menu-link" target="_blank">
-                    <div data-i18n="Basic">Forgot Password</div>
-                  </a>
-                </li>
+       
+            
               </ul>
-            </li>
-            <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-cube-alt"></i>
-                <div data-i18n="Misc">Misc</div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="pages-misc-error.html" class="menu-link">
-                    <div data-i18n="Error">Error</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="pages-misc-under-maintenance.html" class="menu-link">
-                    <div data-i18n="Under Maintenance">Under Maintenance</div>
-                  </a>
-                </li>
-              </ul>
-            </li>
-              </ul>
-            </li>
 
             <!-- Extended components -->
            
@@ -271,7 +236,7 @@
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" href="http://localhost:5160/admin/change_password">
                         <i class="bx bx-cog me-2"></i>
                         <span class="align-middle">Đổi mật khẩu</span>
                       </a>
@@ -358,7 +323,7 @@
                                 <div class="btn-group">
                                     <button class="btn buttons-collection dropdown-toggle btn-label-secondary me-4" tabindex="0" aria-controls="DataTables_Table_0" type="button" aria-haspopup="dialog" aria-expanded="false"><span><i class="bx bx-export me-2 bx-sm"></i>Export</span></button>     
                                 </div>
-                                <button class="btn btn-secondary add-new btn-primary" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"><span><i class="bx bx-plus bx-sm me-0 me-sm-2"></i><span class="d-none d-sm-inline-block">Thêm khách hàng mới</span></span></button>
+                                <button class="btn btn-secondary add-new btn-primary" id="add-user-btn" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"><span><i class="bx bx-plus bx-sm me-0 me-sm-2"></i><span class="d-none d-sm-inline-block">Thêm khách hàng mới</span></span></button>
                             </div>
                             </div>
                             </div>
@@ -395,7 +360,7 @@
                        @foreach(var user in Model.item)
                        { 
                          <tr>
-                            <td class="text-center">@count_id</td>
+                            <td class="text-center">@user.Seq</td>
                             <td class="text-center"><strong>@user.UserName</strong></td>
                             <td class="text-center">@user.Email</td>
                             <td class="text-center">@user.Gender</td>
@@ -439,7 +404,7 @@
            <a class="page-item activate" disabled>@i</a> 
         }
        else{
-         <a class="page-item" title="@i" href="@Url.Action("UserListPaging",new{page_size=int.Parse(selected_size),page=i,username=filtered_user.Username,email=filtered_user.Email,phonenumber=filtered_user.PhoneNumber,datetime=filtered_user.DateTime})">@i</a>
+         <a class="page-item" title="@i" href="@Url.Action("UserListPaging",new{page_size=int.Parse(selected_size),page=i,username=(string.IsNullOrEmpty(filtered_user.UserName)?"":filtered_user.Username),email=(string.IsNullOrEmpty(filtered_user.Email)?"":filtered_user.Email),phonenumber=(string.IsNullOrEmpty(filtered_user.PhoneNumber)?"":filtered_user.PhoneNumber),datetime=(string.IsNullOrEmpty(filtered_user.DateTime)?"":filtered_user.DateTime)})">@i</a>
        }
       }
     }
@@ -547,6 +512,9 @@
       //window.location.href=`${Url.Action("handleNumberItem",new{page_size=selected_value})}`;
       window.location.href= '@Url.Action("UserListPaging", "UserList")' + "?page_size=" + selected_value;
      }
+     });
+     document.getElementById("add-user-btn").addEventListener('click',()=>{
+      window.location.href='@Url.Action("AddUserList","UserList")';
      });
   </script>
   </body>

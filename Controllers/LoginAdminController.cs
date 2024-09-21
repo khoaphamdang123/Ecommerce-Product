@@ -69,7 +69,7 @@ namespace Ecommerce_Product.Controllers
       var admin_user=await this._loginRepos.getUser(email);
     // if(normalUser==null)
     // {   Console.WriteLine("normal user here");
-    //     var newNormalUser = new ApplicationUser{UserName = normalEmail,Email=normalEmail,Address1="here",Address2="there",Gender="Male"};
+        //var newNormalUser = new ApplicationUser{UserName = normalEmail,Email=normalEmail,Address1="here",Address2="there",Gender="Male"};
     //     var createUser = await _userManager.CreateAsync(newNormalUser,normalPassword);
     //     if(createUser.Succeeded)
     //     { Console.WriteLine("It used to be in here");

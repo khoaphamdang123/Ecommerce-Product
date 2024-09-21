@@ -37,6 +37,10 @@
       "PackagePath": "staticwebassets\\img\\avatars\\7.png"
     },
     {
+      "Id": "C:\\Users\\QuanDEV\\Ecommerce-Product\\wwwroot\\img\\avatars\\profile.png",
+      "PackagePath": "staticwebassets\\img\\avatars\\profile.png"
+    },
+    {
       "Id": "C:\\Users\\QuanDEV\\Ecommerce-Product\\wwwroot\\img\\avatars\\test.jpg",
       "PackagePath": "staticwebassets\\img\\avatars\\test.jpg"
     },

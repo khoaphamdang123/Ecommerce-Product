@@ -26,14 +26,15 @@ public class UserListController : Controller
         {         
           var users=await this._userList.pagingUser(10,1);
 
- string select_size="10";
+         string select_size="10";
           ViewBag.select_size=select_size;
-          List<string> options=new List<string>(){"3","25","50","100"};
+          List<string> options=new List<string>(){"10","25","50","100"};
           
           ViewBag.options=options;
+            FilterUser filter_obj=new FilterUser("","","","");
+            ViewBag.filter_user=filter_obj;
 
-          
-          
+
           return View(users);
         }
         catch(Exception er)
@@ -58,6 +59,8 @@ public class UserListController : Controller
           users=PageList<ApplicationUser>.CreateItem(filtered_user_list.AsQueryable(),page,page_size);
           ViewBag.filter_user=filter_obj;
           }
+         
+
           List<string> options=new List<string>(){"10","25","50","100"};
           ViewBag.options=options;
           string select_size=page_size.ToString();
@@ -69,6 +72,7 @@ public class UserListController : Controller
             this._logger.LogTrace("Get User List Exception:"+er.Message);
         }
      return View("~/Views/UserList/UserList.cshtml");
+
     }
 
     
@@ -79,7 +83,7 @@ public class UserListController : Controller
     [HttpPost]
     public async Task<IActionResult> UserList(string username,string email,string phonenumber,string datetime)
     {
-
+ Console.WriteLine("username:"+username);
 
      List<string> options=new List<string>(){"10","25","50","100"};
      
@@ -117,6 +121,46 @@ public class UserListController : Controller
   {
     return View();
   }
+   [Route("user_list/add")]
+   [HttpPost]
+   public async Task<IActionResult> AddUserList(Register user)
+   {
+    try
+    { 
+  string username=user.UserName;
+  string email=user.Email;
+  string password= user.Password;
+  string gender= user.Gender;
+  Console.WriteLine(username);
+  Console.WriteLine(email);
+  Console.WriteLine(password);
+  Console.WriteLine(gender);
+  int res=await this._userList.createUser(user);
+     if(res==1)
+     {
+      ViewBag.Status=1;
+      ViewBag.Created_User="Đã thêm user thành công";
+     }
+     else if(res==-1)
+     {
+      ViewBag.Status=-1;
+      ViewBag.Created_User="Username hoặc Email này đã tồn tại trong hệ thống";
+     }
+     else
+     {
+      ViewBag.Status=0;
+      ViewBag.Created_User="Thêm user thất bại";
+     }
+    }
+    catch(Exception er)
+    {
+      Console.WriteLine("Add User Exception:"+er.InnerException?.Message??er.Message);
+        this._logger.LogTrace("Add User Exception:"+er.InnerException?.Message??er.Message);
+    ViewBag.Status=0;
+    ViewBag.Created_User="Thêm user thất bại";
+    }
+    return View();
+   }
   //  [Route("user_list")]
   //  [HttpGet]
   //  public async Task<IActionResult> handleNumberItem(int page_size)
