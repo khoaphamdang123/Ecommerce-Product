@@ -596,7 +596,7 @@
                     </div>
                     <hr class="my-0" />
                     <div class="card-body">
-                      <form id="formAccountSettings" method="POST" onsubmit="return false">
+                      <form id="formAccountSettings" method="post" onsubmit="return false">
                         <div class="row">
                           <div class="mb-3 col-md-6">
                             <label for="username" class="form-label">Username</label>
@@ -608,10 +608,12 @@
                               autofocus
                               placeholder="Nhập tên user"
                             />
+                          <span id="username-error" class="text-danger"></span>
                           </div>
                           <div class="mb-3 col-md-6">
                             <label for="email" class="form-label">E-mail</label>
                             <input class="form-control" type="email" name="email" id="email" value="" placeholder="Nhập Email" />
+                            <span id="email-error" class="text-danger"></spa
                           </div>
                           <div class="mb-3 col-md-6">
                             <label for="phone" class="form-label">Số điện thoại</label>
@@ -656,7 +658,7 @@
                         </div>
                          <span id="password-error" class="text-danger"></span>
                           </div>
-                          <div class="mb-3 col-md-6">
+                          <div class="mb-3 col-md-6 form-password-toggle">
                             <label for="confirmPassword" class="form-label">Xác nhận mật khẩu</label>
                             <div class="input-group input-group-merge">
                             <input
@@ -729,8 +731,43 @@
       <!-- Overlay -->
       <div class="layout-overlay layout-menu-toggle"></div>
     </div>
-
-
-
+<script>
+ document.getElementById("formAccountSettings").addEventListener("submit",()=>{
+  var is_valid=true;
+  var username=document.getElementById("username").value.trim();
+  var email = document.getElementById("email").value.trim();
+  var password = document.getElementById("password").value.trim();
+  var confirmPassword = document.getElementById("confirmPassword").value.trim();
+  if(username==='')
+  {
+    is_valid=false;
+    document.getElementById("username-error").innerHTML='Không được để trống thông tin này';
+  }
+  if(email==='')
+  {
+    is_valid=false;
+    document.getElementById("email-error").innerHTML="Không được để trống thông tin này";
+  }
+  if(password==='')
+  {
+    is_valid=false;
+    document.getElementById("password-error").innerHTML="Không được để trống thông tin này";
+  }
+  if(confirmPassword=='')
+  {
+    is_valid=false;
+    document.getElementById("confirm-password-error").innerHTML="Không được để trống thông tin này";
+  }
+  if(password!=confirmPassword)
+  {is_valid=false;
+    document.getElementById("confirm-password-error").innerHTML="Không trùng khớp với mật khẩu";
+  }
+  if(!is_valid)
+  {
+    event.preventDefault();
+  }
+  
+ });
+</script>
   </body>
 </html>
