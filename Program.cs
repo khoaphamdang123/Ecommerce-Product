@@ -30,6 +30,10 @@ builder.Services.AddScoped<ILoginRepository,LoginService>();
 
 builder.Services.AddScoped<IUserListRepository,UserListService>();
 
+
+builder.Services.AddScoped<IAdminRepository,AdminListService>();
+
+
 builder.Services.AddTransient<Service>();
 
 builder.Services.AddTransient<SmtpService>();
@@ -47,6 +51,7 @@ builder.Services.Configure<SmtpModel>(builder.Configuration.GetSection("SmtpMode
 
 
 builder.Logging.ClearProviders();
+
 builder.Logging.AddSerilog();
 
 // builder.Services.AddAuthorization(options=>{
@@ -56,7 +61,6 @@ builder.Logging.AddSerilog();
 
 
 var app = builder.Build();
-
 
 app.UseAuthentication();
 

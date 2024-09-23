@@ -89,16 +89,16 @@ catch(Exception er)
    public async Task<PageList<ApplicationUser>> pagingUser(int page_size,int page)
    { 
     
-    if(page_size<page)
-    {
-        return PageList<ApplicationUser>.CreateItem(new List<ApplicationUser>().AsQueryable(),0,0);
-    }
+    // if(page_size<page)
+    // {
+    //     return PageList<ApplicationUser>.CreateItem(new List<ApplicationUser>().AsQueryable(),0,0);
+    // }
  
    IEnumerable<ApplicationUser> all_user= await this.getAllUserList();
 
-   //List<ApplicationUser> users=all_user.OrderByDescending(u=>u.No).ToList(); 
+   List<ApplicationUser> users=all_user.OrderByDescending(u=>u.Seq).ToList(); 
 
-   var users=this._userManager.Users;
+   //var users=this._userManager.Users;
    
    var user_list=PageList<ApplicationUser>.CreateItem(users.AsQueryable(),page,page_size);
    

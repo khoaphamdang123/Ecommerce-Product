@@ -12,9 +12,9 @@ public class AdminListController : Controller
 {
     private readonly ILogger<AdminListController> _logger;
 
-    private readonly IUserListRepository _userList;
+    private readonly IAdminRepository _userList;
 
-    public AdminListController(ILogger<AdminListController> logger,IUserListRepository userList)
+    public AdminListController(ILogger<AdminListController> logger,IAdminRepository userList)
     {
         _logger = logger;
         this._userList=userList;
@@ -31,11 +31,9 @@ public class AdminListController : Controller
           ViewBag.select_size=select_size;
           List<string> options=new List<string>(){"10","25","50","100"};
           
-          ViewBag.options=options;
+            ViewBag.options=options;
             FilterUser filter_obj=new FilterUser("","","","");
             ViewBag.filter_user=filter_obj;
-
-
           return View(users);
         }
         catch(Exception er)
@@ -48,7 +46,7 @@ public class AdminListController : Controller
  [Route("admin_list/page")]
    [HttpGet]
     public async Task<IActionResult> UserListPaging([FromQuery]int page_size,[FromQuery] int page=1,string username="",string email="",string phonenumber="",string datetime="")
-    {Console.WriteLine("task here");
+    {
        try
         { 
           var users=await this._userList.pagingUser(page_size,page);
@@ -72,7 +70,7 @@ public class AdminListController : Controller
         {
             this._logger.LogTrace("Get Admin List Exception:"+er.Message);
         }
-     return View("~/Views/AdminList/AdminList.cshtml");
+        return RedirectToAction("AdminList","AdminList");
     }
 
     
@@ -186,7 +184,7 @@ public class AdminListController : Controller
      }
      else
      {
-       return View("~/Views/AdminList/AdminList.cshtml");
+        return RedirectToAction("AdminList","AdminList");
      }
    }
    catch(Exception er)
@@ -194,7 +192,7 @@ public class AdminListController : Controller
      Console.WriteLine("Admin Info Exception:"+er.InnerException?.Message??er.Message);
      this._logger.LogTrace("Admin Info Exception:"+er.InnerException?.Message??er.Message); 
    }
-  return View("~/Views/AdminList/AdminList.cshtml");
+        return RedirectToAction("AdminList","AdminList");
   }
 
 [Route("admin_list/admin_info")]
@@ -224,7 +222,7 @@ public async Task<IActionResult> AdminInfo(UserInfo user)
      Console.WriteLine("Update Admin Info Exception:"+er.InnerException?.Message??er.Message);
      this._logger.LogTrace("Update Admin Info Exception:"+er.InnerException?.Message??er.Message); 
   }
-     return View("~/Views/AdminList/AdminList.cshtml");
+  return RedirectToAction("AdminList","AdminList");
 } 
  
 [Route("admin_list/admin_info/delete")]
@@ -236,13 +234,13 @@ public async Task<IActionResult> UserInfoDelete(string email)
    int res_delete=await this._userList.deleteUser(email);
    if(res_delete==1)
    {
-    ViewBag.Status_Delete=1;
-    ViewBag.Message_Delete = "Xóa tài khoản Admin thành công";
+    TempData["Status_Delete"]=1;
+    TempData["Message_Delete"] = "Xóa tài khoản Admin thành công";
    }
    else
    {
-   ViewBag.Status_Delete=0;
-   ViewBag.Message_Delete="Xóa tài khoản Admin thất bại";
+   TempData["Status_Delete"]=0;
+   TempData["Message_Delete"]="Xóa tài khoản Admin thất bại";
    }
   }
   catch(Exception er)
@@ -250,7 +248,7 @@ public async Task<IActionResult> UserInfoDelete(string email)
      Console.WriteLine("Delete Admin Info Exception:"+er.InnerException?.Message??er.Message);
      this._logger.LogTrace("Delete Admin Info Exception:"+er.InnerException?.Message??er.Message);    
   }
-  return View("~/Views/AdminList/AdminList.cshtml");
+  return RedirectToAction("AdminList","AdminList");
 }
 
 [Route("admin_list/admin_info/change_password")]
@@ -260,15 +258,16 @@ public async Task<IActionResult> ResetPasswordUser(string email)
   try
   {
     int res_change= await this._userList.changeUserPassword(email);
+    
     if(res_change==1)
     {
-    ViewBag.change_res=1;
-    ViewBag.message_change="Mật khẩu mới của tài khoản admin này là Ecommerce123@";
+    TempData["change_res"]=1;
+    TempData["message_change"]="Mật khẩu mới của tài khoản admin này là Ecommerce123@";
     }
    else
    {
-   ViewBag.change_res=0;
-   ViewBag.message_change = "Đổi mật khẩu tài khoản admin thất bại";
+   TempData["change_res"]=0;
+   TempData["message_change"] = "Đổi mật khẩu tài khoản admin thất bại";
    }
   }
   catch(Exception er)
@@ -276,12 +275,69 @@ public async Task<IActionResult> ResetPasswordUser(string email)
          Console.WriteLine("Reset Admin Password Exception:"+er.InnerException?.Message??er.Message);
      this._logger.LogTrace("Reset Admin Password Exception:"+er.InnerException?.Message??er.Message);    
   }
-  return View("~/Views/AdminList/AdminList.cshtml");
+   return RedirectToAction("AdminList","AdminList");
 }
+
+[Route("admin_list/export_excel")]
+[HttpGet]
+public async Task<IActionResult> ExportExel()
+{
+  try
+  {
+  var content= await this._userList.exportToExcel();
+  return File(content,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","Admin_List.xlsx");
+  }
+  catch(Exception er)
+  {
+   Console.WriteLine("Export Excel Exception:"+er.InnerException?.Message??er.Message);
+    this._logger.LogTrace("Export Excel Exception:"+er.InnerException?.Message??er.Message);      
+  }
+  return RedirectToAction("AdminList","AdminList");
+}
+
+[Route("admin_list/export_pdf")]
+
+[HttpGet]
+public async Task<IActionResult> ExportPdf()
+{
+  try
+  {
+  var content = await this._userList.exportToPDF();
+  
+  return File(content,"application/pdf","Admin_List.pdf");
+  }
+  catch(Exception er)
+  {
+     Console.WriteLine("Export Pdf Exception:"+er.InnerException?.Message??er.Message);
+    this._logger.LogTrace("Export Pdf Exception:"+er.InnerException?.Message??er.Message);     
+  }
+  return RedirectToAction("AdminList","AdminList");
+}
+
+[Route("admin_list/export_csv")]
+[HttpGet]
+
+public async Task<IActionResult> ExportCsv()
+{
+  try
+  {
+  var content = await this._userList.exportToCSV();
+  return File(content,"application/csv;charset=utf-8","Admin_List.csv");
+  }
+  catch(Exception er)
+  {
+  Console.WriteLine("Export Csv Exception:"+er.InnerException?.Message??er.Message);
+    this._logger.LogTrace("Export Csv Exception:"+er.InnerException?.Message??er.Message);     
+  }
+  return RedirectToAction("AdminList","AdminList");
+
+}
+
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+  
 }

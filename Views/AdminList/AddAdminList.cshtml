@@ -33,7 +33,7 @@
              >
                         <div class="toast-header">
                           <i class="bx bx-bell me-2"></i>
-                          <div class="me-auto fw-semibold">Thêm Admin</div>
+                          <div class="me-auto fw-semibold">Thêm User</div>
                           <!--<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>-->
                         </div>
                         <div class="toast-body">
@@ -64,7 +64,7 @@
              >
                         <div class="toast-header">
                           <i class="bx bx-bell me-2"></i>
-                          <div class="me-auto fw-semibold">Thêm Admin</div>
+                          <div class="me-auto fw-semibold">Thêm user</div>
                           <!--<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>-->
                         </div>
                         <div class="toast-body">
@@ -96,7 +96,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Khách hàng - Thêm khách hàng</title>
+    <title>Admin - Thêm Admin</title>
 
     <meta name="description" content="" />
 
@@ -205,26 +205,6 @@
                 </li>
               </ul>
             </li>
-
-               <li class="menu-item active open">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-dock-top"></i>
-                <div data-i18n="Account Settings">Admin</div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="http://localhost:5160/admin/user_list" class="menu-link">
-                    <div data-i18n="Account">Danh sách tài khoản Admin</div>
-                  </a>
-                </li>
-                <li class="menu-item active">
-                  <a href="http://localhost:5160/admin/user_list/add" class="menu-link">
-                    <div data-i18n="Notifications">Thêm Admin</div>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            
             <!-- Components -->
             <!-- Cards -->
          
@@ -360,7 +340,7 @@
             <!-- Content -->
 
             <div class="container-xxl flex-grow-1 container-p-y">
-              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Khách hàng /</span>Thông tin khách hàng</h4>
+              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span>Thêm Admin</h4>
 
               <div class="row">
                 <div class="col-md-12">
@@ -406,7 +386,7 @@
                     </div>
                     <hr class="my-0" />
                     <div class="card-body">
-                      <form id="formAccountSettings" method="post" asp-controller="AdminList" asp-action="AddAdminList">
+                      <form id="formAccountSettings" method="post" asp-controller="UserList" asp-action="AddUserList">
                         <div class="row">
                           <div class="mb-3 col-md-6">
                             <label for="username" class="form-label">Username</label>
@@ -431,7 +411,7 @@
                               class="form-control"
                               type="text"
                               id="phone"
-                              name="phone"
+                              name="phonenumber"
                               value=""
                               placeholder="Nhập số điện thoại"
                             />

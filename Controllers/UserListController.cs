@@ -162,9 +162,9 @@ public class UserListController : Controller
     catch(Exception er)
     {
       Console.WriteLine("Add User Exception:"+er.InnerException?.Message??er.Message);
-        this._logger.LogTrace("Add User Exception:"+er.InnerException?.Message??er.Message);
-    ViewBag.Status=0;
-    ViewBag.Created_User="Thêm user thất bại";
+      this._logger.LogTrace("Add User Exception:"+er.InnerException?.Message??er.Message);
+      ViewBag.Status=0;
+      ViewBag.Created_User="Thêm user thất bại";
     }
     return View();
    }
