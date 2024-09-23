@@ -17,12 +17,81 @@
   int count_id= 0;
   var selected_size=ViewBag.select_size;
   var filtered_user=ViewBag.filter_user;
+  var status_delete=ViewBag.Status_Delete;
+  var message_delete = ViewBag.Message_Delete;
+  var change_pass_status = ViewBag.change_res;
+  var message_change=ViewBag.message_change;
   if((filtered_user)==null)
   {
     filtered_user=new FilterUser("","","","");
   }
   Console.WriteLine("filtered_user:"+filtered_user);
 }
+
+@if(status_delete==1 || change_pass_status==1)
+{
+   <div
+       class="bs-toast toast fade hide bg-success toast-placement-ex top-5 end-0"
+       role="alert"
+       aria-live="assertive"
+       aria-atomic="true"
+        data-bs-dismiss="toast"
+        style="cursor: pointer;"
+         data-delay="3000"
+         data-bs-autohide="true" 
+         data-bs-delay="3000"
+             >
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold">@(status_delete==1?"Xóa User":"Đổi mật khẩu")</div>
+                          <!--<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>-->
+                        </div>
+                        <div class="toast-body">
+                         @(status_delete==1?message_delete:message_change)
+                        </div>
+                      </div>
+                <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var toastEl = document.querySelector('.toast');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            });
+        </script>
+}
+
+
+@if(status_delete==0 || change_pass_status==0)
+{
+   <div
+       class="bs-toast toast fade hide bg-danger toast-placement-ex top-5 end-0"
+       role="alert"
+       aria-live="assertive"
+       aria-atomic="true"
+        data-bs-dismiss="toast"
+        style="cursor: pointer;"
+         data-delay="3000"
+         data-bs-autohide="true" 
+         data-bs-delay="3000"
+             >
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold">@(status_delete==1?"Xóa User":"Đổi mật khẩu")</div>
+                        </div>
+                        <div class="toast-body">
+                         @(status_delete==1?message_delete:message_change)
+                        </div>
+                      </div>
+                        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var toastEl = document.querySelector('.toast');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            });
+        </script>
+}
+
+
+
 <html
   lang="en"
   class="light-style layout-menu-fixed"
@@ -370,11 +439,14 @@
                             <td class="text-center">@user.Created_Date</td>
                             <td class="text-center">
                             <div class="d-flex align-items-center">
-                              <a href="" class="btn btn-icon delete-record">
+                              <a href="@Url.Action("UserInfoDelete",new{email=user.Email})" class="btn btn-icon delete-record">
                                 <i class="bx bx-trash bx-md"></i>
                               </a>
-                                <a href="" class="btn btn-icon">
+                                <a href="@Url.Action("UserInfo",new {email=user.Email})" class="btn btn-icon">
                                 <i class="bx bx-show bx-md"></i>
+                              </a>
+                              <a href="@Url.Action("ResetPasswordUser",new{email=user.Email})" class="btn btn-icon">
+                                <i class="bx bx-key bx-md"></i>
                               </a>
                             </div>
                             </td>
@@ -403,7 +475,8 @@
         {
            <a class="page-item activate" disabled>@i</a> 
         }
-       else{
+       else
+       {
          <a class="page-item" title="@i" href="@Url.Action("UserListPaging",new{page_size=int.Parse(selected_size),page=i,username=(string.IsNullOrEmpty(filtered_user.UserName)?"":filtered_user.Username),email=(string.IsNullOrEmpty(filtered_user.Email)?"":filtered_user.Email),phonenumber=(string.IsNullOrEmpty(filtered_user.PhoneNumber)?"":filtered_user.PhoneNumber),datetime=(string.IsNullOrEmpty(filtered_user.DateTime)?"":filtered_user.DateTime)})">@i</a>
        }
       }

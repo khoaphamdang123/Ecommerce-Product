@@ -4,6 +4,7 @@ using Ecommerce_Product.Models;
 using Microsoft.AspNetCore.Authorization;
 using Ecommerce_Product.Repository;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Ecommerce_Product.Controllers;
 [Route("admin")]
@@ -72,7 +73,6 @@ public class UserListController : Controller
             this._logger.LogTrace("Get User List Exception:"+er.Message);
         }
      return View("~/Views/UserList/UserList.cshtml");
-
     }
 
     
@@ -177,6 +177,111 @@ public class UserListController : Controller
   // }
   // return View("~/Views/UserList/UserList.cshtml");
   //  }
+  [Route("user_list/user_info")]
+  [HttpGet]
+  public async Task<IActionResult> UserInfo(string email)
+  {
+   try
+   {
+     var user=await this._userList.findUserByEmail(email);
+     if(user!=null)
+     {
+     return View("~/Views/UserList/UserInfo.cshtml",user);
+     }
+     else
+     {
+       return View("~/Views/UserList/UserList.cshtml");
+     }
+   }
+   catch(Exception er)
+   {
+     Console.WriteLine("User Info Exception:"+er.InnerException?.Message??er.Message);
+     this._logger.LogTrace("User Info Exception:"+er.InnerException?.Message??er.Message); 
+   }
+  return View("~/Views/UserList/UserList.cshtml");
+  }
+
+[Route("user_list/user_info")]
+[HttpPost]
+public async Task<IActionResult> UserInfo(UserInfo user)
+{ int res_update=0;
+  try
+  {
+    res_update=await this._userList.updateUser(user);
+    if(res_update==1)
+    {
+      ViewBag.Status=1;
+      ViewBag.Update_Message="Cập nhật User thành công";
+    }
+    else
+    {
+      ViewBag.Status=0;
+      ViewBag.Update_Message="Cập nhật User thất bại";
+    }
+    var user_after=await this._userList.findUserById(user.Id);
+
+    return View("~/Views/UserList/UserInfo.cshtml",user_after);
+
+  }
+  catch(Exception er)
+  {
+     Console.WriteLine("Update User Info Exception:"+er.InnerException?.Message??er.Message);
+     this._logger.LogTrace("Update User Info Exception:"+er.InnerException?.Message??er.Message); 
+  }
+     return View("~/Views/UserList/UserList.cshtml");
+} 
+ 
+[Route("user_list/user_info/delete")]
+[HttpDelete] 
+public async Task<IActionResult> UserInfoDelete(string email)
+{ 
+  try
+  {
+   int res_delete=await this._userList.deleteUser(email);
+   if(res_delete==1)
+   {
+    ViewBag.Status_Delete=1;
+    ViewBag.Message_Delete = "Xóa User thành công";
+   }
+   else
+   {
+   ViewBag.Status_Delete=0;
+   ViewBag.Message_Delete="Xóa User thất bại";
+   }
+  }
+  catch(Exception er)
+  {
+     Console.WriteLine("Delete User Info Exception:"+er.InnerException?.Message??er.Message);
+     this._logger.LogTrace("Delete User Info Exception:"+er.InnerException?.Message??er.Message);    
+  }
+  return View("~/Views/UserList/UserList.cshtml");
+}
+
+[Route("user_list/user_info/change_password")]
+[HttpPost]
+public async Task<IActionResult> ResetPasswordUser(string email)
+{
+  try
+  {
+    int res_change= await this._userList.changeUserPassword(email);
+    if(res_change==1)
+    {
+    ViewBag.change_res=1;
+    ViewBag.message_change="Mật khẩu mới của User là Ecommerce123@";
+    }
+   else
+   {
+   ViewBag.change_res=0;
+   ViewBag.message_change = "Đổi mật khẩu User thất bại";
+   }
+  }
+  catch(Exception er)
+  {
+         Console.WriteLine("Reset User Password Exception:"+er.InnerException?.Message??er.Message);
+     this._logger.LogTrace("Reset User Password Exception:"+er.InnerException?.Message??er.Message);    
+  }
+  return View("~/Views/UserList/UserList.cshtml");
+}
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

@@ -15,6 +15,16 @@ public Task<bool> checkUserExist(string email,string username);
 
 public Task<int> createUser(Register user);
 
+public Task<ApplicationUser> findUserByEmail(string email);
+
+public Task<ApplicationUser> findUserById(string id);
+
+public Task<int> updateUser(UserInfo user);
+
+public Task<int> deleteUser(string email);
+
+public Task<int> changeUserPassword(string email);
+
 // public Task<IEnumerable<ApplicationUser>> getUserListByRole(string role);
 
 // public Task<bool> checkUserRole(string email,string role);

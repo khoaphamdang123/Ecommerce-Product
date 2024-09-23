@@ -1,0 +1,287 @@
+using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using Ecommerce_Product.Models;
+using Microsoft.AspNetCore.Authorization;
+using Ecommerce_Product.Repository;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
+namespace Ecommerce_Product.Controllers;
+[Route("admin")]
+public class AdminListController : Controller
+{
+    private readonly ILogger<AdminListController> _logger;
+
+    private readonly IUserListRepository _userList;
+
+    public AdminListController(ILogger<AdminListController> logger,IUserListRepository userList)
+    {
+        _logger = logger;
+        this._userList=userList;
+    }
+
+   [HttpGet("admin_list")]
+    public async Task<IActionResult> AdminList()
+    { 
+          try
+        {         
+          var users=await this._userList.pagingUser(10,1);
+
+         string select_size="10";
+          ViewBag.select_size=select_size;
+          List<string> options=new List<string>(){"10","25","50","100"};
+          
+          ViewBag.options=options;
+            FilterUser filter_obj=new FilterUser("","","","");
+            ViewBag.filter_user=filter_obj;
+
+
+          return View(users);
+        }
+        catch(Exception er)
+        {
+            this._logger.LogTrace("Get User List Exception:"+er.Message);
+        }
+        return View();
+    }
+
+ [Route("admin_list/page")]
+   [HttpGet]
+    public async Task<IActionResult> UserListPaging([FromQuery]int page_size,[FromQuery] int page=1,string username="",string email="",string phonenumber="",string datetime="")
+    {Console.WriteLine("task here");
+       try
+        { 
+          var users=await this._userList.pagingUser(page_size,page);
+
+          if(!string.IsNullOrEmpty(username) || !string.IsNullOrEmpty(email) || !string.IsNullOrEmpty(phonenumber) || !string.IsNullOrEmpty(datetime))
+          {
+          FilterUser filter_obj=new FilterUser(username,email,phonenumber,datetime);
+          var filtered_user_list=await this._userList.filterUserList(filter_obj);
+          users=PageList<ApplicationUser>.CreateItem(filtered_user_list.AsQueryable(),page,page_size);
+          ViewBag.filter_user=filter_obj;
+          }
+         
+
+          List<string> options=new List<string>(){"10","25","50","100"};
+          ViewBag.options=options;
+          string select_size=page_size.ToString();
+          ViewBag.select_size=select_size;
+          return View("~/Views/AdminList/AdminList.cshtml",users);
+        }
+        catch(Exception er)
+        {
+            this._logger.LogTrace("Get Admin List Exception:"+er.Message);
+        }
+     return View("~/Views/AdminList/AdminList.cshtml");
+    }
+
+    
+
+
+
+    [Route("admin_list")]
+    [HttpPost]
+    public async Task<IActionResult> AdminList(string username,string email,string phonenumber,string datetime)
+    {
+ Console.WriteLine("username:"+username);
+
+     List<string> options=new List<string>(){"10","25","50","100"};
+     
+      string select_size="10";
+      
+      ViewBag.select_size=select_size;
+     
+      ViewBag.options=options;
+     try
+     {
+    //  {string username=model.UserName;
+    //  string email=model.Email;
+    //  string phonenumber=model.PhoneNumber; 
+
+    FilterUser user_list=new FilterUser(username,email,phonenumber,datetime);
+    
+    var users=await this._userList.filterUserList(user_list);
+
+    var user_paging=PageList<ApplicationUser>.CreateItem(users.AsQueryable(),1,10);
+
+    ViewBag.filter_user=user_list;
+
+    return View(user_paging);     
+     }
+     catch(Exception er)
+     {  Console.WriteLine("Exception here:"+er.Message);
+        this._logger.LogTrace("Filter Admin List Exception:"+er.Message);
+     }
+     return View();
+    }
+   [Route("admin_list/add")]
+   [HttpGet]
+  public IActionResult AddAdminList()
+  {
+    return View();
+  }
+   [Route("admin_list/add")]
+   [HttpPost]
+   public async Task<IActionResult> AddAdminList(Register user)
+   {
+    try
+    { 
+  string username=user.UserName;
+  string email=user.Email;
+  string password= user.Password;
+  string gender= user.Gender;
+
+  int res=await this._userList.createUser(user);
+     if(res==1)
+     {
+      ViewBag.Status=1;
+      ViewBag.Created_User="Đã thêm tài khoản admin thành công";
+     }
+     else if(res==-1)
+     {
+      ViewBag.Status=-1;
+      ViewBag.Created_User="Username hoặc Email này đã tồn tại trong hệ thống";
+     }
+     else
+     {
+      ViewBag.Status=0;
+      ViewBag.Created_User="Thêm tài khoản admin thất bại";
+     }
+    }
+    catch(Exception er)
+    {
+      Console.WriteLine("Add Admin Exception:"+er.InnerException?.Message??er.Message);
+        this._logger.LogTrace("Add Admin Exception:"+er.InnerException?.Message??er.Message);
+    ViewBag.Status=0;
+    ViewBag.Created_User="Thêm admin thất bại";
+    }
+    return View();
+   }
+  //  [Route("user_list")]
+  //  [HttpGet]
+  //  public async Task<IActionResult> handleNumberItem(int page_size)
+  //  {
+  // try
+  // {
+  //   Console.WriteLine("page size here is:"+page_size);
+  //  var users=await this._userList.pagingUser(page_size,1);
+  //  return View("~/Views/UserList/UserList.cshtml",users);
+  // }
+  // catch(Exception er)
+  // {
+  //   this._logger.LogTrace("Handle Page Size Exception:"+er.Message);
+  // }
+  // return View("~/Views/UserList/UserList.cshtml");
+  //  }
+  [Route("admin_list/admin_info")]
+  [HttpGet]
+  public async Task<IActionResult> AdminInfo(string email)
+  {
+   try
+   {
+     var user=await this._userList.findUserByEmail(email);
+     if(user!=null)
+     {
+     return View("~/Views/AdminList/AdminInfo.cshtml",user);
+     }
+     else
+     {
+       return View("~/Views/AdminList/AdminList.cshtml");
+     }
+   }
+   catch(Exception er)
+   {
+     Console.WriteLine("Admin Info Exception:"+er.InnerException?.Message??er.Message);
+     this._logger.LogTrace("Admin Info Exception:"+er.InnerException?.Message??er.Message); 
+   }
+  return View("~/Views/AdminList/AdminList.cshtml");
+  }
+
+[Route("admin_list/admin_info")]
+[HttpPost]
+public async Task<IActionResult> AdminInfo(UserInfo user)
+{ int res_update=0;
+  try
+  {
+    res_update=await this._userList.updateUser(user);
+    if(res_update==1)
+    {
+      ViewBag.Status=1;
+      ViewBag.Update_Message="Cập nhật Admin thành công";
+    }
+    else
+    {
+      ViewBag.Status=0;
+      ViewBag.Update_Message="Cập nhật Admin thất bại";
+    }
+    var user_after=await this._userList.findUserById(user.Id);
+
+    return View("~/Views/AdminList/AdminInfo.cshtml",user_after);
+
+  }
+  catch(Exception er)
+  {
+     Console.WriteLine("Update Admin Info Exception:"+er.InnerException?.Message??er.Message);
+     this._logger.LogTrace("Update Admin Info Exception:"+er.InnerException?.Message??er.Message); 
+  }
+     return View("~/Views/AdminList/AdminList.cshtml");
+} 
+ 
+[Route("admin_list/admin_info/delete")]
+[HttpDelete] 
+public async Task<IActionResult> UserInfoDelete(string email)
+{ 
+  try
+  {
+   int res_delete=await this._userList.deleteUser(email);
+   if(res_delete==1)
+   {
+    ViewBag.Status_Delete=1;
+    ViewBag.Message_Delete = "Xóa tài khoản Admin thành công";
+   }
+   else
+   {
+   ViewBag.Status_Delete=0;
+   ViewBag.Message_Delete="Xóa tài khoản Admin thất bại";
+   }
+  }
+  catch(Exception er)
+  {
+     Console.WriteLine("Delete Admin Info Exception:"+er.InnerException?.Message??er.Message);
+     this._logger.LogTrace("Delete Admin Info Exception:"+er.InnerException?.Message??er.Message);    
+  }
+  return View("~/Views/AdminList/AdminList.cshtml");
+}
+
+[Route("admin_list/admin_info/change_password")]
+[HttpPost]
+public async Task<IActionResult> ResetPasswordUser(string email)
+{
+  try
+  {
+    int res_change= await this._userList.changeUserPassword(email);
+    if(res_change==1)
+    {
+    ViewBag.change_res=1;
+    ViewBag.message_change="Mật khẩu mới của tài khoản admin này là Ecommerce123@";
+    }
+   else
+   {
+   ViewBag.change_res=0;
+   ViewBag.message_change = "Đổi mật khẩu tài khoản admin thất bại";
+   }
+  }
+  catch(Exception er)
+  {
+         Console.WriteLine("Reset Admin Password Exception:"+er.InnerException?.Message??er.Message);
+     this._logger.LogTrace("Reset Admin Password Exception:"+er.InnerException?.Message??er.Message);    
+  }
+  return View("~/Views/AdminList/AdminList.cshtml");
+}
+
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error()
+    {
+        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+}
