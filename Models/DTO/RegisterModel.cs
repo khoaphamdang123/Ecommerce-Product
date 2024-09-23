@@ -15,5 +15,7 @@ public class Register
 
    public string Address2{get;set;}
    public string Gender{get;set;}
+
+   public string Avatar{get;set;}
     
 }

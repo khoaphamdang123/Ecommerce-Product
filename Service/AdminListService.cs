@@ -122,7 +122,7 @@ public async Task<bool> checkUserExist(string email,string username)
     }
      string role = "Admin";
      string created_date=DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
-     var new_user=new ApplicationUser{UserName = user.UserName,Email=user.Email,Address1=user.Address1,Address2=user.Address2,Gender=user.Gender,PhoneNumber=user.PhoneNumber,Created_Date=created_date,Seq=seq};
+     var new_user=new ApplicationUser{UserName = user.UserName,Email=user.Email,Address1=user.Address1,Address2=user.Address2,Gender=user.Gender,PhoneNumber=user.PhoneNumber,Created_Date=created_date,Seq=seq,Avatar="https://cdn-icons-png.flaticon.com/128/3135/3135715.png"};
      var res=await this._userManager.CreateAsync(new_user,user.Password);
      if(res.Succeeded)
      {  

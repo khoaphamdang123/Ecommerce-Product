@@ -5,7 +5,12 @@
 @{
    var updated_user=ViewBag.Update_Message;
    var update_status=ViewBag.Status;
+   Console.WriteLine(Model.UserName);
+   Console.WriteLine("Email here:"+Model.Email);
+   Console.WriteLine("Phone number here:"+Model.PhoneNumber);
 }
+
+
 
 
 @if(update_status==0)
@@ -393,7 +398,7 @@
                           </div>
                           <div class="mb-3 col-md-6">
                             <label for="email" class="form-label">E-mail</label>
-                            <input class="form-control" type="email" name="email" id="email" value="" placeholder="Nhập Email" value="@Model.Email"/>
+                            <input class="form-control" type="email" name="email" id="email"  placeholder="Nhập Email" value="@Model.Email"/>
                             <span id="email-error" class="text-danger"></span>
                           </div>
                           <div class="mb-3 col-md-6">
@@ -402,7 +407,7 @@
                               class="form-control"
                               type="text"
                               id="phone"
-                              name="phone"
+                              name="phonenumber"
                               value="@Model.PhoneNumber"
                               placeholder="Nhập số điện thoại"
                             />
@@ -430,7 +435,7 @@
                           </div>
                           <div class="mb-3 col-md-6">
                             <label for="address2" class="form-label">Địa chỉ 2</label>
-                            <input type="text" class="form-control" id="addres2s" name="address2" placeholder="Nhập địa chỉ 2" value="@Model.Address2"/>
+                            <input type="text" class="form-control" id="address2" name="address2" placeholder="Nhập địa chỉ 2" value="@Model.Address2"/>
                           </div>
                         </div>
                         <div class="mt-2">
@@ -438,14 +443,10 @@
                         </div>
                       </form>
                     </div>
-                    <!-- /Account -->
                   </div>
                 </div>
               </div>
             </div>
-            <!-- / Content -->
-
-            <!-- Footer -->
             <footer class="content-footer footer bg-footer-theme">
               <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
                 <div class="mb-2 mb-md-0">

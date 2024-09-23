@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Ecommerce_Product.Models;
 using Microsoft.AspNetCore.Authorization;
 using Ecommerce_Product.Repository;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.IO;
+using System.Text;
 
 namespace Ecommerce_Product.Controllers;
 [Route("admin")]
@@ -72,7 +72,7 @@ public class UserListController : Controller
         {
             this._logger.LogTrace("Get User List Exception:"+er.Message);
         }
-     return View("~/Views/UserList/UserList.cshtml");
+  return RedirectToAction("UserList","UserList");
     }
 
     
@@ -83,7 +83,6 @@ public class UserListController : Controller
     [HttpPost]
     public async Task<IActionResult> UserList(string username,string email,string phonenumber,string datetime)
     {
- Console.WriteLine("username:"+username);
 
      List<string> options=new List<string>(){"10","25","50","100"};
      
@@ -93,11 +92,14 @@ public class UserListController : Controller
      
       ViewBag.options=options;
      try
-     {
-    //  {string username=model.UserName;
-    //  string email=model.Email;
-    //  string phonenumber=model.PhoneNumber; 
-   Console.WriteLine("here again");
+  {   
+ if(!string.IsNullOrEmpty(datetime))
+ {
+   string[] reformatted=datetime.Trim().Split('-');
+
+   datetime=reformatted[1]+"/"+reformatted[2]+"/"+reformatted[0];
+ }
+
 
     FilterUser user_list=new FilterUser(username,email,phonenumber,datetime);
     
@@ -108,9 +110,10 @@ public class UserListController : Controller
     ViewBag.filter_user=user_list;
 
     return View(user_paging);     
-     }
+     
+    }
      catch(Exception er)
-     {  Console.WriteLine("Exception here:"+er.Message);
+     {  Console.WriteLine("Exception Filter User here:"+er.Message);
         this._logger.LogTrace("Filter User List Exception:"+er.Message);
      }
      return View();
@@ -119,18 +122,21 @@ public class UserListController : Controller
    [HttpGet]
   public IActionResult AddUserList()
   {
-    return View();
+    return View();        
   }
    [Route("user_list/add")]
    [HttpPost]
    public async Task<IActionResult> AddUserList(Register user)
    {
-    try
+  try
     { 
+  
   string username=user.UserName;
   string email=user.Email;
   string password= user.Password;
   string gender= user.Gender;
+  string avatar="https://cdn-icons-png.flaticon.com/128/3135/3135715.png";
+
   Console.WriteLine(username);
   Console.WriteLine(email);
   Console.WriteLine(password);
@@ -151,6 +157,7 @@ public class UserListController : Controller
       ViewBag.Status=0;
       ViewBag.Created_User="Thêm user thất bại";
      }
+    
     }
     catch(Exception er)
     {
@@ -190,7 +197,7 @@ public class UserListController : Controller
      }
      else
      {
-       return View("~/Views/UserList/UserList.cshtml");
+  return RedirectToAction("UserList","UserList");
      }
    }
    catch(Exception er)
@@ -228,25 +235,26 @@ public async Task<IActionResult> UserInfo(UserInfo user)
      Console.WriteLine("Update User Info Exception:"+er.InnerException?.Message??er.Message);
      this._logger.LogTrace("Update User Info Exception:"+er.InnerException?.Message??er.Message); 
   }
-     return View("~/Views/UserList/UserList.cshtml");
+  return RedirectToAction("UserList","UserList");
 } 
  
 [Route("user_list/user_info/delete")]
-[HttpDelete] 
+[HttpGet] 
 public async Task<IActionResult> UserInfoDelete(string email)
 { 
   try
   {
    int res_delete=await this._userList.deleteUser(email);
+
    if(res_delete==1)
    {
-    ViewBag.Status_Delete=1;
-    ViewBag.Message_Delete = "Xóa User thành công";
+    TempData["Status_Delete"]=1;
+    TempData["Message_Delete"] = "Xóa User thành công";
    }
    else
    {
-   ViewBag.Status_Delete=0;
-   ViewBag.Message_Delete="Xóa User thất bại";
+  TempData["Status_Delete"]=0;
+    TempData["Message_Delete"] = "Xóa User thất bại";
    }
   }
   catch(Exception er)
@@ -254,11 +262,11 @@ public async Task<IActionResult> UserInfoDelete(string email)
      Console.WriteLine("Delete User Info Exception:"+er.InnerException?.Message??er.Message);
      this._logger.LogTrace("Delete User Info Exception:"+er.InnerException?.Message??er.Message);    
   }
-  return View("~/Views/UserList/UserList.cshtml");
+  return RedirectToAction("UserList","UserList");
 }
 
 [Route("user_list/user_info/change_password")]
-[HttpPost]
+[HttpGet]
 public async Task<IActionResult> ResetPasswordUser(string email)
 {
   try
@@ -266,13 +274,13 @@ public async Task<IActionResult> ResetPasswordUser(string email)
     int res_change= await this._userList.changeUserPassword(email);
     if(res_change==1)
     {
-    ViewBag.change_res=1;
-    ViewBag.message_change="Mật khẩu mới của User là Ecommerce123@";
+    TempData["change_res"]=1;
+    TempData["message_change"]="Mật khẩu mới của User là Ecommerce123@";
     }
    else
    {
-   ViewBag.change_res=0;
-   ViewBag.message_change = "Đổi mật khẩu User thất bại";
+    TempData["change_res"]=0;
+    TempData["message_change"]="Đổi mật khẩu User thất bại";
    }
   }
   catch(Exception er)
@@ -280,7 +288,61 @@ public async Task<IActionResult> ResetPasswordUser(string email)
          Console.WriteLine("Reset User Password Exception:"+er.InnerException?.Message??er.Message);
      this._logger.LogTrace("Reset User Password Exception:"+er.InnerException?.Message??er.Message);    
   }
-  return View("~/Views/UserList/UserList.cshtml");
+  return RedirectToAction("UserList","UserList");
+}
+
+[Route("user_list/export_excel")]
+[HttpGet]
+public async Task<IActionResult> ExportExel()
+{
+  try
+  {
+  var content= await this._userList.exportToExcel();
+  return File(content,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","Users.xlsx");
+  }
+  catch(Exception er)
+  {
+   Console.WriteLine("Export Excel Exception:"+er.InnerException?.Message??er.Message);
+    this._logger.LogTrace("Export Excel Exception:"+er.InnerException?.Message??er.Message);      
+  }
+  return RedirectToAction("UserList","UserList");
+}
+
+[Route("user_list/export_pdf")]
+[HttpGet]
+public async Task<IActionResult> ExportPdf()
+{
+  try
+  {
+  var content = await this._userList.exportToPDF();
+  
+  return File(content,"application/pdf","User_List.pdf");
+  }
+  catch(Exception er)
+  {
+     Console.WriteLine("Export Pdf Exception:"+er.InnerException?.Message??er.Message);
+    this._logger.LogTrace("Export Pdf Exception:"+er.InnerException?.Message??er.Message);     
+  }
+  return RedirectToAction("UserList","UserList");
+}
+
+[Route("user_list/export_csv")]
+[HttpGet]
+
+public async Task<IActionResult> ExportCsv()
+{
+  try
+  {
+  var content = await this._userList.exportToCSV();
+  return File(content,"application/csv;charset=utf-8","User_List.csv");
+  }
+  catch(Exception er)
+  {
+  Console.WriteLine("Export Csv Exception:"+er.InnerException?.Message??er.Message);
+    this._logger.LogTrace("Export Csv Exception:"+er.InnerException?.Message??er.Message);     
+  }
+  return RedirectToAction("UserList","UserList");
+
 }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

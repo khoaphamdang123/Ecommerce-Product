@@ -117,9 +117,32 @@ color: #696cff;
 }
 
 
+.modal-font
+{
+  font-size: 20px;
+  color: #696cff;
+}
+
 .activate
 {
   background-color: #696cff!important;
   pointer-events: none;
   color: white!important;
+}
+
+
+.icon-style-delete
+{
+  color:#ff3e1d !important;
+}
+
+.icon-style-update
+{ 
+  color: #71dd37 !important;
+}
+
+
+.icon-style-reset
+{
+  color:#ffab00 !important;
 }

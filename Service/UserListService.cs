@@ -4,7 +4,15 @@ using Ecommerce_Product.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Ecommerce_Product.Support_Serive;
-using Microsoft.VisualBasic;
+using OfficeOpenXml;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
+using System.IO;
+using Microsoft.AspNetCore.Mvc;
+using System.Text;
+
+
 namespace Ecommerce_Product.Service;
 public class UserListService:IUserListRepository
 {
@@ -17,9 +25,9 @@ public class UserListService:IUserListRepository
 
     private readonly SmtpService _smtpService;
 
-    private readonly ILogger<LoginService> _logger;
+    private readonly ILogger<UserListService> _logger;
 
-    public UserListService(UserManager<ApplicationUser> userManager,RoleManager<IdentityRole> roleManager,Support_Serive.Service service,SmtpService smtpService,ILogger<LoginService> logger)
+    public UserListService(UserManager<ApplicationUser> userManager,RoleManager<IdentityRole> roleManager,Support_Serive.Service service,SmtpService smtpService,ILogger<UserListService> logger)
     {
         this._userManager=userManager;
         this._roleManager=roleManager;
@@ -27,41 +35,50 @@ public class UserListService:IUserListRepository
         this._smtpService=smtpService;
         this._logger=logger;
     }
-
+   
     public async Task<IEnumerable<ApplicationUser>> filterUserList(FilterUser user)
-    {
+    {Console.WriteLine("Come to filter already");
     string username=user.UserName;
     string email=user.Email;
     string phonenumber=user.PhoneNumber;
     string datetime=user.DateTime;
+
+    Console.WriteLine("date time here:"+datetime);
     var users=this._userManager.Users.AsQueryable();
+try{
+    Console.WriteLine("already in here");
     if(!string.IsNullOrEmpty(username))
-    {
+    {   username=username.Trim();
         users=users.Where(u=>u.UserName==username);
     }
     if(!string.IsNullOrEmpty(email))
-    {
+    {   email=email.Trim();
         users=users.Where(u=>u.Email==email);
     }
     if(!string.IsNullOrEmpty(phonenumber))
-    {
+    {   phonenumber=phonenumber.Trim();
         users=users.Where(u=>u.PhoneNumber==phonenumber);
     }
     if(!string.IsNullOrEmpty(datetime))
-    {
-        users=users.Where(u=>u.Created_Date==datetime);
+    { 
+        users=users.Where(u=>u.Created_Date!.Contains(datetime));
     }
+}
+catch(Exception er)
+{
+    Console.WriteLine("Exception here:"+er.Message);
+}
     return await users.ToListAsync();
     }
 
     public async Task<IEnumerable<ApplicationUser>> getAllUserList()
     {
       string role="User";
-      var users=this._userManager.Users.ToList();
+      var users=_userManager.Users.ToList();
       List<ApplicationUser> userList=new List<ApplicationUser>();
-      foreach(var user in userList)
+      foreach(var user in users)
       {
-        if(await this._userManager.IsInRoleAsync(user,role))
+        if(await _userManager.IsInRoleAsync(user,role))
         {
             userList.Add(user);
         }
@@ -121,8 +138,8 @@ public async Task<bool> checkUserExist(string email,string username)
       seq=(latestUser.Seq??0)+1;
     }
      string role = "User";
-     string created_date=DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
-     var new_user=new ApplicationUser{UserName = user.UserName,Email=user.Email,Address1=user.Address1,Address2=user.Address2,Gender=user.Gender,PhoneNumber=user.PhoneNumber,Created_Date=created_date,Seq=seq};
+     string created_date=DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
+     var new_user=new ApplicationUser{UserName = user.UserName,Email=user.Email,Address1=user.Address1,Address2=user.Address2,Gender=user.Gender,PhoneNumber=user.PhoneNumber,Created_Date=created_date,Seq=seq,Avatar="https://cdn-icons-png.flaticon.com/128/3135/3135715.png"};
      var res=await this._userManager.CreateAsync(new_user,user.Password);
      if(res.Succeeded)
      {  
@@ -143,6 +160,238 @@ public async Task<bool> checkUserExist(string email,string username)
 
      return res_created;
    }
+   
+public async Task<ApplicationUser> findUserByEmail(string email)
+{
+    var users=await this._userManager.FindByEmailAsync(email);
+    return users;
+}
 
+public async Task<ApplicationUser> findUserById(string id)
+{
+    var users =await this._userManager.FindByIdAsync(id);
+    return users;
+}
+
+
+public async Task<int> updateUser(UserInfo user_info)
+{
+ int res=0;
+ string user_id=user_info.Id;
+ if(string.IsNullOrEmpty(user_id))
+ {
+    return res;
+ }
+ var user=await this.findUserById(user_id);
+ if(user!=null)
+ {
+   user.UserName=user_info.UserName;
+   user.Email=user_info.Email;
+   user.PhoneNumber=user_info.PhoneNumber;
+   user.Address1=user_info.Address1;
+   user.Address2=user_info.Address2;
+   user.Gender=user_info.Gender;
+   Console.WriteLine("Phone number for this user:"+user.PhoneNumber);
+   var res_update= await this._userManager.UpdateAsync(user);
+   if(res_update.Succeeded)
+   {
+    res=1;
+   }
+   else{
+    foreach(var err in res_update.Errors)
+    {
+        Console.WriteLine("Update User error:"+err.Description);
+    }
+   }
+ }
+ return res;
+}
+
+public async Task<int> deleteUser(string email)
+{
+  int res=0;
+  if(string.IsNullOrEmpty(email))
+  {
+    return res;
+  }
+  var user=await this.findUserByEmail(email);
+  if(user!=null)
+  {
+    var delete_user=await this._userManager.DeleteAsync(user);
+    if(delete_user.Succeeded)
+    {
+        res=1;
+    }
+    else{
+
+    Console.WriteLine("delete user failed");
+        foreach(var err in delete_user.Errors)
+        {
+            Console.WriteLine("Delete User error:"+err.Description);
+        }
+    }
+  }
+  return res;
+}
+
+
+public async Task<int> changeUserPassword(string email)
+{
+    int res=0;
+    if(string.IsNullOrEmpty(email))
+    {
+        return res;
+    }
+    var user=await this.findUserByEmail(email);    
+    if(user!=null)
+    {
+        string token = await this._userManager.GeneratePasswordResetTokenAsync(user);
+        string new_password = "Ecommerce123@";
+        var reset_password=await this._userManager.ResetPasswordAsync(user,token,new_password);
+        if(reset_password.Succeeded)
+        {
+            res=1;
+        }
+        else
+        {
+            foreach(var err in reset_password.Errors)
+            {
+                Console.WriteLine("Change Password Exception:"+err.Description);                
+            }
+        }
+    }
+    return res;
+}
+
+ public async Task<MemoryStream> exportToExcel()
+ {
+  using(ExcelPackage excel = new ExcelPackage())
+  {
+    var worksheet=excel.Workbook.Worksheets.Add("User");
+    worksheet.Cells[1,1].Value="STT";
+    worksheet.Cells[1,2].Value="Tên User";
+    worksheet.Cells[1,3].Value = "Email";
+    worksheet.Cells[1,4].Value="Giới tính";
+    worksheet.Cells[1,5].Value="Số điện thoại";
+    worksheet.Cells[1,6].Value="Địa chỉ 1";
+    worksheet.Cells[1,7].Value="Địa chỉ 2";
+    worksheet.Cells[1,8].Value="Ngày tạo";
+    var user=await this.getAllUserList();
+    if(user!=null)
+    {
+Console.WriteLine("this user list is not null");
+    List<ApplicationUser> list_user=user.ToList();
+    Console.WriteLine("Length of user list here is:"+list_user.Count);
+    for(int i=0;i<list_user.Count;i++)
+    {
+    worksheet.Cells[i+2,1].Value=(i+1).ToString();
+    
+    worksheet.Cells[i+2,2].Value=list_user[i].UserName;
+    
+    worksheet.Cells[i+2,3].Value=list_user[i].Email;
+    
+    worksheet.Cells[i+2,4].Value=list_user[i].Gender;
+
+     worksheet.Cells[i+2,5].Value=list_user[i].PhoneNumber;
+
+     worksheet.Cells[i+2,6].Value=list_user[i].Address1;
+
+     worksheet.Cells[i+2,7].Value=list_user[i].Address2;
+
+     worksheet.Cells[i+2,8].Value=list_user[i].Created_Date;
+    Console.WriteLine("UserName:"+list_user[i].UserName);
+        Console.WriteLine("UserName:"+list_user[i].Email);
+
+    Console.WriteLine("UserName:"+list_user[i].PhoneNumber);
+
+    Console.WriteLine("UserName:"+list_user[i].Gender);
+    }    
+   }
+  var stream = new MemoryStream();
+  excel.SaveAs(stream);
+  stream.Position=0;
+  Console.WriteLine("content here is:"+stream);
+  return stream;
+  }
+ }
+
+ public async Task<byte[]> exportToPDF()
+ { 
+
+ MemoryStream ms=new MemoryStream();
+ try{
+  using(PdfWriter writer=new PdfWriter(ms))
+  {
+    PdfDocument pdfDoc=new PdfDocument(writer);
+    Document dc=new Document(pdfDoc);
+    dc.Add(new Paragraph("User List").SetFontSize(20).SetBold());
+    Table table = new Table(8);
+    table.AddCell("STT");
+    table.AddCell("Tên User");
+    table.AddCell("Email");
+    table.AddCell("Giới tính");
+    table.AddCell("Số điện thoại");
+    table.AddCell("Địa chỉ 1");
+    table.AddCell("Địa chỉ 2");
+    table.AddCell("Ngày tạo");
+    var users=await this.getAllUserList();
+  if(users!=null)
+  {
+    List<ApplicationUser> list_user = users.ToList();
+    Console.WriteLine("User count:"+list_user.Count);
+    int count_user=0;
+    foreach(var user in list_user)
+    {   count_user+=1;
+         table.AddCell(count_user.ToString());
+         table.AddCell(user.UserName);
+         table.AddCell(user.Email);
+         table.AddCell(user.Gender);
+         table.AddCell(user.PhoneNumber);
+         table.AddCell(user.Address1);
+         table.AddCell(user.Address2);
+         table.AddCell(user.Created_Date);
+    }
+  }
+   dc.Add(table);
+   dc.Close();
+  }
+ }
+ catch(Exception er)
+ {
+    Console.WriteLine("PDF Exception:"+er.Message);
+ }
+   ms.Position=0;
+  byte[] content = ms.ToArray();
+  return content;
+ }
+  
+public async Task<byte[]> exportToCSV()
+{
+  StringBuilder csv=new StringBuilder();
+
+  
+
+  csv.AppendLine("STT,Tên User,Email,Giới tính,Số điện thoại,Địa chỉ 1,Địa chỉ 2,Ngày tạo");
+  var users=await this.getAllUserList();
+  if(users!=null)
+  {
+    int count_user=0;
+    List<ApplicationUser> list_user= users.ToList();
+    foreach(var user in list_user)
+    {
+     count_user+=1;
+    
+     csv.AppendLine($"{count_user},{user.UserName},{user.Email},{user.Gender},{user.PhoneNumber},{user.Address1},{user.Address2},{user.Created_Date}");
+    }
+  }
+   byte[] bytes=Encoding.UTF8.GetBytes(csv.ToString());
+
+    var bom = Encoding.UTF8.GetPreamble();
+    var fileBytes = new byte[bom.Length + bytes.Length];
+    System.Buffer.BlockCopy(bom, 0, fileBytes, 0, bom.Length);
+    System.Buffer.BlockCopy(bytes, 0, fileBytes, bom.Length, bytes.Length);
+   
+   return bytes;
+}
 
  }

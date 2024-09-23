@@ -25,6 +25,12 @@ public Task<int> deleteUser(string email);
 
 public Task<int> changeUserPassword(string email);
 
+public Task<MemoryStream> exportToExcel();
+
+public Task<byte[]> exportToPDF();
+
+public Task<byte[]> exportToCSV();
+
 // public Task<IEnumerable<ApplicationUser>> getUserListByRole(string role);
 
 // public Task<bool> checkUserRole(string email,string role);
