@@ -26,12 +26,17 @@ Log.Logger = new LoggerConfiguration()
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddDbContext<EcommerceShopContext>(options=>options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
 builder.Services.AddScoped<ILoginRepository,LoginService>();
 
 builder.Services.AddScoped<IUserListRepository,UserListService>();
 
 
 builder.Services.AddScoped<IAdminRepository,AdminListService>();
+
+builder.Services.AddScoped<ICategoryListRepository,CategoryListService>();
 
 
 builder.Services.AddTransient<Service>();
@@ -48,7 +53,7 @@ builder.Services.Configure<SmtpModel>(builder.Configuration.GetSection("SmtpMode
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-
+builder.Services.AddControllersWithViews();
 
 builder.Logging.ClearProviders();
 

@@ -5,19 +5,17 @@ namespace Ecommerce_Product.Models;
 
 public class FilterCategory
 {
-  public int Id{get;set;}
   public string Category{get;set;}
 
-  public string CreatedDate{get;set;}
+  public string StartDate{get;set;}
+  
+  public string EndDate{get;set;}
 
-  public string UpdateDate{get;set;}
-
-    public FilterCategory(int id,string category,string created_date,string updated_date)
+    public FilterCategory(string category,string start_date,string end_date)
     {
-       this.Id=id;
        this.Category=category;
-       this.CreatedDate=created_date;
-       this.UpdateDate=updated_date;
+       this.StartDate=start_date;
+       this.EndDate=end_date;
     }
     
 }

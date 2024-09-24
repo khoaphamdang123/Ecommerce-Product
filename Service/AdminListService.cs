@@ -10,7 +10,7 @@ using iText.Layout;
 using iText.Layout.Element;
 using System.Text;
 namespace Ecommerce_Product.Service;
-public class CategoryListService:ICategoryListRepository
+public class AdminListService:IAdminRepository
 {
 
     private readonly UserManager<ApplicationUser> _userManager;

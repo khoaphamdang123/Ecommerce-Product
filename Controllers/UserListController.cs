@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Ecommerce_Product.Repository;
 using System.IO;
 using System.Text;
+using System.Drawing.Text;
 
 namespace Ecommerce_Product.Controllers;
 [Route("admin")]
@@ -14,10 +15,13 @@ public class UserListController : Controller
 
     private readonly IUserListRepository _userList;
 
-    public UserListController(ILogger<UserListController> logger,IUserListRepository userList)
+    private readonly IConfiguration _configure;
+
+    public UserListController(ILogger<UserListController> logger,IUserListRepository userList,IConfiguration configure)
     {
         _logger = logger;
         this._userList=userList;
+        this._configure=configure;
     }
 
    [HttpGet("user_list")]
@@ -25,8 +29,10 @@ public class UserListController : Controller
     {  Console.WriteLine("gere");
           try
         {         
-          var users=await this._userList.pagingUser(10,1);
-
+         var users=await this._userList.pagingUser(10,1);
+         string url=this._configure["Connect_Dns"];
+         Console.WriteLine("url:"+url);
+         ViewBag.URL=url;
          string select_size="10";
           ViewBag.select_size=select_size;
           List<string> options=new List<string>(){"10","25","50","100"};

@@ -19,6 +19,7 @@
   var filtered_user=ViewBag.filter_user;
   int status_delete=-1;
   int change_pass_status=-1;
+  string url=ViewBag.URL;
   if(TempData["Status_Delete"]!=null)
   {
    status_delete=Convert.ToInt32(TempData["Status_Delete"]);
@@ -224,12 +225,12 @@
               </a>
               <ul class="menu-sub">
                 <li class="menu-item active">
-                  <a href="http://localhost:5160/admin/user_list" class="menu-link">
+                  <a href="/admin/user_list" class="menu-link">
                     <div data-i18n="Account">Danh sách khách hàng</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="http://localhost:5160/admin/user_list/add" class="menu-link">
+                  <a href="/admin/user_list/add" class="menu-link">
                     <div data-i18n="Notifications">Thêm khách hàng</div>
                   </a>
                 </li>
@@ -316,7 +317,7 @@
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="http://localhost:5160/admin/change_password">
+                      <a class="dropdown-item" href="/admin/change_password">
                         <i class="bx bx-cog me-2"></i>
                         <span class="align-middle">Đổi mật khẩu</span>
                       </a>

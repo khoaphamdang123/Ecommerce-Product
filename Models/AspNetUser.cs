@@ -41,6 +41,12 @@ public partial class AspNetUser
 
     public string? Gender { get; set; }
 
+    public string? CreatedDate { get; set; }
+
+    public string? Avatar { get; set; }
+
+    public int Seq { get; set; }
+
     public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; } = new List<AspNetUserClaim>();
 
     public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; } = new List<AspNetUserLogin>();

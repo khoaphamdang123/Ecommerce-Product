@@ -5,8 +5,24 @@ namespace Ecommerce_Product.Repository;
 
 public interface ICategoryListRepository
 {
-public Task<IEnumerable<ApplicationUser>> filterCategoryList(FilterCategory category);
 
+
+public Task<IEnumerable<Category>> getAllCategory();
+public Task<IEnumerable<Category>> filterCategoryList(FilterCategory category);
+
+public Task<PageList<Category>> pagingCategory(int page_size,int page);
+
+public Task<int> createCategory(Category user);
+
+public Task<bool> checkCategoryExist(string categoryname);
+
+public Task<int> deleteCategory(int id);
+
+public Task<int> updateCategory(Category category);
+
+public Task<Category> findCategoryById(int id);
+
+public Task saveChange();
 // public Task<IEnumerable<ApplicationUser>> getUserListByRole(string role);
 
 // public Task<bool> checkUserRole(string email,string role);
