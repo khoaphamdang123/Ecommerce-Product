@@ -370,7 +370,7 @@
      document.getElementById("add-sub-category-btn").addEventListener('click',()=>{
     var btn=document.getElementById("add-sub-category-btn");
     var cat_id=btn.getAttribute("data-category-id");
-    window.location.href=`admin/category/${cat_id}/sub_category/add`;
+    window.location.href=`http://localhost:5160/admin/category_list/${cat_id}/sub_category/add`;
      });
     
     document.getElementById("remove-btn").addEventListener('click',()=>{
