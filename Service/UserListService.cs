@@ -42,7 +42,7 @@ public class UserListService:IUserListRepository
     string email=user.Email;
     string phonenumber=user.PhoneNumber;
     string datetime=user.DateTime;
-
+    string endtime=user.EndTime;
     Console.WriteLine("date time here:"+datetime);
     var users=this._userManager.Users.AsQueryable();
 try{
@@ -59,10 +59,24 @@ try{
     {   phonenumber=phonenumber.Trim();
         users=users.Where(u=>u.PhoneNumber==phonenumber);
     }
-    if(!string.IsNullOrEmpty(datetime))
-    { 
-        users=users.Where(u=>u.Created_Date!.Contains(datetime));
-    }
+   if(!string.IsNullOrEmpty(datetime) && string.IsNullOrEmpty(endtime))
+   {
+    datetime=datetime.Trim();
+    users= users.ToList().Where(c=>DateTime.TryParse(c.Created_Date,out var startDate) && DateTime.TryParse(datetime,out var lowerDate) && startDate>=lowerDate).AsQueryable();
+   }
+   else if(string.IsNullOrEmpty(datetime) && !string.IsNullOrEmpty(endtime))
+   { 
+    
+    endtime=endtime.Trim();
+   
+    users= users.ToList().Where(c=>DateTime.TryParse(c.Created_Date,out var startDate) && DateTime.TryParse(endtime,out var upperDate) && startDate<=upperDate).AsQueryable();
+   }
+   else if(!string.IsNullOrEmpty(datetime) && !string.IsNullOrEmpty(endtime))
+   {
+    datetime=datetime.Trim();
+    endtime=endtime.Trim();
+    users=users.ToList().Where(c=>DateTime.TryParse(c.Created_Date,out var createdDate)&& DateTime.TryParse(datetime,out var startDate) && DateTime.TryParse(endtime,out var endDate) && createdDate>=startDate && createdDate<=endDate).AsQueryable();
+   }
 }
 catch(Exception er)
 {

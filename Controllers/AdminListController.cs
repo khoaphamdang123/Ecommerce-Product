@@ -32,7 +32,7 @@ public class AdminListController : Controller
           List<string> options=new List<string>(){"10","25","50","100"};
           
             ViewBag.options=options;
-            FilterUser filter_obj=new FilterUser("","","","");
+            FilterUser filter_obj=new FilterUser("","","","","");
             ViewBag.filter_user=filter_obj;
           return View(users);
         }
@@ -45,7 +45,7 @@ public class AdminListController : Controller
 
  [Route("admin_list/page")]
    [HttpGet]
-    public async Task<IActionResult> UserListPaging([FromQuery]int page_size,[FromQuery] int page=1,string username="",string email="",string phonenumber="",string datetime="")
+    public async Task<IActionResult> UserListPaging([FromQuery]int page_size,[FromQuery] int page=1,string username="",string email="",string phonenumber="",string datetime="",string endtime="")
     {
        try
         { 
@@ -53,7 +53,7 @@ public class AdminListController : Controller
 
           if(!string.IsNullOrEmpty(username) || !string.IsNullOrEmpty(email) || !string.IsNullOrEmpty(phonenumber) || !string.IsNullOrEmpty(datetime))
           {
-          FilterUser filter_obj=new FilterUser(username,email,phonenumber,datetime);
+          FilterUser filter_obj=new FilterUser(username,email,phonenumber,datetime,endtime);
           var filtered_user_list=await this._userList.filterUserList(filter_obj);
           users=PageList<ApplicationUser>.CreateItem(filtered_user_list.AsQueryable(),page,page_size);
           ViewBag.filter_user=filter_obj;
@@ -79,7 +79,7 @@ public class AdminListController : Controller
 
     [Route("admin_list")]
     [HttpPost]
-    public async Task<IActionResult> AdminList(string username,string email,string phonenumber,string datetime)
+    public async Task<IActionResult> AdminList(string username,string email,string phonenumber,string datetime,string endtime)
     {
  Console.WriteLine("username:"+username);
 
@@ -96,7 +96,7 @@ public class AdminListController : Controller
     //  string email=model.Email;
     //  string phonenumber=model.PhoneNumber; 
 
-    FilterUser user_list=new FilterUser(username,email,phonenumber,datetime);
+    FilterUser user_list=new FilterUser(username,email,phonenumber,datetime,endtime);
     
     var users=await this._userList.filterUserList(user_list);
 

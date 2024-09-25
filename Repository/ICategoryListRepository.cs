@@ -22,6 +22,18 @@ public Task<int> updateCategory(Category category);
 
 public Task<Category> findCategoryById(int id);
 
+public Task<Category> findCategoryByName(string categoryname);
+
+public Task<IEnumerable<SubCategory>> findSubCategoryByCat(string category);
+
+public Task<PageList<SubCategory>> pagingSubCategory(int category,int page_size,int page);
+
+public Task<int> createSubCategory(string subcategoryname,int brandid,int categoryid);
+
+public Task<bool> checkSubCatExist(string sub_cat);
+
+public Task<IEnumerable<Brand>> getAllBrandList();
+
 public Task saveChange();
 // public Task<IEnumerable<ApplicationUser>> getUserListByRole(string role);
 

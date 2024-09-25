@@ -71,9 +71,6 @@ body
   width: 100px!important;
 } */
 
-
-
-
 .pagination-container
 {
   display: flex;
@@ -116,7 +113,6 @@ background-color: rgba(105,108,255,.16);
 color: #696cff;
 }
 
-
 .modal-font
 {
   font-size: 20px;
@@ -138,7 +134,8 @@ color: #696cff;
 
 .icon-style-update
 { 
-  color: #71dd37 !important;
+  color: #71dd37 !important; 
+  margin-right: 5px;
 }
 
 

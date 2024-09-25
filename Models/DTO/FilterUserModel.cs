@@ -11,12 +11,15 @@ public class FilterUser
 
     public string DateTime{get;set;}
 
-    public FilterUser(string username,string email,string phonenumber,string datetime)
+    public string EndTime{get;set;}
+
+    public FilterUser(string username,string email,string phonenumber,string datetime,string endtime)
     {
         this.UserName=username;
         this.Email=email;
         this.PhoneNumber=phonenumber;
         this.DateTime=datetime;
+        this.EndTime=endtime;
     }
     
 }

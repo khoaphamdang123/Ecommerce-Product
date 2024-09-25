@@ -31,16 +31,14 @@ public class UserListController : Controller
         {         
          var users=await this._userList.pagingUser(10,1);
          string url=this._configure["Connect_Dns"];
-         Console.WriteLine("url:"+url);
          ViewBag.URL=url;
          string select_size="10";
           ViewBag.select_size=select_size;
           List<string> options=new List<string>(){"10","25","50","100"};
           
-          ViewBag.options=options;
-            FilterUser filter_obj=new FilterUser("","","","");
+            ViewBag.options=options;
+            FilterUser filter_obj=new FilterUser("","","","","");
             ViewBag.filter_user=filter_obj;
-
 
           return View(users);
         }
@@ -51,23 +49,25 @@ public class UserListController : Controller
         return View();
     }
 
+  
+
  [Route("user_list/page")]
    [HttpGet]
-    public async Task<IActionResult> UserListPaging([FromQuery]int page_size,[FromQuery] int page=1,string username="",string email="",string phonenumber="",string datetime="")
-    {Console.WriteLine("task here");
+    public async Task<IActionResult> UserListPaging([FromQuery]int page_size,[FromQuery] int page=1,string username="",string email="",string phonenumber="",string datetime="",string endtime="")
+    {
+      Console.WriteLine("task here");
        try
         { 
           var users=await this._userList.pagingUser(page_size,page);
 
-          if(!string.IsNullOrEmpty(username) || !string.IsNullOrEmpty(email) || !string.IsNullOrEmpty(phonenumber) || !string.IsNullOrEmpty(datetime))
+          if(!string.IsNullOrEmpty(username) || !string.IsNullOrEmpty(email) || !string.IsNullOrEmpty(phonenumber) || !string.IsNullOrEmpty(datetime) || string.IsNullOrEmpty(endtime))
           {
-          FilterUser filter_obj=new FilterUser(username,email,phonenumber,datetime);
+          FilterUser filter_obj=new FilterUser(username,email,phonenumber,datetime,endtime);
           var filtered_user_list=await this._userList.filterUserList(filter_obj);
           users=PageList<ApplicationUser>.CreateItem(filtered_user_list.AsQueryable(),page,page_size);
           ViewBag.filter_user=filter_obj;
           }
          
-
           List<string> options=new List<string>(){"10","25","50","100"};
           ViewBag.options=options;
           string select_size=page_size.ToString();
@@ -87,7 +87,7 @@ public class UserListController : Controller
 
     [Route("user_list")]
     [HttpPost]
-    public async Task<IActionResult> UserList(string username,string email,string phonenumber,string datetime)
+    public async Task<IActionResult> UserList(string username,string email,string phonenumber,string datetime,string endtime)
     {
 
      List<string> options=new List<string>(){"10","25","50","100"};
@@ -105,9 +105,15 @@ public class UserListController : Controller
 
    datetime=reformatted[1]+"/"+reformatted[2]+"/"+reformatted[0];
  }
+if(!string.IsNullOrEmpty(endtime))
+ {
+   string[] reformatted=endtime.Trim().Split('-');
+
+   endtime=reformatted[1]+"/"+reformatted[2]+"/"+reformatted[0];
+ }
 
 
-    FilterUser user_list=new FilterUser(username,email,phonenumber,datetime);
+    FilterUser user_list=new FilterUser(username,email,phonenumber,datetime,endtime);
     
     var users=await this._userList.filterUserList(user_list);
 
@@ -211,7 +217,7 @@ public class UserListController : Controller
      Console.WriteLine("User Info Exception:"+er.InnerException?.Message??er.Message);
      this._logger.LogTrace("User Info Exception:"+er.InnerException?.Message??er.Message); 
    }
-  return View("~/Views/UserList/UserList.cshtml");
+  return RedirectToAction("UserList","UserList");
   }
 
 [Route("user_list/user_info")]
