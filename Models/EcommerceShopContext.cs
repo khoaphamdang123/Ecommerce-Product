@@ -154,12 +154,10 @@ public partial class EcommerceShopContext : DbContext
 
             entity.HasOne(d => d.Brand).WithMany(p => p.CategoryBrandDetails)
                 .HasForeignKey(d => d.BrandId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("brand_fk");
 
             entity.HasOne(d => d.Category).WithMany(p => p.CategoryBrandDetails)
                 .HasForeignKey(d => d.CategoryId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("category_fk");
         });
 
@@ -178,12 +176,9 @@ public partial class EcommerceShopContext : DbContext
                 .HasColumnType("character varying")
                 .HasColumnName("Updated_Date");
 
-            entity.HasOne(d => d.Brand).WithMany(p => p.SubCategories)
-                .HasForeignKey(d => d.BrandId)
-                .HasConstraintName("sub_cat_brand_fk");
-
             entity.HasOne(d => d.Category).WithMany(p => p.SubCategories)
                 .HasForeignKey(d => d.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("sub_cat_fk");
         });
         modelBuilder.HasSequence("user_number_seq");

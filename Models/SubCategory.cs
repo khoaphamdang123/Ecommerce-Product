@@ -11,13 +11,9 @@ public partial class SubCategory
 
     public int? CategoryId { get; set; }
 
-    public int? BrandId { get; set; }
-
     public string? CreatedDate { get; set; }
 
     public string? UpdatedDate { get; set; }
-
-    public virtual Brand? Brand { get; set; }
 
     public virtual Category? Category { get; set; }
 }

@@ -235,7 +235,7 @@ public async Task<IEnumerable<SubCategory>> findSubCategoryById(int category)
 {
     try
     {
-       var cat=await this._context.Categories.FirstOrDefaultAsync(c=>c.Id==category);
+       var cat=await this._context.Categories.Include(c=>c.SubCategories).FirstOrDefaultAsync(c=>c.Id==category);
        if(cat!=null)
        {
         return cat.SubCategories;
@@ -270,7 +270,7 @@ public async Task<bool> checkSubCatExist(string sub_cat)
   return is_exist;
 }
 
-public async Task<int> createSubCategory(string subcategoryname,int brandid,int categoryid)
+public async Task<int> createSubCategory(string subcategoryname,int categoryid)
 {
 int create_res=0;
     try
@@ -286,7 +286,7 @@ int create_res=0;
      
      string updated_date =DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
      
-     var new_cat=new SubCategory{SubCategoryName= subcategoryname,BrandId=brandid,CategoryId=categoryid,CreatedDate=created_date,UpdatedDate=updated_date};
+     var new_cat=new SubCategory{SubCategoryName= subcategoryname,CategoryId=categoryid,CreatedDate=created_date,UpdatedDate=updated_date};
      
     await this._context.SubCategories.AddAsync(new_cat);
 
@@ -313,6 +313,101 @@ public async Task<IEnumerable<Brand>> getAllBrandList()
     return brand_list;
 }
 
+
+public async Task<IEnumerable<CategoryBrandDetail>> findBrandById(int category)
+{
+    var brand_list= this._context.CategoryBrandDetails.Where(c=>c.CategoryId==category).Include(c=>c.Brand).Include(c=>c.Category);
+   
+    return brand_list;
+ } 
+
+public async Task<PageList<CategoryBrandDetail>> pagingBrand(int category,int page_size,int page)
+{
+   var all_brand= await this.findBrandById(category);
+   
+   var cats=all_brand.OrderByDescending(u=>u.Id).ToList(); 
+
+   //var users=this._userManager.Users;   
+   var cat_list=PageList<CategoryBrandDetail>.CreateItem(cats.AsQueryable(),page,page_size);
+   
+   return cat_list;
+}
+
+
+public async Task<bool> checkBrandExist(string brand_name,int category)
+{
+    bool is_exist=false;
+    var brand=await this._context.CategoryBrandDetails.Include(c=>c.Brand).Include(c=>c.Category).FirstOrDefaultAsync(c=>c.Brand.BrandName==brand_name && c.Category.Id==category);
+    if(brand!=null)
+    {
+        is_exist=true;
+    }
+    return is_exist;
+}
+
+public async Task<int> createBrand(int category,string brand_name)
+{
+    int create_res=0;
+    try
+    {
+    bool is_existed=await checkBrandExist(brand_name,category);
+
+    if(is_existed)
+    {   create_res=-1;
+        return create_res;
+    }
+     string created_date=DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
+     
+     string updated_date =DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
+     
+     var new_brand=new Brand{BrandName=brand_name,CreatedDate=created_date,UpdatedDate=updated_date};
+     
+     Console.WriteLine("Category id:"+category);
+
+     var cat=await this.findCategoryById(category);
+
+    var cat_brand_ob=new CategoryBrandDetail{
+        Category=cat,
+        Brand=new_brand
+    };
+
+    await this._context.CategoryBrandDetails.AddAsync(cat_brand_ob);
+    
+    await saveChange();
+
+     create_res=1;
+    //  else{
+    //     foreach(var err in res.Errors)
+    //     {
+    //         Console.WriteLine(err.Description);
+    //     }
+    //  }
+    }
+    catch(Exception er)
+    {   create_res=0;
+        Console.WriteLine("Create Brand Exception:"+er.InnerException??er.Message);
+    }
+    return create_res;
+}
+
+public async Task<int> deleteBrand(int brand_category)
+{  int delete_res=0;
+    try
+    {
+        var brand_cat_detail=await this._context.CategoryBrandDetails.FirstOrDefaultAsync(c=>c.Id==brand_category);
+      if(brand_cat_detail!=null)
+      { delete_res=1;
+        this._context.CategoryBrandDetails.Attach(brand_cat_detail);
+        this._context.CategoryBrandDetails.Remove(brand_cat_detail);
+        await this.saveChange();
+      }
+    }
+    catch(Exception er)
+    {
+        Console.WriteLine("Delete Brand Exception:"+er.Message);
+    }
+    return delete_res;
+}
 
 
 public async Task saveChange()

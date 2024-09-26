@@ -71,10 +71,10 @@ public async Task sendEmail(string new_password,string receiver,string subject)
    emailMessage.To.Add(new MailboxAddress("",receiver));
 
    emailMessage.Subject=subject;
-   
+
    var bodyBuilder =new BodyBuilder{HtmlBody=htmlValue};
    
-   emailMessage.Body=bodyBuilder.ToMessageBody();   
+   emailMessage.Body=bodyBuilder.ToMessageBody();
    
    using(var client = new SmtpClient())
    {
@@ -91,5 +91,4 @@ public async Task sendEmail(string new_password,string receiver,string subject)
     Console.WriteLine("Send Smtp Exception:"+er.Message);
   }
 }
-
 }

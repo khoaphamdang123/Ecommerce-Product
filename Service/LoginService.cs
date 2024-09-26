@@ -140,9 +140,11 @@ public class LoginService:ILoginRepository
         bool is_send= false;
     try{
         var user = await this._userManager.FindByEmailAsync(email);
+
         if(user!=null)
         {
         string new_password=this._support_service.generateRandomPassword();        
+        
         var code = await _userManager.GeneratePasswordResetTokenAsync(user);
         // Console.WriteLine("new-password"+new_password);
         // Console.WriteLine("token:"+code);

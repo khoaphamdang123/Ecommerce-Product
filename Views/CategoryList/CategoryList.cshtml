@@ -239,16 +239,16 @@
                                 <i class="bx bx-show bx-md"></i>
                               </a>
                               <a href="javascript:void(0)" class="btn btn-icon icon-style-reset dropdown-toggle" data-bs-toggle="dropdown">
-                                <i class="bx bx-key bx-md"></i>
+                                <i class="bx bx-dots-vertical-rounded bx-md"></i>
                               </a>
                               <div class="dropdown-menu dropdown-menu-end m-0">
                                 <a class="dropdown-item" href="@Url.Action("SubCategoryList",new{category=@category.Id})">Loại sản phẩm phụ</a>
-                                <a class="dropdown-item" href="javascript:void(0)">Nhãn hàng</a>
+                                <a class="dropdown-item" href="@Url.Action("BrandList",new{category=@category.Id})">Nhãn hàng</a>
                               </div>
                             </div>
                             </td>
                          </tr>
-                         }
+                    }
                     </tbody>
                 </table>
                 </div>

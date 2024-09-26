@@ -159,7 +159,6 @@
                             <th class="text-center">No</th>
                             <th class="text-center">Tên loại sản phẩm phụ</th>
                             <th class="text-center">Loại sản phẩm</th>
-                            <th cla="text-center">Nhãn hàng</th>
                             <th class="text-center">Ngày tạo</th>
                             <th class="text-center">Ngày cập nhật</th>
                            <th class="text-center">
@@ -173,13 +172,10 @@
                          <tr>
                             <td class="text-center">@count_id</td>
                             <td class="text-center">@category.Id</td>
-                            <td class="text-center">
-                            
+                            <td class="text-center"> 
                               <strong>@category.SubCategoryName</strong>
-                           
-                              </td>
+                            </td>
                             <td class="text-center">@(category.Category.CategoryName)</td>
-                            <td clas="text-center">@(category.Brand.BrandName)}</td>
                             <td class="text-center">@category.CreatedDate</td>
                             <td class="text-center">@category.UpdatedDate</td>
                             <td class="text-center">
@@ -369,8 +365,10 @@
      });
      document.getElementById("add-sub-category-btn").addEventListener('click',()=>{
     var btn=document.getElementById("add-sub-category-btn");
-    var cat_id=btn.getAttribute("data-category-id");
-    window.location.href=`http://localhost:5160/admin/category_list/${cat_id}/sub_category/add`;
+    var cat_id=btn.getAttribute("data-category-id"); 
+    var url='@Url.Action("AddSubCategory","CategoryList",new{category="__category__"})';
+    url=url.replace("__category__",cat_id);
+    window.location.href=url;
      });
     
     document.getElementById("remove-btn").addEventListener('click',()=>{

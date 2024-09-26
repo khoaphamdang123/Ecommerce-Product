@@ -163,23 +163,6 @@
           }
         }
       },
-      "itext.bouncy-castle-adapter/8.0.5": {
-        "type": "package",
-        "dependencies": {
-          "BouncyCastle.Cryptography": "2.2.1",
-          "itext.commons": "8.0.5"
-        },
-        "compile": {
-          "lib/netstandard2.0/itext.bouncy-castle-adapter.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard2.0/itext.bouncy-castle-adapter.dll": {
-            "related": ".xml"
-          }
-        }
-      },
       "itext.commons/8.0.5": {
         "type": "package",
         "dependencies": {
@@ -195,18 +178,6 @@
           "lib/netstandard2.0/itext.commons.dll": {
             "related": ".xml"
           }
-        }
-      },
-      "itext7/8.0.5": {
-        "type": "package",
-        "dependencies": {
-          "itext": "8.0.5"
-        }
-      },
-      "itext7.bouncy-castle-adapter/8.0.5": {
-        "type": "package",
-        "dependencies": {
-          "itext.bouncy-castle-adapter": "8.0.5"
         }
       },
       "MailKit/4.7.1.1": {
@@ -1490,7 +1461,7 @@
           }
         }
       },
-      "Serilog/4.0.0": {
+      "Serilog/4.0.1": {
         "type": "package",
         "compile": {
           "lib/net8.0/Serilog.dll": {
@@ -2947,22 +2918,6 @@
         "lib/netstandard2.0/itext.svg.xml"
       ]
     },
-    "itext.bouncy-castle-adapter/8.0.5": {
-      "sha512": "mam0CtYkKmVwdX7wU1Zlg9oVW0B9efMASfAEIm+fQGovc9HcplsmP3MylS+VmQHbYlCNSH68DQlVhDz6Cu9WxQ==",
-      "type": "package",
-      "path": "itext.bouncy-castle-adapter/8.0.5",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "ITSC-avatar.png",
-        "itext.bouncy-castle-adapter.8.0.5.nupkg.sha512",
-        "itext.bouncy-castle-adapter.nuspec",
-        "lib/net461/itext.bouncy-castle-adapter.dll",
-        "lib/net461/itext.bouncy-castle-adapter.xml",
-        "lib/netstandard2.0/itext.bouncy-castle-adapter.dll",
-        "lib/netstandard2.0/itext.bouncy-castle-adapter.xml"
-      ]
-    },
     "itext.commons/8.0.5": {
       "sha512": "exnLqeWOnn0Ee393bHf3zWTmcYuQfYuj7iIbMluG49XFczMWMMXrN9UvMmt5iYOKq0mGZsYb1eRoVATGuDiXGQ==",
       "type": "package",
@@ -2977,34 +2932,6 @@
         "lib/net461/itext.commons.xml",
         "lib/netstandard2.0/itext.commons.dll",
         "lib/netstandard2.0/itext.commons.xml"
-      ]
-    },
-    "itext7/8.0.5": {
-      "sha512": "/1btEFYY+ncIR7j/g+pr26PX8Nbly8pbdDWfSHQq9E/rbxhz0ylkOLVpXNEvoaV545q508P8hociHaRiRG7bwg==",
-      "type": "package",
-      "path": "itext7/8.0.5",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "ITSC-avatar.png",
-        "LICENSE.md",
-        "gnu-agpl-v3.0.md",
-        "itext7.8.0.5.nupkg.sha512",
-        "itext7.nuspec"
-      ]
-    },
-    "itext7.bouncy-castle-adapter/8.0.5": {
-      "sha512": "9jpalaOyxbcuhbl9yJJQGXdseKUFrKlUjjcjIvReb3Qz4Aw0F+WNXKOo0sax87TGGNb66fyHsfJib3JTnfzRYw==",
-      "type": "package",
-      "path": "itext7.bouncy-castle-adapter/8.0.5",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "ITSC-avatar.png",
-        "LICENSE.md",
-        "gnu-agpl-v3.0.md",
-        "itext7.bouncy-castle-adapter.8.0.5.nupkg.sha512",
-        "itext7.bouncy-castle-adapter.nuspec"
       ]
     },
     "MailKit/4.7.1.1": {
@@ -4977,10 +4904,10 @@
         "runtimes/ubuntu.16.10-x64/native/System.Security.Cryptography.Native.OpenSsl.so"
       ]
     },
-    "Serilog/4.0.0": {
-      "sha512": "2jDkUrSh5EofOp7Lx5Zgy0EB+7hXjjxE2ktTb1WVQmU00lDACR2TdROGKU0K1pDTBSJBN1PqgYpgOZF8mL7NJw==",
+    "Serilog/4.0.1": {
+      "sha512": "pzeDRXdpSLSsgBHpZcmpIDxqMy845Ab4s+dfnBg0sN9h8q/4Wo3vAoe0QCGPze1Q06EVtEPupS+UvLm8iXQmTQ==",
       "type": "package",
-      "path": "serilog/4.0.0",
+      "path": "serilog/4.0.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -4996,7 +4923,7 @@
         "lib/net8.0/Serilog.xml",
         "lib/netstandard2.0/Serilog.dll",
         "lib/netstandard2.0/Serilog.xml",
-        "serilog.4.0.0.nupkg.sha512",
+        "serilog.4.0.1.nupkg.sha512",
         "serilog.nuspec"
       ]
     },
@@ -8185,11 +8112,12 @@
       "Microsoft.EntityFrameworkCore.Tools >= 8.0.8",
       "NewtonSoft.Json >= 13.0.3",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 8.0.4",
+      "SeriLog >= 4.0.1",
       "Serilog.AspNetCore >= 8.0.2",
+      "Serilog.Extensions.Logging >= 8.0.0",
       "Serilog.Sinks.File >= 6.0.0",
       "System.Management >= 8.0.0",
-      "itext7 >= 8.0.5",
-      "itext7.bouncy-castle-adapter >= 8.0.5"
+      "iText >= 8.0.5"
     ]
   },
   "packageFolders": {
@@ -8275,9 +8203,17 @@
             "target": "Package",
             "version": "[8.0.4, )"
           },
+          "SeriLog": {
+            "target": "Package",
+            "version": "[4.0.1, )"
+          },
           "Serilog.AspNetCore": {
             "target": "Package",
             "version": "[8.0.2, )"
+          },
+          "Serilog.Extensions.Logging": {
+            "target": "Package",
+            "version": "[8.0.0, )"
           },
           "Serilog.Sinks.File": {
             "target": "Package",
@@ -8287,11 +8223,7 @@
             "target": "Package",
             "version": "[8.0.0, )"
           },
-          "itext7": {
-            "target": "Package",
-            "version": "[8.0.5, )"
-          },
-          "itext7.bouncy-castle-adapter": {
+          "iText": {
             "target": "Package",
             "version": "[8.0.5, )"
           }

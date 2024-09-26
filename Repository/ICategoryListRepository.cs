@@ -1,6 +1,7 @@
 using System;
 using Ecommerce_Product.Data;
 using Ecommerce_Product.Models;
+using Org.BouncyCastle.Crypto.Utilities;
 namespace Ecommerce_Product.Repository;
 
 public interface ICategoryListRepository
@@ -28,11 +29,17 @@ public Task<IEnumerable<SubCategory>> findSubCategoryByCat(string category);
 
 public Task<PageList<SubCategory>> pagingSubCategory(int category,int page_size,int page);
 
-public Task<int> createSubCategory(string subcategoryname,int brandid,int categoryid);
+public Task<int> createSubCategory(string subcategoryname,int categoryid);
 
 public Task<bool> checkSubCatExist(string sub_cat);
 
 public Task<IEnumerable<Brand>> getAllBrandList();
+
+public Task<PageList<CategoryBrandDetail>> pagingBrand(int category,int page_size,int page);
+
+public Task<int> createBrand(int category,string brand_name);
+
+public Task<int> deleteBrand(int brand_category);
 
 public Task saveChange();
 // public Task<IEnumerable<ApplicationUser>> getUserListByRole(string role);

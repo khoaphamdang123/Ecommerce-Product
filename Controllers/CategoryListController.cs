@@ -52,7 +52,6 @@ public class CategoryListController : Controller
   }
    
 
- [Route("")]
 
   [Route("category_list/{category}/sub_category")]
   [HttpGet]
@@ -75,45 +74,135 @@ public class CategoryListController : Controller
    }
    return View();
   }
-  
 
+  [Route("category_list/{category}/brand")]
+  [HttpGet]
+  public async Task<IActionResult> BrandList(int category)
+  { 
+    ViewBag.Category_Id=category;
+    Console.WriteLine("gere");
+     string select_size="7";
+    ViewBag.select_size=select_size;
+    List<string> options=new List<string>(){"7","10","20","50"};
+    ViewBag.options=options;
+  try
+   {      var all_brand=await this._category.pagingBrand(category,7,1);
+
+          return View(all_brand);
+   }
+   catch(Exception er)
+   {
+    this._logger.LogTrace("Get Brand Exception:"+er.Message);
+   }
+   return View();
+  }
+
+  [Route("category_list/{category}/brand/add")]
+  [HttpGet]
+  public async Task<IActionResult> AddBrand(int category)
+  {
+    ViewBag.Category_Id=category;
+    var category_options=await this._category.findCategoryById(category);
+    ViewBag.Cat_Otions=category_options.CategoryName;
+    return View();
+  }
+
+  [Route("category_list/{category}/brand/add")]
+  [HttpPost]
+  public async Task<IActionResult> AddBrand(string brand_name,int category)
+  {
+    try
+    { 
+    int res= await this._category.createBrand(category,brand_name);
+    if(res==1)
+     {
+      TempData["Status"]=1;
+      TempData["Created_Category"]=$"Đã thêm nhãn hàng thành công cho loại sản phẩm mã:{category}";
+     }
+     else if(res==-1)
+     {
+      TempData["Status"]=-1;
+      TempData["Created_Category"]="Nhãn hàng này đã tồn tại trong hệ thống.";
+     }
+     else
+     {
+      TempData["ViewBag.Status"]=0;
+      TempData["Created_Category"]=$"Thêm nhãn hàng thất bãi cho loại sản phẩm mã:{category}";
+     } 
+    }
+    catch(Exception er)
+    { 
+       Console.WriteLine("Add Brand Exception:"+er.Message);
+        this._logger.LogTrace("Add Brand Exception:"+er.Message);
+    }
+    return RedirectToAction("AddBrand",new{category=category});
+  }
+
+  [Route("category_list/{category}/brand/add/delete")]
+  [HttpGet]
+  public async Task<IActionResult> DeleteBrand(int id,int category)
+  {
+    try
+    {
+    int res_delete=await this._category.deleteBrand(id);
+  if(res_delete==1)
+   {
+    TempData["Status_Delete"]=1;
+    TempData["Message_Delete"] = $"Xóa nhãn hàng cho category {category} thành công";
+   }
+   else
+   {
+  TempData["Status_Delete"]=0;
+  TempData["Message_Delete"] = $"Xóa nhãn hàng cho category {category} thất bại";
+   }
+ }
+    catch(Exception er)
+    {
+        Console.WriteLine("Delete Brand Exception:"+er.Message);
+        this._logger.LogTrace("Delete Brand Exception:"+er.Message);       
+    }
+    return RedirectToAction("BrandList",new{category=category});
+  }
+   
  [Route("category_list/{category}/sub_category/add")]
  [HttpGet]
- public IActionResult AddSubCategory(int category)
+ public async Task<IActionResult> AddSubCategory(int category)
  {   ViewBag.Category_Id=category;
+     var category_obj=await this._category.findCategoryById(category);
+     ViewBag.Cat_Options=category_obj.CategoryName;
      return View();
  }
 
   [Route("category_list/{category}/sub_category/add")]
   [HttpPost]
-
-  public async Task<IActionResult> AddSubCategory(string subcategoryname,int brand_id,int category)
+  public async Task<IActionResult> AddSubCategory(string subcategoryname,int category)
   {
     try
     {
       Console.WriteLine("category id:"+category);
-      int res= await this._category.createSubCategory(subcategoryname,brand_id,category);
+      int res= await this._category.createSubCategory(subcategoryname,category);
     if(res==1)
      {
-      ViewBag.Status=1;
-      ViewBag.Created_Category=$"Đã thêm loại sản phẩm phụ thành công cho loại sản phẩm id:{category}";
+      TempData["Status"]=1;
+      TempData["Created_Category"]=$"Đã thêm loại sản phẩm phụ thành công cho loại sản phẩm id:{category}";
      }
      else if(res==-1)
      {
-      ViewBag.Status=-1;
-      ViewBag.Created_Category="Loại sản phẩm phụ này đã tồn tại trong hệ thống";
+      TempData["Status"]=-1;
+      TempData["Created_Category"]="Loại sản phẩm phụ này đã tồn tại trong hệ thống";
      }
      else
      {
-      ViewBag.Status=0;
-      ViewBag.Created_Category="Thêm Sub Category thất bại.";
+      TempData["Status"]=0;
+      TempData["Created_Category"]="Thêm Sub Category thất bại.";
      } 
     }
     catch(Exception er)
     {
         Console.WriteLine("Add Sub Category Exception:"+er.Message);
+        this._logger.LogTrace("Add Sub Category Exception:"+er.Message);
     }
-    return View();
+    return RedirectToAction("AddSubCategory",new {category=category});
   }
 
    [Route("category_list")]

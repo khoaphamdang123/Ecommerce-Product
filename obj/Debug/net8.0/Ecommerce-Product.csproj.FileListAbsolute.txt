@@ -289,4 +289,3 @@ C:\Users\QuanDEV\Ecommerce-Product\bin\Debug\net8.0\itext.styledxmlparser.dll
 C:\Users\QuanDEV\Ecommerce-Product\bin\Debug\net8.0\itext.svg.dll
 C:\Users\QuanDEV\Ecommerce-Product\bin\Debug\net8.0\itext.commons.dll
 C:\Users\QuanDEV\Ecommerce-Product\bin\Debug\net8.0\Microsoft.DotNet.PlatformAbstractions.dll
-C:\Users\QuanDEV\Ecommerce-Product\bin\Debug\net8.0\itext.bouncy-castle-adapter.dll
