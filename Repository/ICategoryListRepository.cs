@@ -6,9 +6,8 @@ namespace Ecommerce_Product.Repository;
 
 public interface ICategoryListRepository
 {
-
-
 public Task<IEnumerable<Category>> getAllCategory();
+
 public Task<IEnumerable<Category>> filterCategoryList(FilterCategory category);
 
 public Task<PageList<Category>> pagingCategory(int page_size,int page);
@@ -41,16 +40,19 @@ public Task<int> createBrand(int category,string brand_name);
 
 public Task<int> deleteBrand(int brand_category);
 
+public Task<int> deleteSubCategory(int sub_category);
+
+public Task<int> updateSubCategory(int id,SubCategory sub_cat);
+
+public Task<PageList<CategoryBrandDetail>> pagingAllBrand(int page_size,int page);
+
+public Task<MemoryStream> exportToExcelCategory();
+
+public Task<MemoryStream> exportToExcelSubCategory(int category);
+
+public Task<MemoryStream> exportToExcelBrandCategory();
+
+
 public Task saveChange();
-// public Task<IEnumerable<ApplicationUser>> getUserListByRole(string role);
-
-// public Task<bool> checkUserRole(string email,string role);
-// public Task<bool> checkUserExist(string email);
-// public Task<bool> addUser(ApplicationUser user);
-// public Task<bool> updateUser(ApplicationUser user);
-// public Task<ApplicationUser> getUser(string email);
-// public Task<bool> deleteUser(string email);
-
-// public Task<bool> sendEmail(string email,string receiver,string subject);
 
 }

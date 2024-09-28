@@ -58,10 +58,11 @@
                         </div>
                       </div>
                 <script>
-            document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('DOMContentLoaded', function() 
+            {
                 var toastEl = document.querySelector('.toast');
                 var toast = new bootstrap.Toast(toastEl);
-                toast.show();
+                toast.show();                
             });
         </script>
 }
@@ -98,11 +99,7 @@
 }
 
     <!-- Layout wrapper -->
-  
-
-
           <div class="content-wrapper">
-
             <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Brand/</span>Danh sách Brand</h4>
                 <div class="card">
@@ -135,14 +132,15 @@
                             <div class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-6 mb-md-0 mt-n6 mt-md-0 gap-md-4">
                             <div class="data-filter">
                             <div class="dt-buttons btn-group flex-wrap">
+                              @if(category_id!=null || category_id!="")
+                              {
                                 <div class="btn-group">
                                     <button class="btn buttons-collection dropdown-toggle btn-label-secondary me-4" tabindex="0" id="exportDropdown" type="button" aria-haspopup="dialog" data-bs-toggle="dropdown" aria-expanded="false"><span><i class="bx bx-export me-2 bx-sm"></i>Xuất File</span></button> 
                                     <ul class="dropdown-menu" aria-labelledby="exportDropdown">
-                                       <li><a class="dropdown-item" href="@Url.Action("ExportPdf","AdminList")">Định dạng PDF</a></li>
-                                       <li><a class="dropdown-item" href="@Url.Action("ExportExel","AdminList")">Định dạng Excel</a></li>
-                                       <li><a class="dropdown-item" href="@Url.Action("ExportCsv","AdminList")">Định dạng CSV</a></li>
+                                       <li><a class="dropdown-item" href="@Url.Action("ExportExcelBrands","CategoryList")">Định dạng Excel</a></li>
                                     </ul>    
                                 </div>
+                                }
                                 <button class="btn btn-secondary add-new btn-primary" id="add-sub-category-btn" data-category-id=@category_id tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"><span><i class="bx bx-plus bx-sm me-0 me-sm-2"></i><span class="d-none d-sm-inline-block">Thêm nhãn hàng</span></span></button>
                             </div>
                             </div>
@@ -231,7 +229,7 @@
       <div class="page-list justify-content-center">
      @if(Model.hasPreviousPage)
      {
-         <a class="page-item" title="Previous" href="@Url.Action("CategoryListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage-1,categoryname=(string.IsNullOrEmpty(filtered_user.Category)?"":filtered_user.Category),startdate=(string.IsNullOrEmpty(filtered_user.StartDate)?"":filtered_user.StartDate),enddate=(string.IsNullOrEmpty(filtered_user.EndDate)?"":filtered_user.EndDate)})"><i class="bx bx-chevron-left"></i></a>
+         <a class="page-item" title="Previous" href="@Url.Action("BrandList",new{page_size=int.Parse(selected_size),page=Model.currentPage-1})"><i class="bx bx-chevron-left"></i></a>
      }
      else
      {
@@ -248,7 +246,7 @@
         }
        else
        {
-         <a class="page-item" title="@i" href="@Url.Action("CategoryListPaging",new{page_size=int.Parse(selected_size),page=i,categoryname=(string.IsNullOrEmpty(filtered_user.Category)?"":filtered_user.Category),startdate=(string.IsNullOrEmpty(filtered_user.StartDate)?"":filtered_user.StartDate),enddate=(string.IsNullOrEmpty(filtered_user.EndDate)?"":filtered_user.EndDate)})">@i</a>
+         <a class="page-item" title="@i" href="@Url.Action("BrandList",new{page_size=int.Parse(selected_size),page=i})">@i</a>
        }
       }
     }
@@ -265,7 +263,7 @@
            <span class="page-item activate" disable>@i</span> 
         }
        else{
-         <a class="page-item" title="@i" href="@Url.Action("CategoryListPaging",new{page_size=int.Parse(selected_size),page=i,categoryname=(string.IsNullOrEmpty(filtered_user.Category)?"":filtered_user.Category),startdate=(string.IsNullOrEmpty(filtered_user.StartDate)?"":filtered_user.StartDate),enddate=(string.IsNullOrEmpty(filtered_user.EndDate)?"":filtered_user.EndDate)})">@i</a>
+         <a class="page-item" title="@i" href="@Url.Action("BrandList",new{page_size=int.Parse(selected_size),page=i})">@i</a>
        }
         }
         else{
@@ -274,7 +272,7 @@
             <span class="page-item" disabled>...</span>
           }
         else{
-         <a class="page-item" title="@i" href="@Url.Action("CategoryListPaging",new{page_size=int.Parse(selected_size),page=Model.totalPage,categoryname=(string.IsNullOrEmpty(filtered_user.Category)?"":filtered_user.Category),startdate=(string.IsNullOrEmpty(filtered_user.StartDate)?"":filtered_user.StartDate),enddate=(string.IsNullOrEmpty(filtered_user.EndDate)?"":filtered_user.EndDate)})">@Model.totalPage</a>
+         <a class="page-item" title="@i" href="@Url.Action("BrandList",new{page_size=int.Parse(selected_size),page=i})">@i</a>
         }
         }
       }
@@ -283,19 +281,19 @@
     {
     if((Model.currentPage>=5 && (Model.currentPage<(Model.totalPage-3))))
     {
-         <a class="page-item" title="1" href="@Url.Action("CategoryListPaging",new{page_size=int.Parse(selected_size),page=1,categoryname=(string.IsNullOrEmpty(filtered_user.Category)?"":filtered_user.Category),startdate=(string.IsNullOrEmpty(filtered_user.StartDate)?"":filtered_user.StartDate),enddate=(string.IsNullOrEmpty(filtered_user.EndDate)?"":filtered_user.EndDate)})">1</a>
+         <a class="page-item" title="1" href="@Url.Action("BrandList",new{page_size=int.Parse(selected_size),page=1})">1</a>
     <span class="page-item" disabled>...</span>
-         <a class="page-item" title="@(Model.currentPage-1)" href="@Url.Action("CategoryListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage-1,categoryname=(string.IsNullOrEmpty(filtered_user.Category)?"":filtered_user.Category),startdate=(string.IsNullOrEmpty(filtered_user.StartDate)?"":filtered_user.StartDate),enddate=(string.IsNullOrEmpty(filtered_user.EndDate)?"":filtered_user.EndDate)})">@(Model.currentPage-1)</a>
+         <a class="page-item" title="@(Model.currentPage-1)" href="@Url.Action("BrandList",new{page_size=int.Parse(selected_size),page=Model.currentPage-1})">@(Model.currentPage-1)</a>
     <span class="page-item activate" disabled>@(Model.currentPage)</span>
-         <a class="page-item" title="@(Model.currentPage+1)" href="@Url.Action("CategoryListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage+1,categoryname=(string.IsNullOrEmpty(filtered_user.Category)?"":filtered_user.Category),startdate=(string.IsNullOrEmpty(filtered_user.StartDate)?"":filtered_user.StartDate),enddate=(string.IsNullOrEmpty(filtered_user.EndDate)?"":filtered_user.EndDate)})">@(Model.currentPage+1)</a>
+         <a class="page-item" title="@(Model.currentPage+1)" href="@Url.Action("BrandList",new{page_size=int.Parse(selected_size),page=Model.currentPage+1})">@(Model.currentPage+1)</a>
 
     <span class="page-item" disabled>...</span>
-         <a class="page-item" title="@(Model.totalPage)" href="@Url.Action("CategoryListPaging",new{page_size=int.Parse(selected_size),page=(Model.totalPage),categoryname=(string.IsNullOrEmpty(filtered_user.Category)?"":filtered_user.Category),startdate=(string.IsNullOrEmpty(filtered_user.StartDate)?"":filtered_user.StartDate),enddate=(string.IsNullOrEmpty(filtered_user.EndDate)?"":filtered_user.EndDate)})">@(Model.totalPage)</a>
+         <a class="page-item" title="@Model.totalPage" href="@Url.Action("BrandList",new{page_size=int.Parse(selected_size),page=Model.totalPage})">@(Model.totalPage)</a>
     }
     else{
-         <a class="page-item" title="1" href="@Url.Action("CategoryListPaging",new{page_size=int.Parse(selected_size),page=1,categoryname=(string.IsNullOrEmpty(filtered_user.Category)?"":filtered_user.Category),startdate=(string.IsNullOrEmpty(filtered_user.StartDate)?"":filtered_user.StartDate),enddate=(string.IsNullOrEmpty(filtered_user.EndDate)?"":filtered_user.EndDate)})">1</a>
+         <a class="page-item" title="1" href="@Url.Action("BrandList",new{page_size=int.Parse(selected_size),page=1})">1</a>
     <span class="page-item" disabled>...</span>
-         <a class="page-item" title="@(Model.currentPage-4)" href="@Url.Action("CategoryListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage-4,categoryname=(string.IsNullOrEmpty(filtered_user.Category)?"":filtered_user.Category),startdate=(string.IsNullOrEmpty(filtered_user.StartDate)?"":filtered_user.StartDate),enddate=(string.IsNullOrEmpty(filtered_user.EndDate)?"":filtered_user.EndDate)})">@(Model.currentPage-4)</a>
+         <a class="page-item" title="@(Model.currentPage-4)" href="@Url.Action("BrandList",new{page_size=int.Parse(selected_size),page=Model.currentPage-4})">@(Model.currentPage-4)</a>
      for(int i=(Model.totalPage-3);i<=Model.totalPage;i++)
      {
       if(i==Model.currentPage)
@@ -303,7 +301,7 @@
           <span class="page-item activate" disabled>@(Model.currentPage)</span>
       }
     else{
-         <a class="page-item" title="@i" href="@Url.Action("CategoryListPaging",new{page_size=int.Parse(selected_size),page=i,categoryname=(string.IsNullOrEmpty(filtered_user.Category)?"":filtered_user.Category),startdate=(string.IsNullOrEmpty(filtered_user.StartDate)?"":filtered_user.StartDate),enddate=(string.IsNullOrEmpty(filtered_user.EndDate)?"":filtered_user.EndDate)})">@i</a>
+         <a class="page-item" title="@i" href="@Url.Action("BrandList",new{page_size=int.Parse(selected_size),page=i})">@i</a>
     }
      }
     }
@@ -324,7 +322,7 @@
        
       @if(Model.hasNextPage)
       {
-       <a class="page-item" title="Next" href="@Url.Action("UserListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage+1})">></a>
+       <a class="page-item" title="Next" href="@Url.Action("BrandList",new{page_size=int.Parse(selected_size),page=Model.currentPage+1})">></a>
        }
       else 
       {
@@ -379,27 +377,21 @@
     
     document.getElementById("remove-btn").addEventListener('click',()=>{
    
-    delete_category_value=delete_category;
+   let delete_category_value=delete_category;
     
-    var url='@Url.Action("DeleteBrand","CategoryList",new{category="__cat_id__",id="__delete_category_value__"})';
-
+    var url='';
+    
+    if(delete_cat_id==null || delete_cat_id=='')
+    {
+   url='@Url.Action("DeleteBrand","CategoryList",new{id="__delete_category_value__"})';
+   url=url.replace("__delete_category_value__",delete_category_value);
+    }
+   else
+   {
+    url='@Url.Action("DeleteBrand","CategoryList",new{category="__cat_id__",id="__delete_category_value__"})';
     url=url.replace("__delete_category_value__",delete_category_value).replace("__cat_id__",delete_cat_id);
-  
+    }
     window.location.href=url;
     });
-@*  
- const convertDateTime=()=> {
 
-    const dateInput = document.getElementById('dateInput').value;
-
-
-    const date = new Date(dateInput);
-
-    if (!isNaN(date)) {
-            const formattedDate =  
-                              ('0' + (date.getMonth() + 1)).slice(-2) +'/'+
-                              ('0' + date.getDate()).slice(-2)+'/'+date.getFullYear();
-
-    }
-} *@
   </script>

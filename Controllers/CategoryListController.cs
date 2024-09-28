@@ -65,7 +65,7 @@ public class CategoryListController : Controller
     ViewBag.options=options;
    try
    {      var all_sub_cat=await this._category.pagingSubCategory(category,7,1);
-         
+
           return View(all_sub_cat);
    }
    catch(Exception er)
@@ -74,6 +74,74 @@ public class CategoryListController : Controller
    }
    return View();
   }
+
+  [Route("category_list/{category}/brand/paging")]
+   [HttpGet]
+  public async Task<IActionResult> BrandList(int category,[FromQuery]int page_size,[FromQuery] int page=1)
+  {
+    try{
+         var cats=await this._category.pagingBrand(category,page_size,page);
+        
+          List<string> options=new List<string>(){"7","10","20","50"};
+          
+          ViewBag.options=options;
+          
+          string select_size=page_size.ToString();
+          
+          ViewBag.select_size=select_size;
+          
+          return View(cats);
+        }
+     
+        catch(Exception er)
+        {
+            this._logger.LogTrace("Get Category List Exception:"+er.Message);
+        }
+    return View();
+  }
+
+  [Route("category_list/{category}/sub_category/paging")]
+     public async Task<IActionResult> SubCategoryList(int category,[FromQuery]int page_size,[FromQuery] int page=1)
+     { try{
+         var cats=await this._category.pagingSubCategory(category,page_size,page);
+        
+          List<string> options=new List<string>(){"7","10","20","50"};
+          
+          ViewBag.options=options;
+          
+          string select_size=page_size.ToString();
+          
+          ViewBag.select_size=select_size;
+          
+          return View(cats);
+        }
+     
+        catch(Exception er)
+        {
+            this._logger.LogTrace("Get Category List Exception:"+er.Message);
+        }
+    return View();
+     }
+ 
+ [Route("brand_list")]
+ [HttpGet]
+ public async Task<IActionResult> BrandList()
+ {
+     string select_size="7";
+    ViewBag.select_size=select_size;
+    List<string> options=new List<string>(){"7","10","20","50"};
+    ViewBag.options=options;
+  try
+  {
+    var all_brand = await this._category.pagingAllBrand(7,1);
+    return View(all_brand);
+  }
+  catch(Exception er)
+  {
+      this._logger.LogTrace("Get Full Brand List Exception:"+er.Message);
+  }
+  return View();
+ }
 
   [Route("category_list/{category}/brand")]
   [HttpGet]
@@ -107,6 +175,16 @@ public class CategoryListController : Controller
     return View();
   }
 
+  [Route("brand_list/add")]
+  [HttpGet]
+  public async Task<IActionResult> AddBrand()
+  {
+    var category=await this._category.getAllCategory();
+    ViewBag.Cat_Otions=category;
+    return View();
+  }
+
+
   [Route("category_list/{category}/brand/add")]
   [HttpPost]
   public async Task<IActionResult> AddBrand(string brand_name,int category)
@@ -136,6 +214,27 @@ public class CategoryListController : Controller
         this._logger.LogTrace("Add Brand Exception:"+er.Message);
     }
     return RedirectToAction("AddBrand",new{category=category});
+  }
+  
+  [Route("brand_list/delete")]
+  [HttpGet]
+  public async Task<IActionResult> DeleteBrand(int id)
+  {
+
+  Console.WriteLine("Mã hàng:"+id);
+  int res_delete=await this._category.deleteBrand(id);
+  
+  if(res_delete==1)
+   {
+    TempData["Status_Delete"]=1;
+    TempData["Message_Delete"] = $"Xóa nhãn hàng mã {id} thành công";
+   }
+   else
+   {
+  TempData["Status_Delete"]=0;
+  TempData["Message_Delete"] = $"Xóa nhãn hàng mã {id} thất bại";
+   }
+    return RedirectToAction("BrandList");
   }
 
   [Route("category_list/{category}/brand/add/delete")]
@@ -169,7 +268,10 @@ public class CategoryListController : Controller
  public async Task<IActionResult> AddSubCategory(int category)
  {   ViewBag.Category_Id=category;
      var category_obj=await this._category.findCategoryById(category);
+     if(category_obj!=null)
+     {
      ViewBag.Cat_Options=category_obj.CategoryName;
+     }
      return View();
  }
 
@@ -179,6 +281,7 @@ public class CategoryListController : Controller
   {
     try
     {
+      Console.WriteLine("Category name:"+subcategoryname);
       Console.WriteLine("category id:"+category);
       int res= await this._category.createSubCategory(subcategoryname,category);
     if(res==1)
@@ -204,7 +307,83 @@ public class CategoryListController : Controller
     }
     return RedirectToAction("AddSubCategory",new {category=category});
   }
+  
 
+ 
+
+  [Route("category_list/{category}/sub_category/delete")]
+  [HttpGet]
+  public async Task<IActionResult> DeleteSubCat(int sub_cat,int category)
+  {
+    try
+    {
+  var res_del=await this._category.deleteSubCategory(sub_cat);
+  if(res_del==1)
+   {
+    TempData["Status_Delete"]=1;
+    TempData["Message_Delete"] = $"Xóa mã {sub_cat} cho category mã {category} thành công";
+   }
+   else
+   {
+  TempData["Status_Delete"]=0;
+  TempData["Message_Delete"] = $"Xóa mã {sub_cat} cho category mã {category} thất bại";
+   }
+  }
+    catch(Exception er)
+    {
+       Console.WriteLine("Delete Sub Category Exception:"+er.Message);
+        this._logger.LogTrace("Delete Sub Category Exception:"+er.Message); 
+    }
+  return RedirectToAction("SubCategoryList",new {category=category});
+  }
+
+  [Route("category_list/{category}/sub_category/update")]
+
+  [HttpGet]
+
+  public async Task<IActionResult> SubCategoryInfo(string sub_cat_name,int sub_cat_id,int category)
+  {
+    try
+    {
+      TempData["Subcat_Name"]=sub_cat_name;
+      var cat_options=await this._category.getAllCategory();
+      TempData["Cat_Options"]=cat_options;
+      ViewBag.Sub_Cat_Id=sub_cat_id;
+      ViewBag.Category_Id=category;
+    }
+    catch(Exception er)
+    {
+       this._logger.LogTrace("Update Sub Category View Exception:"+er.Message); 
+    }
+   return View();
+  }
+
+ [Route("category_list/{category}/sub_category/update")]
+
+  [HttpPost]
+
+  public async Task<IActionResult> SubCategoryInfo(int id,string sub_cat_name,int category)
+  {
+  try
+  { 
+    SubCategory new_sub_cat = new SubCategory{SubCategoryName=sub_cat_name,CategoryId=category};
+    int res_update=await this._category.updateSubCategory(id,new_sub_cat);
+    if(res_update==1)
+    {
+      TempData["Update_Sub_Category"]=$"Đã cập nhật loại sản phẩm phụ mã {id} cho loại sản phẩm mã {category}";
+      TempData["Status"]=1;
+    }
+    else{
+      TempData["Update_Sub_Category"]=$"Đã cập nhật loại sản phẩm phụ mã {id} cho loại sản phẩm mã {category} thất bại";
+      TempData["Status"]=0;
+    }
+  }
+  catch(Exception er)
+  {
+   this._logger.LogTrace("Update Sub Category Exception:"+er.Message); 
+  }
+  return RedirectToAction("SubCategoryInfo",new{category=category,sub_cat_name=sub_cat_name,sub_cat_id=id});
+  }
    [Route("category_list")]
    [HttpPost]
    public async Task<IActionResult> CategoryList(string categoryname,string startdate,string enddate)
@@ -275,9 +454,65 @@ public class CategoryListController : Controller
         }
     return RedirectToAction("CategoryList","CategoryList");
    }
+   
+
+  [Route("category_list/export")]
+  [HttpGet]
+  public async Task<IActionResult> ExportExcelCategory()
+  {
+    try
+    {
+  
+  var content= await this._category.exportToExcelCategory();
+  return File(content,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","Category_List.xlsx");
+    }
+    catch(Exception er)
+    {
+         this._logger.LogTrace("Export Category List Exception:"+er.Message);
+    }
+    return RedirectToAction("CategoryList","CategoryList");
+  }
+
+  [Route("category_list/{category}/sub_category/export")]
+   [HttpGet]
+   public async Task<IActionResult> ExportExcelSubCategory(int category)
+   {
+    try
+    {
+  var content= await this._category.exportToExcelSubCategory(category);
+  return File(content,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","Sub_Cat_List.xlsx");    
+    }
+    catch(Exception er)
+    {
+      this._logger.LogTrace("Export Sub Category List Exception:"+er.Message);
+      }
+     return RedirectToAction("SubCategoryList",new{category=category});
+   }
+
+   [Route("brand_list/export")]
+   [HttpGet]
+   public async Task<IActionResult> ExportExcelBrands()
+   {
+    try
+    {
+ var content= await this._category.exportToExcelBrandCategory();
+  return File(content,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","Brand_Category_List.xlsx");    
+    
+    }
+    catch(Exception er)
+    {
+          this._logger.LogTrace("Export Brand List Exception:"+er.Message); 
+    }
+       return RedirectToAction("BrandList");
+
+   }
+   
+
+   
+
 
    [Route("category_list/add")]
-
+   
    [HttpPost]
    public async Task<IActionResult> AddCategory(Category category)
    {

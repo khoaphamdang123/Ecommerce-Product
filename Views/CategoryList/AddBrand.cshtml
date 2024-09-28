@@ -19,8 +19,12 @@
    {
     create_status=Convert.ToInt32(create_status_ob);
    }
-   var cat_options=ViewBag.Cat_Otions;
    var category_id=ViewBag.Category_Id;
+   var cat_options=ViewBag.Cat_Options;
+  if(category_id==null)
+  {
+    cat_options=ViewBag.Cat_Otions as IEnumerable<Category>;
+   }
 }
 
 
@@ -140,6 +144,12 @@
                          {
                         <option value="@category_id">@cat_options</option> 
                            }
+                          else{
+                            @foreach(var option in cat_options)
+                            {
+                           <option value="@option.Id">@option.CategoryName</option> 
+                            }
+                          }
                         </select>
                           </div>
                         </div>

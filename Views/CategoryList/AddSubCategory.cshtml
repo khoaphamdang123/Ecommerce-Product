@@ -1,7 +1,13 @@
 @{
-   var created_user=ViewBag.Created_User;
-   var create_status=ViewBag.Status;
    var option=ViewBag.Cat_Options;
+   var category_id=ViewBag.Category_Id;
+   int create_status=-2;
+   var created_category=TempData["Created_Category"];
+   var create_status_ob=TempData["Status"];
+   if(create_status_ob!=null)
+   {
+    create_status=Convert.ToInt32(create_status_ob);
+   }
 }
 
 @if(create_status==0 || create_status==-1)
@@ -19,11 +25,11 @@
              >
                         <div class="toast-header">
                           <i class="bx bx-bell me-2"></i>
-                          <div class="me-auto fw-semibold">Thêm User</div>
+                          <div class="me-auto fw-semibold">Thêm loại sản phẩm phụ</div>
                           <!--<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>-->
                         </div>
                         <div class="toast-body">
-                         @created_user
+                         @created_category
                         </div>
                       </div>
                         <script>
@@ -50,11 +56,11 @@
              >
                         <div class="toast-header">
                           <i class="bx bx-bell me-2"></i>
-                          <div class="me-auto fw-semibold">Thêm user</div>
+                          <div class="me-auto fw-semibold">Thêm loại sản phẩm phụ</div>
                           <!--<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>-->
                         </div>
                         <div class="toast-body">
-                         @created_user
+                         @created_category
                         </div>
                       </div>
                 <script>
@@ -97,7 +103,7 @@
                   <div class="card mb-4">
                     <h5 class="card-header">Thông tin loại sản phẩm phụ</h5>
                     <div class="card-body">
-                      <form id="formAccountSettings" method="post" asp-controller="CategoryList" asp-action="AddSubCategoryList">
+                      <form id="formAccountSettings" method="post" asp-controller="CategoryList" asp-action="AddSubCategory">
                         <div class="row">
                           <div class="mb-3 col-md-6">
                             <label for="username" class="form-label">Tên loại sản phẩm phụ</label>
@@ -114,14 +120,16 @@
                          <div class="mb-3 col-md-6">
                             <label for="category" class="form-label">Loại sản phẩm</label>
                              <select class="select2 form-select" name="category">
-                             <option value="@option">@option</option>
+                             <option value="@category_id">@option</option>
                              </select> 
                           </div>
                         </div>
-                        <div class="mt-2">
-                          <button type="submit" class="btn btn-primary me-2">Thêm loại sản phẩm phụ</button>
+                        <div class="mt-2 d-flex flex-row justify-content-md-start justify-content-sm-between">
+                          <button type="submit" class="btn btn-primary me-4">Thêm loại sản phẩm phụ</button>
+                          <button type="button" class="btn btn-primary" type="button" id="back-btn" data-cat-id="@category_id">Trở lại danh sách sản phẩm phụ</button>
                         </div>
                       </form>
+
                     </div>
                     <!-- /Account -->
                   </div>
@@ -186,28 +194,15 @@
   }  
  });
 
-  document.getElementById("upload").addEventListener("change",()=>
+
+
+  document.getElementById('back-btn').addEventListener("click",()=>
   {
-    var image_input=document.getElementById("upload");
-    var image_hoder=document.getElementById("uploadedAvatar");
-    const file=image_input.files[0];
-    if(file)
-    {
-     const reader = new FileReader();
-     reader.onload=(e)=>{
-        image_hoder.src=e.target.result;
-     }
-     reader.readAsDataURL(file);
-    }
+   let cat_id=document.getElementById("back-btn").getAttribute("data-cat-id");
+   var url='@Url.Action("SubCategoryList","CategoryList",new{category="__category__"})';
+   url=url.replace("__category__",cat_id);
+   window.location.href=url;
   });
 
-  document.getElementById("delete-avatar").addEventListener("click",()=>
-  {
-   var image_holder = document.getElementById("uploadedAvatar");
-   var img_file='https://cdn-icons-png.flaticon.com/128/3135/3135715.png';
-   image_holder.src=img_file;
-   @* var curr_folder=process.cwd();
-   alert(curr_folder); *@
-  });
 
 </script>

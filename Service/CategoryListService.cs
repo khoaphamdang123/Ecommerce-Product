@@ -1,6 +1,8 @@
 using Ecommerce_Product.Repository;
 using Ecommerce_Product.Models;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
+using Npgsql.Replication;
 
 namespace Ecommerce_Product.Service;
 public class CategoryListService:ICategoryListRepository
@@ -138,7 +140,7 @@ public async Task<Category> findCategoryById(int id)
 {
     try
     {
-      var category=await this._context.Categories.FirstOrDefaultAsync(c=>c.Id==id);
+      var category=await this._context.Categories.Include(c=>c.SubCategories).FirstOrDefaultAsync(c=>c.Id==id);
       if(category!=null)
       {
         return category;
@@ -247,6 +249,15 @@ public async Task<IEnumerable<SubCategory>> findSubCategoryById(int category)
     }
     return null;
 }
+
+
+
+public async Task<SubCategory> findSingleSubcat(int sub_category)
+{
+    var sub_cat=await this._context.SubCategories.FirstOrDefaultAsync(c=>c.Id==sub_category);
+    return sub_cat;
+}
+
 public async Task<PageList<SubCategory>> pagingSubCategory(int category,int page_size,int page)
 {
 
@@ -310,6 +321,7 @@ int create_res=0;
 public async Task<IEnumerable<Brand>> getAllBrandList()
 {
     var brand_list=this._context.Brands.ToList();
+
     return brand_list;
 }
 
@@ -333,11 +345,23 @@ public async Task<PageList<CategoryBrandDetail>> pagingBrand(int category,int pa
    return cat_list;
 }
 
+public async Task<PageList<CategoryBrandDetail>> pagingAllBrand(int page_size,int page)
+{
+    var all_brand = this._context.CategoryBrandDetails.Include(c=>c.Brand).Include(c=>c.Category).ToList();
+
+    var brands=all_brand.OrderByDescending(u=>u.Id).ToList();
+
+    var brand_list = PageList<CategoryBrandDetail>.CreateItem(brands.AsQueryable(),page,page_size);
+    return brand_list;
+}
+
 
 public async Task<bool> checkBrandExist(string brand_name,int category)
 {
     bool is_exist=false;
+    
     var brand=await this._context.CategoryBrandDetails.Include(c=>c.Brand).Include(c=>c.Category).FirstOrDefaultAsync(c=>c.Brand.BrandName==brand_name && c.Category.Id==category);
+    
     if(brand!=null)
     {
         is_exist=true;
@@ -408,6 +432,149 @@ public async Task<int> deleteBrand(int brand_category)
     }
     return delete_res;
 }
+
+
+public async Task<int> deleteSubCategory(int sub_category)
+{int res_del=0;
+    try
+    {  
+       var sub_cat=await this.findSingleSubcat(sub_category);
+       if(sub_cat!=null)
+       { res_del=1;
+         this._context.SubCategories.Remove(sub_cat);
+         await this.saveChange();
+       }
+    }
+    catch(Exception er)
+    {   res_del=0;
+        Console.WriteLine("Delete Sub Category Exception");
+    }
+    return res_del;
+}
+
+public async Task<int> updateSubCategory(int id,SubCategory subCategory)
+{  int res_update=0;
+    try
+    {
+   var sub_cat=await this.findSingleSubcat(id);
+   if(sub_cat!=null)
+   {
+    sub_cat.SubCategoryName=subCategory.SubCategoryName;
+    sub_cat.CategoryId=subCategory.CategoryId;
+    sub_cat.UpdatedDate=DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss");
+    this._context.Update(sub_cat);
+    await this.saveChange();
+    res_update=1;
+   }
+    }
+    catch(Exception er)
+    {
+    Console.WriteLine("Update Sub Category Exception:"+er.InnerException??er.Message);
+    }
+   return res_update;
+}
+
+public async Task<MemoryStream> exportToExcelCategory()
+ {
+  using(ExcelPackage excel = new ExcelPackage())
+  {
+    var worksheet=excel.Workbook.Worksheets.Add("Category");
+    worksheet.Cells[1,1].Value="STT";
+    worksheet.Cells[1,2].Value="Tên Loại sản phẩm";
+    worksheet.Cells[1,3].Value = "Ngày tạo";
+    worksheet.Cells[1,4].Value="Ngày cập nhật";
+    var categories=await this.getAllCategory();
+    if(categories!=null)
+    {
+    List<Category> list_category=categories.ToList();
+    for(int i=0;i<list_category.Count;i++)
+    {
+    worksheet.Cells[i+2,1].Value=(i+1).ToString();
+    
+    worksheet.Cells[i+2,2].Value=list_category[i].CategoryName;
+    
+    worksheet.Cells[i+2,3].Value=list_category[i].CreatedDate;
+    
+    worksheet.Cells[i+2,4].Value=list_category[i].UpdatedDate;
+    }    
+   }
+  var stream = new MemoryStream();
+  excel.SaveAs(stream);
+  stream.Position=0;
+  return stream;
+  }
+ }
+
+public async Task<MemoryStream> exportToExcelSubCategory(int category)
+{
+ using(ExcelPackage excel = new ExcelPackage())
+  {
+    var worksheet=excel.Workbook.Worksheets.Add("Sub_Category");
+    worksheet.Cells[1,1].Value="STT";
+    worksheet.Cells[1,2].Value="Tên Loại sản phẩm phụ";
+    worksheet.Cells[1,3].Value = "Tên loại sản phẩm";
+    worksheet.Cells[1,4].Value="Ngày tạo";
+    worksheet.Cells[1,5].Value="Ngày cập nhật";
+
+    var categories=await this.findCategoryById(category);
+    if(categories!=null)
+    {
+    List<SubCategory> list_category=categories.SubCategories.ToList();
+    for(int i=0;i<list_category.Count;i++)
+    {
+    worksheet.Cells[i+2,1].Value=(i+1).ToString();
+    
+    worksheet.Cells[i+2,2].Value=list_category[i].SubCategoryName;
+    
+    worksheet.Cells[i+2,3].Value=categories.CategoryName;
+    
+    worksheet.Cells[i+2,4].Value=list_category[i].CreatedDate;
+    
+    worksheet.Cells[i+2,5].Value=list_category[i].UpdatedDate;
+    }    
+   }
+  var stream = new MemoryStream();
+  excel.SaveAs(stream);
+  stream.Position=0;
+  return stream;
+  }
+}
+
+public async Task<MemoryStream> exportToExcelBrandCategory()
+{
+ using(ExcelPackage excel = new ExcelPackage())
+  {
+    var worksheet=excel.Workbook.Worksheets.Add("Brand_Category");
+    worksheet.Cells[1,1].Value="STT";
+    worksheet.Cells[1,2].Value="Tên nhãn hàng";
+    worksheet.Cells[1,3].Value = "Loại sản phẩm";
+    worksheet.Cells[1,4].Value="Ngày tạo";
+    worksheet.Cells[1,5].Value = "Ngày cập nhật";
+
+    List<CategoryBrandDetail> brands=this._context.CategoryBrandDetails.Include(c=>c.Category).Include(c=>c.Brand).ToList();
+    if(brands!=null)
+    {
+    for(int i=0;i<brands.Count;i++)
+    {
+    worksheet.Cells[i+2,1].Value=(i+1).ToString();
+    
+    worksheet.Cells[i+2,2].Value=brands[i].Brand.BrandName;
+    
+    worksheet.Cells[i+2,3].Value=brands[i].Category.CategoryName;
+    
+    worksheet.Cells[i+2,4].Value=brands[i].Brand.CreatedDate;
+    
+    worksheet.Cells[i+2,5].Value=brands[i].Brand.UpdatedDate;
+    }    
+   }
+  var stream = new MemoryStream();
+  excel.SaveAs(stream);
+  stream.Position=0;
+  return stream;
+  } 
+}
+
+
 
 
 public async Task saveChange()
