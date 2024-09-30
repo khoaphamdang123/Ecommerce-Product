@@ -216,6 +216,21 @@ public partial class EcommerceShopContext : DbContext
             entity.Property(e => e.ProductName).HasColumnType("character varying");
             entity.Property(e => e.Status).HasColumnType("character varying");
             entity.Property(e => e.UpdatedDate).HasColumnType("character varying");
+
+            entity.HasOne(d => d.Brand).WithMany(p => p.Products)
+                .HasForeignKey(d => d.BrandId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("product_brand_fk");
+
+            entity.HasOne(d => d.Category).WithMany(p => p.Products)
+                .HasForeignKey(d => d.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("product_cat_fk");
+
+            entity.HasOne(d => d.SubCat).WithMany(p => p.Products)
+                .HasForeignKey(d => d.SubCatId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("product_sub_cat_fk");
         });
 
         modelBuilder.Entity<ProductImage>(entity =>

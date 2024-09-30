@@ -31,5 +31,11 @@ public partial class Product
 
     public string? Status { get; set; }
 
+    public virtual Brand? Brand { get; set; }
+
+    public virtual Category? Category { get; set; }
+
+    public virtual SubCategory? SubCat { get; set; }
+
     public virtual ICollection<Variant> Variants { get; set; } = new List<Variant>();
 }

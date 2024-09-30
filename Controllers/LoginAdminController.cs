@@ -143,10 +143,11 @@ namespace Ecommerce_Product.Controllers
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
         }
             }
-            else{
+            else
+            {
                   TempData["LoginFailed"]="True";
-                    TempData["ErrorContent"]="Username không chính xác";
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                  TempData["ErrorContent"]="Username không chính xác";
+                  ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             }
         }
         }
@@ -155,7 +156,6 @@ namespace Ecommerce_Product.Controllers
             _logger.LogTrace("Login Exception:"+er.Message);
             Console.WriteLine("Login Exception:"+er.Message);
         }
-
             return View(model);
         }
 

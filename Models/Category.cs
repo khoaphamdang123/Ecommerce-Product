@@ -17,5 +17,7 @@ public partial class Category
 
     public virtual ICollection<CategoryBrandDetail> CategoryBrandDetails { get; set; } = new List<CategoryBrandDetail>();
 
+    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+
     public virtual ICollection<SubCategory> SubCategories { get; set; } = new List<SubCategory>();
 }
