@@ -413,7 +413,7 @@ public class CategoryListController : Controller
           ViewBag.options=options;
         FilterCategory cat_obj= new FilterCategory(categoryname,startdate,enddate);
        var category_list=await this._category.filterCategoryList(cat_obj);
-       var category_paging=PageList<Category>.CreateItem(category_list.AsQueryable(),1,10);
+       var category_paging=PageList<Category>.CreateItem(category_list.AsQueryable(),1,7);
        ViewBag.filter_obj=category_list;  
     return View("~/Views/CategoryList/CategoryList.cshtml",category_paging);
     }

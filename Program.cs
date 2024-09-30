@@ -30,10 +30,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDbContext<EcommerceShopContext>(options=>options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddSession(options=>{
-  options.IdleTimeout=TimeSpan.FromSeconds(20);
+  options.IdleTimeout=TimeSpan.FromHours(1);
   options.Cookie.HttpOnly = true;
   options.Cookie.IsEssential=true;  
-  
 });
 
  builder.Services.AddMvc(options => options.EnableEndpointRouting = false);
@@ -74,6 +73,7 @@ builder.Services.AddScoped<IAdminRepository,AdminListService>();
 
 builder.Services.AddScoped<ICategoryListRepository,CategoryListService>();
 
+builder.Services.AddScoped<IProductRepository,ProductService>();
 
 builder.Services.AddTransient<Service>();
 

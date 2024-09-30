@@ -1,22 +1,13 @@
-<!-- =========================================================
-* Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
-==============================================================
-
-* Product Page: https://themeselection.com/products/sneat-bootstrap-html-admin-template/
-* Created by: ThemeSelection
-* License: You must have a valid license purchased in order to legally use the theme for your project.
-* Copyright ThemeSelection (https://themeselection.com)
-
-=========================================================
- -->
-<!-- beautify ignore:start -->
-@model PageList<Category>
+@model PageList<Product>
 @{
   int count_id= 0;
   var selected_size=ViewBag.select_size;
   var filtered_user=ViewBag.filter_obj;
   int status_delete=-1;
   int change_pass_status=-1;
+  var cat_list=ViewBag.CatList as IEnumerable<Category>;
+  var brand_list=ViewBag.BrandList as IEnumerable<Brand>;
+  var status_list=ViewBag.Status as List<string>;
   if(TempData["Status_Delete"]!=null)
   {
    status_delete=Convert.ToInt32(TempData["Status_Delete"]);
@@ -48,7 +39,7 @@
              >
                         <div class="toast-header">
                           <i class="bx bx-bell me-2"></i>
-                          <div class="me-auto fw-semibold">Xóa Category</div>
+                          <div class="me-auto fw-semibold">Xóa sản phẩm</div>
                           <!--<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>-->
                         </div>
                         <div class="toast-body">
@@ -80,7 +71,7 @@
              >
                         <div class="toast-header">
                           <i class="bx bx-bell me-2"></i>
-                          <div class="me-auto fw-semibold">Xóa Category</div>
+                          <div class="me-auto fw-semibold">Xóa sản phẩm</div>
                         </div>
                         <div class="toast-body">
                          @(message_delete)
@@ -102,22 +93,44 @@
           <div class="content-wrapper">
 
             <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Category/</span>Danh sách Category</h4>
+            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Category/</span>Danh sách sản phẩm</h4>
                 <div class="card">
                     <div class="card-header border-bottom">
-                     <h5 class="card-title mb-0">Lọc danh sách Category</h5>
-                <form method="post" asp-controller="CategoryList" asp-action="CategoryList">
+                     <h5 class="card-title mb-0">Lọc danh sách sản phẩm</h5>
+                <form method="post" asp-controller="ProductList" asp-action="ProductList">
                     <div class="d-flex justify-content-between align-items-center row pt-4 gap-4 gap-md-0 g-6">
                   <div class="col-md-4">
-                    <input type="search" class="form-control" name="categoryname" placeholder="Tên loại sản phẩm">
+                    @* <input type="search" class="form-control" name="categoryname" placeholder="Tên loại sản phẩm"> *@
+                    <select class="form-select select-2" name="category">
+                      @foreach(var option in cat_list)
+                      {
+                        <option value="@option.Id">@option.CategoryName</option>
+                      }
+                    </select>
                      </div>
+                    <div class="col-md-4">
+                      <select class="form-select select-2" name="brand">
+                        @foreach(var option in brand_list)
+                        {
+                          <option value="@option.Id">@option.BrandName</option>
+                        }
+                      </select>
+                    </div>
+                   <div class="col-md-4">
+                      <select class="form-select select-2" name="status">
+                        @foreach(var option in status_list)
+                        {
+                          <option value="@option">@option</option>
+                        }
+                      </select>
+                    </div>
                     </div>
                     <div class="row mt-4">
                         <div class="col-md-4 mb-4">
-                        <input type="date" class="form-control" placeholder="mm/dd/yyyy" name="starttime" id="dateInput" autocomplete="off">
+                        <input type="date" class="form-control" placeholder="mm/dd/yyyy" name="startdate" id="dateInput" autocomplete="off">
                     </div>
                            <div class="col-md-4">
-                        <input type="date" class="form-control" placeholder="mm/dd/yyyy" name="endtime" id="dateInput" autocomplete="off">
+                        <input type="date" class="form-control" placeholder="mm/dd/yyyy" name="enddate" id="dateInput" autocomplete="off">
                     </div>
                     </div>
                     <div class="row mt-4">
@@ -131,7 +144,32 @@
                     <div class="row">
                         <div class="col-md-2">
                             <div class="ms-2">   
-                            <div class="data-length">
+                            @* <div class="data-length">
+                                <label>
+                                    <select class="form-select" id="page-size">
+                                    
+                                        @foreach(var option in ViewBag.options)
+                                        { if(option==selected_size)
+                                        {
+                                          <option value="@option" selected>@option</option>
+                                        }
+                                        else{
+                                           <option value="@option">@option</option>
+                                        }
+                                        }
+                                    </select>
+                                </label>
+                            </div> *@
+                          <label>
+                            <input type="search" class="form-control" placeholder="Tìm sản phẩm">
+                          </label>
+                            </div>
+                        </div>
+                            <div class="col-md-10">
+                            <div class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-6 mb-md-0 mt-n6 mt-md-0 gap-md-4">
+                            <div class="data-filter">
+                            <div class="dt-buttons btn-group flex-wrap">
+                                      <div class="data-length">
                                 <label>
                                     <select class="form-select" id="page-size">
                                         @* <option value="10">10</option>
@@ -149,20 +187,15 @@
                                         }
                                     </select>
                                 </label>
-                            </div>
-                            </div>
-                        </div>
-                            <div class="col-md-10">
-                            <div class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-6 mb-md-0 mt-n6 mt-md-0 gap-md-4">
-                            <div class="data-filter">
-                            <div class="dt-buttons btn-group flex-wrap">
+                            </div> 
+                                
                                 <div class="btn-group">
                                     <button class="btn buttons-collection dropdown-toggle btn-label-secondary me-4" tabindex="0" id="exportDropdown" type="button" aria-haspopup="dialog" data-bs-toggle="dropdown" aria-expanded="false"><span><i class="bx bx-export me-2 bx-sm"></i>Xuất File</span></button> 
                                     <ul class="dropdown-menu" aria-labelledby="exportDropdown">
                                        <li><a class="dropdown-item" href="@Url.Action("ExportExelCategory","CategoryList")">Định dạng Excel</a></li>
                                     </ul>    
                                 </div>
-                                <button class="btn btn-secondary add-new btn-primary" id="add-category-btn" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"><span><i class="bx bx-plus bx-sm me-0 me-sm-2"></i><span class="d-none d-sm-inline-block">Thêm loại sản phẩm mới</span></span></button>
+                                <button class="btn btn-secondary add-new btn-primary" id="add-category-btn" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"><span><i class="bx bx-plus bx-sm me-0 me-sm-2"></i><span class="d-none d-sm-inline-block">Thêm sản phẩm mới</span></span></button>
                             </div>
                             </div>
                             </div>
@@ -176,42 +209,50 @@
                         <tr>
                             <th class="text-center">STT</th>
                             <th class="text-center">No</th>
-                            <th class="text-center">Tên loại sản phẩm</th>
+                            <th class="text-center">Tên sản phẩm</th>
+                            <th class="text-center">Loại sản phẩm</th>
+                            <th class="text-center">Nhãn hàng</th>
+                            <th class="text-center">Gía sản phẩm</th>
+                            <th class="text-center">Trạng thái</th>
                             <th class="text-center">Ngày tạo</th>
                             <th class="text-center">Ngày cập nhật</th>
-                           <th class="text-center">
+                           <th class="text-centr"></th>
                             Thao tác
                            </th>
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                       @foreach(var category in Model.item)
+                       @foreach(var product in Model.item)
                        { count_id+=1;
                          <tr>
                             <td class="text-center">@count_id</td>
-                            <td class="text-center">@category.Id</td>
+                            <td class="text-center">@product.Id</td>
                             <td class="text-center">
                              <div class="d-flex align-items-center justify-content-center">
                               <div class="avatar-wrapper">
                                 <div class="avatar avatar-sm me-2">
-                                  <img src="@category.Avatar" alt="User Avatar">
+                                  <img src="" alt="User Avatar">
                                 </div>
                               </div>
-                              <strong>@category.CategoryName</strong>
+                              <strong>@product.ProductName</strong>
                              </div>
                               </td>
-                            <td class="text-center">@category.CreatedDate</td>
-                            <td class="text-center">@category.UpdatedDate</td>
+                            <td class="text-center">@product.Category</td>
+                            <td class="text-center">@product.Brand</td>
+                            <td class="text-center">@product.Price</td>
+                            <td class="text-center">@product.Status</td>
+                            <td class="text-center">@product.CreatedDate</td>
+                            <td class="text-center">@product.UpdatedDate</td>
                             <td class="text-center">
                             <div class="d-flex justify-content-center">
-                              <a data-bs-toggle="modal" data-bs-target="#modalLong" class="btn btn-icon delete-record icon-style-delete mr-2" id="delete-record-btn" data-category="@category.Id">
+                              <a data-bs-toggle="modal" data-bs-target="#modalLong" class="btn btn-icon delete-record icon-style-delete mr-2" id="delete-record-btn" data-category="@product.Id">
                                 <i class="bx bx-trash bx-md"></i>
                               </a>
                       <div class="modal fade" id="modalLong" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h4 class="modal-title" id="modalLongTitle"><strong>Xóa Category</strong></h4>
+                              <h4 class="modal-title" id="modalLongTitle"><strong>Xóa Sản phẩm</strong></h4>
                               <button
                                 type="button"
                                 class="btn-close"
@@ -221,7 +262,7 @@
                             </div>
                             <div class="modal-body">
                              <p class="modal-font">
-                               <strong>Bạn có chắc là muốn xóa Category này?</strong>
+                               <strong>Bạn có chắc là muốn xóa sản phẩm này?</strong>
                               </p>
                             </div>
                         <div class="modal-footer">
@@ -233,16 +274,12 @@
                           </div>
                         </div>
                       </div>
-                                <a href="@Url.Action("CategoryInfo",new{categoryname=@category.CategoryName})" class="btn btn-icon icon-style-update">
+                                <a href="@Url.Action("CategoryInfo",new{})" class="btn btn-icon icon-style-update">
                                 <i class="bx bx-show bx-md"></i>
                               </a>
                               <a href="javascript:void(0)" class="btn btn-icon icon-style-reset dropdown-toggle" data-bs-toggle="dropdown">
                                 <i class="bx bx-dots-vertical-rounded bx-md"></i>
                               </a>
-                              <div class="dropdown-menu dropdown-menu-end m-0">
-                                <a class="dropdown-item" href="@Url.Action("SubCategoryList",new{category=@category.Id})">Loại sản phẩm phụ</a>
-                                <a class="dropdown-item" href="@Url.Action("BrandList",new{category=@category.Id})">Nhãn hàng</a>
-                              </div>
                             </div>
                             </td>
                          </tr>
@@ -251,7 +288,7 @@
                 </table>
                 </div>
     <div class="pagination-container mt-4">
-      <div class="page-total">Tổng số Category:@Model.totalCount</div>
+      <div class="page-total">Tổng số sản phẩm:@Model.totalCount</div>
       <div class="page-list justify-content-center">
      @if(Model.hasPreviousPage)
      {
@@ -397,7 +434,7 @@
     delete_category_value=delete_category;
   
 
-     window.location.href='@Url.Action("DeleteCategory","CategoryList")'+"?id="+delete_category_value; 
+     window.location.href='@Url.Action("DeleteProduct","ProductList")'+"?id="+delete_category_value; 
     });
 @*  
  const convertDateTime=()=> {
