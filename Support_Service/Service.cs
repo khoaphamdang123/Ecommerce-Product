@@ -1,13 +1,19 @@
 using System.Security.Cryptography;
 using System.Text;
 using System.Management;
+using Microsoft.AspNetCore.Identity;
+using Ecommerce_Product.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 namespace Ecommerce_Product.Support_Serive;
 public class Service
 {
     private readonly ILogger<Service> _logger;
-    public Service(ILogger<Service> logger)
+    private readonly SignInManager<ApplicationUser> _signInManager;
+
+    public Service(ILogger<Service> logger,SignInManager<ApplicationUser> signInManager)
     {
         this._logger=logger;
+        this._signInManager=signInManager;
     }
      public string AddSha256(string data)
  {  
@@ -72,5 +78,11 @@ public string getCurrentOs()
 
 return os_name != null ? os_name.ToString() : "Unknown";
 }
+
+public async Task logoutUser()
+{
+   await this._signInManager.SignOutAsync();
+}
+
 
 }

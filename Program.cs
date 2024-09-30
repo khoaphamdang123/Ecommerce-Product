@@ -10,6 +10,7 @@ using Ecommerce_Product.Models;
 using Ecommerce_Product.Repository;
 using Ecommerce_Product.Service;
 using Ecommerce_Product.Support_Serive;
+using Microsoft.AspNetCore.Authentication.Cookies;
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -28,6 +29,41 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddDbContext<EcommerceShopContext>(options=>options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddSession(options=>{
+  options.IdleTimeout=TimeSpan.FromSeconds(20);
+  options.Cookie.HttpOnly = true;
+  options.Cookie.IsEssential=true;  
+  
+});
+
+ builder.Services.AddMvc(options => options.EnableEndpointRouting = false);
+
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+  options.Cookie.HttpOnly = true;  
+  options.ExpireTimeSpan = TimeSpan.FromSeconds(20);  
+    options.LoginPath = "/login";  
+    options.AccessDeniedPath = "/login";  
+    options.SlidingExpiration = true;  
+     options.Events.OnRedirectToLogin = context =>
+    {  
+        if (context.Request.Path.StartsWithSegments("/admin"))
+        {   
+            context.Response.Redirect("/CustomUnauthorized/Login");
+        }
+        else
+        {
+            context.Response.Redirect(context.RedirectUri); // Use the default LoginPath behavior
+        }
+        return Task.CompletedTask;
+    };
+});
+
+
+
+builder.Services.AddAuthentication().AddCookie();
+
 
 builder.Services.AddScoped<ILoginRepository,LoginService>();
 
@@ -43,9 +79,18 @@ builder.Services.AddTransient<Service>();
 
 builder.Services.AddTransient<SmtpService>();
 
+
 builder.Services.AddHttpContextAccessor();
 
+
 builder.Services.Configure<SmtpModel>(builder.Configuration.GetSection("SmtpModel"));
+
+// builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)  
+//     .AddCookie(options =>  
+//     {  
+//         options.LoginPath = "/admin/login";  
+//     });  
+
 
 
 
@@ -65,11 +110,13 @@ builder.Logging.AddSerilog();
 // });
 
 
-var app = builder.Build();
+var app = builder.Build(); 
 
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseSession();
 
 // using (var scope = app.Services.CreateScope())
 // {  
@@ -113,7 +160,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 
- app.UseStatusCodePagesWithReExecute("/admin/Error/{0}");
+app.UseStatusCodePagesWithReExecute("/admin/Error/{0}");
 
 app.UseHttpsRedirection();
 
@@ -129,5 +176,9 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}"
     );
 
+app.MapControllerRoute(
+    name: "admin",
+    pattern: "{controller=LoginAdmin}/{action=Index}/{id?}"
+    );
 
 app.Run();

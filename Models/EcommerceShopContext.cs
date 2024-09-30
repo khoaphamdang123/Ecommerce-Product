@@ -33,7 +33,23 @@ public partial class EcommerceShopContext : DbContext
 
     public virtual DbSet<CategoryBrandDetail> CategoryBrandDetails { get; set; }
 
+    public virtual DbSet<Color> Colors { get; set; }
+
+    public virtual DbSet<Mirror> Mirrors { get; set; }
+
+    public virtual DbSet<Product> Products { get; set; }
+
+    public virtual DbSet<ProductImage> ProductImages { get; set; }
+
+    public virtual DbSet<Size> Sizes { get; set; }
+
+    public virtual DbSet<StaticFile> StaticFiles { get; set; }
+
     public virtual DbSet<SubCategory> SubCategories { get; set; }
+
+    public virtual DbSet<Variant> Variants { get; set; }
+
+    public virtual DbSet<Version> Versions { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -161,6 +177,84 @@ public partial class EcommerceShopContext : DbContext
                 .HasConstraintName("category_fk");
         });
 
+        modelBuilder.Entity<Color>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("color_pk");
+
+            entity.ToTable("color");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Colorname)
+                .HasColumnType("character varying")
+                .HasColumnName("colorname");
+        });
+
+        modelBuilder.Entity<Mirror>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("mirror_pk");
+
+            entity.ToTable("Mirror");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Mirrorname)
+                .HasColumnType("character varying")
+                .HasColumnName("mirrorname");
+        });
+
+        modelBuilder.Entity<Product>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("product_pk");
+
+            entity.ToTable("Product");
+
+            entity.Property(e => e.Id).HasDefaultValueSql("nextval('\"Product_id_seq\"'::regclass)");
+            entity.Property(e => e.CreatedDate).HasColumnType("character varying");
+            entity.Property(e => e.Description).HasColumnType("character varying");
+            entity.Property(e => e.DiscountDescription).HasColumnType("character varying");
+            entity.Property(e => e.InboxDescription).HasColumnType("character varying");
+            entity.Property(e => e.Price).HasColumnType("character varying");
+            entity.Property(e => e.ProductName).HasColumnType("character varying");
+            entity.Property(e => e.Status).HasColumnType("character varying");
+            entity.Property(e => e.UpdatedDate).HasColumnType("character varying");
+        });
+
+        modelBuilder.Entity<ProductImage>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("productimage_pk");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Avatar)
+                .HasColumnType("character varying")
+                .HasColumnName("avatar");
+        });
+
+        modelBuilder.Entity<Size>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("size_pk");
+
+            entity.ToTable("size");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Sizename)
+                .HasColumnType("character varying")
+                .HasColumnName("sizename");
+        });
+
+        modelBuilder.Entity<StaticFile>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("staticfile_pk");
+
+            entity.ToTable("StaticFile");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Content)
+                .HasColumnType("character varying")
+                .HasColumnName("content");
+            entity.Property(e => e.Filename)
+                .HasColumnType("character varying")
+                .HasColumnName("filename");
+        });
+
         modelBuilder.Entity<SubCategory>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("subcategory_pk");
@@ -180,6 +274,64 @@ public partial class EcommerceShopContext : DbContext
                 .HasForeignKey(d => d.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("sub_cat_fk");
+        });
+
+        modelBuilder.Entity<Variant>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("variant_pk");
+
+            entity.ToTable("variant");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Avatarid).HasColumnName("avatarid");
+            entity.Property(e => e.Colorid).HasColumnName("colorid");
+            entity.Property(e => e.Mirrorid).HasColumnName("mirrorid");
+            entity.Property(e => e.Productid).HasColumnName("productid");
+            entity.Property(e => e.Sizeid).HasColumnName("sizeid");
+            entity.Property(e => e.Versionid).HasColumnName("versionid");
+            entity.Property(e => e.Weight).HasColumnName("weight");
+
+            entity.HasOne(d => d.Avatar).WithMany(p => p.Variants)
+                .HasForeignKey(d => d.Avatarid)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("avatar_fk");
+
+            entity.HasOne(d => d.Color).WithMany(p => p.Variants)
+                .HasForeignKey(d => d.Colorid)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("color_fk");
+
+            entity.HasOne(d => d.Mirror).WithMany(p => p.Variants)
+                .HasForeignKey(d => d.Mirrorid)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("mirror_fk");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.Variants)
+                .HasForeignKey(d => d.Productid)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("product_fk");
+
+            entity.HasOne(d => d.Size).WithMany(p => p.Variants)
+                .HasForeignKey(d => d.Sizeid)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("size_fk");
+
+            entity.HasOne(d => d.Version).WithMany(p => p.Variants)
+                .HasForeignKey(d => d.Versionid)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("version_fk");
+        });
+
+        modelBuilder.Entity<Version>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("version_pk");
+
+            entity.ToTable("Version");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Versionname)
+                .HasColumnType("character varying")
+                .HasColumnName("versionname");
         });
         modelBuilder.HasSequence("user_number_seq");
 

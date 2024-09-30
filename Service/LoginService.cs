@@ -79,6 +79,14 @@ public class LoginService:ILoginRepository
       }
       return exist;
     } 
+  
+
+  
+    public async Task<ApplicationUser> getUserByUsername(string username)
+    {
+    var user=await this._userManager.FindByNameAsync(username);
+    return user; 
+    }
 
     public async Task<bool> addUser(ApplicationUser user)
     {   bool is_created=false;

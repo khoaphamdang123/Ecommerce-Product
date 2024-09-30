@@ -108,7 +108,6 @@
 
 
           <div class="content-wrapper">
-
             <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span>Danh sách Admin</h4>
                 <div class="card">
@@ -256,7 +255,7 @@
                             </div>
                             <div class="modal-body">
                              <p class="modal-font">
-                               <strong>Bạn có chắc là muốn xóa User này?</strong>
+                               <strong>Bạn có chắc là muốn xóa Admin này?</strong>
                               </p>
                             </div>
                         <div class="modal-footer">
@@ -268,7 +267,7 @@
                           </div>
                         </div>
                       </div>
-                                <a href="@Url.Action("UserInfo",new {email=user.Email})" class="btn btn-icon icon-style-update">
+                                <a href="@Url.Action("AdminInfo",new {email=user.Email})" class="btn btn-icon icon-style-update">
                                 <i class="bx bx-show bx-md"></i>
                               </a>
                               <a href="@Url.Action("ResetPasswordUser",new{email=user.Email})" class="btn btn-icon icon-style-reset">
@@ -419,7 +418,7 @@
      }
      });
      document.getElementById("add-user-btn").addEventListener('click',()=>{
-      window.location.href='@Url.Action("AddUserList","UserList")';
+      window.location.href='@Url.Action("AddAdminList","AdminList")';
      });
     
     document.getElementById("remove-btn").addEventListener('click',()=>{
@@ -428,7 +427,7 @@
     
     delete_email_value=convert_email;
 
-     window.location.href='@Url.Action("UserInfoDelete","UserList")'+"?email="+delete_email_value; 
+     window.location.href='@Url.Action("AdminInfoDelete","AdminList")'+"?email="+delete_email_value; 
     });
 @*  
  const convertDateTime=()=> {

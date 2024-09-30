@@ -7,12 +7,15 @@ using Ecommerce_Product.Service;
 using Ecommerce_Product.Repository;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ecommerce_Product.Controllers
-{
+{ 
+    [Route("admin")]
     public class LoginAdminController : Controller
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
+        
         private readonly UserManager<ApplicationUser> _userManager;
 
         private readonly ILoginRepository _loginRepos;
@@ -30,19 +33,36 @@ namespace Ecommerce_Product.Controllers
         }
 
         // GET: /Account/Login
-        [Route("admin")]
+        [Route("login")]
         [HttpGet]
-        public IActionResult Index()
+        [AllowAnonymous]
+
+        public async Task<IActionResult> Index()
+        {   
+            if(User.Identity.IsAuthenticated)
         {
+            return RedirectToAction("UserList","UserList");
+        }
             return View();
         }
-        [Route("admin/change_password")]
+        [Route("change_password")]
         [HttpGet]
         public IActionResult ChangePassword()
         {
             return View();
         }
-       [Route("admin/forgot_password")]
+        
+        [Route("{username}/change_password")]
+        
+        [HttpGet]
+        public IActionResult ChangePassword(string username,string email,string password)
+        {
+            ViewBag.Email=email;
+            ViewBag.Password= password;
+            return View();
+        }
+
+       [Route("forgot_password")]
         [HttpGet]
         public IActionResult ForgotPassword()
         {
@@ -50,9 +70,10 @@ namespace Ecommerce_Product.Controllers
         }
         
      
-        [Route("admin")]
+        [Route("login")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
+       [AllowAnonymous]
+
         public async Task<IActionResult> Index(LoginModel model)
         {  
         try{
@@ -60,13 +81,16 @@ namespace Ecommerce_Product.Controllers
    {  
     _logger.LogInformation("Running in Login Action"); 
       
-      string email=model.UserName;
+      string username=model.UserName;
       
       string password = model.Password;
       
       bool is_remember_me= model.RememberMe;
       
-      var admin_user=await this._loginRepos.getUser(email);
+      var admin_user=await this._loginRepos.getUserByUsername(username);
+
+      string email=admin_user.Email;
+
     // if(normalUser==null)
     // {   Console.WriteLine("normal user here");
         //var newNormalUser = new ApplicationUser{UserName = normalEmail,Email=normalEmail,Address1="here",Address2="there",Gender="Male"};
@@ -88,15 +112,27 @@ namespace Ecommerce_Product.Controllers
             { 
                 bool check_is_admin=await this._loginRepos.checkUserRole(email,"Admin");
                 Console.WriteLine("check is admin:"+check_is_admin);
+                Console.WriteLine("password here is:"+password);
             if(check_is_admin)
             {  
-                var result = await _signInManager.PasswordSignInAsync(email,password,false, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(username,password,false,lockoutOnFailure: false);
+
                 if(!result.Succeeded)
-                {   
+                {   Console.WriteLine("result here is:"+result.ToString());
                     TempData["LoginFailed"]="True";
                     TempData["ErrorContent"]="Mật khẩu không chính xác";
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                 }
+            else
+            {
+              HttpContext.Session.SetString("UserId",admin_user.Id);
+              HttpContext.Session.SetString("Username",admin_user.UserName);
+              HttpContext.Session.SetString("Email",admin_user.Email);
+              HttpContext.Session.SetString("Password",password);
+              HttpContext.Session.SetString("UserSession", "Active");
+
+              return RedirectToAction("UserList","UserList");
+            }
             }
         else
         {          Console.WriteLine("Not admin");
@@ -107,7 +143,7 @@ namespace Ecommerce_Product.Controllers
             }
             else{
                   TempData["LoginFailed"]="True";
-                    TempData["ErrorContent"]="Email không chính xác";
+                    TempData["ErrorContent"]="Username không chính xác";
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             }
         }
@@ -121,7 +157,7 @@ namespace Ecommerce_Product.Controllers
             return View(model);
         }
 
-        [Route("admin/change_password")]
+        [Route("change_password")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(ChangePassword model)
@@ -161,7 +197,7 @@ namespace Ecommerce_Product.Controllers
          }
          return View(model);
         }
-        [Route("admin/forgot_password")]
+        [Route("forgot_password")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ForgotPassword(ForgotPassword model)
@@ -194,12 +230,13 @@ namespace Ecommerce_Product.Controllers
         return View(model);
         }
         // POST: /Account/Logout
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [Route("logout")]
+        [HttpGet]  
         public async Task<IActionResult> Logout()
         {   
             await _signInManager.SignOutAsync();
-            return Ok();
+            this.HttpContext.Session.Clear();
+            return RedirectToAction("Index");
         }
          
      

@@ -99,18 +99,10 @@
   data-assets-path="../assets/"
   data-template="vertical-menu-template-free"
 >
-    <!-- Layout wrapper -->
-  
 
-          <!-- / Navbar -->
-
-          <!-- Content wrapper -->
           <div class="content-wrapper">
-            <!-- Content -->
-
             <div class="container-xxl flex-grow-1 container-p-y">
-              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Brand /</span>Thêm Brand</h4>
-
+              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Brand/</span>Thêm Brand</h4>
               <div class="row">
                 <div class="col-md-12">
                   <ul class="nav nav-pills flex-column flex-md-row mb-3">
@@ -144,7 +136,8 @@
                          {
                         <option value="@category_id">@cat_options</option> 
                            }
-                          else{
+                          else
+                          {
                             @foreach(var option in cat_options)
                             {
                            <option value="@option.Id">@option.CategoryName</option> 
@@ -158,14 +151,10 @@
                         </div>
                       </form>
                     </div>
-                    <!-- /Account -->
                   </div>
                 </div>
               </div>
             </div>
-            <!-- / Content -->
-
-            <!-- Footer -->
             <footer class="content-footer footer bg-footer-theme">
               <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
                 <div class="mb-2 mb-md-0">
@@ -190,8 +179,7 @@
                     href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
                     target="_blank"
                     class="footer-link me-4"
-                    >Support</a
-                  >
+                    >Support</a>
                 </div>
               </div>
             </footer>

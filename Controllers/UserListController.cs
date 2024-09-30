@@ -17,28 +17,38 @@ public class UserListController : Controller
 
     private readonly IConfiguration _configure;
 
-    public UserListController(ILogger<UserListController> logger,IUserListRepository userList,IConfiguration configure)
+    private readonly Support_Serive.Service _sp_service;
+
+    public UserListController(ILogger<UserListController> logger,IUserListRepository userList,IConfiguration configure,Support_Serive.Service sp_service)
     {
         _logger = logger;
         this._userList=userList;
         this._configure=configure;
+        this._sp_service=sp_service;
     }
-
+   [Authorize(Roles ="Admin")]
    [HttpGet("user_list")]
     public async Task<IActionResult> UserList()
     {  Console.WriteLine("gere");
           try
-        {         
+        {             
          var users=await this._userList.pagingUser(10,1);
+         
          string url=this._configure["Connect_Dns"];
+         
          ViewBag.URL=url;
+         
          string select_size="10";
-          ViewBag.select_size=select_size;
+         
+         ViewBag.select_size=select_size;
+
           List<string> options=new List<string>(){"10","25","50","100"};
           
-            ViewBag.options=options;
-            FilterUser filter_obj=new FilterUser("","","","","");
-            ViewBag.filter_user=filter_obj;
+          ViewBag.options=options;
+          
+          FilterUser filter_obj=new FilterUser("","","","","");
+          
+          ViewBag.filter_user=filter_obj;
 
           return View(users);
         }
@@ -50,7 +60,7 @@ public class UserListController : Controller
     }
 
   
-
+[Authorize(Roles ="Admin")]
  [Route("user_list/page")]
    [HttpGet]
     public async Task<IActionResult> UserListPaging([FromQuery]int page_size,[FromQuery] int page=1,string username="",string email="",string phonenumber="",string datetime="",string endtime="")
@@ -67,7 +77,6 @@ public class UserListController : Controller
           users=PageList<ApplicationUser>.CreateItem(filtered_user_list.AsQueryable(),page,page_size);
           ViewBag.filter_user=filter_obj;
           }
-         
           List<string> options=new List<string>(){"10","25","50","100"};
           ViewBag.options=options;
           string select_size=page_size.ToString();
@@ -84,7 +93,7 @@ public class UserListController : Controller
     
 
 
-
+    [Authorize(Roles ="Admin")]
     [Route("user_list")]
     [HttpPost]
     public async Task<IActionResult> UserList(string username,string email,string phonenumber,string datetime,string endtime)
@@ -130,19 +139,24 @@ if(!string.IsNullOrEmpty(endtime))
      }
      return View();
     }
+
+      [Authorize(Roles ="Admin")]
     [Route("user_list/add")]
    [HttpGet]
   public IActionResult AddUserList()
   {
     return View();        
   }
+
+
+    [Authorize(Roles ="Admin")]
    [Route("user_list/add")]
+  [Authorize(Roles ="Admin")]
    [HttpPost]
    public async Task<IActionResult> AddUserList(Register user)
    {
   try
-    { 
-  
+ {
   string username=user.UserName;
   string email=user.Email;
   string password= user.Password;
@@ -196,6 +210,8 @@ if(!string.IsNullOrEmpty(endtime))
   // }
   // return View("~/Views/UserList/UserList.cshtml");
   //  }
+
+    [Authorize(Roles ="Admin")]
   [Route("user_list/user_info")]
   [HttpGet]
   public async Task<IActionResult> UserInfo(string email)
@@ -220,6 +236,8 @@ if(!string.IsNullOrEmpty(endtime))
   return RedirectToAction("UserList","UserList");
   }
 
+
+[Authorize(Roles ="Admin")]
 [Route("user_list/user_info")]
 [HttpPost]
 public async Task<IActionResult> UserInfo(UserInfo user)
@@ -249,7 +267,7 @@ public async Task<IActionResult> UserInfo(UserInfo user)
   }
   return RedirectToAction("UserList","UserList");
 } 
- 
+[Authorize(Roles ="Admin")]
 [Route("user_list/user_info/delete")]
 [HttpGet] 
 public async Task<IActionResult> UserInfoDelete(string email)
@@ -276,7 +294,7 @@ public async Task<IActionResult> UserInfoDelete(string email)
   }
   return RedirectToAction("UserList","UserList");
 }
-
+[Authorize(Roles ="Admin")]
 [Route("user_list/user_info/change_password")]
 [HttpGet]
 public async Task<IActionResult> ResetPasswordUser(string email)
@@ -302,7 +320,7 @@ public async Task<IActionResult> ResetPasswordUser(string email)
   }
   return RedirectToAction("UserList","UserList");
 }
-
+[Authorize(Roles ="Admin")]
 [Route("user_list/export_excel")]
 [HttpGet]
 public async Task<IActionResult> ExportExel()
@@ -319,7 +337,7 @@ public async Task<IActionResult> ExportExel()
   }
   return RedirectToAction("UserList","UserList");
 }
-
+[Authorize(Roles ="Admin")]
 [Route("user_list/export_pdf")]
 [HttpGet]
 public async Task<IActionResult> ExportPdf()
@@ -337,7 +355,7 @@ public async Task<IActionResult> ExportPdf()
   }
   return RedirectToAction("UserList","UserList");
 }
-
+[Authorize(Roles ="Admin")]
 [Route("user_list/export_csv")]
 [HttpGet]
 

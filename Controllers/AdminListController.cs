@@ -19,7 +19,7 @@ public class AdminListController : Controller
         _logger = logger;
         this._userList=userList;
     }
-
+  [Authorize(Roles ="Admin")]
    [HttpGet("admin_list")]
     public async Task<IActionResult> AdminList()
     { 
@@ -27,8 +27,10 @@ public class AdminListController : Controller
         {         
           var users=await this._userList.pagingUser(10,1);
 
-         string select_size="10";
+          string select_size="10";
+
           ViewBag.select_size=select_size;
+          
           List<string> options=new List<string>(){"10","25","50","100"};
           
             ViewBag.options=options;
@@ -42,7 +44,7 @@ public class AdminListController : Controller
         }
         return View();
     }
-
+  [Authorize(Roles ="Admin")]
  [Route("admin_list/page")]
    [HttpGet]
     public async Task<IActionResult> UserListPaging([FromQuery]int page_size,[FromQuery] int page=1,string username="",string email="",string phonenumber="",string datetime="",string endtime="")
@@ -76,7 +78,7 @@ public class AdminListController : Controller
     
 
 
-
+  [Authorize(Roles ="Admin")]
     [Route("admin_list")]
     [HttpPost]
     public async Task<IActionResult> AdminList(string username,string email,string phonenumber,string datetime,string endtime)
@@ -112,6 +114,7 @@ public class AdminListController : Controller
      }
      return View();
     }
+    [Authorize(Roles ="Admin")]
    [Route("admin_list/add")]
    [HttpGet]
   public IActionResult AddAdminList()
@@ -171,6 +174,7 @@ public class AdminListController : Controller
   // }
   // return View("~/Views/UserList/UserList.cshtml");
   //  }
+  [Authorize(Roles ="Admin")]
   [Route("admin_list/admin_info")]
   [HttpGet]
   public async Task<IActionResult> AdminInfo(string email)
@@ -194,7 +198,7 @@ public class AdminListController : Controller
    }
         return RedirectToAction("AdminList","AdminList");
   }
-
+  [Authorize(Roles ="Admin")]
 [Route("admin_list/admin_info")]
 [HttpPost]
 public async Task<IActionResult> AdminInfo(UserInfo user)
@@ -224,7 +228,7 @@ public async Task<IActionResult> AdminInfo(UserInfo user)
   }
   return RedirectToAction("AdminList","AdminList");
 } 
- 
+  [Authorize(Roles ="Admin")]
 [Route("admin_list/admin_info/delete")]
 [HttpDelete] 
 public async Task<IActionResult> UserInfoDelete(string email)
@@ -251,8 +255,9 @@ public async Task<IActionResult> UserInfoDelete(string email)
   return RedirectToAction("AdminList","AdminList");
 }
 
+  [Authorize(Roles ="Admin")]
 [Route("admin_list/admin_info/change_password")]
-[HttpPost]
+[HttpGet]
 public async Task<IActionResult> ResetPasswordUser(string email)
 {
   try
@@ -277,7 +282,7 @@ public async Task<IActionResult> ResetPasswordUser(string email)
   }
    return RedirectToAction("AdminList","AdminList");
 }
-
+  [Authorize(Roles ="Admin")]
 [Route("admin_list/export_excel")]
 [HttpGet]
 public async Task<IActionResult> ExportExel()
@@ -294,7 +299,7 @@ public async Task<IActionResult> ExportExel()
   }
   return RedirectToAction("AdminList","AdminList");
 }
-
+  [Authorize(Roles ="Admin")]
 [Route("admin_list/export_pdf")]
 
 [HttpGet]
@@ -313,7 +318,7 @@ public async Task<IActionResult> ExportPdf()
   }
   return RedirectToAction("AdminList","AdminList");
 }
-
+  [Authorize(Roles ="Admin")]
 [Route("admin_list/export_csv")]
 [HttpGet]
 
@@ -331,13 +336,5 @@ public async Task<IActionResult> ExportCsv()
   }
   return RedirectToAction("AdminList","AdminList");
 
-}
-
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
-  
+}  
 }

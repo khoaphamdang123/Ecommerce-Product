@@ -240,7 +240,7 @@ public async Task<int> changeUserPassword(string email)
     }
     var user=await this.findUserByEmail(email);    
     if(user!=null)
-    {
+    {   
         string token = await this._userManager.GeneratePasswordResetTokenAsync(user);
         string new_password = "Ecommerce123@";
         var reset_password=await this._userManager.ResetPasswordAsync(user,token,new_password);

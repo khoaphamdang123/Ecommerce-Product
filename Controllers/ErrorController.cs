@@ -7,7 +7,7 @@ public class ErrorController:Controller
 {
 [Route("Error/404")]
 public IActionResult NotFound()
-{  Console.WriteLine("did stay here");
+{  
     return View();
 }
 
