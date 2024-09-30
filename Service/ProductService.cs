@@ -126,6 +126,53 @@ public async Task<int> deleteProduct(int id)
  return res_del;
 }
 
+  public async Task<MemoryStream> exportToExcelProduct()
+  {
+    using(ExcelPackage excel = new ExcelPackage())
+  {
+    var worksheet=excel.Workbook.Worksheets.Add("Products");
+    worksheet.Cells[1,1].Value="STT";
+    worksheet.Cells[1,2].Value="Tên sản phẩm";
+    worksheet.Cells[1,3].Value = "Loại sản phẩm";
+    worksheet.Cells[1,4].Value="Nhãn hàng";
+     worksheet.Cells[1,5].Value="Gía";
+    worksheet.Cells[1,6].Value="Trạng thái";
+    worksheet.Cells[1,7].Value="Ngày tạo";
+    worksheet.Cells[1,8].Value="Ngày cập nhật";
+
+
+    var products=await this.getAllProduct();
+    if(products!=null)
+    {
+    List<Product> list_product=products.ToList();
+    for(int i=0;i<list_product.Count;i++)
+    {
+    worksheet.Cells[i+2,1].Value=(i+1).ToString();
+    
+    worksheet.Cells[i+2,2].Value=list_product[i].ProductName;
+    
+    worksheet.Cells[i+2,3].Value=list_product[i].Category;
+    
+    worksheet.Cells[i+2,4].Value=list_product[i].Brand;
+    
+    worksheet.Cells[i+2,5].Value=list_product[i].Price;
+    
+    worksheet.Cells[i+2,6].Value=list_product[i].Status;
+    
+    worksheet.Cells[i+2,7].Value=list_product[i].CreatedDate;
+    
+    worksheet.Cells[i+2,8].Value=list_product[i].UpdatedDate;
+
+    }    
+   }
+  var stream = new MemoryStream();
+  excel.SaveAs(stream);
+  stream.Position=0;
+  return stream;
+  }
+  }
+
+
 public async Task saveChanges()
 {
     await this._context.SaveChangesAsync();

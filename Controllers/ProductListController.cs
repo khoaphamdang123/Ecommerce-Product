@@ -6,6 +6,7 @@ using Ecommerce_Product.Repository;
 using System.IO;
 using System.Text;
 using iText.Commons.Utils;
+using Org.BouncyCastle.Math.EC.Rfc8032;
 
 namespace Ecommerce_Product.Controllers;
 [Route("admin")]
@@ -63,14 +64,21 @@ public class ProductListController : Controller
 //[Authorize(Roles ="Admin")]
   [Route("product_list/paging")]
    [HttpGet]
-  public async Task<IActionResult> BrandList([FromQuery]int page_size,[FromQuery] int page=1)
+  public async Task<IActionResult> ProductList([FromQuery]int page_size,[FromQuery] int page=1,string productname="",string brand="",string category="",string start_date="",string end_date="",string status="")
   {
     try{
          var prods=await this._product.pagingProduct(page_size,page);
-        
+         if(!string.IsNullOrEmpty(productname)||!string.IsNullOrEmpty(brand) || !string.IsNullOrEmpty(start_date) || !string.IsNullOrEmpty(end_date) || !string.IsNullOrEmpty(category) || !string.IsNullOrEmpty(status))
+         {
+            FilterProduct prod=new FilterProduct(productname,start_date,end_date,category,brand,status);
+            var filter_prods=await this._product.filterProduct(prod);
+            var filter_prods_paging=PageList<Product>.CreateItem(filter_prods.AsQueryable(),page,page_size);
+            ViewBag.filter_obj=filter_prods_paging;
+         }
           List<string> options=new List<string>(){"7","10","20","50"};
           
           ViewBag.options=options;
+        
           
           string select_size=page_size.ToString();
           
@@ -149,6 +157,21 @@ public class ProductListController : Controller
     {
        this._logger.LogTrace("Remove Product Exception:"+er.Message); 
      
+    }
+    return RedirectToAction("ProductList","ProductList");
+  }
+ [Route("product_list/export")]
+ [HttpGet]
+  public async Task<IActionResult> ExportToExcel()
+  {
+    try
+    {
+     var content= await this._category.exportToExcelCategory();
+  return File(content,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","Products.xlsx");
+    }
+    catch(Exception er)
+    {
+    this._logger.LogTrace("Export Product Excel Exception:"+er.Message); 
     }
     return RedirectToAction("ProductList","ProductList");
   }

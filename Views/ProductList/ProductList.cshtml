@@ -2,7 +2,7 @@
 @{
   int count_id= 0;
   var selected_size=ViewBag.select_size;
-  var filtered_user=ViewBag.filter_obj;
+  var filtered_product=ViewBag.filter_obj;
   int status_delete=-1;
   int change_pass_status=-1;
   var cat_list=ViewBag.CatList as IEnumerable<Category>;
@@ -17,11 +17,11 @@
  
   string delete_email_value="";
   
-  if((filtered_user)==null)
+  if((filtered_product)==null)
   {
-    filtered_user=new FilterCategory("","","");
+    filtered_product=new FilterProduct("","","","","","");
   }
-  Console.WriteLine("filtered_user:"+filtered_user);
+  Console.WriteLine("filtered_product"+filtered_product);
 }
 
 @if(status_delete==1)
@@ -292,7 +292,7 @@
       <div class="page-list justify-content-center">
      @if(Model.hasPreviousPage)
      {
-         <a class="page-item" title="Previous" href="@Url.Action("CategoryListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage-1,categoryname=(string.IsNullOrEmpty(filtered_user.Category)?"":filtered_user.Category),startdate=(string.IsNullOrEmpty(filtered_user.StartDate)?"":filtered_user.StartDate),enddate=(string.IsNullOrEmpty(filtered_user.EndDate)?"":filtered_user.EndDate)})"><i class="bx bx-chevron-left"></i></a>
+         <a class="page-item" title="Previous" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage-1,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status?"":filtered_product.Status))})"><i class="bx bx-chevron-left"></i></a>
      }
      else
      {
@@ -309,7 +309,7 @@
         }
        else
        {
-         <a class="page-item" title="@i" href="@Url.Action("CategoryListPaging",new{page_size=int.Parse(selected_size),page=i,categoryname=(string.IsNullOrEmpty(filtered_user.Category)?"":filtered_user.Category),startdate=(string.IsNullOrEmpty(filtered_user.StartDate)?"":filtered_user.StartDate),enddate=(string.IsNullOrEmpty(filtered_user.EndDate)?"":filtered_user.EndDate)})">@i</a>
+         <a class="page-item" title="@i" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=i,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status?"":filtered_product.Status))})">@i</a>
        }
       }
     }
@@ -326,7 +326,7 @@
            <span class="page-item activate" disable>@i</span> 
         }
        else{
-         <a class="page-item" title="@i" href="@Url.Action("CategoryListPaging",new{page_size=int.Parse(selected_size),page=i,categoryname=(string.IsNullOrEmpty(filtered_user.Category)?"":filtered_user.Category),startdate=(string.IsNullOrEmpty(filtered_user.StartDate)?"":filtered_user.StartDate),enddate=(string.IsNullOrEmpty(filtered_user.EndDate)?"":filtered_user.EndDate)})">@i</a>
+         <a class="page-item" title="@i" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=i,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status?"":filtered_product.Status))})">@i</a>
        }
         }
         else{
@@ -335,7 +335,7 @@
             <span class="page-item" disabled>...</span>
           }
         else{
-         <a class="page-item" title="@i" href="@Url.Action("CategoryListPaging",new{page_size=int.Parse(selected_size),page=Model.totalPage,categoryname=(string.IsNullOrEmpty(filtered_user.Category)?"":filtered_user.Category),startdate=(string.IsNullOrEmpty(filtered_user.StartDate)?"":filtered_user.StartDate),enddate=(string.IsNullOrEmpty(filtered_user.EndDate)?"":filtered_user.EndDate)})">@Model.totalPage</a>
+         <a class="page-item" title="@i" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=i,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status?"":filtered_product.Status))})">@i</a>
         }
         }
       }
@@ -344,19 +344,19 @@
     {
     if((Model.currentPage>=5 && (Model.currentPage<(Model.totalPage-3))))
     {
-         <a class="page-item" title="1" href="@Url.Action("CategoryListPaging",new{page_size=int.Parse(selected_size),page=1,categoryname=(string.IsNullOrEmpty(filtered_user.Category)?"":filtered_user.Category),startdate=(string.IsNullOrEmpty(filtered_user.StartDate)?"":filtered_user.StartDate),enddate=(string.IsNullOrEmpty(filtered_user.EndDate)?"":filtered_user.EndDate)})">1</a>
+         <a class="page-item" title="1" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=1,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status?"":filtered_product.Status))})">1</a>
     <span class="page-item" disabled>...</span>
-         <a class="page-item" title="@(Model.currentPage-1)" href="@Url.Action("CategoryListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage-1,categoryname=(string.IsNullOrEmpty(filtered_user.Category)?"":filtered_user.Category),startdate=(string.IsNullOrEmpty(filtered_user.StartDate)?"":filtered_user.StartDate),enddate=(string.IsNullOrEmpty(filtered_user.EndDate)?"":filtered_user.EndDate)})">@(Model.currentPage-1)</a>
+         <a class="page-item" title="@(Model.currentPage-1)" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage-1,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status?"":filtered_product.Status))})">@(Model.currentPage-1)</a>
     <span class="page-item activate" disabled>@(Model.currentPage)</span>
-         <a class="page-item" title="@(Model.currentPage+1)" href="@Url.Action("CategoryListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage+1,categoryname=(string.IsNullOrEmpty(filtered_user.Category)?"":filtered_user.Category),startdate=(string.IsNullOrEmpty(filtered_user.StartDate)?"":filtered_user.StartDate),enddate=(string.IsNullOrEmpty(filtered_user.EndDate)?"":filtered_user.EndDate)})">@(Model.currentPage+1)</a>
+         <a class="page-item" title="@(Model.currentPage+1)" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage+1,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status?"":filtered_product.Status))})">@(Model.currentPage+1)</a>
 
     <span class="page-item" disabled>...</span>
-         <a class="page-item" title="@(Model.totalPage)" href="@Url.Action("CategoryListPaging",new{page_size=int.Parse(selected_size),page=(Model.totalPage),categoryname=(string.IsNullOrEmpty(filtered_user.Category)?"":filtered_user.Category),startdate=(string.IsNullOrEmpty(filtered_user.StartDate)?"":filtered_user.StartDate),enddate=(string.IsNullOrEmpty(filtered_user.EndDate)?"":filtered_user.EndDate)})">@(Model.totalPage)</a>
+         <a class="page-item" title="@(Model.totalPage)" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=Model.totalPage,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status?"":filtered_product.Status))})">@(Model.totalPage)</a>
     }
     else{
-         <a class="page-item" title="1" href="@Url.Action("CategoryListPaging",new{page_size=int.Parse(selected_size),page=1,categoryname=(string.IsNullOrEmpty(filtered_user.Category)?"":filtered_user.Category),startdate=(string.IsNullOrEmpty(filtered_user.StartDate)?"":filtered_user.StartDate),enddate=(string.IsNullOrEmpty(filtered_user.EndDate)?"":filtered_user.EndDate)})">1</a>
+         <a class="page-item" title="1" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=1,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status?"":filtered_product.Status))})">1</a>
     <span class="page-item" disabled>...</span>
-         <a class="page-item" title="@(Model.currentPage-4)" href="@Url.Action("CategoryListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage-4,categoryname=(string.IsNullOrEmpty(filtered_user.Category)?"":filtered_user.Category),startdate=(string.IsNullOrEmpty(filtered_user.StartDate)?"":filtered_user.StartDate),enddate=(string.IsNullOrEmpty(filtered_user.EndDate)?"":filtered_user.EndDate)})">@(Model.currentPage-4)</a>
+         <a class="page-item" title="@(Model.currentPage-4)" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage-4,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status?"":filtered_product.Status))})">@(Model.currentPage-4)</a>
      for(int i=(Model.totalPage-3);i<=Model.totalPage;i++)
      {
       if(i==Model.currentPage)
@@ -364,7 +364,7 @@
           <span class="page-item activate" disabled>@(Model.currentPage)</span>
       }
     else{
-         <a class="page-item" title="@i" href="@Url.Action("CategoryListPaging",new{page_size=int.Parse(selected_size),page=i,categoryname=(string.IsNullOrEmpty(filtered_user.Category)?"":filtered_user.Category),startdate=(string.IsNullOrEmpty(filtered_user.StartDate)?"":filtered_user.StartDate),enddate=(string.IsNullOrEmpty(filtered_user.EndDate)?"":filtered_user.EndDate)})">@i</a>
+         <a class="page-item" title="@(i)" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=i,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status?"":filtered_product.Status))})">@i</a>
     }
      }
     }
@@ -385,7 +385,7 @@
        
       @if(Model.hasNextPage)
       {
-       <a class="page-item" title="Next" href="@Url.Action("UserListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage+1})">></a>
+         <a class="page-item" title="Next" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage+1,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status?"":filtered_product.Status))})"><i class="bx bx-chevron-right"></i></a>
        }
       else 
       {

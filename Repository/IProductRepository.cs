@@ -19,6 +19,8 @@ public interface IProductRepository
 
   public Task<int> deleteProduct(int id);
 
+  public Task<MemoryStream> exportToExcelProduct();
+
   public Task saveChanges();
 
 
