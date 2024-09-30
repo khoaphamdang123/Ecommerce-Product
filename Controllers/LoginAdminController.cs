@@ -86,6 +86,8 @@ namespace Ecommerce_Product.Controllers
       string password = model.Password;
       
       bool is_remember_me= model.RememberMe;
+
+      Console.WriteLine("is remember me:"+is_remember_me);
       
       var admin_user=await this._loginRepos.getUserByUsername(username);
 
@@ -115,7 +117,7 @@ namespace Ecommerce_Product.Controllers
                 Console.WriteLine("password here is:"+password);
             if(check_is_admin)
             {  
-                var result = await _signInManager.PasswordSignInAsync(username,password,false,lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(username,password,is_remember_me,lockoutOnFailure: false);
 
                 if(!result.Succeeded)
                 {   Console.WriteLine("result here is:"+result.ToString());
