@@ -19,10 +19,6 @@ public partial class Variant
 
     public decimal? Weight { get; set; }
 
-    public int? Avatarid { get; set; }
-
-    public virtual ProductImage? Avatar { get; set; }
-
     public virtual Color? Color { get; set; }
 
     public virtual Mirror? Mirror { get; set; }

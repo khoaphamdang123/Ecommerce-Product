@@ -9,5 +9,7 @@ public partial class ProductImage
 
     public string Avatar { get; set; } = null!;
 
-    public virtual ICollection<Variant> Variants { get; set; } = new List<Variant>();
+    public int? Productid { get; set; }
+
+    public virtual Product IdNavigation { get; set; } = null!;
 }

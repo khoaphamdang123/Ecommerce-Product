@@ -19,8 +19,8 @@ public async Task<IEnumerable<Category>> getAllCategory()
 {    
     try
     {
-     var categories=this._context.Categories.ToList();
-     return categories;
+     var categories=this._context.Categories.Include(c=>c.SubCategories).ToList();
+     return categories;     
     }
     catch(Exception er)
     {

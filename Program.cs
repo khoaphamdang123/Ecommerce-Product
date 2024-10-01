@@ -41,7 +41,7 @@ builder.Services.AddSession(options=>{
 builder.Services.ConfigureApplicationCookie(options =>
 {
   options.Cookie.HttpOnly = true;  
-  options.ExpireTimeSpan = TimeSpan.FromSeconds(20);  
+  options.ExpireTimeSpan = TimeSpan.FromHours(1);  
     options.LoginPath = "/login";  
     options.AccessDeniedPath = "/login";  
     options.SlidingExpiration = true;  
@@ -74,6 +74,8 @@ builder.Services.AddScoped<IAdminRepository,AdminListService>();
 builder.Services.AddScoped<ICategoryListRepository,CategoryListService>();
 
 builder.Services.AddScoped<IProductRepository,ProductService>();
+
+
 
 builder.Services.AddTransient<Service>();
 

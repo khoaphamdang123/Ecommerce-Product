@@ -44,18 +44,17 @@ public class ProductListController : Controller
           ViewBag.filter_obj=prod_filter;
           var cats=await this._category.getAllCategory();
           var brands=await this._category.getAllBrandList();
-          ViewBag.CategoryList=cats;
+          ViewBag.CatList=cats;
           ViewBag.BrandList = brands;
           ViewBag.StatusList = new List<string>{"Hết hàng","Còn hàng"};
     try
     {  
         var prods=await this._product.pagingProduct(7,1);
-    
         return View(prods);
     }
     catch(Exception er)
     {
-        this._logger.LogTrace("Get Category List Exception:"+er.Message);
+        this._logger.LogTrace("Get Product List Exception:"+er.Message);
     }
     return View();
   }
@@ -64,7 +63,7 @@ public class ProductListController : Controller
 //[Authorize(Roles ="Admin")]
   [Route("product_list/paging")]
    [HttpGet]
-  public async Task<IActionResult> ProductList([FromQuery]int page_size,[FromQuery] int page=1,string productname="",string brand="",string category="",string start_date="",string end_date="",string status="")
+  public async Task<IActionResult> ProductListPaging([FromQuery]int page_size,[FromQuery] int page=1,string productname="",string brand="",string category="",string start_date="",string end_date="",string status="")
   {
     try{
          var prods=await this._product.pagingProduct(page_size,page);
@@ -174,6 +173,30 @@ public class ProductListController : Controller
     this._logger.LogTrace("Export Product Excel Exception:"+er.Message); 
     }
     return RedirectToAction("ProductList","ProductList");
+  }
+
+  [Route("product_list/add")]
+  [HttpGet]
+  public async Task<IActionResult> AddProductList()
+  { 
+    var category_list=await this._category.getAllCategory();
+    
+    var brand_list = await this._category.getAllBrandList();
+
+    List<SubCategory> sub_cat_list=new List<SubCategory>();
+
+    foreach(var cat in category_list)
+    {
+      foreach(var sub_cat in cat.SubCategories)
+      {
+        sub_cat_list.Add(sub_cat);
+      }
+    }
+     
+    ViewBag.CategoryList=category_list;
+    ViewBag.BrandList=brand_list;
+    ViewBag.SubCatList=sub_cat_list;
+    return View();
   }
 
 }

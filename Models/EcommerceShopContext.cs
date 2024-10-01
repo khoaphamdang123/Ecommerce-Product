@@ -237,10 +237,17 @@ public partial class EcommerceShopContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("productimage_pk");
 
-            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("id");
             entity.Property(e => e.Avatar)
                 .HasColumnType("character varying")
                 .HasColumnName("avatar");
+            entity.Property(e => e.Productid).HasColumnName("productid");
+
+            entity.HasOne(d => d.IdNavigation).WithOne(p => p.ProductImage)
+                .HasForeignKey<ProductImage>(d => d.Id)
+                .HasConstraintName("product_fk");
         });
 
         modelBuilder.Entity<Size>(entity =>
@@ -298,18 +305,12 @@ public partial class EcommerceShopContext : DbContext
             entity.ToTable("variant");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Avatarid).HasColumnName("avatarid");
             entity.Property(e => e.Colorid).HasColumnName("colorid");
             entity.Property(e => e.Mirrorid).HasColumnName("mirrorid");
             entity.Property(e => e.Productid).HasColumnName("productid");
             entity.Property(e => e.Sizeid).HasColumnName("sizeid");
             entity.Property(e => e.Versionid).HasColumnName("versionid");
             entity.Property(e => e.Weight).HasColumnName("weight");
-
-            entity.HasOne(d => d.Avatar).WithMany(p => p.Variants)
-                .HasForeignKey(d => d.Avatarid)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("avatar_fk");
 
             entity.HasOne(d => d.Color).WithMany(p => p.Variants)
                 .HasForeignKey(d => d.Colorid)
