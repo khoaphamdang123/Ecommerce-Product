@@ -234,12 +234,17 @@ color: #696cff;
 
 .data-repeater-item 
 {
-  max-height: 0; 
+  max-height: 200px; 
   overflow: hidden; 
   transition: max-height 0.5s ease-out, opacity 0.5s ease-out; /* Transition effects */
-  opacity: 0;
 }
 .data-repeater-item.show {
   max-height: 200px;
   opacity: 1; 
+}
+
+.data-repeater-item.hide
+{
+  opacity: 0;
+  max-height: 0px;
 }

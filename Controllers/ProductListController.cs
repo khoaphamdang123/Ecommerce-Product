@@ -209,6 +209,16 @@ public class ProductListController : Controller
   try
   {
   Console.WriteLine("USED TO STAY HERE");
+
+  // Console.WriteLine("List image file:"+model.ImageFiles.Count);
+
+  // Console.WriteLine("List Image variant file:"+model.VariantFiles.Count);
+
+  Console.WriteLine("Number of color:"+model.Color.Count);
+
+  Console.WriteLine("Color first:"+model.Color[0]);
+  
+  Console.WriteLine("Number of weight:"+model.Weight.Count);
    
    string product_name=model.ProductName;
    
@@ -226,6 +236,46 @@ public class ProductListController : Controller
    
    string discount_description = model.DiscountDescription;
 
+   string folder_name="UploadImages";
+
+   string upload_path=Path.Combine(this._webHostEnv.WebRootPath,folder_name);
+
+   if(!Directory.Exists(upload_path))
+   {
+    Directory.CreateDirectory(upload_path);
+   }
+if(model.ImageFiles!=null)
+{
+ for(int i=0;i<model.ImageFiles.Count;i++)
+ { 
+   var img=model.ImageFiles[i];
+   
+   string file_name=Guid.NewGuid()+"_"+Path.GetFileName(img.FileName);
+   
+   string file_path=Path.Combine(upload_path,file_name);
+
+   using(var fileStream=new FileStream(file_path,FileMode.Create))
+   {
+    await img.CopyToAsync(fileStream);
+   }
+ }
+}
+if(model.VariantFiles!=null)
+{
+for(int i=0;i<model.VariantFiles.Count;i++)
+{
+  var img = model.VariantFiles[i];
+
+  string file_name=Guid.NewGuid()+"_"+Path.GetFileName(img.FileName);
+
+  string file_path = Path.Combine(upload_path,file_name);
+
+  using(var fileStream=new FileStream(file_path,FileMode.Create))
+  {
+    await img.CopyToAsync(fileStream);
+  }
+}
+}
 
    Console.WriteLine(product_name);
     

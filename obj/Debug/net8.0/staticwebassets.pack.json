@@ -5,6 +5,30 @@
       "PackagePath": "staticwebassets\\Ecommerce-Product.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\QuanDEV\\Ecommerce-Product\\wwwroot\\UploadImages\\System.Func`1[System.Guid]_451538899_881421773829242_3641577210831262351_n (1).jpg",
+      "PackagePath": "staticwebassets\\UploadImages\\System.Func`1[System.Guid]_451538899_881421773829242_3641577210831262351_n (1).jpg"
+    },
+    {
+      "Id": "C:\\Users\\QuanDEV\\Ecommerce-Product\\wwwroot\\UploadImages\\System.Func`1[System.Guid]_451538899_881421773829242_3641577210831262351_n.jpg",
+      "PackagePath": "staticwebassets\\UploadImages\\System.Func`1[System.Guid]_451538899_881421773829242_3641577210831262351_n.jpg"
+    },
+    {
+      "Id": "C:\\Users\\QuanDEV\\Ecommerce-Product\\wwwroot\\UploadImages\\System.Func`1[System.Guid]_451943531_1628579684660034_8680044408093263942_n (1).jpg",
+      "PackagePath": "staticwebassets\\UploadImages\\System.Func`1[System.Guid]_451943531_1628579684660034_8680044408093263942_n (1).jpg"
+    },
+    {
+      "Id": "C:\\Users\\QuanDEV\\Ecommerce-Product\\wwwroot\\UploadImages\\System.Func`1[System.Guid]_453067209_1031749018295061_4224582728470114249_n (1).jpg",
+      "PackagePath": "staticwebassets\\UploadImages\\System.Func`1[System.Guid]_453067209_1031749018295061_4224582728470114249_n (1).jpg"
+    },
+    {
+      "Id": "C:\\Users\\QuanDEV\\Ecommerce-Product\\wwwroot\\UploadImages\\System.Func`1[System.Guid]_new_resize.jpg",
+      "PackagePath": "staticwebassets\\UploadImages\\System.Func`1[System.Guid]_new_resize.jpg"
+    },
+    {
+      "Id": "C:\\Users\\QuanDEV\\Ecommerce-Product\\wwwroot\\UploadImages\\System.Func`1[System.Guid]_resize_img.jpg",
+      "PackagePath": "staticwebassets\\UploadImages\\System.Func`1[System.Guid]_resize_img.jpg"
+    },
+    {
       "Id": "C:\\Users\\QuanDEV\\Ecommerce-Product\\wwwroot\\css\\SendMailTemplateStyle.css",
       "PackagePath": "staticwebassets\\css\\SendMailTemplateStyle.css"
     },

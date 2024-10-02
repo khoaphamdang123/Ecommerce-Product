@@ -250,19 +250,19 @@
                         <div class="row g-6 mb-6">
                         <div class="col-4">
                           <label class="form-label" for="color">Màu sắc</label> 
-                          <input class="form-control" name="color" id="color" type="text" placeholder="Nhập màu sắc">
+                          <input class="form-control" id="color" type="text" placeholder="Nhập màu sắc">
                         </div>
                           <div class="col-4">
                           <label class="form-label" for="weight">Khối lượng</label> 
-                          <input class="form-control" name="color" id="color" type="number" placeholder="Nhập khối lượng">
+                          <input class="form-control" id="weight" type="number" placeholder="Nhập khối lượng">
                         </div>
                             <div class="col-4 mb-2">
                           <label class="form-label" for="version">Phiên bản</label> 
-                          <input class="form-control" name="version" id="version" placeholder="Nhập phiên bản">
+                          <input class="form-control" id="version" placeholder="Nhập phiên bản">
                         </div>
                         <div class="col-4 mb-3">
                           <label class="form-label" for="mirror">Loại kính</label> 
-                          <input class="form-control" name="mirror" id="mirror" placeholder="Nhập loại kính">
+                          <input class="form-control" id="mirror" placeholder="Nhập loại kính">
                         </div>
                         </div>
                     </div>
@@ -345,7 +345,19 @@ document.addEventListener("DOMContentLoaded", function (event) {
 });
 
 
+ let files_arr=[];
 
+ let variant_file_arr=[];
+
+ let color_list=[];
+
+ let size_list =[];
+
+ let weight_list=[];
+
+ let version_list=[];
+
+ let mirror_list = [];
    
  const add_variant=document.getElementById("add-variant");
 
@@ -359,9 +371,11 @@ add_variant.addEventListener('click',()=>{
 
         newRow.querySelectorAll('input').forEach(input => input.value = '');
 
+        newRow.classList.add('hide');
         groupList.appendChild(newRow);
        
          setTimeout(()=>{
+            newRow.classList.remove('hide');
             newRow.classList.add('show');
         },10);
 });
@@ -426,6 +440,7 @@ const handleFilesAvatar=(e)=>
    const files=e.target.files;
    if(files.length)
    {
+
     var count_child_node=preview_img_avatar.childNodes.length;
     if(count_child_node==2)
     {  
@@ -439,6 +454,7 @@ const handleFilesAvatar=(e)=>
     drop_zone_msg_avatar.style.display='none';
     drop_zone_avatar.style.alignItems='start';
     const file = files[0];
+    files_arr.push(file);
     const file_reader= new FileReader();
     file_reader.onload=(event)=>
     {  const img=document.createElement("img");
@@ -506,6 +522,7 @@ const handleFilesAvatar=(e)=>
     drop_zone_msg.style.display='none';
     drop_zone.style.alignItems='start';
     const file = files[0];
+    variant_file_arr.push(file);
     const file_reader= new FileReader();
     file_reader.onload=(event)=>
     {  @*var count=preview_img_avatar.childNodes.length;
@@ -645,6 +662,7 @@ const handleFilesAvatar=(e)=>
  });
 
  document.getElementById("formAccountSettings").addEventListener("submit",(e)=>{
+  e.preventDefault();
   var is_valid=true;
   var product=document.getElementById("productname").value.trim();
   var price =document.getElementById("price").value.trim();
@@ -699,6 +717,50 @@ const handleFilesAvatar=(e)=>
   {
     e.preventDefault();
   }
+   
+  let formDataVal=new FormData(document.getElementById("formAccountSettings"));
+
+   var colors=document.querySelectorAll("#color");
+   var weights=document.querySelectorAll("#weight");
+   var versions=document.querySelectorAll("#version");
+   var mirrors = document.querySelectorAll("#mirror");
+   var sizes= document.querySelectorAll("#size");
+    
+   colors.forEach((color)=>{
+   formDataVal.append("color",color.value);
+   }); 
+
+   weights.forEach((weight)=>{
+    formDataVal.append("weight",weight.value);
+   });
+
+   versions.forEach((version)=>{
+    formDataVal.append("version",version.value);
+   });
+
+   mirrors.forEach((mirror)=>{
+    formDataVal.append("mirror",mirror.value);
+   });
+
+     sizes.forEach((size)=>{
+    formDataVal.append("size",size.value);
+   });
+
+  files_arr.forEach(file=>{
+    formDataVal.append("imagefiles",file);
+  });
+
+  variant_file_arr.forEach(file=>{
+    formDataVal.append("variantfiles",file);
+  });
+
+      $.ajax({
+                url: '@Url.Action("AddProductList", "ProductList")',
+                type: 'POST',
+                data: formDataVal,
+                contentType: false,
+                processData: false
+            });
   
  });
 </script>

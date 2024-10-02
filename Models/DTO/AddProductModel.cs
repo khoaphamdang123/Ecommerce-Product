@@ -22,17 +22,17 @@ public class AddProductModel
     
     public string InboxDescription{get;set;}
 
-    public IFormFile FrontAvatar{get;set;}
+    public List<IFormFile> ImageFiles{get;set;}
 
-    public IFormFile BackAvatar{get;set;}
+    public List<IFormFile> VariantFiles{get;set;}
 
-    public string Color{get;set;}
+    public List<string> Color{get;set;}
 
-    public int Weight{get;set;}
+    public List<int> Weight{get;set;}
 
-    public string Size{get;set;}
+    public List<string> Size{get;set;}
 
-    public string Version{get;set;}
+    public List<string> Version{get;set;}
 
-    public string Mirror{get;set;}
+    public List<string> Mirror{get;set;}
 }
