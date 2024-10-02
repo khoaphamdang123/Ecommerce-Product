@@ -131,7 +131,6 @@ if(!string.IsNullOrEmpty(endtime))
     ViewBag.filter_user=user_list;
 
     return View(user_paging);     
-     
     }
      catch(Exception er)
      {  Console.WriteLine("Exception Filter User here:"+er.Message);
@@ -149,8 +148,8 @@ if(!string.IsNullOrEmpty(endtime))
   }
 
 
-    [Authorize(Roles ="Admin")]
-   [Route("user_list/add")]
+  [Authorize(Roles ="Admin")]
+  [Route("user_list/add")]
   [Authorize(Roles ="Admin")]
    [HttpPost]
    public async Task<IActionResult> AddUserList(Register user)
@@ -284,7 +283,7 @@ public async Task<IActionResult> UserInfoDelete(string email)
    else
    {
   TempData["Status_Delete"]=0;
-    TempData["Message_Delete"] = "Xóa User thất bại";
+  TempData["Message_Delete"] = "Xóa User thất bại";
    }
   }
   catch(Exception er)
@@ -372,7 +371,6 @@ public async Task<IActionResult> ExportCsv()
     this._logger.LogTrace("Export Csv Exception:"+er.InnerException?.Message??er.Message);     
   }
   return RedirectToAction("UserList","UserList");
-
 }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

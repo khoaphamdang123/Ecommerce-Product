@@ -31,6 +31,10 @@ public partial class Product
 
     public string? Status { get; set; }
 
+    public string? Frontavatar { get; set; }
+
+    public string? Backavatar { get; set; }
+
     public virtual Brand? Brand { get; set; }
 
     public virtual Category? Category { get; set; }

@@ -208,9 +208,15 @@ public partial class EcommerceShopContext : DbContext
             entity.ToTable("Product");
 
             entity.Property(e => e.Id).HasDefaultValueSql("nextval('\"Product_id_seq\"'::regclass)");
+            entity.Property(e => e.Backavatar)
+                .HasColumnType("character varying")
+                .HasColumnName("backavatar");
             entity.Property(e => e.CreatedDate).HasColumnType("character varying");
             entity.Property(e => e.Description).HasColumnType("character varying");
             entity.Property(e => e.DiscountDescription).HasColumnType("character varying");
+            entity.Property(e => e.Frontavatar)
+                .HasColumnType("character varying")
+                .HasColumnName("frontavatar");
             entity.Property(e => e.InboxDescription).HasColumnType("character varying");
             entity.Property(e => e.Price).HasColumnType("character varying");
             entity.Property(e => e.ProductName).HasColumnType("character varying");

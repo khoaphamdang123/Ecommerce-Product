@@ -79,37 +79,41 @@
                 toast.show();
             });
         </script>
-}
-    
+}         
+<div class="alert alert-danger alert-dismissible fade" role="alert">
+    Đã vượt quá số hình đại diện cho phép
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
           <div class="content-wrapper">
             <div class="container-xxl flex-grow-1 container-p-y">
               <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Product /</span>Thêm Product</h4>
               <div class="row">
                 <div class="col-md-12">
+            <form id="formAccountSettings" method="post" asp-controller="ProductList" asp-action="AddProductList">
                   <div class="d-flex justify-content-between align-items-start mb-3">
                     <div class="nav nav-pills">
                       <a class="nav-link active" href="javascript:void(0);"><i class="bx bx-cart-alt me-1"></i>Sản phẩm</a>
                     </div>
-                    <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
+                    <button type="button" class="btn btn-primary" id="submit-btn">Thêm sản phẩm</button>
                   </div>
                   <div class="card mb-4">
                     <h5 class="card-header">Thông tin sản phẩm</h5>
-              
                     <hr class="my-0" />
+
                     <div class="card-body">
-                      <form id="formAccountSettings" method="post" asp-controller="CategoryList" asp-action="AddCategory">
                         <div class="row">
                           <div class="mb-3 col-md-6">
-                            <label for="product" class="form-label">Tên sản phẩm</label>
+                            <label for="productname" class="form-label">Tên sản phẩm</label>
                             <input
                               class="form-control"
                               type="text"
-                              id="product"
-                              name="product"
+                              id="productname"
+                              name="productname"
                               autofocus
                               placeholder="Nhập tên sản phẩm"
                             />
-                          <span id="category-error" class="text-danger"></span>
+                          <span id="product-error" class="text-danger"></span>
                           </div>
                         </div>
                         <div class="row mb-3">
@@ -118,15 +122,17 @@
                                 Giá
                             </label>
                            <input type="number" class="form-control" placeholder="Giá sản phẩm" name="price" id="price">
+                           <span class="text-danger" id="price-error"></span>
                          </div>
                         <div class="col">
                             <label class="form-label" for="quantity">
                                Số lượng sản phẩm
                             </label>
                            <input type="number" class="form-control" placeholder="Số lượng" name="quantity" id="quantity">
+                         <span class="text-danger" id="quantity-error"></span>
                         </div>  
                         </div>
-                        <div class="row mt-3">
+                        <div class="row mt-3 mb-3">
                          <div class="col">
                             <label class="form-label" for="subcategory">Chọn loại sản phẩm phụ</label>
                             <select class="form-select select-2" id="sub-select" name="subcategory">
@@ -149,7 +155,7 @@
                          </div>
                              <div class="col">
                             <label class="form-label" for="brand">Chọn nhãn hàng</label>
-                            <select class="form-select select-2">
+                            <select class="form-select select-2" id="brand-select" name="brand">
                               <option value="">Chọn nhãn hàng</option>
                               @foreach(var brand in brand_list)
                               {
@@ -158,14 +164,27 @@
                             </select>
                          </div>  
                         </div> 
-                        <div class="mt-5">
-                          <button type="submit" class="btn btn-primary me-2">Thêm loại sản phẩm</button>
-                        </div>
-                      </form>
                     </div>
-                    <!-- /Account -->
                   </div>
-
+                 <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 card-title">Hình ảnh đại diện sản phẩm</h5>
+                </div>
+             <hr class="my-0"/>
+                <div class="card-body">
+                  <div class="drop-zone" id="drop-zone-avatar">
+    <input type="file" id="fileInputAvatar" class="file-input" accept="image/*" hidden />
+    <div class="drop-zone-message" id="drop-zone-message-avatar">
+       <div class="mb-3"> 
+        Kéo và thả nhiều nhất 2 hình ảnh vào đây hoặc
+        <button type="button" id="fileInputButtonAvatar" class="upload-button">Chọn File</button>
+       </div>
+        <p style="color:red"><i>Lưu ý chỉ up tối đa 2 hình đại diện cho mặt trước và mặt sau của sản phẩm</i></p>
+    </div>
+    <div id="previewImageContainerAvatar" class="image-preview-container"></div>
+</div>
+        </div>   
+                 </div>
                   <div class="card mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="mb-0 card-title">Hình ảnh sản phẩm</h5>
@@ -182,33 +201,41 @@
 </div>
         </div>
         </div>
+               
                 <div class="card mb-4">
+                 @* <form method="post" asp-action="AddProductList" asp-controller="ProductList"> *@
                     <div class="card-header">
                       <h5 class="mb-0 card-title">Miêu tả sản phẩm</h5>
                     </div>
                     <hr class="my-0" />
                     <div class="card-body">
-                    <div id="Description" name="description" style="height: 300px;"></div>
+                    <textarea id="Description" name="description" style="height: 300px;"></textarea>
                     </div>
+                @* </form> *@
                 </div>
+                
              <div class="card mb-4">
+                @* <form method="post" asp-action="AddProductList" asp-controller="ProductList"> *@
                     <div class="card-header">
                         <h5 class="mb-0 card-title">Miêu tả trong hộp</h5>
                     </div>
                     <hr class="my-0" />
                     <div class="card-body">
-                 <div id="Description-Inbox" name="inboxdescription" style="height: 300px;"></div>
+                 <textarea id="Description-Inbox" name="inboxdescription" style="height: 300px;"></textarea>
                     </div>
+                @* </form> *@
                 </div>
             
              <div class="card mb-4">
+                @* <form method="post" asp-action="AddProductList" asp-controller="ProductList"> *@
                     <div class="card-header">
                     <h5 class="mb-0 card-title">Miêu tả giảm giá</h5>
                     </div>
                     <hr class="my-0"/>
                     <div class="card-body">
-                    <div id="Discount-Description" name="DiscountDescription" style="height: 300px;"></div>
+                    <textarea id="Discount-Description" name="discountdescription" style="height: 300px;"></textarea>
                     </div>
+                @* </form> *@
                 </div>
             
              <div class="card mb-4">
@@ -217,7 +244,7 @@
                     </div>
                     <hr class="my-0"/>
                     <div class="card-body">
-                  <form class="form-repeater">
+                  @* <form class="form-repeater" asp-action="AddProductList" asp-controller="ProductList"> *@
                    <div class="group mb-4" id="group-list" data-repeater-list>
                     <div class="data-repeater-item">
                         <div class="row g-6 mb-6">
@@ -243,9 +270,9 @@
                    <div class="d-flex justify-content-center">
                     <button type="button" class="btn btn-primary" id="add-variant"><i class="bx bx-plus bx-sm me-2"></i>Thêm mẫu khác</button>
                    </div>
-                  </form>
                     </div>
                 </div>
+                </form>
                 </div>
               </div>
             </div>
@@ -268,8 +295,7 @@
                     href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
                     target="_blank"
                     class="footer-link me-4"
-                    >Documentation</a
-                  >
+                    >Documentation</a>
 
                   <a
                     href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
@@ -290,6 +316,7 @@
       <!-- Overlay -->
       <div class="layout-overlay layout-menu-toggle"></div> 
 <script>
+
 document.addEventListener("DOMContentLoaded", function (event) {
  
   new FroalaEditor('#Description',{
@@ -297,7 +324,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
       toolbarButtons: ['bold', 'italic', 'underline', '|','color', 'backgroundColor', 'insertTable', 'undo', 'redo'],
       pluginsEnabled: ['table','colors'],
       colorsBackground: ['#FFFFFF', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'],
-     colorsText: ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'] 
+      colorsText: ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'] 
   });
 
   new FroalaEditor('#Description-Inbox',{
@@ -309,7 +336,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
   });
 
   new FroalaEditor('#Discount-Description',{
-    heightMin: 300,
+      heightMin: 300,
       toolbarButtons: ['bold', 'italic', 'underline', '|','color', 'backgroundColor', 'insertTable', 'undo', 'redo'],
       pluginsEnabled: ['table','colors'],
       colorsBackground: ['#FFFFFF', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'],
@@ -333,14 +360,13 @@ add_variant.addEventListener('click',()=>{
         newRow.querySelectorAll('input').forEach(input => input.value = '');
 
         groupList.appendChild(newRow);
-
+       
          setTimeout(()=>{
             newRow.classList.add('show');
-        },10)
-
-        
+        },10);
 });
 
+ var is_all_form_valid=true;
  const sub_select=document.getElementById("sub-select");
  
  const cat_select = document.getElementById("cat-select");
@@ -357,15 +383,61 @@ add_variant.addEventListener('click',()=>{
 
  file_input_btn.addEventListener("click",()=>{e.preventDefault();file_input.click();});
 
+ const drop_zone_avatar=document.getElementById("drop-zone-avatar");
+
+ const drop_zone_msg_avatar=document.getElementById("drop-zone-message-avatar");
+ 
+ const file_input_avatar = document.getElementById("fileInputAvatar");
+ 
+ const file_input_avatar_btn = document.getElementById("fileInputButtonAvatar");
+
+ const preview_img_avatar = document.getElementById("previewImageContainerAvatar");
+
+ file_input_avatar_btn.addEventListener("click",()=>{e.preventDefault();file_input_avatar.click();});
+
+  drop_zone_avatar.addEventListener("dragover",(e)=>{
+     e.preventDefault();
+     drop_zone_avatar.classList.add("dragging");
+ });
+
+ drop_zone_avatar.addEventListener("dragleave",()=>{
+   drop_zone_avatar.classList.remove("dragging");
+ });
+
+ drop_zone_avatar.addEventListener("drop",(e)=>{
+  e.preventDefault();
+  drop_zone_avatar.classList.remove("dragging");
+  const files = e.dataTransfer.files;
+  if(files.length)
+  {
+    handleFilesAvatar({target:{files:files}});
+  }
+ });
 
 
- const handleFiles=(e)=>
- { 
+ drop_zone_avatar.addEventListener("click",()=>
+ {   
+    file_input_avatar.click();
+ });
+
+
+const handleFilesAvatar=(e)=>
+ {   
    const files=e.target.files;
    if(files.length)
    {
-    drop_zone_msg.style.display='none';
-    drop_zone.style.alignItems='start';
+    var count_child_node=preview_img_avatar.childNodes.length;
+    if(count_child_node==2)
+    {  
+        $('.alert').addClass('show');
+        window.scrollTo({top:0,behavior:'smooth'});
+        setTimeout(()=>{
+           $('.alert').removeClass('show');
+        },5000);
+        return;
+    }
+    drop_zone_msg_avatar.style.display='none';
+    drop_zone_avatar.style.alignItems='start';
     const file = files[0];
     const file_reader= new FileReader();
     file_reader.onload=(event)=>
@@ -379,18 +451,96 @@ add_variant.addEventListener('click',()=>{
        
        img.classList.add("card-img-top");
 
+       const cardBody = document.createElement('div');
+        
+        cardBody.classList.add('card-body-1');
+
+        const cardTitle = document.createElement('h5');
+        
+        cardTitle.classList.add('card-title-1');
+        
+        cardTitle.textContent = file.name;
+       
+       const remove_btn=document.createElement("button");
+       
+       remove_btn.textContent='Xóa';
+       
+       remove_btn.classList.add('btn', 'btn-danger', 'remove-btn');
+       
+       remove_btn.onclick=(e)=>{
+       
+       e.stopPropagation();
+       
+       preview_img_avatar.removeChild(img_wrapper);
+       
+       if(!preview_img_avatar.hasChildNodes())
+       {
+        drop_zone_avatar.style.alignItems='center';
+
+        drop_zone_msg_avatar.style.display='block';
+       }
+       };
+
+       cardBody.appendChild(cardTitle);
+
+       cardBody.appendChild(remove_btn);
+
+       img_wrapper.appendChild(img);
+       
+       img_wrapper.appendChild(cardBody);
+
+       preview_img_avatar.appendChild(img_wrapper);
+    };
+    file_reader.readAsDataURL(file);
+    }
+ }
+
+  file_input_avatar.addEventListener('change',handleFilesAvatar);
+
+
+ const handleFiles=(e)=>
+ { 
+   const files=e.target.files;
+   if(files.length)
+   {
+    drop_zone_msg.style.display='none';
+    drop_zone.style.alignItems='start';
+    const file = files[0];
+    const file_reader= new FileReader();
+    file_reader.onload=(event)=>
+    {  @*var count=preview_img_avatar.childNodes.length;
+       alert(count);*@
+       const img=document.createElement("img");
+       
+       const img_wrapper=document.createElement('div');
+       
+       img_wrapper.classList.add("card-1");
+
+       img.src=event.target.result;
+       
+       img.classList.add("card-img-top");
+
         const cardBody = document.createElement('div');
         cardBody.classList.add('card-body-1');
-      
+
         const cardTitle = document.createElement('h5');
+        
         cardTitle.classList.add('card-title-1');
+        
         cardTitle.textContent = file.name;
+
        const remove_btn=document.createElement("button");
+
        remove_btn.textContent='Xóa';
+
        remove_btn.classList.add('btn', 'btn-danger', 'remove-btn');
+       
        remove_btn.onclick=(e)=>{
+       
        e.stopPropagation();
+       
        preview_img.removeChild(img_wrapper);
+       
        if(!preview_img.hasChildNodes())
        {
         drop_zone.style.alignItems='center';
@@ -398,12 +548,13 @@ add_variant.addEventListener('click',()=>{
         drop_zone_msg.style.display='block';
        }
        };
+
        cardBody.appendChild(cardTitle);
 
        cardBody.appendChild(remove_btn);
 
-       img_wrapper.appendChild(img)
-       ;
+       img_wrapper.appendChild(img);
+
        img_wrapper.appendChild(cardBody);
 
        preview_img.appendChild(img_wrapper);
@@ -455,40 +606,99 @@ add_variant.addEventListener('click',()=>{
    }
  });
 
- document.getElementById("formAccountSettings").addEventListener("submit",()=>{
+ document.getElementById("submit-btn").addEventListener("click",()=>
+ {
+  var forms=document.querySelectorAll('form');
+  forms.forEach((form)=>{
+    form.requestSubmit();
+    if(!is_all_form_valid)
+    {
+        e.preventDefault();
+
+        e.stopPropagation();
+    }
+    
+  }); 
+ });
+ document.getElementById("sub-select").addEventListener('change',()=>{
+   var sub=document.getElementById("sub-select");
+   if(sub.classList.contains("is-invalid") && sub.value!='')
+   {
+     sub.classList.remove('is-invalid');
+   }
+ });
+
+  document.getElementById("brand-select").addEventListener('change',()=>{
+   var brand=document.getElementById("brand-select");
+   if(brand.classList.contains("is-invalid") && brand.value!='')
+   {
+     brand.classList.remove('is-invalid');
+   }
+ });
+
+  document.getElementById("cat-select").addEventListener('change',()=>{
+   var cat=document.getElementById("cat-select");
+   if(cat.classList.contains("is-invalid") && cat.value!='')
+   {
+     cat.classList.remove('is-invalid');
+   }
+ });
+
+ document.getElementById("formAccountSettings").addEventListener("submit",(e)=>{
   var is_valid=true;
-  var category=document.getElementById("category").value.trim();
-  if(category==='')
+  var product=document.getElementById("productname").value.trim();
+  var price =document.getElementById("price").value.trim();
+  var quantity= document.getElementById("quantity").value.trim();
+  var sub_cat=document.getElementById("sub-select");
+  var category=document.getElementById("cat-select");
+  var brand=document.getElementById("brand-select");
+
+  
+  if(product==='')
   {
     is_valid=false;
-    document.getElementById("category-error").innerHTML='Không được để trống thông tin này';
+   is_all_form_valid=false;
+    document.getElementById("product-error").innerHTML='Không được để trống thông tin này';
+  }
+
+  if(price==='')
+  {
+  is_valid=false;
+   is_all_form_valid=false;
+    document.getElementById("price-error").innerHTML='Không được để trống thông tin này';
+  }
+
+  if(quantity==='')
+  {
+    is_valid=false;
+   is_all_form_valid=false;
+    document.getElementById("quantity-error").innerHTML='Không được để trống thông tin này';
+  }
+
+
+  if(sub_cat.value==='')
+  {
+    if(category.value==='')
+    {
+    is_valid=false;
+    is_all_form_valid=false;
+    category.classList.add('is-invalid');
+    category.focus();
+    }
+  }
+
+  if(brand.value==='')
+  {
+    is_valid=false;
+    is_all_form_valid=false;
+    brand.classList.add('is-invalid');
+    brand.focus();
   }
 
   if(!is_valid)
   {
-    event.preventDefault();
-  }  
- });
+    e.preventDefault();
+  }
   
-  document.getElementById("upload").addEventListener("change",()=>
-  {
-    var image_input=document.getElementById("upload");
-    var image_hoder=document.getElementById("uploadedAvatar");
-    const file=image_input.files[0];
-    if(file)
-    {
-     const reader = new FileReader();
-     reader.onload=(e)=>{
-     }
-     reader.readAsDataURL(file);
-    }
-  });
-
-  document.getElementById("delete-avatar").addEventListener("click",()=>
-  {
-   var image_holder = document.getElementById("uploadedAvatar");
-   var img_file='https://cdn-icons-png.flaticon.com/128/16955/16955062.png';
-   image_holder.src=img_file;
-  });
-
+ });
 </script>

@@ -7,6 +7,7 @@ using System.IO;
 using System.Text;
 using iText.Commons.Utils;
 using Org.BouncyCastle.Math.EC.Rfc8032;
+using System.ComponentModel;
 
 namespace Ecommerce_Product.Controllers;
 [Route("admin")]
@@ -25,11 +26,14 @@ public class ProductListController : Controller
    private readonly IProductRepository _product;
 
    private readonly ICategoryListRepository _category;
+  private readonly IWebHostEnvironment _webHostEnv;
+
    
-   public ProductListController(IProductRepository product,ICategoryListRepository category,ILogger<ProductListController> logger)
+   public ProductListController(IProductRepository product,ICategoryListRepository category,ILogger<ProductListController> logger,IWebHostEnvironment webHostEnv)
    {
     this._product=product;
     this._category=category;
+    this._webHostEnv=webHostEnv;
     this._logger=logger; 
    }
   //[Authorize(Roles ="Admin")]
@@ -192,11 +196,59 @@ public class ProductListController : Controller
         sub_cat_list.Add(sub_cat);
       }
     }
-     
     ViewBag.CategoryList=category_list;
     ViewBag.BrandList=brand_list;
     ViewBag.SubCatList=sub_cat_list;
     return View();
+  }
+
+  [Route("product_list/add")]
+  [HttpPost]
+  public async Task<IActionResult> AddProductList(AddProductModel model)
+  {
+  try
+  {
+  Console.WriteLine("USED TO STAY HERE");
+   
+   string product_name=model.ProductName;
+   
+   int price=model.Price;
+   
+   int quantity = model.Quantity;
+   
+   string sub_cat=model.SubCategory;
+   
+   string brand=model.Brand;
+
+   string description=model.Description;
+   
+   string inbox_description=model.InboxDescription;
+   
+   string discount_description = model.DiscountDescription;
+
+
+   Console.WriteLine(product_name);
+    
+   Console.WriteLine(price);
+
+   Console.WriteLine(quantity);
+
+   Console.WriteLine(sub_cat);
+
+   Console.WriteLine(brand);
+
+   Console.WriteLine("Description:"+description);
+   
+   Console.WriteLine("Inbox Description:"+inbox_description);
+
+   Console.WriteLine("Discount Description:"+discount_description);
+  }
+  catch(Exception er)
+  {
+    this._logger.LogTrace("Add Product Exception:"+er.Message);
+    Console.WriteLine("Add Product List Exception:"+er.Message);
+  }
+  return View();
   }
 
 }

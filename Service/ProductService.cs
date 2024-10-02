@@ -9,6 +9,8 @@ namespace Ecommerce_Product.Service;
 public class ProductService:IProductRepository
 {
     private readonly EcommerceShopContext _context;
+
+    private readonly IWebHostEnvironment _webHostEnv;
   public ProductService(EcommerceShopContext context)
   {
     this._context=context;
