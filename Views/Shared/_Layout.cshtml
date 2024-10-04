@@ -237,7 +237,26 @@
                   </a>
                 </li>
               </ul>
-            </li>            
+            </li>      
+
+               <li class="menu-item @(view_controller=="StaticFiles"?"active open":"")">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-file"></i>
+                <div data-i18n="Account Settings">Trang tĩnh</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item @(view_action=="StaticFiles"?"active":"")">
+                  <a href="@Url.Action("StaticFiles","StaticFiles")" class="menu-link">
+                    <div data-i18n="Account">Danh sách trang tĩnh</div>
+                  </a>
+                </li>
+                <li class="menu-item @(view_action=="AddStaticFiles"?"active":"")">
+                  <a href="@Url.Action("AddStaticFiles","StaticFiles")" class="menu-link">
+                    <div data-i18n="Notifications">Thêm trang tĩnh</div>
+                  </a>
+                </li>
+              </ul>
+            </li>        
           </ul>
             <!-- Extended components -->
                     

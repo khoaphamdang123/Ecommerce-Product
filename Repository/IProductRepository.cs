@@ -15,11 +15,17 @@ public interface IProductRepository
 
   public Task<PageList<Product>> pagingProduct(int page_size,int page);
 
+  public Task<PageList<Variant>> pagingVariant(int id,int page_size,int page);
+
   public Task<IEnumerable<Product>> filterProduct(FilterProduct product);
 
   public Task<int> deleteProduct(int id);
 
   public Task<MemoryStream> exportToExcelProduct();
+
+  public Task<int> addNewProduct(AddProductModel product);
+
+  public Task<int> updateProduct(int id,AddProductModel product);
 
   public Task saveChanges();
 

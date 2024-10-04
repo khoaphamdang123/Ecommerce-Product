@@ -14,7 +14,7 @@
 @{
   int count_id= 0;
   var selected_size=ViewBag.select_size;
-  var filtered_user=ViewBag.filter_obj;
+  var filtered_user=ViewBag.filter_obj as FilterCategory;
   int status_delete=-1;
   int change_pass_status=-1;
   if(TempData["Status_Delete"]!=null)
@@ -380,7 +380,7 @@
      {
       selected_value=parseInt(selected_value);
       //window.location.href=`${Url.Action("handleNumberItem",new{page_size=selected_value})}`;
-      window.location.href= '@Url.Action("UserListPaging", "UserList")' + "?page_size=" + selected_value;
+      window.location.href= '@Url.Action("CategoryListPaging", "CategoryList")' + "?page_size=" + selected_value;
      }
      });
      document.getElementById("add-category-btn").addEventListener('click',()=>{

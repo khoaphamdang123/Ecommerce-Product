@@ -3,18 +3,20 @@ using System.ComponentModel.DataAnnotations;
 namespace Ecommerce_Product.Models;
 
 public class AddProductModel
-{
+{   public int Id{get;set;}
     public string ProductName{get;set;}
 
     public int Price{get;set;}
 
     public int Quantity{get;set;}
     
-    public string  Category{get;set;}
+    public int  Category{get;set;}
 
-    public string SubCategory{get;set;}
+    public int SubCategory{get;set;}
     
-    public string Brand{get;set;}
+    public int Brand{get;set;}
+
+    public string Status{get;set;}
 
     public string Description{get;set;}
 

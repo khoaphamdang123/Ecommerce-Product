@@ -10,4 +10,8 @@ public partial class StaticFile
     public string Filename { get; set; } = null!;
 
     public string Content { get; set; } = null!;
+
+    public string Createddate { get; set; } = null!;
+
+    public string Updateddate { get; set; } = null!;
 }

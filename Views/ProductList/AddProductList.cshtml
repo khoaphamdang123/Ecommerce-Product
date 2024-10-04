@@ -12,18 +12,23 @@
  -->
 <!-- beautify ignore:start -->
 @{
-   var created_category=ViewBag.Created_Category;
+   var created_product=ViewBag.Created_Product;
    var create_status=ViewBag.Status;
    var cat_list =ViewBag.CategoryList as IEnumerable<Category>;
    var brand_list = ViewBag.BrandList as IEnumerable<Brand>;
    var sub_cat_list = ViewBag.SubCatList as List<SubCategory>; 
+   string bg_status="";
+   bg_status=create_status==1||create_status==-1?"bg-danger":create_status==1?"bg-success":"";
+
+    Console.WriteLine("Status here:"+create_status);
+
+        Console.WriteLine("Status here:"+created_product);
+
 }
 
 
-@if(create_status==0 || create_status==-1)
-    {
       <div
-       class="bs-toast toast fade hide bg-danger toast-placement-ex top-5 end-0"
+       class="bs-toast toast fade bg-success hide toast-placement-ex top-5 end-0"
        role="alert"
        aria-live="assertive"
        aria-atomic="true"
@@ -39,47 +44,18 @@
                           <!--<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>-->
                         </div>
                         <div class="toast-body">
-                         @created_category
+                         Thêm sản phẩm thành công
                         </div>
                       </div>
-                        <script>
+                    <script>
             document.addEventListener('DOMContentLoaded', function() {
                 var toastEl = document.querySelector('.toast');
                 var toast = new bootstrap.Toast(toastEl);
                 toast.show();
             });
         </script>
-    }
+        
 
-@if(create_status==1)
-{ 
-    <div
-       class="bs-toast toast fade hide bg-success toast-placement-ex top-5 end-0"
-       role="alert"
-       aria-live="assertive"
-       aria-atomic="true"
-        data-bs-dismiss="toast"
-        style="cursor: pointer;"
-         data-delay="3000"
-         data-bs-autohide="true" 
-         data-bs-delay="3000"
-             >
-                        <div class="toast-header">
-                          <i class="bx bx-bell me-2"></i>
-                          <div class="me-auto fw-semibold">Thêm sản phẩm</div>
-                        </div>
-                        <div class="toast-body">
-                         @created_category
-                        </div>
-                      </div>
-                <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                var toastEl = document.querySelector('.toast');
-                var toast = new bootstrap.Toast(toastEl);
-                toast.show();
-            });
-        </script>
-}         
 <div class="alert alert-danger alert-dismissible fade" role="alert">
     Đã vượt quá số hình đại diện cho phép
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -136,7 +112,7 @@
                          <div class="col">
                             <label class="form-label" for="subcategory">Chọn loại sản phẩm phụ</label>
                             <select class="form-select select-2" id="sub-select" name="subcategory">
-                              <option value="">Chọn loại sản phẩm phụ</option>
+                              <option value="-1">Chọn loại sản phẩm phụ</option>
                               @foreach(var subcat in sub_cat_list)
                               {
                                 <option value="@subcat.Id">@subcat.SubCategoryName</option>
@@ -146,7 +122,7 @@
                             <div class="col">
                             <label class="form-label" for="category">Chọn loại sản phẩm</label>
                             <select class="form-select select-2" name="category" id="cat-select">
-                              <option value="">Chọn loại sản phẩm</option>
+                              <option value="-1">Chọn loại sản phẩm</option>
                               @foreach(var cat in cat_list)
                               {
                                 <option value="@cat.Id">@cat.CategoryName</option>
@@ -156,7 +132,7 @@
                              <div class="col">
                             <label class="form-label" for="brand">Chọn nhãn hàng</label>
                             <select class="form-select select-2" id="brand-select" name="brand">
-                              <option value="">Chọn nhãn hàng</option>
+                              <option value="-1">Chọn nhãn hàng</option>
                               @foreach(var brand in brand_list)
                               {
                                 <option value="@brand.Id">@brand.BrandName</option>                                
@@ -173,7 +149,7 @@
              <hr class="my-0"/>
                 <div class="card-body">
                   <div class="drop-zone" id="drop-zone-avatar">
-    <input type="file" id="fileInputAvatar" class="file-input" accept="image/*" hidden />
+    <input type="file" id="fileInputAvatar" class="file-input" accept="image/*" multiple hidden />
     <div class="drop-zone-message" id="drop-zone-message-avatar">
        <div class="mb-3"> 
         Kéo và thả nhiều nhất 2 hình ảnh vào đây hoặc
@@ -192,7 +168,7 @@
              <hr class="my-0" />
                 <div class="card-body">
                   <div class="drop-zone" id="drop-zone">
-    <input type="file" id="fileInput" class="file-input" accept="image/*" hidden />
+    <input type="file" id="fileInput" class="file-input" accept="image/*" multiple hidden />
     <div class="drop-zone-message" id="drop-zone-message">
         Kéo và thả hình ảnh vào đây hoặc
         <button type="button" id="fileInputButton" class="upload-button">Chọn File</button>
@@ -255,6 +231,10 @@
                           <div class="col-4">
                           <label class="form-label" for="weight">Khối lượng</label> 
                           <input class="form-control" id="weight" type="number" placeholder="Nhập khối lượng">
+                        </div>
+                         <div class="col-4 mb-3">
+                          <label class="form-label" for="size">Kích thước</label> 
+                          <input class="form-control" id="size" type="text" placeholder="Nhập khối lượng">
                         </div>
                             <div class="col-4 mb-2">
                           <label class="form-label" for="version">Phiên bản</label> 
@@ -442,7 +422,7 @@ const handleFilesAvatar=(e)=>
    {
 
     var count_child_node=preview_img_avatar.childNodes.length;
-    if(count_child_node==2)
+    if(count_child_node==2 || files.length>2)
     {  
         $('.alert').addClass('show');
         window.scrollTo({top:0,behavior:'smooth'});
@@ -453,8 +433,10 @@ const handleFilesAvatar=(e)=>
     }
     drop_zone_msg_avatar.style.display='none';
     drop_zone_avatar.style.alignItems='start';
-    const file = files[0];
-    files_arr.push(file);
+   for(let i=0;i<2;i++)
+   {
+const file=files[i];
+ files_arr.push(file);
     const file_reader= new FileReader();
     file_reader.onload=(event)=>
     {  const img=document.createElement("img");
@@ -507,11 +489,17 @@ const handleFilesAvatar=(e)=>
 
        preview_img_avatar.appendChild(img_wrapper);
     };
+
     file_reader.readAsDataURL(file);
+    }
     }
  }
 
+
+
   file_input_avatar.addEventListener('change',handleFilesAvatar);
+  
+
 
 
  const handleFiles=(e)=>
@@ -521,7 +509,9 @@ const handleFilesAvatar=(e)=>
    {
     drop_zone_msg.style.display='none';
     drop_zone.style.alignItems='start';
-    const file = files[0];
+  for(let i =0;i<files.length;i++)
+  { 
+    const file = files[i];
     variant_file_arr.push(file);
     const file_reader= new FileReader();
     file_reader.onload=(event)=>
@@ -578,6 +568,7 @@ const handleFilesAvatar=(e)=>
     };
     file_reader.readAsDataURL(file);
     }
+}
  }
 
 
@@ -694,9 +685,9 @@ const handleFilesAvatar=(e)=>
   }
 
 
-  if(sub_cat.value==='')
+  if(sub_cat.value==="-1")
   {
-    if(category.value==='')
+    if(category.value==="-1")
     {
     is_valid=false;
     is_all_form_valid=false;
@@ -705,7 +696,7 @@ const handleFilesAvatar=(e)=>
     }
   }
 
-  if(brand.value==='')
+  if(brand.value==="-1")
   {
     is_valid=false;
     is_all_form_valid=false;
@@ -740,9 +731,9 @@ const handleFilesAvatar=(e)=>
 
    mirrors.forEach((mirror)=>{
     formDataVal.append("mirror",mirror.value);
-   });
+});
 
-     sizes.forEach((size)=>{
+   sizes.forEach((size)=>{
     formDataVal.append("size",size.value);
    });
 
@@ -754,12 +745,22 @@ const handleFilesAvatar=(e)=>
     formDataVal.append("variantfiles",file);
   });
 
-      $.ajax({
+    $.ajax({
                 url: '@Url.Action("AddProductList", "ProductList")',
                 type: 'POST',
                 data: formDataVal,
                 contentType: false,
-                processData: false
+                processData: false, 
+                success:function(response)
+                { 
+                var toastEl = document.querySelector('.toast');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();
+                },
+                error: function (xhr, status, error) {
+                // Handle any errors
+                alert('An error occurred: ' + error);
+            }
             });
   
  });

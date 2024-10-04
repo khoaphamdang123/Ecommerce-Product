@@ -5,12 +5,16 @@ namespace Ecommerce_Product.Models;
 
 public class FilterCategory
 {
-  public string Category{get;set;}
+  public string? Category{get;set;}
 
-  public string StartDate{get;set;}
+  public string? StartDate{get;set;}
   
-  public string EndDate{get;set;}
-
+  public string? EndDate{get;set;}
+  
+  public FilterCategory()
+  {
+    
+  }
     public FilterCategory(string category,string start_date,string end_date)
     {
        this.Category=category;

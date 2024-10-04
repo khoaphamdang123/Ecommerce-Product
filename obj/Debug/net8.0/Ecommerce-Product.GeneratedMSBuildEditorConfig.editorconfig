@@ -94,8 +94,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdExpc3RcQWRkUHJvZHVjdExpc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/QuanDEV/Ecommerce-Product/Views/ProductList/ProductInfo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdExpc3RcUHJvZHVjdEluZm8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/QuanDEV/Ecommerce-Product/Views/ProductList/ProductList.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdExpc3RcUHJvZHVjdExpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/QuanDEV/Ecommerce-Product/Views/ProductList/VariantList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdExpc3RcVmFyaWFudExpc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/QuanDEV/Ecommerce-Product/Views/Shared/Error.cshtml]
@@ -104,6 +112,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/QuanDEV/Ecommerce-Product/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/QuanDEV/Ecommerce-Product/Views/StaticFiles/AddStaticFiles.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RhdGljRmlsZXNcQWRkU3RhdGljRmlsZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/QuanDEV/Ecommerce-Product/Views/StaticFiles/StaticFiles.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RhdGljRmlsZXNcU3RhdGljRmlsZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/QuanDEV/Ecommerce-Product/Views/UserList/AddUserList.cshtml]

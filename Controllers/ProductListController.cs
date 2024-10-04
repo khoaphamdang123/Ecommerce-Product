@@ -81,13 +81,19 @@ public class ProductListController : Controller
           List<string> options=new List<string>(){"7","10","20","50"};
           
           ViewBag.options=options;
+
+          var cats=await this._category.getAllCategory();
+          var brands=await this._category.getAllBrandList();
+          ViewBag.CatList=cats;
+          ViewBag.BrandList = brands;
+          ViewBag.StatusList = new List<string>{"Hết hàng","Còn hàng"};
         
           
           string select_size=page_size.ToString();
           
           ViewBag.select_size=select_size;
           
-          return View(prods);
+          return View("~/Views/ProductList/ProductList.cshtml",prods);
         }
      
         catch(Exception er)
@@ -107,10 +113,7 @@ public class ProductListController : Controller
     {   
     string startdate=products.StartDate;
     string enddate = products.EndDate;
-    string prod_name=products.ProductName;
-    string brand = products.Brand;
-    string category = products.Category;
-    string status = products.Status;
+
 
  if(!string.IsNullOrEmpty(startdate))
  {
@@ -127,6 +130,11 @@ public class ProductListController : Controller
           ViewBag.select_size=select_size;
           List<string> options=new List<string>(){"7","10","20","50"};
           ViewBag.options=options;
+         var cats=await this._category.getAllCategory();
+          var brands=await this._category.getAllBrandList();
+          ViewBag.CatList=cats;
+          ViewBag.BrandList = brands;
+          ViewBag.StatusList = new List<string>{"Hết hàng","Còn hàng"};
        var product_list=await this._product.filterProduct(products);
        var product_paging=PageList<Product>.CreateItem(product_list.AsQueryable(),1,7);
        ViewBag.filter_obj=product_list;  
@@ -169,7 +177,7 @@ public class ProductListController : Controller
   {
     try
     {
-     var content= await this._category.exportToExcelCategory();
+     var content= await this._product.exportToExcelProduct();
   return File(content,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","Products.xlsx");
     }
     catch(Exception er)
@@ -208,97 +216,133 @@ public class ProductListController : Controller
   {
   try
   {
-  Console.WriteLine("USED TO STAY HERE");
 
-  // Console.WriteLine("List image file:"+model.ImageFiles.Count);
+ int created_res=await this._product.addNewProduct(model);
 
-  // Console.WriteLine("List Image variant file:"+model.VariantFiles.Count);
 
-  Console.WriteLine("Number of color:"+model.Color.Count);
-
-  Console.WriteLine("Color first:"+model.Color[0]);
-  
-  Console.WriteLine("Number of weight:"+model.Weight.Count);
-   
-   string product_name=model.ProductName;
-   
-   int price=model.Price;
-   
-   int quantity = model.Quantity;
-   
-   string sub_cat=model.SubCategory;
-   
-   string brand=model.Brand;
-
-   string description=model.Description;
-   
-   string inbox_description=model.InboxDescription;
-   
-   string discount_description = model.DiscountDescription;
-
-   string folder_name="UploadImages";
-
-   string upload_path=Path.Combine(this._webHostEnv.WebRootPath,folder_name);
-
-   if(!Directory.Exists(upload_path))
-   {
-    Directory.CreateDirectory(upload_path);
-   }
-if(model.ImageFiles!=null)
-{
- for(int i=0;i<model.ImageFiles.Count;i++)
- { 
-   var img=model.ImageFiles[i];
-   
-   string file_name=Guid.NewGuid()+"_"+Path.GetFileName(img.FileName);
-   
-   string file_path=Path.Combine(upload_path,file_name);
-
-   using(var fileStream=new FileStream(file_path,FileMode.Create))
-   {
-    await img.CopyToAsync(fileStream);
-   }
+ if(created_res==0)
+ {  
+  ViewBag.Status=0;
+  ViewBag.Created_Product="Thêm sản phẩm thất bại";
  }
-}
-if(model.VariantFiles!=null)
-{
-for(int i=0;i<model.VariantFiles.Count;i++)
-{
-  var img = model.VariantFiles[i];
-
-  string file_name=Guid.NewGuid()+"_"+Path.GetFileName(img.FileName);
-
-  string file_path = Path.Combine(upload_path,file_name);
-
-  using(var fileStream=new FileStream(file_path,FileMode.Create))
-  {
-    await img.CopyToAsync(fileStream);
-  }
-}
-}
-
-   Console.WriteLine(product_name);
-    
-   Console.WriteLine(price);
-
-   Console.WriteLine(quantity);
-
-   Console.WriteLine(sub_cat);
-
-   Console.WriteLine(brand);
-
-   Console.WriteLine("Description:"+description);
-   
-   Console.WriteLine("Inbox Description:"+inbox_description);
-
-   Console.WriteLine("Discount Description:"+discount_description);
-  }
+ else if(created_res==-1)
+ {
+  ViewBag.Status=-1;
+  TempData["Status"]="-1";
+  ViewBag.Created_Product="Sản phẩm đã tồn tại trong hệ thống";
+ }
+ else
+ {
+ ViewBag.Status=1;
+ ViewBag.Created_Product="Thêm sản phẩm thành công";
+ }
+ }
   catch(Exception er)
   {
     this._logger.LogTrace("Add Product Exception:"+er.Message);
     Console.WriteLine("Add Product List Exception:"+er.Message);
   }
+var category_list=await this._category.getAllCategory(); 
+    
+    var brand_list = await this._category.getAllBrandList();
+
+    List<SubCategory> sub_cat_list=new List<SubCategory>();
+
+    foreach(var cat in category_list)
+    {
+      foreach(var sub_cat in cat.SubCategories)
+      {
+        sub_cat_list.Add(sub_cat);
+      }
+    }
+    ViewBag.CategoryList=category_list;
+    ViewBag.BrandList=brand_list;
+    ViewBag.SubCatList=sub_cat_list;
   return View();
   }
 
+  [Route("product_list/{id}/variant")]
+  [HttpGet]
+  public async Task<IActionResult> VariantList(int id)
+  {
+      string select_size="7";
+          ViewBag.select_size=select_size;
+          List<string> options=new List<string>(){"7","10","20","50"};
+          ViewBag.options=options;
+         var variant_list=await this._product.pagingVariant(id,7,1);
+         return View(variant_list);
+  }
+
+  [Route("product_list/{id}/variant/paging")]
+  
+  [HttpGet]
+  public async Task<IActionResult> VariantListPaging(int id,int page_size,int page=1)
+  { 
+    
+    Console.WriteLine("In Paging variant");
+     var variant_list=await this._product.pagingVariant(id,page_size,page);
+     List<string> options=new List<string>(){"7","10","20","50"};
+          
+     ViewBag.options=options;
+        
+          
+     string select_size=page_size.ToString();
+          
+      ViewBag.select_size=select_size;
+          
+      return View("~/Views/ProductList/VariantList.cshtml",variant_list);
+  }
+
+  [Route("product_list/{id}/product_info")]
+  
+  [HttpGet]
+
+  public async Task<IActionResult> ProductInfo(int id)
+  {
+    var category_list=await this._category.getAllCategory(); 
+    
+    var brand_list = await this._category.getAllBrandList();
+
+    List<SubCategory> sub_cat_list=new List<SubCategory>();
+
+    foreach(var cat in category_list)
+    {
+      foreach(var sub_cat in cat.SubCategories)
+      {
+        sub_cat_list.Add(sub_cat);
+      }
+    }
+    ViewBag.CategoryList=category_list;
+    ViewBag.BrandList=brand_list;
+    ViewBag.SubCatList=sub_cat_list;
+    var product=await this._product.findProductById(id);
+    return View("~/Views/ProductList/ProductInfo.cshtml",product);
+  }
+ 
+ [Route("product_list/{id}/product_info")]
+ [HttpPost]
+ public async Task<IActionResult> ProductInfo(int id,AddProductModel product)
+{
+try
+{
+    int update_res=await this._product.updateProduct(id,product);
+    if(update_res==0)
+ {  
+  ViewBag.Status=0;
+  ViewBag.Updated_Product="Cập nhật sản phẩm thất bại";
+ }
+ else
+ {
+ ViewBag.Status=1;
+ ViewBag.Updated_Product="Cập nhật sản phẩm thành công";
+ }
+ var product_ob=await this._product.findProductById(id);
+ return View("~/Views/ProductList/ProductInfo.cshtml",product_ob);
+}
+catch(Exception er)
+{
+  this._logger.LogTrace("Update Product Info Exception:"+er.Message);
+}
+  return View();
+ }
 }
