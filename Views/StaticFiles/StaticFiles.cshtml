@@ -23,15 +23,7 @@
    status_delete=Convert.ToInt32(TempData["Status_Delete"]);
   }
   var message_delete =TempData["Message_Delete"];
- 
- 
-  string delete_email_value="";
-  
-  if((filtered_user)==null)
-  {
-    filtered_user=new FilterCategory("","","");
-  }
-  Console.WriteLine("filtered_user:"+filtered_user);
+
 }
 
 @if(status_delete==1)
@@ -128,7 +120,7 @@
                             <div class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-6 mb-md-0 mt-n6 mt-md-0 gap-md-4">
                             <div class="data-filter">
                             <div class="dt-buttons btn-group flex-wrap">
-                                <button class="btn btn-secondary add-new btn-primary" id="add-sub-category-btn" data-category-id=@category_id tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"><span><i class="bx bx-plus bx-sm me-0 me-sm-2"></i><span class="d-none d-sm-inline-block">Thêm trang mới</span></span></button>
+                                <button class="btn btn-secondary add-new btn-primary" id="add-page-btn" tabindex="0" aria-controls="DataTables_Table_0" type="button"><span><i class="bx bx-plus bx-sm me-0 me-sm-2"></i><span class="d-none d-sm-inline-block">Thêm trang</span></span></button>
                             </div>
                             </div>
                             </div>
@@ -164,7 +156,7 @@
                             <td class="text-center">@file.Updateddate</td>
                             <td class="text-center">
                             <div class="d-flex justify-content-center">
-                              <a data-bs-toggle="modal" data-bs-target="#modalLong" class="btn btn-icon delete-record icon-style-delete mr-2" id="delete-record-btn" data-cat-id="@category_id" data-category="@file.Id">
+                              <a data-bs-toggle="modal" data-bs-target="#modalLong" class="btn btn-icon delete-record icon-style-delete mr-2" id="delete-record-btn"  data-page="@file.Id">
                                 <i class="bx bx-trash bx-md"></i>
                               </a>
                       <div class="modal fade" id="modalLong" tabindex="-1" aria-hidden="true">
@@ -193,11 +185,8 @@
                           </div>
                         </div>
                       </div>
-                                <a href="@Url.Action("CategoryInfo")" class="btn btn-icon icon-style-update">
+                                <a href="@Url.Action("StaticFilesInfo",new{id=file.Id})" class="btn btn-icon icon-style-update">
                                 <i class="bx bx-show bx-md"></i>
-                              </a>
-                              <a href="javascript:void(0)" class="btn btn-icon icon-style-reset dropdown-toggle" data-bs-toggle="dropdown">
-                                <i class="bx bx-dots-vertical-rounded bx-md"></i>
                               </a>
                             </div>
                             </td>
@@ -323,16 +312,14 @@
 
       <div class="layout-overlay layout-menu-toggle"></div>
   <script>
-     let delete_category='';
+     let delete_page='';
 
-     let delete_cat_id='';
 
     var all_delete_btn=document.querySelectorAll('#delete-record-btn');
 
     all_delete_btn.forEach((btn)=>{
     btn.addEventListener('click',()=>{
-    delete_category=btn.getAttribute('data-category');
-    delete_cat_id=btn.getAttribute('data-cat-id');
+    delete_page=btn.getAttribute('data-page');
      })
     });
 
@@ -342,37 +329,30 @@
      if(selected_value)
      {
       selected_value=parseInt(selected_value);
-      //window.location.href=`${Url.Action("handleNumberItem",new{page_size=selected_value})}`;
-      window.location.href= '@Url.Action("BrandListPaging", "CategoryList")' + "?page_size=" + selected_value;
+
+      window.location.href= '@Url.Action("StaticFilesPaging", "StaticFils")' + "?page_size=" + selected_value;
      }
      });
-     document.getElementById("add-sub-category-btn").addEventListener('click',()=>{
-    var btn=document.getElementById("add-sub-category-btn");
-    var cat_id=btn.getAttribute("data-category-id");  
-    if(cat_id!=null)
-    { 
-    var url='@Url.Action("AddBrand","CategoryList",new{category="__cat_id__"})';
-    url=url.replace("__cat_id__",cat_id);
+
+     document.getElementById("add-page-btn").addEventListener('click',()=>{
+ 
+    var url='@Url.Action("AddStaticFiles","StaticFiles")';
+
     window.location.href=url;
-    }
-     });
+    });
     
     document.getElementById("remove-btn").addEventListener('click',()=>{
    
-   let delete_category_value=delete_category;
+   let delete_page_value=delete_page;
     
     var url='';
     
-    if(delete_cat_id==null || delete_cat_id=='')
-    {
-   url='@Url.Action("DeleteBrand","CategoryList",new{id="__delete_category_value__"})';
-   url=url.replace("__delete_category_value__",delete_category_value);
-    }
-   else
-   {
-    url='@Url.Action("DeleteBrand","CategoryList",new{category="__cat_id__",id="__delete_category_value__"})';
-    url=url.replace("__delete_category_value__",delete_category_value).replace("__cat_id__",delete_cat_id);
-    }
+
+
+    url='@Url.Action("DeletePage","StaticFiles",new{id="__id__"})';
+
+    url=url.replace("__id__",delete_page_value);
+    
     window.location.href=url;
     });
 

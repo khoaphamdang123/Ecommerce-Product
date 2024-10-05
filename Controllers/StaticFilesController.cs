@@ -8,6 +8,7 @@ using System.Text;
 using iText.Commons.Utils;
 using Org.BouncyCastle.Math.EC.Rfc8032;
 using System.ComponentModel;
+using Org.BouncyCastle.Asn1.Mozilla;
 
 namespace Ecommerce_Product.Controllers;
 [Route("admin")]
@@ -78,4 +79,97 @@ public class StaticFilesController : Controller
         }
     return View();
   }
+
+  [Route("file_list/add_page")]
+  [HttpGet]
+  public IActionResult AddStaticFiles()
+  {
+    return View();
+  }
+
+  [Route("file_list/add_page")]
+  [HttpPost]
+  public async Task<IActionResult> AddStaticFiles(StaticFile file)
+  {  try{
+      string file_name=file.Filename;
+      string content= file.Content;
+      int created_res=await this._static_files.addPage(file);
+      if(created_res==0)
+      {
+        ViewBag.Status=0;
+        ViewBag.Created_Page="Thêm trang thất bại";
+      }
+      else if(created_res==-1)
+      {
+        ViewBag.Status=-1;
+        ViewBag.Created_Page="Trang này đã tồn tại trong hệ thống";
+      }
+      else{
+        ViewBag.Status=1;
+        ViewBag.Created_Page="Thêm trang thành công";
+      }
+  }
+  catch(Exception er)
+  {
+    this._logger.LogTrace("Add Page Exception:"+er.Message);
+  }
+      return View();
+  }
+
+  [Route("file_list/delete")]
+  [HttpGet]
+  public async Task<IActionResult> DeletePage(int id)
+  {
+    try
+    {
+   int remove_res=await this._static_files.deletePage(id);
+   if(remove_res==0)
+   {
+   TempData["Status_Delete"]=0;
+   TempData["Message_Delete"]="Xóa trang thất bại";
+   }
+   else
+   {
+   TempData["Status_Delete"]=1;
+   TempData["Message_Delete"]="Xóa trang thành công";
+   }
+    }
+    catch(Exception er)
+    {
+        this._logger.LogTrace("Remove Page Exception:"+er.Message);
+    }
+    return RedirectToAction("StaticFiles","StaticFiles");
+  }
+
+  [Route("file_list/{id}/page_info")]
+  [HttpGet]
+  public async Task<IActionResult> StaticFilesInfo(int id)
+  {
+    var page=await this._static_files.findStaticFileById(id);
+    return View(page);
+  }
+
+    [Route("file_list/{id}/page_info")]
+  [HttpPost]
+  public async Task<IActionResult> StaticFilesInfo(int id,StaticFile file)
+  {  
+    Console.WriteLine("id:"+id);
+
+    int updated_res=await this._static_files.updatePage(id,file);
+    if(updated_res==0)
+    {
+        ViewBag.Status=0;
+        ViewBag.Updated_Message="Cập nhật trang thất bại";
+    }
+    else
+    {
+  ViewBag.Status=1;
+  ViewBag.Updated_Message="Cập nhật trang thành công";
+    }
+    Console.WriteLine(updated_res);
+  var page=await this._static_files.findStaticFileById(id);
+    return View(page);
+  }
+
+
 }

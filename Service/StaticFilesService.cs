@@ -30,6 +30,11 @@ public class StaticFilesService:IStaticFilesRepository
     return static_file;
   }
 
+  public async Task<StaticFile> findStaticFileByName(string name)
+  {
+    var static_file=await this._context.StaticFiles.FirstOrDefaultAsync(s=>s.Filename==name);
+    return static_file;
+  }
   public async Task<PageList<StaticFile>> pagingStaticFiles(int page_size,int page)
   {
     IEnumerable<StaticFile> all_files= await this.getAllStaticFile();
@@ -42,9 +47,76 @@ public class StaticFilesService:IStaticFilesRepository
    return paging_list_file;
   }
 
+  public async Task<int> addPage(StaticFile file)
+  {
+  int created_res=0;
+    try
+    {
+  var check_page_exist=await this.findStaticFileByName(file.Filename);
+  if(check_page_exist!=null)
+  {
+    created_res=-1;
+    return created_res;
+  }
+ string created_date=DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss");
+ 
+ string updated_date = DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss");    
+ 
+var page=new StaticFile{Filename=file.Filename,Content=file.Content,Createddate=created_date,Updateddate=updated_date};
+await this._context.StaticFiles.AddAsync(page);
+await this.saveChanges();
+created_res=1;
+ }
+    catch(Exception er)
+    {
+        Console.WriteLine(er.Message);
+    }
+return created_res;
+  }
+
+    public async Task<int> deletePage(int id)
+    {  
+        int delete_res=0;
+        try
+        {
+          var page=await this.findStaticFileById(id);
+          if(page!=null)
+          {
+            this._context.StaticFiles.Remove(page);
+            await this.saveChanges();
+            delete_res=1;
+          }
+        }
+        catch(Exception er)
+        {
+            Console.WriteLine(er.Message);
+        }
+        return delete_res;
+    }
+
+      public async Task<int> updatePage(int id,StaticFile file)
+      {
+        int updated_res=0;
+        var page=await this.findStaticFileById(id);
+        if(page!=null)
+        {   updated_res=1;
+            page.Filename=file.Filename;
+            page.Content=file.Content;
+ string updated_date = DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss");    
+            page.Updateddate=updated_date;
+        this._context.StaticFiles.Update(page);
+        await this.saveChanges();
+        }
+    return updated_res;
+      }
+
+
+
   public async Task saveChanges()
   {
     await this._context.SaveChangesAsync();
   }
+
+
 
 }

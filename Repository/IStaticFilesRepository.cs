@@ -13,6 +13,12 @@ public interface IStaticFilesRepository
 
   public Task<PageList<StaticFile>> pagingStaticFiles(int page_size,int page);
 
+  public Task<int> addPage(StaticFile file);
+
+  public Task<int> deletePage(int id);
+
+  public Task<int> updatePage(int id,StaticFile file);
+
   public Task saveChanges();
 
 

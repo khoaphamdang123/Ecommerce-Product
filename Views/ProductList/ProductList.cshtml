@@ -5,6 +5,8 @@
   var filtered_product=ViewBag.filter_obj as FilterProduct;
   int status_delete=-1;
   int change_pass_status=-1;
+  var current_total_item=(Model.currentPage*Model.pageSize)-Model.pageSize;  
+
   var cat_list=ViewBag.CatList as IEnumerable<Category>;
   var brand_list=ViewBag.BrandList as IEnumerable<Brand>;
   Console.WriteLine(cat_list);
@@ -227,9 +229,9 @@
                     </thead>
                     <tbody class="table-border-bottom-0">
                        @foreach(var product in Model.item)
-                       { count_id+=1;
+                       { current_total_item+=1;
                          <tr>
-                            <td class="text-center">@count_id</td>
+                            <td class="text-center">@current_total_item</td>
                             <td class="text-center">@product.Id</td>
                             <td class="text-center">
                              <div class="d-flex align-items-center justify-content-start">
