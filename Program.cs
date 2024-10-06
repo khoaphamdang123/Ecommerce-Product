@@ -30,14 +30,9 @@ builder.Services.AddSession(options=>{
   options.Cookie.IsEssential=true;  
 });
 
- builder.Services.AddMvc(options => options.EnableEndpointRouting = false);
-
-
-
-
+builder.Services.AddMvc(options => options.EnableEndpointRouting = false);
 
 builder.Services.AddAuthentication().AddCookie();
-
 
 builder.Services.AddScoped<ILoginRepository,LoginService>();
 
@@ -90,12 +85,11 @@ builder.Services.Configure<SmtpModel>(builder.Configuration.GetSection("SmtpMode
     options.LoginPath = "/admin/login";  
     options.AccessDeniedPath = "/admin/login";  
     options.SlidingExpiration = true;  
-      options.Events.OnRedirectToLogin = context =>
+     options.Events.OnRedirectToLogin = context =>
     {
         context.Response.Redirect("/admin/login");
         return Task.CompletedTask;
     };
-
 });
 
 
@@ -119,9 +113,7 @@ builder.Logging.AddSerilog(_logger);
 
 var app = builder.Build(); 
 
-app.UseAuthentication();
 
-app.UseAuthorization();
 
 app.UseSession();
 
