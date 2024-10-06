@@ -219,53 +219,6 @@ public class ProductListController : Controller
 
  int created_res=await this._product.addNewProduct(model);
 
-
-<<<<<<< HEAD
-  // Console.WriteLine("Number of color:"+model.Color.Count);
-
-  // Console.WriteLine("Color first:"+model.Color[0]);
-  
-  // Console.WriteLine("Number of weight:"+model.Weight.Count);
-   
-   string product_name=model.ProductName;
-   
-   int price=model.Price;
-   
-   int quantity = model.Quantity;
-   
-   string sub_cat=model.SubCategory;
-   
-   string brand=model.Brand;
-
-   string description=model.Description;
-   
-   string inbox_description=model.InboxDescription;
-   
-   string discount_description = model.DiscountDescription;
-
-   string folder_name="UploadImages";
-
-   string upload_path=Path.Combine(this._webHostEnv.WebRootPath,folder_name);
-
-   if(!Directory.Exists(upload_path))
-   {
-    Directory.CreateDirectory(upload_path);
-   }
-if(model.ImageFiles!=null)
-{
- for(int i=0;i<model.ImageFiles.Count;i++)
- { 
-   var img=model.ImageFiles[i];
-   
-   string file_name=Guid.NewGuid()+"_"+Path.GetFileName(img.FileName);
-   
-   string file_path=Path.Combine(upload_path,file_name);
-
-   using(var fileStream=new FileStream(file_path,FileMode.Create))
-   {
-    await img.CopyToAsync(fileStream);
-   }
-=======
  if(created_res==0)
  {  
   ViewBag.Status=0;
@@ -282,7 +235,6 @@ if(model.ImageFiles!=null)
  ViewBag.Status=1;
  ViewBag.Created_Product="Thêm sản phẩm thành công";
  }
->>>>>>> 0cfe4fd1a9360940bf01c716113dd644050908de
  }
   catch(Exception er)
   {
