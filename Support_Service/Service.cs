@@ -37,6 +37,26 @@ public class Service
     return sha_hash.ToString();
 
  }
+
+public async Task<int> removeFiles(string filepath)
+{ int delete_res=0;
+try
+{ 
+  if(File.Exists(filepath))
+  { 
+    File.Delete(filepath);
+    delete_res=1;
+  }
+}
+catch(IOException er)
+{
+    Console.WriteLine("Remove File Exception:"+er.Message);
+}
+return delete_res;
+}
+
+
+
   public string GetCurrentFilePath(string file_name)
  {
     string full_file_path=Path.Combine(Directory.GetCurrentDirectory(),file_name);

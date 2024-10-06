@@ -24,7 +24,7 @@ public Task<int> updateUser(UserInfo user);
 public Task<int> deleteUser(string email);
 
 public Task<int> changeUserPassword(string email);
-
+   
 public Task<MemoryStream> exportToExcel();
 
 public Task<byte[]> exportToPDF();

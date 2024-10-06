@@ -102,6 +102,7 @@
         
                   </ul>
                   <div class="card mb-4">
+                <form id="formAccountSettings" method="post" asp-controller="UserList" asp-action="AddUserList">
                     <h5 class="card-header">Thông tin tài khoản</h5>
                     <!-- Account -->
                     <div class="card-body">
@@ -121,6 +122,7 @@
                             <input
                               type="file"
                               id="upload"
+                              name="avatar"
                               class="account-file-input"
                               hidden
                               accept="image/png, image/jpeg"
@@ -137,7 +139,6 @@
                     </div>
                     <hr class="my-0" />
                     <div class="card-body">
-                      <form id="formAccountSettings" method="post" asp-controller="UserList" asp-action="AddUserList">
                         <div class="row">
                           <div class="mb-3 col-md-6">
                             <label for="username" class="form-label">Username</label>

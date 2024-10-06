@@ -17,13 +17,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Debug() 
-    .WriteTo.File("logs/myapp-.txt", 
-                  rollingInterval: RollingInterval.Day,
-                  fileSizeLimitBytes: 10_000_000,
-                  retainedFileCountLimit: 7) 
-    .CreateLogger();
+var _logger = new LoggerConfiguration().ReadFrom.Configuration(builder.Configuration).Enrich.FromLogContext().CreateLogger();
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -42,21 +37,15 @@ builder.Services.ConfigureApplicationCookie(options =>
 {
   options.Cookie.HttpOnly = true;  
   options.ExpireTimeSpan = TimeSpan.FromHours(1);  
-    options.LoginPath = "/login";  
-    options.AccessDeniedPath = "/login";  
+    options.LoginPath = "/admin/login";  
+    options.AccessDeniedPath = "/admin/login";  
     options.SlidingExpiration = true;  
-     options.Events.OnRedirectToLogin = context =>
-    {  
-        if (context.Request.Path.StartsWithSegments("/admin"))
-        {   
-            context.Response.Redirect("/CustomUnauthorized/Login");
-        }
-        else
-        {
-            context.Response.Redirect(context.RedirectUri); // Use the default LoginPath behavior
-        }
+      options.Events.OnRedirectToLogin = context =>
+    {
+        context.Response.Redirect("/admin/login");
         return Task.CompletedTask;
     };
+
 });
 
 
@@ -96,7 +85,14 @@ builder.Services.Configure<SmtpModel>(builder.Configuration.GetSection("SmtpMode
 
 
 
- builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options=>{
+      options.Password.RequireDigit = false;
+        options.Password.RequiredLength = 1; 
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireLowercase = false;
+        options.Password.RequiredUniqueChars = 1;
+ })
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
@@ -104,7 +100,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Logging.ClearProviders();
 
-builder.Logging.AddSerilog();
+builder.Logging.AddSerilog(_logger);
 
 // builder.Services.AddAuthorization(options=>{
 //     options.AddPolicy("Admin",policy=>policy.RequireRole("Admin"));
@@ -175,7 +171,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}"
+    pattern: "{controller=LoginAdmin}/{action=Index}/{id?}"
     );
 
 app.MapControllerRoute(

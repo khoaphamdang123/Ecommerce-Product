@@ -208,17 +208,16 @@ public class ProductListController : Controller
   {
   try
   {
-  Console.WriteLine("USED TO STAY HERE");
 
   // Console.WriteLine("List image file:"+model.ImageFiles.Count);
 
   // Console.WriteLine("List Image variant file:"+model.VariantFiles.Count);
 
-  Console.WriteLine("Number of color:"+model.Color.Count);
+  // Console.WriteLine("Number of color:"+model.Color.Count);
 
-  Console.WriteLine("Color first:"+model.Color[0]);
+  // Console.WriteLine("Color first:"+model.Color[0]);
   
-  Console.WriteLine("Number of weight:"+model.Weight.Count);
+  // Console.WriteLine("Number of weight:"+model.Weight.Count);
    
    string product_name=model.ProductName;
    

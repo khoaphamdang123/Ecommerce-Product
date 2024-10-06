@@ -4,15 +4,12 @@ using Ecommerce_Product.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Ecommerce_Product.Support_Serive;
+using Microsoft.VisualBasic;
 using OfficeOpenXml;
 using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
-using System.IO;
-using Microsoft.AspNetCore.Mvc;
 using System.Text;
-
-
 namespace Ecommerce_Product.Service;
 public class UserListService:IUserListRepository
 {
@@ -25,101 +22,81 @@ public class UserListService:IUserListRepository
 
     private readonly SmtpService _smtpService;
 
-    private readonly ILogger<UserListService> _logger;
+    private readonly ILogger<LoginService> _logger;
 
-    public UserListService(UserManager<ApplicationUser> userManager,RoleManager<IdentityRole> roleManager,Support_Serive.Service service,SmtpService smtpService,ILogger<UserListService> logger)
+    private readonly IWebHostEnvironment _webHostEnv;
+
+    public UserListService(UserManager<ApplicationUser> userManager,RoleManager<IdentityRole> roleManager,Support_Serive.Service service,SmtpService smtpService,ILogger<LoginService> logger,IWebHostEnvironment webHost)
     {
         this._userManager=userManager;
         this._roleManager=roleManager;
         this._support_service=service;
         this._smtpService=smtpService;
         this._logger=logger;
+        this._webHostEnv=webHost;
     }
-   
+
     public async Task<IEnumerable<ApplicationUser>> filterUserList(FilterUser user)
-    {Console.WriteLine("Come to filter already");
+    {
     string username=user.UserName;
     string email=user.Email;
     string phonenumber=user.PhoneNumber;
     string datetime=user.DateTime;
-    string endtime=user.EndTime;
-    Console.WriteLine("date time here:"+datetime);
     var users=this._userManager.Users.AsQueryable();
-try{
-    Console.WriteLine("already in here");
     if(!string.IsNullOrEmpty(username))
-    {   username=username.Trim();
+    {
         users=users.Where(u=>u.UserName==username);
     }
     if(!string.IsNullOrEmpty(email))
-    {   email=email.Trim();
+    {
         users=users.Where(u=>u.Email==email);
     }
     if(!string.IsNullOrEmpty(phonenumber))
-    {   phonenumber=phonenumber.Trim();
+    {
         users=users.Where(u=>u.PhoneNumber==phonenumber);
     }
-   if(!string.IsNullOrEmpty(datetime) && string.IsNullOrEmpty(endtime))
-   {
-    datetime=datetime.Trim();
-    users= users.ToList().Where(c=>DateTime.TryParse(c.Created_Date,out var startDate) && DateTime.TryParse(datetime,out var lowerDate) && startDate>=lowerDate).AsQueryable();
-   }
-   else if(string.IsNullOrEmpty(datetime) && !string.IsNullOrEmpty(endtime))
-   { 
-    
-    endtime=endtime.Trim();
-   
-    users= users.ToList().Where(c=>DateTime.TryParse(c.Created_Date,out var startDate) && DateTime.TryParse(endtime,out var upperDate) && startDate<=upperDate).AsQueryable();
-   }
-   else if(!string.IsNullOrEmpty(datetime) && !string.IsNullOrEmpty(endtime))
-   {
-    datetime=datetime.Trim();
-    endtime=endtime.Trim();
-    users=users.ToList().Where(c=>DateTime.TryParse(c.Created_Date,out var createdDate)&& DateTime.TryParse(datetime,out var startDate) && DateTime.TryParse(endtime,out var endDate) && createdDate>=startDate && createdDate<=endDate).AsQueryable();
-   }
-}
-catch(Exception er)
-{
-    Console.WriteLine("Exception here:"+er.Message);
-}
+    if(!string.IsNullOrEmpty(datetime))
+    {
+        users=users.Where(u=>u.Created_Date==datetime);
+    }
     return await users.ToListAsync();
     }
 
     public async Task<IEnumerable<ApplicationUser>> getAllUserList()
     {
       string role="User";
-      var users=_userManager.Users.ToList();
+      var users=this._userManager.Users.ToList();
       List<ApplicationUser> userList=new List<ApplicationUser>();
-      foreach(var user in users)
+      foreach(var user in userList)
       {
-        if(await _userManager.IsInRoleAsync(user,role))
+        if(await this._userManager.IsInRoleAsync(user,role))
         {
             userList.Add(user);
         }
-      }      
+      }
       return userList;
     }
-   
+
    public async Task<PageList<ApplicationUser>> pagingUser(int page_size,int page)
    { 
     
-    // if(page_size<page)
-    // {
-    //     return PageList<ApplicationUser>.CreateItem(new List<ApplicationUser>().AsQueryable(),0,0);
-    // }
+    if(page_size<page)
+    {
+        return PageList<ApplicationUser>.CreateItem(new List<ApplicationUser>().AsQueryable(),0,0);
+    }
  
    IEnumerable<ApplicationUser> all_user= await this.getAllUserList();
 
-   List<ApplicationUser> users=all_user.OrderByDescending(u=>u.Seq).ToList(); 
+   //List<ApplicationUser> users=all_user.OrderByDescending(u=>u.No).ToList(); 
 
-   //var users=this._userManager.Users;
+   var users=this._userManager.Users;
    
    var user_list=PageList<ApplicationUser>.CreateItem(users.AsQueryable(),page,page_size);
    
    return user_list;
    }
 
-
+   
 public async Task<bool> checkUserExist(string email,string username)
 {
     bool res=false;
@@ -152,8 +129,9 @@ public async Task<bool> checkUserExist(string email,string username)
       seq=(latestUser.Seq??0)+1;
     }
      string role = "User";
-     string created_date=DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
-     var new_user=new ApplicationUser{UserName = user.UserName,Email=user.Email,Address1=user.Address1,Address2=user.Address2,Gender=user.Gender,PhoneNumber=user.PhoneNumber,Created_Date=created_date,Seq=seq,Avatar="https://cdn-icons-png.flaticon.com/128/3135/3135715.png"};
+     string avatar="https://cdn-icons-png.flaticon.com/128/3135/3135715.png";
+     string created_date=DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
+     var new_user=new ApplicationUser{UserName = user.UserName,Email=user.Email,Address1=user.Address1,Address2=user.Address2,Gender=user.Gender,PhoneNumber=user.PhoneNumber,Created_Date=created_date,Seq=seq,Avatar=avatar};
      var res=await this._userManager.CreateAsync(new_user,user.Password);
      if(res.Succeeded)
      {  
@@ -174,110 +152,122 @@ public async Task<bool> checkUserExist(string email,string username)
 
      return res_created;
    }
-   
-public async Task<ApplicationUser> findUserByEmail(string email)
-{
-    var users=await this._userManager.FindByEmailAsync(email);
-    return users;
-}
+  
+  public async Task<ApplicationUser> findUserByEmail(string email)
+  {
+    var user=await this._userManager.FindByEmailAsync(email);
+    return user;
+  }
 
-public async Task<ApplicationUser> findUserById(string id)
-{
-    var users =await this._userManager.FindByIdAsync(id);
-    return users;
-}
-
-
-public async Task<int> updateUser(UserInfo user_info)
-{
- int res=0;
- string user_id=user_info.Id;
- if(string.IsNullOrEmpty(user_id))
- {
-    return res;
- }
- var user=await this.findUserById(user_id);
- if(user!=null)
- {
-   user.UserName=user_info.UserName;
-   user.Email=user_info.Email;
-   user.PhoneNumber=user_info.PhoneNumber;
-   user.Address1=user_info.Address1;
-   user.Address2=user_info.Address2;
-   user.Gender=user_info.Gender;
-   Console.WriteLine("Phone number for this user:"+user.PhoneNumber);
-   var res_update= await this._userManager.UpdateAsync(user);
-   if(res_update.Succeeded)
+  public async Task<int> updateUser(UserInfo user_info)
+  {
+   int res=0;
+   string id=user_info.Id;
+   string cur_avatar="";
+   var user=await this._userManager.FindByIdAsync(id);
+   if(user!=null)
    {
-    res=1;
-   }
-   else{
-    foreach(var err in res_update.Errors)
-    {
-        Console.WriteLine("Update User error:"+err.Description);
-    }
-   }
- }
- return res;
-}
+      user.UserName=user_info.UserName;
+      user.Email=user_info.Email;
+      user.PhoneNumber=user_info.PhoneNumber;
+      user.Address1=user_info.Address1;
+      user.Address2=user_info.Address2;
+      user.Gender=user_info.Gender;
+      cur_avatar=user.Avatar;
+    string folder_name="UploadImageUser";
 
-public async Task<int> deleteUser(string email)
-{
-  int res=0;
-  if(string.IsNullOrEmpty(email))
+   string upload_path=Path.Combine(this._webHostEnv.WebRootPath,folder_name);
+
+   if(!Directory.Exists(upload_path))
+   {
+    Directory.CreateDirectory(upload_path);
+   }
+   string avatar_url="";
+  var avatar=user_info.Avatar;
+  if(avatar!=null)
   {
-    return res;
+   string file_name=Guid.NewGuid()+"_"+Path.GetFileName(avatar.FileName);
+  
+   string file_path=Path.Combine(upload_path,file_name);
+
+   using(var fileStream=new FileStream(file_path,FileMode.Create))
+   {
+    await avatar.CopyToAsync(fileStream);
+   } 
+   avatar_url=file_path;
   }
-  var user=await this.findUserByEmail(email);
-  if(user!=null)
-  {
-    var delete_user=await this._userManager.DeleteAsync(user);
-    if(delete_user.Succeeded)
-    {
-        res=1;
-    }
-    else{
+  user.Avatar=avatar_url;
+  
 
-    Console.WriteLine("delete user failed");
-        foreach(var err in delete_user.Errors)
+      var res_update=await this._userManager.UpdateAsync(user);
+      if(!res_update.Succeeded)
+      {
+        foreach(var err in res_update.Errors)
         {
-            Console.WriteLine("Delete User error:"+err.Description);
+            Console.WriteLine("Error update user:"+err.Description);
         }
-    }
+      }
+      else
+      {
+        res=1;
+       if(!string.IsNullOrEmpty(cur_avatar))
+        await this._support_service.removeFiles(cur_avatar);
+      }
+   }
+   return res;
   }
-  return res;
-}
 
+  public async Task<ApplicationUser> findUserById(string id)
+  {
+    var user=await this._userManager.FindByIdAsync(id);
+    return user;
+  }
 
-public async Task<int> changeUserPassword(string email)
-{
-    int res=0;
-    if(string.IsNullOrEmpty(email))
-    {
-        return res;
-    }
-    var user=await this.findUserByEmail(email);    
-    if(user!=null)
-    {
-        string token = await this._userManager.GeneratePasswordResetTokenAsync(user);
-        string new_password = "Ecommerce123@";
-        var reset_password=await this._userManager.ResetPasswordAsync(user,token,new_password);
-        if(reset_password.Succeeded)
+  public async Task<int> deleteUser(string email)
+  {  int res_delete=0;
+     var user=await this._userManager.FindByEmailAsync(email);
+     if(user!=null)
+     {
+        var deleted_user=await this._userManager.DeleteAsync(user);
+        if(deleted_user.Succeeded)
         {
-            res=1;
+            res_delete=1;
         }
         else
-        {
-            foreach(var err in reset_password.Errors)
+        {   
+            foreach(var err in deleted_user.Errors)
             {
-                Console.WriteLine("Change Password Exception:"+err.Description);                
+                Console.WriteLine("Exception in deleting user:"+err.Description);
+            }
+        }
+     }
+     return res_delete;
+  }
+  
+ public async Task<int> changeUserPassword(string email)
+ {  
+    int change_pass_res=0;
+    var user = await this._userManager.FindByEmailAsync(email);
+    if(user!=null)
+    {
+        string new_password="Ecommerce123@";
+        string change_pass_token=await this._userManager.GeneratePasswordResetTokenAsync(user);
+        var change_res=await this._userManager.ResetPasswordAsync(user,change_pass_token,new_password);
+        if(change_res.Succeeded)
+        {
+            change_pass_res=1;
+        }
+        else{
+            foreach(var error in change_res.Errors)
+            {
+                Console.WriteLine("Change User Password exception:"+error.Description);
             }
         }
     }
-    return res;
-}
+    return change_pass_res;
+ }
 
- public async Task<MemoryStream> exportToExcel()
+  public async Task<MemoryStream> exportToExcel()
  {
   using(ExcelPackage excel = new ExcelPackage())
   {
@@ -329,11 +319,12 @@ Console.WriteLine("this user list is not null");
   }
  }
 
- public async Task<byte[]> exportToPDF()
+  public async Task<byte[]> exportToPDF()
  { 
 
  MemoryStream ms=new MemoryStream();
- try{
+ try
+ {
   using(PdfWriter writer=new PdfWriter(ms))
   {
     PdfDocument pdfDoc=new PdfDocument(writer);
@@ -378,7 +369,7 @@ Console.WriteLine("this user list is not null");
   byte[] content = ms.ToArray();
   return content;
  }
-  
+
 public async Task<byte[]> exportToCSV()
 {
   StringBuilder csv=new StringBuilder();
@@ -404,7 +395,6 @@ public async Task<byte[]> exportToCSV()
     var fileBytes = new byte[bom.Length + bytes.Length];
     System.Buffer.BlockCopy(bom, 0, fileBytes, 0, bom.Length);
     System.Buffer.BlockCopy(bytes, 0, fileBytes, bom.Length, bytes.Length);
-   
    return bytes;
 }
 

@@ -132,7 +132,6 @@ namespace Ecommerce_Product.Controllers
               HttpContext.Session.SetString("Email",admin_user.Email);
               HttpContext.Session.SetString("Password",password);
               HttpContext.Session.SetString("UserSession", "Active");
-
               return RedirectToAction("UserList","UserList");
             }
             }

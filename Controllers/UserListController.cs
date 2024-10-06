@@ -19,12 +19,16 @@ public class UserListController : Controller
 
     private readonly Support_Serive.Service _sp_service;
 
-    public UserListController(ILogger<UserListController> logger,IUserListRepository userList,IConfiguration configure,Support_Serive.Service sp_service)
+    private readonly IWebHostEnvironment _webHostEnv;
+
+
+    public UserListController(ILogger<UserListController> logger,IUserListRepository userList,IConfiguration configure,Support_Serive.Service sp_service,IWebHostEnvironment webHost)
     {
         _logger = logger;
         this._userList=userList;
         this._configure=configure;
         this._sp_service=sp_service;
+        this._webHostEnv=webHost;
     }
    [Authorize(Roles ="Admin")]
    [HttpGet("user_list")]
@@ -160,8 +164,27 @@ if(!string.IsNullOrEmpty(endtime))
   string email=user.Email;
   string password= user.Password;
   string gender= user.Gender;
-  string avatar="https://cdn-icons-png.flaticon.com/128/3135/3135715.png";
+  //string avatar="https://cdn-icons-png.flaticon.com/128/3135/3135715.png";
+string folder_name="UploadImageUser";
 
+   string upload_path=Path.Combine(this._webHostEnv.WebRootPath,folder_name);
+
+   if(!Directory.Exists(upload_path))
+   {
+    Directory.CreateDirectory(upload_path);
+   }
+  var avatar=user.Avatar;
+  if(avatar!=null)
+  {
+   string file_name=Guid.NewGuid()+"_"+Path.GetFileName(avatar.FileName);
+  
+   string file_path=Path.Combine(upload_path,file_name);
+
+   using(var fileStream=new FileStream(file_path,FileMode.Create))
+   {
+    await avatar.CopyToAsync(fileStream);
+   } 
+  }
   Console.WriteLine(username);
   Console.WriteLine(email);
   Console.WriteLine(password);
