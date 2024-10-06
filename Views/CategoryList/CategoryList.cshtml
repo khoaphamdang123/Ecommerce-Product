@@ -14,9 +14,11 @@
 @{
   int count_id= 0;
   var selected_size=ViewBag.select_size;
-  var filtered_user=ViewBag.filter_obj;
+  var filtered_user=ViewBag.filter_obj as FilterCategory;
   int status_delete=-1;
   int change_pass_status=-1;
+    var current_total_item=(Model.currentPage*Model.pageSize)-Model.pageSize;  
+
   if(TempData["Status_Delete"]!=null)
   {
    status_delete=Convert.ToInt32(TempData["Status_Delete"]);
@@ -182,9 +184,9 @@
                     </thead>
                     <tbody class="table-border-bottom-0">
                        @foreach(var category in Model.item)
-                       { count_id+=1;
+                       { current_total_item+=1;
                          <tr>
-                            <td class="text-center">@count_id</td>
+                            <td class="text-center">@current_total_item</td>
                             <td class="text-center">@category.Id</td>
                             <td class="text-center">
                              <div class="d-flex align-items-center justify-content-center">
@@ -380,7 +382,7 @@
      {
       selected_value=parseInt(selected_value);
       //window.location.href=`${Url.Action("handleNumberItem",new{page_size=selected_value})}`;
-      window.location.href= '@Url.Action("UserListPaging", "UserList")' + "?page_size=" + selected_value;
+      window.location.href= '@Url.Action("CategoryListPaging", "CategoryList")' + "?page_size=" + selected_value;
      }
      });
      document.getElementById("add-category-btn").addEventListener('click',()=>{

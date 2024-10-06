@@ -2,9 +2,11 @@
 @{
   int count_id= 0;
   var selected_size=ViewBag.select_size;
-  var filtered_product=ViewBag.filter_obj;
+  var filtered_product=ViewBag.filter_obj as FilterProduct;
   int status_delete=-1;
   int change_pass_status=-1;
+  var current_total_item=(Model.currentPage*Model.pageSize)-Model.pageSize;  
+
   var cat_list=ViewBag.CatList as IEnumerable<Category>;
   var brand_list=ViewBag.BrandList as IEnumerable<Brand>;
   Console.WriteLine(cat_list);
@@ -103,7 +105,7 @@
                   <div class="col-md-4">
                     @* <input type="search" class="form-control" name="categoryname" placeholder="Tên loại sản phẩm"> *@
                     <select class="form-select select-2" name="category">
-                      <option>Chọn loại sản phẩm</option>
+                      <option value="">Chọn loại sản phẩm</option>
                       @foreach(var option in cat_list)
                       {
                         <option value="@option.Id">@option.CategoryName</option>
@@ -112,7 +114,7 @@
                      </div>
                     <div class="col-md-4">
                       <select class="form-select select-2" name="brand">
-                        <option>Chọn nhãn hàng</option>
+                        <option value="">Chọn nhãn hàng</option>
                         @foreach(var option in brand_list)
                         {
                           <option value="@option.Id">@option.BrandName</option>
@@ -121,7 +123,7 @@
                     </div>
                    <div class="col-md-4">
                       <select class="form-select select-2" name="status">
-                        <option>Chọn trạng thái</option>
+                        <option value="">Chọn trạng thái</option>
                         @foreach(var option in status_list)
                         {
                           <option value="@option">@option</option>
@@ -218,7 +220,7 @@
                             <th class="text-center">Tên sản phẩm</th>
                             <th class="text-center">Loại sản phẩm</th>
                             <th class="text-center">Nhãn hàng</th>
-                            <th class="text-center">Gía sản phẩm</th>
+                            <th class="text-center">Giá sản phẩm</th>
                             <th class="text-center">Trạng thái</th>
                             <th class="text-center">Ngày tạo</th>
                             <th class="text-center">Ngày cập nhật</th>
@@ -227,22 +229,33 @@
                     </thead>
                     <tbody class="table-border-bottom-0">
                        @foreach(var product in Model.item)
-                       { count_id+=1;
+                       { current_total_item+=1;
                          <tr>
-                            <td class="text-center">@count_id</td>
+                            <td class="text-center">@current_total_item</td>
                             <td class="text-center">@product.Id</td>
                             <td class="text-center">
-                             <div class="d-flex align-items-center justify-content-center">
+                             <div class="d-flex align-items-center justify-content-start">
+                             @if(!string.IsNullOrEmpty(product.Frontavatar))
+                           {
                               <div class="avatar-wrapper">
-                                <div class="avatar avatar-sm me-2">
-                                  <img src="" alt="User Avatar">
+                                <div class="avatar avatar-sm me-2 rounded-2">
+                                 <img src="~/@product.Frontavatar.Substring(product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="User Front Avatar">
                                 </div>
                               </div>
+                              }  
+                              @if(!string.IsNullOrEmpty(product.Backavatar))
+                              {
+                                  <div class="avatar-wrapper">
+                                <div class="avatar avatar-sm me-2 rounded-2">
+                                  <img src="~/@product.Backavatar.Substring(product.Backavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="User Back Avatar">
+                                </div>
+                              </div>
+                              }
                               <strong>@product.ProductName</strong>
                              </div>
                               </td>
-                            <td class="text-center">@product.Category</td>
-                            <td class="text-center">@product.Brand</td>
+                            <td class="text-center">@product.Category.CategoryName</td>
+                            <td class="text-center">@product.Brand.BrandName</td>
                             <td class="text-center">@product.Price</td>
                             <td class="text-center">@product.Status</td>
                             <td class="text-center">@product.CreatedDate</td>
@@ -278,11 +291,11 @@
                           </div>
                         </div>
                       </div>
-                                <a href="@Url.Action("CategoryInfo",new{})" class="btn btn-icon icon-style-update">
+                                <a href="@Url.Action("ProductInfo",new{id=product.Id})" class="btn btn-icon icon-style-update">
                                 <i class="bx bx-show bx-md"></i>
                               </a>
-                              <a href="javascript:void(0)" class="btn btn-icon icon-style-reset dropdown-toggle" data-bs-toggle="dropdown">
-                                <i class="bx bx-dots-vertical-rounded bx-md"></i>
+                              <a href="@Url.Action("VariantList",new{id=product.Id})" class="btn btn-icon icon-style-reset">
+                                <i class="bx bx-cart bx-md"></i>
                               </a>
                             </div>
                             </td>
@@ -296,7 +309,7 @@
       <div class="page-list justify-content-center">
      @if(Model.hasPreviousPage)
      {
-         <a class="page-item" title="Previous" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage-1,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status?"":filtered_product.Status))})"><i class="bx bx-chevron-left"></i></a>
+         <a class="page-item" title="Previous" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage-1,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status)?"":filtered_product.Status)})"><i class="bx bx-chevron-left"></i></a>
      }
      else
      {
@@ -313,7 +326,7 @@
         }
        else
        {
-         <a class="page-item" title="@i" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=i,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status?"":filtered_product.Status))})">@i</a>
+         <a class="page-item" title="@i" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=i,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status)?"":filtered_product.Status)})">@i</a>
        }
       }
     }
@@ -330,7 +343,7 @@
            <span class="page-item activate" disable>@i</span> 
         }
        else{
-         <a class="page-item" title="@i" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=i,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status?"":filtered_product.Status))})">@i</a>
+         <a class="page-item" title="@i" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=i,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status)?"":filtered_product.Status)})">@i</a>
        }
         }
         else{
@@ -339,7 +352,7 @@
             <span class="page-item" disabled>...</span>
           }
         else{
-         <a class="page-item" title="@i" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=i,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status?"":filtered_product.Status))})">@i</a>
+         <a class="page-item" title="@i" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=i,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status)?"":filtered_product.Status)})">@i</a>
         }
         }
       }
@@ -348,19 +361,18 @@
     {
     if((Model.currentPage>=5 && (Model.currentPage<(Model.totalPage-3))))
     {
-         <a class="page-item" title="1" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=1,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status?"":filtered_product.Status))})">1</a>
+         <a class="page-item" title="1" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=1,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status)?"":filtered_product.Status)})">1</a>
     <span class="page-item" disabled>...</span>
-         <a class="page-item" title="@(Model.currentPage-1)" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage-1,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status?"":filtered_product.Status))})">@(Model.currentPage-1)</a>
+         <a class="page-item" title="@(Model.currentPage-1)" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage-1,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status)?"":filtered_product.Status)})">@(Model.currentPage-1)</a>
     <span class="page-item activate" disabled>@(Model.currentPage)</span>
-         <a class="page-item" title="@(Model.currentPage+1)" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage+1,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status?"":filtered_product.Status))})">@(Model.currentPage+1)</a>
-
+         <a class="page-item" title="@(Model.currentPage+1)" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage+1,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status)?"":filtered_product.Status)})">@(Model.currentPage+1)</a>
     <span class="page-item" disabled>...</span>
-         <a class="page-item" title="@(Model.totalPage)" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=Model.totalPage,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status?"":filtered_product.Status))})">@(Model.totalPage)</a>
+         <a class="page-item" title="@(Model.totalPage)" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=Model.totalPage,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status)?"":filtered_product.Status)})">@(Model.totalPage)</a>
     }
     else{
-         <a class="page-item" title="1" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=1,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status?"":filtered_product.Status))})">1</a>
+         <a class="page-item" title="1" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=1,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status)?"":filtered_product.Status)})">1</a>
     <span class="page-item" disabled>...</span>
-         <a class="page-item" title="@(Model.currentPage-4)" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage-4,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status?"":filtered_product.Status))})">@(Model.currentPage-4)</a>
+         <a class="page-item" title="@(Model.currentPage-4)" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage-4,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status)?"":filtered_product.Status)})">@(Model.currentPage-4)</a>
      for(int i=(Model.totalPage-3);i<=Model.totalPage;i++)
      {
       if(i==Model.currentPage)
@@ -368,7 +380,7 @@
           <span class="page-item activate" disabled>@(Model.currentPage)</span>
       }
     else{
-         <a class="page-item" title="@(i)" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=i,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status?"":filtered_product.Status))})">@i</a>
+         <a class="page-item" title="@(i)" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=i,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status)?"":filtered_product.Status)})">@i</a>
     }
      }
     }
@@ -389,7 +401,7 @@
        
       @if(Model.hasNextPage)
       {
-         <a class="page-item" title="Next" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage+1,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status?"":filtered_product.Status))})"><i class="bx bx-chevron-right"></i></a>
+         <a class="page-item" title="Next" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage+1,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status)?"":filtered_product.Status)})"><i class="bx bx-chevron-right"></i></a>
        }
       else 
       {
@@ -425,11 +437,12 @@
      {
       selected_value=parseInt(selected_value);
       //window.location.href=`${Url.Action("handleNumberItem",new{page_size=selected_value})}`;
-      window.location.href= '@Url.Action("UserListPaging", "UserList")' + "?page_size=" + selected_value;
+      window.location.href= '@Url.Action("ProductListPaging", "ProductList")' + "?page_size=" + selected_value;
      }
      });
-     document.getElementById("add-category-btn").addEventListener('click',()=>{
-      window.location.href='@Url.Action("AddCategory","CategoryList")';
+     document.getElementById("add-category-btn").addEventListener('click',()=>
+     {
+      window.location.href='@Url.Action("AddProductList","ProductList")';
      });
     
     document.getElementById("remove-btn").addEventListener('click',()=>{

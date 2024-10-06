@@ -243,17 +243,16 @@ public partial class EcommerceShopContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("productimage_pk");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Avatar)
                 .HasColumnType("character varying")
                 .HasColumnName("avatar");
             entity.Property(e => e.Productid).HasColumnName("productid");
 
-            entity.HasOne(d => d.IdNavigation).WithOne(p => p.ProductImage)
-                .HasForeignKey<ProductImage>(d => d.Id)
-                .HasConstraintName("product_fk");
+            entity.HasOne(d => d.Product).WithMany(p => p.ProductImages)
+                .HasForeignKey(d => d.Productid)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("product_img_fk");
         });
 
         modelBuilder.Entity<Size>(entity =>
@@ -278,9 +277,15 @@ public partial class EcommerceShopContext : DbContext
             entity.Property(e => e.Content)
                 .HasColumnType("character varying")
                 .HasColumnName("content");
+            entity.Property(e => e.Createddate)
+                .HasColumnType("character varying")
+                .HasColumnName("createddate");
             entity.Property(e => e.Filename)
                 .HasColumnType("character varying")
                 .HasColumnName("filename");
+            entity.Property(e => e.Updateddate)
+                .HasColumnType("character varying")
+                .HasColumnName("updateddate");
         });
 
         modelBuilder.Entity<SubCategory>(entity =>

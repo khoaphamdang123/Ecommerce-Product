@@ -64,6 +64,7 @@ builder.Services.AddScoped<ICategoryListRepository,CategoryListService>();
 
 builder.Services.AddScoped<IProductRepository,ProductService>();
 
+builder.Services.AddScoped<IStaticFilesRepository,StaticFilesService>();
 
 
 builder.Services.AddTransient<Service>();

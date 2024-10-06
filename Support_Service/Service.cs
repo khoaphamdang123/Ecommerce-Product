@@ -90,6 +90,23 @@ public string generateRandomPassword()
   return random_password;
 }
 
+public async Task<int> removeFiles(string filepath)
+{ int delete_res=0;
+try
+{ 
+  if(File.Exists(filepath))
+  { 
+    File.Delete(filepath);
+    delete_res=1;
+  }
+}
+catch(IOException er)
+{
+    Console.WriteLine("Remove File Exception:"+er.Message);
+}
+return delete_res;
+}
+
 public string getCurrentOs()
 {
     var os_name = (from x in new ManagementObjectSearcher("SELECT Caption FROM Win32_OperatingSystem").Get().Cast<ManagementObject>()

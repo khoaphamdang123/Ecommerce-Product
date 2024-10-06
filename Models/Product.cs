@@ -39,7 +39,7 @@ public partial class Product
 
     public virtual Category? Category { get; set; }
 
-    public virtual ProductImage? ProductImage { get; set; }
+    public virtual ICollection<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
 
     public virtual SubCategory? SubCat { get; set; }
 
