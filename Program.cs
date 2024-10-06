@@ -33,20 +33,6 @@ builder.Services.AddSession(options=>{
  builder.Services.AddMvc(options => options.EnableEndpointRouting = false);
 
 
-builder.Services.ConfigureApplicationCookie(options =>
-{
-  options.Cookie.HttpOnly = true;  
-  options.ExpireTimeSpan = TimeSpan.FromHours(1);  
-    options.LoginPath = "/admin/login";  
-    options.AccessDeniedPath = "/admin/login";  
-    options.SlidingExpiration = true;  
-      options.Events.OnRedirectToLogin = context =>
-    {
-        context.Response.Redirect("/admin/login");
-        return Task.CompletedTask;
-    };
-
-});
 
 
 
@@ -96,6 +82,28 @@ builder.Services.Configure<SmtpModel>(builder.Configuration.GetSection("SmtpMode
  })
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
+
+    builder.Services.ConfigureApplicationCookie(options =>
+{
+  options.Cookie.HttpOnly = true;  
+  options.ExpireTimeSpan = TimeSpan.FromHours(1);  
+    options.LoginPath = "/admin/login";  
+    options.AccessDeniedPath = "/admin/login";  
+    options.SlidingExpiration = true;  
+      options.Events.OnRedirectToLogin = context =>
+    {
+        context.Response.Redirect("/admin/login");
+        return Task.CompletedTask;
+    };
+
+});
+
+
+// builder.Services.AddAuthentication(options =>
+//                 {
+//                     options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
+//                     options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+//                 });
 
 builder.Services.AddControllersWithViews();
 
@@ -166,6 +174,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

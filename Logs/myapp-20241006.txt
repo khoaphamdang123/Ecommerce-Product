@@ -7562,3 +7562,6 @@ FROM "StaticFile" AS s
 2024-10-06 00:23:06.013 +07:00 [INF] Application is shutting down...
 2024-10-06 00:23:06.014 +07:00 [DBG] Hosting stopping
 2024-10-06 00:23:06.019 +07:00 [DBG] Hosting stopped
+2024-10-06 23:14:53.895 +07:00 [WRN] Failed to determine the https port for redirect.
+2024-10-06 23:20:18.579 +07:00 [WRN] Failed to determine the https port for redirect.
+2024-10-06 23:31:46.111 +07:00 [WRN] Failed to determine the https port for redirect.
