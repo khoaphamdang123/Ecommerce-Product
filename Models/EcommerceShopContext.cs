@@ -29,6 +29,10 @@ public partial class EcommerceShopContext : DbContext
 
     public virtual DbSet<Brand> Brands { get; set; }
 
+    public virtual DbSet<Cart> Carts { get; set; }
+
+    public virtual DbSet<CartDetail> CartDetails { get; set; }
+
     public virtual DbSet<Category> Categories { get; set; }
 
     public virtual DbSet<CategoryBrandDetail> CategoryBrandDetails { get; set; }
@@ -36,6 +40,12 @@ public partial class EcommerceShopContext : DbContext
     public virtual DbSet<Color> Colors { get; set; }
 
     public virtual DbSet<Mirror> Mirrors { get; set; }
+
+    public virtual DbSet<Order> Orders { get; set; }
+
+    public virtual DbSet<OrderDetail> OrderDetails { get; set; }
+
+    public virtual DbSet<Payment> Payments { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
 
@@ -143,6 +153,53 @@ public partial class EcommerceShopContext : DbContext
                 .HasColumnName("Updated_Date");
         });
 
+        modelBuilder.Entity<Cart>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("cart_pk");
+
+            entity.ToTable("Cart");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Createddate)
+                .HasColumnType("character varying")
+                .HasColumnName("createddate");
+            entity.Property(e => e.Updateddate)
+                .HasColumnType("character varying")
+                .HasColumnName("updateddate");
+            entity.Property(e => e.Userid)
+                .HasColumnType("character varying")
+                .HasColumnName("userid");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Carts)
+                .HasForeignKey(d => d.Userid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("cart_user_fk");
+        });
+
+        modelBuilder.Entity<CartDetail>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("cart_detail_pk");
+
+            entity.ToTable("CartDetail");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Cartid).HasColumnName("cartid");
+            entity.Property(e => e.Discount).HasColumnName("discount");
+            entity.Property(e => e.Price).HasColumnName("price");
+            entity.Property(e => e.Productid).HasColumnName("productid");
+            entity.Property(e => e.Quantity).HasColumnName("quantity");
+
+            entity.HasOne(d => d.Cart).WithMany(p => p.CartDetails)
+                .HasForeignKey(d => d.Cartid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("cartdetail_cart_fk");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.CartDetails)
+                .HasForeignKey(d => d.Productid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("cart_product_fk");
+        });
+
         modelBuilder.Entity<Category>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("category_pk");
@@ -199,6 +256,81 @@ public partial class EcommerceShopContext : DbContext
             entity.Property(e => e.Mirrorname)
                 .HasColumnType("character varying")
                 .HasColumnName("mirrorname");
+        });
+
+        modelBuilder.Entity<Order>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("order_pk");
+
+            entity.ToTable("Order");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Createddate)
+                .HasColumnType("character varying")
+                .HasColumnName("createddate");
+            entity.Property(e => e.Paymentid).HasColumnName("paymentid");
+            entity.Property(e => e.Shippingaddress)
+                .HasColumnType("character varying")
+                .HasColumnName("shippingaddress");
+            entity.Property(e => e.Status)
+                .HasColumnType("character varying")
+                .HasColumnName("status");
+            entity.Property(e => e.Total).HasColumnName("total");
+            entity.Property(e => e.Userid)
+                .HasColumnType("character varying")
+                .HasColumnName("userid");
+
+            entity.HasOne(d => d.Payment).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.Paymentid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("order_payment_fk");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.Userid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("order_user_fk");
+        });
+
+        modelBuilder.Entity<OrderDetail>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("order_detail_pk");
+
+            entity.ToTable("OrderDetail");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Discount).HasColumnName("discount");
+            entity.Property(e => e.Orderid).HasColumnName("orderid");
+            entity.Property(e => e.Price).HasColumnName("price");
+            entity.Property(e => e.Productid).HasColumnName("productid");
+            entity.Property(e => e.Quantity).HasColumnName("quantity");
+
+            entity.HasOne(d => d.Order).WithMany(p => p.OrderDetails)
+                .HasForeignKey(d => d.Orderid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("orderdetail_order_fk");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.OrderDetails)
+                .HasForeignKey(d => d.Productid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("orderdetail_product_fk");
+        });
+
+        modelBuilder.Entity<Payment>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("payment_pk");
+
+            entity.ToTable("Payment");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Createddate)
+                .HasColumnType("character varying")
+                .HasColumnName("createddate");
+            entity.Property(e => e.Paymentname)
+                .HasColumnType("character varying")
+                .HasColumnName("paymentname");
+            entity.Property(e => e.Updateddate)
+                .HasColumnType("character varying")
+                .HasColumnName("updateddate");
         });
 
         modelBuilder.Entity<Product>(entity =>

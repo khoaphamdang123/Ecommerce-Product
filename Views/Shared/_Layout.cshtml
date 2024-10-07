@@ -179,7 +179,7 @@
 
               <li class="menu-item  @(view_controller=="AdminList"?"active open":"")">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                <i class="menu-icon tf-icons bx bx-user-circle"></i>
                 <div data-i18n="Account Settings">Admin</div>
               </a>
               <ul class="menu-sub">
@@ -256,7 +256,30 @@
                   </a>
                 </li>
               </ul>
-            </li>        
+            </li>       
+
+            <li class="menu-item @(view_controller=="OrderList"?"active open":"")">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-purchase-tag"></i>
+                <div data-i18n="Account Settings">Hóa đơn</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item @(view_action=="OrderList"?"active":"")">
+                  <a href="@Url.Action("OrderList","OrderList")" class="menu-link">
+                    <div data-i18n="Account">Danh sách hóa đơn</div>
+                  </a>
+                </li>
+              </ul>
+            </li>    
+
+                <li class="menu-item @(view_controller=="SettingList"?"active":"")">
+              <a href="javascript:void(0);" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-cog"></i>
+                <div data-i18n="Account Settings">Cài đặt</div>
+              </a>
+            </li>    
+
+
           </ul>
             <!-- Extended components -->
                     

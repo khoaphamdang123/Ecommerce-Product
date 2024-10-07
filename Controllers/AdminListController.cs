@@ -236,6 +236,8 @@ public async Task<IActionResult> UserInfoDelete(string email)
   try
   {
    int res_delete=await this._userList.deleteUser(email);
+  this._logger.LogInformation($"{this.HttpContext.Session.GetString("Username")} Delete admin account {email}");
+
    if(res_delete==1)
    {
     TempData["Status_Delete"]=1;

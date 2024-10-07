@@ -300,6 +300,8 @@ public async Task<IActionResult> UserInfoDelete(string email)
 
    if(res_delete==1)
    {
+    this._logger.LogInformation($"{this.HttpContext.Session.GetString("Username")} Delete user account {email}");
+
     TempData["Status_Delete"]=1;
     TempData["Message_Delete"] = "Xóa User thành công";
    }

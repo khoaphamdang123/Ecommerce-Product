@@ -47,6 +47,8 @@ builder.Services.AddScoped<IProductRepository,ProductService>();
 
 builder.Services.AddScoped<IStaticFilesRepository,StaticFilesService>();
 
+builder.Services.AddScoped<IOrderRepository,OrderListService>();
+
 
 builder.Services.AddTransient<Service>();
 
@@ -82,8 +84,8 @@ builder.Services.Configure<SmtpModel>(builder.Configuration.GetSection("SmtpMode
 {
   options.Cookie.HttpOnly = true;  
   options.ExpireTimeSpan = TimeSpan.FromHours(1);  
-    options.LoginPath = "/admin/login";  
-    options.AccessDeniedPath = "/admin/login";  
+  options.LoginPath = "/admin/login";  
+  options.AccessDeniedPath = "/admin/login";  
     options.SlidingExpiration = true;  
      options.Events.OnRedirectToLogin = context =>
     {

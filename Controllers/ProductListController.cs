@@ -160,6 +160,8 @@ public class ProductListController : Controller
         TempData["Message_Delete"]=$"Xóa sản phẩm mã {id} thất bại";
       }
       else{
+          this._logger.LogInformation($"{this.HttpContext.Session.GetString("Username")} delete product {id} successfully");
+
          TempData["Status_Delete"]=1;
         TempData["Message_Delete"]=$"Xóa sản phẩm mã {id} thành công"; 
       }
