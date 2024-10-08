@@ -49,6 +49,9 @@ builder.Services.AddScoped<IStaticFilesRepository,StaticFilesService>();
 
 builder.Services.AddScoped<IOrderRepository,OrderListService>();
 
+builder.Services.AddScoped<IPaymentRepository,PaymentListService>();
+
+builder.Services.AddScoped<IDashboardRepository,DashboardService>();
 
 builder.Services.AddTransient<Service>();
 

@@ -6,7 +6,13 @@
   int status_delete=-1;
   int change_pass_status=-1;
   var current_total_item=(Model.currentPage*Model.pageSize)-Model.pageSize;  
+  string curr_status_class="";
+  int sub_cat=-1;
 
+  if(ViewBag.SubCat!=null)
+  {
+    sub_cat=Convert.ToInt32(ViewBag.SubCat);
+  }
   var cat_list=ViewBag.CatList as IEnumerable<Category>;
   var brand_list=ViewBag.BrandList as IEnumerable<Brand>;
   Console.WriteLine(cat_list);
@@ -89,11 +95,7 @@
             });
         </script>
 }
-
-    <!-- Layout wrapper -->
   
-
-
           <div class="content-wrapper">
             <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Sản phẩm/</span>Danh sách sản phẩm</h4>
@@ -107,8 +109,19 @@
                     <select class="form-select select-2" name="category">
                       <option value="">Chọn loại sản phẩm</option>
                       @foreach(var option in cat_list)
+                      { if(filtered_product!=null)
                       {
+                        if(option.CategoryName==filtered_product.Category)
+                        {
+                          <option value="@option.Id" selected>@option.CategoryName</option>
+                        }
+                        else{
+                          <option value="@option.Id">@option.CategoryName</option>
+                        }
+                      }
+                      else{
                         <option value="@option.Id">@option.CategoryName</option>
+                      }
                       }
                     </select>
                      </div>
@@ -116,8 +129,19 @@
                       <select class="form-select select-2" name="brand">
                         <option value="">Chọn nhãn hàng</option>
                         @foreach(var option in brand_list)
+                        { if(filtered_product!=null)
                         {
+                          if(option.BrandName==filtered_product.Brand)
+                          {
+                            <option value="@option.Id" selected>@option.BrandName</option>
+                          }
+                          else{
+                            <option value="@option.Id">@option.BrandName</option>
+                          }
+                        }
+                        else{
                           <option value="@option.Id">@option.BrandName</option>
+                        }
                         }
                       </select>
                     </div>
@@ -125,8 +149,21 @@
                       <select class="form-select select-2" name="status">
                         <option value="">Chọn trạng thái</option>
                         @foreach(var option in status_list)
+                        { if(filtered_product!=null)
+                        {
+                          if(option==filtered_product.Status)
+                          {
+                            <option value="@option" selected>@option</option>
+                          }
+                          else
+                          {
+                            <option value="@option">@option</option>
+                          }
+                        }
+                        else
                         {
                           <option value="@option">@option</option>
+                        }
                         }
                       </select>
                     </div>
@@ -230,6 +267,21 @@
                     <tbody class="table-border-bottom-0">
                        @foreach(var product in Model.item)
                        { current_total_item+=1;
+
+                         switch(product.Status)
+                        {
+                           
+                            case "Còn hàng":
+                            {
+                                curr_status_class="bg-label-success";
+                                break;
+                            }
+                            case "Hết hàng":
+                            {
+                                curr_status_class="bg-label-danger";
+                                break;
+                            }
+                        }
                          <tr>
                             <td class="text-center">@current_total_item</td>
                             <td class="text-center">@product.Id</td>
@@ -257,7 +309,7 @@
                             <td class="text-center">@product.Category.CategoryName</td>
                             <td class="text-center">@product.Brand.BrandName</td>
                             <td class="text-center">@product.Price</td>
-                            <td class="text-center">@product.Status</td>
+                            <td class="text-center"><span class="badge px-2 @curr_status_class">@product.Status</span></td>                            
                             <td class="text-center">@product.CreatedDate</td>
                             <td class="text-center">@product.UpdatedDate</td>
                             <td class="text-center">

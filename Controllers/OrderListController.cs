@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Ecommerce_Product.Models;
 using Microsoft.AspNetCore.Authorization;
 using Ecommerce_Product.Repository;
+using System.ComponentModel;
 
 namespace Ecommerce_Product.Controllers;
 [Route("admin")]
@@ -35,6 +36,16 @@ public class OrderListController : Controller
           ViewBag.select_size=select_size;
           List<string> options=new List<string>(){"7","10","20","50"};
           ViewBag.options=options;
+          int processing_count=this._order.countOrderStatus("Processing");
+            int completed_count=this._order.countOrderStatus("Finished");
+            int cancelled_count=this._order.countOrderStatus("Cancelled");
+            int refund_count=this._order.countOrderStatus("Refund");
+
+
+            ViewBag.processing_count=processing_count; 
+            ViewBag.completed_count=completed_count;
+            ViewBag.cancelled_count=cancelled_count;
+            ViewBag.refund_count=refund_count;
     try
     {  
         var order=await this._order.pagingOrderList(7,1);
@@ -65,6 +76,15 @@ public class OrderListController : Controller
           ViewBag.select_size=select_size;
           List<string> options=new List<string>(){"7","10","20","50"};
           ViewBag.options=options;
+          int processing_count=this._order.countOrderStatus("Processing");
+            int completed_count=this._order.countOrderStatus("Finished");
+            int cancelled_count=this._order.countOrderStatus("Cancelled");
+            int refund_count=this._order.countOrderStatus("Refund");
+
+            ViewBag.processing_count=processing_count; 
+            ViewBag.completed_count=completed_count;
+            ViewBag.cancelled_count=cancelled_count;
+            ViewBag.refund_count=refund_count;
         return View("OrderList",order);
     }
     catch(Exception er)
@@ -118,6 +138,67 @@ public class OrderListController : Controller
     }
     return RedirectToAction("OrderList");
   }
+  
+
+  [Route("order/{id}/delete/{detail_id}")]
+  [HttpGet]
+
+  public async Task<IActionResult> DeleteOrderDetailByProduct(int id,int detail_id)
+  {    var order=await this._order.findOrderById(id);
+       
+       var orderDetail = await this._order.deleteProductOrderDetail(detail_id);
+
+    try
+    {     
+
+     if(orderDetail==0)
+     { 
+        ViewBag.Status=0;
+        ViewBag.Delete_Message="Xóa sản phẩm trong đơn hàng thất bại";
+        this._logger.LogInformation($"{this.HttpContext.Session.GetString("Username")} Delete Order Detail Id:{detail_id} from order id:{id} Failed");
+
+     }
+     else
+     {
+        ViewBag.Status=1;
+        ViewBag.Delete_Message="Xóa sản phẩm trong đơn hàng thành công";
+        this._logger.LogInformation($"{this.HttpContext.Session.GetString("Username")} Delete Order Detail Id:{detail_id} from order id:{id} Success");
+     }
+    }
+    catch(Exception er)
+    {
+        this._logger.LogTrace("Delete Order Detail Exception:"+er.Message);
+    }
+    return View("~/Views/OrderList/OrderDetail.cshtml",order);
+  }
+
+  [Route("order/{id}/delete")]
+  
+  [HttpGet]
+  public async Task<IActionResult> DeleteOrderDetailByProducts(int id,int[] ids)
+  { Console.WriteLine("Did come here");
+  Console.WriteLine(ids.Length);
+    var order=await this._order.findOrderById(id);
+    try
+    {
+    foreach(var detail_id in ids)
+    {
+        var orderDetail = await this._order.deleteProductOrderDetail(detail_id);
+    }
+        ViewBag.Delete_Multiple_Status=1;
+    ViewBag.Delete_Multiple_Message="Xóa các sản phẩm đã chọn trong đơn hàng thành công";
+        this._logger.LogInformation($"{this.HttpContext.Session.GetString("Username")} Delete Multiple Order Detail");
+    }
+ 
+    catch(Exception er)
+    {
+        this._logger.LogTrace("Delete Order Detail Exception:"+er.Message);
+        this._logger.LogInformation($"{this.HttpContext.Session.GetString("Username")} delete Order Detail Failed Exception:{er.Message}");
+    }
+
+    return View("~/Views/OrderList/OrderDetail.cshtml",order);
+  }
+
 
   [Route("order/{id}")]
   [HttpGet]
@@ -125,13 +206,20 @@ public class OrderListController : Controller
   {
     try
     {
+
     var order=await this._order.findOrderById(id);
+
+    var user_id=order.Userid;
+
+    var order_count=this._order.countOrder(user_id);
+    ViewBag.OrderCount=order_count;
+
     return View(order);
     }
     catch(Exception er)
     {
         this._logger.LogTrace("Get Order Detail Exception:"+er.Message);
     }
-    return View();
+    return View(); 
   }
 }

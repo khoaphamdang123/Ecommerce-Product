@@ -379,6 +379,35 @@ public async Task<IActionResult> ExportPdf()
   }
   return RedirectToAction("UserList","UserList");
 }
+
+
+
+[Route("{username}/info")]
+
+[HttpGet]
+
+public async Task<IActionResult> GetUserByName(string username)
+{
+  try
+  {
+    var user=await this._userList.findUserByName(username);
+    if(user!=null)
+    {
+    return View("~/Views/UserList/UserInfo.cshtml",user);
+    }
+    else
+    {
+      return RedirectToAction("UserList","UserList");
+    }
+  }
+  catch(Exception er)
+  {
+    Console.WriteLine("Get User By Name Exception:"+er.InnerException?.Message??er.Message);
+    this._logger.LogTrace("Get User By Name Exception:"+er.InnerException?.Message??er.Message);     
+  }
+  return RedirectToAction("UserList","UserList");
+}
+
 [Authorize(Roles ="Admin")]
 [Route("user_list/export_csv")]
 [HttpGet]

@@ -335,6 +335,13 @@ color: #696cff;
   border-radius: var(--bs-badge-border-radius);
 }
 
+.checkbox-header
+{
+  width: 80px!important;
+  height: 80px!important;
+  margin: auto;
+}
+
 .px-2 {
   padding-right: .5rem !important;
   padding-left: .5rem !important;

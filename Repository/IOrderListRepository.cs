@@ -17,6 +17,12 @@ public interface IOrderRepository
 
   public Task<int> deleteOrder(int id);
 
+  public Task<int> deleteProductOrderDetail(int id);
+
+  public int countOrderStatus(string status);
+
+  public int countOrder(string id);
+
   public Task<MemoryStream> exportToExcel();
 
   public Task saveChanges();

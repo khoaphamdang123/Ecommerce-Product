@@ -414,7 +414,7 @@ public class CategoryListController : Controller
         FilterCategory cat_obj= new FilterCategory(categoryname,startdate,enddate);
        var category_list=await this._category.filterCategoryList(cat_obj);
        var category_paging=PageList<Category>.CreateItem(category_list.AsQueryable(),1,7);
-       ViewBag.filter_obj=category_list;  
+       ViewBag.filter_obj=cat_obj;  
     return View("~/Views/CategoryList/CategoryList.cshtml",category_paging);
     }
     catch(Exception er)
@@ -523,7 +523,7 @@ public class CategoryListController : Controller
    [Route("category_list/add")]
    
    [HttpPost]
-   public async Task<IActionResult> AddCategory(Category category)
+   public async Task<IActionResult> AddCategory(AddCategoryModel category)
    {
     try
     {  
@@ -586,7 +586,7 @@ public class CategoryListController : Controller
 
 [Route("category_list/update")]
 [HttpPost]
-public async Task<IActionResult> UpdateCategory(Category category)
+public async Task<IActionResult> UpdateCategory(AddCategoryModel category)
 {
     try
     {

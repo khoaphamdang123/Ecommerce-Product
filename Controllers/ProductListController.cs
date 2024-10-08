@@ -67,7 +67,7 @@ public class ProductListController : Controller
 //[Authorize(Roles ="Admin")]
   [Route("product_list/paging")]
    [HttpGet]
-  public async Task<IActionResult> ProductListPaging([FromQuery]int page_size,[FromQuery] int page=1,string productname="",string brand="",string category="",string start_date="",string end_date="",string status="")
+  public async Task<IActionResult> ProductListPaging([FromQuery]int page_size,[FromQuery] int page=1,string productname="",string brand="",string category="",string start_date="",string end_date="",string status="",int sub_cat=-1)
   {
     try{
          var prods=await this._product.pagingProduct(page_size,page);
@@ -75,8 +75,14 @@ public class ProductListController : Controller
          {
             FilterProduct prod=new FilterProduct(productname,start_date,end_date,category,brand,status);
             var filter_prods=await this._product.filterProduct(prod);
-            var filter_prods_paging=PageList<Product>.CreateItem(filter_prods.AsQueryable(),page,page_size);
-            ViewBag.filter_obj=filter_prods_paging;
+            prods=PageList<Product>.CreateItem(filter_prods.AsQueryable(),page,page_size);
+            ViewBag.filter_obj=prod; 
+         }
+         if(sub_cat!=-1)
+         {
+            var filter_prods=await this._product.getProductBySubCategory(sub_cat);
+            prods =PageList<Product>.CreateItem(filter_prods.AsQueryable(),page,page_size);
+            ViewBag.SubCat=sub_cat;
          }
           List<string> options=new List<string>(){"7","10","20","50"};
           
@@ -137,7 +143,7 @@ public class ProductListController : Controller
           ViewBag.StatusList = new List<string>{"Hết hàng","Còn hàng"};
        var product_list=await this._product.filterProduct(products);
        var product_paging=PageList<Product>.CreateItem(product_list.AsQueryable(),1,7);
-       ViewBag.filter_obj=product_list;  
+       ViewBag.filter_obj=products;  
     return View("~/Views/ProductList/ProductList.cshtml",product_paging);
     }
     catch(Exception er)
@@ -273,6 +279,35 @@ var category_list=await this._category.getAllCategory();
          var variant_list=await this._product.pagingVariant(id,7,1);
          return View(variant_list);
   }
+  
+
+ [Route("product_list/sub_category/{sub_cat}")]
+
+ [HttpGet]
+
+ public async Task<IActionResult> ProductListBySubCategory(int sub_cat)
+ {
+    var category_list=await this._category.getAllCategory(); 
+    
+    var brand_list = await this._category.getAllBrandList();
+  
+    List<SubCategory> sub_cat_list=new List<SubCategory>();
+  
+    foreach(var cat in category_list)
+    {
+      foreach(var sub_cat_ob in cat.SubCategories)
+      {
+        sub_cat_list.Add(sub_cat_ob);
+      }
+    }
+    ViewBag.CategoryList=category_list;
+    ViewBag.BrandList=brand_list;
+    ViewBag.SubCatList=sub_cat_list;
+    ViewBag.SubCat=sub_cat;
+    var product_list=await this._product.getProductBySubCategory(sub_cat);
+    return View("~/Views/ProductList/ProductList.cshtml",product_list);
+ }
+
 
   [Route("product_list/{id}/variant/paging")]
   

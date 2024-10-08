@@ -2,16 +2,20 @@ using Ecommerce_Product.Repository;
 using Ecommerce_Product.Models;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
-using Npgsql.Replication;
 
 namespace Ecommerce_Product.Service;
 public class CategoryListService:ICategoryListRepository
 {
   private readonly EcommerceShopContext _context;
+    private readonly IWebHostEnvironment _webHostEnv;
+    private readonly Support_Serive.Service _support_service;
+
  // private readonly Logger<CategoryListService> _logger;
-  public CategoryListService(EcommerceShopContext context)
+  public CategoryListService(EcommerceShopContext context,IWebHostEnvironment webHostEnv,Support_Serive.Service support_service)
   {
     this._context=context;
+    this._webHostEnv=webHostEnv;
+    this._support_service=support_service;
   }
 
 
@@ -98,7 +102,7 @@ public async Task<bool> checkCategoryExist(string categoryname)
     return is_existed;
 }
 
-public async Task<int> createCategory(Category category)
+public async Task<int> createCategory(AddCategoryModel category)
 { int create_res=0;
     try
     {
@@ -109,7 +113,30 @@ public async Task<int> createCategory(Category category)
     {   create_res=-1;
         return create_res;
     }
-     string avatar="https://cdn-icons-png.flaticon.com/128/16955/16955062.png";
+     string folder_name="UploadImageCategory";
+
+   string upload_path=Path.Combine(this._webHostEnv.WebRootPath,folder_name);
+
+   if(!Directory.Exists(upload_path))
+   {
+    Directory.CreateDirectory(upload_path);
+   }
+   string avatar_url="";
+  var avatar_obj=category.Avatar;
+  if(avatar_obj!=null)
+  {
+   string file_name=Guid.NewGuid()+"_"+Path.GetFileName(avatar_obj.FileName);
+  
+   string file_path=Path.Combine(upload_path,file_name);
+
+   using(var fileStream=new FileStream(file_path,FileMode.Create))
+   {
+    await avatar_obj.CopyToAsync(fileStream);
+   } 
+   avatar_url=file_path;
+  }
+     string avatar=avatar_url;
+     
      string created_date=DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
      
      string updated_date =DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
@@ -175,7 +202,7 @@ public async Task<int> deleteCategory(int id)
     return delete_res;
 }
 
-public async Task<int> updateCategory(Category category)
+public async Task<int> updateCategory(AddCategoryModel category)
 {
     int update_res=0;
     try
@@ -185,10 +212,35 @@ public async Task<int> updateCategory(Category category)
         if(cat!=null)
         {
            cat.CategoryName=category.CategoryName;
+           string curr_avatar=cat.Avatar;
+  string folder_name="UploadImageCategory";
+        
+   string upload_path=Path.Combine(this._webHostEnv.WebRootPath,folder_name);
+
+   if(!Directory.Exists(upload_path))
+   {
+    Directory.CreateDirectory(upload_path);
+   }
+   string avatar_url="";
+  var avatar_obj=category.Avatar;
+  if(avatar_obj!=null)
+  {
+   string file_name=Guid.NewGuid()+"_"+Path.GetFileName(avatar_obj.FileName);
+  
+   string file_path=Path.Combine(upload_path,file_name);
+
+   using(var fileStream=new FileStream(file_path,FileMode.Create))
+   {
+    await avatar_obj.CopyToAsync(fileStream);
+   } 
+   avatar_url=file_path;
+  }
            cat.UpdatedDate=DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
+           cat.Avatar=avatar_url;
            this._context.Categories.Update(cat);
            await this.saveChange();
            update_res=1;
+          await this._support_service.removeFiles(curr_avatar);
         }
     }
     catch(Exception er)

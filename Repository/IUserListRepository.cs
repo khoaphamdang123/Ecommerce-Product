@@ -19,6 +19,8 @@ public Task<ApplicationUser> findUserByEmail(string email);
 
 public Task<ApplicationUser> findUserById(string id);
 
+public Task<ApplicationUser> findUserByName(string name);
+
 public Task<int> updateUser(UserInfo user);
 
 public Task<int> deleteUser(string email);

@@ -2,6 +2,7 @@ using Ecommerce_Product.Repository;
 using Ecommerce_Product.Models;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
+using System.Runtime.Serialization;
 
 namespace Ecommerce_Product.Service;
 
@@ -24,7 +25,7 @@ public class OrderListService:IOrderRepository
 
   public async Task<Order> findOrderById(int id)
   {
-    var order=await this._context.Orders.Include(c=>c.User).Include(c=>c.Payment).FirstOrDefaultAsync(s=>s.Id==id);
+    var order=await this._context.Orders.Include(c=>c.User).Include(c=>c.Payment).Include(c=>c.OrderDetails).ThenInclude(c=>c.Product).FirstOrDefaultAsync(s=>s.Id==id);
     return order;
   }
 
@@ -108,6 +109,57 @@ public class OrderListService:IOrderRepository
   stream.Position=0;
   return stream;
   }
+  }
+
+  public int countOrderStatus(string status)
+  {
+    int count=0;
+    try
+    {
+      var orders=this._context.Orders.Where(s=>s.Status==status).ToList();
+      count=orders.Count;
+    }
+    catch(Exception er)
+    {
+    Console.WriteLine("Count Order Status Exception:"+er.Message);
+    }
+    return count;
+  }
+
+  public int countOrder(string id)
+  {
+    int count=0;
+    try
+    {
+      var orders=this._context.Orders.Where(s=>s.Userid==id).ToList();
+      count=orders.Count;
+    }
+    catch(Exception er)
+    {
+    Console.WriteLine("Count Order Exception:"+er.Message);
+    }
+    return count;
+  }
+
+
+  public async Task<int> deleteProductOrderDetail(int id)
+  {
+    int deleted_res=0;
+    try
+    {
+      var order_detail=await this._context.OrderDetails.FirstOrDefaultAsync(s=>s.Id==id);
+      if(order_detail!=null)
+      {
+        this._context.OrderDetails.Remove(order_detail);
+        await this.saveChanges();
+        deleted_res=1;
+      }
+    }
+    catch(Exception er)
+    {
+      return deleted_res;
+    }
+    return deleted_res;
   }
 
 public async Task<IEnumerable<Order>> filterOrderList(string status)

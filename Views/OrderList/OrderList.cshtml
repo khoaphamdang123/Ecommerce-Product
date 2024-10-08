@@ -18,6 +18,10 @@
   int status_delete=-1;
   var category_id=ViewBag.Category_Id;
   var current_total_item=(Model.currentPage*Model.pageSize)-Model.pageSize;
+  var processing_count=ViewBag.processing_count; 
+   var completed_count= ViewBag.completed_count;
+   var cancelled_count = ViewBag.cancelled_count;
+   var refund_count=ViewBag.refund_count;
   string curr_status_class="";
   Dictionary<string,string> order_status=new Dictionary<string, string>{
     {"Processing","Đang xử lý"},
@@ -109,7 +113,7 @@
                             <div class="d-flex justify-content-between align-items-start card-widget-1 border-end pb-4 pb-sm-0">
                                <div>
                                 <h4 class="mb-0">
-                                 56
+                                 @processing_count
                                 </h4>
                                 <p class="mb-0">
                                     Đơn đang xử lý
@@ -128,7 +132,7 @@
                             <div class="d-flex justify-content-between align-items-start card-widget-1 border-end pb-4 pb-sm-0">
                                <div>
                                 <h4 class="mb-0">
-                                 128
+                                 @completed_count
                                 </h4>
                                 <p class="mb-0">
                                     Đơn đã hoàn thành
@@ -147,7 +151,7 @@
                             <div class="d-flex justify-content-between align-items-start card-widget-1 border-end pb-4 pb-sm-0">
                                <div>
                                 <h4 class="mb-0">
-                                 12
+                                 @refund_count
                                 </h4>
                                 <p class="mb-0">
                                     Đơn được hoàn tiền
@@ -166,7 +170,7 @@
                             <div class="d-flex justify-content-between align-items-start card-widget-1 border-end pb-4 pb-sm-0">
                                <div>
                                 <h4 class="mb-0">
-                                 150
+                                 @cancelled_count
                                 </h4>
                                 <p class="mb-0">
                                     Đơn đã hủy
@@ -298,8 +302,8 @@
                             <td class="text-center">@order.Createddate</td>
                             <td class="text-center">
                             <div class="d-flex justify-content-center">
-                              <a data-bs-toggle="modal" data-bs-target="#modalLong" class="btn btn-icon delete-record icon-style-delete mr-2" id="delete-record-btn">
-                                <i class="bx bx-trash bx-md"></i>
+                              <a data-bs-toggle="modal" data-bs-target="#modalLong" class="btn btn-icon delete-record icon-style-delete mr-2" id="delete-record-btn">                               
+                                 <i class="bx bx-trash bx-md"></i>
                               </a>
                       <div class="modal fade" id="modalLong" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">

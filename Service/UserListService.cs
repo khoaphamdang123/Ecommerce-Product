@@ -35,7 +35,7 @@ public class UserListService:IUserListRepository
         this._logger=logger;
         this._webHostEnv=webHost;
     }
-
+ 
     public async Task<IEnumerable<ApplicationUser>> filterUserList(FilterUser user)
     {
     string username=user.UserName;
@@ -96,6 +96,12 @@ public class UserListService:IUserListRepository
    return user_list;
    }
 
+   public async Task<ApplicationUser> findUserByName(string name)
+   {
+    var user=await this._userManager.FindByNameAsync(name);
+    return user;
+   }
+
    
 public async Task<bool> checkUserExist(string email,string username)
 {
@@ -129,7 +135,29 @@ public async Task<bool> checkUserExist(string email,string username)
       seq=(latestUser.Seq??0)+1;
     }
      string role = "User";
-     string avatar="https://cdn-icons-png.flaticon.com/128/3135/3135715.png";
+  string folder_name="UploadImageUser";
+
+   string upload_path=Path.Combine(this._webHostEnv.WebRootPath,folder_name);
+
+   if(!Directory.Exists(upload_path))
+   {
+    Directory.CreateDirectory(upload_path);
+   }
+   string avatar_url="";
+  var avatar_obj=user.Avatar;
+  if(avatar_obj!=null)
+  {
+   string file_name=Guid.NewGuid()+"_"+Path.GetFileName(avatar_obj.FileName);
+  
+   string file_path=Path.Combine(upload_path,file_name);
+
+   using(var fileStream=new FileStream(file_path,FileMode.Create))
+   {
+    await avatar_obj.CopyToAsync(fileStream);
+   } 
+   avatar_url=file_path;
+  }
+     string avatar=avatar_url;
      string created_date=DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
      var new_user=new ApplicationUser{UserName = user.UserName,Email=user.Email,Address1=user.Address1,Address2=user.Address2,Gender=user.Gender,PhoneNumber=user.PhoneNumber,Created_Date=created_date,Seq=seq,Avatar=avatar};
      var res=await this._userManager.CreateAsync(new_user,user.Password);
@@ -142,14 +170,6 @@ public async Task<bool> checkUserExist(string email,string username)
     {
         Console.WriteLine(error.Description);
     }
-    //  else{
-    //     foreach(var err in res.Errors)
-    //     {
-    //         Console.WriteLine(err.Description);
-    //     }
-    //  }
-    
-
      return res_created;
    }
   
@@ -174,7 +194,8 @@ public async Task<bool> checkUserExist(string email,string username)
       user.Address2=user_info.Address2;
       user.Gender=user_info.Gender;
       cur_avatar=user.Avatar;
-    string folder_name="UploadImageUser";
+    
+   string folder_name="UploadImageUser";
 
    string upload_path=Path.Combine(this._webHostEnv.WebRootPath,folder_name);
 

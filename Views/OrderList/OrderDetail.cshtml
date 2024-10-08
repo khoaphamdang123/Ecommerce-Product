@@ -1,8 +1,12 @@
 @model Order
 @{
-   var created_page=ViewBag.Created_Page;
-   var create_status=ViewBag.Status;
+   var deleted_page=ViewBag.Delete_Message;
+   var delete_status=ViewBag.Status;
+   var delete_multiple_status=ViewBag.Delete_Multiple_Status;
+   var delete_multiple_message = ViewBag.Delete_Multiple_Message;
    string curr_status_class="";
+   int sum_order=0;
+   int order_count=ViewBag.OrderCount;
   Dictionary<string,string> order_status=new Dictionary<string, string>{
     {"Processing","Đang xử lý"},
     {"Finished","Đã hoàn thành"},
@@ -26,15 +30,13 @@
   }
 }
 
-
-@if(create_status==0 || create_status==-1)
+@if(delete_status==0)
     {
       <div
        class="bs-toast toast fade hide bg-danger toast-placement-ex top-5 end-0"
        role="alert"
        aria-live="assertive"
        aria-atomic="true"
-    using System.Diagnostics;
         data-bs-dismiss="toast"
         style="cursor: pointer;"
          data-delay="3000"
@@ -43,11 +45,11 @@
              >
                         <div class="toast-header">
                           <i class="bx bx-bell me-2"></i>
-                          <div class="me-auto fw-semibold">Thêm trang</div>
+                          <div class="me-auto fw-semibold">Xóa sản phẩm trong hóa đơn</div>
                           <!--<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>-->
                         </div>
                         <div class="toast-body">
-                         @created_page
+                         @deleted_page
                         </div>
                       </div>
                         <script>
@@ -59,7 +61,7 @@
         </script>
     }
 
-@if(create_status==1)
+@if(delete_status==1)
 { 
     <div
        class="bs-toast toast fade hide bg-success toast-placement-ex top-5 end-0"
@@ -74,22 +76,83 @@
              >
                         <div class="toast-header">
                           <i class="bx bx-bell me-2"></i>
-                          <div class="me-auto fw-semibold">Thêm trang</div>
-                          <!--<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>-->
+                          <div class="me-auto fw-semibold">Xóa sản phẩm trong hóa đơn</div>
                         </div>
                         <div class="toast-body">
-                         @created_page
+                         @deleted_page
                         </div>
                       </div>
                 <script>
             document.addEventListener('DOMContentLoaded', function() {
                 var toastEl = document.querySelector('.toast');
                 var toast = new bootstrap.Toast(toastEl);
-                toast.show();
+                toast.show();                
             });
         </script>
 }
-    
+
+
+
+@if(delete_multiple_status==0)
+    {
+      <div
+       class="bs-toast toast fade hide bg-danger toast-placement-ex top-5 end-0"
+       role="alert"
+       aria-live="assertive"
+       aria-atomic="true"
+        data-bs-dismiss="toast"
+        style="cursor: pointer;"
+         data-delay="3000"
+         data-bs-autohide="true" 
+         data-bs-delay="3000"
+             >
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold">Xóa các sản phẩm trong hóa đơn</div>
+                          <!--<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>-->
+                        </div>
+                        <div class="toast-body">
+                         @delete_multiple_message
+                        </div>
+                      </div>
+                        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var toastEl = document.querySelector('.toast');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            });
+        </script>
+    }
+
+@if(delete_multiple_status==1)
+{ 
+    <div
+       class="bs-toast toast fade hide bg-success toast-placement-ex top-5 end-0"
+       role="alert"
+       aria-live="assertive"
+       aria-atomic="true"
+        data-bs-dismiss="toast"
+        style="cursor: pointer;"
+         data-delay="3000"
+         data-bs-autohide="true" 
+         data-bs-delay="3000"
+             >
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold">Xóa các sản phẩm trong hóa đơn</div>
+                        </div>
+                        <div class="toast-body">
+                         @delete_multiple_message
+                        </div>
+                      </div>
+                <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var toastEl = document.querySelector('.toast');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();                
+            });
+        </script>
+}    
           <div class="content-wrapper">
 
             <div class="container-xxl flex-grow-1 container-p-y">            
@@ -103,39 +166,124 @@
   </div>
 </div>
 
-<!-- Order Details Table -->
-
 <div class="row">
   <div class="col-12 col-lg-8">
     <div class="card mb-6">
       <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="card-title m-0">Chi tiết đơn hàng</h5>
-        <h6 class="m-0"><a href=" javascript:void(0)">Edit</a></h6>
+        <button type="button" id="delete-all-btn" class="m-0 btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalLong1" data-id="@Model.Id">Xóa</button>
       </div>
-      <div class="card-datatable table-responsive">
+      <div class="card-datatable table-responsive text-nowrap">
         <table class="datatables-order-details table border-top">
           <thead>
             <tr>
-              <th></th>
-              <th></th>
+              <th>
+              </th>
+ <th rowspan="1" colspan="1" data-col="1" aria-label="">
+    <input type="checkbox" class="form-check-input" id="check-all">
+ </th>
               <th class="w-50">Tên sản phẩm</th>
               <th class="w-25">Giá</th>
               <th class="w-25">Số lượng</th>
-              <th>Tổng</th>
+              <th class="w-25">Tổng</th>
+              <th class="w-50">Thao tác</th>
             </tr>
           </thead>
+          <tbody>
+            @foreach(var item in Model.OrderDetails)
+            {  int sum=(Convert.ToInt32(item.Price)*item.Quantity);
+               sum_order+=sum;
+              <tr>
+                <td></td>
+                <td>
+          <input type="checkbox" class="form-check-input" value="@item.Id">
+                </td>
+                <td class="w-50">
+                 <div class="d-flex align-items-center">
+                 <div class="avatar-wrapper">   
+                 <div class="avatar avatar-sm me-2">
+                <img src="@item.Product.Frontavatar" alt="Product Avatar">
+                </div>
+                 </div>
+                <strong>@item.Product.ProductName</strong>
+                </div>
+                </td>
+                <td class="w-25">
+                    @item.Price VND
+                    </td>
+                <td class="w-25">@item.Quantity</td>
+                <td>@sum VND</td>
+                <td>
+                <div class="d-flex align-items-center justify-content-center">
+             <a data-bs-toggle="modal" data-bs-target="#modalLong" class="btn btn-icon delete-record icon-style-delete mr-2" id="delete-record-btn" data-page="@item.Id" data-order="@Model.Id">
+            <i class="bx bx-trash bx-md"></i>
+            </a>
+                <div class="modal fade" id="modalLong" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h4 class="modal-title" id="modalLongTitle"><strong>Xóa sản phẩm</strong></h4>
+                              <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                              ></button>
+                            </div>
+                            <div class="modal-body">
+                             <p class="modal-font">
+                               <strong>Bạn có chắc là muốn xóa sản phẩm này khỏi hóa đơn?</strong>
+                              </p>
+                            </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" id="remove-btn">Xóa</button>
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                Đóng
+                            </button>
+                        </div>
+                          </div>
+                        </div>
+                      </div>
+                         <div class="modal fade" id="modalLong1" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h4 class="modal-title" id="modalLongTitle"><strong>Xóa sản phẩm</strong></h4>
+                              <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                              ></button>
+                            </div>
+                            <div class="modal-body">
+                             <p class="modal-font">
+                               <strong>Bạn có chắc là muốn xóa các sản phẩm này khỏi hóa đơn?</strong>
+                              </p>
+                            </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" id="remove-btn-all">Xóa</button>
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                Đóng
+                            </button>
+                        </div>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+                </td>
+              </tr>
+            }
+          </tbody>
         </table>
-        <div class="d-flex justify-content-end align-items-center m-6 mb-3">
-          <div class="order-calculations">
+        <div class="d-flex justify-content-end align-items-center m-3 mt-3">
             <div class="d-flex justify-content-start">
-              <h6 class="w-px-100 mb-">Tổng:</h6>
-              <h6 class="mb-0">$2113</h6>
+              <h6 class="w-px-100 mb-0">Tổng:</h6>
+              <h6 class="mb-0">@sum_order VND</h6>
             </div>
-          </div>
         </div>
       </div>
     </div>
-
   </div>
   <div class="col-12 col-lg-4">
     <div class="card mb-5">
@@ -148,21 +296,22 @@
             <img src="@Model.User.Avatar" alt="Avatar" class="rounded-circle">
           </div>
           <div class="d-flex flex-column">
-            <a href="app-user-view-account.html" class="text-body text-nowrap">
-              <h6 class="mb-0">@Model.User.UserName</h6>
+            <a href="@Url.Action("GetUserByName","UserList",new{username=Model.User.UserName})" class="text-body text-nowrap">
+              <h6 class="mb-2"><span>Tên khách hàng:</span>@Model.User.UserName</h6>
             </a>
-            <span>ID khách hàng:@Model.User.Id</span></div>
+            <span>ID khách hàng:@Model.User.Id</span>
+            </div>
         </div>
         <div class="d-flex justify-content-start align-items-center mb-4">
           <span class="avatar rounded-circle bg-label-success me-3 d-flex align-items-center justify-content-center"><i class='bx bx-cart bx-lg'></i></span>
-          <h6 class="text-nowrap mb-0">12 Orders</h6>
+          <h6 class="text-nowrap mb-0">@order_count Orders</h6>
         </div>
         <div class="d-flex justify-content-between">
           <h6 class="mb-1">Thông tin liên hệ</h6>
-          <h6 class="mb-1"><a href=" javascript:void(0)" data-bs-toggle="modal" data-bs-target="#editUser">Edit</a></h6>
+          @* <h6 class="mb-1"><a href=" javascript:void(0)" data-bs-toggle="modal" data-bs-target="#editUser">Edit</a></h6> *@
         </div>
-        <p class=" mb-1">Email: @Model.User.Email</p>
-        <p class=" mb-0">Mobile: @Model.User.PhoneNumber</p>
+        <p class="mb-1">Email: @Model.User.Email</p>
+        <p class="mb-0">Mobile: @Model.User.PhoneNumber</p>
       </div>
     </div>
 
@@ -170,14 +319,12 @@
 
       <div class="card-header d-flex justify-content-between">
         <h5 class="card-title m-0">Địa chỉ giao hàng</h5>
-        <h6 class="m-0"><a href=" javascript:void(0)" data-bs-toggle="modal" data-bs-target="#addNewAddress">Edit</a></h6>
+        @* <h6 class="m-0"><a href=" javascript:void(0)" data-bs-toggle="modal" data-bs-target="#addNewAddress">Edit</a></h6> *@
       </div>
       <div class="card-body">
         <p class="mb-0">@Model.Shippingaddress</p>
       </div>
-
     </div>
-
   </div>
 </div>
 
@@ -194,7 +341,7 @@
         <form class="row g-6" onsubmit="false">
           <div class="col-12 col-md-6">
             <label class="form-label" for="modalEditUserFirstName">First Name</label>
-            <input type="text" id="modalEditUserFirstName" name="modalEditUserFirstName" class="form-control" placeholder="John" value="John" />
+            <input type="text" id="modalEditUserFirstName" name="" class="form-control" placeholder="John" value="John" />
           </div>
           <div class="col-12 col-md-6">
             <label class="form-label" for="modalEditUserLastName">Last Name</label>
@@ -409,14 +556,45 @@
 <!--/ Add New Address Modal -->
 </div>
 
-          
-          
+<script>
+  $("#check-all").click(function () {
+    $('input:checkbox').not(this).prop('checked', this.checked);
+  });
+    var all_delete_btn=document.querySelectorAll('#delete-record-btn');
+    var delete_page='';
+    var delete_id=-1;
+    all_delete_btn.forEach((btn)=>{
+    btn.addEventListener('click',()=>{
+    delete_page=btn.getAttribute('data-page');
+    delete_id=btn.getAttribute('data-order');
+     })
+    });
+ 
+ 
+ document.getElementById("remove-btn-all").addEventListener("click", function() {
+    var id=document.getElementById("delete-all-btn").getAttribute("data-id");
+    var checkedBoxes = document.querySelectorAll("td input[type='checkbox']:checked");
+    var idsToDelete = Array.from(checkedBoxes).map(function(checkbox) {
+        return `ids=${checkbox.value}`
+    }).join('&');
+  var url='@Url.Action("DeleteOrderDetailByProducts","OrderList",new{id="__id__"})'+"?"+idsToDelete;
+    url=url.replace("__id__",id);
+    window.location.href=url;
+});
 
+ document.getElementById("remove-btn").addEventListener('click',()=>{
+   
+   let delete_page_value=delete_page;
 
+    var url='';
+    
+    url='@Url.Action("DeleteOrderDetailByProduct","OrderList",new{id="__id__",detail_id="__detail_id__"})';
 
-          
-        </div>
-        <!-- Content wrapper -->
-      <!-- / Layout page -->
+    url=url.replace("__id__",delete_id).replace("__detail_id__",delete_page_value);
+    
+    window.location.href=url;
+    });
+ </script>
+</div>
     
               

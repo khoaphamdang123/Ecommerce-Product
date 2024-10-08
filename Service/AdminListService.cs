@@ -21,14 +21,18 @@ public class AdminListService:IAdminRepository
 
     private readonly SmtpService _smtpService;
 
+    private readonly IWebHostEnvironment _webHostEnv;
+
+
     private readonly ILogger<LoginService> _logger;
 
-    public AdminListService(UserManager<ApplicationUser> userManager,RoleManager<IdentityRole> roleManager,Support_Serive.Service service,SmtpService smtpService,ILogger<LoginService> logger)
+    public AdminListService(UserManager<ApplicationUser> userManager,RoleManager<IdentityRole> roleManager,Support_Serive.Service service,SmtpService smtpService,ILogger<LoginService> logger,IWebHostEnvironment webHostEnv)
     {
         this._userManager=userManager;
         this._roleManager=roleManager;
         this._support_service=service;
         this._smtpService=smtpService;
+        this._webHostEnv=webHostEnv;
         this._logger=logger;
     }
 
@@ -117,7 +121,7 @@ public async Task<bool> checkUserExist(string email,string username)
 
    public async Task<int> createUser(Register user)
    { 
-     int res_created=0;
+  int res_created=0;
 
     bool is_existed=await checkUserExist(user.Email,user.UserName);
 
@@ -128,15 +132,38 @@ public async Task<bool> checkUserExist(string email,string username)
      var users=this._userManager.Users;
      int seq=1;
       var latestUser = await users
-            .OrderByDescending(u => u.Seq)  
+            .OrderByDescending(u => u.Seq)  // Replace with the correct field to order by
             .FirstOrDefaultAsync();
     if(latestUser!=null)
     {
       seq=(latestUser.Seq??0)+1;
     }
      string role = "Admin";
+  string folder_name="UploadImageAdmin";
+
+   string upload_path=Path.Combine(this._webHostEnv.WebRootPath,folder_name);
+
+   if(!Directory.Exists(upload_path))
+   {
+    Directory.CreateDirectory(upload_path);
+   }
+   string avatar_url="";
+  var avatar_obj=user.Avatar;
+  if(avatar_obj!=null)
+  {
+   string file_name=Guid.NewGuid()+"_"+Path.GetFileName(avatar_obj.FileName);
+  
+   string file_path=Path.Combine(upload_path,file_name);
+
+   using(var fileStream=new FileStream(file_path,FileMode.Create))
+   {
+    await avatar_obj.CopyToAsync(fileStream);
+   } 
+   avatar_url=file_path;
+  }
+     string avatar=avatar_url;
      string created_date=DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
-     var new_user=new ApplicationUser{UserName = user.UserName,Email=user.Email,Address1=user.Address1,Address2=user.Address2,Gender=user.Gender,PhoneNumber=user.PhoneNumber,Created_Date=created_date,Seq=seq,Avatar="https://cdn-icons-png.flaticon.com/128/3135/3135715.png"};
+     var new_user=new ApplicationUser{UserName = user.UserName,Email=user.Email,Address1=user.Address1,Address2=user.Address2,Gender=user.Gender,PhoneNumber=user.PhoneNumber,Created_Date=created_date,Seq=seq,Avatar=avatar};
      var res=await this._userManager.CreateAsync(new_user,user.Password);
      if(res.Succeeded)
      {  
@@ -147,14 +174,6 @@ public async Task<bool> checkUserExist(string email,string username)
     {
         Console.WriteLine(error.Description);
     }
-    //  else{
-    //     foreach(var err in res.Errors)
-    //     {
-    //         Console.WriteLine(err.Description);
-    //     }
-    //  }
-    
-
      return res_created;
    }
   
@@ -172,35 +191,61 @@ public async Task<bool> checkUserExist(string email,string username)
 
 public async Task<int> updateUser(UserInfo user_info)
 {
- int res=0;
- string user_id=user_info.Id;
- if(string.IsNullOrEmpty(user_id))
- {
-    return res;
- }
- var user=await this.findUserById(user_id);
- if(user!=null)
- {
-   user.UserName=user_info.UserName;
-   user.Email=user_info.Email;
-   user.PhoneNumber=user_info.PhoneNumber;
-   user.Address1=user_info.Address1;
-   user.Address2=user_info.Address2;
-   user.Gender=user_info.Gender;
-   Console.WriteLine("Phone number for this user:"+user.PhoneNumber);
-   var res_update= await this._userManager.UpdateAsync(user);
-   if(res_update.Succeeded)
+   int res=0;
+   string id=user_info.Id;
+   string cur_avatar="";
+   var user=await this._userManager.FindByIdAsync(id);
+   if(user!=null)
    {
-    res=1;
+      user.UserName=user_info.UserName;
+      user.Email=user_info.Email;
+      user.PhoneNumber=user_info.PhoneNumber;
+      user.Address1=user_info.Address1;
+      user.Address2=user_info.Address2;
+      user.Gender=user_info.Gender;
+      cur_avatar=user.Avatar;
+    
+   string folder_name="UploadImageAdmin";
+
+   string upload_path=Path.Combine(this._webHostEnv.WebRootPath,folder_name);
+
+   if(!Directory.Exists(upload_path))
+   {
+    Directory.CreateDirectory(upload_path);
    }
-   else{
-    foreach(var err in res_update.Errors)
-    {
-        Console.WriteLine("Update User error:"+err.Description);
-    }
+   string avatar_url="";
+  var avatar=user_info.Avatar;
+  if(avatar!=null)
+  {
+   string file_name=Guid.NewGuid()+"_"+Path.GetFileName(avatar.FileName);
+  
+   string file_path=Path.Combine(upload_path,file_name);
+
+   using(var fileStream=new FileStream(file_path,FileMode.Create))
+   {
+    await avatar.CopyToAsync(fileStream);
+   } 
+   avatar_url=file_path;
+  }
+  user.Avatar=avatar_url;
+  
+
+      var res_update=await this._userManager.UpdateAsync(user);
+      if(!res_update.Succeeded)
+      {
+        foreach(var err in res_update.Errors)
+        {
+            Console.WriteLine("Error update user:"+err.Description);
+        }
+      }
+      else
+      {
+        res=1;
+       if(!string.IsNullOrEmpty(cur_avatar))
+        await this._support_service.removeFiles(cur_avatar);
+      }
    }
- }
- return res;
+   return res;
 }
 
 public async Task<int> deleteUser(string email)

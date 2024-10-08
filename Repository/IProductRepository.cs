@@ -1,6 +1,7 @@
 using System;
 using Ecommerce_Product.Data;
 using Ecommerce_Product.Models;
+using Org.BouncyCastle.Asn1.Mozilla;
 using Org.BouncyCastle.Crypto.Utilities;
 namespace Ecommerce_Product.Repository;
 
@@ -12,6 +13,8 @@ public interface IProductRepository
   public Task<Product> findProductById(int id);
 
   public Task<Product> findProductByName(string name);
+
+  public Task<IEnumerable<Product>> getProductBySubCategory(int id);
 
   public Task<PageList<Product>> pagingProduct(int page_size,int page);
 

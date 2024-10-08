@@ -61,6 +61,12 @@ public async Task<PageList<Product>> pagingProduct(int page_size,int page)
    return prod_list;
 }
 
+public async Task<IEnumerable<Product>>getProductBySubCategory(int sub_cat)
+{
+  var products=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(c=>c.SubCat).Include(c=>c.Variants).Where(c=>c.SubCatId==sub_cat).ToListAsync();
+  return products;
+}
+
 public async Task<IEnumerable<Product>> filterProduct(FilterProduct products)
 {
    var prod_list=await this.getAllProduct(); 

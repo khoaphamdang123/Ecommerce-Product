@@ -12,13 +12,13 @@ public Task<IEnumerable<Category>> filterCategoryList(FilterCategory category);
 
 public Task<PageList<Category>> pagingCategory(int page_size,int page);
 
-public Task<int> createCategory(Category user);
+public Task<int> createCategory(AddCategoryModel user);
 
 public Task<bool> checkCategoryExist(string categoryname);
 
 public Task<int> deleteCategory(int id);
 
-public Task<int> updateCategory(Category category);
+public Task<int> updateCategory(AddCategoryModel category);
 
 public Task<Category> findCategoryById(int id);
 
