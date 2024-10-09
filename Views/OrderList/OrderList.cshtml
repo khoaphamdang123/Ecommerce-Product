@@ -121,7 +121,7 @@
                                </div>
                                <span class="avatar w-px-40 h-px-40 me-sm-6">
                                 <span class="avatar-initial bg-label-secondary rounded">
-                                    <i class="bx bx-calendar bx-lg text-heading">
+                                    <i class="bx bx-calendar bx-lg text-heading bg-label-primary">
                                     </i>
                                 </span>
                                </span>
@@ -140,7 +140,7 @@
                                </div>
                                <span class="avatar w-px-40 h-px-40 me-sm-6">
                                 <span class="avatar-initial bg-label-secondary rounded">
-                                    <i class="bx bx-check-double bx-lg text-heading">
+                                    <i class="bx bx-check-double bx-lg text-heading bg-label-success">
                                     </i>
                                 </span>
                                </span>
@@ -159,7 +159,7 @@
                                </div>
                                <span class="avatar w-px-40 h-px-40 me-sm-6">
                                 <span class="avatar-initial bg-label-secondary rounded">
-                                    <i class="bx bx-wallet bx-lg text-heading">
+                                    <i class="bx bx-wallet bx-lg text-heading bg-label-warning">
                                     </i>
                                 </span>
                                </span>
@@ -178,7 +178,7 @@
                                </div>
                                <span class="avatar w-px-40 h-px-40 me-sm-6">
                                 <span class="avatar-initial bg-label-secondary rounded">
-                                    <i class="bx bx-error-alt bx-lg text-heading">
+                                    <i class="bx bx-error-alt bx-lg text-heading bg-label-danger">
                                     </i>
                                 </span>
                                </span>
@@ -200,10 +200,25 @@
                                 <option value="">Chọn trạng thái đơn hàng</option>
                                 @foreach(var status in order_status)
                                 {
-                                <option value="@status.Key">@status.Value</option>
+                                if(!string.IsNullOrEmpty(filtered_order))
+                                {
+                                    if(status.Key==filtered_order)
+                                    {
+                                        <option value="@status.Key" selected>@status.Value</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@status.Key">@status.Value</option>
+                                    }
                                 }
+                                else
+                                {
+                                    <option value="@status.Key">@status.Value</option>
+                                }
+                                }
+
                              </select>
-                                </label>
+                         </label>
                             </div>
                             </div>
                         </div>

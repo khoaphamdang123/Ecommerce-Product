@@ -256,12 +256,17 @@ public async Task<int> deleteUser(string email)
     return res;
   }
   var user=await this.findUserByEmail(email);
+  string cur_avatar=user.Avatar;
   if(user!=null)
   {
     var delete_user=await this._userManager.DeleteAsync(user);
     if(delete_user.Succeeded)
     {
         res=1;
+        if(!string.IsNullOrEmpty(cur_avatar))
+        {
+            await this._support_service.removeFiles(cur_avatar);
+        }
     }
     else{
 

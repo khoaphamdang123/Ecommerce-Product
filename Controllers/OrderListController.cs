@@ -110,6 +110,16 @@ public class OrderListController : Controller
           ViewBag.select_size=select_size;
           List<string> options=new List<string>(){"7","10","20","50"};
           ViewBag.options=options;
+          ViewBag.filter_obj=status;
+          int processing_count=this._order.countOrderStatus("Processing");
+            int completed_count=this._order.countOrderStatus("Finished");
+            int cancelled_count=this._order.countOrderStatus("Cancelled");
+            int refund_count=this._order.countOrderStatus("Refund");
+
+            ViewBag.processing_count=processing_count; 
+            ViewBag.completed_count=completed_count;
+            ViewBag.cancelled_count=cancelled_count;
+            ViewBag.refund_count=refund_count;
     return View("OrderList",filtered_order_paging);
    }
    catch(Exception er)

@@ -188,11 +188,16 @@ public async Task<int> deleteCategory(int id)
     try
     {
       var category=await this._context.Categories.FirstOrDefaultAsync(c=>c.Id==id);
+      string curr_avatar=category.Avatar;
       if(category!=null)
       {
         this._context.Categories.Remove(category);
         await this.saveChange();
-        delete_res=1;
+      if(!string.IsNullOrEmpty(curr_avatar))
+      {
+        await this._support_service.removeFiles(curr_avatar);
+      }
+        delete_res=1;        
       }
     }
     catch(Exception er)

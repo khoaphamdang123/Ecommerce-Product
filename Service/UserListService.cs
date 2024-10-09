@@ -247,12 +247,17 @@ public async Task<bool> checkUserExist(string email,string username)
   public async Task<int> deleteUser(string email)
   {  int res_delete=0;
      var user=await this._userManager.FindByEmailAsync(email);
+     string curr_avatar=user.Avatar;
      if(user!=null)
      {
         var deleted_user=await this._userManager.DeleteAsync(user);
         if(deleted_user.Succeeded)
         {
             res_delete=1;
+            if(!string.IsNullOrEmpty(curr_avatar))
+            {
+                await this._support_service.removeFiles(curr_avatar);
+            }
         }
         else
         {   

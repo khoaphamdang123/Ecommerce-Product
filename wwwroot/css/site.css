@@ -307,7 +307,7 @@ color: #696cff;
 .bg-label-primary
 {
   background-color: #e6f4ea !important;
-  color: #1b6ec2;
+  color: #1b6ec2!important;
 }
 
 .bg-label-danger
