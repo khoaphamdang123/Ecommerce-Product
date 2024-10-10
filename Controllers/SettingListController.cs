@@ -47,24 +47,29 @@ public class SettingListController : Controller
   [HttpPost]
   public async Task<IActionResult> SettingList(SettingModel setting)
   {
-   string signup=setting.SignUp;
-   string change_password=setting.ChangePassword;
-   string two_fa=setting.Recaptcha;
-   string purchased = setting.Purchased;
-   string cancelled = setting.Cancelled;
-   string refund = setting.Refund;
+//    string signup=setting.SignUp;
+//    string change_password=setting.ChangePassword;
+//    string two_fa=setting.Recaptcha;
+//    string purchased = setting.Purchased;
+//    string cancelled = setting.Cancelled;
+//    string refund = setting.Refund;
    
-   int updated_res = await this._setting.updateSetting(setting);
+   int updated_res = await this._setting.updateSetting(setting);   
 
     if(updated_res!=0)
     {    ViewBag.Status=updated_res;
          ViewBag.Message="Cập nhật cấu hình cài đặt thành công";
+         this._logger.LogInformation($"{this.HttpContext.Session.GetString("Username")} Updated Setting Successfully");
     }
     else
     {    ViewBag.Status=0;
          ViewBag.message="Cập nhật cấu hình cài đặt thất bại";
+      this._logger.LogInformation($"{this.HttpContext.Session.GetString("Username")} Updated Setting Failed");
+
     }
+
     var setting_list=await this._setting.getAllSetting();
+
     return View(setting_list);
   }
 

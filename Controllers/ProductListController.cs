@@ -361,8 +361,10 @@ var category_list=await this._category.getAllCategory();
 {
 try
 {
-    int update_res=await this._product.updateProduct(id,product);
-    if(update_res==0)
+
+  Console.WriteLine("Id for this product is:"+id);
+  int update_res=await this._product.updateProduct(id,product);
+ if(update_res==0)
  {  
   ViewBag.Status=0;
   ViewBag.Updated_Product="Cập nhật sản phẩm thất bại";
