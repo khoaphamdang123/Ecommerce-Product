@@ -763,6 +763,7 @@ for(int i=0;i<variant_files.Count;i++)
     product_ob.InboxDescription=product.InboxDescription;
     product_ob.DiscountDescription=product.DiscountDescription;
     this._context.Products.Update(product_ob);
+    await this.saveChanges();
     updated_res=1;
     if(!string.IsNullOrEmpty(temp_front_avatar))
     {

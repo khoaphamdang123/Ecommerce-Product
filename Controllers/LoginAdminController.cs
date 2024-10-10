@@ -162,7 +162,7 @@ namespace Ecommerce_Product.Controllers
               HttpContext.Session.SetString("Password",password);
               HttpContext.Session.SetString("UserSession", "Active");
               HttpContext.Session.SetString("Avatar",admin_user.Avatar);
-              return RedirectToAction("UserList","UserList");
+              return RedirectToAction("Dashboard","Dashboard");
             }
             }
         else
