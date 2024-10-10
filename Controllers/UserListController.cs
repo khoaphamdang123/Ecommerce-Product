@@ -8,6 +8,7 @@ using System.Text;
 using System.Drawing.Text;
 
 namespace Ecommerce_Product.Controllers;
+[Authorize(Roles ="Admin")]
 [Route("admin")]
 public class UserListController : Controller
 {

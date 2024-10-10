@@ -3,6 +3,7 @@ using System.Text;
 using System.Management;
 using Microsoft.AspNetCore.Identity;
 using Ecommerce_Product.Models;
+using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc.Rendering;
 namespace Ecommerce_Product.Support_Serive;
 public class Service
@@ -90,7 +91,14 @@ public string generateRandomPassword()
   return random_password;
 }
 
+public async Task<RecaptchaResponse> ValidateRecaptcha(string recaptchaToken)
+    {
+        var httpClient = new HttpClient();
+        var response = await httpClient.GetStringAsync(
+            $"https://www.google.com/recaptcha/api/siteverify?secret={"6LeQYl0qAAAAAGMswsbJBdkpb_anbatHza9Be52a"}&response={recaptchaToken}");
 
+        return JsonConvert.DeserializeObject<RecaptchaResponse>(response);
+    }
 
 public string getCurrentOs()
 {

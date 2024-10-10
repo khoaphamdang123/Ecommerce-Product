@@ -8,6 +8,8 @@
   var changePassword=TempData["ChangePassword"] as string;
   var changePasswordContent = TempData["ChangePasswordContent"] as string;
   var errorContent=TempData["ErrorContent"] as string;
+  var siteKey=ViewBag.SiteKey;
+  Console.WriteLine("sitekey here is:"+siteKey);
 }
 <!-- =========================================================
 * Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
@@ -38,7 +40,40 @@
   </head>
 
   <body>
-    <!-- Content -->
+     
+      @* @(!this.ViewData.ModelState.IsValid)
+      {
+ <div>
+       class="bs-toast toast fade hide bg-danger toast-placement-ex top-5 end-0"
+       role="alert"
+       aria-live="assertive"
+       aria-atomic="true"
+        data-bs-dismiss="toast"
+        style="cursor: pointer; display:block;"
+        data-delay="2000"
+         data-bs-autohide="true" 
+         data-bs-delay="3000"
+             >
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold">Login</div>
+                          <!--<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>-->
+                        </div>
+                        <div class="toast-body">
+  @foreach(var err in ViewData.ModelState.Values.SelectMany(s=>s.Errors))
+        {
+               @err.ErrorMessage
+        }                        </div>
+                      </div>
+             <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var toastEl = document.querySelector('.toast');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            });
+        </script>
+      } *@
+
        @if(!string.IsNullOrEmpty(errorMessage))
    { 
     if(errorMessage=="True")
@@ -288,6 +323,9 @@
                 <div class="mb-3">
                   <button class="btn btn-primary d-grid w-100" type="submit">Đăng nhập</button>
                 </div>
+              
+           <div class="g-recaptcha" data-sitekey="@siteKey"></div>
+
               </form>
 
               @* <p class="text-center">
@@ -319,6 +357,18 @@
     {
       event.preventDefault();
     }
+    @* event.preventDefault();
+    grecaptcha.ready(function() {
+            grecaptcha.execute('6LeQYl0qAAAAAKCmdIVHaJAzqPPQHGnE-j7SO55Z', {action: 'submit'}).then(function(token) {
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'gRecaptchaResponse';
+                input.value = token;
+                document.getElementById('formAuthentication').appendChild(input);
+                
+                document.getElementById('formAuthentication').submit();
+            });
+        }); *@
     });
     document.getElementById("username").addEventListener("keydown",(event)=>{
       var username_error=document.getElementById("username-error").value;
@@ -334,7 +384,7 @@
       {
         document.getElementById("password-error").innerHTML="";
       }
-    })
+    });
    </script>
     <!-- / Content -->
 

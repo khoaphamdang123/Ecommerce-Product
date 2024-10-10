@@ -51,6 +51,8 @@ public partial class EcommerceShopContext : DbContext
 
     public virtual DbSet<ProductImage> ProductImages { get; set; }
 
+    public virtual DbSet<Setting> Settings { get; set; }
+
     public virtual DbSet<Size> Sizes { get; set; }
 
     public virtual DbSet<StaticFile> StaticFiles { get; set; }
@@ -172,7 +174,6 @@ public partial class EcommerceShopContext : DbContext
 
             entity.HasOne(d => d.User).WithMany(p => p.Carts)
                 .HasForeignKey(d => d.Userid)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("cart_user_fk");
         });
 
@@ -191,12 +192,10 @@ public partial class EcommerceShopContext : DbContext
 
             entity.HasOne(d => d.Cart).WithMany(p => p.CartDetails)
                 .HasForeignKey(d => d.Cartid)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("cartdetail_cart_fk");
 
             entity.HasOne(d => d.Product).WithMany(p => p.CartDetails)
                 .HasForeignKey(d => d.Productid)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("cart_product_fk");
         });
 
@@ -282,12 +281,10 @@ public partial class EcommerceShopContext : DbContext
 
             entity.HasOne(d => d.Payment).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.Paymentid)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("order_payment_fk");
 
             entity.HasOne(d => d.User).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.Userid)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("order_user_fk");
         });
 
@@ -306,12 +303,10 @@ public partial class EcommerceShopContext : DbContext
 
             entity.HasOne(d => d.Order).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.Orderid)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("orderdetail_order_fk");
 
             entity.HasOne(d => d.Product).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.Productid)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("orderdetail_product_fk");
         });
 
@@ -385,6 +380,25 @@ public partial class EcommerceShopContext : DbContext
                 .HasForeignKey(d => d.Productid)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("product_img_fk");
+        });
+
+        modelBuilder.Entity<Setting>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("setting_pk");
+
+            entity.ToTable("Setting");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Createddate)
+                .HasColumnType("character varying")
+                .HasColumnName("createddate");
+            entity.Property(e => e.Settingname)
+                .HasColumnType("character varying")
+                .HasColumnName("settingname");
+            entity.Property(e => e.Status).HasColumnName("status");
+            entity.Property(e => e.Updateddate)
+                .HasColumnType("character varying")
+                .HasColumnName("updateddate");
         });
 
         modelBuilder.Entity<Size>(entity =>

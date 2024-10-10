@@ -21,7 +21,8 @@
           "Serilog.Extensions.Logging": "8.0.0",
           "Serilog.Sinks.File": "6.0.0",
           "System.Management": "8.0.0",
-          "itext": "8.0.5"
+          "itext": "8.0.5",
+          "reCAPTCHA.AspNetCore": "3.0.10"
         },
         "runtime": {
           "Ecommerce-Product.dll": {}
@@ -824,6 +825,14 @@
           "lib/net8.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll": {
             "assemblyVersion": "8.0.4.0",
             "fileVersion": "8.0.4.0"
+          }
+        }
+      },
+      "reCAPTCHA.AspNetCore/3.0.10": {
+        "runtime": {
+          "lib/netcoreapp3.1/reCAPTCHA.AspNetCore.dll": {
+            "assemblyVersion": "3.0.10.0",
+            "fileVersion": "3.0.10.0"
           }
         }
       },
@@ -1955,6 +1964,13 @@
       "sha512": "sha512-/hHd9MqTRVDgIpsToCcxMDxZqla0HAQACiITkq1+L9J2hmHKV6lBAPlauF+dlNSfHpus7rrljWx4nAanKD6qAw==",
       "path": "npgsql.entityframeworkcore.postgresql/8.0.4",
       "hashPath": "npgsql.entityframeworkcore.postgresql.8.0.4.nupkg.sha512"
+    },
+    "reCAPTCHA.AspNetCore/3.0.10": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-MJ3MCMBWr4gd+JZBXyUyT+YOdnMTNlysRrWKne/B/4hSxrpqERxinenvup6hVkQAoPz0DXzzJDujROEQPwohow==",
+      "path": "recaptcha.aspnetcore/3.0.10",
+      "hashPath": "recaptcha.aspnetcore.3.0.10.nupkg.sha512"
     },
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
       "type": "package",

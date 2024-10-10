@@ -8,6 +8,8 @@ using System.Text;
 using iText.Commons.Utils;
 
 namespace Ecommerce_Product.Controllers;
+[Authorize(Roles ="Admin")]
+
 [Route("admin")]
 public class CategoryListController : Controller
 {

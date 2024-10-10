@@ -11,6 +11,7 @@ using System.ComponentModel;
 using Org.BouncyCastle.Asn1.Mozilla;
 
 namespace Ecommerce_Product.Controllers;
+[Authorize(Roles ="Admin")]
 [Route("admin")]
 public class StaticFilesController : Controller
 {
@@ -33,7 +34,7 @@ public class StaticFilesController : Controller
   this._static_files=static_files;
   this._logger=logger;   
    }
-  //[Authorize(Roles ="Admin")]
+  [Authorize(Roles ="Admin")]
   [Route("file_list")]
   [HttpGet]
   public async Task<IActionResult> StaticFiles()
@@ -54,7 +55,7 @@ public class StaticFilesController : Controller
   }
 
 
-//[Authorize(Roles ="Admin")]
+  [Authorize(Roles ="Admin")]
   [Route("file_list/paging")]
    [HttpGet]
   public async Task<IActionResult> StaticFilesPaging([FromQuery]int page_size,[FromQuery] int page=1)
@@ -79,14 +80,14 @@ public class StaticFilesController : Controller
         }
     return View();
   }
-
+  [Authorize(Roles ="Admin")]
   [Route("file_list/add_page")]
   [HttpGet]
   public IActionResult AddStaticFiles()
   {
     return View();
   }
-
+  [Authorize(Roles ="Admin")]
   [Route("file_list/add_page")]
   [HttpPost]
   public async Task<IActionResult> AddStaticFiles(StaticFile file)
@@ -115,7 +116,7 @@ public class StaticFilesController : Controller
   }
       return View();
   }
-
+  [Authorize(Roles ="Admin")]
   [Route("file_list/delete")]
   [HttpGet]
   public async Task<IActionResult> DeletePage(int id)

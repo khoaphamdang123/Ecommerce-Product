@@ -11,6 +11,8 @@ using System.ComponentModel;
 using Org.BouncyCastle.Asn1.Mozilla;
 
 namespace Ecommerce_Product.Controllers;
+[Authorize(Roles ="Admin")]
+
 [Route("admin")]
 public class PaymentListController : Controller
 {

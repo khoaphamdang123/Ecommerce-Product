@@ -10,6 +10,7 @@ using Ecommerce_Product.Models;
 using Ecommerce_Product.Repository;
 using Ecommerce_Product.Service;
 using Ecommerce_Product.Support_Serive;
+using reCAPTCHA.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,15 @@ var _logger = new LoggerConfiguration().ReadFrom.Configuration(builder.Configura
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+
+
+
+builder.Services.AddRecaptcha(options =>
+{
+    options.SiteKey =builder.Configuration.GetSection("Recapcha")["SiteKey"];
+    options.SecretKey =builder.Configuration.GetSection("Recapcha")["SecretKey"];
+});
+
 builder.Services.AddDbContext<EcommerceShopContext>(options=>options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddSession(options=>{
@@ -30,6 +40,7 @@ builder.Services.AddSession(options=>{
   options.Cookie.IsEssential=true;  
 });
 
+
 builder.Services.AddMvc(options => options.EnableEndpointRouting = false);
 
 builder.Services.AddAuthentication().AddCookie();
@@ -37,7 +48,6 @@ builder.Services.AddAuthentication().AddCookie();
 builder.Services.AddScoped<ILoginRepository,LoginService>();
 
 builder.Services.AddScoped<IUserListRepository,UserListService>();
-
 
 builder.Services.AddScoped<IAdminRepository,AdminListService>();
 
@@ -53,6 +63,8 @@ builder.Services.AddScoped<IPaymentRepository,PaymentListService>();
 
 builder.Services.AddScoped<IDashboardRepository,DashboardService>();
 
+builder.Services.AddScoped<ISettingRepository,SettingService>();
+
 builder.Services.AddTransient<Service>();
 
 builder.Services.AddTransient<SmtpService>();
@@ -62,6 +74,8 @@ builder.Services.AddHttpContextAccessor();
 
 
 builder.Services.Configure<SmtpModel>(builder.Configuration.GetSection("SmtpModel"));
+
+builder.Services.Configure<RecaptchaResponse>(builder.Configuration.GetSection("Recapcha"));
 
 // builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)  
 //     .AddCookie(options =>  

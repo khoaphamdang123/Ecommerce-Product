@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Ecommerce_Product.Controllers;
+[Authorize(Roles ="Admin")]
+
 [Route("admin")]
 public class AdminListController : Controller
 {

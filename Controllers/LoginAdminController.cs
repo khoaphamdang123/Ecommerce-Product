@@ -8,6 +8,8 @@ using Ecommerce_Product.Repository;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
+using reCAPTCHA.AspNetCore;
+using Microsoft.Extensions.Options;
 
 namespace Ecommerce_Product.Controllers
 { 
@@ -20,16 +22,25 @@ namespace Ecommerce_Product.Controllers
 
         private readonly ILoginRepository _loginRepos;
 
+        private readonly IRecaptchaService _recaptcha;
+
+        private readonly RecaptchaResponse _recaptcha_response;
+
+        private readonly ISettingRepository _setting;
+
         private readonly ILogger<LoginAdminController> _logger;
 
 
 
-        public LoginAdminController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager,ILogger<LoginAdminController> logger,ILoginRepository loginRepos)
+        public LoginAdminController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager,ILogger<LoginAdminController> logger,IRecaptchaService recaptcha,IOptions<RecaptchaResponse> recaptcha_response,ISettingRepository setting,ILoginRepository loginRepos)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _logger=logger;
             _loginRepos= loginRepos;
+            _recaptcha=recaptcha;
+            _setting=setting;
+            _recaptcha_response=recaptcha_response.Value;
         }
 
         // GET: /Account/Login
@@ -41,9 +52,14 @@ namespace Ecommerce_Product.Controllers
         {   
             if(User.Identity.IsAuthenticated)
         {
-            return RedirectToAction("UserList","UserList");
-        }
-            return View();
+            return RedirectToAction("UserList","UserList");            
+        }   
+       int setting_status=await this._setting.getStatusByName("recaptcha");
+       if(setting_status==1)
+       {
+        ViewBag.SiteKey=this._recaptcha_response.SiteKey;
+       }
+    return View();
         }
         [Route("change_password")]
         [HttpGet]
@@ -55,7 +71,7 @@ namespace Ecommerce_Product.Controllers
         [Route("{username}/change_password")]
         
         [HttpGet]
-        public IActionResult ChangePassword(string username,string email,string password)
+        public IActionResult ChangePassword(string email,string password)
         {
             ViewBag.Email=email;
             ViewBag.Password= password;
@@ -76,7 +92,8 @@ namespace Ecommerce_Product.Controllers
 
         public async Task<IActionResult> Index(LoginModel model)
         {  
-        try{
+        try
+        {
             if (ModelState.IsValid)
    {  
     _logger.LogInformation("Running in Login Action"); 
@@ -127,6 +144,18 @@ namespace Ecommerce_Product.Controllers
                 }
             else
             {
+             int setting_status=await this._setting.getStatusByName("recaptcha");
+             if(setting_status==1)
+             {
+             var recapchaResult = await this._recaptcha.Validate(Request);
+             if(!recapchaResult.success)
+             {
+         TempData["LoginFailed"]="True";
+         TempData["ErrorContent"]="Hãy chọn captcha để chứng minh bạn ko phải robot.";   
+         ViewBag.SiteKey=this._recaptcha_response.SiteKey;
+         return View(model);
+             }
+             }
               HttpContext.Session.SetString("UserId",admin_user.Id);
               HttpContext.Session.SetString("Username",admin_user.UserName);
               HttpContext.Session.SetString("Email",admin_user.Email);
@@ -149,6 +178,7 @@ namespace Ecommerce_Product.Controllers
                   TempData["ErrorContent"]="Username không chính xác";
                   ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             }
+        
         }
         }
         catch(Exception er)
@@ -207,8 +237,7 @@ namespace Ecommerce_Product.Controllers
             if(ModelState.IsValid)
             {
                 string email=model.Email;
-                string receiver= model.Receiver;
-             
+                string receiver= model.Receiver;             
                 Console.WriteLine("Received email:"+email);
                 string subject="Nhận mật khẩu mới";               
                bool is_send= await this._loginRepos.sendEmail(email,receiver,subject);
