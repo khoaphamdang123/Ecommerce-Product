@@ -10,6 +10,7 @@ using Org.BouncyCastle.Math.EC.Rfc8032;
 using System.ComponentModel;
 
 namespace Ecommerce_Product.Controllers;
+[Authorize(Roles ="Admin")]
 [Route("admin")]
 public class ProductListController : Controller
 {
@@ -357,13 +358,14 @@ var category_list=await this._category.getAllCategory();
  
  [Route("product_list/{id}/product_info")]
  [HttpPost]
- public async Task<IActionResult> ProductInfo(int id,AddProductModel product)
+public async Task<IActionResult> ProductInfo(int id,AddProductModel product)
 {
 try
 {
 
   Console.WriteLine("Id for this product is:"+id);
-  int update_res=await this._product.updateProduct(id,product);
+int update_res=await this._product.updateProduct(id,product);
+
  if(update_res==0)
  {  
   ViewBag.Status=0;

@@ -14,4 +14,6 @@ public partial class Setting
     public string? Createddate { get; set; }
 
     public string? Updateddate { get; set; }
+
+    public string? App { get; set; }
 }

@@ -285,6 +285,26 @@
               </ul>
             </li>    
 
+            
+              <li class="menu-item @(view_controller=="BannerList"?"active open":"")">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-images"></i>
+                <div data-i18n="Account Settings">Cấu hình banner</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item @(view_action=="BannerList"?"active":"")">
+                  <a href="@Url.Action("BannerList","BannerList")" class="menu-link">
+                    <div data-i18n="Account">Danh sách banner</div>
+                  </a>
+                </li>
+                <li class="menu-item @(view_action=="AddBanner"?"active":"")">
+                  <a href="@Url.Action("AddBanner","BannerList")" class="menu-link">
+                    <div data-i18n="Notifications">Thêm banner</div>
+                  </a>
+                </li>
+              </ul>
+            </li>  
+
             <li class="menu-item @(view_controller=="OrderList"?"active open":"")">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-purchase-tag"></i>

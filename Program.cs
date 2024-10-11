@@ -63,6 +63,8 @@ builder.Services.AddScoped<IPaymentRepository,PaymentListService>();
 
 builder.Services.AddScoped<IDashboardRepository,DashboardService>();
 
+builder.Services.AddScoped<IBannerListRepository,BannerListService>();
+
 builder.Services.AddScoped<ISettingRepository,SettingService>();
 
 builder.Services.AddTransient<Service>();

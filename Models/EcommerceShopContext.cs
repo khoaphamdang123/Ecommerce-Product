@@ -27,6 +27,8 @@ public partial class EcommerceShopContext : DbContext
 
     public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
 
+    public virtual DbSet<Banner> Banners { get; set; }
+
     public virtual DbSet<Brand> Brands { get; set; }
 
     public virtual DbSet<Cart> Carts { get; set; }
@@ -137,6 +139,28 @@ public partial class EcommerceShopContext : DbContext
             entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
 
             entity.HasOne(d => d.User).WithMany(p => p.AspNetUserTokens).HasForeignKey(d => d.UserId);
+        });
+
+        modelBuilder.Entity<Banner>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("banner_pk");
+
+            entity.ToTable("Banner");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Bannername)
+                .HasColumnType("character varying")
+                .HasColumnName("bannername");
+            entity.Property(e => e.Createddate)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("createddate");
+            entity.Property(e => e.Image)
+                .HasColumnType("character varying")
+                .HasColumnName("image");
+            entity.Property(e => e.Updateddate)
+                .HasColumnType("character varying")
+                .HasColumnName("updateddate");
         });
 
         modelBuilder.Entity<Brand>(entity =>
@@ -389,7 +413,11 @@ public partial class EcommerceShopContext : DbContext
             entity.ToTable("Setting");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.App)
+                .HasColumnType("character varying")
+                .HasColumnName("app");
             entity.Property(e => e.Createddate)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("character varying")
                 .HasColumnName("createddate");
             entity.Property(e => e.Settingname)
