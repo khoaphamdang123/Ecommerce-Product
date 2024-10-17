@@ -16,7 +16,7 @@
    var create_status=ViewBag.Status;
    var cat_list =ViewBag.CategoryList as IEnumerable<Category>;
    var brand_list = ViewBag.BrandList as IEnumerable<Brand>;
-   var sub_cat_list = ViewBag.SubCatList as List<SubCategory>; 
+   var sub_cat_list = ViewBag.SubCatList as List<Subcategory>; 
    string bg_status="";
    bg_status=create_status==1||create_status==-1?"bg-danger":create_status==1?"bg-success":"";
 
@@ -41,19 +41,36 @@
                         <div class="toast-header">
                           <i class="bx bx-bell me-2"></i>
                           <div class="me-auto fw-semibold">Thêm sản phẩm</div>
+                          Thêm sản phẩm thành công<!--<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>-->
+                        </div>
+                        <div class="toast-body">
+                        </div>
+                      </div>
+
+    
+      <div
+       class="bs-toast toast toast-danger fade bg-danger hide toast-placement-ex top-5 end-0"
+       role="alert"
+       aria-live="assertive"
+       aria-atomic="true"
+       data-bs-dismiss="toast"
+        style="cursor: pointer;"
+         data-delay="3000"
+         data-bs-autohide="true" 
+         data-bs-delay="3000"
+             >
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold">Thêm sản phẩm</div>
                           <!--<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>-->
                         </div>
                         <div class="toast-body">
-                         Thêm sản phẩm thành công
+                          <p id="toas-message"></p>
                         </div>
                       </div>
-                    <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                var toastEl = document.querySelector('.toast');
-                var toast = new bootstrap.Toast(toastEl);
-                toast.show();
-            });
-        </script>
+
+      
+              
         
 
 <div class="alert alert-danger alert-dismissible fade" role="alert">
@@ -110,8 +127,8 @@
                         </div>
                         <div class="row mt-3 mb-3">
                          <div class="col">
-                            <label class="form-label" for="subcategory">Chọn loại sản phẩm phụ</label>
-                            <select class="form-select select-2" id="sub-select" name="subcategory">
+                            <label class="form-label" for="Subcategory">Chọn loại sản phẩm phụ</label>
+                            <select class="form-select select-2" id="sub-select" name="Subcategory">
                               <option value="-1">Chọn loại sản phẩm phụ</option>
                               @foreach(var subcat in sub_cat_list)
                               {
@@ -271,27 +288,108 @@
 document.addEventListener("DOMContentLoaded", function (event) {
  
   new FroalaEditor('#Description',{
- heightMin: 300,
-      toolbarButtons: ['bold', 'italic', 'underline', '|','color', 'backgroundColor', 'insertTable', 'undo', 'redo'],
-      pluginsEnabled: ['table','colors'],
-      colorsBackground: ['#FFFFFF', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'],
-      colorsText: ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'] 
+  heightMin: 300,
+    toolbarButtons:{  moreText: {
+      buttons: [
+        'bold', 'italic', 'underline', 'strikeThrough', 
+        'subscript', 'superscript', 'fontFamily', 'fontSize', 
+        'textColor', 'backgroundColor', 'inlineClass', 
+        'inlineStyle', 'clearFormatting'
+      ]
+    },
+    moreParagraph: {
+      buttons: [
+        'alignLeft', 'alignCenter', 'formatOLSimple', 
+        'alignRight', 'alignJustify', 'formatOL', 'formatUL', 
+        'paragraphFormat', 'paragraphStyle', 'lineHeight'
+      ]
+    },
+    moreRich: {
+      buttons: [
+        'insertLink', 'insertImage', 'insertVideo', 
+        'insertTable', 'emoticons', 'fontAwesome', 
+        'specialCharacters', 'embedly', 'insertFile', 'insertHR'
+      ]
+    },
+    moreMisc: {
+      buttons: [
+        'undo', 'redo', 'fullscreen', 'print', 'getPDF', 
+        'spellChecker', 'selectAll', 'html', 'help'
+      ]
+    }},
+    pluginsEnabled: ['align', 'charCounter', 'codeBeautifier', 'codeView', 'colors', 'draggable', 'embedly', 'emoticons', 'entities', 'file', 'fontFamily', 'fontSize', 'fullscreen', 'image', 'imageManager', 'inlineStyle', 'lineBreaker', 'link', 'lists', 'paragraphFormat', 'paragraphStyle', 'quickInsert', 'quote', 'save', 'table', 'url', 'video', 'wordPaste'],
+    colorsBackground: ['#FFFFFF', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'],
+    colorsText: ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'] 
   });
 
   new FroalaEditor('#Description-Inbox',{
     heightMin: 300,
-      toolbarButtons: ['bold', 'italic', 'underline', '|','color', 'backgroundColor', 'insertTable', 'undo', 'redo'],
-      pluginsEnabled: ['table','colors'],
-      colorsBackground: ['#FFFFFF', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'],
-      colorsText: ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'] 
+    toolbarButtons:{  moreText: {
+      buttons: [
+        'bold', 'italic', 'underline', 'strikeThrough', 
+        'subscript', 'superscript', 'fontFamily', 'fontSize', 
+        'textColor', 'backgroundColor', 'inlineClass', 
+        'inlineStyle', 'clearFormatting'
+      ]
+    },
+    moreParagraph: {
+      buttons: [
+        'alignLeft', 'alignCenter', 'formatOLSimple', 
+        'alignRight', 'alignJustify', 'formatOL', 'formatUL', 
+        'paragraphFormat', 'paragraphStyle', 'lineHeight'
+      ]
+    },
+    moreRich: {
+      buttons: [
+        'insertLink', 'insertImage', 'insertVideo', 
+        'insertTable', 'emoticons', 'fontAwesome', 
+        'specialCharacters', 'embedly', 'insertFile', 'insertHR'
+      ]
+    },
+    moreMisc: {
+      buttons: [
+        'undo', 'redo', 'fullscreen', 'print', 'getPDF', 
+        'spellChecker', 'selectAll', 'html', 'help'
+      ]
+    }},
+    pluginsEnabled: ['align', 'charCounter', 'codeBeautifier', 'codeView', 'colors', 'draggable', 'embedly', 'emoticons', 'entities', 'file', 'fontFamily', 'fontSize', 'fullscreen', 'image', 'imageManager', 'inlineStyle', 'lineBreaker', 'link', 'lists', 'paragraphFormat', 'paragraphStyle', 'quickInsert', 'quote', 'save', 'table', 'url', 'video', 'wordPaste'],
+    colorsBackground: ['#FFFFFF', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'],
+    colorsText: ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'] 
   });
 
   new FroalaEditor('#Discount-Description',{
-      heightMin: 300,
-      toolbarButtons: ['bold', 'italic', 'underline', '|','color', 'backgroundColor', 'insertTable', 'undo', 'redo'],
-      pluginsEnabled: ['table','colors'],
-      colorsBackground: ['#FFFFFF', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'],
-     colorsText: ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'] 
+    heightMin: 300,
+    toolbarButtons: {  moreText: {
+      buttons: [
+        'bold', 'italic', 'underline', 'strikeThrough', 
+        'subscript', 'superscript', 'fontFamily', 'fontSize', 
+        'textColor', 'backgroundColor', 'inlineClass', 
+        'inlineStyle', 'clearFormatting'
+      ]
+    },
+    moreParagraph: {
+      buttons: [
+        'alignLeft', 'alignCenter', 'formatOLSimple', 
+        'alignRight', 'alignJustify', 'formatOL', 'formatUL', 
+        'paragraphFormat', 'paragraphStyle', 'lineHeight'
+      ]
+    },
+    moreRich: {
+      buttons: [
+        'insertLink', 'insertImage', 'insertVideo', 
+        'insertTable', 'emoticons', 'fontAwesome', 
+        'specialCharacters', 'embedly', 'insertFile', 'insertHR'
+      ]
+    },
+    moreMisc: {
+      buttons: [
+        'undo', 'redo', 'fullscreen', 'print', 'getPDF', 
+        'spellChecker', 'selectAll', 'html', 'help'
+      ]
+    }},
+    pluginsEnabled: ['align', 'charCounter', 'codeBeautifier', 'codeView', 'colors', 'draggable', 'embedly', 'emoticons', 'entities', 'file', 'fontFamily', 'fontSize', 'fullscreen', 'image', 'imageManager', 'inlineStyle', 'lineBreaker', 'link', 'lists', 'paragraphFormat', 'paragraphStyle', 'quickInsert', 'quote', 'save', 'table', 'url', 'video', 'wordPaste'],
+    @* colorsBackground: ['#FFFFFF', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'],
+    colorsText: ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00']  *@
   });
 });
 
@@ -310,7 +408,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
  let mirror_list = [];
    
- const add_variant=document.getElementById("add-variant");
+const add_variant=document.getElementById("add-variant");
+
 
 add_variant.addEventListener('click',()=>{
         
@@ -323,6 +422,7 @@ add_variant.addEventListener('click',()=>{
         newRow.querySelectorAll('input').forEach(input => input.value = '');
 
         newRow.classList.add('hide');
+        
         groupList.appendChild(newRow);
        
          setTimeout(()=>{
@@ -332,6 +432,7 @@ add_variant.addEventListener('click',()=>{
 });
 
  var is_all_form_valid=true;
+
  const sub_select=document.getElementById("sub-select");
  
  const cat_select = document.getElementById("cat-select");
@@ -342,7 +443,7 @@ add_variant.addEventListener('click',()=>{
  
  const file_input = document.getElementById("fileInput");
  
- const file_input_btn = document.getElementById("fileInputButton");
+ const file_input_btn = document.getElementById("fileInputButton"); 
 
  const preview_img = document.getElementById("previewImageContainer");
 
@@ -716,23 +817,35 @@ const file=files[i];
     formDataVal.append("variantfiles",file);
   });
 
-    $.ajax({
-                url: '@Url.Action("AddProductList", "ProductList")',
+    $.ajax({  
+                url: '@Url.Action("GetSampleData", "ProductList")',
                 type: 'POST',
                 data: formDataVal,
                 contentType: false,
                 processData: false, 
                 success:function(response)
                 { 
-                var toastEl = document.querySelector('.toast');
+                  var status=response.status;
+                  var message=response.message;
+                  if(status==-1 || status==0)
+                  {
+                    document.getElementById("toas-message").innerHTML=message;
+                var toastEl = document.querySelector('.toast-danger');
                 var toast = new bootstrap.Toast(toastEl);
                 toast.show();
+                }
+
+                else{
+                  var toastEl = document.querySelector('.toast');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show(); 
+                }
+
                 },
                 error: function (xhr, status, error) {
                 // Handle any errors
                 alert('An error occurred: ' + error);
             }
             });
-  
  });
 </script>

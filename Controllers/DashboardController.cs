@@ -39,7 +39,7 @@ public class DashboardController : Controller
     int profit_in_day=this._dashboard.countProfitByDay(DateTime.Now.Day);
     int order_in_day=this._dashboard.countOrderByDay(DateTime.Now.Day);
     int order_in_year=this._dashboard.countOrderByYear(DateTime.Now.Year);
-    decimal total_profit=this._dashboard.countToTalProfit();
+    double total_profit=this._dashboard.countToTalProfit();
     int total_profit_previous_1_year=this._dashboard.countProfitByYear(DateTime.Now.Year-1);
     int total_profit_previous_2_year=this._dashboard.countProfitByYear(DateTime.Now.Year-2);
     var cat_list = await this._category.getAllCategory();

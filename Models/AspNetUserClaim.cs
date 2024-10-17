@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ecommerce_Product.Models;
 
-public partial class AspNetUserClaim
+public partial class Aspnetuserclaim
 {
     public int Id { get; set; }
 
@@ -13,5 +13,5 @@ public partial class AspNetUserClaim
 
     public string? ClaimValue { get; set; }
 
-    public virtual AspNetUser User { get; set; } = null!;
+    public virtual Aspnetuser User { get; set; } = null!;
 }

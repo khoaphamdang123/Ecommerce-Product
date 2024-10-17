@@ -10,7 +10,7 @@ using Org.BouncyCastle.Math.EC.Rfc8032;
 using System.ComponentModel;
 
 namespace Ecommerce_Product.Controllers;
-[Authorize(Roles ="Admin")]
+//[Authorize(Roles ="Admin")]
 [Route("admin")]
 public class ProductListController : Controller
 {
@@ -68,16 +68,17 @@ public class ProductListController : Controller
 //[Authorize(Roles ="Admin")]
   [Route("product_list/paging")]
    [HttpGet]
-  public async Task<IActionResult> ProductListPaging([FromQuery]int page_size,[FromQuery] int page=1,string productname="",string brand="",string category="",string start_date="",string end_date="",string status="",int sub_cat=-1)
+  public async Task<IActionResult> ProductListPaging([FromQuery]int page_size,[FromQuery] int page=1,string productname="",string brand="",string category="",string startdate="",string enddate="",string status="",int sub_cat=-1)
   {
     try{
          var prods=await this._product.pagingProduct(page_size,page);
-         if(!string.IsNullOrEmpty(productname)||!string.IsNullOrEmpty(brand) || !string.IsNullOrEmpty(start_date) || !string.IsNullOrEmpty(end_date) || !string.IsNullOrEmpty(category) || !string.IsNullOrEmpty(status))
+         if(!string.IsNullOrEmpty(productname)||!string.IsNullOrEmpty(brand) || !string.IsNullOrEmpty(startdate) || !string.IsNullOrEmpty(enddate) || !string.IsNullOrEmpty(category) || !string.IsNullOrEmpty(status))
          {
-            FilterProduct prod=new FilterProduct(productname,start_date,end_date,category,brand,status);
+            FilterProduct prod=new FilterProduct(productname,startdate,enddate,category,brand,status);
             var filter_prods=await this._product.filterProduct(prod);
             prods=PageList<Product>.CreateItem(filter_prods.AsQueryable(),page,page_size);
             ViewBag.filter_obj=prod; 
+            Console.WriteLine("Paging did come here");
          }
          if(sub_cat!=-1)
          {
@@ -204,11 +205,11 @@ public class ProductListController : Controller
     
     var brand_list = await this._category.getAllBrandList();
 
-    List<SubCategory> sub_cat_list=new List<SubCategory>();
+    List<Subcategory> sub_cat_list=new List<Subcategory>();
 
     foreach(var cat in category_list)
     {
-      foreach(var sub_cat in cat.SubCategories)
+      foreach(var sub_cat in cat.Subcategories)
       {
         sub_cat_list.Add(sub_cat);
       }
@@ -218,6 +219,79 @@ public class ProductListController : Controller
     ViewBag.SubCatList=sub_cat_list;
     return View();
   }
+
+  [HttpPost]
+  public async Task<JsonResult> GetSampleData(AddProductModel model)
+{ 
+    StatusResponse response_data; 
+
+    int created_res = await this._product.addNewProduct(model);
+
+    if (created_res == 0)
+    {  
+        response_data = new StatusResponse 
+        {
+            Status = 0,
+            Message = "Thêm sản phẩm thất bại"
+        };
+    }
+    else if (created_res == -1)
+    {
+        response_data = new StatusResponse  
+        {
+            Status = -1,
+            Message = "Sản phẩm đã tồn tại trong hệ thống"
+        };
+    }
+    else
+    {
+        response_data = new StatusResponse  
+        {
+            Status = 1,
+            Message = "Thêm sản phẩm thành công"
+        };
+    }
+
+    return Json(response_data);
+}
+
+// [Route("product_list/add_val")]
+//  [HttpPost]
+//  public async Task<JsonResult> AddProductListJson(AddProductModel model)
+//  {
+//   try
+//   {
+//  int created_res=await this._product.addNewProduct(model);
+//  if(created_res==0)
+//  {  
+//  var response_data={
+//     "status":"0",
+//     "created_product":"Thêm sản phẩm thất bại"
+//       };
+//  }
+//  else if(created_res==-1)
+//  {
+//  var response_data={
+//     "status":"-1",
+//     "created_product":"Sản phẩm đã tồn tại trogng hệ thống"
+//       };
+//  }
+//  else
+//  {
+//   var response_data={
+//     "status":"1",
+//     "created_product":"Thêm sản phẩm"
+//       };
+//  }
+//  }
+//   catch(Exception er)
+//   {
+//     this._logger.LogTrace("Add Product Exception:"+er.Message);
+//     Console.WriteLine("Add Product List Exception:"+er.Message);
+//   }
+//   return Json(response_data);
+//  }
+
 
   [Route("product_list/add")]
   [HttpPost]
@@ -254,11 +328,11 @@ var category_list=await this._category.getAllCategory();
     
     var brand_list = await this._category.getAllBrandList();
 
-    List<SubCategory> sub_cat_list=new List<SubCategory>();
+    List<Subcategory> sub_cat_list=new List<Subcategory>();
 
     foreach(var cat in category_list)
     {
-      foreach(var sub_cat in cat.SubCategories)
+      foreach(var sub_cat in cat.Subcategories)
       {
         sub_cat_list.Add(sub_cat);
       }
@@ -292,11 +366,11 @@ var category_list=await this._category.getAllCategory();
     
     var brand_list = await this._category.getAllBrandList();
   
-    List<SubCategory> sub_cat_list=new List<SubCategory>();
+    List<Subcategory> sub_cat_list=new List<Subcategory>();
   
     foreach(var cat in category_list)
     {
-      foreach(var sub_cat_ob in cat.SubCategories)
+      foreach(var sub_cat_ob in cat.Subcategories)
       {
         sub_cat_list.Add(sub_cat_ob);
       }
@@ -340,11 +414,11 @@ var category_list=await this._category.getAllCategory();
     
     var brand_list = await this._category.getAllBrandList();
 
-    List<SubCategory> sub_cat_list=new List<SubCategory>();
+    List<Subcategory> sub_cat_list=new List<Subcategory>();
 
     foreach(var cat in category_list)
     {
-      foreach(var sub_cat in cat.SubCategories)
+      foreach(var sub_cat in cat.Subcategories)
       {
         sub_cat_list.Add(sub_cat);
       }
@@ -356,6 +430,37 @@ var category_list=await this._category.getAllCategory();
     return View("~/Views/ProductList/ProductInfo.cshtml",product);
   }
  
+[HttpPost]
+  public async Task<JsonResult> GetSampleInfo(int id,AddProductModel product)
+{ 
+    StatusResponse response_data; 
+
+    int created_res =await this._product.updateProduct(id,product);
+
+    if (created_res == 0)
+    {  
+        response_data = new StatusResponse 
+        {
+            Status = 0,
+            Message = "Cập nhật sản phẩm thất bại"
+        };
+    }
+
+    else
+    {
+        response_data = new StatusResponse  
+        {
+            Status = 1,
+            Message = "cập nhật sản phẩm thành công"
+        };
+    }
+
+    return Json(response_data);
+}
+
+
+
+
  [Route("product_list/{id}/product_info")]
  [HttpPost]
 public async Task<IActionResult> ProductInfo(int id,AddProductModel product)

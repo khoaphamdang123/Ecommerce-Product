@@ -42,29 +42,45 @@ public class UserListService:IUserListRepository
     string email=user.Email;
     string phonenumber=user.PhoneNumber;
     string datetime=user.DateTime;
-    var users=this._userManager.Users.AsQueryable();
+    string start_date=user.DateTime;
+    string end_date=user.EndTime;
+    var users=this._userManager.Users.ToList();
     if(!string.IsNullOrEmpty(username))
     {
-        users=users.Where(u=>u.UserName==username);
+        users=users.Where(u=>u.UserName==username).ToList();
     }
     if(!string.IsNullOrEmpty(email))
     {
-        users=users.Where(u=>u.Email==email);
+        users=users.Where(u=>u.Email==email).ToList();
     }
     if(!string.IsNullOrEmpty(phonenumber))
     {
-        users=users.Where(u=>u.PhoneNumber==phonenumber);
+        users=users.Where(u=>u.PhoneNumber==phonenumber).ToList();
     }
-    if(!string.IsNullOrEmpty(datetime))
-    {
-        users=users.Where(u=>u.Created_Date==datetime);
-    }
-    return await users.ToListAsync();
+    if(!string.IsNullOrEmpty(start_date) && string.IsNullOrEmpty(end_date))
+   {
+    start_date=start_date.Trim();
+    users= users.Where(c=>DateTime.TryParse(c.Created_Date,out var startDate) && DateTime.TryParse(start_date,out var lowerDate) && startDate.Date==lowerDate.Date).ToList();
+   }
+   else if(string.IsNullOrEmpty(start_date) && !string.IsNullOrEmpty(end_date))
+   { 
+    
+    end_date=end_date.Trim();
+   
+    users= users.Where(c=>DateTime.TryParse(c.Created_Date,out var startDate) && DateTime.TryParse(end_date,out var upperDate) && startDate.Date==upperDate.Date).ToList();
+   }
+   else if(!string.IsNullOrEmpty(start_date) && !string.IsNullOrEmpty(end_date))
+   {
+    start_date=start_date.Trim();
+    end_date=end_date.Trim();    
+    users=users.Where(c=>DateTime.TryParse(c.Created_Date,out var createdDate)&& DateTime.TryParse(start_date,out var startDate) && DateTime.TryParse(end_date,out var endDate) && createdDate>=startDate && createdDate<=endDate).ToList();
+   }
+    return users;
     }
 
     public async Task<IEnumerable<ApplicationUser>> getAllUserList()
     {
-      string role="User";
+      string role="User";       
       var users=this._userManager.Users.ToList();
       List<ApplicationUser> userList=new List<ApplicationUser>();
       foreach(var user in userList)
@@ -149,11 +165,11 @@ public async Task<bool> checkUserExist(string email,string username)
   {
    string file_name=Guid.NewGuid()+"_"+Path.GetFileName(avatar_obj.FileName);
   
-   string file_path=Path.Combine(upload_path,file_name);
+   string file_path=Path.Combine(upload_path,file_name);      
 
    using(var fileStream=new FileStream(file_path,FileMode.Create))
    {
-    await avatar_obj.CopyToAsync(fileStream);
+    await avatar_obj.CopyToAsync(fileStream);    
    } 
    avatar_url=file_path;
   }

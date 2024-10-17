@@ -11,7 +11,7 @@ public partial class Order
 
     public string Createddate { get; set; } = null!;
 
-    public decimal Total { get; set; }
+    public double Total { get; set; }
 
     public string Status { get; set; } = null!;
 
@@ -19,9 +19,9 @@ public partial class Order
 
     public int Paymentid { get; set; }
 
-    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+    public virtual ICollection<Orderdetail> Orderdetails { get; set; } = new List<Orderdetail>();
 
     public virtual Payment Payment { get; set; } = null!;
 
-    public virtual AspNetUser User { get; set; } = null!;
+    public virtual Aspnetuser User { get; set; } = null!;
 }

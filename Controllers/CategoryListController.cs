@@ -371,7 +371,7 @@ public class CategoryListController : Controller
   {
   try
   { 
-    SubCategory new_sub_cat = new SubCategory{SubCategoryName=sub_cat_name,CategoryId=category};
+    Subcategory new_sub_cat = new Subcategory{SubCategoryName=sub_cat_name,CategoryId=category};
     int res_update=await this._category.updateSubCategory(id,new_sub_cat);
     if(res_update==1)
     {

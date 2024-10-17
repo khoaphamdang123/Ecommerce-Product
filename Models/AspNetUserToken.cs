@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ecommerce_Product.Models;
 
-public partial class AspNetUserToken
+public partial class Aspnetusertoken
 {
     public string UserId { get; set; } = null!;
 
@@ -13,5 +13,5 @@ public partial class AspNetUserToken
 
     public string? Value { get; set; }
 
-    public virtual AspNetUser User { get; set; } = null!;
+    public virtual Aspnetuser User { get; set; } = null!;
 }

@@ -1,0 +1,11 @@
+2024-10-16 10:12:38.998 +07:00 [INF]  Updated Setting Successfully
+2024-10-16 10:12:43.283 +07:00 [INF]  Updated Setting Successfully
+2024-10-16 10:13:43.549 +07:00 [INF]  Updated Setting Successfully
+2024-10-16 17:15:44.554 +07:00 [WRN] Failed to determine the https port for redirect.
+2024-10-16 17:15:58.502 +07:00 [INF]  Updated Setting Successfully
+2024-10-16 17:16:03.658 +07:00 [INF]  Updated Setting Successfully
+2024-10-16 17:17:38.193 +07:00 [WRN] Failed to determine the https port for redirect.
+2024-10-16 17:18:07.216 +07:00 [INF]  Updated Setting Successfully
+2024-10-16 17:24:03.005 +07:00 [WRN] Failed to determine the https port for redirect.
+2024-10-16 17:24:07.965 +07:00 [INF]  Updated Setting Successfully
+2024-10-16 17:24:11.999 +07:00 [INF]  Updated Setting Successfully

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ecommerce_Product.Models;
 
-public partial class ProductImage
+public partial class Productimage
 {
     public int Id { get; set; }
 

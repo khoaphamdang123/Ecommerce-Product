@@ -9,12 +9,12 @@ namespace Ecommerce_Product.Service;
 
 public class ProductService:IProductRepository
 {
-    private readonly EcommerceShopContext _context;
+    private readonly GarminvnEcommerceShopContext _context;
 
     private readonly IWebHostEnvironment _webHostEnv;
 
     private readonly Support_Serive.Service _sp_services;
-  public ProductService(EcommerceShopContext context,IWebHostEnvironment webHostEnv,Support_Serive.Service sp_services)
+  public ProductService(GarminvnEcommerceShopContext context,IWebHostEnvironment webHostEnv,Support_Serive.Service sp_services)
   {
     this._context=context;
     this._webHostEnv=webHostEnv;
@@ -37,7 +37,7 @@ public class ProductService:IProductRepository
 
  public async Task<Product> findProductById(int id)
  {
-    var product=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(i=>i.ProductImages).Include(c=>c.Variants).ThenInclude(v=>v.Color).Include(c=>c.Variants).ThenInclude(v=>v.Size).Include(c=>c.Variants).ThenInclude(c=>c.Version).Include(c=>c.Variants).ThenInclude(c=>c.Mirror).FirstOrDefaultAsync(p=>p.Id==id);
+    var product=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(i=>i.Productimages).Include(c=>c.Variants).ThenInclude(v=>v.Color).Include(c=>c.Variants).ThenInclude(v=>v.Size).Include(c=>c.Variants).ThenInclude(c=>c.Version).Include(c=>c.Variants).ThenInclude(c=>c.Mirror).FirstOrDefaultAsync(p=>p.Id==id);
     return product;
  }
 
@@ -90,14 +90,14 @@ try
    if(!string.IsNullOrEmpty(start_date) && string.IsNullOrEmpty(end_date))
    {
     start_date=start_date.Trim();
-    prod_list= prod_list.Where(c=>DateTime.TryParse(c.CreatedDate,out var startDate) && DateTime.TryParse(start_date,out var lowerDate) && startDate>=lowerDate).ToList();
+    prod_list= prod_list.Where(c=>DateTime.TryParse(c.CreatedDate,out var startDate) && DateTime.TryParse(start_date,out var lowerDate) && startDate.Date==lowerDate.Date).ToList();
    }
    else if(string.IsNullOrEmpty(start_date) && !string.IsNullOrEmpty(end_date))
    { 
     
     end_date=end_date.Trim();
    
-    prod_list=prod_list.Where(c=>DateTime.TryParse(c.CreatedDate,out var startDate) && DateTime.TryParse(end_date,out var upperDate) && startDate<=upperDate).ToList();
+    prod_list=prod_list.Where(c=>DateTime.TryParse(c.CreatedDate,out var startDate) && DateTime.TryParse(end_date,out var upperDate) && startDate.Date==upperDate.Date).ToList();
    }
    else if(!string.IsNullOrEmpty(start_date) && !string.IsNullOrEmpty(end_date))
    {
@@ -127,9 +127,9 @@ catch(Exception er)
 return prod_list;
 }
 
-public IEnumerable<ProductImage> findProductImageByProductId(int id)
+public IEnumerable<Productimage> findProductImageByProductId(int id)
 {
- var product_img=this._context.ProductImages.Where(p=>p.Productid==id).ToList();
+ var product_img=this._context.Productimages.Where(p=>p.Productid==id).ToList();
  return product_img;
 }
 
@@ -221,9 +221,9 @@ public async Task<int> deleteProduct(int id)
   }
 
 
-public async Task<SubCategory> findCatIdBySubId(int id)
+public async Task<Subcategory> findCatIdBySubId(int id)
 {
-  var sub_cat=await this._context.SubCategories.Include(c=>c.Category).FirstOrDefaultAsync(c=>c.Id==id);
+  var sub_cat=await this._context.Subcategories.Include(c=>c.Category).FirstOrDefaultAsync(c=>c.Id==id);
   return sub_cat;
 }
 
@@ -259,7 +259,7 @@ public async Task<int> addNewProduct(AddProductModel model)
       Console.WriteLine("QUANTITY:"+quantity);
 
    
-   int sub_cat=model.SubCategory;
+   int sub_cat=model.Subcategory;
 
       Console.WriteLine("Subcat:"+sub_cat);
 
@@ -451,7 +451,7 @@ if(img_files!=null)
  }
 }
 
-List<ProductImage> list_img=new List<ProductImage>();
+List<Productimage> list_img=new List<Productimage>();
 
 if(variant_files!=null)
 {
@@ -463,7 +463,7 @@ for(int i=0;i<variant_files.Count;i++)
 
   string file_path = Path.Combine(upload_path,file_name);
 
-  var img_obj=new ProductImage{Avatar=file_path};
+  var img_obj=new Productimage{Avatar=file_path};
 
   list_img.Add(img_obj);
 
@@ -474,7 +474,7 @@ for(int i=0;i<variant_files.Count;i++)
 }
 }
 
- var product= new Product{ProductName=product_name,CategoryId=category,SubCatId=sub_cat==-1?null:sub_cat,BrandId=brand,Price=price.ToString(),Quantity=quantity,Status="Còn hàng",Description=description,InboxDescription=inbox_description,DiscountDescription=discount_description,Frontavatar=front_avatar,Backavatar=back_avatar,CreatedDate=created_date,UpdatedDate=updated_date,ProductImages=list_img,Variants=variant};
+ var product= new Product{ProductName=product_name,CategoryId=category,SubCatId=sub_cat==-1?null:sub_cat,BrandId=brand,Price=price.ToString(),Quantity=quantity,Status="Còn hàng",Description=description,InboxDescription=inbox_description,DiscountDescription=discount_description,Frontavatar=front_avatar,Backavatar=back_avatar,CreatedDate=created_date,UpdatedDate=updated_date,Productimages=list_img,Variants=variant};
 
   await this._context.Products.AddAsync(product);
 
@@ -485,7 +485,7 @@ for(int i=0;i<variant_files.Count;i++)
   }
   catch(Exception er)
   { created_res=0;
-    Console.WriteLine("Add New Product Exception:"+er.Message);
+    Console.WriteLine("Add New Product Exception:"+er.InnerException??er.Message);
   }
   return created_res;
 }
@@ -516,7 +516,7 @@ string product_name=model.ProductName;
       Console.WriteLine("QUANTITY:"+quantity);
 
    
-   int sub_cat=model.SubCategory;
+   int sub_cat=model.Subcategory;
 
       Console.WriteLine("Subcat:"+sub_cat);
 
@@ -712,7 +712,7 @@ if(img_files!=null)
  }
 }
 
-List<ProductImage> list_img=new List<ProductImage>();
+List<Productimage> list_img=new List<Productimage>();
 
 if(variant_files!=null)
 {
@@ -724,7 +724,7 @@ for(int i=0;i<variant_files.Count;i++)
 
   string file_path = Path.Combine(upload_path,file_name);
 
-  var img_obj=new ProductImage{Avatar=file_path};
+  var img_obj=new Productimage{Avatar=file_path};
 
   list_img.Add(img_obj);
 
@@ -733,7 +733,7 @@ for(int i=0;i<variant_files.Count;i++)
     await img.CopyToAsync(fileStream);
   }
   
-  foreach(var prod_img in product_ob.ProductImages )
+  foreach(var prod_img in product_ob.Productimages )
   {
     if(!string.IsNullOrEmpty(prod_img.Avatar))
     {
@@ -744,7 +744,7 @@ for(int i=0;i<variant_files.Count;i++)
 }
 
 
- var product= new Product{ProductName=product_name,CategoryId=category,SubCatId=sub_cat==-1?null:sub_cat,BrandId=brand,Price=price.ToString(),Quantity=quantity,Status=status,Description=description,InboxDescription=inbox_description,DiscountDescription=discount_description,Frontavatar=string.IsNullOrEmpty(front_avatar)?product_ob.Frontavatar:front_avatar,Backavatar=string.IsNullOrEmpty(back_avatar)?product_ob.Backavatar:back_avatar,UpdatedDate=updated_date,ProductImages=list_img.Count==0?product_ob.ProductImages:list_img,Variants=variant};
+ var product= new Product{ProductName=product_name,CategoryId=category,SubCatId=sub_cat==-1?null:sub_cat,BrandId=brand,Price=price.ToString(),Quantity=quantity,Status=status,Description=description,InboxDescription=inbox_description,DiscountDescription=discount_description,Frontavatar=string.IsNullOrEmpty(front_avatar)?product_ob.Frontavatar:front_avatar,Backavatar=string.IsNullOrEmpty(back_avatar)?product_ob.Backavatar:back_avatar,UpdatedDate=updated_date,Productimages=list_img.Count==0?product_ob.Productimages:list_img,Variants=variant};
 
   if(product_ob!=null)
   {
@@ -756,7 +756,7 @@ for(int i=0;i<variant_files.Count;i++)
     product_ob.SubCatId=product.SubCatId;
     product_ob.Frontavatar=product.Frontavatar;
     product_ob.Backavatar=product.Backavatar;
-    product_ob.ProductImages=product.ProductImages;
+    product_ob.Productimages=product.Productimages;
     product_ob.Variants=product.Variants;
     product_ob.Status=product.Status;
     product_ob.Description=product.Description;

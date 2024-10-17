@@ -18,11 +18,11 @@
    var create_status=ViewBag.Status;
    var cat_list =ViewBag.CategoryList as IEnumerable<Category>;
    var brand_list = ViewBag.BrandList as IEnumerable<Brand>;
-   var sub_cat_list = ViewBag.SubCatList as List<SubCategory>; 
+   var sub_cat_list = ViewBag.SubCatList as List<Subcategory>; 
    var status_list = new List<string>{"Còn hàng","Hết hàng"};
    string bg_status="";
    List<string> avatar_list=new List<string>{Model.Frontavatar,Model.Backavatar};
-   var saved_img_files=Model.ProductImages;
+   var saved_img_files=Model.Productimages;
    var saved_avatar_files=avatar_list;
    bg_status=create_status==1||create_status==-1?"bg-danger":create_status==1?"bg-success":"";
 
@@ -33,7 +33,7 @@
 }
 
 
-      <div
+    <div
        class="bs-toast toast fade bg-success hide toast-placement-ex top-5 end-0"
        role="alert"
        aria-live="assertive"
@@ -46,20 +46,35 @@
              >
                         <div class="toast-header">
                           <i class="bx bx-bell me-2"></i>
-                          <div class="me-auto fw-semibold">Thêm sản phẩm</div>
+                          <div class="me-auto fw-semibold">Cập nhật sản phẩm</div>
+                          Cập nhật sản phẩm thành công<!--<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>-->
+                        </div>
+                        <div class="toast-body">
+                        </div>
+                      </div>
+
+    
+      <div
+       class="bs-toast toast toast-danger fade bg-danger hide toast-placement-ex top-5 end-0"
+       role="alert"
+       aria-live="assertive"
+       aria-atomic="true"
+       data-bs-dismiss="toast"
+        style="cursor: pointer;"
+         data-delay="3000"
+         data-bs-autohide="true" 
+         data-bs-delay="3000"
+             >
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold">Cập nhật sản phẩm</div>
                           <!--<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>-->
                         </div>
                         <div class="toast-body">
-                         Thêm sản phẩm thành công
+                          <p id="toas-message"></p>
                         </div>
                       </div>
-                    <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                var toastEl = document.querySelector('.toast');
-                var toast = new bootstrap.Toast(toastEl);
-                toast.show();
-            });
-        </script>
+
         
 
 <div class="alert alert-danger alert-dismissible fade" role="alert">
@@ -118,8 +133,8 @@
                         </div>
                         <div class="row mt-3 mb-3">
                          <div class="col">
-                            <label class="form-label" for="subcategory">Chọn loại sản phẩm phụ</label>
-                            <select class="form-select select-2" id="sub-select" name="subcategory">
+                            <label class="form-label" for="Subcategory">Chọn loại sản phẩm phụ</label>
+                            <select class="form-select select-2" id="sub-select" name="Subcategory">
                               <option value="-1">Chọn loại sản phẩm phụ</option>
                               @foreach(var subcat in sub_cat_list)
                               {
@@ -233,14 +248,14 @@
                 <div class="card-body" id="image-files" data-img="@saved_img_files">
                   <div class="drop-zone" id="drop-zone">
     <input type="file" id="fileInput" class="file-input" accept="image/*" multiple hidden />
-    <div class="drop-zone-message" id="drop-zone-message" style="display:@(Model.ProductImages.Count>0?"none":"block")" >
+    <div class="drop-zone-message" id="drop-zone-message" style="display:@(Model.Productimages.Count>0?"none":"block")" >
         Kéo và thả hình ảnh vào đây hoặc
         <button type="button" id="fileInputButton" class="upload-button">Chọn File</button>
     </div>
     <div id="previewImageContainer" class="image-preview-container">
-     @if (Model.ProductImages.Count>0)
+     @if (Model.Productimages.Count>0)
     {  
-        List<ProductImage> list_img = Model.ProductImages.ToList();
+        List<Productimage> list_img = Model.Productimages.ToList();
        
         for (int i = 0; i < list_img.Count; i++)
         {
@@ -256,12 +271,10 @@
             </div>
         }
     }
-
     </div>
 </div>
         </div>
         </div>
-               
                 <div class="card mb-4">
                     <div class="card-header">
                       <h5 class="mb-0 card-title">Miêu tả sản phẩm</h5>
@@ -269,8 +282,7 @@
                     <hr class="my-0" />
                     <div class="card-body">
                     <textarea id="Description" name="description" style="height: 300px;" value="@Model.Description">@Model.Description</textarea>
-                    </div>
-     
+                    </div>   
                 </div>
                 
              <div class="card mb-4">
@@ -366,10 +378,6 @@
                 </div>
               </div>
             </div>
-        
-            
-            <!-- / Footer -->
-
             <div class="content-backdrop fade"></div>
           </div>
           <!-- Content wrapper -->
@@ -379,30 +387,111 @@
       <div class="layout-overlay layout-menu-toggle"></div> 
 <script>
 
-document.addEventListener("DOMContentLoaded", function (event) {
- 
+document.addEventListener("DOMContentLoaded", function (event)
+{ 
   new FroalaEditor('#Description',{
- heightMin: 300,
-      toolbarButtons: ['bold', 'italic', 'underline', '|','color', 'backgroundColor', 'insertTable', 'undo', 'redo'],
-      pluginsEnabled: ['table','colors'],
-      colorsBackground: ['#FFFFFF', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'],
-      colorsText: ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'] 
+     heightMin: 300,
+    toolbarButtons:{  moreText: {
+      buttons: [
+        'bold', 'italic', 'underline', 'strikeThrough', 
+        'subscript', 'superscript', 'fontFamily', 'fontSize', 
+        'textColor', 'backgroundColor', 'inlineClass', 
+        'inlineStyle', 'clearFormatting'
+      ]
+    },
+    moreParagraph: {
+      buttons: [
+        'alignLeft', 'alignCenter', 'formatOLSimple', 
+        'alignRight', 'alignJustify', 'formatOL', 'formatUL', 
+        'paragraphFormat', 'paragraphStyle', 'lineHeight'
+      ]
+    },
+    moreRich: {
+      buttons: [
+        'insertLink', 'insertImage', 'insertVideo', 
+        'insertTable', 'emoticons', 'fontAwesome', 
+        'specialCharacters', 'embedly', 'insertFile', 'insertHR'
+      ]
+    },
+    moreMisc: {
+      buttons: [
+        'undo', 'redo', 'fullscreen', 'print', 'getPDF', 
+        'spellChecker', 'selectAll', 'html', 'help'
+      ]
+    }},
+    pluginsEnabled: ['align', 'charCounter', 'codeBeautifier', 'codeView', 'colors', 'draggable', 'embedly', 'emoticons', 'entities', 'file', 'fontFamily', 'fontSize', 'fullscreen', 'image', 'imageManager', 'inlineStyle', 'lineBreaker', 'link', 'lists', 'paragraphFormat', 'paragraphStyle', 'quickInsert', 'quote', 'save', 'table', 'url', 'video', 'wordPaste'],
+    colorsBackground: ['#FFFFFF', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'],
+    colorsText: ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'] 
   });
 
   new FroalaEditor('#Description-Inbox',{
-      heightMin: 300,
-      toolbarButtons: ['bold', 'italic', 'underline', '|','color', 'backgroundColor', 'insertTable', 'undo', 'redo'],
-      pluginsEnabled: ['table','colors'],
-      colorsBackground: ['#FFFFFF', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'],
-      colorsText: ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'] 
+     heightMin: 300,
+    toolbarButtons:{  moreText: {
+      buttons: [
+        'bold', 'italic', 'underline', 'strikeThrough', 
+        'subscript', 'superscript', 'fontFamily', 'fontSize', 
+        'textColor', 'backgroundColor', 'inlineClass', 
+        'inlineStyle', 'clearFormatting'
+      ]
+    },
+    moreParagraph: {
+      buttons: [
+        'alignLeft', 'alignCenter', 'formatOLSimple', 
+        'alignRight', 'alignJustify', 'formatOL', 'formatUL', 
+        'paragraphFormat', 'paragraphStyle', 'lineHeight'
+      ]
+    },
+    moreRich: {
+      buttons: [
+        'insertLink', 'insertImage', 'insertVideo', 
+        'insertTable', 'emoticons', 'fontAwesome', 
+        'specialCharacters', 'embedly', 'insertFile', 'insertHR'
+      ]
+    },
+    moreMisc: {
+      buttons: [
+        'undo', 'redo', 'fullscreen', 'print', 'getPDF', 
+        'spellChecker', 'selectAll', 'html', 'help'
+      ]
+    }},
+    pluginsEnabled: ['align', 'charCounter', 'codeBeautifier', 'codeView', 'colors', 'draggable', 'embedly', 'emoticons', 'entities', 'file', 'fontFamily', 'fontSize', 'fullscreen', 'image', 'imageManager', 'inlineStyle', 'lineBreaker', 'link', 'lists', 'paragraphFormat', 'paragraphStyle', 'quickInsert', 'quote', 'save', 'table', 'url', 'video', 'wordPaste'],
+    colorsBackground: ['#FFFFFF', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'],
+    colorsText: ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'] 
   });
 
   new FroalaEditor('#Discount-Description',{
       heightMin: 300,
-      toolbarButtons: ['bold', 'italic', 'underline', '|','color', 'backgroundColor', 'insertTable', 'undo', 'redo'],
-      pluginsEnabled: ['table','colors'],
-      colorsBackground: ['#FFFFFF', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'],
-      colorsText: ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'] 
+    toolbarButtons:{  moreText: {
+      buttons: [
+        'bold', 'italic', 'underline', 'strikeThrough', 
+        'subscript', 'superscript', 'fontFamily', 'fontSize', 
+        'textColor', 'backgroundColor', 'inlineClass', 
+        'inlineStyle', 'clearFormatting'
+      ]
+    },
+    moreParagraph: {
+      buttons: [
+        'alignLeft', 'alignCenter', 'formatOLSimple', 
+        'alignRight', 'alignJustify', 'formatOL', 'formatUL', 
+        'paragraphFormat', 'paragraphStyle', 'lineHeight'
+      ]
+    },
+    moreRich: {
+      buttons: [
+        'insertLink', 'insertImage', 'insertVideo', 
+        'insertTable', 'emoticons', 'fontAwesome', 
+        'specialCharacters', 'embedly', 'insertFile', 'insertHR'
+      ]
+    },
+    moreMisc: {
+      buttons: [
+        'undo', 'redo', 'fullscreen', 'print', 'getPDF', 
+        'spellChecker', 'selectAll', 'html', 'help'
+      ]
+    }},
+    pluginsEnabled: ['align', 'charCounter', 'codeBeautifier', 'codeView', 'colors', 'draggable', 'embedly', 'emoticons', 'entities', 'file', 'fontFamily', 'fontSize', 'fullscreen', 'image', 'imageManager', 'inlineStyle', 'lineBreaker', 'link', 'lists', 'paragraphFormat', 'paragraphStyle', 'quickInsert', 'quote', 'save', 'table', 'url', 'video', 'wordPaste'],
+    colorsBackground: ['#FFFFFF', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'],
+    colorsText: ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'] 
   }); 
    @* $('#Description').froalaEditor('html.set', 'Hello'); *@
 
@@ -423,7 +512,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
  let version_list=[];
 
  let mirror_list = [];
-
    
  const add_variant=document.getElementById("add-variant");
 
@@ -853,7 +941,7 @@ const file=files[i];
   });
   var id_ob=document.getElementById("product-id");
   let  id_value=id_ob.getAttribute("data-id");
-  let url='@Url.Action("ProductInfo", "ProductList",new{id="__id__"})';
+  let url='@Url.Action("GetSampleInfo", "ProductList",new{id="__id__"})';
   url=url.replace("__id__",id_value);
     $.ajax({
                 url:url,
@@ -863,9 +951,21 @@ const file=files[i];
                 processData: false, 
                 success:function(response)
                 { 
-                var toastEl = document.querySelector('.toast');
+                  var status=response.status;
+                  var message=response.message;
+                  if(status==-1 || status==0)
+                  {
+                    document.getElementById("toas-message").innerHTML=message;
+                var toastEl = document.querySelector('.toast-danger');
                 var toast = new bootstrap.Toast(toastEl);
                 toast.show();
+                }
+
+                else{
+                  var toastEl = document.querySelector('.toast');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show(); 
+                }
                 },
               error: function (xhr, status, error) 
             {

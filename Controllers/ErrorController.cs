@@ -11,7 +11,7 @@ public IActionResult NotFound()
     return View();
 }
 
-
+[Route("Miantainance")]
 public IActionResult Maintainance()
 {
     return View();

@@ -17,7 +17,7 @@ public partial class Variant
 
     public int? Mirrorid { get; set; }
 
-    public decimal? Weight { get; set; }
+    public double? Weight { get; set; }
 
     public virtual Color? Color { get; set; }
 

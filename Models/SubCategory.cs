@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ecommerce_Product.Models;
 
-public partial class SubCategory
+public partial class Subcategory
 {
     public int Id { get; set; }
 

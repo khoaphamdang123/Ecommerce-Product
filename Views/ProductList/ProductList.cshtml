@@ -111,7 +111,7 @@
                       @foreach(var option in cat_list)
                       { if(filtered_product!=null)
                       {
-                        if(option.CategoryName==filtered_product.Category)
+                        if(option.CategoryName==filtered_product.Category && !string.IsNullOrEmpty(option.CategoryName))
                         {
                           <option value="@option.Id" selected>@option.CategoryName</option>
                         }
@@ -131,7 +131,7 @@
                         @foreach(var option in brand_list)
                         { if(filtered_product!=null)
                         {
-                          if(option.BrandName==filtered_product.Brand)
+                          if(option.BrandName==filtered_product.Brand && !string.IsNullOrEmpty(option.BrandName))
                           {
                             <option value="@option.Id" selected>@option.BrandName</option>
                           }
@@ -170,10 +170,10 @@
                     </div>
                     <div class="row mt-4">
                         <div class="col-md-4 mb-4">
-                        <input type="date" class="form-control" placeholder="mm/dd/yyyy" name="startdate" id="dateInput" autocomplete="off">
+                        <input type="date" class="form-control" placeholder="mm/dd/yyyy" name="startdate" value="@filtered_product.StartDate" id="dateInput" autocomplete="off">
                     </div>
                            <div class="col-md-4">
-                        <input type="date" class="form-control" placeholder="mm/dd/yyyy" name="enddate" id="dateInput" autocomplete="off">
+                        <input type="date" class="form-control" placeholder="mm/dd/yyyy" name="enddate" id="dateInput" value="@filtered_product.EndDate" autocomplete="off">
                     </div>
                     </div>
                     <div class="row mt-4">

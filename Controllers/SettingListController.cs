@@ -11,10 +11,11 @@ using System.ComponentModel;
 using Org.BouncyCastle.Asn1.Mozilla;
 
 namespace Ecommerce_Product.Controllers;
+//[Authorize(Roles="Admin")]
 [Route("admin")]
 public class SettingListController : Controller
 {
-    private readonly ILogger<SettingListController> _logger;
+    private readonly ILogger<SettingListController> _logger;    
 
     // private readonly ICategoryRepository _categoryList;
 
@@ -43,7 +44,6 @@ public class SettingListController : Controller
   }
 
   [Route("settings")]
-
   [HttpPost]
   public async Task<IActionResult> SettingList(SettingModel setting)
   {
@@ -63,13 +63,11 @@ public class SettingListController : Controller
     }
     else
     {    ViewBag.Status=0;
-         ViewBag.message="Cập nhật cấu hình cài đặt thất bại";
+         ViewBag.message="Cập nhật cấu hình cài đặt thất bại";         
       this._logger.LogInformation($"{this.HttpContext.Session.GetString("Username")} Updated Setting Failed");
-
     }
-
     var setting_list=await this._setting.getAllSetting();
-
+    
     return View(setting_list);
   }
 

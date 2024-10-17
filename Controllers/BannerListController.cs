@@ -11,7 +11,7 @@ using System.ComponentModel;
 using Org.BouncyCastle.Asn1.Mozilla;
 
 namespace Ecommerce_Product.Controllers;
-//[Authorize(Roles ="Admin")]
+[Authorize(Roles ="Admin")]
 [Route("admin")]
 public class BannerListController : Controller
 {
@@ -74,10 +74,13 @@ public class BannerListController : Controller
   public async Task<IActionResult> AddBanner(BannerModel banner)
   {
   try{
+
     int created_res=await this._banner.addBanner(banner);
     ViewBag.Status=created_res;
     if(created_res==0)
     {
+          this._logger.LogInformation($"{this.HttpContext.Session.GetString("Username")} Created Banner Failed");
+
       ViewBag.Created_Banner="Thêm banner thất bại";
     }
     else if(created_res==-1)
@@ -85,11 +88,13 @@ public class BannerListController : Controller
       ViewBag.Created_Banner="Banner này đã tồn tại trong hệ thống";
     }
     else{
+      this._logger.LogInformation($"{this.HttpContext.Session.GetString("Username")} Created Banner Successfully");
       ViewBag.Created_Banner="Thêm banner thành công";
     }
   }
   catch(Exception er)
   { Console.WriteLine("Add banner exception:"+er.Message);
+    
     this._logger.LogTrace("Add Banner Exception:"+er.Message);
   }
   return View();
@@ -113,10 +118,11 @@ public class BannerListController : Controller
         ViewBag.Status=update_res;
         if(update_res==0)
         {
+            this._logger.LogInformation($"{this.HttpContext.Session.GetString("Username")} Updated Banner Failed");
             ViewBag.Update_Banner="Cập nhật banner thất bại";
         }
         else
-        {
+        {  this._logger.LogInformation($"{this.HttpContext.Session.GetString("Username")} Updated Banner Successfully");
             ViewBag.Update_Banner="Cập nhật banner thành công";
         }
         var banner_ob=await this._banner.findBannerById(id);

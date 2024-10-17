@@ -1,17 +1,15 @@
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Ecommerce_Product.Data;
 using Serilog;
-using Serilog.Events;
 using Ecommerce_Product.Models;
 using Ecommerce_Product.Repository;
 using Ecommerce_Product.Service;
 using Ecommerce_Product.Support_Serive;
 using reCAPTCHA.AspNetCore;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Ecommerce_Product.Models;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -20,9 +18,11 @@ builder.Services.AddControllersWithViews();
 
 var _logger = new LoggerConfiguration().ReadFrom.Configuration(builder.Configuration).Enrich.FromLogContext().CreateLogger();
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+// builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),new MySqlServerVersion(new System.Version(11,5,2))));
 
 
 
@@ -31,8 +31,8 @@ builder.Services.AddRecaptcha(options =>
     options.SiteKey =builder.Configuration.GetSection("Recapcha")["SiteKey"];
     options.SecretKey =builder.Configuration.GetSection("Recapcha")["SecretKey"];
 });
-
-builder.Services.AddDbContext<EcommerceShopContext>(options=>options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<GarminvnEcommerceShopContext>(options =>
+    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),new MySqlServerVersion(new System.Version(11,5,2))));
 
 builder.Services.AddSession(options=>{
   options.IdleTimeout=TimeSpan.FromHours(1);
@@ -198,9 +198,9 @@ app.MapControllerRoute(
     pattern: "{controller=LoginAdmin}/{action=Index}/{id?}"
     );
 
-app.MapControllerRoute(
-    name: "admin",
-    pattern: "{controller=LoginAdmin}/{action=Index}/{id?}"
-    );
+// app.MapControllerRoute(
+//     name: "admin",
+//     pattern: "{controller=LoginAdmin}/{action=Index}/{id?}"
+//     );
 
 app.Run();

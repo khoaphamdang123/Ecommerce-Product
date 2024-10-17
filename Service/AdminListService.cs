@@ -59,14 +59,14 @@ public class AdminListService:IAdminRepository
    if(!string.IsNullOrEmpty(datetime) && string.IsNullOrEmpty(endtime))
    {
     datetime=datetime.Trim();
-    users= users.ToList().Where(c=>DateTime.TryParse(c.Created_Date,out var startDate) && DateTime.TryParse(datetime,out var lowerDate) && startDate>=lowerDate).AsQueryable();
+    users= users.ToList().Where(c=>DateTime.TryParse(c.Created_Date,out var startDate) && DateTime.TryParse(datetime,out var lowerDate) && startDate.Date==lowerDate.Date).AsQueryable();
    }
    else if(string.IsNullOrEmpty(datetime) && !string.IsNullOrEmpty(endtime))
    { 
     
     endtime=endtime.Trim();
    
-    users= users.ToList().Where(c=>DateTime.TryParse(c.Created_Date,out var startDate) && DateTime.TryParse(endtime,out var upperDate) && startDate<=upperDate).AsQueryable();
+    users= users.ToList().Where(c=>DateTime.TryParse(c.Created_Date,out var startDate) && DateTime.TryParse(endtime,out var upperDate) && startDate.Date==upperDate.Date).AsQueryable();
    }
    else if(!string.IsNullOrEmpty(datetime) && !string.IsNullOrEmpty(endtime))
    {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ecommerce_Product.Models;
 
-public partial class AspNetRole
+public partial class Aspnetrole
 {
     public string Id { get; set; } = null!;
 
@@ -13,7 +13,7 @@ public partial class AspNetRole
 
     public string? ConcurrencyStamp { get; set; }
 
-    public virtual ICollection<AspNetRoleClaim> AspNetRoleClaims { get; set; } = new List<AspNetRoleClaim>();
+    public virtual ICollection<Aspnetroleclaim> Aspnetroleclaims { get; set; } = new List<Aspnetroleclaim>();
 
-    public virtual ICollection<AspNetUser> Users { get; set; } = new List<AspNetUser>();
+    public virtual ICollection<Aspnetuser> Users { get; set; } = new List<Aspnetuser>();
 }

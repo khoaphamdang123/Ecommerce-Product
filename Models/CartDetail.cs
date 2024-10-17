@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ecommerce_Product.Models;
 
-public partial class CartDetail
+public partial class Cartdetail
 {
     public int Id { get; set; }
 
