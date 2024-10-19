@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Ecommerce_Product.Migrations.EcommerceShop
 {
-    [DbContext(typeof(GarminvnEcommerceShopContext))]
+    [DbContext(typeof(EcommerceshopContext))]
     partial class EcommerceShopContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -37,7 +37,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Ecommerce_Product.Models.AspNetRole", b =>
+            modelBuilder.Entity("Ecommerce_Product.Models.AspnetRole", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("varchar(255)");
@@ -86,7 +86,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                     b.ToTable("AspNetRoleClaims");
                 });
 
-            modelBuilder.Entity("Ecommerce_Product.Models.AspNetUser", b =>
+            modelBuilder.Entity("Ecommerce_Product.Models.AspnetUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("varchar(255)");
@@ -391,7 +391,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                     b.ToTable("Category", (string)null);
                 });
 
-            modelBuilder.Entity("Ecommerce_Product.Models.Categorybranddetail", b =>
+            modelBuilder.Entity("Ecommerce_Product.Models.CategoryBrandDetails", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -411,7 +411,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Categorybranddetail", (string)null);
+                    b.ToTable("CategoryBrandDetails", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce_Product.Models.Color", b =>
@@ -631,7 +631,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                     b.ToTable("Product", (string)null);
                 });
 
-            modelBuilder.Entity("Ecommerce_Product.Models.Productimages", b =>
+            modelBuilder.Entity("Ecommerce_Product.Models.ProductImages", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -654,7 +654,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
 
                     b.HasIndex("Productid");
 
-                    b.ToTable("Productimages");
+                    b.ToTable("ProductImages");
                 });
 
             modelBuilder.Entity("Ecommerce_Product.Models.Setting", b =>
@@ -715,7 +715,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                     b.ToTable("size", (string)null);
                 });
 
-            modelBuilder.Entity("Ecommerce_Product.Models.Staticfile", b =>
+            modelBuilder.Entity("Ecommerce_Product.Models.StaticFiles", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -747,10 +747,10 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                     b.HasKey("Id")
                         .HasName("staticfile_pk");
 
-                    b.ToTable("Staticfile", (string)null);
+                    b.ToTable("StaticFiles", (string)null);
                 });
 
-            modelBuilder.Entity("Ecommerce_Product.Models.Subcategory", b =>
+            modelBuilder.Entity("Ecommerce_Product.Models.SubCategories", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -776,7 +776,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Subcategory", (string)null);
+                    b.ToTable("SubCategories", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce_Product.Models.Variant", b =>
@@ -850,13 +850,13 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
 
             modelBuilder.Entity("AspNetUserRole", b =>
                 {
-                    b.HasOne("Ecommerce_Product.Models.AspNetRole", null)
+                    b.HasOne("Ecommerce_Product.Models.AspnetRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Ecommerce_Product.Models.AspNetUser", null)
+                    b.HasOne("Ecommerce_Product.Models.AspnetUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -865,7 +865,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
 
             modelBuilder.Entity("Ecommerce_Product.Models.AspNetRoleClaim", b =>
                 {
-                    b.HasOne("Ecommerce_Product.Models.AspNetRole", "Role")
+                    b.HasOne("Ecommerce_Product.Models.AspnetRole", "Role")
                         .WithMany("AspNetRoleClaims")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -876,7 +876,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
 
             modelBuilder.Entity("Ecommerce_Product.Models.AspNetUserClaim", b =>
                 {
-                    b.HasOne("Ecommerce_Product.Models.AspNetUser", "User")
+                    b.HasOne("Ecommerce_Product.Models.AspnetUser", "User")
                         .WithMany("AspNetUserClaims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -887,7 +887,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
 
             modelBuilder.Entity("Ecommerce_Product.Models.AspNetUserLogin", b =>
                 {
-                    b.HasOne("Ecommerce_Product.Models.AspNetUser", "User")
+                    b.HasOne("Ecommerce_Product.Models.AspnetUser", "User")
                         .WithMany("AspNetUserLogins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -898,7 +898,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
 
             modelBuilder.Entity("Ecommerce_Product.Models.AspNetUserToken", b =>
                 {
-                    b.HasOne("Ecommerce_Product.Models.AspNetUser", "User")
+                    b.HasOne("Ecommerce_Product.Models.AspnetUser", "User")
                         .WithMany("AspNetUserTokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -909,7 +909,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
 
             modelBuilder.Entity("Ecommerce_Product.Models.Cart", b =>
                 {
-                    b.HasOne("Ecommerce_Product.Models.AspNetUser", "User")
+                    b.HasOne("Ecommerce_Product.Models.AspnetUser", "User")
                         .WithMany("Carts")
                         .HasForeignKey("Userid")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -940,17 +940,17 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Ecommerce_Product.Models.Categorybranddetail", b =>
+            modelBuilder.Entity("Ecommerce_Product.Models.CategoryBrandDetails", b =>
                 {
                     b.HasOne("Ecommerce_Product.Models.Brand", "Brand")
-                        .WithMany("Categorybranddetails")
+                        .WithMany("CategoryBrandDetails")
                         .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("brand_fk");
 
                     b.HasOne("Ecommerce_Product.Models.Category", "Category")
-                        .WithMany("Categorybranddetails")
+                        .WithMany("CategoryBrandDetails")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
@@ -970,7 +970,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                         .IsRequired()
                         .HasConstraintName("order_payment_fk");
 
-                    b.HasOne("Ecommerce_Product.Models.AspNetUser", "User")
+                    b.HasOne("Ecommerce_Product.Models.AspnetUser", "User")
                         .WithMany("Orders")
                         .HasForeignKey("Userid")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -985,14 +985,14 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
             modelBuilder.Entity("Ecommerce_Product.Models.OrderDetail", b =>
                 {
                     b.HasOne("Ecommerce_Product.Models.Order", "Order")
-                        .WithMany("Orderdetails")
+                        .WithMany("OrderDetails")
                         .HasForeignKey("Orderid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("orderdetail_order_fk");
 
                     b.HasOne("Ecommerce_Product.Models.Product", "Product")
-                        .WithMany("Orderdetails")
+                        .WithMany("OrderDetails")
                         .HasForeignKey("Productid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
@@ -1017,7 +1017,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("product_cat_fk");
 
-                    b.HasOne("Ecommerce_Product.Models.Subcategory", "SubCat")
+                    b.HasOne("Ecommerce_Product.Models.SubCategories", "SubCat")
                         .WithMany("Products")
                         .HasForeignKey("SubCatId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1030,10 +1030,10 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                     b.Navigation("SubCat");
                 });
 
-            modelBuilder.Entity("Ecommerce_Product.Models.Productimages", b =>
+            modelBuilder.Entity("Ecommerce_Product.Models.ProductImages", b =>
                 {
                     b.HasOne("Ecommerce_Product.Models.Product", "Product")
-                        .WithMany("Productimages")
+                        .WithMany("ProductImages")
                         .HasForeignKey("Productid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("product_img_fk");
@@ -1041,10 +1041,10 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Ecommerce_Product.Models.Subcategory", b =>
+            modelBuilder.Entity("Ecommerce_Product.Models.SubCategories", b =>
                 {
                     b.HasOne("Ecommerce_Product.Models.Category", "Category")
-                        .WithMany("Subcategories")
+                        .WithMany("SubCategories")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("sub_cat_fk");
@@ -1095,12 +1095,12 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                     b.Navigation("Version");
                 });
 
-            modelBuilder.Entity("Ecommerce_Product.Models.AspNetRole", b =>
+            modelBuilder.Entity("Ecommerce_Product.Models.AspnetRole", b =>
                 {
                     b.Navigation("AspNetRoleClaims");
                 });
 
-            modelBuilder.Entity("Ecommerce_Product.Models.AspNetUser", b =>
+            modelBuilder.Entity("Ecommerce_Product.Models.AspnetUser", b =>
                 {
                     b.Navigation("AspNetUserClaims");
 
@@ -1115,7 +1115,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
 
             modelBuilder.Entity("Ecommerce_Product.Models.Brand", b =>
                 {
-                    b.Navigation("Categorybranddetails");
+                    b.Navigation("CategoryBrandDetails");
 
                     b.Navigation("Products");
                 });
@@ -1127,11 +1127,11 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
 
             modelBuilder.Entity("Ecommerce_Product.Models.Category", b =>
                 {
-                    b.Navigation("Categorybranddetails");
+                    b.Navigation("CategoryBrandDetails");
 
                     b.Navigation("Products");
 
-                    b.Navigation("Subcategories");
+                    b.Navigation("SubCategories");
                 });
 
             modelBuilder.Entity("Ecommerce_Product.Models.Color", b =>
@@ -1146,7 +1146,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
 
             modelBuilder.Entity("Ecommerce_Product.Models.Order", b =>
                 {
-                    b.Navigation("Orderdetails");
+                    b.Navigation("OrderDetails");
                 });
 
             modelBuilder.Entity("Ecommerce_Product.Models.Payment", b =>
@@ -1158,9 +1158,9 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                 {
                     b.Navigation("CartDetails");
 
-                    b.Navigation("Orderdetails");
+                    b.Navigation("OrderDetails");
 
-                    b.Navigation("Productimages");
+                    b.Navigation("ProductImages");
 
                     b.Navigation("Variants");
                 });
@@ -1170,7 +1170,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                     b.Navigation("Variants");
                 });
 
-            modelBuilder.Entity("Ecommerce_Product.Models.Subcategory", b =>
+            modelBuilder.Entity("Ecommerce_Product.Models.SubCategories", b =>
                 {
                     b.Navigation("Products");
                 });

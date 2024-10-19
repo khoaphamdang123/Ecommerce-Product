@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ecommerce_Product.Models;
 
-public partial class Aspnetroleclaim
+public partial class AspNetRoleClaim
 {
     public int Id { get; set; }
 
@@ -13,5 +13,5 @@ public partial class Aspnetroleclaim
 
     public string? ClaimValue { get; set; }
 
-    public virtual Aspnetrole Role { get; set; } = null!;
+    public virtual AspnetRole Role { get; set; } = null!;
 }

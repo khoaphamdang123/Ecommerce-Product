@@ -8,10 +8,10 @@ namespace Ecommerce_Product.Service;
 
 public class OrderListService:IOrderRepository
 {
-    private readonly GarminvnEcommerceShopContext _context;
+    private readonly EcommerceshopContext _context;
 
     private readonly Support_Serive.Service _sp_services;
-  public OrderListService(GarminvnEcommerceShopContext context,Support_Serive.Service sp_services)
+  public OrderListService(EcommerceshopContext context,Support_Serive.Service sp_services)
   {
     this._context=context;
     this._sp_services=sp_services;
@@ -25,7 +25,7 @@ public class OrderListService:IOrderRepository
 
   public async Task<Order> findOrderById(int id)
   {
-    var order=await this._context.Orders.Include(c=>c.User).Include(c=>c.Payment).Include(c=>c.Orderdetails).ThenInclude(c=>c.Product).FirstOrDefaultAsync(s=>s.Id==id);
+    var order=await this._context.Orders.Include(c=>c.User).Include(c=>c.Payment).Include(c=>c.OrderDetails).ThenInclude(c=>c.Product).FirstOrDefaultAsync(s=>s.Id==id);
     return order;
   }
 
@@ -147,10 +147,10 @@ public class OrderListService:IOrderRepository
     int deleted_res=0;
     try
     {
-      var order_detail=await this._context.Orderdetails.FirstOrDefaultAsync(s=>s.Id==id);
+      var order_detail=await this._context.OrderDetails.FirstOrDefaultAsync(s=>s.Id==id);
       if(order_detail!=null)
       {
-        this._context.Orderdetails.Remove(order_detail);
+        this._context.OrderDetails.Remove(order_detail);
         await this.saveChanges();
         deleted_res=1;
       }

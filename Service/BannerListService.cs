@@ -6,13 +6,13 @@ namespace Ecommerce_Product.Service;
 
 public class BannerListService:IBannerListRepository
 {
-    private readonly GarminvnEcommerceShopContext _context;
+    private readonly EcommerceshopContext _context;
 
     private readonly IWebHostEnvironment _webHostEnv;
 
 
     private readonly Support_Serive.Service _sp_services;
-  public BannerListService(GarminvnEcommerceShopContext context,Support_Serive.Service sp_services,IWebHostEnvironment webHostEnv)
+  public BannerListService(EcommerceshopContext context,Support_Serive.Service sp_services,IWebHostEnvironment webHostEnv)
   {
     this._context=context;
     this._sp_services=sp_services;

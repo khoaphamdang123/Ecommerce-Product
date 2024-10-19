@@ -22,7 +22,7 @@ var _logger = new LoggerConfiguration().ReadFrom.Configuration(builder.Configura
 //     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),new MySqlServerVersion(new System.Version(11,5,2))));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
 
@@ -31,8 +31,8 @@ builder.Services.AddRecaptcha(options =>
     options.SiteKey =builder.Configuration.GetSection("Recapcha")["SiteKey"];
     options.SecretKey =builder.Configuration.GetSection("Recapcha")["SecretKey"];
 });
-builder.Services.AddDbContext<GarminvnEcommerceShopContext>(options =>
-    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),new MySqlServerVersion(new System.Version(11,5,2))));
+builder.Services.AddDbContext<EcommerceshopContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddSession(options=>{
   options.IdleTimeout=TimeSpan.FromHours(1);

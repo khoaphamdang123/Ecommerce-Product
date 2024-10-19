@@ -112,7 +112,7 @@ public class PaymentListController : Controller
 
 //   [Route("file_list/add_page")]
 //   [HttpPost]
-//   public async Task<IActionResult> AddStaticFiles(Staticfile file)
+//   public async Task<IActionResult> AddStaticFiles(StaticFiles file)
 //   {  try{
 //       string file_name=file.Filename;
 //       string content= file.Content;
@@ -174,7 +174,7 @@ public class PaymentListController : Controller
 
 //     [Route("file_list/{id}/page_info")]
 //   [HttpPost]
-//   public async Task<IActionResult> StaticFilesInfo(int id,Staticfile file)
+//   public async Task<IActionResult> StaticFilesInfo(int id,StaticFiles file)
 //   {  
 //     Console.WriteLine("id:"+id);
 

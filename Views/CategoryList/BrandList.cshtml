@@ -10,7 +10,7 @@
 =========================================================
  -->
 <!-- beautify ignore:start -->
-@model PageList<Categorybranddetail>
+@model PageList<CategoryBrandDetails>
 @{
   int count_id= 0;
   var selected_size=ViewBag.select_size;
@@ -83,7 +83,7 @@
          data-bs-autohide="true" 
          data-bs-delay="3000"
              >
-                        <div class="toast-header">
+                      <div class="toast-header">
                           <i class="bx bx-bell me-2"></i>
                           <div class="me-auto fw-semibold">Xóa nhãn hàng</div>
                         </div>
@@ -91,7 +91,7 @@
                          @(message_delete)
                         </div>
                       </div>
-                        <script>
+                    <script>
             document.addEventListener('DOMContentLoaded', function() {
                 var toastEl = document.querySelector('.toast');
                 var toast = new bootstrap.Toast(toastEl);
@@ -274,7 +274,7 @@
           }
         else{
          <a class="page-item" title="@i" href="@Url.Action("BrandList",new{page_size=int.Parse(selected_size),page=i})">@i</a>
-        }
+            }
         }
       }
      }
@@ -308,19 +308,6 @@
     }
     }
     } 
-   
-        @* <a class="page-item" title="1" href="@Url.Action("UserList",new{page=1})">1</a>
-       
-    
-         <a class="page-item" title="@i" href="@Url.Action("UserList",new{page=i})">i</a>
-         <a class="page-item" title="@i" href="@Url.Action("UserList",new{page=i})">i</a>
-         <a class="page-item" title="@i" href="@Url.Action("UserList",new{page=i})">i</a>
-
-         <a class="page-item" title="@i" href="@Url.Action("UserList",new{page=i})">i</a>
-
-         <a class="page-item" title="@i" href="@Url.Action("UserList",new{page=i})">i</a> *@
-
-       
       @if(Model.hasNextPage)
       {
        <a class="page-item" title="Next" href="@Url.Action("BrandList",new{page_size=int.Parse(selected_size),page=Model.currentPage+1})">></a>

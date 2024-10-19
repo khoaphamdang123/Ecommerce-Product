@@ -9,10 +9,10 @@ namespace Ecommerce_Product.Service;
 
 public class SettingService:ISettingRepository
 {
-    private readonly GarminvnEcommerceShopContext _context;
+    private readonly EcommerceshopContext _context;
 
     private readonly Support_Serive.Service _sp_services;
-  public SettingService(GarminvnEcommerceShopContext context,Support_Serive.Service sp_services)
+  public SettingService(EcommerceshopContext context,Support_Serive.Service sp_services)
   {
     this._context=context;
     this._sp_services=sp_services;

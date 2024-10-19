@@ -12,7 +12,7 @@ public class AddProductModel
     
     public int  Category{get;set;}
 
-    public int Subcategory{get;set;}
+    public int SubCategories{get;set;}
     
     public int Brand{get;set;}
 

@@ -205,11 +205,11 @@ public class ProductListController : Controller
     
     var brand_list = await this._category.getAllBrandList();
 
-    List<Subcategory> sub_cat_list=new List<Subcategory>();
+    List<SubCategories> sub_cat_list=new List<SubCategories>();
 
     foreach(var cat in category_list)
     {
-      foreach(var sub_cat in cat.Subcategories)
+      foreach(var sub_cat in cat.SubCategories)
       {
         sub_cat_list.Add(sub_cat);
       }
@@ -328,11 +328,11 @@ var category_list=await this._category.getAllCategory();
     
     var brand_list = await this._category.getAllBrandList();
 
-    List<Subcategory> sub_cat_list=new List<Subcategory>();
+    List<SubCategories> sub_cat_list=new List<SubCategories>();
 
     foreach(var cat in category_list)
     {
-      foreach(var sub_cat in cat.Subcategories)
+      foreach(var sub_cat in cat.SubCategories)
       {
         sub_cat_list.Add(sub_cat);
       }
@@ -366,11 +366,11 @@ var category_list=await this._category.getAllCategory();
     
     var brand_list = await this._category.getAllBrandList();
   
-    List<Subcategory> sub_cat_list=new List<Subcategory>();
+    List<SubCategories> sub_cat_list=new List<SubCategories>();
   
     foreach(var cat in category_list)
     {
-      foreach(var sub_cat_ob in cat.Subcategories)
+      foreach(var sub_cat_ob in cat.SubCategories)
       {
         sub_cat_list.Add(sub_cat_ob);
       }
@@ -414,11 +414,11 @@ var category_list=await this._category.getAllCategory();
     
     var brand_list = await this._category.getAllBrandList();
 
-    List<Subcategory> sub_cat_list=new List<Subcategory>();
+    List<SubCategories> sub_cat_list=new List<SubCategories>();
 
     foreach(var cat in category_list)
     {
-      foreach(var sub_cat in cat.Subcategories)
+      foreach(var sub_cat in cat.SubCategories)
       {
         sub_cat_list.Add(sub_cat);
       }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ecommerce_Product.Models;
 
-public partial class Aspnetuserlogin
+public partial class AspNetUserLogin
 {
     public string LoginProvider { get; set; } = null!;
 
@@ -13,5 +13,5 @@ public partial class Aspnetuserlogin
 
     public string UserId { get; set; } = null!;
 
-    public virtual Aspnetuser User { get; set; } = null!;
+    public virtual AspnetUser User { get; set; } = null!;
 }

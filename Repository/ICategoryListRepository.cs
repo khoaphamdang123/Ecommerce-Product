@@ -24,9 +24,9 @@ public Task<Category> findCategoryById(int id);
 
 public Task<Category> findCategoryByName(string categoryname);
 
-public Task<IEnumerable<Subcategory>> findSubCategoryByCat(string category);
+public Task<IEnumerable<SubCategories>> findSubCategoryByCat(string category);
 
-public Task<PageList<Subcategory>> pagingSubCategory(int category,int page_size,int page);
+public Task<PageList<SubCategories>> pagingSubCategory(int category,int page_size,int page);
 
 public Task<int> createSubCategory(string subcategoryname,int categoryid);
 
@@ -34,7 +34,7 @@ public Task<bool> checkSubCatExist(string sub_cat);
 
 public Task<IEnumerable<Brand>> getAllBrandList();
 
-public Task<PageList<Categorybranddetail>> pagingBrand(int category,int page_size,int page);
+public Task<PageList<CategoryBrandDetails>> pagingBrand(int category,int page_size,int page);
 
 public Task<int> createBrand(int category,string brand_name);
 
@@ -42,9 +42,9 @@ public Task<int> deleteBrand(int brand_category);
 
 public Task<int> deleteSubCategory(int sub_category);
 
-public Task<int> updateSubCategory(int id,Subcategory sub_cat);
+public Task<int> updateSubCategory(int id,SubCategories sub_cat);
 
-public Task<PageList<Categorybranddetail>> pagingAllBrand(int page_size,int page);
+public Task<PageList<CategoryBrandDetails>> pagingAllBrand(int page_size,int page);
 
 public Task<MemoryStream> exportToExcelCategory();
 

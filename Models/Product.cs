@@ -37,15 +37,15 @@ public partial class Product
 
     public virtual Brand? Brand { get; set; }
 
-    public virtual ICollection<Cartdetail> Cartdetails { get; set; } = new List<Cartdetail>();
+    public virtual ICollection<CartDetail> CartDetails { get; set; } = new List<CartDetail>();
 
     public virtual Category? Category { get; set; }
 
-    public virtual ICollection<Orderdetail> Orderdetails { get; set; } = new List<Orderdetail>();
+    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
-    public virtual ICollection<Productimage> Productimages { get; set; } = new List<Productimage>();
+    public virtual ICollection<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
 
-    public virtual Subcategory? SubCat { get; set; }
+    public virtual SubCategories? SubCat { get; set; }
 
     public virtual ICollection<Variant> Variants { get; set; } = new List<Variant>();
 }

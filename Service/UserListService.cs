@@ -150,7 +150,7 @@ public async Task<bool> checkUserExist(string email,string username)
     {
       seq=(latestUser.Seq??0)+1;
     }
-     string role = "User";
+  string role = "User";
   string folder_name="UploadImageUser";
 
    string upload_path=Path.Combine(this._webHostEnv.WebRootPath,folder_name);
@@ -159,21 +159,21 @@ public async Task<bool> checkUserExist(string email,string username)
    {
     Directory.CreateDirectory(upload_path);
    }
-   string avatar_url="";
-  var avatar_obj=user.Avatar;
-  if(avatar_obj!=null)
-  {
-   string file_name=Guid.NewGuid()+"_"+Path.GetFileName(avatar_obj.FileName);
+  //  string avatar_url="";
+  // var avatar_obj=user.Avatar;
+  // if(avatar_obj!=null)
+  // {
+  //  string file_name=Guid.NewGuid()+"_"+Path.GetFileName(avatar_obj.FileName);
   
-   string file_path=Path.Combine(upload_path,file_name);      
+  //  string file_path=Path.Combine(upload_path,file_name);      
 
-   using(var fileStream=new FileStream(file_path,FileMode.Create))
-   {
-    await avatar_obj.CopyToAsync(fileStream);    
-   } 
-   avatar_url=file_path;
-  }
-     string avatar=avatar_url;
+  //  using(var fileStream=new FileStream(file_path,FileMode.Create))
+  //  {
+  //   await avatar_obj.CopyToAsync(fileStream);    
+  //  } 
+  //  avatar_url=file_path;
+  // }
+     string avatar="https://demos.themeselection.com/sneat-bootstrap-html-admin-template-free/assets/img/avatars/1.png";
      string created_date=DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
      var new_user=new ApplicationUser{UserName = user.UserName,Email=user.Email,Address1=user.Address1,Address2=user.Address2,Gender=user.Gender,PhoneNumber=user.PhoneNumber,Created_Date=created_date,Seq=seq,Avatar=avatar};
      var res=await this._userManager.CreateAsync(new_user,user.Password);
@@ -182,10 +182,13 @@ public async Task<bool> checkUserExist(string email,string username)
         await this._userManager.AddToRoleAsync(new_user,role);
         res_created=1;
      }
+     else
+     {
       foreach (var error in res.Errors)
     {
         Console.WriteLine(error.Description);
     }
+     }
      return res_created;
    }
   

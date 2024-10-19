@@ -13,7 +13,7 @@ public partial class Cart
 
     public string? Updateddate { get; set; }
 
-    public virtual ICollection<Cartdetail> Cartdetails { get; set; } = new List<Cartdetail>();
+    public virtual ICollection<CartDetail> CartDetails { get; set; } = new List<CartDetail>();
 
-    public virtual Aspnetuser User { get; set; } = null!;
+    public virtual AspnetUser User { get; set; } = null!;
 }

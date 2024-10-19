@@ -8,7 +8,7 @@ public interface IDashboardRepository
 {  
    public int countToTalOrder();
 
-   public double countToTalProfit();
+   public decimal countToTalProfit();
 
    public int countOrderByDay(int day);
 

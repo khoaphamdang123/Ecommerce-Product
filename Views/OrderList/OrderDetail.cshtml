@@ -190,7 +190,7 @@
             </tr>
           </thead>
           <tbody>
-            @foreach(var item in Model.Orderdetails)
+            @foreach(var item in Model.OrderDetails)
             {  int sum=(Convert.ToInt32(item.Price)*item.Quantity);
                sum_order+=sum;
               <tr>

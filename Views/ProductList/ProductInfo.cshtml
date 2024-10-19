@@ -18,11 +18,11 @@
    var create_status=ViewBag.Status;
    var cat_list =ViewBag.CategoryList as IEnumerable<Category>;
    var brand_list = ViewBag.BrandList as IEnumerable<Brand>;
-   var sub_cat_list = ViewBag.SubCatList as List<Subcategory>; 
+   var sub_cat_list = ViewBag.SubCatList as List<SubCategories>; 
    var status_list = new List<string>{"Còn hàng","Hết hàng"};
    string bg_status="";
    List<string> avatar_list=new List<string>{Model.Frontavatar,Model.Backavatar};
-   var saved_img_files=Model.Productimages;
+   var saved_img_files=Model.ProductImages;
    var saved_avatar_files=avatar_list;
    bg_status=create_status==1||create_status==-1?"bg-danger":create_status==1?"bg-success":"";
 
@@ -133,8 +133,8 @@
                         </div>
                         <div class="row mt-3 mb-3">
                          <div class="col">
-                            <label class="form-label" for="Subcategory">Chọn loại sản phẩm phụ</label>
-                            <select class="form-select select-2" id="sub-select" name="Subcategory">
+                            <label class="form-label" for="SubCategories">Chọn loại sản phẩm phụ</label>
+                            <select class="form-select select-2" id="sub-select" name="SubCategories">
                               <option value="-1">Chọn loại sản phẩm phụ</option>
                               @foreach(var subcat in sub_cat_list)
                               {
@@ -248,14 +248,14 @@
                 <div class="card-body" id="image-files" data-img="@saved_img_files">
                   <div class="drop-zone" id="drop-zone">
     <input type="file" id="fileInput" class="file-input" accept="image/*" multiple hidden />
-    <div class="drop-zone-message" id="drop-zone-message" style="display:@(Model.Productimages.Count>0?"none":"block")" >
+    <div class="drop-zone-message" id="drop-zone-message" style="display:@(Model.ProductImages.Count>0?"none":"block")" >
         Kéo và thả hình ảnh vào đây hoặc
         <button type="button" id="fileInputButton" class="upload-button">Chọn File</button>
     </div>
     <div id="previewImageContainer" class="image-preview-container">
-     @if (Model.Productimages.Count>0)
+     @if (Model.ProductImages.Count>0)
     {  
-        List<Productimage> list_img = Model.Productimages.ToList();
+        List<ProductImage> list_img = Model.ProductImages.ToList();
        
         for (int i = 0; i < list_img.Count; i++)
         {
@@ -879,7 +879,7 @@ const file=files[i];
   {
     if(category.value==="-1")
     {
-    is_valid=false;
+    is_valid=false;    
     is_all_form_valid=false;
     category.classList.add('is-invalid');
     category.focus();
@@ -901,7 +901,6 @@ const file=files[i];
    
   if(files_arr==null)
   {
-    
   }
 
   let formDataVal=new FormData(document.getElementById("formAccountSettings"));

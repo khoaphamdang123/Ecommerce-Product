@@ -13,7 +13,7 @@ public partial class Brand
 
     public string? UpdatedDate { get; set; }
 
-    public virtual ICollection<Categorybranddetail> Categorybranddetails { get; set; } = new List<Categorybranddetail>();
+    public virtual ICollection<CategoryBrandDetails> CategoryBrandDetails { get; set; } = new List<CategoryBrandDetails>();
 
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }

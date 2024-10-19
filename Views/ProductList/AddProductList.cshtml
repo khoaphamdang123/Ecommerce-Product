@@ -16,7 +16,7 @@
    var create_status=ViewBag.Status;
    var cat_list =ViewBag.CategoryList as IEnumerable<Category>;
    var brand_list = ViewBag.BrandList as IEnumerable<Brand>;
-   var sub_cat_list = ViewBag.SubCatList as List<Subcategory>; 
+   var sub_cat_list = ViewBag.SubCatList as List<SubCategories>; 
    string bg_status="";
    bg_status=create_status==1||create_status==-1?"bg-danger":create_status==1?"bg-success":"";
 
@@ -127,8 +127,8 @@
                         </div>
                         <div class="row mt-3 mb-3">
                          <div class="col">
-                            <label class="form-label" for="Subcategory">Chọn loại sản phẩm phụ</label>
-                            <select class="form-select select-2" id="sub-select" name="Subcategory">
+                            <label class="form-label" for="SubCategories">Chọn loại sản phẩm phụ</label>
+                            <select class="form-select select-2" id="sub-select" name="SubCategories">
                               <option value="-1">Chọn loại sản phẩm phụ</option>
                               @foreach(var subcat in sub_cat_list)
                               {

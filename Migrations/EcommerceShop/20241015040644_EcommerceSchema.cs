@@ -226,7 +226,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Staticfile",
+                name: "StaticFiles",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
@@ -414,7 +414,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Categorybranddetail",
+                name: "CategoryBrandDetails",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false, defaultValueSql: "nextval('\"CategoryBrandDetail_id_seq\"'::regclass)"),
@@ -440,7 +440,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Subcategory",
+                name: "SubCategories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false, defaultValueSql: "nextval('subcategory_id_seq'::regclass)"),
@@ -547,7 +547,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                     table.ForeignKey(
                         name: "product_sub_cat_fk",
                         column: x => x.SubCatId,
-                        principalTable: "Subcategory",
+                        principalTable: "SubCategories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -614,7 +614,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Productimages",
+                name: "ProductImages",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
@@ -738,12 +738,12 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
 
             migrationBuilder.CreateIndex(
                 name: "IX_CategoryBrandDetail_BrandId",
-                table: "Categorybranddetail",
+                table: "CategoryBrandDetails",
                 column: "BrandId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CategoryBrandDetail_CategoryId",
-                table: "Categorybranddetail",
+                table: "CategoryBrandDetails",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
@@ -783,12 +783,12 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductImages_productid",
-                table: "Productimages",
+                table: "ProductImages",
                 column: "productid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SubCategory_CategoryId",
-                table: "Subcategory",
+                table: "SubCategories",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
@@ -842,19 +842,19 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                 name: "CartDetail");
 
             migrationBuilder.DropTable(
-                name: "Categorybranddetail");
+                name: "CategoryBrandDetails");
 
             migrationBuilder.DropTable(
                 name: "OrderDetail");
 
             migrationBuilder.DropTable(
-                name: "Productimages");
+                name: "ProductImages");
 
             migrationBuilder.DropTable(
                 name: "Setting");
 
             migrationBuilder.DropTable(
-                name: "Staticfile");
+                name: "StaticFiles");
 
             migrationBuilder.DropTable(
                 name: "variant");
@@ -893,7 +893,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                 name: "Brand");
 
             migrationBuilder.DropTable(
-                name: "Subcategory");
+                name: "SubCategories");
 
             migrationBuilder.DropTable(
                 name: "Category");

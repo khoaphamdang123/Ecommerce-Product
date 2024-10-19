@@ -13,5 +13,5 @@ public partial class HistoryStore
 
     public string PkDateDest { get; set; } = null!;
 
-    public int RecordState { get; set; }
+    public short RecordState { get; set; }
 }

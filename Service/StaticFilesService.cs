@@ -6,45 +6,45 @@ namespace Ecommerce_Product.Service;
 
 public class StaticFilesService:IStaticFilesRepository
 {
-    private readonly GarminvnEcommerceShopContext _context;
+    private readonly EcommerceshopContext _context;
 
     private readonly Support_Serive.Service _sp_services;
-  public StaticFilesService(GarminvnEcommerceShopContext context,Support_Serive.Service sp_services)
+  public StaticFilesService(EcommerceshopContext context,Support_Serive.Service sp_services)
   {
     this._context=context;
     this._sp_services=sp_services;
   }
 
-  public async Task<IEnumerable<Staticfile>> getAllStaticFile()
+  public async Task<IEnumerable<StaticFiles>> getAllStaticFile()
   {
-    var static_files=this._context.Staticfiles.ToList();
+    var static_files=this._context.StaticFiles.ToList();
     return static_files;
   }
 
-  public async Task<Staticfile> findStaticFileById(int id)
+  public async Task<StaticFiles> findStaticFileById(int id)
   {
-    var static_file=await this._context.Staticfiles.FirstOrDefaultAsync(s=>s.Id==id);
+    var static_file=await this._context.StaticFiles.FirstOrDefaultAsync(s=>s.Id==id);
     return static_file;
   }
 
-  public async Task<Staticfile> findStaticFileByName(string name)
+  public async Task<StaticFiles> findStaticFileByName(string name)
   {
-    var static_file=await this._context.Staticfiles.FirstOrDefaultAsync(s=>s.Filename==name);
+    var static_file=await this._context.StaticFiles.FirstOrDefaultAsync(s=>s.Filename==name);
     return static_file;
   }
-  public async Task<PageList<Staticfile>> pagingStaticFiles(int page_size,int page)
+  public async Task<PageList<StaticFiles>> pagingStaticFiles(int page_size,int page)
   {
-    IEnumerable<Staticfile> all_files= await this.getAllStaticFile();
+    IEnumerable<StaticFiles> all_files= await this.getAllStaticFile();
 
-   List<Staticfile> list_file=all_files.OrderByDescending(u=>u.Id).ToList(); 
+   List<StaticFiles> list_file=all_files.OrderByDescending(u=>u.Id).ToList(); 
 
    //var users=this._userManager.Users;   
-   var paging_list_file=PageList<Staticfile>.CreateItem(list_file.AsQueryable(),page,page_size);
+   var paging_list_file=PageList<StaticFiles>.CreateItem(list_file.AsQueryable(),page,page_size);
    
    return paging_list_file;
   }
 
-  public async Task<int> addPage(Staticfile file)
+  public async Task<int> addPage(StaticFiles file)
   {
   int created_res=0;
     try
@@ -59,8 +59,8 @@ public class StaticFilesService:IStaticFilesRepository
  
  string updated_date = DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss");    
  
-var page=new Staticfile{Filename=file.Filename,Content=file.Content,Createddate=created_date,Updateddate=updated_date};
-await this._context.Staticfiles.AddAsync(page);
+var page=new StaticFiles{Filename=file.Filename,Content=file.Content,Createddate=created_date,Updateddate=updated_date};
+await this._context.StaticFiles.AddAsync(page);
 await this.saveChanges();
 created_res=1;
  }
@@ -79,7 +79,7 @@ return created_res;
           var page=await this.findStaticFileById(id);
           if(page!=null)
           {
-            this._context.Staticfiles.Remove(page);
+            this._context.StaticFiles.Remove(page);
             await this.saveChanges();
             delete_res=1;
           }
@@ -91,7 +91,7 @@ return created_res;
         return delete_res;
     }
 
-      public async Task<int> updatePage(int id,Staticfile file)
+      public async Task<int> updatePage(int id,StaticFiles file)
       {
         int updated_res=0;
         var page=await this.findStaticFileById(id);
@@ -101,7 +101,7 @@ return created_res;
             page.Content=file.Content;
          string updated_date = DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss");    
             page.Updateddate=updated_date;
-        this._context.Staticfiles.Update(page);
+        this._context.StaticFiles.Update(page);
         await this.saveChanges();
         }
     return updated_res;

@@ -37,7 +37,7 @@ public class StaticFilesController : Controller
   [Authorize(Roles ="Admin")]
   [Route("file_list")]
   [HttpGet]
-  public async Task<IActionResult> Staticfiles()
+  public async Task<IActionResult> StaticFiles()
   {       string select_size="7";
           ViewBag.select_size=select_size;
           List<string> options=new List<string>(){"7","10","20","50"};
@@ -71,7 +71,7 @@ public class StaticFilesController : Controller
           
           ViewBag.select_size=select_size;
           
-          return View("~/Views/Staticfiles/Staticfiles.cshtml",files);
+          return View("~/Views/StaticFiles/StaticFiles.cshtml",files);
         }
      
         catch(Exception er)
@@ -90,7 +90,7 @@ public class StaticFilesController : Controller
   [Authorize(Roles ="Admin")]
   [Route("file_list/add_page")]
   [HttpPost]
-  public async Task<IActionResult> AddStaticFiles(Staticfile file)
+  public async Task<IActionResult> AddStaticFiles(StaticFiles file)
   {  try{
       string file_name=file.Filename;
       string content= file.Content;
@@ -139,7 +139,7 @@ public class StaticFilesController : Controller
     {
         this._logger.LogTrace("Remove Page Exception:"+er.Message);
     }
-    return RedirectToAction("Staticfiles","Staticfiles");
+    return RedirectToAction("StaticFiles","StaticFiles");
   }
 
   [Route("file_list/{id}/page_info")]
@@ -152,7 +152,7 @@ public class StaticFilesController : Controller
 
     [Route("file_list/{id}/page_info")]
   [HttpPost]
-  public async Task<IActionResult> StaticFilesInfo(int id,Staticfile file)
+  public async Task<IActionResult> StaticFilesInfo(int id,StaticFiles file)
   {  
     Console.WriteLine("id:"+id);
 

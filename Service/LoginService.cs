@@ -123,7 +123,7 @@ public class LoginService:ILoginRepository
       is_update=true;
       return is_update;
      }
-        }
+  }
       return is_update;
     }
 
@@ -162,7 +162,7 @@ public class LoginService:ILoginRepository
        
        if(is_reset.Succeeded)
        {
-         await this._smtpService.sendEmail(new_password,receiver,subject);
+        await this._smtpService.sendEmail(new_password,receiver,subject);
         is_send=true;
         return is_send;
        }
