@@ -1,0 +1,10 @@
+2024-10-20 19:54:31.159 +07:00 [INF]  Updated Setting Successfully
+2024-10-20 20:06:43.142 +07:00 [INF]  Updated Setting Successfully
+2024-10-20 20:06:43.187 +07:00 [INF]  Updated Setting Successfully
+2024-10-20 20:07:12.699 +07:00 [INF]  Updated Setting Successfully
+2024-10-20 20:07:22.326 +07:00 [INF]  Updated Setting Successfully
+2024-10-20 20:07:22.339 +07:00 [INF]  Updated Setting Successfully
+2024-10-20 20:10:29.281 +07:00 [INF]  Updated Setting Successfully
+2024-10-20 20:10:29.291 +07:00 [INF]  Updated Setting Successfully
+2024-10-20 20:10:29.379 +07:00 [INF]  Updated Setting Successfully
+2024-10-20 20:10:29.384 +07:00 [INF]  Updated Setting Successfully

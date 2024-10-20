@@ -39,6 +39,7 @@ public async Task<int> updateSetting(SettingModel setting)
    string purchased = setting.Purchased;
    string cancelled = setting.Cancelled;
    string refund = setting.Refund;
+   string maintainance = setting.Maintainance;
    
    Console.WriteLine("SIGNUP:"+signup);
    Console.WriteLine("CHANGE PASSWORD:"+change_password);
@@ -60,6 +61,8 @@ public async Task<int> updateSetting(SettingModel setting)
 
    int refund_val=string.IsNullOrEmpty(refund)?0:1;
 
+   int maintainance_val=string.IsNullOrEmpty(maintainance)?0:1;
+
 
 //    Console.WriteLine("singup_val:"+signup_val);
 //    Console.WriteLine("change_password_val:"+change_password_val);
@@ -68,7 +71,7 @@ public async Task<int> updateSetting(SettingModel setting)
 //    Console.WriteLine("cancelled_val:"+cancelled_val);
 //    Console.WriteLine("refund_val:"+refund_val);
 
-   Dictionary<string,int> setting_name=new Dictionary<string,int>{{"signup",signup_val},{"changepassword",change_password_val},{"recaptcha",recaptcha_val},{"purchased",purchased_val},{"cancelled",cancelled_val},{"refund",refund_val}};
+   Dictionary<string,int> setting_name=new Dictionary<string,int>{{"signup",signup_val},{"changepassword",change_password_val},{"recaptcha",recaptcha_val},{"purchased",purchased_val},{"cancelled",cancelled_val},{"refund",refund_val},{"maintainance",maintainance_val}};
   
   for(int i=0;i<setting_name.Count;i++)
   { //Console.WriteLine("Settingname:"+setting_name.Keys.ElementAt(i));    
@@ -76,6 +79,8 @@ public async Task<int> updateSetting(SettingModel setting)
          
          if(setting_obs!=null)
          {   //Console.WriteLine(setting_obs.Settingname);
+          if(setting_obs.Status!=setting_name.Values.ElementAt(i))
+          {
             if(setting_name.Values.ElementAt(i)==1)
             {
             string updatetime=DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss");
@@ -90,6 +95,7 @@ public async Task<int> updateSetting(SettingModel setting)
             setting_obs.Updateddate=updatetime;
             this._context.Settings.Update(setting_obs);
             }
+          }
          }
   
   }

@@ -13,4 +13,6 @@ public string Cancelled{get;set;}
 
 public string Refund{get;set;}
 
+public string Maintainance{get;set;}
+
 }
