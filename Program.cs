@@ -136,6 +136,8 @@ builder.Logging.ClearProviders();
 
 builder.Logging.AddSerilog(_logger);
 
+Console.WriteLine("Current Environement is:"+builder.Environment.EnvironmentName);
+
 // builder.Services.AddAuthorization(options=>{
 //     options.AddPolicy("Admin",policy=>policy.RequireRole("Admin"));
 //     options.AddPolicy("User",policy=>policy.RequireRole("User"));
