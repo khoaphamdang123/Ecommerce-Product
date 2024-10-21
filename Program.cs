@@ -105,11 +105,12 @@ builder.Services.Configure<RecaptchaResponse>(builder.Configuration.GetSection("
   options.ExpireTimeSpan = TimeSpan.FromHours(1);  
   options.LoginPath = "/admin/login";  
   options.AccessDeniedPath = "/admin/login";  
-    options.SlidingExpiration = true;  
-     options.Events.OnRedirectToLogin = context =>
+  options.SlidingExpiration = true;  
+  options.Events.OnRedirectToLogin = context =>
     {
         context.Response.Redirect("/admin/login");
         return Task.CompletedTask;
+        
     };
 });
 

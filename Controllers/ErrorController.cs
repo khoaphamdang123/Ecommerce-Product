@@ -11,7 +11,14 @@ public IActionResult NotFound()
     return View();
 }
 
-[Route("Miantainance")]
+[Route("Error/500")]
+
+public IActionResult ServerError()
+{
+    return View();
+}
+
+[Route("Maintainance")]
 public IActionResult Maintainance()
 {
     return View();
