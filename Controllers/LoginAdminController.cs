@@ -53,7 +53,8 @@ namespace Ecommerce_Product.Controllers
             if(User.Identity.IsAuthenticated)
         {
             return RedirectToAction("UserList","UserList");            
-        }   
+        } 
+        Console.WriteLine("Accutally here");
        int setting_status=await this._setting.getStatusByName("recaptcha");
        if(setting_status==1)
        {
@@ -94,8 +95,7 @@ namespace Ecommerce_Product.Controllers
         {  
         try
         {
-            if (ModelState.IsValid)
-   {  
+   
     _logger.LogInformation("Running in Login Action"); 
       
       string username=model.UserName;
@@ -108,7 +108,7 @@ namespace Ecommerce_Product.Controllers
       
       var admin_user=await this._loginRepos.getUserByUsername(username);
 
-      string email=admin_user.Email;
+
 
     // if(normalUser==null)
     // {   Console.WriteLine("normal user here");
@@ -128,7 +128,8 @@ namespace Ecommerce_Product.Controllers
     //     }
     // }  
             if(admin_user!=null)
-            { 
+            {   string email=admin_user.Email;
+
                 bool check_is_admin=await this._loginRepos.checkUserRole(email,"Admin");
                 Console.WriteLine("check is admin:"+check_is_admin);
                 Console.WriteLine("password here is:"+password);
@@ -173,13 +174,13 @@ namespace Ecommerce_Product.Controllers
         }
             }
             else
-            {
+            {   Console.WriteLine("User is null");
                   TempData["LoginFailed"]="True";
                   TempData["ErrorContent"]="Username không chính xác";
                   ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             }
         
-        }
+        
         }
         catch(Exception er)
         {

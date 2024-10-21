@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Ecommerce_Product.Support_Serive;
 using Microsoft.VisualBasic;
+using Org.BouncyCastle.Asn1.Cmp;
 namespace Ecommerce_Product.Service;
 public class LoginService:ILoginRepository
 {
@@ -83,8 +84,15 @@ public class LoginService:ILoginRepository
 
   
     public async Task<ApplicationUser> getUserByUsername(string username)
-    {
-    var user=await this._userManager.FindByNameAsync(username);
+    { var user=new ApplicationUser();
+  try{
+    user=await this._userManager.FindByNameAsync(username);
+  }
+  catch(Exception er)
+  {
+    this._logger.LogTrace("Get User By Username Exception:"+er.Message);
+    Console.WriteLine("get user by name exception:"+er.Message);
+  }
     return user; 
     }
 

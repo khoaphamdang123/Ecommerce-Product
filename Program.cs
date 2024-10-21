@@ -13,6 +13,15 @@ DotNetEnv.Env.Load();
 var builder = WebApplication.CreateBuilder(args);
 
 
+var host = Environment.GetEnvironmentVariable("DB_HOST");
+var port = Environment.GetEnvironmentVariable("DB_PORT");
+var database = Environment.GetEnvironmentVariable("DB_NAME");
+var username = Environment.GetEnvironmentVariable("DB_USER");
+var password = Environment.GetEnvironmentVariable("DB_PASSWORD");
+
+builder.Configuration["ConnectionStrings:DefaultConnection"] = 
+    $"Host={host};Port={port};Database={database};Username={username};Password={password}";
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
