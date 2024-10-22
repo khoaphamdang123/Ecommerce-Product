@@ -7202,3 +7202,4 @@ Ecommerce_Product.Controllers.CategoryListController.SubCategoryList (Ecommerce-
    at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
    at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
 2024-10-22 14:51:50.909 +07:00 [WRN] Failed to determine the https port for redirect.
+2024-10-22 18:37:47.044 +07:00 [WRN] Failed to determine the https port for redirect.
