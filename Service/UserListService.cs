@@ -44,7 +44,7 @@ public class UserListService:IUserListRepository
     string datetime=user.DateTime;
     string start_date=user.DateTime;
     string end_date=user.EndTime;
-    var users=this._userManager.Users.ToList();
+    var users=this._userManager.GetUsersInRoleAsync("User").Result.ToList();
     if(!string.IsNullOrEmpty(username))
     {
         users=users.Where(u=>u.UserName==username).ToList();
