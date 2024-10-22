@@ -28,7 +28,7 @@ public class OrderListController : Controller
   this._order=order;
   this._logger=logger;   
    }
-  //[Authorize(Roles ="Admin")]
+  [Authorize(Roles ="Admin")]
   [Route("order")]
   [HttpGet]
   public async Task<IActionResult> OrderList()

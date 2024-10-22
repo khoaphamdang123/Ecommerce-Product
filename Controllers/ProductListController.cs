@@ -10,7 +10,7 @@ using Org.BouncyCastle.Math.EC.Rfc8032;
 using System.ComponentModel;
 
 namespace Ecommerce_Product.Controllers;
-//[Authorize(Roles ="Admin")]
+[Authorize(Roles ="Admin")]
 [Route("admin")]
 public class ProductListController : Controller
 {
