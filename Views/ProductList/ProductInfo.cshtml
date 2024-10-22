@@ -18,11 +18,11 @@
    var create_status=ViewBag.Status;
    var cat_list =ViewBag.CategoryList as IEnumerable<Category>;
    var brand_list = ViewBag.BrandList as IEnumerable<Brand>;
-   var sub_cat_list = ViewBag.SubCatList as List<SubCategories>; 
+   var sub_cat_list = ViewBag.SubCatList as List<SubCategory>; 
    var status_list = new List<string>{"Còn hàng","Hết hàng"};
    string bg_status="";
-   List<string> avatar_list=new List<string>{Model.Frontavatar,Model.Backavatar};
-   var saved_img_files=Model.ProductImages;
+   List<string> avatar_list=new List<string>{Model?.Frontavatar,Model?.Backavatar};
+   var saved_img_files=Model?.ProductImages;
    var saved_avatar_files=avatar_list;
    bg_status=create_status==1||create_status==-1?"bg-danger":create_status==1?"bg-success":"";
 
@@ -109,32 +109,32 @@
                               name="productname"
                               placeholder="Nhập tên sản phẩm"
                               autofocus
-                              value ="@Model.ProductName"
+                              value ="@Model?.ProductName"
                             />
                           <span id="product-error" class="text-danger"></span>
                           </div>
-                        <input type="hidden" id="product-id" data-id="@Model.Id">
+                        <input type="hidden" id="product-id" data-id="@Model?.Id">
                         </div>
                         <div class="row mb-3">
                          <div class="col">
                             <label class="form-label" for="price">
                                 Giá
                             </label>
-                           <input type="number" class="form-control" placeholder="Giá sản phẩm" name="price" id="price" value="@Model.Price">
+                           <input type="number" class="form-control" placeholder="Giá sản phẩm" name="price" id="price" value="@Model?.Price">
                            <span class="text-danger" id="price-error"></span>
                          </div>
                         <div class="col">
                             <label class="form-label" for="quantity">
                                Số lượng sản phẩm
                             </label>
-                           <input type="number" class="form-control" placeholder="Số lượng" name="quantity" id="quantity" value="@Model.Quantity">
+                           <input type="number" class="form-control" placeholder="Số lượng" name="quantity" id="quantity" value="@Model?.Quantity">
                          <span class="text-danger" id="quantity-error"></span>
                         </div>  
                         </div>
                         <div class="row mt-3 mb-3">
                          <div class="col">
-                            <label class="form-label" for="SubCategories">Chọn loại sản phẩm phụ</label>
-                            <select class="form-select select-2" id="sub-select" name="SubCategories">
+                            <label class="form-label" for="SubCategory">Chọn loại sản phẩm phụ</label>
+                            <select class="form-select select-2" id="sub-select" name="SubCategory">
                               <option value="-1">Chọn loại sản phẩm phụ</option>
                               @foreach(var subcat in sub_cat_list)
                               {
@@ -147,7 +147,7 @@
                             <select class="form-select select-2" name="category" id="cat-select">
                               <option value="-1">Chọn loại sản phẩm</option>
                               @foreach(var cat in cat_list)
-                              {if(cat.Id==Model.CategoryId)
+                              {if(cat.Id==Model?.CategoryId)
                               {
                                 <option value="@cat.Id" selected>@cat.CategoryName</option>
                                }
@@ -162,7 +162,7 @@
                             <select class="form-select select-2" id="brand-select" name="brand">
                               <option value="-1">Chọn nhãn hàng</option>
                               @foreach(var brand in brand_list)
-                              { if(brand.Id==Model.BrandId)
+                              { if(brand.Id==Model?.BrandId)
                               {
                                 <option value="@brand.Id" selected>@brand.BrandName</option>   
                               }
@@ -176,7 +176,7 @@
                             <label class="form-label" for="brand">Chọn Trạng thái</label>
                             <select class="form-select select-2" id="brand-select" name="brand">
                               @foreach(var status in status_list)
-                              { if(status==Model.Status)
+                              { if(status==Model?.Status)
                               {
                                 <option value="@status" selected>@status</option>   
                               }
@@ -199,7 +199,7 @@
     <input type="file" id="fileInputAvatar" class="file-input" accept="image/*" multiple hidden />
    
 <div class="drop-zone-message" id="drop-zone-message-avatar" 
-     style="display: @(string.IsNullOrEmpty(Model.Frontavatar) || string.IsNullOrEmpty(Model.Backavatar) ? "block" : "none");">       
+     style="display: @(string.IsNullOrEmpty(Model?.Frontavatar) || string.IsNullOrEmpty(Model?.Backavatar) ? "block" : "none");">       
      <div class="mb-3"> 
         Kéo và thả nhiều nhất 2 hình ảnh vào đây hoặc
         <button type="button" id="fileInputButtonAvatar" class="upload-button">Chọn File</button>
@@ -209,16 +209,16 @@
     
     
  <div id="previewImageContainerAvatar" class="image-preview-container">
-    @if (!string.IsNullOrEmpty(Model.Backavatar) || !string.IsNullOrEmpty(Model.Frontavatar))
+    @if (!string.IsNullOrEmpty(Model?.Backavatar) || !string.IsNullOrEmpty(Model?.Frontavatar))
     {
         List<string> list_img = new List<string>();
-        if (!string.IsNullOrEmpty(Model.Backavatar))
+        if (!string.IsNullOrEmpty(Model?.Backavatar))
         {
-            list_img.Add(Model.Backavatar);
+            list_img.Add(Model?.Backavatar);
         }
-        if (!string.IsNullOrEmpty(Model.Frontavatar))
+        if (!string.IsNullOrEmpty(Model?.Frontavatar))
         {
-            list_img.Add(Model.Frontavatar);
+            list_img.Add(Model?.Frontavatar);
         }
 
         for (int i = 0; i < list_img.Count; i++)
@@ -248,14 +248,14 @@
                 <div class="card-body" id="image-files" data-img="@saved_img_files">
                   <div class="drop-zone" id="drop-zone">
     <input type="file" id="fileInput" class="file-input" accept="image/*" multiple hidden />
-    <div class="drop-zone-message" id="drop-zone-message" style="display:@(Model.ProductImages.Count>0?"none":"block")" >
+    <div class="drop-zone-message" id="drop-zone-message" style="display:@(Model?.ProductImages.Count>0?"none":"block")" >
         Kéo và thả hình ảnh vào đây hoặc
         <button type="button" id="fileInputButton" class="upload-button">Chọn File</button>
     </div>
     <div id="previewImageContainer" class="image-preview-container">
-     @if (Model.ProductImages.Count>0)
+     @if (Model?.ProductImages.Count>0)
     {  
-        List<ProductImage> list_img = Model.ProductImages.ToList();
+        List<ProductImage> list_img = Model?.ProductImages.ToList();
        
         for (int i = 0; i < list_img.Count; i++)
         {
@@ -281,7 +281,7 @@
                     </div>
                     <hr class="my-0" />
                     <div class="card-body">
-                    <textarea id="Description" name="description" style="height: 300px;" value="@Model.Description">@Model.Description</textarea>
+                    <textarea id="Description" name="description" style="height: 300px;" value="@Model?.Description">@Model?.Description</textarea>
                     </div>   
                 </div>
                 
@@ -291,7 +291,7 @@
                     </div>
                     <hr class="my-0" />
                     <div class="card-body">
-                 <textarea id="Description-Inbox" name="inboxdescription" style="height: 300px;" value="@Model.InboxDescription">@Model.InboxDescription</textarea>
+                 <textarea id="Description-Inbox" name="inboxdescription" style="height: 300px;" value="@Model?.InboxDescription">@Model?.InboxDescription</textarea>
                     </div>
                 </div>
             
@@ -301,7 +301,7 @@
                     </div>
                     <hr class="my-0"/>
                     <div class="card-body">
-                    <textarea id="Discount-Description" name="discountdescription" style="height: 300px;" value="@Model.DiscountDescription">@Model.DiscountDescription</textarea>
+                    <textarea id="Discount-Description" name="discountdescription" style="height: 300px;" value="@Model?.DiscountDescription">@Model?.DiscountDescription</textarea>
                     </div>
                 </div>
             
@@ -312,9 +312,9 @@
                     <hr class="my-0"/>
                     <div class="card-body">
                    <div class="group mb-4" id="group-list" data-repeater-list>
-                   @if(Model.Variants!=null)
+                   @if(Model?.Variants!=null)
                    { 
-                   foreach(var variant in Model.Variants)
+                   foreach(var variant in Model?.Variants)
                    {
                     <div class="data-repeater-item">
                         <div class="row g-6 mb-6">

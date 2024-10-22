@@ -1,8 +1,9 @@
  @{
   string url="";
-  if(this.ViewContext.HttpContext.Session.GetString("UserSession")!=null)
+  string session_username= ViewBag.Username;
+  if(session_username!=null)
   {
-    url="/admin/user_list";
+    url="/admin/dashboard";
   }
   else
   {

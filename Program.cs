@@ -130,7 +130,6 @@ builder.Services.Configure<RecaptchaResponse>(builder.Configuration.GetSection("
 //                     options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
 //                 });
 
-builder.Services.AddControllersWithViews();
 
 builder.Logging.ClearProviders();
 

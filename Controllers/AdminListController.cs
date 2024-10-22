@@ -96,9 +96,9 @@ public class AdminListController : Controller
       ViewBag.options=options;
      try
      {
-    //  {string username=model.UserName;
-    //  string email=model.Email;
-    //  string phonenumber=model.PhoneNumber; 
+    //  {string username=Model?.UserName;
+    //  string email=Model?.Email;
+    //  string phonenumber=Model?.PhoneNumber; 
 
     FilterUser user_list=new FilterUser(username,email,phonenumber,datetime,endtime);
     
@@ -230,10 +230,10 @@ public async Task<IActionResult> AdminInfo(UserInfo user)
   }
   return RedirectToAction("AdminList","AdminList");
 } 
-  [Authorize(Roles ="Admin")]
+
 [Route("admin_list/admin_info/delete")]
-[HttpDelete] 
-public async Task<IActionResult> UserInfoDelete(string email)
+[HttpGet] 
+public async Task<IActionResult> AdminInfoDelete(string email)
 { 
   try
   {

@@ -52,7 +52,7 @@ namespace Ecommerce_Product.Controllers
         {   
             if(User.Identity.IsAuthenticated)
         {
-            return RedirectToAction("UserList","UserList");            
+            return RedirectToAction("Dashboard","Dashboard");            
         } 
         Console.WriteLine("Accutally here");
        int setting_status=await this._setting.getStatusByName("recaptcha");
@@ -107,7 +107,11 @@ namespace Ecommerce_Product.Controllers
       Console.WriteLine("is remember me:"+is_remember_me);
       
       var admin_user=await this._loginRepos.getUserByUsername(username);
-
+int setting_status=await this._setting.getStatusByName("recaptcha");
+    if(setting_status==1)
+       {
+        ViewBag.SiteKey=this._recaptcha_response.SiteKey;
+       }
 
 
     // if(normalUser==null)
@@ -129,7 +133,7 @@ namespace Ecommerce_Product.Controllers
     // }  
             if(admin_user!=null)
             {   string email=admin_user.Email;
-
+             
                 bool check_is_admin=await this._loginRepos.checkUserRole(email,"Admin");
                 Console.WriteLine("check is admin:"+check_is_admin);
                 Console.WriteLine("password here is:"+password);
@@ -141,11 +145,11 @@ namespace Ecommerce_Product.Controllers
                 {   Console.WriteLine("result here is:"+result.ToString());
                     TempData["LoginFailed"]="True";
                     TempData["ErrorContent"]="Mật khẩu không chính xác";
+             
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                 }
             else
             {
-             int setting_status=await this._setting.getStatusByName("recaptcha");
              if(setting_status==1)
              {
              var recapchaResult = await this._recaptcha.Validate(Request);
@@ -278,10 +282,10 @@ namespace Ecommerce_Product.Controllers
         // {
         //   if(ModelState.IsValid)
         //   {
-        //     string username=model.UserName;
-        //     string email = model.Email;
-        //     string phone = model.PhoneNumber;
-        //     string birth_time = model.DateTime;
+        //     string username=Model?.UserName;
+        //     string email = Model?.Email;
+        //     string phone = Model?.PhoneNumber;
+        //     string birth_time = Model?.DateTime;
         //     Console.WriteLine("Username here is:"+username);
         //   }
         //   return View(model);

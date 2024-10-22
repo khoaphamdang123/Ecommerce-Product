@@ -99,7 +99,7 @@
                   
                       <div class="d-flex align-items-start align-items-sm-center gap-4">
                         <img
-                          src="@Model.Image"
+                          src="@Model?.Image"
                           alt="user-avatar"
                           class="d-block rounded"
                           height="100"
@@ -138,7 +138,7 @@
                               name="bannername"
                               autofocus
                               placeholder="Nhập tên banner"
-                              value="@Model.Bannername"
+                              value="@Model?.Bannername"
                             />
                           <span id="banner-error" class="text-danger"></span>
                           </div>

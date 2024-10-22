@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ecommerce_Product.Models;
 
-public partial class StaticFiles
+public partial class StaticFile
 {
     public int Id { get; set; }
 

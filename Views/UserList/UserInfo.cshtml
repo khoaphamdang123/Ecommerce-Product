@@ -4,9 +4,9 @@
 @{
    var updated_user=ViewBag.Update_Message;
    var update_status=ViewBag.Status;
-   Console.WriteLine(Model.UserName);
-   Console.WriteLine("Email here:"+Model.Email);
-   Console.WriteLine("Phone number here:"+Model.PhoneNumber);
+   Console.WriteLine(Model?.UserName);
+   Console.WriteLine("Email here:"+Model?.Email);
+   Console.WriteLine("Phone number here:"+Model?.PhoneNumber);
 }
 
 
@@ -99,7 +99,7 @@
                     <div class="card-body">
                       <div class="d-flex align-items-start align-items-sm-center gap-4">
                         <img
-                          src="@Model.Avatar"
+                          src="@Model?.Avatar"
                           alt="user-avatar"
                           class="d-block rounded"
                           height="100"
@@ -139,14 +139,14 @@
                               id="username"
                               name="username"
                               placeholder="Nhập tên user"
-                              value="@Model.UserName"
+                              value="@Model?.UserName"
                             />
-                          <input id="id" name="id" type="hidden" value="@Model.Id">
+                          <input id="id" name="id" type="hidden" value="@Model?.Id">
                           <span id="username-error" class="text-danger"></span>
                           </div>
                           <div class="mb-3 col-md-6">
                             <label for="email" class="form-label">E-mail</label>
-                            <input class="form-control" type="email" name="email" id="email"  placeholder="Nhập Email" value="@Model.Email"/>
+                            <input class="form-control" type="email" name="email" id="email"  placeholder="Nhập Email" value="@Model?.Email"/>
                             <span id="email-error" class="text-danger"></span>
                           </div>
                           <div class="mb-3 col-md-6">
@@ -156,7 +156,7 @@
                               type="text"
                               id="phone"
                               name="phonenumber"
-                              value="@Model.PhoneNumber"
+                              value="@Model?.PhoneNumber"
                               placeholder="Nhập số điện thoại"
                             />
                           </div>
@@ -177,13 +177,13 @@
                                 name="address1"
                                 class="form-control"
                                 placeholder="Nhập địa chỉ 1"
-                                value="@Model.Address1"
+                                value="@Model?.Address1"
                               />
                             </div>
                           </div>
                           <div class="mb-3 col-md-6">
                             <label for="address2" class="form-label">Địa chỉ 2</label>
-                            <input type="text" class="form-control" id="address2" name="address2" placeholder="Nhập địa chỉ 2" value="@Model.Address2"/>
+                            <input type="text" class="form-control" id="address2" name="address2" placeholder="Nhập địa chỉ 2" value="@Model?.Address2"/>
                           </div>
                         </div>
                         <div class="mt-2">

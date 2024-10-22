@@ -391,7 +391,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                     b.ToTable("Category", (string)null);
                 });
 
-            modelBuilder.Entity("Ecommerce_Product.Models.CategoryBrandDetails", b =>
+            modelBuilder.Entity("Ecommerce_Product.Models.CategoryBrandDetail", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -411,7 +411,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("CategoryBrandDetails", (string)null);
+                    b.ToTable("CategoryBrandDetail", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce_Product.Models.Color", b =>
@@ -715,7 +715,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                     b.ToTable("size", (string)null);
                 });
 
-            modelBuilder.Entity("Ecommerce_Product.Models.StaticFiles", b =>
+            modelBuilder.Entity("Ecommerce_Product.Models.StaticFile", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -747,10 +747,10 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                     b.HasKey("Id")
                         .HasName("staticfile_pk");
 
-                    b.ToTable("StaticFiles", (string)null);
+                    b.ToTable("StaticFile", (string)null);
                 });
 
-            modelBuilder.Entity("Ecommerce_Product.Models.SubCategories", b =>
+            modelBuilder.Entity("Ecommerce_Product.Models.SubCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -776,7 +776,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("SubCategories", (string)null);
+                    b.ToTable("SubCategory", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce_Product.Models.Variant", b =>
@@ -940,17 +940,17 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Ecommerce_Product.Models.CategoryBrandDetails", b =>
+            modelBuilder.Entity("Ecommerce_Product.Models.CategoryBrandDetail", b =>
                 {
                     b.HasOne("Ecommerce_Product.Models.Brand", "Brand")
-                        .WithMany("CategoryBrandDetails")
+                        .WithMany("CategoryBrandDetail")
                         .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("brand_fk");
 
                     b.HasOne("Ecommerce_Product.Models.Category", "Category")
-                        .WithMany("CategoryBrandDetails")
+                        .WithMany("CategoryBrandDetail")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
@@ -1017,7 +1017,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("product_cat_fk");
 
-                    b.HasOne("Ecommerce_Product.Models.SubCategories", "SubCat")
+                    b.HasOne("Ecommerce_Product.Models.SubCategory", "SubCat")
                         .WithMany("Products")
                         .HasForeignKey("SubCatId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1041,10 +1041,10 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Ecommerce_Product.Models.SubCategories", b =>
+            modelBuilder.Entity("Ecommerce_Product.Models.SubCategory", b =>
                 {
                     b.HasOne("Ecommerce_Product.Models.Category", "Category")
-                        .WithMany("SubCategories")
+                        .WithMany("SubCategory")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("sub_cat_fk");
@@ -1115,7 +1115,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
 
             modelBuilder.Entity("Ecommerce_Product.Models.Brand", b =>
                 {
-                    b.Navigation("CategoryBrandDetails");
+                    b.Navigation("CategoryBrandDetail");
 
                     b.Navigation("Products");
                 });
@@ -1127,11 +1127,11 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
 
             modelBuilder.Entity("Ecommerce_Product.Models.Category", b =>
                 {
-                    b.Navigation("CategoryBrandDetails");
+                    b.Navigation("CategoryBrandDetail");
 
                     b.Navigation("Products");
 
-                    b.Navigation("SubCategories");
+                    b.Navigation("SubCategory");
                 });
 
             modelBuilder.Entity("Ecommerce_Product.Models.Color", b =>
@@ -1170,7 +1170,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                     b.Navigation("Variants");
                 });
 
-            modelBuilder.Entity("Ecommerce_Product.Models.SubCategories", b =>
+            modelBuilder.Entity("Ecommerce_Product.Models.SubCategory", b =>
                 {
                     b.Navigation("Products");
                 });

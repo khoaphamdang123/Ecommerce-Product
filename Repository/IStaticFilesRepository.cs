@@ -7,17 +7,17 @@ namespace Ecommerce_Product.Repository;
 public interface IStaticFilesRepository
 {
 
-  public Task<IEnumerable<StaticFiles>> getAllStaticFile();
+  public Task<IEnumerable<StaticFile>> getAllStaticFile();
 
-  public Task<StaticFiles> findStaticFileById(int id);
+  public Task<StaticFile> findStaticFileById(int id);
 
-  public Task<PageList<StaticFiles>> pagingStaticFiles(int page_size,int page);
+  public Task<PageList<StaticFile>> pagingStaticFiles(int page_size,int page);
 
-  public Task<int> addPage(StaticFiles file);
+  public Task<int> addPage(StaticFile file);
 
   public Task<int> deletePage(int id);
 
-  public Task<int> updatePage(int id,StaticFiles file);
+  public Task<int> updatePage(int id,StaticFile file);
 
   public Task saveChanges();
 

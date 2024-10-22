@@ -1,5 +1,5 @@
 
-@model StaticFiles
+@model StaticFile
 @{
    var updated_page=ViewBag.Updated_Message;
    var update_status=ViewBag.Status;
@@ -100,7 +100,7 @@
                       <form id="formAccountSettings" method="post" asp-controller="StaticFiles" asp-action="StaticFilesInfo">
                         <div class="row mb-3">
                           <div class="mb-3 col-md-6">
-                            <input id="id" type="hidden" name="id" value="@Model.Id"/>
+                            <input id="id" type="hidden" name="id" value="@Model?.Id"/>
  
                             <label for="username" class="form-label mb-2">Tên trang:</label>
                             <input
@@ -109,7 +109,7 @@
                               id="filename"
                               name="filename"
                               autofocus
-                              value="@Model.Filename"
+                              value="@Model?.Filename"
                               placeholder="Nhập tên trang"
                             />
                           <span id="file-name-error" class="text-danger"></span>
@@ -119,7 +119,7 @@
                         <div class="row mb-3">
                                 <div class="mb-3 col-md-6">
                         <label class="mb-2">Nội dung:</label>
-                          <textarea id="content" name="content" value="@Model.Content">@Model.Content</textarea>
+                          <textarea id="content" name="content" value="@Model?.Content">@Model?.Content</textarea>
                           </div>
                         </div>
                         <div class="mt-2 d-flex flex-row justify-content-md-start justify-content-sm-between">
@@ -156,8 +156,9 @@
  });
 
  document.getElementById("formAccountSettings").addEventListener("submit",()=>{
-  var is_valid=true;
   
+  var is_valid=true;
+
   var file_name=document.getElementById("filename").value.trim();
 
   if(file_name==='')

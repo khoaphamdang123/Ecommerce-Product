@@ -17,7 +17,7 @@
   var filtered_user=ViewBag.filter_obj;
   int status_delete=-1;
   var category_id=ViewBag.Category_Id;
-  @* var current_total_item=(Model.currentPage*Model.pageSize)-Model.pageSize;   *@
+  @* var current_total_item=(Model?.currentPage*Model?.pageSize)-Model?.pageSize;   *@
   if(TempData["Status"]!=null)
   {
    status_delete=Convert.ToInt32(TempData["Status"]);
@@ -206,22 +206,22 @@
                 </table>
                 </div>
     @* <div class="pagination-container mt-4">
-      <div class="page-total">Tổng số trang:@Model.totalCount</div>
+      <div class="page-total">Tổng số trang:@Model?.totalCount</div>
       <div class="page-list justify-content-center">
-     @if(Model.hasPreviousPage)
+     @if(Model!=null && Model.hasPreviousPage)
      {
-         <a class="page-item" title="Previous" href="@Url.Action("StaticFilesPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage-1})"><i class="bx bx-chevron-left"></i></a>
+         <a class="page-item" title="Previous" href="@Url.Action("StaticFilesPaging",new{page_size=int.Parse(selected_size),page=Model?.currentPage-1})"><i class="bx bx-chevron-left"></i></a>
      }
      else
      {
       <span class="page-item" title="Previous" aria-label="previous"><i class="bx bx-chevron-left"></i></span>
      }
  
-    @if(Model.totalPage<=7)
+    @if(Model?.totalPage<=7)
     {
-      for(int i=1;i<=Model.totalPage;i++)
+      for(int i=1;i<=Model?.totalPage;i++)
       {
-        if(i==Model.currentPage)
+        if(i==Model?.currentPage)
         {
            <a class="page-item activate" disabled>@i</a> 
         }
@@ -233,13 +233,13 @@
     }
      else
     {
-     if(Model.currentPage<5)
+     if(Model?.currentPage<5)
      {
       for(int i=1;i<=7;i++)
       {
         if(i<6)
         {
-          if(i==Model.currentPage)
+          if(i==Model?.currentPage)
         {
            <span class="page-item activate" disable>@i</span> 
         }
@@ -260,26 +260,26 @@
      }
     else
     {
-    if((Model.currentPage>=5 && (Model.currentPage<(Model.totalPage-3))))
+    if((Model?.currentPage>=5 && (Model?.currentPage<(Model.totalPage-3))))
     {
          <a class="page-item" title="1" href="@Url.Action("StaticFilesPaging",new{page_size=int.Parse(selected_size),page=1})">1</a>
     <span class="page-item" disabled>...</span>
-         <a class="page-item" title="@(Model.currentPage-1)" href="@Url.Action("StaticFilesPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage-1})">@(Model.currentPage-1)</a>
-    <span class="page-item activate" disabled>@(Model.currentPage)</span>
-         <a class="page-item" title="@(Model.currentPage+1)" href="@Url.Action("StaticFilesPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage+1})">@(Model.currentPage+1)</a>
+         <a class="page-item" title="@(Model?.currentPage-1)" href="@Url.Action("StaticFilesPaging",new{page_size=int.Parse(selected_size),page=Model?.currentPage-1})">@(Model?.currentPage-1)</a>
+    <span class="page-item activate" disabled>@(Model?.currentPage)</span>
+         <a class="page-item" title="@(Model?.currentPage+1)" href="@Url.Action("StaticFilesPaging",new{page_size=int.Parse(selected_size),page=Model?.currentPage+1})">@(Model?.currentPage+1)</a>
 
     <span class="page-item" disabled>...</span>
-    <a class="page-item" title="@Model.totalPage" href="@Url.Action("StaticFilesPaging",new{page_size=int.Parse(selected_size),page=Model.totalPage})">@Model.totalPage</a>
+    <a class="page-item" title="@Model?.totalPage" href="@Url.Action("StaticFilesPaging",new{page_size=int.Parse(selected_size),page=Model?.totalPage})">@Model?.totalPage</a>
     }
     else{
          <a class="page-item" title="1" href="@Url.Action("StaticFilesPaging",new{page_size=int.Parse(selected_size),page=1})">1</a>
     <span class="page-item" disabled>...</span>
-         <a class="page-item" title="@(Model.currentPage-4)" href="@Url.Action("StaticFilesPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage-4})">@(Model.currentPage-4)</a>
-     for(int i=(Model.totalPage-3);i<=Model.totalPage;i++)
+         <a class="page-item" title="@(Model?.currentPage-4)" href="@Url.Action("StaticFilesPaging",new{page_size=int.Parse(selected_size),page=Model?.currentPage-4})">@(Model?.currentPage-4)</a>
+     for(int i=(Model.totalPage-3);i<=Model?.totalPage;i++)
      {
-      if(i==Model.currentPage)
+      if(i==Model?.currentPage)
       {
-          <span class="page-item activate" disabled>@(Model.currentPage)</span>
+          <span class="page-item activate" disabled>@(Model?.currentPage)</span>
       }
     else
     {
@@ -302,9 +302,9 @@
          <a class="page-item" title="@i" href="@Url.Action("UserList",new{page=i})">i</a> *@
 
        
-      @* @if(Model.hasNextPage)
+      @* @if(Model!=null && Model.hasNextPage)
       {
-         <a class="page-item" title="Next" href="@Url.Action("StaticFilesPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage+1})"><i class="bx bx-chevron-right"></i></a>
+         <a class="page-item" title="Next" href="@Url.Action("StaticFilesPaging",new{page_size=int.Parse(selected_size),page=Model?.currentPage+1})"><i class="bx bx-chevron-right"></i></a>
        }
       else 
       {
@@ -341,7 +341,7 @@
      {
       selected_value=parseInt(selected_value);
 
-      window.location.href= '@Url.Action("StaticFilesPaging", "StaticFiles")' + "?page_size=" + selected_value;
+      window.location.href= '@Url.Action("StaticFilesPaging", "StaticFile")' + "?page_size=" + selected_value;
      }
      }); *@
 

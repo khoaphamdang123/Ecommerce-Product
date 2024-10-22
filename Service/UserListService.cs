@@ -295,7 +295,7 @@ public async Task<bool> checkUserExist(string email,string username)
     var user = await this._userManager.FindByEmailAsync(email);
     if(user!=null)
     {
-        string new_password="Ecommerce123@";
+        string new_password=Environment.GetEnvironmentVariable("RESET_PASSWORD");
         string change_pass_token=await this._userManager.GeneratePasswordResetTokenAsync(user);
         var change_res=await this._userManager.ResetPasswordAsync(user,change_pass_token,new_password);
         if(change_res.Succeeded)

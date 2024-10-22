@@ -7,14 +7,14 @@ public class ErrorController:Controller
 {
 [Route("Error/404")]
 public IActionResult NotFound()
-{  
+{   ViewBag.Username=HttpContext.Session.GetString("Username");
     return View();
 }
 
 [Route("Error/500")]
-
+ 
 public IActionResult ServerError()
-{
+{    
     return View();
 }
 

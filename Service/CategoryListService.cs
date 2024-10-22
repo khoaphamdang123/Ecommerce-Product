@@ -23,7 +23,7 @@ public async Task<IEnumerable<Category>> getAllCategory()
 {    
     try
     {
-     var categories=this._context.Categories.Include(c=>c.SubCategories).ToList();
+     var categories=this._context.Categories.Include(c=>c.SubCategory).ToList();
      return categories;     
     }
     catch(Exception er)
@@ -167,7 +167,7 @@ public async Task<Category> findCategoryById(int id)
 {
     try
     {
-      var category=await this._context.Categories.Include(c=>c.SubCategories).FirstOrDefaultAsync(c=>c.Id==id);
+      var category=await this._context.Categories.Include(c=>c.SubCategory).FirstOrDefaultAsync(c=>c.Id==id);
       if(category!=null)
       {
         return category;
@@ -273,14 +273,14 @@ public async Task<Category> findCategoryByName(string categoryname)
     return null;
 }
 
-public async Task<IEnumerable<SubCategories>> findSubCategoryByCat(string category)
+public async Task<IEnumerable<SubCategory>> findSubCategoryByCat(string category)
 {
     try
     {
        var cat=await this._context.Categories.FirstOrDefaultAsync(c=>c.CategoryName==category);
        if(cat!=null)
        {
-        return cat.SubCategories;
+        return cat.SubCategory;
        }
     }
     catch(Exception er)
@@ -290,14 +290,14 @@ public async Task<IEnumerable<SubCategories>> findSubCategoryByCat(string catego
     return null;
 }
 
-public async Task<IEnumerable<SubCategories>> findSubCategoryById(int category)
+public async Task<IEnumerable<SubCategory>> findSubCategoryById(int category)
 {
     try
     {
-       var cat=await this._context.Categories.Include(c=>c.SubCategories).FirstOrDefaultAsync(c=>c.Id==category);
+       var cat=await this._context.Categories.Include(c=>c.SubCategory).FirstOrDefaultAsync(c=>c.Id==category);
        if(cat!=null)
-       {
-        return cat.SubCategories;
+       {Console.WriteLine("sub cat here is:"+cat.SubCategory.Count.ToString());
+        return cat.SubCategory;
        }
     }
     catch(Exception er)
@@ -309,28 +309,31 @@ public async Task<IEnumerable<SubCategories>> findSubCategoryById(int category)
 
 
 
-public async Task<SubCategories> findSingleSubcat(int sub_category)
+public async Task<SubCategory> findSingleSubcat(int sub_category)
 {
-    var sub_cat=await this._context.SubCategories.FirstOrDefaultAsync(c=>c.Id==sub_category);
+    var sub_cat=await this._context.SubCategory.FirstOrDefaultAsync(c=>c.Id==sub_category);
     return sub_cat;
 }
 
-public async Task<PageList<SubCategories>> pagingSubCategory(int category,int page_size,int page)
+public async Task<PageList<SubCategory>> pagingSubCategory(int category,int page_size,int page)
 {
-
    var all_sub_cat= await this.findSubCategoryById(category);
 
    var cats=all_sub_cat.OrderByDescending(u=>u.Id).ToList(); 
 
+   Console.WriteLine("Sub Cat Descending Count:"+cats[0].SubCategoryName);
+
    //var users=this._userManager.Users;   
-   var cat_list=PageList<SubCategories>.CreateItem(cats.AsQueryable(),page,page_size);
-   
+   var cat_list=PageList<SubCategory>.CreateItem(cats.AsQueryable(),page,page_size);
+
+   Console.WriteLine("Nmber of cat list:"+cat_list.item.Count());
+     
    return cat_list;
 }
 
 public async Task<bool> checkSubCatExist(string sub_cat)
 { bool is_exist=false;
-  var sub_cat_obj=await this._context.SubCategories.FirstOrDefaultAsync(c=>c.SubCategoryName==sub_cat);
+  var sub_cat_obj=await this._context.SubCategory.FirstOrDefaultAsync(c=>c.SubCategoryName==sub_cat);
   if(sub_cat_obj!=null)
   {
     is_exist=true;
@@ -354,9 +357,9 @@ int create_res=0;
      
      string updated_date =DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
      
-     var new_cat=new SubCategories{SubCategoryName= subcategoryname,CategoryId=categoryid,CreatedDate=created_date,UpdatedDate=updated_date};
+     var new_cat=new SubCategory{SubCategoryName= subcategoryname,CategoryId=categoryid,CreatedDate=created_date,UpdatedDate=updated_date};
      
-    await this._context.SubCategories.AddAsync(new_cat);
+    await this._context.SubCategory.AddAsync(new_cat);
 
     await saveChange();
 
@@ -383,32 +386,32 @@ public async Task<IEnumerable<Brand>> getAllBrandList()
 }
 
 
-public async Task<IEnumerable<CategoryBrandDetails>> findBrandById(int category)
+public async Task<IEnumerable<CategoryBrandDetail>> findBrandById(int category)
 {
-    var brand_list= this._context.CategoryBrandDetails.Where(c=>c.CategoryId==category).Include(c=>c.Brand).Include(c=>c.Category);
+    var brand_list= this._context.CategoryBrandDetail.Where(c=>c.CategoryId==category).Include(c=>c.Brand).Include(c=>c.Category);
    
     return brand_list;
  } 
 
-public async Task<PageList<CategoryBrandDetails>> pagingBrand(int category,int page_size,int page)
+public async Task<PageList<CategoryBrandDetail>> pagingBrand(int category,int page_size,int page)
 {
    var all_brand= await this.findBrandById(category);
    
    var cats=all_brand.OrderByDescending(u=>u.Id).ToList(); 
 
    //var users=this._userManager.Users;   
-   var cat_list=PageList<CategoryBrandDetails>.CreateItem(cats.AsQueryable(),page,page_size);
+   var cat_list=PageList<CategoryBrandDetail>.CreateItem(cats.AsQueryable(),page,page_size);
    
    return cat_list;
 }
 
-public async Task<PageList<CategoryBrandDetails>> pagingAllBrand(int page_size,int page)
+public async Task<PageList<CategoryBrandDetail>> pagingAllBrand(int page_size,int page)
 {
-    var all_brand = this._context.CategoryBrandDetails.Include(c=>c.Brand).Include(c=>c.Category).ToList();
+    var all_brand = this._context.CategoryBrandDetail.Include(c=>c.Brand).Include(c=>c.Category).ToList();
 
     var brands=all_brand.OrderByDescending(u=>u.Id).ToList();
 
-    var brand_list = PageList<CategoryBrandDetails>.CreateItem(brands.AsQueryable(),page,page_size);
+    var brand_list = PageList<CategoryBrandDetail>.CreateItem(brands.AsQueryable(),page,page_size);
     return brand_list;
 }
 
@@ -417,7 +420,7 @@ public async Task<bool> checkBrandExist(string brand_name,int category)
 {
     bool is_exist=false;
     
-    var brand=await this._context.CategoryBrandDetails.Include(c=>c.Brand).Include(c=>c.Category).FirstOrDefaultAsync(c=>c.Brand.BrandName==brand_name && c.Category.Id==category);
+    var brand=await this._context.CategoryBrandDetail.Include(c=>c.Brand).Include(c=>c.Category).FirstOrDefaultAsync(c=>c.Brand.BrandName==brand_name && c.Category.Id==category);
     
     if(brand!=null)
     {
@@ -447,12 +450,12 @@ public async Task<int> createBrand(int category,string brand_name)
 
      var cat=await this.findCategoryById(category);
 
-    var cat_brand_ob=new CategoryBrandDetails{
+    var cat_brand_ob=new CategoryBrandDetail{
         Category=cat,
         Brand=new_brand
     };
 
-    await this._context.CategoryBrandDetails.AddAsync(cat_brand_ob);
+    await this._context.CategoryBrandDetail.AddAsync(cat_brand_ob);
     
     await saveChange();
 
@@ -475,11 +478,11 @@ public async Task<int> deleteBrand(int brand_category)
 {  int delete_res=0;
     try
     {
-        var brand_cat_detail=await this._context.CategoryBrandDetails.FirstOrDefaultAsync(c=>c.Id==brand_category);
+        var brand_cat_detail=await this._context.CategoryBrandDetail.FirstOrDefaultAsync(c=>c.Id==brand_category);
       if(brand_cat_detail!=null)
       { delete_res=1;
-        this._context.CategoryBrandDetails.Attach(brand_cat_detail);
-        this._context.CategoryBrandDetails.Remove(brand_cat_detail);
+        this._context.CategoryBrandDetail.Attach(brand_cat_detail);
+        this._context.CategoryBrandDetail.Remove(brand_cat_detail);
         await this.saveChange();
       }
     }
@@ -498,7 +501,7 @@ public async Task<int> deleteSubCategory(int sub_category)
        var sub_cat=await this.findSingleSubcat(sub_category);
        if(sub_cat!=null)
        { res_del=1;
-         this._context.SubCategories.Remove(sub_cat);
+         this._context.SubCategory.Remove(sub_cat);
          await this.saveChange();
        }
     }
@@ -509,15 +512,15 @@ public async Task<int> deleteSubCategory(int sub_category)
     return res_del;
 }
 
-public async Task<int> updateSubCategory(int id,SubCategories SubCategories)
+public async Task<int> updateSubCategory(int id,SubCategory SubCategory)
 {  int res_update=0;
     try
     {
    var sub_cat=await this.findSingleSubcat(id);
    if(sub_cat!=null)
    {
-    sub_cat.SubCategoryName=SubCategories.SubCategoryName;
-    sub_cat.CategoryId=SubCategories.CategoryId;
+    sub_cat.SubCategoryName=SubCategory.SubCategoryName;
+    sub_cat.CategoryId=SubCategory.CategoryId;
     sub_cat.UpdatedDate=DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss");
     this._context.Update(sub_cat);
     await this.saveChange();
@@ -576,7 +579,7 @@ public async Task<MemoryStream> exportToExcelSubCategory(int category)
     var categories=await this.findCategoryById(category);
     if(categories!=null)
     {
-    List<SubCategories> list_category=categories.SubCategories.ToList();
+    List<SubCategory> list_category=categories.SubCategory.ToList();
     for(int i=0;i<list_category.Count;i++)
     {
     worksheet.Cells[i+2,1].Value=(i+1).ToString();
@@ -608,7 +611,7 @@ public async Task<MemoryStream> exportToExcelBrandCategory()
     worksheet.Cells[1,4].Value="Ngày tạo";
     worksheet.Cells[1,5].Value = "Ngày cập nhật";
 
-    List<CategoryBrandDetails> brands=this._context.CategoryBrandDetails.Include(c=>c.Category).Include(c=>c.Brand).ToList();
+    List<CategoryBrandDetail> brands=this._context.CategoryBrandDetail.Include(c=>c.Category).Include(c=>c.Brand).ToList();
     if(brands!=null)
     {
     for(int i=0;i<brands.Count;i++)

@@ -18,7 +18,7 @@
   var filtered_user=ViewBag.filter_user as FilterUser;
   int status_delete=-1;
   int change_pass_status=-1;
-    var current_total_item=(Model.currentPage*Model.pageSize)-Model.pageSize;  
+    var current_total_item=(Model?.currentPage*Model?.pageSize)-Model?.pageSize;  
 
   if(TempData["Status_Delete"]!=null)
   {
@@ -217,7 +217,7 @@
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                       @foreach(var user in Model.item)
+                       @foreach(var user in Model?.item)
                        { current_total_item+=1;
                          <tr>
                             <td class="text-center">@current_total_item</td>
@@ -283,22 +283,22 @@
                 </table>
                 </div>
     <div class="pagination-container mt-4">
-      <div class="page-total">Tổng số User:@Model.totalCount</div>
+      <div class="page-total">Tổng số User:@Model?.totalCount</div>
       <div class="page-list justify-content-center">
-    @if(Model.hasPreviousPage)
+    @if(Model!=null && Model.hasPreviousPage)
      {
-       <a class="page-item" title="Previous" href="@Url.Action("UserListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage-1,UserName=(string.IsNullOrEmpty(filtered_user.UserName)?"":filtered_user.UserName),email=(string.IsNullOrEmpty(filtered_user.Email)?"":filtered_user.Email),phonenumber=(string.IsNullOrEmpty(filtered_user.PhoneNumber)?"":filtered_user.PhoneNumber),datetime=(string.IsNullOrEmpty(filtered_user.DateTime)?"":filtered_user.DateTime),endtime=(string.IsNullOrEmpty(filtered_user.EndTime)?"":filtered_user.EndTime)})"><i class="bx bx-chevron-left"></i></a>
+       <a class="page-item" title="Previous" href="@Url.Action("UserListPaging",new{page_size=int.Parse(selected_size),page=Model?.currentPage-1,UserName=(string.IsNullOrEmpty(filtered_user.UserName)?"":filtered_user.UserName),email=(string.IsNullOrEmpty(filtered_user.Email)?"":filtered_user.Email),phonenumber=(string.IsNullOrEmpty(filtered_user.PhoneNumber)?"":filtered_user.PhoneNumber),datetime=(string.IsNullOrEmpty(filtered_user.DateTime)?"":filtered_user.DateTime),endtime=(string.IsNullOrEmpty(filtered_user.EndTime)?"":filtered_user.EndTime)})"><i class="bx bx-chevron-left"></i></a>
        }
      else
      {
       <span class="page-item" title="Previous" aria-label="previous"><i class="bx bx-chevron-left"></i></span>
      }
  
-    @if(Model.totalPage<=7)
+    @if(Model?.totalPage<=7)
     {
-      for(int i=1;i<=Model.totalPage;i++)
+      for(int i=1;i<=Model?.totalPage;i++)
       {
-        if(i==Model.currentPage)
+        if(i==Model?.currentPage)
         {
            <a class="page-item activate" disabled>@i</a> 
         }
@@ -310,13 +310,13 @@
     }
      else
     {
-     if(Model.currentPage<5)
+     if(Model?.currentPage<5)
      {
       for(int i=1;i<=7;i++)
       {
         if(i<6)
         {
-          if(i==Model.currentPage)
+          if(i==Model?.currentPage)
         {
            <span class="page-item activate" disable>@i</span> 
         }
@@ -330,33 +330,33 @@
             <span class="page-item" disabled>...</span>
           }
         else{
-         <a class="page-item" title="@i" href="@Url.Action("UserListPaging",new{page_size=int.Parse(selected_size),page=Model.totalPage,UserName=(string.IsNullOrEmpty(filtered_user.UserName)?"":filtered_user.UserName),email=(string.IsNullOrEmpty(filtered_user.Email)?"":filtered_user.Email),phonenumber=(string.IsNullOrEmpty(filtered_user.PhoneNumber)?"":filtered_user.PhoneNumber),datetime=(string.IsNullOrEmpty(filtered_user.DateTime)?"":filtered_user.DateTime),endtime=(string.IsNullOrEmpty(filtered_user.EndTime)?"":filtered_user.EndTime)})">@Model.totalPage</a>
+         <a class="page-item" title="@i" href="@Url.Action("UserListPaging",new{page_size=int.Parse(selected_size),page=Model?.totalPage,UserName=(string.IsNullOrEmpty(filtered_user.UserName)?"":filtered_user.UserName),email=(string.IsNullOrEmpty(filtered_user.Email)?"":filtered_user.Email),phonenumber=(string.IsNullOrEmpty(filtered_user.PhoneNumber)?"":filtered_user.PhoneNumber),datetime=(string.IsNullOrEmpty(filtered_user.DateTime)?"":filtered_user.DateTime),endtime=(string.IsNullOrEmpty(filtered_user.EndTime)?"":filtered_user.EndTime)})">@Model?.totalPage</a>
         }
         }
       }
      }
     else
     {
-    if((Model.currentPage>=5 && (Model.currentPage<(Model.totalPage-3))))
+    if((Model?.currentPage>=5 && (Model?.currentPage<(Model.totalPage-3))))
     {
          <a class="page-item" title="1" href="@Url.Action("UserListPaging",new{page_size=int.Parse(selected_size),page=1,UserName=(string.IsNullOrEmpty(filtered_user.UserName)?"":filtered_user.UserName),email=(string.IsNullOrEmpty(filtered_user.Email)?"":filtered_user.Email),phonenumber=(string.IsNullOrEmpty(filtered_user.PhoneNumber)?"":filtered_user.PhoneNumber),datetime=(string.IsNullOrEmpty(filtered_user.DateTime)?"":filtered_user.DateTime),endtime=(string.IsNullOrEmpty(filtered_user.EndTime)?"":filtered_user.EndTime)})">1</a>
     <span class="page-item" disabled>...</span>
-         <a class="page-item" title="@(Model.currentPage-1)" href="@Url.Action("UserListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage-1,UserName=(string.IsNullOrEmpty(filtered_user.UserName)?"":filtered_user.UserName),email=(string.IsNullOrEmpty(filtered_user.Email)?"":filtered_user.Email),phonenumber=(string.IsNullOrEmpty(filtered_user.PhoneNumber)?"":filtered_user.PhoneNumber),datetime=(string.IsNullOrEmpty(filtered_user.DateTime)?"":filtered_user.DateTime),endtime=(string.IsNullOrEmpty(filtered_user.EndTime)?"":filtered_user.EndTime)})">@(Model.currentPage-1)</a>
-    <span class="page-item activate" disabled>@(Model.currentPage)</span>
-    <a class="page-item" title="@(Model.currentPage+1)" href="@Url.Action("UserListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage+1,UserName=(string.IsNullOrEmpty(filtered_user.UserName)?"":filtered_user.UserName),email=(string.IsNullOrEmpty(filtered_user.Email)?"":filtered_user.Email),phonenumber=(string.IsNullOrEmpty(filtered_user.PhoneNumber)?"":filtered_user.PhoneNumber),datetime=(string.IsNullOrEmpty(filtered_user.DateTime)?"":filtered_user.DateTime),endtime=(string.IsNullOrEmpty(filtered_user.EndTime)?"":filtered_user.EndTime)})">@(Model.currentPage+1)</a>
+         <a class="page-item" title="@(Model?.currentPage-1)" href="@Url.Action("UserListPaging",new{page_size=int.Parse(selected_size),page=Model?.currentPage-1,UserName=(string.IsNullOrEmpty(filtered_user.UserName)?"":filtered_user.UserName),email=(string.IsNullOrEmpty(filtered_user.Email)?"":filtered_user.Email),phonenumber=(string.IsNullOrEmpty(filtered_user.PhoneNumber)?"":filtered_user.PhoneNumber),datetime=(string.IsNullOrEmpty(filtered_user.DateTime)?"":filtered_user.DateTime),endtime=(string.IsNullOrEmpty(filtered_user.EndTime)?"":filtered_user.EndTime)})">@(Model?.currentPage-1)</a>
+    <span class="page-item activate" disabled>@(Model?.currentPage)</span>
+    <a class="page-item" title="@(Model?.currentPage+1)" href="@Url.Action("UserListPaging",new{page_size=int.Parse(selected_size),page=Model?.currentPage+1,UserName=(string.IsNullOrEmpty(filtered_user.UserName)?"":filtered_user.UserName),email=(string.IsNullOrEmpty(filtered_user.Email)?"":filtered_user.Email),phonenumber=(string.IsNullOrEmpty(filtered_user.PhoneNumber)?"":filtered_user.PhoneNumber),datetime=(string.IsNullOrEmpty(filtered_user.DateTime)?"":filtered_user.DateTime),endtime=(string.IsNullOrEmpty(filtered_user.EndTime)?"":filtered_user.EndTime)})">@(Model?.currentPage+1)</a>
 
     <span class="page-item" disabled>...</span>
-         <a class="page-item" title="@(Model.totalPage)" href="@Url.Action("UserListPaging",new{page_size=int.Parse(selected_size),page=Model.totalPage,UserName=(string.IsNullOrEmpty(filtered_user.UserName)?"":filtered_user.UserName),email=(string.IsNullOrEmpty(filtered_user.Email)?"":filtered_user.Email),phonenumber=(string.IsNullOrEmpty(filtered_user.PhoneNumber)?"":filtered_user.PhoneNumber),datetime=(string.IsNullOrEmpty(filtered_user.DateTime)?"":filtered_user.DateTime),endtime=(string.IsNullOrEmpty(filtered_user.EndTime)?"":filtered_user.EndTime)})">@Model.totalPage</a>
+         <a class="page-item" title="@(Model?.totalPage)" href="@Url.Action("UserListPaging",new{page_size=int.Parse(selected_size),page=Model?.totalPage,UserName=(string.IsNullOrEmpty(filtered_user.UserName)?"":filtered_user.UserName),email=(string.IsNullOrEmpty(filtered_user.Email)?"":filtered_user.Email),phonenumber=(string.IsNullOrEmpty(filtered_user.PhoneNumber)?"":filtered_user.PhoneNumber),datetime=(string.IsNullOrEmpty(filtered_user.DateTime)?"":filtered_user.DateTime),endtime=(string.IsNullOrEmpty(filtered_user.EndTime)?"":filtered_user.EndTime)})">@Model?.totalPage</a>
     }
     else{
          <a class="page-item" title="1" href="@Url.Action("UserListPaging",new{page_size=int.Parse(selected_size),page=1,UserName=(string.IsNullOrEmpty(filtered_user.UserName)?"":filtered_user.UserName),email=(string.IsNullOrEmpty(filtered_user.Email)?"":filtered_user.Email),phonenumber=(string.IsNullOrEmpty(filtered_user.PhoneNumber)?"":filtered_user.PhoneNumber),datetime=(string.IsNullOrEmpty(filtered_user.DateTime)?"":filtered_user.DateTime),endtime=(string.IsNullOrEmpty(filtered_user.EndTime)?"":filtered_user.EndTime)})">1</a>
     <span class="page-item" disabled>...</span>
-         <a class="page-item" title="@(Model.currentPage-4)" href="@Url.Action("UserListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage-4,UserName=(string.IsNullOrEmpty(filtered_user.UserName)?"":filtered_user.UserName),email=(string.IsNullOrEmpty(filtered_user.Email)?"":filtered_user.Email),phonenumber=(string.IsNullOrEmpty(filtered_user.PhoneNumber)?"":filtered_user.PhoneNumber),datetime=(string.IsNullOrEmpty(filtered_user.DateTime)?"":filtered_user.DateTime)})">@(Model.currentPage-4)</a>
-     for(int i=(Model.totalPage-3);i<=Model.totalPage;i++)
+         <a class="page-item" title="@(Model?.currentPage-4)" href="@Url.Action("UserListPaging",new{page_size=int.Parse(selected_size),page=Model?.currentPage-4,UserName=(string.IsNullOrEmpty(filtered_user.UserName)?"":filtered_user.UserName),email=(string.IsNullOrEmpty(filtered_user.Email)?"":filtered_user.Email),phonenumber=(string.IsNullOrEmpty(filtered_user.PhoneNumber)?"":filtered_user.PhoneNumber),datetime=(string.IsNullOrEmpty(filtered_user.DateTime)?"":filtered_user.DateTime)})">@(Model?.currentPage-4)</a>
+     for(int i=(Model.totalPage-3);i<=Model?.totalPage;i++)
      {
-      if(i==Model.currentPage)
+      if(i==Model?.currentPage)
       {
-          <span class="page-item activate" disabled>@(Model.currentPage)</span>
+          <span class="page-item activate" disabled>@(Model?.currentPage)</span>
       }
     else{
          <a class="page-item" title="@i" href="@Url.Action("UserListPaging",new{page_size=int.Parse(selected_size),page=i,UserName=(string.IsNullOrEmpty(filtered_user.UserName)?"":filtered_user.UserName),email=(string.IsNullOrEmpty(filtered_user.Email)?"":filtered_user.Email),phonenumber=(string.IsNullOrEmpty(filtered_user.PhoneNumber)?"":filtered_user.PhoneNumber),datetime=(string.IsNullOrEmpty(filtered_user.DateTime)?"":filtered_user.DateTime),endtime=(string.IsNullOrEmpty(filtered_user.EndTime)?"":filtered_user.EndTime)})">@i</a>
@@ -378,9 +378,9 @@
          <a class="page-item" title="@i" href="@Url.Action("UserList",new{page=i})">i</a> *@
 
        
-      @if(Model.hasNextPage)
+      @if(Model!=null && Model.hasNextPage)
       {
-       <a class="page-item" title="Next" href="@Url.Action("UserListPaging",new{page_size=int.Parse(selected_size),page=Model.currentPage+1,UserName=(string.IsNullOrEmpty(filtered_user.UserName)?"":filtered_user.UserName),email=(string.IsNullOrEmpty(filtered_user.Email)?"":filtered_user.Email),phonenumber=(string.IsNullOrEmpty(filtered_user.PhoneNumber)?"":filtered_user.PhoneNumber),datetime=(string.IsNullOrEmpty(filtered_user.DateTime)?"":filtered_user.DateTime),endtime=(string.IsNullOrEmpty(filtered_user.EndTime)?"":filtered_user.EndTime)})">></a>
+       <a class="page-item" title="Next" href="@Url.Action("UserListPaging",new{page_size=int.Parse(selected_size),page=Model?.currentPage+1,UserName=(string.IsNullOrEmpty(filtered_user.UserName)?"":filtered_user.UserName),email=(string.IsNullOrEmpty(filtered_user.Email)?"":filtered_user.Email),phonenumber=(string.IsNullOrEmpty(filtered_user.PhoneNumber)?"":filtered_user.PhoneNumber),datetime=(string.IsNullOrEmpty(filtered_user.DateTime)?"":filtered_user.DateTime),endtime=(string.IsNullOrEmpty(filtered_user.EndTime)?"":filtered_user.EndTime)})">></a>
        }
       else 
       {

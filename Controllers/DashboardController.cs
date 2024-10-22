@@ -1,14 +1,8 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Ecommerce_Product.Models;
 using Microsoft.AspNetCore.Authorization;
 using Ecommerce_Product.Repository;
-using System.IO;
-using System.Text;
-using iText.Commons.Utils;
-using Org.BouncyCastle.Math.EC.Rfc8032;
-using System.ComponentModel;
-using Org.BouncyCastle.Asn1.Mozilla;
+
 
 namespace Ecommerce_Product.Controllers;
 [Authorize(Roles ="Admin")]
@@ -43,6 +37,7 @@ public class DashboardController : Controller
     int total_profit_previous_1_year=this._dashboard.countProfitByYear(DateTime.Now.Year-1);
     int total_profit_previous_2_year=this._dashboard.countProfitByYear(DateTime.Now.Year-2);
     var cat_list = await this._category.getAllCategory();
+    Console.WriteLine("len of cat list:"+cat_list.Count().ToString());
     Dictionary<Category,int> profit_by_cats=new Dictionary<Category,int>();
     List<int> order_in_months=new List<int>();
     for(int i=1;i<=12;i++)
@@ -55,6 +50,10 @@ public class DashboardController : Controller
      int profit=this._dashboard.countProfitByOrder(item.Id);
      profit_by_cats.Add(item,profit);
     }
+    
+    Console.WriteLine("Profit by cats here is:"+profit_by_cats.Count().ToString());
+
+
     var latest_orders=await this._dashboard.getLatestOrder(5);
     ViewData["total_orders"]=total_orders;
     ViewData["profit_in_day"]=profit_in_day;

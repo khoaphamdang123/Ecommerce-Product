@@ -226,7 +226,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "StaticFiles",
+                name: "StaticFile",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
@@ -414,7 +414,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "CategoryBrandDetails",
+                name: "CategoryBrandDetail",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false, defaultValueSql: "nextval('\"CategoryBrandDetail_id_seq\"'::regclass)"),
@@ -440,7 +440,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "SubCategories",
+                name: "SubCategory",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false, defaultValueSql: "nextval('subcategory_id_seq'::regclass)"),
@@ -547,7 +547,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                     table.ForeignKey(
                         name: "product_sub_cat_fk",
                         column: x => x.SubCatId,
-                        principalTable: "SubCategories",
+                        principalTable: "SubCategory",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -738,12 +738,12 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
 
             migrationBuilder.CreateIndex(
                 name: "IX_CategoryBrandDetail_BrandId",
-                table: "CategoryBrandDetails",
+                table: "CategoryBrandDetail",
                 column: "BrandId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CategoryBrandDetail_CategoryId",
-                table: "CategoryBrandDetails",
+                table: "CategoryBrandDetail",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
@@ -788,7 +788,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
 
             migrationBuilder.CreateIndex(
                 name: "IX_SubCategory_CategoryId",
-                table: "SubCategories",
+                table: "SubCategory",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
@@ -842,7 +842,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                 name: "CartDetail");
 
             migrationBuilder.DropTable(
-                name: "CategoryBrandDetails");
+                name: "CategoryBrandDetail");
 
             migrationBuilder.DropTable(
                 name: "OrderDetail");
@@ -854,7 +854,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                 name: "Setting");
 
             migrationBuilder.DropTable(
-                name: "StaticFiles");
+                name: "StaticFile");
 
             migrationBuilder.DropTable(
                 name: "variant");
@@ -893,7 +893,7 @@ namespace Ecommerce_Product.Migrations.EcommerceShop
                 name: "Brand");
 
             migrationBuilder.DropTable(
-                name: "SubCategories");
+                name: "SubCategory");
 
             migrationBuilder.DropTable(
                 name: "Category");

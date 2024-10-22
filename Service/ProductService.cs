@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using Npgsql.Replication;
 using System.Drawing;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Ecommerce_Product.Service;
 
@@ -221,9 +222,9 @@ public async Task<int> deleteProduct(int id)
   }
 
 
-public async Task<SubCategories> findCatIdBySubId(int id)
+public async Task<SubCategory> findCatIdBySubId(int id)
 {
-  var sub_cat=await this._context.SubCategories.Include(c=>c.Category).FirstOrDefaultAsync(c=>c.Id==id);
+  var sub_cat=await this._context.SubCategory.Include(c=>c.Category).FirstOrDefaultAsync(c=>c.Id==id);
   return sub_cat;
 }
 
@@ -259,7 +260,7 @@ public async Task<int> addNewProduct(AddProductModel model)
       Console.WriteLine("QUANTITY:"+quantity);
 
    
-   int sub_cat=model.SubCategories;
+   int sub_cat=model.SubCategory;
 
       Console.WriteLine("Subcat:"+sub_cat);
 
@@ -516,7 +517,7 @@ string product_name=model.ProductName;
       Console.WriteLine("QUANTITY:"+quantity);
 
    
-   int sub_cat=model.SubCategories;
+   int sub_cat=model.SubCategory;
 
       Console.WriteLine("Subcat:"+sub_cat);
 
@@ -525,7 +526,7 @@ string product_name=model.ProductName;
       Console.WriteLine("brand:"+brand);
 
 
-   int category = model.Category;
+   int category =model.Category;
 
          Console.WriteLine("category:"+category);
 

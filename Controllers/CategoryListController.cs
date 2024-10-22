@@ -6,6 +6,7 @@ using Ecommerce_Product.Repository;
 using System.IO;
 using System.Text;
 using iText.Commons.Utils;
+using AspNetCoreGeneratedDocument;
 
 namespace Ecommerce_Product.Controllers;
 [Authorize(Roles ="Admin")]
@@ -101,11 +102,15 @@ public class CategoryListController : Controller
         }
     return View();
   }
-  [Authorize(Roles ="Admin")]
   [Route("category_list/{category}/sub_category/paging")]
      public async Task<IActionResult> SubCategoryList(int category,[FromQuery]int page_size,[FromQuery] int page=1)
-     { try{
-         var cats=await this._category.pagingSubCategory(category,page_size,page);
+     { try
+     {  
+      Console.WriteLine("Category id:"+category);
+         
+         var cats=await this._category.pagingSubCategory(category,7,page);
+
+         Console.WriteLine("did down here");
         
           List<string> options=new List<string>(){"7","10","20","50"};
           
@@ -114,17 +119,19 @@ public class CategoryListController : Controller
           string select_size=page_size.ToString();
           
           ViewBag.select_size=select_size;
+
+          Console.WriteLine("data of subcat here is:"+cats.item.Count);
           
           return View(cats);
         }
      
         catch(Exception er)
         {
-            this._logger.LogTrace("Get Category List Exception:"+er.Message);
+            this._logger.LogTrace("Get Category List Exception:"+er.Message);            
         }
     return View();
+    
      }
-  [Authorize(Roles ="Admin")]
  [Route("brand_list")]
  [HttpGet]
  public async Task<IActionResult> BrandList()
@@ -136,7 +143,11 @@ public class CategoryListController : Controller
   try
   {
     var all_brand = await this._category.pagingAllBrand(7,1);
+    if(all_brand!=null)
+    {
     return View(all_brand);
+    }
+    return View();
   }
   catch(Exception er)
   {
@@ -144,7 +155,6 @@ public class CategoryListController : Controller
   }
   return View();
  }
- [Authorize(Roles ="Admin")]
 
   [Route("category_list/{category}/brand")]
   [HttpGet]
@@ -167,7 +177,6 @@ public class CategoryListController : Controller
    }
    return View();
   }
-  [Authorize(Roles ="Admin")]
   [Route("category_list/{category}/brand/add")]
   [HttpGet]
   public async Task<IActionResult> AddBrand(int category)
@@ -177,7 +186,6 @@ public class CategoryListController : Controller
     ViewBag.Cat_Otions=category_options.CategoryName;
     return View();
   }
-  [Authorize(Roles ="Admin")]
   [Route("brand_list/add")]
   [HttpGet]
   public async Task<IActionResult> AddBrand()
@@ -187,7 +195,6 @@ public class CategoryListController : Controller
     return View();
   }
 
-  [Authorize(Roles ="Admin")]
   [Route("category_list/{category}/brand/add")]
   [HttpPost]
   public async Task<IActionResult> AddBrand(string brand_name,int category)
@@ -218,7 +225,6 @@ public class CategoryListController : Controller
     }
     return RedirectToAction("AddBrand",new{category=category});
   }
-  [Authorize(Roles ="Admin")]
   [Route("brand_list/delete")]
   [HttpGet]
   public async Task<IActionResult> DeleteBrand(int id)
@@ -239,7 +245,6 @@ public class CategoryListController : Controller
    }
     return RedirectToAction("BrandList");
   }
-  [Authorize(Roles ="Admin")]
   [Route("category_list/{category}/brand/add/delete")]
   [HttpGet]
   public async Task<IActionResult> DeleteBrand(int id,int category)
@@ -265,7 +270,6 @@ public class CategoryListController : Controller
     }
     return RedirectToAction("BrandList",new{category=category});
   }
-  [Authorize(Roles ="Admin")]
  [Route("category_list/{category}/sub_category/add")]
  [HttpGet]
  public async Task<IActionResult> AddSubCategory(int category)
@@ -277,7 +281,6 @@ public class CategoryListController : Controller
      }
      return View();
  }
-  [Authorize(Roles ="Admin")]
   [Route("category_list/{category}/sub_category/add")]
   [HttpPost]
   public async Task<IActionResult> AddSubCategory(string subcategoryname,int category)
@@ -313,7 +316,6 @@ public class CategoryListController : Controller
   
 
  
-  [Authorize(Roles ="Admin")]
 
   [Route("category_list/{category}/sub_category/delete")]
   [HttpGet]
@@ -340,7 +342,6 @@ public class CategoryListController : Controller
     }
   return RedirectToAction("SubCategoryList",new {category=category});
   }
-  [Authorize(Roles ="Admin")]
   [Route("category_list/{category}/sub_category/update")]
 
   [HttpGet]
@@ -361,7 +362,6 @@ public class CategoryListController : Controller
     }
    return View();
   }
- [Authorize(Roles ="Admin")]
 
  [Route("category_list/{category}/sub_category/update")]
 
@@ -371,7 +371,7 @@ public class CategoryListController : Controller
   {
   try
   { 
-    SubCategories new_sub_cat = new SubCategories{SubCategoryName=sub_cat_name,CategoryId=category};
+    SubCategory new_sub_cat = new SubCategory{SubCategoryName=sub_cat_name,CategoryId=category};
     int res_update=await this._category.updateSubCategory(id,new_sub_cat);
     if(res_update==1)
     {
@@ -389,8 +389,6 @@ public class CategoryListController : Controller
   }
   return RedirectToAction("SubCategoryInfo",new{category=category,sub_cat_name=sub_cat_name,sub_cat_id=id});
   }
-
-  [Authorize(Roles ="Admin")]
 
    [Route("category_list")]
    [HttpPost]
@@ -425,7 +423,6 @@ public class CategoryListController : Controller
     }
     return View();
    }
-  [Authorize(Roles ="Admin")]
 
    [Route("category_list/page")]
    [HttpGet]
@@ -464,7 +461,6 @@ public class CategoryListController : Controller
     return RedirectToAction("CategoryList","CategoryList");
    }
    
-  [Authorize(Roles ="Admin")]
 
   [Route("category_list/export")]
   [HttpGet]
@@ -482,7 +478,6 @@ public class CategoryListController : Controller
     }
     return RedirectToAction("CategoryList","CategoryList");
   }
-  [Authorize(Roles ="Admin")]
 
   [Route("category_list/{category}/sub_category/export")]
    [HttpGet]
@@ -499,7 +494,6 @@ public class CategoryListController : Controller
       }
      return RedirectToAction("SubCategoryList",new{category=category});
    }
-  [Authorize(Roles ="Admin")]
    [Route("brand_list/export")]
    [HttpGet]
    public async Task<IActionResult> ExportExcelBrands()

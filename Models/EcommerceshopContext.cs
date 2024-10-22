@@ -37,7 +37,7 @@ public partial class EcommerceshopContext : DbContext
 
     public virtual DbSet<Category> Categories { get; set; }
 
-    public virtual DbSet<CategoryBrandDetails> CategoryBrandDetails { get; set; }
+    public virtual DbSet<CategoryBrandDetail> CategoryBrandDetail { get; set; }
 
     public virtual DbSet<Color> Colors { get; set; }
 
@@ -59,9 +59,9 @@ public partial class EcommerceshopContext : DbContext
 
     public virtual DbSet<Size> Sizes { get; set; }
 
-    public virtual DbSet<StaticFiles> StaticFiles { get; set; }
+    public virtual DbSet<StaticFile> StaticFile { get; set; }
 
-    public virtual DbSet<SubCategories> SubCategories { get; set; }
+    public virtual DbSet<SubCategory> SubCategory { get; set; }
 
     public virtual DbSet<Variant> Variants { get; set; }
 
@@ -242,19 +242,19 @@ public partial class EcommerceshopContext : DbContext
                 .HasColumnName("Updated_Date");
         });
 
-        modelBuilder.Entity<CategoryBrandDetails>(entity =>
+        modelBuilder.Entity<CategoryBrandDetail>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("categorybranddetail_pk");
 
-            entity.ToTable("CategoryBrandDetails");
+            entity.ToTable("CategoryBrandDetail");
 
             entity.Property(e => e.Id).HasDefaultValueSql("nextval('\"CategoryBrandDetail_id_seq\"'::regclass)");
 
-            entity.HasOne(d => d.Brand).WithMany(p => p.CategoryBrandDetails)
+            entity.HasOne(d => d.Brand).WithMany(p => p.CategoryBrandDetail)
                 .HasForeignKey(d => d.BrandId)
                 .HasConstraintName("brand_fk");
 
-            entity.HasOne(d => d.Category).WithMany(p => p.CategoryBrandDetails)
+            entity.HasOne(d => d.Category).WithMany(p => p.CategoryBrandDetail)
                 .HasForeignKey(d => d.CategoryId)
                 .HasConstraintName("category_fk");
         });
@@ -466,11 +466,11 @@ public partial class EcommerceshopContext : DbContext
                 .HasColumnName("sizename");
         });
 
-        modelBuilder.Entity<StaticFiles>(entity =>
+        modelBuilder.Entity<StaticFile>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("staticfile_pk");
 
-            entity.ToTable("StaticFiles");
+            entity.ToTable("StaticFile");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Content)
@@ -487,11 +487,11 @@ public partial class EcommerceshopContext : DbContext
                 .HasColumnName("updateddate");
         });
 
-        modelBuilder.Entity<SubCategories>(entity =>
+        modelBuilder.Entity<SubCategory>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("subcategory_pk");
 
-            entity.ToTable("SubCategories");
+            entity.ToTable("SubCategory");
 
             entity.Property(e => e.Id).HasDefaultValueSql("nextval('subcategory_id_seq'::regclass)");
             entity.Property(e => e.CreatedDate)
@@ -502,7 +502,7 @@ public partial class EcommerceshopContext : DbContext
                 .HasColumnType("character varying")
                 .HasColumnName("Updated_Date");
 
-            entity.HasOne(d => d.Category).WithMany(p => p.SubCategories)
+            entity.HasOne(d => d.Category).WithMany(p => p.SubCategory)
                 .HasForeignKey(d => d.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("sub_cat_fk");

@@ -32,9 +32,8 @@ public class StaticFilesController : Controller
    public StaticFilesController(IStaticFilesRepository static_files,ILogger<StaticFilesController> logger)
    {
   this._static_files=static_files;
-  this._logger=logger;   
+  this._logger=logger;     
    }
-  [Authorize(Roles ="Admin")]
   [Route("file_list")]
   [HttpGet]
   public async Task<IActionResult> StaticFiles()
@@ -55,7 +54,6 @@ public class StaticFilesController : Controller
   }
 
 
-  [Authorize(Roles ="Admin")]
   [Route("file_list/paging")]
    [HttpGet]
   public async Task<IActionResult> StaticFilesPaging([FromQuery]int page_size,[FromQuery] int page=1)
@@ -71,7 +69,7 @@ public class StaticFilesController : Controller
           
           ViewBag.select_size=select_size;
           
-          return View("~/Views/StaticFiles/StaticFiles.cshtml",files);
+          return View("~/Views/StaticFile/StaticFile.cshtml",files);
         }
      
         catch(Exception er)
@@ -80,17 +78,15 @@ public class StaticFilesController : Controller
         }
     return View();
   }
-  [Authorize(Roles ="Admin")]
   [Route("file_list/add_page")]
   [HttpGet]
   public IActionResult AddStaticFiles()
   {
     return View();
   }
-  [Authorize(Roles ="Admin")]
   [Route("file_list/add_page")]
   [HttpPost]
-  public async Task<IActionResult> AddStaticFiles(StaticFiles file)
+  public async Task<IActionResult> AddStaticFiles(StaticFile file)
   {  try{
       string file_name=file.Filename;
       string content= file.Content;
@@ -116,7 +112,6 @@ public class StaticFilesController : Controller
   }
       return View();
   }
-  [Authorize(Roles ="Admin")]
   [Route("file_list/delete")]
   [HttpGet]
   public async Task<IActionResult> DeletePage(int id)
@@ -152,9 +147,8 @@ public class StaticFilesController : Controller
 
     [Route("file_list/{id}/page_info")]
   [HttpPost]
-  public async Task<IActionResult> StaticFilesInfo(int id,StaticFiles file)
+  public async Task<IActionResult> StaticFilesInfo(int id,StaticFile file)
   {  
-    Console.WriteLine("id:"+id);
 
     int updated_res=await this._static_files.updatePage(id,file);
     if(updated_res==0)
@@ -167,9 +161,10 @@ public class StaticFilesController : Controller
   ViewBag.Status=1;
   ViewBag.Updated_Message="Cập nhật trang thành công";
     }
-    Console.WriteLine(updated_res);
+  
   var page=await this._static_files.findStaticFileById(id);
-    return View(page);
+  
+  return View(page);
   }
 
 

@@ -45,7 +45,7 @@ public partial class Product
 
     public virtual ICollection<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
 
-    public virtual SubCategories? SubCat { get; set; }
+    public virtual SubCategory? SubCat { get; set; }
 
     public virtual ICollection<Variant> Variants { get; set; } = new List<Variant>();
 }
