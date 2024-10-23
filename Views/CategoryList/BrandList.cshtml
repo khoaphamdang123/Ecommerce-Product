@@ -308,8 +308,7 @@
          <a class="page-item" title="1" href="@Url.Action("BrandList",new{page_size=int.Parse(selected_size),page=1})">1</a>
     <span class="page-item" disabled>...</span>
          <a class="page-item" title="@(Model?.currentPage-4)" href="@Url.Action("BrandList",new{page_size=int.Parse(selected_size),page=Model?.currentPage-4})">@(Model?.currentPage-4)</a>
-    if(Model!=null)
-    { 
+   
      for(int i=(Model.totalPage-3);i<=Model?.totalPage;i++)
      {
       if(i==Model?.currentPage)
@@ -320,7 +319,6 @@
          <a class="page-item" title="@i" href="@Url.Action("BrandList",new{page_size=int.Parse(selected_size),page=i})">@i</a>
     }
      }
-    }
     }
     }
     } 

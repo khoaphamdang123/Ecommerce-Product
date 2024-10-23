@@ -41,9 +41,10 @@
                         <div class="toast-header">
                           <i class="bx bx-bell me-2"></i>
                           <div class="me-auto fw-semibold">Thêm sản phẩm</div>
-                          Thêm sản phẩm thành công<!--<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>-->
+                      <!--<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>-->
                         </div>
                         <div class="toast-body">
+                            Thêm sản phẩm thành công
                         </div>
                       </div>
 
@@ -842,9 +843,11 @@ const file=files[i];
                 }
                 },
                 error: function (xhr, status, error) {
-                // Handle any errors
-                alert('An error occurred: ' + error);
-            }
+                 document.getElementById("toast-message").innerHTML=error;
+                var toastEl = document.querySelector('.toast-danger');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();            
+              }
             });
  });
 </script>

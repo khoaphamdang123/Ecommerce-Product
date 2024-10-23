@@ -547,6 +547,8 @@ string product_name=model.ProductName;
 
    string status=model.Status;
 
+   Console.WriteLine("Status:"+status);
+
 
    string folder_name="UploadImages";
 
