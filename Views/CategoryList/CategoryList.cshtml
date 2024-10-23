@@ -192,7 +192,7 @@
                              <div class="d-flex align-items-center justify-content-center">
                               <div class="avatar-wrapper">
                                 <div class="avatar avatar-sm me-2">
-                                  <img src="@category.Avatar" alt="User Avatar">
+                                 <img src="~/@category.Avatar.Substring(category.Avatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="Category Avatar">
                                 </div>
                               </div>
                               <strong>@category.CategoryName</strong>

@@ -467,3 +467,4 @@ DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error
 2024-10-23 15:11:52.585 +07:00 [INF]  delete product 24 successfully
 2024-10-23 15:11:55.849 +07:00 [INF]  delete product 21 successfully
 2024-10-23 15:22:52.458 +07:00 [INF] Running in Login Action
+2024-10-23 15:44:58.881 +07:00 [WRN] Failed to determine the https port for redirect.
