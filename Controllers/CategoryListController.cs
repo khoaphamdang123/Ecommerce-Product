@@ -104,11 +104,11 @@ public class CategoryListController : Controller
      {  
       Console.WriteLine("Category id:"+category);
          
-         var cats=await this._category.pagingSubCategory(category,7,page);
+        ViewBag.Category_Id=category;
 
-         Console.WriteLine("did down here");
+         var cats=await this._category.pagingSubCategory(category,7,page);
         
-          List<string> options=new List<string>(){"7","10","20","50"};
+          List<string> options=new List<string>{"7","10","20","50"};
           
           ViewBag.options=options;
           
@@ -129,6 +129,7 @@ public class CategoryListController : Controller
     
      }
  [Route("brand_list")]
+ 
  [HttpGet]
  public async Task<IActionResult> BrandList()
  {

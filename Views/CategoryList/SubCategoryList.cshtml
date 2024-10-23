@@ -17,7 +17,10 @@
   var filtered_user=ViewBag.filter_obj;
   int status_delete=-1;
   int change_pass_status=-1;
-  var category_id=ViewBag.Category_Id;
+  int category_id=ViewBag.Category_Id;
+
+
+Console.WriteLine("Category Id:"+category_id);
   
   if(TempData["Status_Delete"]!=null)
   {
@@ -102,7 +105,6 @@
 
 
           <div class="content-wrapper">
-
             <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Sub-Category/</span>Danh sách Sub-Category</h4>
                 <div class="card">
@@ -113,10 +115,7 @@
                             <div class="data-length">
                                 <label>
                                     <select class="form-select" id="page-size">
-                                        @* <option value="10">10</option>
-                                        <option value="25">25</option>
-                                        <option value="50">50</option>
-                                        <option value="100">100</option> *@
+                       
                                         @foreach(var option in ViewBag.options)
                                         { if(option==selected_size)
                                         {

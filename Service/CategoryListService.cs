@@ -319,16 +319,18 @@ public async Task<PageList<SubCategory>> pagingSubCategory(int category,int page
 {
    var all_sub_cat= await this.findSubCategoryById(category);
 
+   if(all_sub_cat!=null)
+   {
+
    var cats=all_sub_cat.OrderByDescending(u=>u.Id).ToList(); 
-
-   Console.WriteLine("Sub Cat Descending Count:"+cats[0].SubCategoryName);
-
    //var users=this._userManager.Users;   
    var cat_list=PageList<SubCategory>.CreateItem(cats.AsQueryable(),page,page_size);
 
    Console.WriteLine("Nmber of cat list:"+cat_list.item.Count());
      
    return cat_list;
+   }
+   return null;
 }
 
 public async Task<bool> checkSubCatExist(string sub_cat)
