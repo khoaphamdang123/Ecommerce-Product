@@ -609,7 +609,9 @@ const handleFilesAvatar=(e)=>
         return;
     }
     drop_zone_msg_avatar.style.display='none';
+    
     drop_zone_avatar.style.alignItems='start';
+   
    for(let i=0;i<2;i++)
    {
 const file=files[i];
@@ -667,7 +669,8 @@ const file=files[i];
        preview_img_avatar.appendChild(img_wrapper);
     };
 
-    file_reader.readAsDataURL(file);
+    file_reader.readAsDataURL(file);    
+
     }
     }
  }
@@ -872,13 +875,13 @@ const file=files[i];
     }
   }
 
-  if(brand.value==="-1")
+  @* if(brand.value==="-1")
   {
     is_valid=false;
     is_all_form_valid=false;
     brand.classList.add('is-invalid');
     brand.focus();
-  }
+  } *@
 
   if(!is_valid)
   {
