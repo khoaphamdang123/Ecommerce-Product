@@ -103,9 +103,10 @@
                  <form id="formAccountSettings" method="post" enctype="multipart/form-data" asp-controller="CategoryList" asp-action="UpdateCategory">
                     <div class="card-body">
                       <div class="d-flex align-items-start align-items-sm-center gap-4">
+
                         <img
-                          src="@Model?.Avatar"
-                          alt="user-avatar"
+                          src="~/@Model.Avatar.Substring(Model.Avatar.IndexOf("wwwroot")+("wwwroot".Length+1))"
+                          alt="category-avatar"
                           class="d-block rounded"
                           height="100"
                           width="100"
