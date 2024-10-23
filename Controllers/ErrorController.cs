@@ -1,6 +1,5 @@
 
 using Microsoft.AspNetCore.Mvc;
-
 namespace Ecommerce_Product.Controllers;
 [Route("admin")]
 public class ErrorController:Controller
@@ -11,7 +10,7 @@ public IActionResult NotFound()
     return View();
 }
 
-[Route("Error/500")]
+[Route("Error/502")]
  
 public IActionResult ServerError()
 {    
@@ -23,5 +22,4 @@ public IActionResult Maintainance()
 {
     return View();
 }
-
 }
