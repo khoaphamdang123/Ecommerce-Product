@@ -69,7 +69,7 @@ public class StaticFilesController : Controller
           
           ViewBag.select_size=select_size;
           
-          return View("~/Views/StaticFile/StaticFile.cshtml",files);
+          return View("~/Views/StaticFiles/StaticFiles.cshtml",files);
         }
      
         catch(Exception er)
@@ -134,7 +134,7 @@ public class StaticFilesController : Controller
     {
         this._logger.LogTrace("Remove Page Exception:"+er.Message);
     }
-    return RedirectToAction("StaticFile","StaticFile");
+    return RedirectToAction("StaticFiles","StaticFiles");
   }
 
   [Route("file_list/{id}/page_info")]
