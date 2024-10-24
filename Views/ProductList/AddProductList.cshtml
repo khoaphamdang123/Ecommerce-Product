@@ -248,11 +248,11 @@
                         </div>
                           <div class="col-4">
                           <label class="form-label" for="weight">Khối lượng</label> 
-                          <input class="form-control" id="weight" type="number" placeholder="Nhập khối lượng">
+                          <input class="form-control" id="weight" type="text" placeholder="Nhập khối lượng">
                         </div>
                          <div class="col-4 mb-3">
                           <label class="form-label" for="size">Kích thước</label> 
-                          <input class="form-control" id="size" type="text" placeholder="Nhập khối lượng">
+                          <input class="form-control" id="size" type="text" placeholder="Nhập kích thước">
                         </div>
                             <div class="col-4 mb-2">
                           <label class="form-label" for="version">Phiên bản</label> 
@@ -769,19 +769,13 @@ const file=files[i];
     }
   }
 
-  if(brand.value==="-1")
-  {
-    is_valid=false;
-    is_all_form_valid=false;
-    brand.classList.add('is-invalid');
-    brand.focus();
-  }
-
   if(!is_valid)
   {
     e.preventDefault();
   }
-   
+  
+ if(is_valid)
+ {
   let formDataVal=new FormData(document.getElementById("formAccountSettings"));
 
    var colors=document.querySelectorAll("#color");
@@ -849,5 +843,6 @@ const file=files[i];
                 toast.show();            
               }
             });
+      }
  });
 </script>

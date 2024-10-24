@@ -219,10 +219,11 @@ public class ProductListController : Controller
     ViewBag.SubCatList=sub_cat_list;
     return View();
   }
+  [Route("product_list/add_val")]
 
   [HttpPost]
   public async Task<JsonResult> GetSampleData(AddProductModel model)
-{ 
+{ Console.WriteLine("used to stay here");
     StatusResponse response_data; 
 
     int created_res = await this._product.addNewProduct(model);
@@ -433,7 +434,6 @@ public class ProductListController : Controller
     return View("~/Views/ProductList/ProductInfo.cshtml",product);
   }
 [Route("product_list/product_info")]
-
 [HttpPost]
   public async Task<JsonResult> GetSampleInfo(AddProductModel product)
 { 

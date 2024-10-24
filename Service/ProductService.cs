@@ -5,6 +5,7 @@ using OfficeOpenXml;
 using Npgsql.Replication;
 using System.Drawing;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Text.RegularExpressions;
 
 namespace Ecommerce_Product.Service;
 
@@ -108,7 +109,8 @@ try
    }
    
    if(!string.IsNullOrEmpty(brand))
-   {Console.WriteLine("filter brand here");
+   {
+   Console.WriteLine("filter brand here");
    prod_list= prod_list.Where(c=>c.Brand.Id==Convert.ToInt32(brand)).ToList();
    }
 
@@ -243,7 +245,10 @@ public async Task<int> addNewProduct(AddProductModel model)
 { int created_res=0;
   try
   {
+  
+  List<IFormFile> img_files=new List<IFormFile>();
 
+  List<IFormFile> variant_files=new List<IFormFile>();
 
    string product_name=model.ProductName;
 
@@ -304,35 +309,39 @@ public async Task<int> addNewProduct(AddProductModel model)
         Console.WriteLine("colors:"+colors.Count);
 
    
-   List<int> weights=model.Weight;
+   List<string> weights=model.Weight;
   
-          Console.WriteLine("weight:"+weights.Count);
+      Console.WriteLine("weight:"+weights.Count);
 
    
    List<string> sizes=model.Size;
 
-          //Console.WriteLine("sizes:"+sizes.Count);
+          Console.WriteLine("sizes:"+sizes.Count);
 
    
    List<string> mirrors=model.Mirror;
 
-          //Console.WriteLine("mirror:"+mirrors.Count);
+          Console.WriteLine("mirror:"+mirrors.Count);
 
    
    List<string> versions=model.Version;
 
-         // Console.WriteLine("version:"+versions.Count);
+          Console.WriteLine("version:"+versions.Count);
 
-
-   List<IFormFile> img_files=model.ImageFiles;
+ if(model.ImageFiles!=null)
+ {
+  img_files=model.ImageFiles;
+ }
 
       
-          //  Console.WriteLine("img_file:"+img_files.Count);
+           Console.WriteLine("img_file:"+img_files.Count);
 
-   
-   List<IFormFile> variant_files = model.VariantFiles;
+if(model.VariantFiles!=null)
+{
+variant_files = model.VariantFiles;
+}
 
-          // Console.WriteLine("variant file:"+variant_files.Count);
+           Console.WriteLine("variant file:"+variant_files.Count);
 
    
    if(await checkProductExist(product_name))
@@ -358,25 +367,31 @@ public async Task<int> addNewProduct(AddProductModel model)
 
  Console.WriteLine("check point 2");
 
+  Console.WriteLine("check point 2.5");
+
+
  string created_date=DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss");
  
  string updated_date = DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss");
  
  List<Variant> variant=new List<Variant>();
  
+
+Console.WriteLine("colors count:"+colors.Count);
+
  for(int i=0;i<colors.Count;i++)
  {
   string color=colors[i];
-  int weight=weights[i];
+  string weight=weights[i];
   string size=sizes[i];
   string version=versions[i];
   string mirror=mirrors[i];
-
+ Console.WriteLine("inside here.");
   var check_color_exist = await this._context.Colors.FirstOrDefaultAsync(c=>c.Colorname==color);
   var check_size_exist = await this._context.Sizes.FirstOrDefaultAsync(c=>c.Sizename==size);
   var check_version_exist = await this._context.Versions.FirstOrDefaultAsync(c=>c.Versionname==version);
   var check_mirror_exist = await this._context.Mirrors.FirstOrDefaultAsync(c=>c.Mirrorname==mirror);
-
+  Console.WriteLine("throught here");
   if(check_color_exist==null)
   {if(!string.IsNullOrEmpty(color))
   {
@@ -420,7 +435,7 @@ public async Task<int> addNewProduct(AddProductModel model)
 
   var new_mirror_ob = await this._context.Mirrors.FirstOrDefaultAsync(c=>c.Mirrorname==mirror);
 
-  var new_varian_ob=new Variant{Colorid=new_color_ob!=null?new_color_ob.Id:null,Sizeid=new_size_ob!=null?new_size_ob.Id:null,Weight=weight,Versionid=new_version_ob!=null?new_version_ob.Id:null,Mirrorid=new_mirror_ob!=null?new_mirror_ob.Id:null};
+  var new_varian_ob=new Variant{Colorid=new_color_ob!=null?new_color_ob.Id:null,Sizeid=new_size_ob!=null?new_size_ob.Id:null,Weight=string.IsNullOrEmpty(weight)?-1:Convert.ToUInt32(weight),Versionid=new_version_ob!=null?new_version_ob.Id:null,Mirrorid=new_mirror_ob!=null?new_mirror_ob.Id:null};
 
   variant.Add(new_varian_ob); 
  }
@@ -475,7 +490,7 @@ for(int i=0;i<variant_files.Count;i++)
 }
 }
 
- var product= new Product{ProductName=product_name,CategoryId=category,SubCatId=sub_cat==-1?null:sub_cat,BrandId=brand,Price=price.ToString(),Quantity=quantity,Status="Còn hàng",Description=description,InboxDescription=inbox_description,DiscountDescription=discount_description,Frontavatar=front_avatar,Backavatar=back_avatar,CreatedDate=created_date,UpdatedDate=updated_date,ProductImages=list_img,Variants=variant};
+ var product= new Product{ProductName=product_name,CategoryId=category,SubCatId=sub_cat==-1?null:sub_cat,BrandId=brand==-1?null:brand,Price=price.ToString(),Quantity=quantity,Status="Còn hàng",Description=description,InboxDescription=inbox_description,DiscountDescription=discount_description,Frontavatar=front_avatar,Backavatar=back_avatar,CreatedDate=created_date,UpdatedDate=updated_date,ProductImages=list_img,Variants=variant};
 
   await this._context.Products.AddAsync(product);
 
@@ -486,7 +501,7 @@ for(int i=0;i<variant_files.Count;i++)
   }
   catch(Exception er)
   { created_res=0;
-    Console.WriteLine("Add New Product Exception:"+er.InnerException??er.Message);
+    Console.WriteLine("Add New Product Exception:"+er.Message);
   }
   return created_res;
 }
@@ -565,7 +580,7 @@ string product_name=model.ProductName;
         Console.WriteLine("colors:"+colors.Count);
 
    
-   List<int> weights=model.Weight;
+   List<string> weights=model.Weight;
   
           Console.WriteLine("weight:"+weights.Count);
 
@@ -623,10 +638,13 @@ string product_name=model.ProductName;
  for(int i=0;i<colors.Count;i++)
  {
   string color=colors[i];
-  int weight=weights[i];
+  string weight=weights[i];
   string size=sizes[i];
   string version=versions[i];
   string mirror=mirrors[i];
+
+  Regex reg=new Regex("[^0-9]");
+  weight=reg.Replace(weight,"");
 
   var check_color_exist = await this._context.Colors.FirstOrDefaultAsync(c=>c.Colorname==color);
   var check_size_exist = await this._context.Sizes.FirstOrDefaultAsync(c=>c.Sizename==size);
@@ -675,7 +693,7 @@ string product_name=model.ProductName;
 
   var new_mirror_ob = await this._context.Mirrors.FirstOrDefaultAsync(c=>c.Mirrorname==mirror);
 
-  var new_varian_ob=new Variant{Colorid=new_color_ob!=null?new_color_ob.Id:null,Sizeid=new_size_ob!=null?new_size_ob.Id:null,Weight=weight,Versionid=new_version_ob!=null?new_version_ob.Id:null,Mirrorid=new_mirror_ob!=null?new_mirror_ob.Id:null};
+  var new_varian_ob=new Variant{Colorid=new_color_ob!=null?new_color_ob.Id:null,Sizeid=new_size_ob!=null?new_size_ob.Id:null,Weight=string.IsNullOrEmpty(weight)?-1:Convert.ToUInt32(weight),Versionid=new_version_ob!=null?new_version_ob.Id:null,Mirrorid=new_mirror_ob!=null?new_mirror_ob.Id:null};
 
   variant.Add(new_varian_ob); 
  }
@@ -747,7 +765,7 @@ for(int i=0;i<variant_files.Count;i++)
 }
 
 
- var product= new Product{ProductName=product_name,CategoryId=category,SubCatId=sub_cat==-1?null:sub_cat,BrandId=brand,Price=price.ToString(),Quantity=quantity,Status=status,Description=description,InboxDescription=inbox_description,DiscountDescription=discount_description,Frontavatar=string.IsNullOrEmpty(front_avatar)?product_ob.Frontavatar:front_avatar,Backavatar=string.IsNullOrEmpty(back_avatar)?product_ob.Backavatar:back_avatar,UpdatedDate=updated_date,ProductImages=list_img.Count==0?product_ob.ProductImages:list_img,Variants=variant};
+ var product= new Product{ProductName=product_name,CategoryId=category,SubCatId=sub_cat==-1?null:sub_cat,BrandId=brand==-1?null:brand,Price=price.ToString(),Quantity=quantity,Status=status,Description=description,InboxDescription=inbox_description,DiscountDescription=discount_description,Frontavatar=string.IsNullOrEmpty(front_avatar)?product_ob.Frontavatar:front_avatar,Backavatar=string.IsNullOrEmpty(back_avatar)?product_ob.Backavatar:back_avatar,UpdatedDate=updated_date,ProductImages=list_img.Count==0?product_ob.ProductImages:list_img,Variants=variant};
 
   if(product_ob!=null)
   {

@@ -310,7 +310,7 @@
                         </div>
                           <div class="col-4">
                           <label class="form-label" for="weight">Khối lượng</label> 
-                          <input class="form-control" id="weight" type="number" placeholder="Nhập khối lượng" value="@(variant.Weight!=null?variant.Weight:"")">
+                          <input class="form-control" id="weight" type="text" placeholder="Nhập khối lượng" value="@(variant.Weight!=null?variant.Weight:"")">
                         </div>
                          <div class="col-4 mb-3">
                           <label class="form-label" for="size">Kích thước</label> 
@@ -891,7 +891,8 @@ const file=files[i];
   @* if(files_arr==null)
   {
   } *@
-
+ if(is_valid)
+ {
   let formDataVal=new FormData(document.getElementById("formAccountSettings"));
 
    var colors=document.querySelectorAll("#color");
@@ -965,6 +966,7 @@ const file=files[i];
                 toast.show();            
                 }
             });
+          }
   
  });
 </script>

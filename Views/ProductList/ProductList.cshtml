@@ -306,8 +306,18 @@
                               <strong>@product.ProductName</strong>
                              </div>
                               </td>
-                            <td class="text-center">@product.Category.CategoryName</td>
-                            <td class="text-center">@product.Brand.BrandName</td>
+                            <td class="text-center">
+                             @if(product?.Category!=null)
+                             {
+                              @product.Category.CategoryName
+                              }
+                              </td>
+                            <td class="text-center">
+                             @if(product?.Brand!=null)
+                             {
+                              @product.Brand.BrandName
+                             }
+                              </td>
                             <td class="text-center">@product.Price</td>
                             <td class="text-center"><span class="badge px-2 @curr_status_class">@product.Status</span></td>                            
                             <td class="text-center">@product.CreatedDate</td>

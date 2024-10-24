@@ -30,7 +30,7 @@ public class AddProductModel
 
     public List<string> Color{get;set;}
 
-    public List<int> Weight{get;set;}
+    public List<string> Weight{get;set;}
 
     public List<string> Size{get;set;}
 
