@@ -15,7 +15,6 @@ public class PageList<T>
         this.pageSize=page_size;
         this.currentPage=pageNumber;
         this.totalPage=(int)Math.Ceiling(total_count/(double)page_size);
-
     }
 
     public bool hasPreviousPage=>currentPage>1;

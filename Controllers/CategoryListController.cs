@@ -104,7 +104,6 @@ public class CategoryListController : Controller
      {  
       Console.WriteLine("Category id:"+category);
          
-        ViewBag.Category_Id=category;
 
          var cats=await this._category.pagingSubCategory(category,7,page);
         

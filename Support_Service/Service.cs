@@ -5,11 +5,13 @@ using Microsoft.AspNetCore.Identity;
 using Ecommerce_Product.Models;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc.Rendering;
+
 namespace Ecommerce_Product.Support_Serive;
 public class Service
 {
     private readonly ILogger<Service> _logger;
     private readonly SignInManager<ApplicationUser> _signInManager;
+
 
     public Service(ILogger<Service> logger,SignInManager<ApplicationUser> signInManager)
     {
@@ -108,6 +110,8 @@ public string getCurrentOs()
 
 return os_name != null ? os_name.ToString() : "Unknown";
 }
+
+
 
 public async Task logoutUser()
 {

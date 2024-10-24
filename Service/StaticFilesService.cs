@@ -77,11 +77,12 @@ return created_res;
         try
         {
           var page=await this.findStaticFileById(id);
+
           if(page!=null)
           {
             this._context.StaticFile.Remove(page);
             await this.saveChanges();
-            delete_res=1;
+            delete_res=1;            
           }
         }
         catch(Exception er)

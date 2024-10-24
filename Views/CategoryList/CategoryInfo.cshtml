@@ -22,7 +22,6 @@
                         <div class="toast-header">
                           <i class="bx bx-bell me-2"></i>
                           <div class="me-auto fw-semibold">Cập nhật loại sản phẩm</div>
-                          <!--<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>-->
                         </div>
                         <div class="toast-body">
                          @created_category
@@ -52,7 +51,6 @@
                         <div class="toast-header">
                           <i class="bx bx-bell me-2"></i>
                           <div class="me-auto fw-semibold">Cập nhật loại sản phẩm</div>
-                          <!--<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>-->
                         </div>
                         <div class="toast-body">
                          @created_category
@@ -66,14 +64,14 @@
 }
     
 
-    <!-- Layout wrapper -->
   
 
 
           <div class="content-wrapper">
 
             <div class="container-xxl flex-grow-1 container-p-y">
-              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Loại sản phẩm/</span>Thông tin loại sản phẩm</h4>
+              
+            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Loại sản phẩm/</span>Thông tin loại sản phẩm</h4>
 
               <div class="row">
                 <div class="col-md-12">
@@ -88,7 +86,6 @@
                  <form id="formAccountSettings" method="post" enctype="multipart/form-data" asp-controller="CategoryList" asp-action="UpdateCategory">
                     <div class="card-body">
                       <div class="d-flex align-items-start align-items-sm-center gap-4">
-
                         <img
                           src="~/@Model.Avatar.Substring(Model.Avatar.IndexOf("wwwroot")+("wwwroot".Length+1))"
                           alt="category-avatar"
@@ -146,8 +143,6 @@
               </div>
             </div>
             <div class="content-backdrop fade"></div>
-          
-
       <div class="layout-overlay layout-menu-toggle"></div>
 <script>
  document.getElementById("formAccountSettings").addEventListener("submit",()=>{

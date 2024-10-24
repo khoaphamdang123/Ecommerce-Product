@@ -104,6 +104,7 @@ public class AdminListService:IAdminRepository
    var user_list=PageList<ApplicationUser>.CreateItem(users.AsQueryable(),page,page_size);
    
    return user_list;
+  
    }
 
    
@@ -138,10 +139,11 @@ public async Task<bool> checkUserExist(string email,string username)
     {
       seq=(latestUser.Seq??0)+1;
     }
-     string role = "Admin";
+  string role = "Admin";
+  
   string folder_name="UploadImageAdmin";
 
-   string upload_path=Path.Combine(this._webHostEnv.WebRootPath,folder_name);
+  string upload_path=Path.Combine(this._webHostEnv.WebRootPath,folder_name);
 
    if(!Directory.Exists(upload_path))
    {

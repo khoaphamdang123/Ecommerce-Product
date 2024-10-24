@@ -24,11 +24,11 @@ public class ProductListController : Controller
     //    this._categoryList=categoryList; 
     // }
 
-   private readonly IProductRepository _product;
+  private readonly IProductRepository _product;
 
-   private readonly ICategoryListRepository _category;
+  private readonly ICategoryListRepository _category;
   private readonly IWebHostEnvironment _webHostEnv;
-
+  
    
    public ProductListController(IProductRepository product,ICategoryListRepository category,ILogger<ProductListController> logger,IWebHostEnvironment webHostEnv)
    {
@@ -37,7 +37,6 @@ public class ProductListController : Controller
     this._webHostEnv=webHostEnv;
     this._logger=logger; 
    }
-  //[Authorize(Roles ="Admin")]
   [Route("product_list")]
   [HttpGet]
   public async Task<IActionResult> ProductList()

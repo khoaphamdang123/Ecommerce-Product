@@ -80,6 +80,8 @@ builder.Services.AddTransient<Service>();
 
 builder.Services.AddTransient<SmtpService>();
 
+//builder.Services.AddSingleton(provider => new GoogleAnalyticsService());
+
 
 builder.Services.AddHttpContextAccessor();
 

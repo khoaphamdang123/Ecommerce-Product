@@ -234,7 +234,7 @@ string folder_name="UploadImageUser";
   // return View("~/Views/UserList/UserList.cshtml");
   //  }
 
-    [Authorize(Roles ="Admin")]
+  [Authorize(Roles ="Admin")]
   [Route("user_list/user_info")]
   [HttpGet]
   public async Task<IActionResult> UserInfo(string email)

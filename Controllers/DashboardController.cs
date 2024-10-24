@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Ecommerce_Product.Models;
 using Microsoft.AspNetCore.Authorization;
 using Ecommerce_Product.Repository;
-
+using Ecommerce_Product.Support_Serive;
 
 namespace Ecommerce_Product.Controllers;
 [Authorize(Roles ="Admin")]
@@ -16,8 +16,10 @@ public class DashboardController : Controller
     private readonly ICategoryListRepository _category;
 
 
+
+
    
-   public DashboardController(IDashboardRepository dashboard,ICategoryListRepository category,ILogger<DashboardController> logger)
+   public DashboardController(IDashboardRepository dashboard,ICategoryListRepository category,ILogger<DashboardController> logger )
    {
   this._dashboard=dashboard;
   this._logger=logger;
@@ -65,6 +67,9 @@ public class DashboardController : Controller
     ViewData["total_profit"]=total_profit;
     ViewData["total_profit_previous_1_year"]=total_profit_previous_1_year;
     ViewData["total_profit_previous_2_year"]=total_profit_previous_2_year;
+  var viewId="G-KHS83JFC5Y";
+  DateTime startDate = DateTime.Now.AddDays(-30);
+  DateTime endDate = DateTime.Now;
     }
     catch(Exception er)
     {   
@@ -73,5 +78,8 @@ public class DashboardController : Controller
     }
     return View();
   }
+
+
+
 
 }

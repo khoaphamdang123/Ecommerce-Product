@@ -54,10 +54,10 @@
        role="alert"
        aria-live="assertive"
        aria-atomic="true"
-        data-bs-dismiss="toast"
+       data-bs-dismiss="toast"
         style="cursor: pointer;"
-         data-delay="3000"
-         data-bs-autohide="true" 
+        data-delay="3000"
+        data-bs-autohide="true" 
          data-bs-delay="3000"
              >
                         <div class="toast-header">
@@ -240,6 +240,7 @@
                 </div>
     <div class="pagination-container mt-4">
       <div class="page-total">Tổng số nhãn hàng:@Model?.totalCount</div>
+  
       <div class="page-list justify-content-center">
      @if(Model!=null && Model.hasPreviousPage)
      {
@@ -295,7 +296,7 @@
     {
     if((Model?.currentPage>=5 && (Model?.currentPage<(Model.totalPage-3))))
     {
-         <a class="page-item" title="1" href="@Url.Action("BrandList",new{page_size=int.Parse(selected_size),page=1})">1</a>
+    <a class="page-item" title="1" href="@Url.Action("BrandList",new{page_size=int.Parse(selected_size),page=1})">1</a>
     <span class="page-item" disabled>...</span>
          <a class="page-item" title="@(Model?.currentPage-1)" href="@Url.Action("BrandList",new{page_size=int.Parse(selected_size),page=Model?.currentPage-1})">@(Model?.currentPage-1)</a>
     <span class="page-item activate" disabled>@(Model?.currentPage)</span>
@@ -352,7 +353,7 @@
     all_delete_btn.forEach((btn)=>{
     btn.addEventListener('click',()=>{
     delete_category=btn.getAttribute('data-category');
-    delete_cat_id=btn.getAttribute('data-cat-id');
+    delete_cat_id=btn.getAttribute('data-cat-id');    
      })
     });
 

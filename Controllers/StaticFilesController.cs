@@ -101,7 +101,8 @@ public class StaticFilesController : Controller
         ViewBag.Status=-1;
         ViewBag.Created_Page="Trang này đã tồn tại trong hệ thống";
       }
-      else{
+      else
+      {
         ViewBag.Status=1;
         ViewBag.Created_Page="Thêm trang thành công";
       }
