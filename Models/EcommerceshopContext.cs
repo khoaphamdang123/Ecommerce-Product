@@ -15,11 +15,11 @@ public partial class EcommerceshopContext : DbContext
     {
     }
 
-    public virtual DbSet<AspnetRole> AspNetRoles { get; set; }
+    public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
 
     public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; }
 
-    public virtual DbSet<AspnetUser> AspNetUsers { get; set; }
+    public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
 
     public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
 
@@ -73,7 +73,7 @@ public partial class EcommerceshopContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<AspnetRole>(entity =>
+        modelBuilder.Entity<AspNetRole>(entity =>
         {
             entity.HasIndex(e => e.NormalizedName, "RoleNameIndex").IsUnique();
 
@@ -88,7 +88,7 @@ public partial class EcommerceshopContext : DbContext
             entity.HasOne(d => d.Role).WithMany(p => p.AspNetRoleClaims).HasForeignKey(d => d.RoleId);
         });
 
-        modelBuilder.Entity<AspnetUser>(entity =>
+        modelBuilder.Entity<AspNetUser>(entity =>
         {
             entity.HasIndex(e => e.NormalizedEmail, "EmailIndex");
 
@@ -110,8 +110,8 @@ public partial class EcommerceshopContext : DbContext
             entity.HasMany(d => d.Roles).WithMany(p => p.Users)
                 .UsingEntity<Dictionary<string, object>>(
                     "AspNetUserRole",
-                    r => r.HasOne<AspnetRole>().WithMany().HasForeignKey("RoleId"),
-                    l => l.HasOne<AspnetUser>().WithMany().HasForeignKey("UserId"),
+                    r => r.HasOne<AspNetRole>().WithMany().HasForeignKey("RoleId"),
+                    l => l.HasOne<AspNetUser>().WithMany().HasForeignKey("UserId"),
                     j =>
                     {
                         j.HasKey("UserId", "RoleId");
@@ -396,6 +396,9 @@ public partial class EcommerceshopContext : DbContext
             entity.Property(e => e.InboxDescription).HasColumnType("character varying");
             entity.Property(e => e.Price).HasColumnType("character varying");
             entity.Property(e => e.ProductName).HasColumnType("character varying");
+            entity.Property(e => e.Statdescription)
+                .HasColumnType("character varying")
+                .HasColumnName("statdescription");
             entity.Property(e => e.Status).HasColumnType("character varying");
             entity.Property(e => e.UpdatedDate).HasColumnType("character varying");
 

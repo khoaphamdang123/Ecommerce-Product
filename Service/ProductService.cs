@@ -253,6 +253,7 @@ public async Task<int> addNewProduct(AddProductModel model)
    string product_name=model.ProductName;
 
 
+
    Console.WriteLine("Product name:"+product_name);
    
    int price=model.Price;
@@ -280,6 +281,8 @@ public async Task<int> addNewProduct(AddProductModel model)
 
 
    string description=model.Description;
+
+   string stat_description=model.StatDescription;
 
          Console.WriteLine("description:"+description);
 
@@ -490,7 +493,7 @@ for(int i=0;i<variant_files.Count;i++)
 }
 }
 
- var product= new Product{ProductName=product_name,CategoryId=category,SubCatId=sub_cat==-1?null:sub_cat,BrandId=brand==-1?null:brand,Price=price.ToString(),Quantity=quantity,Status="Còn hàng",Description=description,InboxDescription=inbox_description,DiscountDescription=discount_description,Frontavatar=front_avatar,Backavatar=back_avatar,CreatedDate=created_date,UpdatedDate=updated_date,ProductImages=list_img,Variants=variant};
+ var product= new Product{ProductName=product_name,CategoryId=category,SubCatId=sub_cat==-1?null:sub_cat,BrandId=brand==-1?null:brand,Price=price.ToString(),Quantity=quantity,Status="Còn hàng",Description=description,Statdescription=stat_description,InboxDescription=inbox_description,DiscountDescription=discount_description,Frontavatar=front_avatar,Backavatar=back_avatar,CreatedDate=created_date,UpdatedDate=updated_date,ProductImages=list_img,Variants=variant};
 
   await this._context.Products.AddAsync(product);
 
@@ -549,6 +552,10 @@ string product_name=model.ProductName;
    string description=model.Description;
 
          Console.WriteLine("description:"+description);
+
+   string stat_description=model.StatDescription;
+
+   Console.WriteLine("stat description:"+stat_description);
 
    
    string inbox_description=model.InboxDescription;
@@ -765,7 +772,7 @@ for(int i=0;i<variant_files.Count;i++)
 }
 
 
- var product= new Product{ProductName=product_name,CategoryId=category,SubCatId=sub_cat==-1?null:sub_cat,BrandId=brand==-1?null:brand,Price=price.ToString(),Quantity=quantity,Status=status,Description=description,InboxDescription=inbox_description,DiscountDescription=discount_description,Frontavatar=string.IsNullOrEmpty(front_avatar)?product_ob.Frontavatar:front_avatar,Backavatar=string.IsNullOrEmpty(back_avatar)?product_ob.Backavatar:back_avatar,UpdatedDate=updated_date,ProductImages=list_img.Count==0?product_ob.ProductImages:list_img,Variants=variant};
+ var product= new Product{ProductName=product_name,CategoryId=category,SubCatId=sub_cat==-1?null:sub_cat,BrandId=brand==-1?null:brand,Price=price.ToString(),Quantity=quantity,Status=status,Description=description,Statdescription=stat_description,InboxDescription=inbox_description,DiscountDescription=discount_description,Frontavatar=string.IsNullOrEmpty(front_avatar)?product_ob.Frontavatar:front_avatar,Backavatar=string.IsNullOrEmpty(back_avatar)?product_ob.Backavatar:back_avatar,UpdatedDate=updated_date,ProductImages=list_img.Count==0?product_ob.ProductImages:list_img,Variants=variant};
 
   if(product_ob!=null)
   {
@@ -781,6 +788,7 @@ for(int i=0;i<variant_files.Count;i++)
     product_ob.Variants=product.Variants;
     product_ob.Status=product.Status;
     product_ob.Description=product.Description;
+    product_ob.Statdescription=product.Statdescription;
     product_ob.InboxDescription=product.InboxDescription;
     product_ob.DiscountDescription=product.DiscountDescription;
     this._context.Products.Update(product_ob);

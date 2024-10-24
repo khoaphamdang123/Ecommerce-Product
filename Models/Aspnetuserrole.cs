@@ -9,7 +9,7 @@ public partial class Aspnetuserrole
 
     public string RoleId { get; set; } = null!;
 
-    public virtual AspnetRole User { get; set; } = null!;
+    public virtual AspNetRole User { get; set; } = null!;
 
-    public virtual AspnetUser UserNavigation { get; set; } = null!;
+    public virtual AspNetUser UserNavigation { get; set; } = null!;
 }

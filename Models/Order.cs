@@ -23,5 +23,5 @@ public partial class Order
 
     public virtual Payment Payment { get; set; } = null!;
 
-    public virtual AspnetUser User { get; set; } = null!;
+    public virtual AspNetUser User { get; set; } = null!;
 }

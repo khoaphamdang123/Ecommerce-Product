@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ecommerce_Product.Models;
 
-public partial class AspnetUser
+public partial class AspNetUser
 {
     public string Id { get; set; } = null!;
 
@@ -57,5 +57,5 @@ public partial class AspnetUser
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
-    public virtual ICollection<AspnetRole> Roles { get; set; } = new List<AspnetRole>();
+    public virtual ICollection<AspNetRole> Roles { get; set; } = new List<AspNetRole>();
 }

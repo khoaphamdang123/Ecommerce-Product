@@ -36,7 +36,7 @@ public class StaticFilesController : Controller
    }
   [Route("file_list")]
   [HttpGet]
-  public async Task<IActionResult> StaticFiles()
+  public async Task<IActionResult> StaticFile()
   {       string select_size="7";
           ViewBag.select_size=select_size;
           List<string> options=new List<string>(){"7","10","20","50"};
@@ -134,7 +134,7 @@ public class StaticFilesController : Controller
     {
         this._logger.LogTrace("Remove Page Exception:"+er.Message);
     }
-    return RedirectToAction("StaticFiles","StaticFiles");
+    return RedirectToAction("StaticFile","StaticFile");
   }
 
   [Route("file_list/{id}/page_info")]

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ecommerce_Product.Models;
 
-public partial class AspnetRole
+public partial class AspNetRole
 {
     public string Id { get; set; } = null!;
 
@@ -15,5 +15,5 @@ public partial class AspnetRole
 
     public virtual ICollection<AspNetRoleClaim> AspNetRoleClaims { get; set; } = new List<AspNetRoleClaim>();
 
-    public virtual ICollection<AspnetUser> Users { get; set; } = new List<AspnetUser>();
+    public virtual ICollection<AspNetUser> Users { get; set; } = new List<AspNetUser>();
 }

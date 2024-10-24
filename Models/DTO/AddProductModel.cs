@@ -20,6 +20,9 @@ public class AddProductModel
 
     public string Description{get;set;}
 
+    public string? StatDescription { get; set; }
+
+
     public string DiscountDescription{get;set;}
     
     public string InboxDescription{get;set;}
