@@ -1,17 +1,5 @@
 
-<!-- =========================================================
-* Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
-==============================================================
-
-* Product Page: https://themeselection.com/products/sneat-bootstrap-html-admin-template/
-* Created by: ThemeSelection
-* License: You must have a valid license purchased in order to legally use the theme for your project.
-* Copyright ThemeSelection (https://themeselection.com)
-
-=========================================================
- -->
-<!-- beautify ignore:start -->
-@Model Category
+@model Category
 @{
    var created_category=ViewBag.Update_Message;
    var create_status=ViewBag.Status;
@@ -33,7 +21,7 @@
              >
                         <div class="toast-header">
                           <i class="bx bx-bell me-2"></i>
-                          <div class="me-auto fw-semibold">Thêm User</div>
+                          <div class="me-auto fw-semibold">Cập nhật loại sản phẩm</div>
                           <!--<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>-->
                         </div>
                         <div class="toast-body">
@@ -41,11 +29,10 @@
                         </div>
                       </div>
                         <script>
-            document.addEventListener('DOMContentLoaded', function() {
                 var toastEl = document.querySelector('.toast');
                 var toast = new bootstrap.Toast(toastEl);
                 toast.show();
-            });
+          
         </script>
     }
 
@@ -64,7 +51,7 @@
              >
                         <div class="toast-header">
                           <i class="bx bx-bell me-2"></i>
-                          <div class="me-auto fw-semibold">Thêm user</div>
+                          <div class="me-auto fw-semibold">Cập nhật loại sản phẩm</div>
                           <!--<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>-->
                         </div>
                         <div class="toast-body">
@@ -72,11 +59,9 @@
                         </div>
                       </div>
                 <script>
-            document.addEventListener('DOMContentLoaded', function() {
                 var toastEl = document.querySelector('.toast');
                 var toast = new bootstrap.Toast(toastEl);
                 toast.show();
-            });
         </script>
 }
     
@@ -88,7 +73,7 @@
           <div class="content-wrapper">
 
             <div class="container-xxl flex-grow-1 container-p-y">
-              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Khách hàng /</span>Thêm khách hàng</h4>
+              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Loại sản phẩm/</span>Thông tin loại sản phẩm</h4>
 
               <div class="row">
                 <div class="col-md-12">
@@ -99,7 +84,7 @@
         
                   </ul>
                   <div class="card mb-4">
-                    <h5 class="card-header">Thông tin tài khoản</h5>
+                    <h5 class="card-header">Thông tin loại sản phẩm</h5>
                  <form id="formAccountSettings" method="post" enctype="multipart/form-data" asp-controller="CategoryList" asp-action="UpdateCategory">
                     <div class="card-body">
                       <div class="d-flex align-items-start align-items-sm-center gap-4">
@@ -129,7 +114,6 @@
                             <i class="bx bx-reset d-block d-sm-none"></i>
                             <span class="d-none d-sm-block">Xoá ảnh</span>
                           </button>
-
                           <p class="text-muted mb-0">Cho phép upload ảnh có định dạng JPG,PNG</p>
                         </div>
                       </div>
@@ -161,16 +145,9 @@
                 </div>
               </div>
             </div>
-
-           
-            <!-- / Footer -->
-
             <div class="content-backdrop fade"></div>
-          </div>
-          <!-- Content wrapper -->
-        <!-- / Layout page -->
+          
 
-      <!-- Overlay -->
       <div class="layout-overlay layout-menu-toggle"></div>
 <script>
  document.getElementById("formAccountSettings").addEventListener("submit",()=>{
@@ -208,9 +185,7 @@
   {
    var image_holder = document.getElementById("uploadedAvatar");
    var img_file='https://cdn-icons-png.flaticon.com/128/16955/16955062.png';
-   image_holder.src=img_file;
-   @* var curr_folder=process.cwd();
-   alert(curr_folder); *@
+   image_holder.src=img_file;   
   });
 
 </script>
