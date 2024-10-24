@@ -330,13 +330,13 @@
      {
       selected_value=parseInt(selected_value);
 
-      window.location.href= '@Url.Action("StaticFilesPaging", "StaticFile")' + "?page_size=" + selected_value;
+      window.location.href= '@Url.Action("StaticFilesPaging", "StaticFiles")' + "?page_size=" + selected_value;
      }
      });
 
      document.getElementById("add-page-btn").addEventListener('click',()=>{
  
-    var url='@Url.Action("AddStaticFiles","StaticFile")';
+    var url='@Url.Action("AddStaticFiles","StaticFiles")';
 
     window.location.href=url;
     });
@@ -347,7 +347,7 @@
     
     var url='';
     
-    url='@Url.Action("DeletePage","StaticFile",new{id="__id__"})';
+    url='@Url.Action("DeletePage","StaticFiles",new{id="__id__"})';
 
     url=url.replace("__id__",delete_page_value);
     

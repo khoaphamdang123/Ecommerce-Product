@@ -97,7 +97,7 @@
                   <div class="card mb-4">
                     <h5 class="card-header">Thông tin trang tĩnh</h5>
                     <div class="card-body">
-                      <form id="formAccountSettings" method="post" asp-controller="StaticFile" asp-action="StaticFilesInfo">
+                      <form id="formAccountSettings" method="post" asp-controller="StaticFiles" asp-action="StaticFilesInfo">
                         <div class="row mb-3">
                           <div class="mb-3 col-md-6">
                             <input id="id" type="hidden" name="id" value="@Model?.Id"/>
@@ -178,7 +178,7 @@
   document.getElementById('back-btn').addEventListener("click",()=>
   {
    let cat_id=document.getElementById("back-btn").getAttribute("data-cat-id");
-   var url='@Url.Action("StaticFile","StaticFile")';
+   var url='@Url.Action("StaticFiles","StaticFiles")';
    window.location.href=url;
   });
 

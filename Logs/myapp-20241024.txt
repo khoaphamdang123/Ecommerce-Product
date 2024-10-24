@@ -565,3 +565,5 @@ System.MissingMethodException: Attempted to access a missing method.
    at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
    at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
 2024-10-24 11:06:56.236 +07:00 [WRN] Failed to determine the https port for redirect.
+2024-10-24 11:53:01.014 +07:00 [WRN] Failed to determine the https port for redirect.
+2024-10-24 11:53:11.690 +07:00 [INF] Running in Login Action

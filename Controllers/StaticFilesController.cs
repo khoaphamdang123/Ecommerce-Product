@@ -36,7 +36,7 @@ public class StaticFilesController : Controller
    }
   [Route("file_list")]
   [HttpGet]
-  public async Task<IActionResult> StaticFile()
+  public async Task<IActionResult> StaticFiles()
   {       string select_size="7";
           ViewBag.select_size=select_size;
           List<string> options=new List<string>(){"7","10","20","50"};
