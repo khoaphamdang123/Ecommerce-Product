@@ -178,27 +178,27 @@
                              </div>
                               </td>
                             <td class="text-center">
-                               @if(product.Color.Colorname!=null)
+                               @if(product.Color?.Colorname!=null)
                                { 
-                                @product!.Color!.Colorname
+                                @product?.Color.Colorname
                                 }
                                 </td>
                             <td class="text-center">
-                             @if(product.Weight!=null)
+                             @if(product.Weight!=-1)
                              {
-                                @product!.Weight
+                                @product?.Weight
                             }
                                 </td>
                             <td class="text-center">
-                                @if(product!.Version!.Versionname!=null)
+                                @if(product.Version?.Versionname!=null)
                                 {
                                 
-                                @product!.Version!.Versionname;
+                                @product.Version?.Versionname;
                                 }</td>
                             <td class="text-center">
-                                  @if (product?.Mirror?.Mirrorname != null)
+                                  @if (product.Mirror?.Mirrorname != null)
                                  {
-                                    @product.Mirror.Mirrorname
+                                    @product.Mirror?.Mirrorname
                                  }
                             </td>
                          </tr>
