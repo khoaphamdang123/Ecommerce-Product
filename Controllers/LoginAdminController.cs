@@ -64,9 +64,9 @@ namespace Ecommerce_Product.Controllers
        total_visitor+=1;
         int updated_res= await this._trackData.updateCurrentVisitedCount(total_visitor);
         CookieOptions options = new CookieOptions{
-            Expires=System.DateTime.Now.AddYears(1),
-            IsEssential=true,
-            HttpOnly=true
+        Expires=DateTime.Now.AddYears(1),
+        IsEssential=true,
+        HttpOnly=true
         };
         Response.Cookies.Append("VisitorCounted","True",options);
         }
