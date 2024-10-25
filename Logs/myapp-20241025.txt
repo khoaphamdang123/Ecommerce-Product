@@ -259,3 +259,4 @@ System.InvalidOperationException: Multiple constructors accepting all given argu
 2024-10-25 11:02:34.804 +07:00 [INF] Running in Login Action
 2024-10-25 11:03:09.690 +07:00 [INF] Running in Login Action
 2024-10-25 11:03:17.711 +07:00 [INF] Running in Login Action
+2024-10-25 11:24:04.094 +07:00 [WRN] Failed to determine the https port for redirect.

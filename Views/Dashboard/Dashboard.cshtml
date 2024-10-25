@@ -281,27 +281,10 @@
                       <ul class="p-0 m-0">
                   @foreach(var item in profit_by_cats)
                   {
-@*                   
-                        <li class="d-flex mb-4 pb-1">
-                          <div class="avatar flex-shrink-0 me-3">
-                            <span class="avatar-initial rounded bg-label-primary"
-                              ><i class="bx bx-mobile-alt"></i
-                            ></span>
-                          </div>
-                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                            <div class="me-2">
-                              <h6 class="mb-0">Electronic</h6>
-                              <small class="text-muted">Mobile, Earbuds, TV</small>
-                            </div>
-                            <div class="user-progress">
-                              <small class="fw-semibold">82.5k</small>
-                            </div>
-                          </div>
-                        </li> *@
                     <li class="d-flex mb-4 pb-1">
                          <div class="avatar flex-shrink-0 me-3">
-                            <span class="avatar-initial rounded bg-label-primary"
-                              ><img src="@item.Key.Avatar" alt="Category Name"></span>
+                            <span class="avatar-initial rounded bg-label-primary">
+                              <img src="~/@item.Key.Avatar.Substring(item.Key.Avatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="Category Name"></span>
                           </div>
                           <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                             <div class="me-2">
