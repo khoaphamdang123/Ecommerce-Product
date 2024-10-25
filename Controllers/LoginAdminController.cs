@@ -20,6 +20,8 @@ namespace Ecommerce_Product.Controllers
         
         private readonly UserManager<ApplicationUser> _userManager;
 
+        private readonly ITrackDataRepository _trackData;
+
         private readonly ILoginRepository _loginRepos;
 
         private readonly IRecaptchaService _recaptcha;
@@ -32,7 +34,7 @@ namespace Ecommerce_Product.Controllers
 
 
 
-        public LoginAdminController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager,ILogger<LoginAdminController> logger,IRecaptchaService recaptcha,IOptions<RecaptchaResponse> recaptcha_response,ISettingRepository setting,ILoginRepository loginRepos)
+        public LoginAdminController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager,ILogger<LoginAdminController> logger,IRecaptchaService recaptcha,IOptions<RecaptchaResponse> recaptcha_response,ISettingRepository setting,ITrackDataRepository trackData,ILoginRepository loginRepos)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -41,6 +43,7 @@ namespace Ecommerce_Product.Controllers
             _recaptcha=recaptcha;
             _setting=setting;
             _recaptcha_response=recaptcha_response.Value;
+            _trackData=trackData;
         }
 
         // GET: /Account/Login
@@ -54,7 +57,20 @@ namespace Ecommerce_Product.Controllers
         {
             return RedirectToAction("Dashboard","Dashboard");            
         } 
-        Console.WriteLine("Accutally here");
+
+        if(Request.Cookies["VisitorCounted"]==null)
+        {
+       int total_visitor=await this._trackData.getCurrentVisitedCount();
+       total_visitor+=1;
+        int updated_res= await this._trackData.updateCurrentVisitedCount(total_visitor);
+        CookieOptions options = new CookieOptions{
+            Expires=System.DateTime.Now.AddYears(1),
+            IsEssential=true,
+            HttpOnly=true
+        };
+        Response.Cookies.Append("VisitorCounted","True",options);
+        }
+
        int setting_status=await this._setting.getStatusByName("recaptcha");
        if(setting_status==1)
        {

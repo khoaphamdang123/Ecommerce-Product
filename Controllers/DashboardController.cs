@@ -15,16 +15,18 @@ public class DashboardController : Controller
 
     private readonly ICategoryListRepository _category;
 
+    private readonly ITrackDataRepository _trackData;
 
 
-
-   
-   public DashboardController(IDashboardRepository dashboard,ICategoryListRepository category,ILogger<DashboardController> logger )
+   public DashboardController(IDashboardRepository dashboard,ICategoryListRepository category,ITrackDataRepository trackData,ILogger<DashboardController> logger)
    {
   this._dashboard=dashboard;
   this._logger=logger;
-  this._category=category;   
+  this._category=category;
+  this._trackData=trackData;   
    }
+
+
   [Route("dashboard")]
   [HttpGet]
   public async Task<IActionResult> Dashboard()
@@ -39,6 +41,7 @@ public class DashboardController : Controller
     int total_profit_previous_1_year=this._dashboard.countProfitByYear(DateTime.Now.Year-1);
     int total_profit_previous_2_year=this._dashboard.countProfitByYear(DateTime.Now.Year-2);
     var cat_list = await this._category.getAllCategory();
+    int total_visitors=await this._trackData.getCurrentVisitedCount();
     Console.WriteLine("len of cat list:"+cat_list.Count().ToString());
     Dictionary<Category,int> profit_by_cats=new Dictionary<Category,int>();
     List<int> order_in_months=new List<int>();
@@ -67,6 +70,7 @@ public class DashboardController : Controller
     ViewData["total_profit"]=total_profit;
     ViewData["total_profit_previous_1_year"]=total_profit_previous_1_year;
     ViewData["total_profit_previous_2_year"]=total_profit_previous_2_year;
+    ViewData["total_visitors"]=total_visitors;
   var viewId="G-KHS83JFC5Y";
   DateTime startDate = DateTime.Now.AddDays(-30);
   DateTime endDate = DateTime.Now;
@@ -78,8 +82,5 @@ public class DashboardController : Controller
     }
     return View();
   }
-
-
-
 
 }
