@@ -13,6 +13,7 @@
     var total_profit_previous_1_year=ViewData["total_profit_previous_1_year"];
     var total_profit_previous_2_year=ViewData["total_profit_previous_2_year"];
     int current_year=DateTime.Now.Year;
+    var total_visitor=ViewData["total_visitors"];
 }
           <div class="content-wrapper">
         
@@ -75,7 +76,7 @@
                             </div>
                           </div>
                           <span class="fw-semibold d-block mb-1">Tổng lượt truy cập:</span>
-                          <h3 class="card-title mb-2">$12,648</h3>
+                          <h3 class="card-title mb-2">@(total_visitor)</h3>
                           <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +72.80%</small>
                         </div>
                       </div>

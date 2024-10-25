@@ -63,13 +63,15 @@ public partial class EcommerceshopContext : DbContext
 
     public virtual DbSet<SubCategory> SubCategory { get; set; }
 
+    public virtual DbSet<Trackdatum> Trackdata { get; set; }
+
     public virtual DbSet<Variant> Variants { get; set; }
 
     public virtual DbSet<Version> Versions { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql("Host=14.225.212.107;Port=5433;Database=ecommerceshop;Username=postgres;Password=miyuki123");
+        => optionsBuilder.UseNpgsql("Host=14.225.212.107;Database=ecommerceshop;Port=5433;Username=postgres;Password=miyuki123");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -509,6 +511,19 @@ public partial class EcommerceshopContext : DbContext
                 .HasForeignKey(d => d.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("sub_cat_fk");
+        });
+
+        modelBuilder.Entity<Trackdatum>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("trackdata_pk");
+
+            entity.ToTable("trackdata");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Totalcount).HasColumnName("totalcount");
+            entity.Property(e => e.Trackname)
+                .HasColumnType("character varying")
+                .HasColumnName("trackname");
         });
 
         modelBuilder.Entity<Variant>(entity =>

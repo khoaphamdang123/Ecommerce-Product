@@ -76,6 +76,8 @@ builder.Services.AddScoped<IBannerListRepository,BannerListService>();
 
 builder.Services.AddScoped<ISettingRepository,SettingService>();
 
+builder.Services.AddScoped<ITrackDataRepository,TrackdataService>();
+
 builder.Services.AddTransient<Service>();
 
 builder.Services.AddTransient<SmtpService>();
