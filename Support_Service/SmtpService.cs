@@ -3,6 +3,7 @@ using MimeKit;
 using Microsoft.Extensions.Options;
 using Ecommerce_Product.Models;
 using MimeKit.Cryptography;
+using System.Security.Policy;
 namespace Ecommerce_Product.Support_Serive;
 public class SmtpService
 {
@@ -21,7 +22,7 @@ public SmtpService(IOptions<SmtpModel> smtpClient,Service spService,ILogger<Smtp
 }
 
 
-public string htmlContent(string receiver,string operating_system,string random_password)
+public string htmlContent(string receiver,string operating_system,string random_password,int role=1)
 {
     string htmlContent="";
     
@@ -31,13 +32,24 @@ public string htmlContent(string receiver,string operating_system,string random_
     {
         htmlContent=sr.ReadToEnd();
     }
+ string url="";
+if(role==1)
+{
+ url="https://thanhquang-gnss.com/LoginAdmin/ChangePassword?email="+receiver+"&password="+random_password;
+}
+else{
+ url="https://thanhquang-gnss.com/MyAccount/ChangePassword?email="+receiver+"&password="+random_password;
 
+}
 
     htmlContent=htmlContent.Replace("{name}",receiver);
     htmlContent=htmlContent.Replace("{operating_system}",operating_system);
     //htmlContent=htmlContent.Replace("{browser_name}",browser_name);
     htmlContent=htmlContent.Replace("{new_password}",random_password);
     htmlContent=htmlContent.Replace("{email_value}",receiver);
+    htmlContent=htmlContent.Replace("_cur_url_",url);
+    Console.WriteLine(url);
+
     return htmlContent;
 }
 
@@ -46,7 +58,7 @@ public string htmlContent(string receiver,string operating_system,string random_
 // {
 //     string web_brower=HttpContext..Headers["User-Agent"].ToString();
 // }
-public async Task sendEmail(string new_password,string receiver,string subject)
+public async Task sendEmail(string new_password,string receiver,string subject,int role=1)
 {    
   try{
     // Console.WriteLine("Port:"+this._smtpClient.Port);
@@ -62,7 +74,7 @@ public async Task sendEmail(string new_password,string receiver,string subject)
     // Console.WriteLine("Host:"+this._smtpClient.Host);
 
     string currentOs=this._spService.getCurrentOs();
-    string htmlValue=htmlContent(receiver,currentOs,new_password);
+    string htmlValue=htmlContent(receiver,currentOs,new_password,role);
     Console.WriteLine(currentOs);
    var emailMessage = new MimeMessage();
 

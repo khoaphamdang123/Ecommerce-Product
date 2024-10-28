@@ -68,7 +68,7 @@ namespace Ecommerce_Product.Controllers
         IsEssential=true,
         HttpOnly=true
         };
-        Response.Cookies.Append("VisitorCounted","True",options);
+        Response.Cookies.Append("VisitorCounted","true",options);
         }
 
        int setting_status=await this._setting.getStatusByName("recaptcha");
@@ -114,9 +114,9 @@ namespace Ecommerce_Product.Controllers
    
     _logger.LogInformation("Running in Login Action"); 
       
-      string username=model.UserName;
+      string username=model.UserName.Trim();
       
-      string password = model.Password;
+      string password = model.Password.Trim();
       
       bool is_remember_me= model.RememberMe;
 
