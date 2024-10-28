@@ -114,9 +114,9 @@ namespace Ecommerce_Product.Controllers
    
     _logger.LogInformation("Running in Login Action"); 
       
-      string username=model.UserName.Trim();
+      string username=model.UserName;
       
-      string password = model.Password.Trim();
+      string password = model.Password;
       
       bool is_remember_me= model.RememberMe;
 

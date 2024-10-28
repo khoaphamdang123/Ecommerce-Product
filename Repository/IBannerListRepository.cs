@@ -13,6 +13,8 @@ public interface IBannerListRepository
 
   public Task<Banner> findBannerById(int id);
 
+  public Task<IEnumerable<Banner>> findBannerByName(string name);
+
   public Task<int> addBanner(BannerModel banner);
 
   public Task<int> updateBanner(int id,BannerModel banner);

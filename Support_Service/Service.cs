@@ -18,10 +18,10 @@ public class Service
         this._logger=logger;
         this._signInManager=signInManager;
     }
-     public string AddSha256(string data)
+public string AddSha256(string data)
  {  
     StringBuilder sha_hash=new StringBuilder();
-   try
+ try
  {
     using(SHA256 hash=SHA256.Create())
     {   
