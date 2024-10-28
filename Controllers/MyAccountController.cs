@@ -66,7 +66,7 @@ namespace Ecommerce_Product.Controllers
         IsEssential=true,
         HttpOnly=true
         };
-        Response.Cookies.Append("VisitorCounted","True",options);
+        Response.Cookies.Append("VisitorCounted","true",options);
         }
 
        int setting_status=await this._setting.getStatusByName("recaptcha");

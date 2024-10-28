@@ -110,6 +110,14 @@ public class BannerListService:IBannerListRepository
     return created_res;
   }
 
+
+  public async Task<IEnumerable<Banner>> findBannerByName(string name)
+  {
+    var banner=await this._context.Banners.Where(s=>s.Bannername.Contains(name)).ToListAsync();
+    return banner;
+  }
+
+
   public async Task<int> updateBanner(int id,BannerModel banner)
   {
     int updated_res=0;
