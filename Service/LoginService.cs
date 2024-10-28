@@ -97,17 +97,29 @@ public class LoginService:ILoginRepository
     }
 
     public async Task<bool> addUser(ApplicationUser user)
-    {   bool is_created=false;
+    {  
+       bool is_created=false;
+      try{
         string email=user.Email;
         var user_created=await this._userManager.FindByEmailAsync(email);
         if(user_created==null)
         {
-            await this._userManager.CreateAsync(user);
+            var res=await this._userManager.CreateAsync(user);
+           if(res.Succeeded)
+           { 
             is_created=true;
-            return is_created;
+            await this._userManager.AddToRoleAsync(user,"User");
+           }
         }
+      }
+      catch(Exception er)
+      {
+        this._logger.LogTrace("Add User Exception:"+er.InnerException??er.Message);
+        Console.WriteLine("add user exception:"+er.InnerException??er.Message);
+      }
         return is_created;
     }
+   
 
     public async Task<bool> updateUser(ApplicationUser user)
     {
@@ -151,7 +163,7 @@ public class LoginService:ILoginRepository
         return is_delete;
     }
 
-    public async Task<bool> sendEmail(string email,string receiver,string subject)
+    public async Task<bool> sendEmail(string email,string receiver,string subject,int role=1)
     { 
         bool is_send= false;
     try{
@@ -170,7 +182,7 @@ public class LoginService:ILoginRepository
        
        if(is_reset.Succeeded)
        {
-        await this._smtpService.sendEmail(new_password,receiver,subject);
+        await this._smtpService.sendEmail(new_password,receiver,subject,role);
         is_send=true;
         return is_send;
        }
