@@ -3,6 +3,7 @@
     var banners=ViewBag.banners;
     var products = ViewBag.products;
     var categories = ViewBag.categories;
+    var brands=ViewBag.brands;
     string value="~/"+@products[0].Frontavatar.Substring(products[0].Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1));
     int count_trending=0;
     Console.WriteLine(value);
@@ -1393,10 +1394,13 @@
             <div class="container custom-conatiner">
                 <div class="brand-slider brand-slider-2 swiper-container pt-35 pb-30">
                     <div class="swiper-wrapper">
+                    @foreach(var brand in brands)
+                          {
                         <div class="brand-item w-img swiper-slide">
-                            <a href="#"><img src="~/user_layout/img/brand/brand-1.jpg" alt="brand"></a>
+                        <a href="#"><img src="~/@brand?.Avatar.Substring(brand.Avatar.IndexOf("wwwroot")+("wwwroot".Length+1))" accesskey=""alt="brand"></a>
                         </div>
-                        <div class="brand-item w-img swiper-slide">
+                        }
+                        @* <div class="brand-item w-img swiper-slide">
                             <a href="#"><img src="~/user_layout/img/brand/brand-2.jpg" alt="brand"></a>
                         </div>
                         <div class="brand-item w-img swiper-slide">
@@ -1410,7 +1414,7 @@
                         </div>
                         <div class="brand-item w-img swiper-slide">
                             <a href="#"><img src="~/user_layout/img/brand/brand-6.jpg" alt="brand"></a>
-                        </div>
+                        </div> *@
                     </div>
                 </div>
             </div>

@@ -122,6 +122,8 @@ public class BannerListService:IBannerListRepository
   {
     int updated_res=0;
     var banner_ob=await this.findBannerById(id);
+    string avatar_url="";
+
     if(banner_ob!=null)
     {
       updated_res=1;
@@ -135,10 +137,9 @@ public class BannerListService:IBannerListRepository
       {
         Directory.CreateDirectory(upload_path);
       }
-      string avatar_url="";
       var avatar_obj=banner.Image;
       if(avatar_obj!=null)
-      {
+      {  Console.WriteLine("banner is not null");
         string file_name=Guid.NewGuid()+"_"+Path.GetFileName(avatar_obj.FileName);
   
         string file_path=Path.Combine(upload_path,file_name);
@@ -148,13 +149,15 @@ public class BannerListService:IBannerListRepository
           await avatar_obj.CopyToAsync(fileStream);
         } 
         avatar_url=file_path;
+
         string curr_image=banner_ob.Image;
+
         if(!string.IsNullOrEmpty(curr_image))
         {
           await this._sp_services.removeFiles(curr_image);
         }
+            banner_ob.Image=avatar_url;
       }  
-      banner_ob.Image=avatar_url;
       this._context.Banners.Update(banner_ob);
       await this.saveChanges();
     }

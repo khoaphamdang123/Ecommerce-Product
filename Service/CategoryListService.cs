@@ -2,6 +2,7 @@ using Ecommerce_Product.Repository;
 using Ecommerce_Product.Models;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
+using Microsoft.AspNetCore.Http.Connections;
 
 namespace Ecommerce_Product.Service;
 public class CategoryListService:ICategoryListRepository
@@ -239,9 +240,9 @@ public async Task<int> updateCategory(AddCategoryModel category)
     await avatar_obj.CopyToAsync(fileStream);
    } 
    avatar_url=file_path;
+  cat.Avatar=avatar_url;
   }
            cat.UpdatedDate=DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
-           cat.Avatar=avatar_url;
            this._context.Categories.Update(cat);
            await this.saveChange();
            update_res=1;
@@ -431,7 +432,7 @@ public async Task<bool> checkBrandExist(string brand_name,int category)
     return is_exist;
 }
 
-public async Task<int> createBrand(int category,string brand_name)
+public async Task<int> createBrand(int category,string brand_name,IFormFile avatar)
 {
     int create_res=0;
     try
@@ -442,11 +443,39 @@ public async Task<int> createBrand(int category,string brand_name)
     {   create_res=-1;
         return create_res;
     }
+ string folder_name="UploadImageBrand";
+
+   string upload_path=Path.Combine(this._webHostEnv.WebRootPath,folder_name);
+
+   if(!Directory.Exists(upload_path))
+   {
+    Directory.CreateDirectory(upload_path);
+   }
+  string avatar_url="";
+  
+  var avatar_obj=avatar;
+  
+  if(avatar_obj!=null)
+  {Console.WriteLine("did not null hre");
+   string file_name=Guid.NewGuid()+"_"+Path.GetFileName(avatar_obj.FileName);
+  
+   string file_path=Path.Combine(upload_path,file_name);
+
+   using(var fileStream=new FileStream(file_path,FileMode.Create))
+   {
+    await avatar_obj.CopyToAsync(fileStream);
+   } 
+   avatar_url=file_path;
+  }
+  else{
+    Console.WriteLine("did null here");
+  }
+    
      string created_date=DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
      
      string updated_date =DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
      
-     var new_brand=new Brand{BrandName=brand_name,CreatedDate=created_date,UpdatedDate=updated_date};
+     var new_brand=new Brand{BrandName=brand_name,CreatedDate=created_date,UpdatedDate=updated_date,Avatar=avatar_url};
      
      Console.WriteLine("Category id:"+category);
 
@@ -471,7 +500,7 @@ public async Task<int> createBrand(int category,string brand_name)
     }
     catch(Exception er)
     {   create_res=0;
-        Console.WriteLine("Create Brand Exception:"+er.InnerException??er.Message);
+        Console.WriteLine("Create Brand Exception:"+er.Message);
     }
     return create_res;
 }
@@ -481,11 +510,16 @@ public async Task<int> deleteBrand(int brand_category)
     try
     {
         var brand_cat_detail=await this._context.CategoryBrandDetail.FirstOrDefaultAsync(c=>c.Id==brand_category);
+        string curr_avatar= brand_cat_detail.Brand.Avatar;
       if(brand_cat_detail!=null)
       { delete_res=1;
         this._context.CategoryBrandDetail.Attach(brand_cat_detail);
         this._context.CategoryBrandDetail.Remove(brand_cat_detail);
         await this.saveChange();
+       if(!string.IsNullOrEmpty(curr_avatar))
+       {
+        await this._support_service.removeFiles(curr_avatar);
+       }
       }
     }
     catch(Exception er)

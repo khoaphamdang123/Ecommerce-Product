@@ -27,7 +27,6 @@ public class CategoryListController : Controller
     this._category=category;
     this._logger=logger;
    }
-  [Authorize(Roles ="Admin")]
   [Route("category_list")]
   [HttpGet]
   public async Task<IActionResult> CategoryList()
@@ -73,7 +72,6 @@ public class CategoryListController : Controller
    }
    return View();
   }
-  [Authorize(Roles ="Admin")]
   [Route("category_list/{category}/brand/paging")]
    [HttpGet]
   public async Task<IActionResult> BrandList(int category,[FromQuery]int page_size,[FromQuery] int page=1)
@@ -173,16 +171,16 @@ public class CategoryListController : Controller
    }
    return View();
   }
-  [Route("category_list/{category}/brand/add")]
-  [HttpGet]
-  public async Task<IActionResult> AddBrand(int category)
-  {
-    ViewBag.Category_Id=category;
-    var category_options=await this._category.findCategoryById(category);
-    ViewBag.Cat_Otions=category_options.CategoryName;
-    return View();
-  }
-  [Route("brand_list/add")]
+  // [Route("category_list/{category}/brand/add")]
+  // [HttpGet]
+  // public async Task<IActionResult> AddBrand(int category)
+  // {
+  //   ViewBag.Category_Id=category;
+  //   var category_options=await this._category.findCategoryById(category);
+  //   ViewBag.Cat_Otions=category_options.CategoryName;
+  //   return View();
+  // }
+  [Route("brand_list/add_brand")]
   [HttpGet]
   public async Task<IActionResult> AddBrand()
   {
@@ -191,13 +189,16 @@ public class CategoryListController : Controller
     return View();
   }
 
-  [Route("category_list/{category}/brand/add")]
-  [HttpPost]
-  public async Task<IActionResult> AddBrand(string brand_name,int category)
+ [Route("brand_list/add")]
+ [HttpPost]
+  public async Task<IActionResult> AddBrandValue(int category,string brand_name,IFormFile avatar)
   {
     try
     { 
-    int res= await this._category.createBrand(category,brand_name);
+    Console.WriteLine("Add brand did come here");
+    Console.WriteLine("Category:"+category);
+    Console.WriteLine("Brand name:"+brand_name);
+    int res= await this._category.createBrand(category,brand_name,avatar);
     if(res==1)
      {
       TempData["Status"]=1;
@@ -219,7 +220,9 @@ public class CategoryListController : Controller
        Console.WriteLine("Add Brand Exception:"+er.Message);
         this._logger.LogTrace("Add Brand Exception:"+er.Message);
     }
-    return RedirectToAction("AddBrand",new{category=category});
+    //return RedirectToAction("AddBrand",new{category=category});
+    return RedirectToAction("AddBrand");
+
   }
   [Route("brand_list/delete")]
   [HttpGet]

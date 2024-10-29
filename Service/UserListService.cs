@@ -235,8 +235,9 @@ public async Task<bool> checkUserExist(string email,string username)
     await avatar.CopyToAsync(fileStream);
    } 
    avatar_url=file_path;
+    user.Avatar=avatar_url;
+
   }
-  user.Avatar=avatar_url;
   
 
       var res_update=await this._userManager.UpdateAsync(user);

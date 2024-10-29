@@ -228,10 +228,9 @@ public async Task<int> updateUser(UserInfo user_info)
     await avatar.CopyToAsync(fileStream);
    } 
    avatar_url=file_path;
-  }
   user.Avatar=avatar_url;
+  }
   
-
       var res_update=await this._userManager.UpdateAsync(user);
       if(!res_update.Succeeded)
       {

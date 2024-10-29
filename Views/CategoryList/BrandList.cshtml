@@ -185,8 +185,14 @@
                             <td class="text-center">@current_total_item</td>
                             <td class="text-center">@category_brand_detail.Brand?.Id</td>
                             <td class="text-center">
-                              <strong>@category_brand_detail.Brand?.BrandName</strong>
-                              </td>
+                    <div class="d-flex align-items-center justify-content-center">
+                              <div class="avatar-wrapper">
+                                <div class="avatar avatar-sm me-2">
+                                 <img src="~/@category_brand_detail?.Brand.Avatar.Substring(category_brand_detail.Brand.Avatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="Category Avatar">
+                                </div>
+                              </div>
+                              <strong>@category_brand_detail?.Brand.BrandName</strong>
+                             </div>                              </td>
                             <td class="text-center"><strong>@category_brand_detail.Category?.CategoryName</strong></td>
                             <td class="text-center">@category_brand_detail.Brand?.CreatedDate</td>
                             <td class="text-center">@category_brand_detail.Brand?.UpdatedDate</td>
@@ -310,7 +316,7 @@
     <span class="page-item" disabled>...</span>
          <a class="page-item" title="@(Model?.currentPage-4)" href="@Url.Action("BrandList",new{page_size=int.Parse(selected_size),page=Model?.currentPage-4})">@(Model?.currentPage-4)</a>
    
-     for(int i=(Model.totalPage-3);i<=Model?.totalPage;i++)
+     for(int i=(Model?.totalPage??0-3);i<=Model?.totalPage;i++)
      {
       if(i==Model?.currentPage)
       {
@@ -371,8 +377,9 @@
     var btn=document.getElementById("add-sub-category-btn");
     var cat_id=btn.getAttribute("data-category-id");  
     if(cat_id!=null)
-    { 
-    var url='@Url.Action("AddBrand","CategoryList",new{category="__cat_id__"})';
+    {     var url='@Url.Action("AddBrand","CategoryList")';
+
+    @* //var url='@Url.Action("AddBrand","CategoryList",new{category="__cat_id__"})'; *@
     url=url.replace("__cat_id__",cat_id);
     window.location.href=url;
     }
