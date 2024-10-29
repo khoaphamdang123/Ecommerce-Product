@@ -13,7 +13,9 @@ public partial class Brand
 
     public string? UpdatedDate { get; set; }
 
-    public virtual ICollection<CategoryBrandDetail> CategoryBrandDetail { get; set; } = new List<CategoryBrandDetail>();
+    public string? Avatar { get; set; }
+
+    public virtual ICollection<CategoryBrandDetail> CategoryBrandDetails { get; set; } = new List<CategoryBrandDetail>();
 
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }

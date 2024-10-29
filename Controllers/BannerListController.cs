@@ -113,7 +113,8 @@ public class BannerListController : Controller
     [HttpPost]
 
     public async Task<IActionResult> BannerInfo(int id,BannerModel banner)
-    {
+    {   
+    
         int update_res=await this._banner.updateBanner(id,banner);
         ViewBag.Status=update_res;
         if(update_res==0)
@@ -126,6 +127,7 @@ public class BannerListController : Controller
             ViewBag.Update_Banner="Cập nhật banner thành công";
         }
         var banner_ob=await this._banner.findBannerById(id);
+       
         return View(banner_ob);
     }
 

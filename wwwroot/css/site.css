@@ -455,6 +455,13 @@ meat{
   z-index: 3;
 }
 
+
+.disabled {
+  pointer-events: none;
+  color: #aaa;
+  cursor: default;
+}
+
 fork{
   width: 20px;
   height: calc(var(--height) - 30px);

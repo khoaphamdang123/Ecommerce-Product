@@ -10,5 +10,6 @@ namespace Ecommerce_Product.Models
 
     public string? UpdatedDate { get; set; }
 
-    public IFormFile Avatar { get; set; }    }
+    public IFormFile Avatar { get; set; }   
+ }
 }
