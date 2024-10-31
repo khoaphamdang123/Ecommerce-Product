@@ -28,7 +28,7 @@
       <!-- Place favicon.ico in the root directory -->
       <link rel="shortcut icon" type="image/x-icon" href="~/user_layout/img/favicon.png">
       <!-- CSS here -->
-       <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+      <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
 
       <link rel="stylesheet" href="~/user_layout/css/preloader.css">
       <link rel="stylesheet" href="~/user_layout/css/bootstrap.css">
@@ -45,6 +45,8 @@
       <link rel="stylesheet" href="~/user_layout/css/default.css">
       <link rel="stylesheet" href="~/user_layout/css/style.css">
         <link rel="stylesheet" href="~/vendor/fonts/boxicons.css"/>
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="stylesheet" href="~/vendor/css/core_sub.css" class="template-customizer-core-css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -658,13 +660,13 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li><a href="blog.html">Blog <i class="far fa-angle-down"></i></a>
+                                    <li><a href="blog.html">Blog<i class="far fa-angle-down"></i></a>
                                         <ul class="submenu">
                                             <li><a href="blog.html">Blog</a></li>
                                             <li><a href="blog-details.html">Blog Details</a></li>
                                         </ul>
                                     </li>
-                                    <li>
+                                    @* <li>
                                         <a href="about.html"  class="active">pages <i class="far fa-angle-down"></i></a>
                                         <ul class="submenu">
                                             <li><a href="my-account.html" class="active">My Account</a></li>
@@ -675,7 +677,7 @@
                                             <li><a href="checkout.html">Checkout</a></li>
                                             <li><a href="404.html">404 Error</a></li>
                                         </ul>
-                                    </li> 
+                                    </li>  *@
                                 </ul>
                             </nav>
                         </div>
@@ -952,6 +954,7 @@
       <script src="~/user_layout/js/ajax-form.js"></script>
       <script src="~/user_layout/js/main.js"></script>
       <script src="~/js/ui-modals.js"></script> 
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     @* <script src="~/js/main.js"></script>
     <script src="~/vendor/js/helpers.js"></script>
     <script src="~/js/config.js"></script> *@

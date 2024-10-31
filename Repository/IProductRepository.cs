@@ -18,9 +18,13 @@ public interface IProductRepository
 
   public Task<PageList<Product>> pagingProduct(int page_size,int page);
 
+  public Task<PageList<Product>> pagingProductByList(int page_size,int page,IEnumerable<Product> products);
+
   public Task<PageList<Variant>> pagingVariant(int id,int page_size,int page);
 
   public Task<IEnumerable<Product>> filterProduct(FilterProduct product);
+
+  public Task<IEnumerable<Product>> filterProductByPriceAndBrands(List<string> brands,List<int> prices);
 
   public Task<int> deleteProduct(int id);
 
