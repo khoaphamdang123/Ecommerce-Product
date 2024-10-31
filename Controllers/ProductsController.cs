@@ -37,7 +37,8 @@ public async Task<IActionResult> ProductsCategory()
 
 [Route("collections")]
 public async Task<IActionResult> Products()
-{   var products=await this._product.getAllProduct();
+{   
+     var products=await this._product.getAllProduct();
      string select_size="12";
      var product_list_banner=await this._banner.findBannerByName("product_list_banner");
      var sub_product_list_banner=await this._banner.findBannerByName("sub_product_banner");
@@ -62,11 +63,18 @@ public async Task<IActionResult> Products()
 }
 
 [Route("collections/paging")]
-   [HttpGet]
-  public async Task<IActionResult> ProductsPaging([FromQuery]int page_size,[FromQuery] int page=1)
+[HttpGet]
+  public async Task<IActionResult> ProductsPaging([FromQuery]int page_size,IEnumerable<Product> products=null,[FromQuery] int page=1)
   {
-    try{
-         var prods=await this._product.pagingProduct(page_size,page);
+    try{ 
+        PageList<Product> prods=null;
+        if(products==null)
+        {
+          prods=await this._product.pagingProduct(page_size,page);
+        }
+        else{
+          prods=await this._product.pagingProductByList(page_size,page,products);
+        }
           string select_size=page_size.ToString();
      var product_list_banner=await this._banner.findBannerByName("product_list_banner");
      var sub_product_list_banner=await this._banner.findBannerByName("sub_product_banner");
@@ -94,5 +102,53 @@ public async Task<IActionResult> Products()
         }
     return View("~/Views/ClientSide/Products/Products.cshtml");
   }
+
+  [HttpGet]
+  public async Task<IActionResult> FilterProducts(int pageSize,string prices,string brands)
+  {
+ try{
+
+ 
+  Console.WriteLine("pagesize:"+pageSize);
+  
+  string pricess = prices;
+  
+  List<int> prices_list = new List<int>();
+List<string> brand_list= new List<string>();
+
+  if(!string.IsNullOrEmpty(prices))
+  {
+  prices_list = prices.Split('-').Select(int.Parse).ToList();
+  }
+ if(!string.IsNullOrEmpty(brands))
+ {
+    brand_list=brands.Split(',').ToList();
+ }
+
+
+ var products=await this._product.filterProductByPriceAndBrands(brand_list,prices_list);
+    
+    
+ Console.WriteLine("Number of products here is:"+ products.ToList().Count);  
+
+ 
+ var prods =await this._product.pagingProductByList(pageSize,1,products);
+
+ Console.WriteLine("Number of prods:"+prods.item.Count);
+
+ Console.WriteLine("Number of element here is:"+pricess);  
+
+ Console.WriteLine("Number of brands here is:"+brands);
+
+Console.WriteLine("gere");
+ return PartialView("~/Views/ClientSide/Products/_ProductsPartial.cshtml",prods); 
+ }
+ catch(Exception er)
+ {
+    Console.WriteLine(er.Message);
+ }
+ return PartialView("~/Views/ClientSide/Products/_ProductsPartial.cshtml");
+  }
+
 
 }

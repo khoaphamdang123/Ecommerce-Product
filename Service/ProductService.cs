@@ -825,6 +825,29 @@ public async Task saveChanges()
 
 
 
+  public async Task<IEnumerable<Product>> filterProductByPriceAndBrands(List<string>brands,List<int>prices)
+  {    
+    var products = await this.getAllProduct();
+  if(brands!=null || prices!=null)
+  {
+    try
+    {
+   products=products.Where(c=>brands.Contains(c.Brand?.BrandName.ToString()) || prices.Contains(Convert.ToInt32(c?.Price))).ToList();
+    }
+    catch(Exception er)
+    {
+        Console.WriteLine("Filter Product By Price And Brands Exception:"+er.Message);
+    }
+  }
+    return products;
+  }
+
+  public async Task<PageList<Product>> pagingProductByList(int page_size,int page,IEnumerable<Product> products)
+  {
+       var paging_prods_list =PageList<Product>.CreateItem(products.AsQueryable(),page,page_size);
+       return paging_prods_list;
+  }
+
 
   public async Task<PageList<Variant>> pagingVariant(int id,int page_size,int page)
   {
