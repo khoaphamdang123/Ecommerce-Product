@@ -15,14 +15,16 @@
                                                         </a>
                                                     </div>
                                                     <div class="product-action">
-                                                        <a href="#" class="icon-box icon-box-1" data-bs-toggle="modal" data-bs-target="#productModalId">
+                                                        <a href="#" class="icon-box icon-box-1" data-bs-toggle="modal" data-product-name="@product.ProductName" data-product-price="@product.Price" data-main-avatar="@product.Frontavatar"
+                                                    data-product-category="@product?.Category.CategoryName"
+                                                    data-product-quantity="@product.Quantity" data-bs-target="#productModalId">
                                                             <i class="fal fa-eye"></i>
                                                             <i class="fal fa-eye"></i>
                                                         </a>
-                                                        <a href="#" class="icon-box icon-box-1">
+                                                        @* <a href="#" class="icon-box icon-box-1">
                                                             <i class="fal fa-heart"></i>
                                                             <i class="fal fa-heart"></i>
-                                                        </a>
+                                                        </a> *@
                                                         <a href="#" class="icon-box icon-box-1">
                                                             <i class="fal fa-layer-group"></i>
                                                             <i class="fal fa-layer-group"></i>
@@ -85,10 +87,10 @@
                                                                         <i class="fal fa-eye"></i>
                                                                         <i class="fal fa-eye"></i>
                                                                     </a>
-                                                                    <a href="#" class="icon-box icon-box-1">
+                                                                    @* <a href="#" class="icon-box icon-box-1">
                                                                         <i class="fal fa-heart"></i>
                                                                         <i class="fal fa-heart"></i>
-                                                                    </a>
+                                                                    </a> *@
                                                                     <a href="#" class="icon-box icon-box-1">
                                                                         <i class="fal fa-layer-group"></i>
                                                                         <i class="fal fa-layer-group"></i>
@@ -334,7 +336,7 @@
                                     </div>
                                     <div class="product__stock mb-30">
                                         <ul>
-                                            <li><a href="#">
+                                            <li><a href="#" id="link-category">
                                                 <span class="cat mr-10">Loại sản phẩm:</span>
                                                 <span id="product-category"></span></a>
                                             </li>
@@ -369,6 +371,13 @@
         const quantity = button.getAttribute('data-product-quantity');
         
         const main_image = document.getElementById('main-image');
+
+        const cat_link=document.getElementById('link-category');
+
+    url='@Url.Action("ProductsByCategory","Products",new{category_name="__id__"})';
+    url=url.replace("__id__",category);
+
+        cat_link.href=url;
 
         const frontAvatar = front_image; 
 

@@ -46,7 +46,7 @@ public class ProductService:IProductRepository
  public async Task<Product> findProductByName(string name)
  {
 
-  var product = await this._context.Products.FirstOrDefaultAsync(p=>p.ProductName==name);
+  var product=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(i=>i.ProductImages).Include(c=>c.Variants).ThenInclude(v=>v.Color).Include(c=>c.Variants).ThenInclude(v=>v.Size).Include(c=>c.Variants).ThenInclude(c=>c.Version).Include(c=>c.Variants).ThenInclude(c=>c.Mirror).FirstOrDefaultAsync(p=>p.ProductName==name);
   return product;
  }
 
@@ -66,6 +66,17 @@ public async Task<PageList<Product>> pagingProduct(int page_size,int page)
 public async Task<IEnumerable<Product>>getProductBySubCategory(int sub_cat)
 {
   var products=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(c=>c.SubCat).Include(c=>c.Variants).Where(c=>c.SubCatId==sub_cat).ToListAsync();
+  return products;
+}
+
+public async Task<IEnumerable<Product>> filterProductByNameAndCategory(string product,string category)
+{
+    var products=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(c=>c.SubCat).Include(c=>c.Variants).Where(c=>c.Category.CategoryName==category && c.ProductName==product).ToListAsync();
+   return products;
+}
+public async Task<IEnumerable<Product>> getProductByCategory(string cat)
+{
+  var products=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(c=>c.SubCat).Include(c=>c.Variants).Where(c=>c.Category.CategoryName==cat).ToListAsync();
   return products;
 }
 

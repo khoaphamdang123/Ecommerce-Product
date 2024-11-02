@@ -20,6 +20,9 @@ public interface IProductRepository
 
   public Task<PageList<Product>> pagingProductByList(int page_size,int page,IEnumerable<Product> products);
 
+  public Task<IEnumerable<Product>> filterProductByNameAndCategory(string name,string cat);
+  public Task<IEnumerable<Product>> getProductByCategory(string cat);
+
   public Task<PageList<Variant>> pagingVariant(int id,int page_size,int page);
 
   public Task<IEnumerable<Product>> filterProduct(FilterProduct product);
