@@ -6,17 +6,17 @@ using System.Web;
 
 
 namespace Ecommerce_Product.Controllers;
-public class ProductDetailController:Controller
+public class ProductDetailController:BaseController
 {
  
  private readonly IBannerListRepository _banner;
-    private readonly IProductRepository _product;
+ private readonly IProductRepository _product;
 
-    private readonly ICategoryListRepository _category;
+ private readonly ICategoryListRepository _category;
 
- private readonly ILogger<ProductDetailController> _logger;
+  private readonly ILogger<ProductDetailController> _logger;
 
-public ProductDetailController(IBannerListRepository banner,IProductRepository product,ICategoryListRepository category,ILogger<ProductDetailController> logger)
+public ProductDetailController(IBannerListRepository banner,IProductRepository product,ICategoryListRepository category,ILogger<ProductDetailController> logger):base(category)
 {
     this._banner=banner;
     this._product=product;
@@ -38,7 +38,9 @@ public async Task<IActionResult> ProductDetail(string product_name)
     Console.WriteLine("Product name here is:"+product_name);
     var product= await this._product.findProductByName(product_name);
     if(product!=null)
-    {
+    { 
+      var products_image=product.ProductImages.Count;
+      Console.WriteLine("number of image details:"+products_image);
       if(!string.IsNullOrEmpty(product.Statdescription))
       {
         product.Statdescription=HttpUtility.HtmlDecode(product.Statdescription);

@@ -2,7 +2,7 @@
 using Ecommerce_Product.Repository;
 using Microsoft.AspNetCore.Mvc;
 namespace Ecommerce_Product.Controllers;
-public class HomePageController:Controller
+public class HomePageController:BaseController
 {
  
  private readonly IBannerListRepository _banner;
@@ -12,7 +12,7 @@ public class HomePageController:Controller
 
  private readonly ILogger<HomePageController> _logger;
 
-public HomePageController(IBannerListRepository banner,IProductRepository product,ICategoryListRepository category,ILogger<HomePageController> logger)
+public HomePageController(IBannerListRepository banner,IProductRepository product,ICategoryListRepository category,ILogger<HomePageController> logger):base(category)
 {
     this._banner=banner;
     this._product=product;
@@ -32,8 +32,5 @@ public async Task<IActionResult> HomePage()
     ViewBag.brands=brands;
     return View("~/Views/ClientSide/HomePage/HomePage.cshtml");
 }
-
-
-
 
 }
