@@ -55,6 +55,10 @@ public partial class EcommerceshopContext : DbContext
 
     public virtual DbSet<ProductImage> ProductImages { get; set; }
 
+    public virtual DbSet<Ratingdetail> Ratingdetails { get; set; }
+
+    public virtual DbSet<Reviewdetail> Reviewdetails { get; set; }
+
     public virtual DbSet<Setting> Settings { get; set; }
 
     public virtual DbSet<Size> Sizes { get; set; }
@@ -259,7 +263,7 @@ public partial class EcommerceshopContext : DbContext
                 .HasForeignKey(d => d.BrandId)
                 .HasConstraintName("brand_fk");
 
-            entity.HasOne(d => d.Category).WithMany(p => p.CategoryBrandDetails)
+            entity.HasOne(d => d.Category).WithMany(p => p.CategoryBrandDetail)
                 .HasForeignKey(d => d.CategoryId)
                 .HasConstraintName("category_fk");
         });
@@ -437,6 +441,54 @@ public partial class EcommerceshopContext : DbContext
                 .HasForeignKey(d => d.Productid)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("product_img_fk");
+        });
+
+        modelBuilder.Entity<Ratingdetail>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("ratingdetails_pk");
+
+            entity.ToTable("ratingdetails");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.CreatedDate)
+                .HasColumnType("character varying")
+                .HasColumnName("created_date");
+            entity.Property(e => e.ProductId).HasColumnName("product_id");
+            entity.Property(e => e.Rating).HasColumnName("rating");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.Ratingdetails)
+                .HasForeignKey(d => d.ProductId)
+                .HasConstraintName("rate_product_fk");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Ratingdetails)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("rate_user_fk");
+        });
+
+        modelBuilder.Entity<Reviewdetail>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("reviewdetails_pk");
+
+            entity.ToTable("reviewdetails");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.CreatedDate)
+                .HasColumnType("character varying")
+                .HasColumnName("created_date");
+            entity.Property(e => e.ProductId).HasColumnName("product_id");
+            entity.Property(e => e.ReviewText).HasColumnName("review_text");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.Reviewdetails)
+                .HasForeignKey(d => d.ProductId)
+                .HasConstraintName("reivew_product_fk");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Reviewdetails)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("review_user_fk");
         });
 
         modelBuilder.Entity<Setting>(entity =>

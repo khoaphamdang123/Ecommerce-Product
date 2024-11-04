@@ -490,6 +490,41 @@ fork{
   border-radius: 8px;
 }
 
+.product-list
+{
+  position: relative;
+}
+
+.product-list .dropdown
+{
+display: none;
+position: absolute;
+top: 100%;
+left: 0;
+width: 200px;
+font-size: 15px;
+font-weight: 400px;
+background-color: #fff;
+padding: 10px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+z-index: 10;
+}
+
+.product-list:hover .dropdown {
+  display: block;
+}
+
+.product-list .dropdown li {
+  margin: 3px 0;
+}
+
+.product-list .dropdown li a {
+  color: #666;
+  text-decoration: none;
+  display: block;
+  border-radius: 3px;
+}
+
 
 .px-2 {
   padding-right: .5rem !important;

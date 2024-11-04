@@ -13,7 +13,7 @@ using Microsoft.Extensions.Options;
 
 namespace Ecommerce_Product.Controllers
 { 
-    public class MyAccountController : Controller
+    public class MyAccountController : BaseController
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         
@@ -29,11 +29,13 @@ namespace Ecommerce_Product.Controllers
 
         private readonly RecaptchaResponse _recaptcha_response;
 
+        private readonly ICategoryListRepository _category;
+
         private readonly ISettingRepository _setting;
 
         private readonly ILogger<MyAccountController> _logger;
 
-        public MyAccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager,IUserListRepository userList,ILogger<MyAccountController> logger,IRecaptchaService recaptcha,IOptions<RecaptchaResponse> recaptcha_response,ISettingRepository setting,ITrackDataRepository trackData,ILoginRepository loginRepos)
+        public MyAccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager,IUserListRepository userList,ICategoryListRepository category,ILogger<MyAccountController> logger,IRecaptchaService recaptcha,IOptions<RecaptchaResponse> recaptcha_response,ISettingRepository setting,ITrackDataRepository trackData,ILoginRepository loginRepos):base(category)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -42,6 +44,7 @@ namespace Ecommerce_Product.Controllers
             _recaptcha=recaptcha;
             _setting=setting;
             _userList=userList;
+            _category=category;
             _recaptcha_response=recaptcha_response.Value;
             _trackData=trackData;
         }
@@ -81,18 +84,18 @@ namespace Ecommerce_Product.Controllers
         [HttpGet]
         [AllowAnonymous]
         public IActionResult ChangePassword()
-        {
+        {  Console.WriteLine("just come here");
             return View("~/Views/ClientSide/MyAccount/ChangePassword.cshtml");
         }
         
-        [Route("{username}/change_password")]
-        
+        [Route("change_password/{username}")]
         [HttpGet]
-        public IActionResult ChangePassword(string email,string password)
+        public IActionResult ChangePassword([FromQuery]string username,[FromQuery]string email,[FromQuery]string password)
         {
             ViewBag.Email=email;
             ViewBag.Password= password;
-            return View();
+            Console.WriteLine("Email did pass here:"+email);
+            return View("~/Views/ClientSide/MyAccount/ChangePassword.cshtml");
         }
 
     
@@ -529,37 +532,56 @@ public async Task<JsonResult> ForgotPasswordHandle(string email)
     return Json(response);
 }
 
-        // [Route("forgot_password")]
-        // [HttpPost]
-        // [ValidateAntiForgeryToken]
-        // public async Task<IActionResult> ForgotPassword(ForgotPassword model)
-        // { try{
-        //     if(ModelState.IsValid)
-        //     {
-        //         string email=model.Email;
-        //         string receiver= model.Receiver;             
-        //         Console.WriteLine("Received email:"+email);
-        //         string subject="Nhận mật khẩu mới";               
-        //        bool is_send= await this._loginRepos.sendEmail(email,receiver,subject);
-        //        if(is_send)
-        //        {
-        //         ViewBag.SendMail="True";
-        //         ViewBag.SendMailMessage="Tin nhắn khôi phục mật khẩu đã được gửi đến email của bạn";   
-        //        }
-        //        else{
-        //           ViewBag.SendMail="False";
-        //         ViewBag.SendMailMessage="Có lỗi xảy ra trong quá trình gửi tin nhắn";   
-        //        }
-                         
-        //     }
-        // }
-        // catch(Exception er)
-        // {
-        //     this._logger.LogTrace("Forgot Password:"+er.Message);
-        //     Console.WriteLine("Forgot password:",er.Message);
-        // }
-        // return View(model);
-        // }
+    [Route("{username}/info")]
+    [HttpGet]
+    public async Task<IActionResult> AccountInfo(string username)
+    {   Console.WriteLine("Username here is:"+username);
+        var user = await this._userList.findUserByName(username);
+        
+        return View("~/Views/ClientSide/MyAccount/AccountInfo.cshtml",user);
+    }
+
+[HttpPost]
+[Route("user/update_info")]
+public async Task<IActionResult> AccountInfoUpdate(UserInfo user)
+{ int res_update=0;
+Console.WriteLine("Update user info did come to this place");
+  try
+  {
+
+    res_update=await this._userList.updateUser(user);
+
+    Console.WriteLine("Update User info:"+res_update);
+    
+    if(res_update==1)
+    { 
+      ViewBag.Status=1;
+      ViewBag.Update_Message="Cập nhật User thành công";
+    }
+    else
+    {
+      ViewBag.Status=0;
+      ViewBag.Update_Message="Cập nhật User thất bại";
+    }
+   
+    var user_after=await this._userList.findUserById(user.Id);
+  if(!string.IsNullOrEmpty(user_after.Avatar))
+  {
+    this.HttpContext.Session.SetString("Avatar",user_after.Avatar);
+  }
+
+
+        return View("~/Views/ClientSide/MyAccount/AccountInfo.cshtml",user_after);
+
+  }
+  catch(Exception er)
+  {
+     Console.WriteLine("Update User Info Exception:"+er.InnerException?.Message??er.Message);
+     this._logger.LogTrace("Update User Info Exception:"+er.InnerException?.Message??er.Message); 
+  }
+  return RedirectToAction("UserList","UserList");
+} 
+
         // POST: /Account/Logout
         [Route("logout")]
         [HttpGet]  
@@ -567,35 +589,9 @@ public async Task<JsonResult> ForgotPasswordHandle(string email)
         {   
             await _signInManager.SignOutAsync();
             this.HttpContext.Session.Clear();
-            return RedirectToAction("Index");
+            return RedirectToAction("HomePage","HomePage");
         }
          
-     
-        // [HttpPost]
-        // [ValidateAntiForgeryToken]
-        // public async Task<IActionResult> FilterUser(FilterUser model)
-        // {
-        //   if(ModelState.IsValid)
-        //   {
-        //     string username=Model?.UserName;
-        //     string email = Model?.Email;
-        //     string phone = Model?.PhoneNumber;
-        //     string birth_time = Model?.DateTime;
-        //     Console.WriteLine("Username here is:"+username);
-        //   }
-        //   return View(model);
-        // }
-
-        // private IActionResult RedirectToLocal(string returnUrl)
-        // {
-        //     if (Url.IsLocalUrl(returnUrl))
-        //     {
-        //         return Redirect(returnUrl);
-        //     }
-        //     else
-        //     {
-        //         return RedirectToAction(nameof(HomeController.Index), "Home");
-        //     }
-        // }
+ 
     }
 }

@@ -1,10 +1,14 @@
+
+
 @model ApplicationUser
-@{
+@{ Layout="_UserLayout";
    var updated_user=ViewBag.Update_Message;
    var update_status=ViewBag.Status;
+   List<string> genders=new List<string>{"Nam","Nữ","Khác"};
    Console.WriteLine(Model?.UserName);
    Console.WriteLine("Email here:"+Model?.Email);
    Console.WriteLine("Phone number here:"+Model?.PhoneNumber);
+ 
 }
 
 
@@ -72,11 +76,8 @@
         </script>
 }
     
-
-
+ 
     <!-- Layout wrapper -->
-  
-
           <!-- / Navbar -->
 
           <!-- Content wrapper -->
@@ -84,7 +85,14 @@
             <!-- Content -->
 
             <div class="container-xxl flex-grow-1 container-p-y">
-              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span>Thông tin Admin</h4>
+                             <div class="breadcrumb__wrapper">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                  <li class="breadcrumb-item"><a href="@Url.Action("HomePage","HomePage")">Trang chủ</a></li>
+                                  <li class="breadcrumb-item active" aria-current="page">Thông tin người dùng</li>
+                                </ol>
+                              </nav>
+                        </div>
 
               <div class="row">
                 <div class="col-md-12">
@@ -96,17 +104,30 @@
                   </ul>
                   <div class="card mb-4">
                     <h5 class="card-header">Thông tin tài khoản</h5>
-                 <form id="formAccountSettings" enctype="multipart/form-data" method="post" asp-controller="UserList" asp-action="UserInfo">
+                  <form id="formAccountSettings" enctype="multipart/form-data" method="POST" asp-controller="MyAccount" asp-action="AccountInfoUpdate">
                     <div class="card-body">
                       <div class="d-flex align-items-start align-items-sm-center gap-4">
+                       @if(Model.Avatar.Contains("wwwroot"))
+                       { 
                         <img
-                          src="@Model?.Avatar"
+                          src="~/@Model.Avatar.Substring(Model.Avatar.IndexOf("wwwroot")+("wwwroot".Length+1))"
                           alt="user-avatar"
                           class="d-block rounded"
                           height="100"
                           width="100"
                           id="uploadedAvatar"
                         />
+                        }
+                        else{
+                            <img
+                          src="@Model.Avatar"
+                          alt="user-avatar"
+                          class="d-block rounded"
+                          height="100"
+                          width="100"
+                          id="uploadedAvatar"
+                        />
+                        }
                         <div class="button-wrapper">
                           <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
                             <span class="d-none d-sm-block" id="upload-btn">Tải ảnh</span>
@@ -162,11 +183,19 @@
                             />
                           </div>
                           <div class="mb-3 col-md-6">
-                            <label for="gender" class="form-label">Giới tính</label>
-                        <select class="select2 form-select" name="gender" asp-for="@Model.Gender">
-                            <option value="Nam">Nam</option>
-                            <option value="Nữ">Nữ</option>
-                            <option value="Khác">Khác</option>
+                        <label for="gender" class="form-label">Giới tính</label>
+                        <br>
+                        <select name="gender" asp-for="@Model.Gender">
+                           @foreach(string gender in genders)
+                           {if(gender==@Model.Gender)
+                           {
+                            <option value="@gender" selected>@gender</option>
+                            }
+                            else
+                            {
+                              <option value="@gender">@gender</option>
+                            }
+                            }
                         </select>
                           </div>
                           <div class="mb-3 col-md-6">
@@ -188,7 +217,7 @@
                           </div>
                         </div>
                         <div class="mt-2">
-                          <button type="submit" class="btn btn-primary me-2">Cập nhật tài khoản</button>
+                          <button type="submit" class="btn btn-primary me-2">Cập nhật thông tin</button>
                         </div>
                       </form>
                     </div>
@@ -196,13 +225,13 @@
                 </div>
               </div>
             </div>
-     
+           
             <!-- / Footer -->
 
             <div class="content-backdrop fade"></div>
           </div>
           <!-- Content wrapper -->
-        <!-- / Layout page -->
+     
 
       <!-- Overlay -->
       <div class="layout-overlay layout-menu-toggle"></div>

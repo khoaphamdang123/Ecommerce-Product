@@ -986,9 +986,11 @@ const file=files[i];
                 success:function(response)
                 { 
                   var status=response.status;
+                  
                   var message=response.message;
+
                   if(status==-1 || status==0)
-                  {
+                {
                 document.getElementById("toast-message").innerHTML=message;
                 var toastEl = document.querySelector('.toast-danger');
                 var toast = new bootstrap.Toast(toastEl);

@@ -12,10 +12,10 @@ public class BaseController : Controller
         _category = category;
     }
 
-    public override void OnActionExecuting(ActionExecutingContext context)
+    public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
-        var categories = this._category.getAllCategory();
+        var categories = await this._category.getAllCategory();
         ViewBag.Categories = categories;
-        base.OnActionExecuting(context);
+        await next();
     }
 }

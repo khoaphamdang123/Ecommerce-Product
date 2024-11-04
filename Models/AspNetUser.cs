@@ -57,5 +57,9 @@ public partial class AspNetUser
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
+    public virtual ICollection<Ratingdetail> Ratingdetails { get; set; } = new List<Ratingdetail>();
+
+    public virtual ICollection<Reviewdetail> Reviewdetails { get; set; } = new List<Reviewdetail>();
+
     public virtual ICollection<AspNetRole> Roles { get; set; } = new List<AspNetRole>();
 }

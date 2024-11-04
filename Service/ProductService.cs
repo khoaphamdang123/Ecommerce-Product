@@ -70,9 +70,20 @@ public async Task<IEnumerable<Product>>getProductBySubCategory(int sub_cat)
 }
 
 public async Task<IEnumerable<Product>> filterProductByNameAndCategory(string product,string category)
+{ List<Product> products = new List<Product>(); 
+  if(!string.IsNullOrEmpty(category) && !string.IsNullOrEmpty(product))
 {
-    var products=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(c=>c.SubCat).Include(c=>c.Variants).Where(c=>c.Category.CategoryName==category && c.ProductName==product).ToListAsync();
-   return products;
+    products=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(c=>c.SubCat).Include(c=>c.Variants).Where(c=>c.Category.CategoryName==category && c.ProductName.ToLower().Contains(product.ToLower())).ToListAsync();
+}
+else if(string.IsNullOrEmpty(category) && !string.IsNullOrEmpty(product))
+{
+      products=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(c=>c.SubCat).Include(c=>c.Variants).Where(c=>c.ProductName.ToLower().Contains(product.ToLower())).ToListAsync();
+}
+else
+{
+  products=await this.getAllProduct() as List<Product>;
+}
+   return products;   
 }
 public async Task<IEnumerable<Product>> getProductByCategory(string cat)
 {
