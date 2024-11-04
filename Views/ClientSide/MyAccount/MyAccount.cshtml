@@ -56,7 +56,7 @@
                                    <nav class="breadcrumb-trail breadcrumbs">
                                       <ul class="breadcrumb-menu">
                                          <li class="breadcrumb-trail">
-                                            <a href="index.html"><span>Trang chủ</span></a>
+                                            <a href="@Url.Action("HomePage","HomePage")"><span>Trang chủ</span></a>
                                          </li>
                                          
                                          <li class="trail-item">
@@ -236,16 +236,16 @@ else
                   var message=response.message;
                   var title=response.title;
                   var sitekey=response.siteKey;
-
-                    if(sitekey!=null)
-                    {  alert(sitekey);
+         
+                    if(sitekey!=null && siteKey!=undefined)
+                    { 
                        var siteKey= document.getElementById("sitekey");
                         siteKey.setAttribute("data-sitekey",sitekey);
                      grecaptcha.reset();
                     }
 
                   if(status==-1 || status==0)
-                  {
+                  { 
                    document.getElementById("toast-title-error").innerHTML=title;
                  document.getElementById("toast-message-error").innerHTML=message;
                 var toastEl = document.querySelector('.toast-danger');
@@ -254,11 +254,13 @@ else
                 }
 
                 else{
-                 document.getElementById("toast-title").innerHTML=title;
+                 @* document.getElementById("toast-title").innerHTML=title;
                 document.getElementById("toast-message").innerHTML=message;
                   var toastEl = document.querySelector('.toast');
-                var toast = new bootstrap.Toast(toastEl);
-                toast.show(); 
+                var toast = new bootstrap.Toast(toastEl); *@
+                window.location.href="@Url.Action("HomePage","HomePage")";
+
+                //toast.show(); 
                 }
                 },
                 error: function (xhr, status, error) {

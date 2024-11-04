@@ -123,7 +123,7 @@ public async Task<IActionResult> Products()
  [HttpPost]
 
  public async Task<IActionResult> FilterProductByNameAndCategory(string product,string category)
- {
+ {  Console.WriteLine("Product name here is:"+product);
      var products=await this._product.filterProductByNameAndCategory(product,category);
      string select_size="12";
      var product_list_banner=await this._banner.findBannerByName("product_list_banner");
@@ -142,7 +142,7 @@ public async Task<IActionResult> Products()
           ViewBag.filter_obj=prod_filter;
           var cats=await this._category.getAllCategory();
           var brands=await this._category.getAllBrandList();
-          ViewBag.brands=brands;
+          ViewBag.brands=brands;          
          var prods=await this._product.pagingProductByList(12,1,products);
          ViewBag.products=prods;
     return View("~/Views/ClientSide/Products/Products.cshtml");

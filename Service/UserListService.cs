@@ -201,6 +201,7 @@ public async Task<bool> checkUserExist(string email,string username)
   public async Task<int> updateUser(UserInfo user_info)
   {
    int res=0;
+   try{
    string id=user_info.Id;
    string cur_avatar="";
    var user=await this._userManager.FindByIdAsync(id);
@@ -254,6 +255,11 @@ public async Task<bool> checkUserExist(string email,string username)
        if(!string.IsNullOrEmpty(cur_avatar))
         await this._support_service.removeFiles(cur_avatar);
       }
+   }
+   }
+   catch(Exception er)
+   {
+    Console.WriteLine("Update User Info Exception:"+er.Message);
    }
    return res;
   }

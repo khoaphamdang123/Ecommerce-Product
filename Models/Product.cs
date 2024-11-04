@@ -47,6 +47,10 @@ public partial class Product
 
     public virtual ICollection<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
 
+    public virtual ICollection<Ratingdetail> Ratingdetails { get; set; } = new List<Ratingdetail>();
+
+    public virtual ICollection<Reviewdetail> Reviewdetails { get; set; } = new List<Reviewdetail>();
+
     public virtual SubCategory? SubCat { get; set; }
 
     public virtual ICollection<Variant> Variants { get; set; } = new List<Variant>();
