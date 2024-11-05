@@ -1,8 +1,24 @@
 @model Product
 @{
     Layout = "_UserLayout";    
+    var count_reviews=ViewBag.count_reviews as Dictionary<string,int>;
+    int rating=ViewBag.rating_star;
+    var count_stars=ViewBag.count_stars as Dictionary<string,int>;
+    List<double> star_percen=new List<double>();
+   var stats_description=Html.Raw(Model?.Statdescription);
+   Console.WriteLine(stats_description);
+    for(int i=1;i<=5;i++)
+    {
+        if(count_stars.ContainsKey(i.ToString()) && count_reviews[Model?.ProductName]!=0)
+        {   double value=(double)(count_stars[i.ToString()]/count_reviews[Model?.ProductName])*100;
+            
+            star_percen.Add(value);
+        }
+        else{
+            star_percen.Add(0);
+        }
+    }
 }
-        <!-- breadcrumb__area-start -->
         <section class="breadcrumb__area box-plr-75">
             <div class="container">
                 <div class="row">
@@ -20,9 +36,7 @@
                 </div>
             </div>
         </section>
-        <!-- breadcrumb__area-end -->
 
-        <!-- product-details-start -->
         <div class="product-details">
             <div class="container">
                 <div class="row">
@@ -62,25 +76,46 @@
                         <div class="product__details-content">
                             <h6>@Model?.ProductName</h6>
                             <div class="pd-rating mb-10">
+                            @if(rating!=0)
+                            { int remain=5-rating;
                                 <ul class="rating">
+                                    @for(int i=1;i<=rating;i++)
+                                    {
+                                        <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                    }
+                                  @if(remain!=0)
+                                  {
+                                    @for(int i=1;i<=remain;i++)
+                                    {
+                                        <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                    }
+                                    }
+                                </ul>
+                                }
+                                else{
+                                 <ul class="rating">
                                     <li><a href="#"><i class="fal fa-star"></i></a></li>
                                     <li><a href="#"><i class="fal fa-star"></i></a></li>
                                     <li><a href="#"><i class="fal fa-star"></i></a></li>
                                     <li><a href="#"><i class="fal fa-star"></i></a></li>
                                     <li><a href="#"><i class="fal fa-star"></i></a></li>
                                 </ul>
-                                <span>(01 review)</span>
-                                <span><a href="#">Add your review</a></span>
+                                }
+                              @if(count_reviews!=null)
+                              {
+                                <span>(@(count_reviews[Model?.ProductName]) đánh giá)</span>
+                              }   
+                                <span><a href="#">Add your review</a></span>                                
                             </div>
                             <div class="price mb-10">
                                 <span>@Model?.Price</span>
                             </div>
                             <div class="features-des mb-20 mt-10">
                                 <ul>
-                                    <li><a href="product-details.html"><i class="fas fa-circle"></i> Bass and Stereo Sound.</a></li>
-                                    <li><a href="product-details.html"><i class="fas fa-circle"></i> Display with 3088 x 1440 pixels resolution.</a></li>
-                                    <li><a href="product-details.html"><i class="fas fa-circle"></i> Memory, Storage &amp; SIM: 12GB RAM, 256GB.</a></li>
-                                    <li><a href="product-details.html"><i class="fas fa-circle"></i> Androi v10.0 Operating system.</a></li>
+                                    <li><a href=""><i class="fas fa-circle"></i> Bass and Stereo Sound.</a></li>
+                                    <li><a href=""><i class="fas fa-circle"></i> Display with 3088 x 1440 pixels resolution.</a></li>
+                                    <li><a href=""><i class="fas fa-circle"></i> Memory, Storage &amp; SIM: 12GB RAM, 256GB.</a></li>
+                                    <li><a href=""><i class="fas fa-circle"></i> Androi v10.0 Operating system.</a></li>
                                 </ul>
                             </div>
                           
@@ -88,7 +123,7 @@
                                 <div class="product-quantity mr-20">
                                     <div class="cart-plus-minus p-relative"><input type="text" value="1"><div class="dec qtybutton">-</div><div class="inc qtybutton">+</div></div>
                                 </div>
-                                <a href="cart.html" class="cart-btn">Thêm vào giỏ hàng</a>
+                                <a href="" class="cart-btn">Thêm vào giỏ hàng</a>
                             </div>
                             @* <div class="details-meta">
                                 <div class="d-meta-left">
@@ -105,7 +140,7 @@
                                     </div>
                                 </div>
                             </div> *@
-                            <div class="product-tag-area mt-15">
+                            <div class="product-tag-area mt-15 mb-10">
                                 <div class="product_info">
                                     <span class="posted_in">
                                         <span class="title">Loại sản phẩm:</span>
@@ -113,6 +148,72 @@
                                     </span>
                                 </div>
                             </div>
+                           <div class="rating-card">
+        <h4>Đánh giá khách hàng</h4>
+    
+    <div class="overall-rating">
+        <span class="average-rating">@rating</span> 
+        <span class="total-ratings">(@count_reviews[Model.ProductName] đánh giá)</span> 
+    </div>
+
+    <div class="star-rating-breakdown">
+        <div class="star-row">
+              <span class="star-level"> 
+               @for(int i=1;i<=5;i++)
+               { 
+                <i class="fas fa-star" style="color:#FFD700;"></i>
+                }
+             </span>
+            <div class="rating-bar">
+                <div class="filled-bar" style="width:@star_percen[4]%"></div> 
+            </div>
+            <span class="rating-count">@count_stars["5"]</span> 
+        </div>
+        <div class="star-row">
+   <span class="star-level"> 
+               @for(int i=1;i<=4;i++)
+               { 
+                <i class="fas fa-star" style="color:#FFD700;"></i>
+                }
+             </span>            
+             <div class="rating-bar">
+                <div class="filled-bar" style="width: @star_percen[3]%;"></div>
+            </div>
+            <span class="rating-count">@count_stars["4"]</span>
+        </div>
+        <div class="star-row">
+   <span class="star-level"> 
+               @for(int i=1;i<=3;i++)
+               { 
+                <i class="fas fa-star" style="color:#FFD700;"></i>
+                }
+             </span>            
+             <div class="rating-bar">
+                <div class="filled-bar" style="width: @star_percen[2]%;"></div>
+            </div>
+            <span class="rating-count">@count_stars["3"]</span>
+        </div>
+        <div class="star-row">
+             <span class="star-level"> 
+               @for(int i=1;i<=2;i++)
+               { 
+                <i class="fas fa-star" style="color:#FFD700;"></i>
+                }
+             </span>
+            <div class="rating-bar">
+                <div class="filled-bar" style="width: @star_percen[1]%;"></div>
+            </div>
+            <span class="rating-count">@count_stars["2"]</span>
+        </div>
+        <div class="star-row">
+            <span class="star-level"><i class="fas fa-star" style="color:#FFD700;"></i></span>
+            <div class="rating-bar">
+                <div class="filled-bar" style="width: @star_percen[0]%;"></div>
+            </div>
+            <span class="rating-count">@count_stars["1"]</span>
+        </div>
+    </div>
+</div>
                         </div>
                     </div>
                 </div>
@@ -215,7 +316,7 @@
                         <div class="product__desc-info">
                                 @if(!string.IsNullOrEmpty(Model.Statdescription))
                          {
-                         @Html.Raw(Model.Statdescription)
+                           @Html.Raw(Model.Statdescription)
                          }
                             @* <ul>
                                <li>
@@ -483,6 +584,7 @@
                                             </li>
                                         </ul>
                                     </div>
+ 
                                 </div>
                             </div>
                             </div>

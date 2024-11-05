@@ -21,6 +21,17 @@ public interface IProductRepository
   public Task<PageList<Product>> pagingProductByList(int page_size,int page,IEnumerable<Product> products);
 
   public Task<IEnumerable<Product>> filterProductByNameAndCategory(string name,string cat);
+
+   public Task<int> countProductRatingByStar(int star,int product_id);
+
+  public Task<int> addRatingStar(int product_id,string user_id,int start);
+
+  public Task<int> getSingleProductRating(int product_id);
+
+  public Task<Dictionary<string,int>> countAllReview(List<Product> produtcs);
+
+  public Task<List<Product>> getListProductRating(int star);
+  
   public Task<IEnumerable<Product>> getProductByCategory(string cat);
 
   public Task<PageList<Variant>> pagingVariant(int id,int page_size,int page);

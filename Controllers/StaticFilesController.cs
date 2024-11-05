@@ -16,7 +16,6 @@ namespace Ecommerce_Product.Controllers;
 public class StaticFilesController : Controller
 {
     private readonly ILogger<StaticFilesController> _logger;
-
     // private readonly ICategoryRepository _categoryList;
 
     // public CategoryListController(ILogger<CategoryListController> logger,ICategoryRepository categoryList)
@@ -24,11 +23,7 @@ public class StaticFilesController : Controller
     //     _logger = logger;
     //    this._categoryList=categoryList; 
     // }
-
    private readonly IStaticFilesRepository _static_files;
-
-
-   
    public StaticFilesController(IStaticFilesRepository static_files,ILogger<StaticFilesController> logger)
    {
   this._static_files=static_files;
@@ -37,7 +32,7 @@ public class StaticFilesController : Controller
   [Route("file_list")]
   [HttpGet]
   public async Task<IActionResult> StaticFiles()
-  {       string select_size="7";
+  {       string select_size="7";          
           ViewBag.select_size=select_size;
           List<string> options=new List<string>(){"7","10","20","50"};
           ViewBag.options=options;
