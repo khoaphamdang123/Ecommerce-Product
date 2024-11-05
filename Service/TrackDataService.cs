@@ -30,7 +30,7 @@ public class TrackdataService:ITrackDataRepository
             {
                 track_data.Totalcount=count;
                 this._context.Trackdata.Update(track_data);
-                this._context.SaveChanges();
+                this._context.SaveChanges();                
                 update_res=1;
             }
 

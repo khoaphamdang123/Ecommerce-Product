@@ -525,6 +525,102 @@ z-index: 10;
   border-radius: 3px;
 }
 
+.rating ul {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;    
+  padding: 0;
+  margin:0px;
+  list-style: none;
+}
+
+/* Style each star */
+.rating ul .star {
+  cursor: pointer;
+  color: lightgray;      
+  font-size: 24px;
+  margin: 0 2px;
+  transition:font-weight 0.5s ease;       
+}
+
+.rating ul .star:hover ~ .star i,
+.rating ul .star:hover i {
+  font-weight: 900;
+}
+
+.rating-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  width: 300px;
+  background-color: #f9f9f9;
+}
+
+.rating-card h4 {
+  margin: 0 0 10px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.overall-rating {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.average-rating {
+  font-size: 28px;
+  font-weight: bold;
+  color: #ffb400; /* Gold color for the rating */
+  margin-right: 8px;
+}
+
+.total-ratings {
+  font-size: 14px;
+  color: #888;
+}
+
+.star-rating-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.star-row {
+  display: flex;
+  align-items: center;
+}
+
+.star-level {
+  width:100px;
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+
+.rating-bar {
+  flex-grow: 1;
+  height: 8px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  margin: 0 8px;
+  position: relative;
+}
+
+.filled-bar {
+  height: 100%;
+  background-color: #ffb400;
+  border-radius: 4px;
+}
+
+.rating-count {
+  font-size: 14px;
+  width: 30px;
+  text-align: right;
+}
+
+
+
 
 .px-2 {
   padding-right: .5rem !important;

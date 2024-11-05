@@ -31,6 +31,9 @@ public async Task<IActionResult> HomePage()
     var categories = await this._category.getAllCategory();
     
     var brands = await this._category.getAllBrandList();
+  Dictionary<string,int> count_reviews=await this._product.countAllReview(products.ToList()); 
+    
+    ViewBag.count_reviews=count_reviews;
     
     ViewBag.banners=banners;
     

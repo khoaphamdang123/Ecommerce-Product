@@ -14,7 +14,6 @@
         email=this.ViewContext.HttpContext.Session.GetString("Email");
         password = this.ViewContext.HttpContext.Session.GetString("Password");
         avatar = this.ViewContext.HttpContext.Session.GetString("Avatar");
-       
         change_pass=new ChangePassword(email,password,"");
        }
        var categories = ViewBag.Categories as List<Category>;
@@ -241,7 +240,7 @@
                         <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4">
                             <div class="header__info">
                                 <div class="logo">
-                                    <a href="index.html" class="logo-image"><img src="assets/img/logo/logo1.svg" alt="logo"></a>
+                                    <a href="@Url.Action("HomePage","HomePage")" class="logo-image"><img src="~/user_layout/img/favicon.png" alt="logo"></a>
                                 </div>
                             </div>
                         </div>
@@ -280,15 +279,16 @@
                         />
                         }
                         else{
-                            <img
-                          src="@avatar"
+                      <img
+                        src="@avatar"
                         alt="User Avatar" class="rounded-circle" style="width: 30px; height: 30px; margin-right: 5px;"
                         />
                         }
                         }
-                    else{
-                     <img src="@avatar" alt="User Avatar" class="rounded-circle" style="width: 30px; height: 30px; margin-right: 5px;" />
-                     }
+                    else
+                    {
+                     <img src="@avatar" alt="User Avatar" class="rounded-circle" style="width: 30px; height: 30px; margin-right: 5px;"/>
+                    }
                      <span class="text">
                      <span class="sub">Xin chào</span>
                      @User.Identity.Name
@@ -682,7 +682,7 @@
                                         </ul> *@
                                     </li>
                                     <li><a href="about.html">Về chúng tôi</a></li>
-                                    <li class="product-list"><a href="shop.html">Sản phẩm<i class="far fa-angle-down"></i></a>
+                                    <li class="product-list"><a href="@Url.Action("Products","Products")">Sản phẩm<i class="far fa-angle-down"></i></a>
                                      <ul class="dropdown">
                                            @foreach(var cat in categories)
                                            {

@@ -96,7 +96,7 @@ public async Task<IEnumerable<Product>> filterProduct(FilterProduct products)
    var prod_list=await this.getAllProduct(); 
 try
 {      
-      string start_date=products.StartDate;
+    string start_date=products.StartDate;
     string end_date = products.EndDate;
     string prod_name=products.ProductName;
     string brand = products.Brand;
@@ -118,7 +118,6 @@ try
    }
    else if(string.IsNullOrEmpty(start_date) && !string.IsNullOrEmpty(end_date))
    { 
-    
     end_date=end_date.Trim();
    
     prod_list=prod_list.Where(c=>DateTime.TryParse(c.CreatedDate,out var startDate) && DateTime.TryParse(end_date,out var upperDate) && startDate.Date==upperDate.Date).ToList();
@@ -246,10 +245,118 @@ public async Task<int> deleteProduct(int id)
   }
 
 
+public async Task<int> countProductRatingByStar(int star,int product_id)
+{
+  var count=await this._context.Ratingdetails.Where(c=>c.ProductId==product_id && c.Rating==star).CountAsync();
+  return count;
+}
+
+private async Task<int> calculateAvgStar(Dictionary<int,int> list_star)
+{  int total_star=0;
+   int total_reviews=0;
+   foreach(KeyValuePair<int,int> kvp in list_star)
+   {
+     int star=kvp.Key;
+     int count=kvp.Value;
+     total_star+=star*count;
+     total_reviews+=count;
+   }
+   int avg=0;
+   if(total_reviews!=0)
+   {
+    avg=total_star/total_reviews;
+   }
+   return avg;
+}
+
+public async Task<int>getSingleProductRating(int product_id)
+{
+  List<int> stars=new List<int>{5,4,3,2,1};
+  Dictionary<int,int> dict=new Dictionary<int, int>();
+  foreach(int star in stars)
+  {
+    int count=await this.countProductRatingByStar(star,product_id);
+    dict.Add(star,count);
+  }
+  int avg_rate=await this.calculateAvgStar(dict);
+  return avg_rate;
+}
+public async Task<List<Product>> getListProductRating(int star)
+{ List<Product> list_prod= new List<Product>();
+  try
+  {
+    var products=await this.getAllProduct();
+    List<int> stars=new List<int>{1,2,3,4,5};
+    
+    foreach(var product in products)
+    {
+      int prod_id=product.Id;
+    Dictionary<int,int> dict= new Dictionary<int, int>();
+    foreach(int star_val in stars)
+    {
+      int prod_val=await countProductRatingByStar(star_val,prod_id);
+      dict.Add(star_val,prod_val);
+    }
+    int star_rate=await calculateAvgStar(dict);
+    if(star_rate==star)
+    {
+      list_prod.Add(product);
+    }
+    }
+  }
+  catch(Exception er)
+  {
+    Console.WriteLine("Get List Product Rating Exception:"+er.Message);
+  }
+    return list_prod;
+}
+
+private async Task<int> countReviews(int product_id)
+{
+    var count=await this._context.Ratingdetails.Where(c=>c.ProductId==product_id).CountAsync();
+  return count;
+}
+public async Task<Dictionary<string,int>> countAllReview(List<Product> products)
+{
+ Dictionary<string,int> dict = new Dictionary<string, int>();
+ foreach(var product in products)
+ {
+  int prod_id=product.Id;
+  int count_reviews=await this.countReviews(prod_id);
+  string prod_name=product.ProductName;
+  dict.Add(prod_name,count_reviews);
+ }
+ return dict;
+}
 public async Task<SubCategory> findCatIdBySubId(int id)
 {
   var sub_cat=await this._context.SubCategory.Include(c=>c.Category).FirstOrDefaultAsync(c=>c.Id==id);
   return sub_cat;
+}
+
+public async Task<int> addRatingStar(int product_id,string user_id,int star)
+{ int create_res=0;
+  try
+  {
+    var check_rating=await this._context.Ratingdetails.FirstOrDefaultAsync(c=>c.ProductId==product_id && c.UserId==user_id);
+    if(check_rating!=null)
+    {
+      create_res=-1;
+    }
+    else
+    { 
+      string created_date=DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss");
+      var rating=new Ratingdetail{ProductId=product_id,UserId=user_id,Rating=star,CreatedDate=created_date};
+      await this._context.Ratingdetails.AddAsync(rating);
+      await this.saveChanges();
+      create_res=1;
+    }
+  }
+  catch(Exception er)
+  {
+    Console.WriteLine("Add Rating Star Exception:"+er.InnerException??er.Message); 
+  }
+  return create_res;
 }
 
 
