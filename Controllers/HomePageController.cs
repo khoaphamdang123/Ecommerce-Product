@@ -20,8 +20,17 @@ public HomePageController(IBannerListRepository banner,IProductRepository produc
     this._logger=logger;
 }
 
-[Route("home")]
+// public IActionResult HomePage()
+// {
+//   return View();
+// }
+
+
+
 [HttpGet]
+[Route("")]
+[Route("home")]
+
 public async Task<IActionResult> HomePage()
 {   
     var banners= await this._banner.findBannerByName("Home");

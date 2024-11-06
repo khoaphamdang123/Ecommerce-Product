@@ -488,7 +488,15 @@
                                                  </div> *@
                                                  <div class="col-xxl-12">
                                                     <div class="comment-submit">
+                                                      @if(!string.IsNullOrEmpty(user))
+                                                      {
                                                        <button type="submit" id="review-btn" data-user-id="@user" data-product-id="@Model.Id" class="cart-btn">Thêm đánh giá</button>
+                                                       }
+                                                    else
+                                                    {
+                                                        <button type="submit" class="cart-btn" disabled>Thêm đánh giá</button>
+                                                    }
+
                                                     </div>
                                                  </div>
                                               </div>
