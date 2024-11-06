@@ -58,6 +58,11 @@ public async Task<IActionResult> ProductDetail(string product_name)
       count_stars.Add(i.ToString(),count_star);
     }
      ViewBag.count_stars=count_stars;
+
+    var review_list=await this._product.getProductReviewList(product.Id);
+
+    ViewBag.review_list=review_list;
+
       Console.WriteLine("number of image details:"+products_image);
       if(!string.IsNullOrEmpty(product.Statdescription))
       {  
@@ -75,4 +80,37 @@ public async Task<IActionResult> ProductDetail(string product_name)
     }    
     return View("~/Views/ClientSide/ProductDetail/ProductDetail.cshtml",product);
 }
+[HttpPost]
+
+public async Task<JsonResult> addProductReviews(string product_id,string user_id,string review)
+{ int add_reviews_res=0;
+  try
+  { 
+  if(string.IsNullOrEmpty(user_id))
+  {
+    return Json(new{status=0,message=$"Thêm đánh giá cho sản phẩm mã {product_id} thất bại"});
+  }
+  if(string.IsNullOrEmpty(review))
+  {
+        return Json(new{status=0,message=$"Không được để trống thông tin đánh giá."});
+  }
+  Console.WriteLine("Review content here is:"+review);
+   int productId=Convert.ToInt32(product_id);
+    add_reviews_res=await this._product.addReviews(productId,user_id,review);
+  }
+  catch(Exception er)
+  { 
+    Console.WriteLine("Add Product Review Exception:"+er.Message);
+    this._logger.LogError("Add Product Review Exception:"+er.Message);
+  }
+  if(add_reviews_res==1)
+  {
+    return Json(new{status=1,message=$"Thêm đánh giá cho sản phẩm mã {product_id} thành công"});
+  }
+else
+{
+  return Json(new{status=0,message=$"Thêm đánh giá cho sản phẩm mã {product_id} thất bại"});
+}
+}
+
 }

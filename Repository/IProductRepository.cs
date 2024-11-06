@@ -30,6 +30,10 @@ public interface IProductRepository
 
   public Task<Dictionary<string,int>> countAllReview(List<Product> produtcs);
 
+  public Task<List<Reviewdetail>> getProductReviewList(int product_id);
+
+  public Task<int> addReviews(int product_id,string user_id,string comment);
+
   public Task<List<Product>> getListProductRating(int star);
   
   public Task<IEnumerable<Product>> getProductByCategory(string cat);

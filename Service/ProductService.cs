@@ -27,7 +27,7 @@ public class ProductService:IProductRepository
   {
     try
     {
-       var products=this._context.Products.Include(p=>p.Brand).Include(p=>p.Category).Include(c=>c.SubCat).Include(p=>p.Variants).ToList();
+       var products=this._context.Products.Include(p=>p.Brand).Include(p=>p.Category).Include(c=>c.SubCat).Include(p=>p.Variants).Include(p=>p.ProductImages).ToList();
        return products;
     }
     catch(Exception er)
@@ -313,7 +313,7 @@ public async Task<List<Product>> getListProductRating(int star)
 
 private async Task<int> countReviews(int product_id)
 {
-    var count=await this._context.Ratingdetails.Where(c=>c.ProductId==product_id).CountAsync();
+  var count=await this._context.Ratingdetails.Where(c=>c.ProductId==product_id).CountAsync();
   return count;
 }
 public async Task<Dictionary<string,int>> countAllReview(List<Product> products)
@@ -328,6 +328,49 @@ public async Task<Dictionary<string,int>> countAllReview(List<Product> products)
  }
  return dict;
 }
+
+  public async Task<int> addReviews(int product_id,string user_id,string comment)
+  { int res_add=0;
+    try
+    { 
+      string created_date=DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss");
+    
+      var review=new Reviewdetail{ProductId=product_id,UserId=user_id,ReviewText=comment,CreatedDate=created_date};
+      await this._context.Reviewdetails.AddAsync(review);
+      await this.saveChanges();
+      res_add=1;
+    }
+    catch(Exception er)
+    {
+    Console.WriteLine("Add Reviews Exception:"+er.InnerException??er.Message); 
+    }
+    return res_add;
+  }
+
+  public async Task<List<Reviewdetail>> getProductReviewList(int product_id)
+  {  var reviews=new List<Reviewdetail>();
+    try
+    {
+      reviews=await this._context.Reviewdetails.Include(c=>c.Product).Include(c=>c.User).Where(p=>p.ProductId==product_id).ToListAsync();
+    }
+    catch(Exception er)
+    {
+      Console.WriteLine("Get Product Reviews Exception:"+er.Message);
+    }
+  if(reviews!=null)
+  {
+    foreach(var review in reviews)
+    {
+      DateTime datetime=DateTime.ParseExact(review.CreatedDate,"MM/dd/yyyy hh:mm:ss",null);
+        string formattedDate = datetime.ToString("MMM dd, yyyy");
+     review.CreatedDate=formattedDate;
+    }
+  }
+
+    return reviews;
+  }
+
+
 public async Task<SubCategory> findCatIdBySubId(int id)
 {
   var sub_cat=await this._context.SubCategory.Include(c=>c.Category).FirstOrDefaultAsync(c=>c.Id==id);
