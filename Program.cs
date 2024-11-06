@@ -194,7 +194,10 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+else
+{
+    app.UseDeveloperExceptionPage();
+}
 
 app.UseStatusCodePagesWithReExecute("/admin/Error/{0}");
 
@@ -211,12 +214,11 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=HomePage}/{action=HomePage}/{id?}"
+    pattern: "{controller=HomePage}/{action=home}/{id?}"
+);
+app.MapControllerRoute(
+    name: "admin",
+    pattern: "{controller=LoginAdmin}/{action=Index}/{id?}"
     );
-
-// app.MapControllerRoute(
-//     name: "admin",
-//     pattern: "{controller=LoginAdmin}/{action=Index}/{id?}"
-//     );
 
 app.Run();
