@@ -471,9 +471,9 @@ public partial class EcommerceshopContext : DbContext
             entity.HasKey(e => e.Id).HasName("reviewdetails_pk");
 
             entity.ToTable("reviewdetails");
+            // entity.Property(e => e.Id).HasDefaultValueSql("nextval('\"Product_id_seq\"'::regclass)");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
+            entity.Property(e => e.Id).HasDefaultValueSql("nextval('\"reviewdetail_id_seq\"'::regclass)")
                 .HasColumnName("id");
             entity.Property(e => e.CreatedDate)
                 .HasColumnType("character varying")

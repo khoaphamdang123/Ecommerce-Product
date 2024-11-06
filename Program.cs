@@ -211,7 +211,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=LoginAdmin}/{action=Index}/{id?}"
+    pattern: "{controller=HomePage}/{action=HomePage}/{id?}"
     );
 
 // app.MapControllerRoute(
