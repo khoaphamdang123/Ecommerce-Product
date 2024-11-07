@@ -47,6 +47,7 @@
 				};
 				options = $.extend(defaults, options);
 
+
 				// get browser width
 				var currentWidth = window.innerWidth || document.documentElement.clientWidth;
 

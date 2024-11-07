@@ -47,3 +47,95 @@ a.navbar-brand {
     line-height: 60px;
   } 
   
+  .offcanvas__area {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+.offcanvas__wrapper {
+    padding: 20px;
+}
+
+.offcanvas__close {
+    text-align: right;
+}
+
+.offcanvas__close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.offcanvas__logo {
+    text-align: center;
+}
+
+.offcanvas__logo img {
+    max-width: 150px;
+}
+
+.offcanvas__search {
+    margin-bottom: 25px;
+}
+
+.offcanvas__search form {
+    display: flex;
+}
+
+.offcanvas__search input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px 0 0 4px;
+}
+
+.offcanvas__search button {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-left: none;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+}
+
+.mobile-menu {
+    margin-top: 20px;
+}
+
+.mobile-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-menu ul li {
+    margin-bottom: 10px;
+}
+
+.mobile-menu ul li a {
+    display: block;
+    padding: 10px;
+    background-color: #f8f9fa;
+    color: #333;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.mobile-menu ul li a:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+
+

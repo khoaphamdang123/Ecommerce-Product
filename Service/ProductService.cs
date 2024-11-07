@@ -27,7 +27,7 @@ public class ProductService:IProductRepository
   {
     try
     {
-       var products=this._context.Products.Include(p=>p.Brand).Include(p=>p.Category).Include(c=>c.SubCat).Include(p=>p.Variants).Include(p=>p.ProductImages).ToList();
+       var products=await this._context.Products.Include(p=>p.Brand).Include(p=>p.Category).Include(c=>c.SubCat).Include(p=>p.Variants).Include(p=>p.ProductImages).ToListAsync();
        return products;
     }
     catch(Exception er)

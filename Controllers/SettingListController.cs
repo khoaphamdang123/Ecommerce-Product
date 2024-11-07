@@ -17,13 +17,7 @@ public class SettingListController : Controller
 {
     private readonly ILogger<SettingListController> _logger;    
 
-    // private readonly ICategoryRepository _categoryList;
 
-    // public CategoryListController(ILogger<CategoryListController> logger,ICategoryRepository categoryList)
-    // {
-    //     _logger = logger;
-    //    this._categoryList=categoryList; 
-    // }
 
    private readonly ISettingRepository _setting;
 
@@ -34,7 +28,6 @@ public class SettingListController : Controller
   this._setting=setting;
   this._logger=logger;   
    }
-  //[Authorize(Roles ="Admin")]
   [Route("settings")]
   [HttpGet]
   public async Task<IActionResult> SettingList()
@@ -63,13 +56,11 @@ public class SettingListController : Controller
     }
     else
     {    ViewBag.Status=0;
-         ViewBag.message="Cập nhật cấu hình cài đặt thất bại";         
+         ViewBag.message="Cập nhật cấu hình cài đặt thất bại";                  
       this._logger.LogInformation($"{this.HttpContext.Session.GetString("Username")} Updated Setting Failed");
     }
     var setting_list=await this._setting.getAllSetting();
-    
+
     return View(setting_list);
   }
-
-
 }
