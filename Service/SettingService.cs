@@ -19,11 +19,10 @@ public class SettingService:ISettingRepository
   }
 
 
-
 public async Task<IEnumerable<Setting>> getAllSetting()
 {
     var settings=this._context.Settings.ToList();
-
+    
     return settings;
 }
 

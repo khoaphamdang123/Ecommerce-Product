@@ -34,22 +34,40 @@ public HomePageController(IBannerListRepository banner,IProductRepository produc
 public async Task<IActionResult> HomePage()
 {   
     var banners= await this._banner.findBannerByName("Home");
+
+   
+    DateTime startTime=DateTime.Now;
     
     var products = await this._product.getAllProduct();
     
+    DateTime endTime=DateTime.Now;
+    
+    int secons=endTime.Second-startTime.Second;
+    
+    Console.WriteLine("Time taken to get all products is:"+secons);
+    startTime=DateTime.Now;
     var categories = await this._category.getAllCategory();
+    endTime=DateTime.Now;
+       secons=endTime.Second-startTime.Second;
     
+    Console.WriteLine("Time taken to get all cat is:"+secons);
+    startTime=DateTime.Now;
     var brands = await this._category.getAllBrandList();
+    endTime=DateTime.Now;
+       secons=endTime.Second-startTime.Second;
+         Console.WriteLine("Time taken to get all brands is:"+secons);
+ 
+startTime=DateTime.Now;
   Dictionary<string,int> count_reviews=await this._product.countAllReview(products.ToList()); 
-    
+  endTime=DateTime.Now;
+       secons=endTime.Second-startTime.Second;
+         Console.WriteLine("Time taken to get all reviews is:"+secons);
     ViewBag.count_reviews=count_reviews;
     
     ViewBag.banners=banners;
     
     ViewBag.products = products;
-    
-    // ViewBag.categories=categories;
-    
+        
     ViewBag.brands=brands;
 
     return View("~/Views/ClientSide/HomePage/HomePage.cshtml");

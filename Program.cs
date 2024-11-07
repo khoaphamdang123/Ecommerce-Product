@@ -13,7 +13,6 @@ DotNetEnv.Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 var host = Environment.GetEnvironmentVariable("DB_HOST");
 var port = Environment.GetEnvironmentVariable("DB_PORT");
 var database = Environment.GetEnvironmentVariable("DB_NAME");
@@ -25,6 +24,7 @@ builder.Configuration["ConnectionStrings:DefaultConnection"] =
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
 
 var _logger = new LoggerConfiguration().ReadFrom.Configuration(builder.Configuration).Enrich.FromLogContext().CreateLogger();
 
@@ -90,6 +90,7 @@ builder.Services.AddHttpContextAccessor();
 
 
 builder.Services.Configure<SmtpModel>(builder.Configuration.GetSection("SmtpModel"));
+
 
 builder.Services.Configure<RecaptchaResponse>(builder.Configuration.GetSection("Recapcha"));
 
@@ -190,8 +191,6 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
 
-
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 else
@@ -199,7 +198,7 @@ else
     app.UseDeveloperExceptionPage();
 }
 
-app.UseStatusCodePagesWithReExecute("/admin/Error/{0}");
+// app.UseStatusCodePagesWithReExecute("/admin/Error/{0}");
 
 app.UseHttpsRedirection();
 
@@ -210,6 +209,8 @@ app.UseRouting();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseMiddleware<NotFoundMiddleware>();
 
 
 app.MapControllerRoute(

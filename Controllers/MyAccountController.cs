@@ -124,24 +124,6 @@ namespace Ecommerce_Product.Controllers
         ViewBag.SiteKey=this._recaptcha_response.SiteKey;
        }
 
-
-    // if(normalUser==null)
-    // {   Console.WriteLine("normal user here");
-        //var newNormalUser = new ApplicationUser{UserName = normalEmail,Email=normalEmail,Address1="here",Address2="there",Gender="Male"};
-    //     var createUser = await _userManager.CreateAsync(newNormalUser,normalPassword);
-    //     if(createUser.Succeeded)
-    //     { Console.WriteLine("It used to be in here");
-    //         await _userManager.AddToRoleAsync(newNormalUser,"User");
-    //     }
-    //     else{
-    //         foreach (var error in createUser.Errors)
-    //         {
-    //             ModelState.AddModelError(string.Empty, error.Description);
-    //             Console.WriteLine(error.Description);
-    //             this._logger.LogDebug($"Created User:{error.Code}.{error.Description}");
-    //         }
-    //     }
-    // }  
             if(admin_user!=null)
             {   string email=admin_user.Email;
              
@@ -161,8 +143,7 @@ namespace Ecommerce_Product.Controllers
                         SiteKey=this._recaptcha_response.SiteKey
 
                    };
-                    // TempData["LoginFailed"]="True";
-                    // TempData["ErrorContent"]="Mật khẩu không chính xác";
+            
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                 }
             else
@@ -178,9 +159,7 @@ namespace Ecommerce_Product.Controllers
                             Message="Hãy chọn captcha để chứng minh bạn ko phải robot.",
                             SiteKey=this._recaptcha_response.SiteKey
                     };
-        //  TempData["LoginFailed"]="True";
-        //  TempData["ErrorContent"]="Hãy chọn captcha để chứng minh bạn ko phải robot.";   
-        //  ViewBag.SiteKey=this._recaptcha_response.SiteKey;
+     
          return Json(response);
              }
              }
@@ -197,17 +176,6 @@ namespace Ecommerce_Product.Controllers
                      };
             }
             }
-        // else
-        // {          Console.WriteLine("Not admin");
-        //              response=new StatusResponse{
-        //                       Status=0,
-        //                       Title="Đăng nhập",
-        //                       Message="Tài khoản này không có quyền admin"
-        //              };
-        //         //    TempData["LoginFailed"]="True";
-        //         //    TempData["ErrorContent"]="Tài khoản này không có quyền admin"; 
-        //             ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-        // }
             }
             else
             {   Console.WriteLine("User is null");

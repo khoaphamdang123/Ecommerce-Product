@@ -16,7 +16,6 @@
     var product_banner=ViewBag.product_banner;
     Console.WriteLine("Product banner:"+product_banner);
     var sub_product_banner=ViewBag.sub_banner;
-    
     var count_product_reviews=ViewBag.count_product_reviews as Dictionary<string,int>;
 
     Console.WriteLine("Sub Product banner:"+sub_product_banner);
@@ -158,7 +157,7 @@
                                             <i class="fas fa-star"></i>
                                          @if(count_product_reviews!=null)
                                          {
-                                            <span>(@(count_product_reviews["5"]) sản phẩm)</span>
+                                            <span>(@(count_product_reviews["1"]) sản phẩm)</span>
                                             }
                                         </label>
                                     </div>
@@ -872,7 +871,5 @@ document.addEventListener("DOMContentLoaded",()=>{
       window.location.href= '@Url.Action("ProductsPaging", "Products")' + "?page_size=" + selected_value;
     }
     }
-
-
 
  </script>

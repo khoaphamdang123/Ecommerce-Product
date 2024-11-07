@@ -17,9 +17,9 @@ public IActionResult ServerError()
     return View();
 }
 
-[Route("Maintainance")]
-public IActionResult Maintainance()
-{
-    return View();
-}
+// [Route("Maintainance")]
+// public IActionResult Maintainance()
+// {
+//     return View();
+// }
 }

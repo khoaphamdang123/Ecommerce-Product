@@ -698,7 +698,7 @@
                 var toastEl = document.querySelector('.toast');
                 toastEl.classList.add('bg-danger');
                 var toast = new bootstrap.Toast(toastEl);
-                 toast.show();           
+                toast.show();           
                  }
         });
 
@@ -706,7 +706,8 @@
     });
 
      });
-          function changeImageLoaded(thumbnail)
+    
+     function changeImageLoaded(thumbnail)
      {
         var thumb_img=thumbnail.querySelector("img").src;
         document.getElementById("mainImage").src=thumb_img;

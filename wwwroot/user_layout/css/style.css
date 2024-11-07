@@ -1392,7 +1392,7 @@ input {
 }
 .header__search-cat .nice-select .list {
   min-width: 220px;
-  height: 250px;
+  height: 175px;
   overflow: hidden;
   overflow-y: scroll;
   -webkit-border-radius: 0;
