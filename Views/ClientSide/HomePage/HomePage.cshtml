@@ -181,8 +181,8 @@
                                 <a href="product-details.html"><img src="~/@cat.Avatar.Substring(cat.Avatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="category"></a>
                             </div>
                             <div class="categories__content">
-                                <h6><a href="product-details.html">@cat.CategoryName</a></h6>
-                                <p>@(products.Count(p=>p.Category.CategoryName==cat.CategoryName))</p>
+                                <h6 style="color:#fcbe00;font-weight: bold;"><a href="product-details.html">@cat.CategoryName</a></h6>
+                                <p style="color:#fcbe00;font-weight: bold;">@(products.Count(p=>p.Category.CategoryName==cat.CategoryName))</p>
                             </div>
                         </div>
                     </div>
