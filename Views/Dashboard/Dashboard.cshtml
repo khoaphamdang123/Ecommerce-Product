@@ -183,7 +183,7 @@
                         <div class="card-body">
                           <div class="card-title d-flex align-items-start justify-content-between">
                             <div class="avatar flex-shrink-0">
-                              <img src="~/img/icons/unicons/chart-success.png" alt="Credit Card" class="rounded" />
+                              <img src="~/img/icons/unicons/chart-success.png" alt="Credit Card" class="rounded"/>
                             </div>
                             <div class="dropdown">
                               <button
@@ -397,7 +397,7 @@
     
     <script>
 
-    
+try{    
 let configs = {
   colors: {
     primary: '#696cff',
@@ -416,6 +416,7 @@ let configs = {
   }
 };
 
+
 var cat_name=document.querySelectorAll("#cat-name");
 
 var cat_value=document.querySelectorAll("#cat-value");
@@ -431,6 +432,7 @@ let cardColor, headingColor, axisColor, shadeColor, borderColor;
   borderColor = configs.colors.borderColor;
 
   let cat_keys=[];
+
   for(let i=0;i<cat_name.length;i++)
   {
     cat_keys.push(cat_name[i].innerText);
@@ -441,6 +443,74 @@ let cardColor, headingColor, axisColor, shadeColor, borderColor;
     {
         cat_values.push((parseInt(cat_value[i].innerText)/(parseInt("50"))).toFixed(2)*100);
     }
+
+    @* const chartOrderStatistics = document.querySelector('#orderStatisticsCharts'),
+    orderChartConfig = {
+      chart: {
+        height: 165,
+        width: 130,
+        type: 'donut'
+      },
+      labels: ['Electronic', 'Sports', 'Decor', 'Fashion'],
+      series: [85, 15, 50, 50],
+      colors: [configs.colors.primary, configs.colors.secondary, configs.colors.info, configs.colors.success],
+      stroke: {
+        width: 5,
+        colors: cardColor
+      },
+      dataLabels: {
+        enabled: false,
+        formatter: function (val, opt) {
+          return parseInt(val) + '%';
+        }
+      },
+      legend: {
+        show: false
+      },
+      grid: {
+        padding: {
+          top: 0,
+          bottom: 0,
+          right: 15
+        }
+      },
+      plotOptions: {
+        pie: {
+          donut: {
+            size: '75%',
+            labels: {
+              show: true,
+              value: {
+                fontSize: '1.5rem',
+                fontFamily: 'Public Sans',
+                color: headingColor,
+                offsetY: -15,
+                formatter: function (val) {
+                  return parseInt(val) + '%';
+                }
+              },
+              name: {
+                offsetY: 20,
+                fontFamily: 'Public Sans'
+              },
+              total: {
+                show: true,
+                fontSize: '0.8125rem',
+                color: axisColor,
+                label: 'Weekly',
+                formatter: function (w) {
+                  return '38%';
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+  if (typeof chartOrderStatistics !== undefined && chartOrderStatistics !== null) {
+    const statisticsChart = new ApexCharts(chartOrderStatistics, orderChartConfig);
+    statisticsChart.render();
+  } *@
 
 const chartOrderStatistics = document.querySelector('#orderStatisticsCharts'),
     orderChartconfigs = {
@@ -948,6 +1018,11 @@ if (typeof chartOrderStatistics !== undefined && chartOrderStatistics !== null) 
   if (typeof incomeChartEl !== undefined && incomeChartEl !== null) {
     const incomeChart = new ApexCharts(incomeChartEl, incomeChartConfig);
     incomeChart.render();
+  }
+  }
+  catch(er)
+  {
+    alert(er.message);
   }
    
 </script>

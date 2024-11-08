@@ -11,6 +11,8 @@ public interface IStaticFilesRepository
 
   public Task<StaticFile> findStaticFileById(int id);
 
+  public Task<StaticFile> findStaticFileByName(string name);
+
   public Task<PageList<StaticFile>> pagingStaticFiles(int page_size,int page);
 
   public Task<int> addPage(StaticFile file);

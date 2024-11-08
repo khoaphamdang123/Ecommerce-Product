@@ -57,8 +57,8 @@
                                         <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=products[i].ProductName})"><img src="~/@products[i].Frontavatar.Substring(products[i].Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt=""></a>
                                     </div>
                                     <div class="banner__content banner__content-2">
-                                        <h6><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=products[i].ProductName})">@products[i].ProductName</a></h6>
-                                        <p>@products[i].Category.CategoryName</p>
+                                        <h6 style="color: #fcbe00; font-weight: bold;"><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=products[i].ProductName})">@products[i].ProductName</a></h6>
+                                        <p style="color: #fcbe00; font-weight: bold;">@products[i].Category.CategoryName</p>
                                     </div>
                                 </div>
                             </div>
