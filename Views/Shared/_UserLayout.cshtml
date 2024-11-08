@@ -25,8 +25,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] Thanh Quang Shop</title>
-     <meta charset="utf-8">
-      <meta http-equiv="x-ua-compatible" content="ie=edge">
       <link rel="shortcut icon" type="image/x-icon" href="~/user_layout/img/favicon.png">
       <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
 
@@ -64,7 +62,12 @@
     />
 
 
-
+<style>
+    body 
+    {
+        font-family: 'Roboto', sans-serif !important;
+    }
+</style>
 
 </head>
 <body>
@@ -224,7 +227,7 @@
                             <div class="header-inner-end text-md-end">
                                 <div class="ovic-menu-wrapper">
                                     <ul>
-                                        <li><a href="about.html">Về chúng tôi</a></li>
+                                        <li><a href="@Url.Action("StaticPage","StaticPage",new{page_name="about"})">Về chúng tôi</a></li>
                                         <li><a href="contact.html">Liên hệ</a></li>
                                         <li><a href="faq.html">FAQs</a></li>
                                     </ul>
@@ -447,187 +450,39 @@
         <div class="header__bottom">
             <div class="container">
                 <div class="row g-0 align-items-center">
-                    @* <div class="col-lg-3">                        
                         <div class="cat__menu-wrapper side-border d-none d-lg-block">
                             <div class="cat-toggle">
-                                <button type="button" class="cat-toggle-btn cat-toggle-btn-1"><i class="fal fa-bars"></i> Shop by department</button>
+                                @* <button type="button" class="cat-toggle-btn cat-toggle-btn-1"><i class="fal fa-bars"></i> Shop by department</button> *@
                                 <div class="cat__menu">
                                     <nav id="mobile-menu" style="display: block;">
                                         <ul>
                                             <li>
-                                                <a href="product.html">All Categories <i class="far fa-angle-down"></i></a>
-                                                <ul class="mega-menu">
-                                                    <li><a href="product.html">Shop Pages</a>
-                                                        <ul class="mega-item">
-                                                            <li><a href="product-details.html">Standard SHop Page</a></li>
-                                                            <li><a href="product-details.html">Shop Right Sidebar</a></li>
-                                                            <li><a href="product-details.html">Shop Left Sidebar</a></li>
-                                                            <li><a href="product-details.html">Shop 3 Column</a></li>
-                                                            <li><a href="product-details.html">Shop 4 Column</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li><a href="product.html">Product Pages</a>
-                                                        <ul class="mega-item">
-                                                            <li><a href="product-details.html">Product Details</a></li>
-                                                            <li><a href="product-details.html">Product V2</a></li>
-                                                            <li><a href="product-details.html">Product V3</a></li>
-                                                            <li><a href="product-details.html">Varriable Product</a></li>
-                                                            <li><a href="product-details.html">External Product</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li><a href="product.html">Other Pages</a>
-                                                        <ul class="mega-item">
-                                                            <li><a href="product-details.html">wishlist</a></li>
-                                                            <li><a href="product-details.html">Shopping Cart</a></li>
-                                                            <li><a href="product-details.html">Checkout</a></li>
-                                                            <li><a href="product-details.html">Login</a></li>
-                                                            <li><a href="product-details.html">Register</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li><a href="product.html">Phone &amp; Tablets</a>
-                                                        <ul class="mega-item">
-                                                            <li><a href="product-details.html">Catagory 1</a></li>
-                                                            <li><a href="product-details.html">Catagory 2</a></li>
-                                                            <li><a href="product-details.html">Catagory 3</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li><a href="product.html">Phone &amp; Tablets</a>
-                                                        <ul class="mega-item">
-                                                            <li><a href="product-details.html">Catagory 1</a></li>
-                                                            <li><a href="product-details.html">Catagory 2</a></li>
-                                                            <li><a href="product-details.html">Catagory 3</a></li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <a href="product.html">Phone and Electronics <i class="far fa-angle-down"></i></a>
-                                                <ul class="mega-menu mega-menu-2">
-                                                    <li><a href="product.html">Shop Pages</a>
-                                                        <ul class="mega-item">
-                                                            <li><a href="product-details.html">Standard SHop Page</a></li>
-                                                            <li><a href="product-details.html">Shop Right Sidebar</a></li>
-                                                            <li><a href="product-details.html">Shop Left Sidebar</a></li>
-                                                            <li><a href="product-details.html">Shop 3 Column</a></li>
-                                                            <li><a href="product-details.html">Shop 4 Column</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li><a href="product.html">Product Pages</a>
-                                                        <ul class="mega-item">
-                                                            <li><a href="product-details.html">Product Details</a></li>
-                                                            <li><a href="product-details.html">Product V2</a></li>
-                                                            <li><a href="product-details.html">Product V3</a></li>
-                                                            <li><a href="product-details.html">Varriable Product</a></li>
-                                                            <li><a href="product-details.html">External Product</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li><a href="product.html">Other Pages</a>
-                                                        <ul class="mega-item">
-                                                            <li><a href="product-details.html">wishlist</a></li>
-                                                            <li><a href="product-details.html">Shopping Cart</a></li>
-                                                            <li><a href="product-details.html">Checkout</a></li>
-                                                            <li><a href="product-details.html">Login</a></li>
-                                                            <li><a href="product-details.html">Register</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li><a href="product.html">Phone &amp; Tablets</a>
-                                                        <ul class="mega-item">
-                                                            <li><a href="product-details.html">Catagory 1</a></li>
-                                                            <li><a href="product-details.html">Catagory 2</a></li>
-                                                            <li><a href="product-details.html">Catagory 3</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li><a href="product.html">Phone &amp; Tablets</a>
-                                                        <ul class="mega-item">
-                                                            <li><a href="product-details.html">Catagory 1</a></li>
-                                                            <li><a href="product-details.html">Catagory 2</a></li>
-                                                            <li><a href="product-details.html">Catagory 3</a></li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <a href="product.html">Best Seller Products
-                                                    <span class="cat-label">hot!</span>
-                                                    <i class="far fa-angle-down"></i>
+                                                <a href="@Url.Action("HomePage","HomePage")">Trang chủ
                                                 </a>
-                                                <ul class="mega-menu">
-                                                    <li><a href="product.html">Shop Pages</a>
-                                                        <ul class="mega-item">
-                                                            <li><a href="product-details.html">Standard SHop Page</a></li>
-                                                            <li><a href="product-details.html">Shop Right Sidebar</a></li>
-                                                            <li><a href="product-details.html">Shop Left Sidebar</a></li>
-                                                            <li><a href="product-details.html">Shop 3 Column</a></li>
-                                                            <li><a href="product-details.html">Shop 4 Column</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li><a href="product.html">Product Pages</a>
-                                                        <ul class="mega-item">
-                                                            <li><a href="product-details.html">Product Details</a></li>
-                                                            <li><a href="product-details.html">Product V2</a></li>
-                                                            <li><a href="product-details.html">Product V3</a></li>
-                                                            <li><a href="product-details.html">Varriable Product</a></li>
-                                                            <li><a href="product-details.html">External Product</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li><a href="product.html">Other Pages</a>
-                                                        <ul class="mega-item">
-                                                            <li><a href="product-details.html">wishlist</a></li>
-                                                            <li><a href="product-details.html">Shopping Cart</a></li>
-                                                            <li><a href="product-details.html">Checkout</a></li>
-                                                            <li><a href="product-details.html">Login</a></li>
-                                                            <li><a href="product-details.html">Register</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li><a href="product.html">Phone &amp; Tablets</a>
-                                                        <ul class="mega-item">
-                                                            <li><a href="product-details.html">Catagory 1</a></li>
-                                                            <li><a href="product-details.html">Catagory 2</a></li>
-                                                            <li><a href="product-details.html">Catagory 3</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li><a href="product.html">Phone &amp; Tablets</a>
-                                                        <ul class="mega-item">
-                                                            <li><a href="product-details.html">Catagory 1</a></li>
-                                                            <li><a href="product-details.html">Catagory 2</a></li>
-                                                            <li><a href="product-details.html">Catagory 3</a></li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
                                             </li>
-                                            <li>
-                                                <a href="product.html">Top 10 Offers
-                                                    <span class="cat-label green">new!</span>
+                                           <li>
+                                                <a href="@Url.Action("StaticPage","StaticPage",new{page_name="about"})">Về chúng tôi
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="product.html">New Arrivals <i class="far fa-angle-down"></i></a>
+                                                <a href="product.html">Sản phẩm<i class="far fa-angle-down"></i></a>
                                                 <ul class="submenu">
-                                                    <li><a href="product.html">Home Appliances</a></li>
-                                                    <li><a href="product.html">Technology</a>
-                                                        <ul class="submenu">
-                                                            <li><a href="product.html">Storage Devices</a></li>
-                                                            <li><a href="product.html">Monitors</a></li>
-                                                            <li><a href="product.html">Laptops</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li><a href="product.html">Office Equipments</a></li>
+                                                  @foreach(var cat in categories)
+                                                  {
+                                                    <li><a href="@Url.Action("ProductsByCategory","Products",new{category_name=cat.CategoryName})">@cat.CategoryName</a></li>
+                                                    } 
                                                 </ul>
                                             </li>
-                                            <li><a href="product.html">TV &amp; Audio</a></li>
-                                            <li><a href="product.html">Electronics &amp; Digital</a></li>
-                                            <li class="d-laptop-none"><a href="product.html">Fashion &amp; Clothings</a></li>
-                                            <li class="d-laptop-none"><a href="product.html">Jewelry &amp; Watches</a></li>
-                                            <li><a href="product.html">Health &amp; Beauty</a></li>
+                                       
                                         </ul>
                                     </nav>
                                 </div>
                             </div>
                         </div>
-                    </div> *@
                     <div class="col-lg-6 col-md-6 col-3">
                       <div class="header__bottom-left d-flex d-xl-block align-items-center">
                         <div class="side-menu d-lg-none mr-20">
+                            
                           <button type="button" class="side-menu-btn offcanvas-toggle-btn"><i class="fas fa-bars"></i></button>
                         </div>
                         <div class="main-menu d-none d-lg-block">
@@ -635,55 +490,8 @@
                                 <ul>
                                     <li>
                                         <a href="@Url.Action("HomePage","HomePage")">Trang chủ</a>
-                                        @* <ul class="megamenu-1">
-                                            <li><a href="index.html">Home Pages</a>
-                                                <ul class="mega-item">
-                                                    <li><a href="index.html">Home One</a></li>
-                                                    <li><a href="index-2.html">Home Two</a></li>
-                                                    <li><a href="index-3.html">Home Three</a></li>
-                                                    <li><a href="product-details.html">Shop Right Sidebar</a></li>
-                                                    <li><a href="product-details.html">Shop Left Sidebar</a></li>
-                                                    <li><a href="product-details.html">Shop 3 Column</a></li>
-                                                    <li><a href="product-details.html">Shop 4 Column</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="product.html">Product Pages</a>
-                                                <ul class="mega-item">
-                                                    <li><a href="product-details.html">Product Details</a></li>
-                                                    <li><a href="product-details.html">Product V2</a></li>
-                                                    <li><a href="product-details.html">Product V3</a></li>
-                                                    <li><a href="product-details.html">Varriable Product</a></li>
-                                                    <li><a href="product-details.html">External Product</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="product.html">Other Pages</a>
-                                                <ul class="mega-item">
-                                                    <li><a href="product-details.html">wishlist</a></li>
-                                                    <li><a href="product-details.html">Shopping Cart</a></li>
-                                                    <li><a href="product-details.html">Checkout</a></li>
-                                                    <li><a href="product-details.html">Login</a></li>
-                                                    <li><a href="product-details.html">Register</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="product.html">Phone &amp; Tablets</a>
-                                                <ul class="mega-item">
-                                                    <li><a href="product-details.html">Catagory 1</a></li>
-                                                    <li><a href="product-details.html">Catagory 2</a></li>
-                                                    <li><a href="product-details.html">Catagory 3</a></li>
-                                                    <li><a href="product-details.html">Catagory 4</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="product.html">Phone &amp; Tablets</a>
-                                                <ul class="mega-item">
-                                                    <li><a href="product-details.html">Catagory 1</a></li>
-                                                    <li><a href="product-details.html">Catagory 2</a></li>
-                                                    <li><a href="product-details.html">Catagory 3</a></li>
-                                                    <li><a href="product-details.html">Catagory 4</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul> *@
                                     </li>
-                                    <li><a href="about.html">Về chúng tôi</a></li>
+                                    <li><a href="@Url.Action("StaticPage","StaticPage",new{page_name="about"})">Về chúng tôi</a></li>
                                     <li class="product-list"><a href="@Url.Action("Products","Products")">Sản phẩm<i class="far fa-angle-down"></i></a>
                                      <ul class="dropdown">
                                            @foreach(var cat in categories)
@@ -691,84 +499,12 @@
                                             <li><a href="@Url.Action("ProductsByCategory","Products",new{category_name=cat.CategoryName})">@cat.CategoryName</a></li>
                                            }
                                         </ul>
-                                        @* <div class="mega-menu">
-                                            <div class="container container-mega">
-                                                <ul>
-                                                    <li>
-                                                        <ul>
-                                                        <li class="title"><a href="shop.html">SHOP LAYOUT</a></li>
-                                                        <li><a href="shop.html">Pagination</a></li>
-                                                        <li><a href="shop.html">Ajax Load More</a></li>
-                                                        <li><a href="shop.html">Infinite Scroll</a></li>
-                                                        <li><a href="shop.html">Sidebar Right</a></li>
-                                                        <li><a href="shop.html">Sidebar Left</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>
-                                                        <ul>
-                                                        <li class="title"><a href="shop.html">SHOP PAGES</a></li>
-                                                        <li><a href="shop.html">List View</a></li>
-                                                        <li><a href="shop.html">Small Products</a></li>
-                                                        <li><a href="shop.html">Large Products</a></li>
-                                                        <li><a href="shop.html">Shop — 3 Items</a></li>
-                                                        <li><a href="shop.html">Shop — 4 Items</a></li>
-                                                        <li><a href="shop.html">Shop — 5 Items</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>
-                                                        <ul>
-                                                        <li class="title"><a href="shop.html">PRODUCT LAYOUT</a></li>
-                                                        <li><a href="shop.html">Description Sticky</a></li>
-                                                        <li><a href="shop.html">Product Carousel</a></li>
-                                                        <li><a href="shop.html">Gallery Modern</a></li>
-                                                        <li><a href="shop.html">Thumbnail Left</a></li>
-                                                        <li><a href="shop.html">Thumbnail Right</a></li>
-                                                        <li><a href="shop.html">Thumbnail Botttom</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>
-                                                        <ul>
-                                                        <li class="title"><a href="shop.html">Basketball</a></li>
-                                                        <li><a href="shop.html">East Hampton Fleece</a></li>
-                                                        <li><a href="shop.html">Faxon Canvas Low</a></li>
-                                                        <li><a href="shop.html">Habitasse Dictumst</a></li>
-                                                        <li><a href="shop.html">Kaoreet Lobortis</a></li>
-                                                        <li><a href="shop.html">NikeCourt Zoom</a></li>
-                                                        <li><a href="shop.html">NikeCourts Air Zoom</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>
-                                                        <ul>
-                                                        <li class="title"><a href="shop.html">Basketball</a></li>
-                                                        <li><a href="shop.html">East Hampton Fleece</a></li>
-                                                        <li><a href="shop.html">Faxon Canvas Low</a></li>
-                                                        <li><a href="shop.html">Habitasse Dictumst</a></li>
-                                                        <li><a href="shop.html">Kaoreet Lobortis</a></li>
-                                                        <li><a href="shop.html">NikeCourt Zoom</a></li>
-                                                        <li><a href="shop.html">NikeCourts Air Zoom</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li class="mega-image hover-effect" style="background-image: url(assets/img/bg/menu-item.jpg);"> 
-                                                        <ul>
-                                                          <li><a href="shop.html">
-                                                            <h4>Top Cameras <br> Bestseller Products</h4>
-                                                            <h5>4K</h5>
-                                                            <h6>Sale Up To <span>60% Off</span></h6>
-                                                          </a></li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="offer mt-40">
-                                                <p><b>30% OFF</b> the shipping of your first order with the code: <b>DUKA-SALE30</b></p>
-                                            </div>
-                                        </div> *@
                                     </li>
-                                    <li><a href="blog.html">Blog<i class="far fa-angle-down"></i></a>
-                                        <ul class="submenu">
+                                    <li><a href="#.html">Blog<i class="far fa-angle-down"></i></a>
+                                        @* <ul class="submenu">
                                             <li><a href="blog.html">Blog</a></li>
                                             <li><a href="blog-details.html">Blog Details</a></li>
-                                        </ul>
+                                        </ul> *@
                                     </li>
                                  
                                 </ul>
@@ -781,10 +517,36 @@
             </div>
         </div>
      </header>
-     <!-- header-end -->
 
-    <!-- offcanvas area start -->
-    <div class="offcanvas__area">
+<div class="offcanvas__area">
+        <div class="offcanvas__wrapper">
+        <div class="offcanvas__close">
+            <button class="offcanvas__close-btn" id="offcanvas__close-btn">
+                <i class="fal fa-times"></i>
+            </button>
+        </div>
+        <div class="offcanvas__content">
+            <div class="offcanvas__logo mb-40">
+                <a href="@Url.Action("HomePage","HomePage")">
+                <img src="~/user_layout/favicon.ico" alt="logo">
+                </a>
+            </div>
+            <div class="offcanvas__search mb-25">
+                <form method="post" asp-action="FilterProductByNameAndCategory" asp-controller="Products">
+                    <input type="text" name="product" placeholder="Nhập tên sản phẩm mà bạn muốn tìm...">
+                    <button type="submit" ><i class="far fa-search"></i></button>
+                </form>
+            </div>
+            <div class="mobile-menu fix"></div>
+            <div class="offcanvas__action">
+
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+    @* <div class="offcanvas__area">
         <div class="offcanvas__wrapper">
         <div class="offcanvas__close">
             <button class="offcanvas__close-btn" id="offcanvas__close-btn">
@@ -805,13 +567,12 @@
             </div>
             <div class="mobile-menu fix mean-container"><div class="mean-bar"><a href="#nav" class="meanmenu-reveal" style="right: 0px; left: auto; display: inline;"><span><span><span></span></span></span></a><nav class="mean-nav">
                                         <ul style="display: none;">
-                                            
                                                 <li>
                                                 <a href="@Url.Action("HomePage","HomePage")">Trang chủ
                                                 </a>
                                             </li>
                                          <li>
-                                                <a href="@Url.Action("HomePage","HomePage")">Về chúng tôi
+                                                <a href="@Url.Action("StaticPage","StaticPage",new{page_name=""})">Về chúng tôi
                                                 </a>
                                             </li> 
                                             <li class="">
@@ -820,165 +581,11 @@
                                                   @foreach(var cat in categories) 
                                                   { 
                                                     <li><a href="@Url.Action("ProductsByCategory","Products",new{category_name=cat.CategoryName})">@cat.CategoryName</a></li>
-                                                        @* <ul class="mega-item" style="display: none;">
-                                                            <li><a href="product-details.html">Standard SHop Page</a></li>
-                                                            <li><a href="product-details.html">Shop Right Sidebar</a></li>
-                                                            <li><a href="product-details.html">Shop Left Sidebar</a></li>
-                                                            <li><a href="product-details.html">Shop 3 Column</a></li>
-                                                            <li><a href="product-details.html">Shop 4 Column</a></li>
-                                                        </ul> *@
-                                                    
                                                     }
-                                                    @* <a class="mean-expand" href="#" style="font-size: 18px"><i class="fal fa-plus"></i></a></li> *@
-                                                    @* <li><a href="shop.html">Product Pages</a>
-                                                        <ul class="mega-item" style="display: none;">
-                                                            <li><a href="product-details.html">Product Details</a></li>
-                                                            <li><a href="product-details.html">Product V2</a></li>
-                                                            <li><a href="product-details.html">Product V3</a></li>
-                                                            <li><a href="product-details.html">Varriable Product</a></li>
-                                                            <li><a href="product-details.html">External Product</a></li>
-                                                        </ul>
-                                                    <a class="mean-expand" href="#" style="font-size: 18px"><i class="fal fa-plus"></i></a></li> *@
-                                                    @* <li><a href="shop.html">Other Pages</a>
-                                                        <ul class="mega-item" style="display: none;">
-                                                            <li><a href="product-details.html">wishlist</a></li>
-                                                            <li><a href="product-details.html">Shopping Cart</a></li>
-                                                            <li><a href="product-details.html">Checkout</a></li>
-                                                            <li><a href="product-details.html">Login</a></li>
-                                                            <li><a href="product-details.html">Register</a></li>
-                                                        </ul>
-                                                    <a class="mean-expand" href="#" style="font-size: 18px"><i class="fal fa-plus"></i></a></li> *@
-                                                    @* <li><a href="shop.html">Phone &amp; Tablets</a>
-                                                        <ul class="mega-item" style="display: none;">
-                                                            <li><a href="product-details.html">Catagory 1</a></li>
-                                                            <li><a href="product-details.html">Catagory 2</a></li>
-                                                            <li><a href="product-details.html">Catagory 3</a></li>
-                                                        </ul>
-                                                    <a class="mean-expand" href="#" style="font-size: 18px"><i class="fal fa-plus"></i></a></li> *@
-                                                    @* <li><a href="shop.html">Phone &amp; Tablets</a>
-                                                        <ul class="mega-item" style="display: none;">
-                                                            <li><a href="product-details.html">Catagory 1</a></li>
-                                                            <li><a href="product-details.html">Catagory 2</a></li>
-                                                            <li><a href="product-details.html">Catagory 3</a></li>
-                                                        </ul>
-                                                    <a class="mean-expand" href="#" style="font-size: 18px"><i class="fal fa-plus"></i></a></li> *@
+                                                   
                                                 </ul>
                                             <a class="mean-expand" href="#" style="font-size: 18px"><i class="fal fa-plus"></i></a></li>
-                                            @* <li>
-                                                <a href="shop.html">Phone and Electronics <i class="far fa-angle-down"></i></a>
-                                                <ul class="mega-menu mega-menu-2" style="display: none;">
-                                                    <li><a href="shop.html">Shop Pages</a>
-                                                        <ul class="mega-item" style="display: none;">
-                                                            <li><a href="product-details.html">Standard SHop Page</a></li>
-                                                            <li><a href="product-details.html">Shop Right Sidebar</a></li>
-                                                            <li><a href="product-details.html">Shop Left Sidebar</a></li>
-                                                            <li><a href="product-details.html">Shop 3 Column</a></li>
-                                                            <li><a href="product-details.html">Shop 4 Column</a></li>
-                                                        </ul>
-                                                    <a class="mean-expand" href="#" style="font-size: 18px"><i class="fal fa-plus"></i></a></li>
-                                                    <li><a href="shop.html">Product Pages</a>
-                                                        <ul class="mega-item" style="display: none;">
-                                                            <li><a href="product-details.html">Product Details</a></li>
-                                                            <li><a href="product-details.html">Product V2</a></li>
-                                                            <li><a href="product-details.html">Product V3</a></li>
-                                                            <li><a href="product-details.html">Varriable Product</a></li>
-                                                            <li><a href="product-details.html">External Product</a></li>
-                                                        </ul>
-                                                    <a class="mean-expand" href="#" style="font-size: 18px"><i class="fal fa-plus"></i></a></li>
-                                                    <li><a href="shop.html">Other Pages</a>
-                                                        <ul class="mega-item" style="display: none;">
-                                                            <li><a href="product-details.html">wishlist</a></li>
-                                                            <li><a href="product-details.html">Shopping Cart</a></li>
-                                                            <li><a href="product-details.html">Checkout</a></li>
-                                                            <li><a href="product-details.html">Login</a></li>
-                                                            <li><a href="product-details.html">Register</a></li>
-                                                        </ul>
-                                                    <a class="mean-expand" href="#" style="font-size: 18px"><i class="fal fa-plus"></i></a></li>
-                                                    <li><a href="shop.html">Phone &amp; Tablets</a>
-                                                        <ul class="mega-item" style="display: none;">
-                                                            <li><a href="product-details.html">Catagory 1</a></li>
-                                                            <li><a href="product-details.html">Catagory 2</a></li>
-                                                            <li><a href="product-details.html">Catagory 3</a></li>
-                                                        </ul>
-                                                    <a class="mean-expand" href="#" style="font-size: 18px"><i class="fal fa-plus"></i></a></li>
-                                                    <li><a href="shop.html">Phone &amp; Tablets</a>
-                                                        <ul class="mega-item" style="display: none;">
-                                                            <li><a href="product-details.html">Catagory 1</a></li>
-                                                            <li><a href="product-details.html">Catagory 2</a></li>
-                                                            <li><a href="product-details.html">Catagory 3</a></li>
-                                                        </ul>
-                                                    <a class="mean-expand" href="#" style="font-size: 18px"><i class="fal fa-plus"></i></a></li>
-                                                </ul>
-                                            <a class="mean-expand" href="#" style="font-size: 18px"><i class="fal fa-plus"></i></a></li> *@
-                                            @* <li>
-                                                <a href="shop.html">Best Seller Products
-                                                    <span class="cat-label">hot!</span>
-                                                    <i class="far fa-angle-down"></i>
-                                                </a>
-                                                <ul class="mega-menu" style="display: none;">
-                                                    <li><a href="shop.html">Shop Pages</a>
-                                                        <ul class="mega-item" style="display: none;">
-                                                            <li><a href="product-details.html">Standard SHop Page</a></li>
-                                                            <li><a href="product-details.html">Shop Right Sidebar</a></li>
-                                                            <li><a href="product-details.html">Shop Left Sidebar</a></li>
-                                                            <li><a href="product-details.html">Shop 3 Column</a></li>
-                                                            <li><a href="product-details.html">Shop 4 Column</a></li>
-                                                        </ul>
-                                                    <a class="mean-expand" href="#" style="font-size: 18px"><i class="fal fa-plus"></i></a></li>
-                                                    <li><a href="shop.html">Product Pages</a>
-                                                        <ul class="mega-item" style="display: none;">
-                                                            <li><a href="product-details.html">Product Details</a></li>
-                                                            <li><a href="product-details.html">Product V2</a></li>
-                                                            <li><a href="product-details.html">Product V3</a></li>
-                                                            <li><a href="product-details.html">Varriable Product</a></li>
-                                                            <li><a href="product-details.html">External Product</a></li>
-                                                        </ul>
-                                                    <a class="mean-expand" href="#" style="font-size: 18px"><i class="fal fa-plus"></i></a></li>
-                                                    <li><a href="shop.html">Other Pages</a>
-                                                        <ul class="mega-item" style="display: none;">
-                                                            <li><a href="product-details.html">wishlist</a></li>
-                                                            <li><a href="product-details.html">Shopping Cart</a></li>
-                                                            <li><a href="product-details.html">Checkout</a></li>
-                                                            <li><a href="product-details.html">Login</a></li>
-                                                            <li><a href="product-details.html">Register</a></li>
-                                                        </ul>
-                                                    <a class="mean-expand" href="#" style="font-size: 18px"><i class="fal fa-plus"></i></a></li>
-                                                    <li><a href="shop.html">Phone &amp; Tablets</a>
-                                                        <ul class="mega-item" style="display: none;">
-                                                            <li><a href="product-details.html">Catagory 1</a></li>
-                                                            <li><a href="product-details.html">Catagory 2</a></li>
-                                                            <li><a href="product-details.html">Catagory 3</a></li>
-                                                        </ul>
-                                                    <a class="mean-expand" href="#" style="font-size: 18px"><i class="fal fa-plus"></i></a></li>
-                                                    <li><a href="shop.html">Phone &amp; Tablets</a>
-                                                        <ul class="mega-item" style="display: none;">
-                                                            <li><a href="product-details.html">Catagory 1</a></li>
-                                                            <li><a href="product-details.html">Catagory 2</a></li>
-                                                            <li><a href="product-details.html">Catagory 3</a></li>
-                                                        </ul>
-                                                    <a class="mean-expand" href="#" style="font-size: 18px"><i class="fal fa-plus"></i></a></li>
-                                                </ul>
-                                            <a class="mean-expand" href="#" style="font-size: 18px"><i class="fal fa-plus"></i></a></li> *@
-                                       
-                                            @* <li class="">
-                                                <a href="shop.html">New Arrivals <i class="far fa-angle-down"></i></a>
-                                                <ul class="submenu" style="display: none;">
-                                                    <li><a href="shop.html">Home Appliances</a></li>
-                                                    <li><a href="shop.html">Technology</a>
-                                                        <ul class="submenu" style="display: none;">
-                                                            <li><a href="shop.html">Storage Devices</a></li>
-                                                            <li><a href="shop.html">Monitors</a></li>
-                                                            <li><a href="shop.html">Laptops</a></li>
-                                                        </ul>
-                                                    <a class="mean-expand" href="#" style="font-size: 18px"><i class="fal fa-plus"></i></a></li>
-                                                    <li><a href="shop.html">Office Equipments</a></li>
-                                                </ul>
-                                            <a class="mean-expand" href="#" style="font-size: 18px"><i class="fal fa-plus"></i></a></li> *@
-                                            @* <li><a href="shop.html">TV &amp; Audio</a></li>
-                                            <li><a href="shop.html">Electronics &amp; Digital</a></li>
-                                            <li class="d-laptop-none"><a href="shop.html">Fashion &amp; Clothings</a></li>
-                                            <li class="d-laptop-none"><a href="shop.html">Jewelry &amp; Watches</a></li>
-                                            <li class="mean-last"><a href="shop.html">Health &amp; Beauty</a></li> *@
+                                           
                                         </ul>
                                     </nav></div></div>
             <div class="offcanvas__action">
@@ -986,7 +593,7 @@
             </div>
         </div>
         </div>
-    </div>
+    </div> *@
     } 
 
         <main role="main" class="pb-3">
@@ -1085,10 +692,10 @@
                                                     <div class="footer__widget-content">
                                                         <div class="footer__link">
                                                             <ul>
-                                                                <li><a href="faq.html">Chính sách bảo hành</a></li>
-                                                                <li><a href="checkout.html">Mua hàng từ xa</a></li>
-                                                                <li><a href="cart.html">Chính sách đổi trả</a></li>
-                                                                <li><a href="wishlist.html">Chính sách bảo mật</a></li>
+                                                                <li><a href="#">Chính sách bảo hành</a></li>
+                                                                <li><a href="#">Mua hàng từ xa</a></li>
+                                                                <li><a href="#">Chính sách đổi trả</a></li>
+                                                                <li><a href="#">Chính sách bảo mật</a></li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -1102,10 +709,10 @@
                                         <div class="footer__widget-content">
                                             <div class="footer__link">
                                                 <ul>
-                                                    <li><a href="contact.html">Store Location</a></li>
-                                                    <li><a href="my-account.html">My account</a></li>
-                                                    <li><a href="contact.html">Order Tracking</a></li>
-                                                    <li><a href="faq.html">FAQs</a></li>
+                                                    <li><a href="#">Store Location</a></li>
+                                                    <li><a href="#">My account</a></li>
+                                                    <li><a href="#">Order Tracking</a></li>
+                                                    <li><a href="#">FAQs</a></li>
                                                 </ul>
                                             </div>
                                         </div>

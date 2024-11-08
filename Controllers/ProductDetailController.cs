@@ -5,6 +5,7 @@ using Ecommerce_Product.Models;
 using System.Web;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using HtmlAgilityPack;
+using System.Text.RegularExpressions;
 
 
 namespace Ecommerce_Product.Controllers;
@@ -50,8 +51,8 @@ public async Task<IActionResult> ProductDetail(string product_name)
       var count_reviews=await this._product.countAllReview(single_product);
       ViewBag.count_reviews=count_reviews;
       int rating_star=await this._product.getSingleProductRating(product.Id);
+      ViewBag.rating_star=rating_star;
 
-        ViewBag.rating_star=rating_star;
       for(int i=1;i<=5;i++)
     {
       int count_star=await this._product.countProductRatingByStar(i,product.Id);
@@ -63,22 +64,27 @@ public async Task<IActionResult> ProductDetail(string product_name)
 
     ViewBag.review_list=review_list;
 
+    Regex reg= new Regex(@"\s*(<[^>]+>)\s*");
+      
       Console.WriteLine("number of image details:"+products_image);
       if(!string.IsNullOrEmpty(product.Statdescription))
       {  
-        //product.Statdescription=HttpUtility.HtmlDecode(product.Statdescription);
-          string stat_description=HttpUtility.HtmlDecode(product.Statdescription);
-          
-          stat_description=stat_description.Replace("<p>","").Replace("</p>","").Replace("<span style=\"white-space: normal;\">","").Replace("</span>","").Replace("<span style=\"white-space:pre;\"","").Replace(">>",">");
+        string stat_description=product.Statdescription;
+        
+        stat_description=reg.Replace(stat_description,"$1");
+        
+        stat_description=HttpUtility.HtmlDecode(stat_description);
+
+        stat_description=stat_description.Replace("<p>","").Replace("</p>","").Replace("<span style=\"white-space: normal;\">","").Replace("</span>","").Replace("<span style=\"white-space:pre;\"","").Replace(">>",">");
           
         product.Statdescription=stat_description;
       }
       if(!string.IsNullOrEmpty(product.Description))
       {
-        product.Description=HttpUtility.HtmlDecode(product.Description);
+        product.Description=HttpUtility.HtmlDecode(product.Description);        
       }
     }    
-    return View("~/Views/ClientSide/ProductDetail/ProductDetail.cshtml",product);
+    return View("~/Views/ClientSide/ProductDetail/ProductDetail.cshtml",product);    
 }
 [HttpPost]
 
@@ -96,7 +102,8 @@ public async Task<JsonResult> addProductReviews(string product_id,string user_id
   }
   Console.WriteLine("Review content here is:"+review);
    int productId=Convert.ToInt32(product_id);
-    add_reviews_res=await this._product.addReviews(productId,user_id,review);
+  
+   add_reviews_res=await this._product.addReviews(productId,user_id,review);
   }
   catch(Exception er)
   { 
