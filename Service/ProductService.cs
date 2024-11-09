@@ -73,7 +73,7 @@ public async Task<IEnumerable<Product>> filterProductByNameAndCategory(string pr
 { List<Product> products = new List<Product>(); 
   if(!string.IsNullOrEmpty(category) && !string.IsNullOrEmpty(product))
 {
-    products=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(c=>c.SubCat).Include(c=>c.Variants).Where(c=>c.Category.CategoryName==category && c.ProductName.ToLower().Contains(product.ToLower())).ToListAsync();
+    products=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(c=>c.SubCat).Include(c=>c.Variants).Include(c=>c.ProductImages).Where(c=>c.Category.CategoryName==category && c.ProductName.ToLower().Contains(product.ToLower())).ToListAsync();
 }
 else if(string.IsNullOrEmpty(category) && !string.IsNullOrEmpty(product))
 {
@@ -87,7 +87,7 @@ else
 }
 public async Task<IEnumerable<Product>> getProductByCategory(string cat)
 {
-  var products=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(c=>c.SubCat).Include(c=>c.Variants).Where(c=>c.Category.CategoryName==cat).ToListAsync();
+  var products=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(c=>c.SubCat).Include(c=>c.Variants).Include(c=>c.ProductImages).Where(c=>c.Category.CategoryName==cat).ToListAsync();
   return products;
 }
 
@@ -1004,7 +1004,7 @@ public async Task saveChanges()
   {
     try
     {
-   products=products.Where(c=>brands.Contains(c.Brand?.BrandName.ToString()) || prices.Contains(Convert.ToInt32(c?.Price))).ToList();
+   products= products.Where(c=>brands.Contains(c.Brand?.BrandName.ToString()) || prices.Contains(Convert.ToInt32(c?.Price))).ToList();
     }
     catch(Exception er)
     {
