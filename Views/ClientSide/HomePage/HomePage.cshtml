@@ -2,7 +2,7 @@
     Layout = "_UserLayout";
     var banners=ViewBag.banners;
     var products = ViewBag.products as List<Product>; 
-    var categories = ViewBag.categories;
+    var categories = ViewBag.categories as List<Category>;
     var brands=ViewBag.brands;
     var count_reviews=ViewBag.count_reviews as Dictionary<string,int>;
     string value="~/"+@products[0].Frontavatar.Substring(products[0].Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1));
@@ -178,7 +178,7 @@
                     <div class="col-xl-2 col-lg-3 col-md-4">
                         <div class="categories__item p-relative w-img mb-30">
                             <div class="categories__img b-radius-2">
-                                <a href="product-details.html"><img src="~/@cat.Avatar.Substring(cat.Avatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="category"></a>
+                                <a href="@Url.Action("ProductsByCategory","Products",new{category_name=cat.CategoryName})"><img src="~/@cat.Avatar.Substring(cat.Avatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="category"></a>
                             </div>
                             <div class="categories__content">
                                 <h6 style="color:#fcbe00;font-weight: bold;font-size: 20px;"><a href="product-details.html">@cat.CategoryName</a></h6>
