@@ -17,6 +17,8 @@
         change_pass=new ChangePassword(email,password,"");
        }
        var categories = ViewBag.Categories as List<Category>;
+
+        Console.WriteLine("Current category list size is:"+categories.Count);
         Console.WriteLine("Current view controller is:"+view_action);
     }
 

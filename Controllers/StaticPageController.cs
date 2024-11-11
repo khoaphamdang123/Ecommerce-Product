@@ -22,12 +22,6 @@ public StaticPageController(ICategoryListRepository category,IStaticFilesReposit
     this._logger=logger;
 }
 
-// public IActionResult HomePage()
-// {
-//   return View();
-// }
-
-
 
 [HttpGet]
 [Route("{page_name}")]
@@ -36,11 +30,16 @@ public async Task<IActionResult> StaticPage(string page_name)
 {   
     
    var static_file=await this._static_files.findStaticFileByName(page_name);
+   
+   if(static_file==null)
+   {
+    return NotFound();    
+   }
    string content=HttpUtility.HtmlDecode(static_file.Content); 
    Console.WriteLine("Content iss:"+content);
    Regex reg= new Regex(@"\s*(<[^>]+>)\s*");
     content=reg.Replace(content,"$1");
-    ViewBag.content=content;    
+    ViewBag.content = content;    
     return View("~/Views/ClientSide/StaticPage/StaticPage.cshtml");
 }
 

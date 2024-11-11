@@ -84,7 +84,7 @@ public async Task<IActionResult> ProductDetail(string product_name)
         product.Description=HttpUtility.HtmlDecode(product.Description);        
       }
     }    
-    return View("~/Views/ClientSide/ProductDetail/ProductDetail.cshtml",product);    
+    return View("~/Views/ClientSide/ProductDetail/ProductDetail.cshtml",product);        
 }
 [HttpPost]
 
