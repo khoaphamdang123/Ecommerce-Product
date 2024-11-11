@@ -1724,11 +1724,11 @@ input {
   color: #fcbe00;
 }
 
-.main-menu ul li:hover ul.submenu {
+/* .main-menu ul li:hover ul.submenu {
   top: 0;
   visibility: visible;
   opacity: 1;
-}
+} */
 
 .main-menu ul li > ul.submenu {
   position: absolute;
@@ -1780,11 +1780,11 @@ input {
 }
 
 
-/* .main-menu ul li:hover ul.submenu {
+.main-menu ul ul li:hover ul.submenu {
   visibility: visible;
   opacity: 1;
   top: 100%;
-} */
+}
 .main-menu ul li:hover ul.megamenu-1 {
   visibility: visible;
   opacity: 1;
