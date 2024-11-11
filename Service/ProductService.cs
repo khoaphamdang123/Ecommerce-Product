@@ -77,7 +77,7 @@ public async Task<IEnumerable<Product>> filterProductByNameAndCategory(string pr
 }
 else if(string.IsNullOrEmpty(category) && !string.IsNullOrEmpty(product))
 {
-      products=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(c=>c.SubCat).Include(c=>c.Variants).Where(c=>c.ProductName.ToLower().Contains(product.ToLower())).ToListAsync();
+      products=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(c=>c.SubCat).Include(c=>c.Variants).Include(c=>c.ProductImages).Where(c=>c.ProductName.ToLower().Contains(product.ToLower())).ToListAsync();
 }
 else
 {
