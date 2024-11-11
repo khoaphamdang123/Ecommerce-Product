@@ -91,6 +91,14 @@ public async Task<IEnumerable<Product>> getProductByCategory(string cat)
   return products;
 }
 
+  public async Task<IEnumerable<Product>> getProductByBrand(string brand)
+  {
+ var products=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(c=>c.SubCat).Include(c=>c.Variants).Include(c=>c.ProductImages).Where(c=>c.Brand.BrandName==brand).ToListAsync();
+  
+ return products;
+  }
+
+
 public async Task<IEnumerable<Product>> filterProduct(FilterProduct products)
 {
    var prod_list=await this.getAllProduct(); 
