@@ -133,7 +133,7 @@ public class ProductListController : Controller
    string[] reformatted=enddate.Trim().Split('-');
 
    enddate=reformatted[1]+"/"+reformatted[2]+"/"+reformatted[0];
- }      string select_size="7";
+ }      string select_size="7"; 
           ViewBag.select_size=select_size;
           List<string> options=new List<string>(){"7","10","20","50"};
           ViewBag.options=options;
@@ -439,6 +439,8 @@ public class ProductListController : Controller
   
   StatusResponse response_data; 
 
+  Console.WriteLine("sample info:"+product.StatDescription);
+
   int created_res =await this._product.updateProduct(product.Id,product);
 
     if (created_res == 0)
@@ -449,7 +451,6 @@ public class ProductListController : Controller
             Message = "Cập nhật sản phẩm thất bại"
         };
     }
-
     else
     {
         response_data = new StatusResponse  

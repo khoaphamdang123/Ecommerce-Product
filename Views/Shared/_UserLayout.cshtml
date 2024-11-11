@@ -29,7 +29,6 @@
     <title>@ViewData["Title"] Thanh Quang Shop</title>
       <link rel="shortcut icon" type="image/x-icon" href="~/user_layout/img/favicon.png">
       <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-
       <link rel="stylesheet" href="~/user_layout/css/preloader.css">
       <link rel="stylesheet" href="~/user_layout/css/bootstrap.css">
       <link rel="stylesheet" href="~/user_layout/css/meanmenu.css">
@@ -73,27 +72,7 @@
 
 </head>
 <body>
-    @* <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Ecommerce_Product</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header> *@
+
     @if(!view_action.Contains("Maintainance"))
     {
         <div id="loading">
@@ -262,7 +241,7 @@
                             <select name="category" id="filter-cat">
                                             <option value="">Loại sản phẩm</option>
                                             @foreach(var category in categories)
-                                            {
+                                            {  
                                                 <option value="@category.CategoryName">@category.CategoryName</option>
                                             }                                         
                                         </select>
@@ -296,7 +275,7 @@
                     {
                      <img src="@avatar" alt="User Avatar" class="rounded-circle" style="width: 30px; height: 30px; margin-right: 5px;"/>
                     }
-                     <span class="text">
+                     <span class="text">                    
                      <span class="sub">Xin chào</span>
                      @User.Identity.Name
                      </span>
@@ -471,8 +450,22 @@
                                                 <ul class="submenu">
                                                   @foreach(var cat in categories)
                                                   {
+                                                  if(cat.SubCategory==null)
+                                                  {
                                                     <li><a href="@Url.Action("ProductsByCategory","Products",new{category_name=cat.CategoryName})">@cat.CategoryName</a></li>
-                                                    } 
+                                                    }
+                                                
+                                                else{
+                                                <li><a href="@Url.Action("ProductsByCategory","Products",new{category_name=cat.CategoryName})">@cat.CategoryName<i class="far fa-angle-down"></i></a>
+                                                <ul class="submenu">
+                                                    @foreach(var subcat in cat.SubCategory)
+                                                    {
+                                                    <li><a href="@Url.Action("ProductsByCategory","Products",new{category_name=subcat})">@subcat.SubCategoryName</a></li>
+                                                    }
+                                                </ul>
+                                                </li>
+                                                }
+                                                   } 
                                                 </ul>
                                             </li>
                                        
@@ -498,7 +491,22 @@
                                      <ul class="dropdown">
                                            @foreach(var cat in categories)
                                            {
+                                           if(cat.SubCategory.Count==0)
+                                           {
                                             <li><a href="@Url.Action("ProductsByCategory","Products",new{category_name=cat.CategoryName})">@cat.CategoryName</a></li>
+                                            }
+                                            else
+                                            {
+                                                <li>
+                                                    <a href="@Url.Action("ProductsByCategory","Products",new{category_name=cat.CategoryName})">@cat.CategoryName<i class="far fa-angle-down"></i></a>
+                                                <ul class="submenu">
+                                                    @foreach(var subcat in cat.SubCategory)
+                                                    {Console.WriteLine(subcat.SubCategoryName);
+                                                    <li><a href="@Url.Action("ProductsByCategory","Products",new{category_name=subcat})">@subcat.SubCategoryName</a></li>
+                                                    }
+                                                </ul>
+                                                </li>
+                                           }
                                            }
                                         </ul>
                                     </li>

@@ -1723,11 +1723,68 @@ input {
 .main-menu ul li:hover > a {
   color: #fcbe00;
 }
+
 .main-menu ul li:hover ul.submenu {
+  top: 0;
+  visibility: visible;
+  opacity: 1;
+}
+
+.main-menu ul li > ul.submenu {
+  position: absolute;
+  top: 20%;
+  left: 100%;
+  min-width: 200px;
+  background: #ffffff;
+  -webkit-box-shadow: 0px 15px 30px 0px rgba(0, 3, 143, 0.1);
+  -moz-box-shadow: 0px 15px 30px 0px rgba(0, 3, 143, 0.1);
+  box-shadow: 0px 15px 30px 0px rgba(0, 3, 143, 0.1);
+  border: 1px solid #b0c6c64d;
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: all 0.3s ease-out 0s;
+  -moz-transition: all 0.3s ease-out 0s;
+  -ms-transition: all 0.3s ease-out 0s;
+  -o-transition: all 0.3s ease-out 0s;
+  transition: all 0.3s ease-out 0s;
+  z-index: 11;
+  padding: 20px 0;
+}
+.main-menu ul li > ul.submenu li {
+  display: block;
+  margin-right: 0;
+}
+.main-menu ul li > ul.submenu li a {
+  padding: 9px 25px;
+  font-size: 13px;
+  text-transform: capitalize;
+  border: 0;
+}
+.main-menu  ul li > ul.submenu li:last-child a {
+  border-bottom: none;
+}
+.main-menu  ul li > ul.submenu li ul.submenu {
+  padding: 20px 0;
+  left: 120%;
+  top: 0%;
+  visibility: hidden;
+  opacity: 0;
+}
+.main-menu  ul li:hover > ul.submenu li:hover ul.submenu {
+  visibility: visible;
+  opacity: 1;
+  left: 100%;
+}
+.main-menu  ul li > ul.submenu li:hover > a {
+  margin-left: 5px;
+}
+
+
+/* .main-menu ul li:hover ul.submenu {
   visibility: visible;
   opacity: 1;
   top: 100%;
-}
+} */
 .main-menu ul li:hover ul.megamenu-1 {
   visibility: visible;
   opacity: 1;
@@ -1752,7 +1809,7 @@ input {
 .main-menu ul li .active {
   color: #fcbe00;
 }
-.main-menu ul li ul.submenu {
+/* .main-menu ul li ul.submenu {
   position: absolute;
   top: 120%;
   left: 0;
@@ -1816,7 +1873,7 @@ input {
 .main-menu ul li ul.submenu li:hover > a {
   margin-left: 5px;
   color: #fcbe00;
-}
+} */
 .main-menu ul li ul.megamenu-1 {
   position: absolute;
   top: 120%;
@@ -6620,6 +6677,148 @@ p.checkout-coupon input[type=text]::placeholder {
 .mean-container .mean-nav ul li a:hover {
   color: #fcbe00;
 }
+
+.carousel-item {
+  transition: transform 0.3s ease-in-out; 
+}
+
+
+.carousel-control-prev-icon, .carousel-control-next-icon {
+  background-color: #ff5733; 
+}
+
+/* .carousel-control-prev .carousel-control-next .visually-hidden i {
+  color: #ff5733; 
+} */
+
+.carousel-control-prev,
+.carousel-control-next {
+  opacity: 0;
+  transition: opacity 0.3s ease; 
+}
+
+.carousel:hover .carousel-control-prev,
+.carousel:hover .carousel-control-next {
+  opacity: 1;
+}
+
+/* Basic styling for zoomable image */
+.zoomable-image {
+  cursor: zoom-in;
+  transition: transform 0.3s ease; /* Smooth zoom in/out effect */
+}
+
+/* Styling for zoomed-in image in modal */
+.zoomed-image-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Dark background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.zoomed-image-modal.show
+{
+  opacity: 1;
+}
+
+.zoomed-img {
+  max-width: 100%;
+  max-height: 100%;
+  height: 70%;
+  cursor: zoom-out;
+  transform: scale(0.7);
+  transition: transform 0.3s ease,opacity 0.3s ease;
+}
+
+.zoomed-image-modal.show.zoomed-img
+{
+  transform: scale(1);
+  opacity: 1;
+}
+
+.zoomed-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 10000;
+}
+
+#prevBtn {
+  left: 10px;
+}
+
+#nextBtn {
+  right: 10px;
+}
+
+.slide-in-left {
+  animation: slideInLeft 0.4s forwards;
+}
+
+.slide-in-right 
+{
+  animation: slideInRight 0.4s forwards;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+
+
+
+
+/* Overlay effect */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: -1;
+}
+
+/* Modal close when clicking outside the image */
+.zoomed-image-modal img {
+  cursor: zoom-out;
+}
+
+
+
+
 
 .mean-container .mean-nav ul li a.mean-expand {
   margin-top: 5px;
