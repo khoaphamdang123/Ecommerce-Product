@@ -410,7 +410,6 @@ public class ProductListController : Controller
   [Route("product_list/{id}/product_info")]
   
   [HttpGet]
-
   public async Task<IActionResult> ProductInfo(int id)
   {
     var category_list=await this._category.getAllCategory(); 
@@ -432,6 +431,8 @@ public class ProductListController : Controller
     var product=await this._product.findProductById(id);
     return View("~/Views/ProductList/ProductInfo.cshtml",product);
   }
+
+
 [Route("product_list/product_info")]
 [HttpPost]
   public async Task<JsonResult> GetSampleInfo(AddProductModel product)

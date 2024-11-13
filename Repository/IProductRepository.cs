@@ -40,6 +40,7 @@ public interface IProductRepository
 
   public Task<IEnumerable<Product>> getProductByBrand(string brand);
 
+  public Task<Manual> findManualByLanguage(string language,Product product);
 
   public Task<PageList<Variant>> pagingVariant(int id,int page_size,int page);
 

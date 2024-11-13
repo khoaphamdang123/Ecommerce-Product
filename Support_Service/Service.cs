@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Ecommerce_Product.Models;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Globalization;
 
 namespace Ecommerce_Product.Support_Serive;
 public class Service
@@ -118,5 +119,13 @@ public async Task logoutUser()
    await this._signInManager.SignOutAsync();
 }
 
-
+public List<string> getListOfLanguage()
+{
+    List<string> languages=new List<string>();
+    foreach(CultureInfo culture in CultureInfo.GetCultures(CultureTypes.AllCultures))
+    {
+        languages.Add(culture.DisplayName);
+    }
+    return languages;
+}
 }

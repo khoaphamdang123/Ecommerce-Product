@@ -6817,6 +6817,19 @@ p.checkout-coupon input[type=text]::placeholder {
 }
 
 
+.video-list
+{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.video-item
+{
+  max-width: 560px;
+  width: 100%;
+  height: 320px;
+}
 
 
 
