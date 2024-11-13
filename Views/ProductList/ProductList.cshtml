@@ -356,8 +356,14 @@
                                 <a href="@Url.Action("ProductInfo",new{id=product.Id})" class="btn btn-icon icon-style-update">
                                 <i class="bx bx-show bx-md"></i>
                               </a>
-                              <a href="@Url.Action("VariantList",new{id=product.Id})" class="btn btn-icon icon-style-reset">
+                              <a href="@Url.Action("VariantList",new{id=product.Id})" style="margin-right: 5px;" class="btn btn-icon icon-style-reset">
                                 <i class="bx bx-cart bx-md"></i>
+                              </a>
+                             <a href="@Url.Action("ManualListByProduct","ManualList",new{product_id=product.Id})" class="btn btn-icon">
+                                <i style="color: #696cff; margin-right:5px;" class="bx bx-book bx-md"></i>
+                              </a>
+                                <a href="@Url.Action("VideoListByProduct","VideoList",new{product_id=product.Id})" class="btn btn-icon">
+                                <i style="color: #0d6efd;" class="bx bx-video bx-md"></i>
                               </a>
                             </div>
                             </td>

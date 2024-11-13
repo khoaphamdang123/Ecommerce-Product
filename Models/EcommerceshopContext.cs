@@ -43,6 +43,8 @@ public partial class EcommerceshopContext : DbContext
 
     public virtual DbSet<HistoryStore> HistoryStores { get; set; }
 
+    public virtual DbSet<Manual> Manuals { get; set; }
+
     public virtual DbSet<Mirror> Mirrors { get; set; }
 
     public virtual DbSet<Order> Orders { get; set; }
@@ -72,6 +74,8 @@ public partial class EcommerceshopContext : DbContext
     public virtual DbSet<Variant> Variants { get; set; }
 
     public virtual DbSet<Version> Versions { get; set; }
+
+    public virtual DbSet<Video> Videos { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -303,6 +307,35 @@ public partial class EcommerceshopContext : DbContext
                 .HasColumnName("timemark");
         });
 
+        modelBuilder.Entity<Manual>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("manual_pk");
+
+            entity.ToTable("manual");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.CreatedDate)
+                .HasColumnType("character varying")
+                .HasColumnName("created_date");
+            entity.Property(e => e.Language)
+                .HasColumnType("character varying")
+                .HasColumnName("language");
+            entity.Property(e => e.ManualLink)
+                .HasColumnType("character varying")
+                .HasColumnName("manual_link");
+            entity.Property(e => e.ManualName)
+                .HasColumnType("character varying")
+                .HasColumnName("manual_name");
+            entity.Property(e => e.ProductId).HasColumnName("product_id");
+            entity.Property(e => e.UpdatedDate)
+                .HasColumnType("character varying")
+                .HasColumnName("updated_date");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.Manuals)
+                .HasForeignKey(d => d.ProductId)
+                .HasConstraintName("manual_product_fk");
+        });
+
         modelBuilder.Entity<Mirror>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("mirror_pk");
@@ -468,12 +501,12 @@ public partial class EcommerceshopContext : DbContext
 
         modelBuilder.Entity<Reviewdetail>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("reviewdetails_pk");
+            entity.HasKey(e => e.Id).HasName("reviewdetail_pk");
 
             entity.ToTable("reviewdetails");
-            // entity.Property(e => e.Id).HasDefaultValueSql("nextval('\"Product_id_seq\"'::regclass)");
 
-            entity.Property(e => e.Id).HasDefaultValueSql("nextval('\"reviewdetail_id_seq\"'::regclass)")
+            entity.Property(e => e.Id)
+                .HasDefaultValueSql("nextval('reviewdetail_id_seq'::regclass)")
                 .HasColumnName("id");
             entity.Property(e => e.CreatedDate)
                 .HasColumnType("character varying")
@@ -484,11 +517,11 @@ public partial class EcommerceshopContext : DbContext
 
             entity.HasOne(d => d.Product).WithMany(p => p.Reviewdetails)
                 .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("reivew_product_fk");
+                .HasConstraintName("fk_product_reviews");
 
             entity.HasOne(d => d.User).WithMany(p => p.Reviewdetails)
                 .HasForeignKey(d => d.UserId)
-                .HasConstraintName("review_user_fk");
+                .HasConstraintName("fk_user_reviews");
         });
 
         modelBuilder.Entity<Setting>(entity =>
@@ -631,6 +664,29 @@ public partial class EcommerceshopContext : DbContext
             entity.Property(e => e.Versionname)
                 .HasColumnType("character varying")
                 .HasColumnName("versionname");
+        });
+
+        modelBuilder.Entity<Video>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("video_pk");
+
+            entity.ToTable("video");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.CreatedDate)
+                .HasColumnType("character varying")
+                .HasColumnName("created_date");
+            entity.Property(e => e.Link)
+                .HasColumnType("character varying")
+                .HasColumnName("link");
+            entity.Property(e => e.ProductId).HasColumnName("product_id");
+            entity.Property(e => e.UpdatedDate)
+                .HasColumnType("character varying")
+                .HasColumnName("updated_date");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.Videos)
+                .HasForeignKey(d => d.ProductId)
+                .HasConstraintName("video_product_fk");
         });
         modelBuilder.HasSequence("user_number_seq");
 

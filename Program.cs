@@ -75,6 +75,10 @@ builder.Services.AddScoped<IDashboardRepository,DashboardService>();
 
 builder.Services.AddScoped<IBannerListRepository,BannerListService>();
 
+builder.Services.AddScoped<IManualRepository,ManualService>();
+
+builder.Services.AddScoped<IVideoRepository,VideoService>();
+
 builder.Services.AddScoped<ISettingRepository,SettingService>();
 
 builder.Services.AddScoped<ITrackDataRepository,TrackdataService>();

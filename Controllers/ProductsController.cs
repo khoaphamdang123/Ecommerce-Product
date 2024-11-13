@@ -73,7 +73,7 @@ public async Task<IActionResult> ProductByBrand(string brand_name)
     var sub_list=sub_product_list_banner.ToList();
     string product_banner=list_product[0].Image;
     string sub_banner=sub_list[0].Image;
-    Dictionary<string,int> count_reviews=await this._product.countAllReview(products.ToList());
+    Dictionary<string,int> count_reviews=await this._product.countAllReview(products.ToList());    
   //  Dictionary<string,int> count_product_reviews=new Dictionary<string, int>();
   //    for(int i=5;i>=1;i--)
   //    {
@@ -98,6 +98,45 @@ public async Task<IActionResult> ProductByBrand(string brand_name)
          ViewBag.products=prods;
     return View("~/Views/ClientSide/Products/Products.cshtml");
 }
+
+[Route("collections/sub_category/{sub_cat_id}")]
+[HttpGet]
+public async Task<IActionResult> ProductBySubCategory(int sub_cat_id)
+{
+   var products=await this._product.getProductBySubCategory(sub_cat_id);
+     string select_size="12";
+     var product_list_banner=await this._banner.findBannerByName("product_list_banner");
+     var sub_product_list_banner=await this._banner.findBannerByName("sub_product_banner");
+    var list_product=product_list_banner.ToList();
+    var sub_list=sub_product_list_banner.ToList();
+    string product_banner=list_product[0].Image;
+    string sub_banner=sub_list[0].Image;
+    Dictionary<string,int> count_reviews=await this._product.countAllReview(products.ToList());    
+  //  Dictionary<string,int> count_product_reviews=new Dictionary<string, int>();
+  //    for(int i=5;i>=1;i--)
+  //    {
+  //     List<Product> prod=await this._product.getListProductRating(i);
+  //     count_product_reviews.Add(i.ToString(),prod.Count);
+  //    }
+    ViewBag.count_reviews=count_reviews;
+    //ViewBag.count_product_reviews=count_product_reviews;
+
+    ViewBag.product_banner=product_banner;
+    ViewBag.sub_banner=sub_banner;
+
+          ViewBag.selected_size=select_size;
+          List<string> options=new List<string>(){"12","24","36","48"};
+          ViewBag.options=options;
+          FilterProduct prod_filter=new FilterProduct("","","","","","");
+          ViewBag.filter_obj=prod_filter;
+          var cats=await this._category.getAllCategory();
+          var brands=await this._category.getAllBrandList();
+          ViewBag.brands=brands;
+         var prods=await this._product.pagingProductByList(12,1,products);
+         ViewBag.products=prods;
+    return View("~/Views/ClientSide/Products/Products.cshtml");
+}
+
 
 [Route("collections")]
 public async Task<IActionResult> Products()
@@ -148,9 +187,13 @@ public async Task<IActionResult> Products()
     var cats=await this._category.getAllCategory();
     
     var brands=await this._category.getAllBrandList();
+    
     ViewBag.brands=brands;
+    
     var prods=await this._product.pagingProduct(12,1);
+    
     ViewBag.products=prods;
+
     return View("~/Views/ClientSide/Products/Products.cshtml");    
 }
 
@@ -160,7 +203,6 @@ public async Task<IActionResult> Products()
   {
     try{ 
         PageList<Product> prods=null;
-       //Console.WriteLine("Product paging list here is:");
         if(products==null)
         {
           prods=await this._product.pagingProduct(page_size,page);
@@ -169,18 +211,12 @@ public async Task<IActionResult> Products()
           prods=await this._product.pagingProductByList(page_size,page,products);
         }
           string select_size=page_size.ToString();
-        //   Console.WriteLine("product page size:"+prods.totalPage);
-        // Console.WriteLine("Select size:"+select_size);
+
      var product_list_banner=await this._banner.findBannerByName("product_list_banner");
      var sub_product_list_banner=await this._banner.findBannerByName("sub_product_banner");
     var list_product=product_list_banner.ToList();
     var sub_list=sub_product_list_banner.ToList();
-    // Console.WriteLine("list product banner here:"+list_product.Count);
-    // Console.WriteLine("still up here");
-    // foreach(var item in list_product)
-    // {
-    //   Console.WriteLine("Product banner here is:"+item.Image);
-    // }
+
     string product_banner=list_product[0].Image;
     //Console.WriteLine("Product banner here:"+product_banner);
     string sub_banner=sub_list[0].Image;

@@ -314,6 +314,45 @@
                   </a>
                 </li>
               </ul>
+            </li> 
+
+                <li class="menu-item @(view_controller=="ManualList"?"active open":"")">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-book"></i>
+                <div data-i18n="Account Settings">Hướng dẫn sử dụng sản phẩm</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item @(view_action=="ManualList"?"active":"")">
+                  <a href="@Url.Action("ManualList","ManualList")" class="menu-link">
+                    <div data-i18n="Account">Danh sách các hướng dẫn sử dụng</div>
+                  </a>
+                </li>
+                <li class="menu-item @(view_action=="AddManual"?"active":"")">
+                  <a href="@Url.Action("AddManual","ManualList")" class="menu-link">
+                    <div data-i18n="Notifications">Thêm hướng dẫn sử dụng</div>
+                  </a>
+                </li>
+              </ul>
+            </li>  
+
+            
+             <li class="menu-item @(view_controller=="VideoList"?"active open":"")">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-video"></i>
+                <div data-i18n="Account Settings">Video sản phẩm</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item @(view_action=="VideoList"?"active":"")">
+                  <a href="@Url.Action("VideoList","VideoList")" class="menu-link">
+                    <div data-i18n="Account">Danh sách các video</div>
+                  </a>
+                </li>
+                <li class="menu-item @(view_action=="AddVideo"?"active":"")">
+                  <a href="@Url.Action("AddVideo","VideoList")" class="menu-link">
+                    <div data-i18n="Notifications">Thêm Video</div>
+                  </a>
+                </li>
+              </ul>
             </li>  
 
             <li class="menu-item @(view_controller=="OrderList"?"active open":"")">

@@ -6,6 +6,7 @@ using Npgsql.Replication;
 using System.Drawing;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Text.RegularExpressions;
+using System.Collections.Frozen;
 
 namespace Ecommerce_Product.Service;
 
@@ -27,7 +28,7 @@ public class ProductService:IProductRepository
   {
     try
     {
-       var products=await this._context.Products.Include(p=>p.Brand).Include(p=>p.Category).Include(c=>c.SubCat).Include(p=>p.Variants).Include(p=>p.ProductImages).ToListAsync();
+       var products=await this._context.Products.Include(p=>p.Brand).Include(p=>p.Category).Include(c=>c.SubCat).Include(p=>p.Variants).Include(p=>p.ProductImages).Include(c=>c.Videos).Include(c=>c.Manuals).ToListAsync();
        return products;
     }
     catch(Exception er)
@@ -37,16 +38,30 @@ public class ProductService:IProductRepository
     return null;
   }
 
+  public async Task<Manual> findManualByLanguage(string language,Product product)
+  { var manual_ob=new Manual();
+    try
+    {
+    var manuals=product.Manuals;
+    
+    manual_ob=manuals.FirstOrDefault(c=>c.Language==language);
+    }
+    catch(Exception er)
+    {
+      Console.WriteLine("Find Manual By Language Exception:"+er.Message);
+    }
+    return manual_ob;
+  }
  public async Task<Product> findProductById(int id)
  {
-    var product=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(i=>i.ProductImages).Include(c=>c.Variants).ThenInclude(v=>v.Color).Include(c=>c.Variants).ThenInclude(v=>v.Size).Include(c=>c.Variants).ThenInclude(c=>c.Version).Include(c=>c.Variants).ThenInclude(c=>c.Mirror).FirstOrDefaultAsync(p=>p.Id==id);
+    var product=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(i=>i.ProductImages).Include(c=>c.Variants).ThenInclude(v=>v.Color).Include(c=>c.Variants).ThenInclude(v=>v.Size).Include(c=>c.Variants).ThenInclude(c=>c.Version).Include(c=>c.Variants).ThenInclude(c=>c.Mirror).Include(c=>c.Videos).Include(c=>c.Manuals).FirstOrDefaultAsync(p=>p.Id==id);
     return product;
  }
 
  public async Task<Product> findProductByName(string name)
  {
 
-  var product=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(i=>i.ProductImages).Include(c=>c.Variants).ThenInclude(v=>v.Color).Include(c=>c.Variants).ThenInclude(v=>v.Size).Include(c=>c.Variants).ThenInclude(c=>c.Version).Include(c=>c.Variants).ThenInclude(c=>c.Mirror).FirstOrDefaultAsync(p=>p.ProductName==name);
+  var product=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(i=>i.ProductImages).Include(c=>c.Variants).ThenInclude(v=>v.Color).Include(c=>c.Variants).ThenInclude(v=>v.Size).Include(c=>c.Variants).ThenInclude(c=>c.Version).Include(c=>c.Variants).ThenInclude(c=>c.Mirror).Include(c=>c.Videos).Include(c=>c.Manuals).FirstOrDefaultAsync(p=>p.ProductName==name);
   return product;
  }
 
@@ -65,8 +80,8 @@ public async Task<PageList<Product>> pagingProduct(int page_size,int page)
 
 public async Task<IEnumerable<Product>>getProductBySubCategory(int sub_cat)
 {
-  var products=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(c=>c.SubCat).Include(c=>c.Variants).Where(c=>c.SubCatId==sub_cat).ToListAsync();
-  return products;
+  var products=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(c=>c.SubCat).Include(c=>c.Variants).Include(c=>c.ProductImages).Where(c=>c.SubCat.Id==sub_cat).ToListAsync();
+  return products;  
 }
 
 public async Task<IEnumerable<Product>> filterProductByNameAndCategory(string product,string category)
@@ -117,7 +132,7 @@ try
    if(!string.IsNullOrEmpty(prod_name))
    {
     prod_name=prod_name.Trim();
-    prod_list= prod_list.Where(c=>c.ProductName.ToLower()==prod_name.ToLower()).ToList();
+    prod_list= prod_list.Where(c=>c.ProductName.ToLower()==prod_name.ToLower()).ToList();    
    }
    if(!string.IsNullOrEmpty(start_date) && string.IsNullOrEmpty(end_date))
    {
@@ -162,7 +177,7 @@ return prod_list;
 public IEnumerable<ProductImage> findProductImageByProductId(int id)
 {
  var product_img=this._context.ProductImages.Where(p=>p.Productid==id).ToList();
- return product_img;
+ return product_img; 
 }
 
 public async Task<int> deleteProduct(int id)
@@ -194,7 +209,7 @@ public async Task<int> deleteProduct(int id)
       int val= await this._sp_services.removeFiles(file);
     }
   }
-
+  
    foreach(var ob in product_img_ob)
    {
     int val =await this._sp_services.removeFiles(ob.Avatar);

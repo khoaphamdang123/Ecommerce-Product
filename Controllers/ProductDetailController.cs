@@ -14,7 +14,7 @@ public class ProductDetailController:BaseController
  private readonly IBannerListRepository _banner;
  private readonly IProductRepository _product;
 
- private readonly ICategoryListRepository _category;
+private readonly ICategoryListRepository _category;
 
 private readonly ILogger<ProductDetailController> _logger;
 
@@ -45,10 +45,15 @@ public async Task<IActionResult> ProductDetail(string product_name)
     if(product!=null)
     { 
       var products_image=product.ProductImages.Count;
+       var manual = await this._product.findManualByLanguage("English",product);
+       if(manual!=null)
+       {
+        ViewBag.manual_link=manual.ManualLink;
+       }
       List<Product> single_product = new List<Product>{product};
       var count_reviews=await this._product.countAllReview(single_product);            
       ViewBag.count_reviews=count_reviews;
-      int rating_star=await this._product.getSingleProductRating(product.Id);
+      int rating_star=await this._product.getSingleProductRating(product.Id);      
       ViewBag.rating_star=rating_star;
       for(int i=1;i<=5;i++)
     {
@@ -94,13 +99,13 @@ public async Task<JsonResult> addProductReviews(string product_id,string user_id
   { 
   if(string.IsNullOrEmpty(user_id))
   {
-    return Json(new{status=0,message=$"Thêm đánh giá cho sản phẩm mã {product_id} thất bại"});
+    return Json(new{status=0,message=$"Thêm đánh giá cho sản phẩm mã {product_id} thất bại"});    
   }
   if(string.IsNullOrEmpty(review))
   {
-        return Json(new{status=0,message=$"Không được để trống thông tin đánh giá."});
+    return Json(new{status=0,message=$"Không được để trống thông tin đánh giá."});
   }
-  Console.WriteLine("Review content here is:"+review);
+  Console.WriteLine("Review content here is:"+review);  
   
   int productId=Convert.ToInt32(product_id);
   
