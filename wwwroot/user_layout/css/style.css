@@ -6797,6 +6797,30 @@ p.checkout-coupon input[type=text]::placeholder {
 }
 
 
+.empty-cart
+{
+margin-top: 50px;
+text-align: center;
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+.empty-cart-image
+{
+  width: 100px;
+  height: 100px;
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+
+.empty-cart-text
+{
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+
 
 
 

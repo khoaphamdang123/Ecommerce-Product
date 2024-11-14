@@ -79,6 +79,8 @@ builder.Services.AddScoped<IManualRepository,ManualService>();
 
 builder.Services.AddScoped<IVideoRepository,VideoService>();
 
+builder.Services.AddScoped<ICartRepository,CartService>();
+
 builder.Services.AddScoped<ISettingRepository,SettingService>();
 
 builder.Services.AddScoped<ITrackDataRepository,TrackdataService>();

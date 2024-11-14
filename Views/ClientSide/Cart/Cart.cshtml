@@ -1,0 +1,134 @@
+@{
+    Layout="_UserLayout";
+    var cart =ViewBag.cart as List<CartModel>; 
+    int total_amount=0;
+}
+        <div class="page-banner-area page-banner-height-2" data-background="@Url.Content("~/user_layout/img/banner/page-banner-4.jpg")">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="page-banner-content text-center">
+                            <h4 class="breadcrumb-title">Giỏ hàng của bạn</h4>
+                            <div class="breadcrumb-two">
+                                <nav>
+                                   <nav class="breadcrumb-trail breadcrumbs">
+                                      <ul class="breadcrumb-menu">
+                                         <li class="breadcrumb-trail">
+                                            <a href="@Url.Action("HomePage","HomePage")"><span>Trang chủ</span></a>
+                                         </li>
+                                         <li class="trail-item">
+                                            <span>Giỏ hàng</span>                                            
+                                         </li>
+                                      </ul>
+                                   </nav> 
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="cart-area pt-120 pb-120">
+            <div class="container">
+               <div class="row">
+              @if(cart.Count>0)
+              {
+                  <div class="col-12">
+                        <form action="#">
+                           <div class="table-content table-responsive">
+                              <table class="table">
+                                    <thead>
+                                       <tr>
+                                          <th class="product-thumbnail">Hình ảnh</th>
+                                          <th class="cart-product-name">Tên sản phẩm</th>
+                                          <th class="product-price">Giá tiền</th>
+                                          <th class="product-quantity">Số lượng</th>
+                                          <th class="product-subtotal">Tổng cộng</th>
+                                          <th class="product-remove">Xóa</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach(var item in cart)
+                                        {total_amount+=Convert.ToInt32(item.Product.Price)*item.Quantity;
+                                       <tr>
+                                          <td class="product-thumbnail"><a href="shop-details.html"><img src="~/@item.Product.Frontavatar.Substring(item.Product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="User Front Avatar"></a></td>
+                                          <td class="product-name"><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=item.Product.ProductName})">@item.Product.ProductName</a></td>
+                                          <td class="product-price"><span class="amount">@item.Product.Price đ</span></td>
+                                          <td class="product-quantity">
+                                                <div class="cart-plus-minus"><input id="quantity-value" type="text" value="@item.Quantity"><div id="inc-value" class="dec qtybutton">-</div><div id="dec-value" class="inc qtybutton">+</div></div>
+                                          </td>
+                                          <td class="product-subtotal"><span class="amount">@total_amount đ</span></td>
+                                          <td class="product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
+                                       </tr>
+                                      
+                                       }
+                                    </tbody>
+                              </table>
+                           </div>
+                           <div class="row">
+                              <div class="col-12">
+                                    <div class="coupon-all">
+                                       <div class="coupon">
+                                          <input id="coupon_code" class="input-text" name="coupon_code" value="" placeholder="Coupon code" type="text">
+                                          <button class="tp-btn-h1" name="apply_coupon" type="submit">Apply
+                                                coupon</button>
+                                       </div>
+                                       <div class="coupon2">
+                                          <button class="tp-btn-h1" name="update_cart" type="submit">Cập nhật giỏ hàng</button>
+                                       </div>
+                                    </div>
+                              </div>
+                           </div>
+                           <div class="row justify-content-end">
+                              <div class="col-md-5">
+                                    <div class="cart-page-total">
+                                       <h2>Cart totals</h2>
+                                       <ul class="mb-20">
+                                          <li>Subtotal <span>$250.00</span></li>
+                                          <li>Total <span>$250.00</span></li>
+                                       </ul>
+                                       <a class="tp-btn-h1" href="checkout.html">Tiến hành đặt hàng</a>
+                                    </div>
+                              </div>
+                           </div>
+                        </form>
+                  </div>
+                  }
+                 else{
+                    <div class="text-center">
+                        <h1>Giỏ hàng của bạn đang trống</h1>
+                        <button type="button" id="redirect-btn" class="cart-btn mt-5" onclick="redirectToHomePage()">Tiếp tục mua sắm</button>
+                    </div>
+                 } 
+               </div>
+            </div>
+         </section>
+     
+   <script>
+    var redirect_btn=document.getElementById("redirect-btn");
+   const redirectToHomePage=()=>
+   { 
+       window.location.href="@Url.Action("HomePage","HomePage")";
+   }
+
+   var inc_value=document.getElementById("inc-value");
+
+   var dec_value=document.getElementById("dec-value");
+
+   var quantity=document.getElementById("quantity-value");
+   
+    inc_value.addEventListener("click",()=>
+    {
+        var value = quantity.value;
+        
+        alert(value);
+    });
+
+    dec_value.addEventListener("click",()=>{
+        var value = quantity.value;
+
+        alert(value);
+    });
+
+   </script>

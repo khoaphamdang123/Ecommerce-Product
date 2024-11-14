@@ -10,6 +10,26 @@
     //List<string> details_img=new List<string>();
     int count_trending=0;
 }        <!-- slider-area-start -->
+ <div
+       class="bs-toast toast fade hide toast-placement-ex top-5 end-0"
+       role="alert"
+       aria-live="assertive"
+       aria-atomic="true"
+       data-bs-dismiss="toast"
+       style="cursor: pointer; position: fixed; top: 20px; right: 20px; z-index: 1050;"
+       data-delay="3000"
+       data-bs-autohide="true" 
+       data-bs-delay="3000"
+             >
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold" id="toast-title"></div>
+                        </div>
+                        <div class="toast-body" id="toast-message">
+                        </div>
+        </div>
+
+        
         <div class="slider-area light-bg-s pt-60">
             <div class="container custom-conatiner">
                 <div class="row">
@@ -144,7 +164,7 @@
                                 </div>
                             </div>
                             <div class="product__add-cart text-center">
-                                <button type="button" class="cart-btn-3 product-modal-sidebar-open-btn d-flex align-items-center justify-content-center w-100">
+                                <button type="button" id="add-cart" data-product-name="@product.ProductName" data-product-id="@product.Id" class="cart-btn-3 product-modal-sidebar-open-btn d-flex align-items-center justify-content-center w-100">
                                     Thêm vào giỏ hàng
                                 </button>
                             </div>
@@ -508,6 +528,58 @@
 
     <script>
      document.addEventListener("DOMContentLoaded",()=>{
+      
+     var add_cart=document.querySelectorAll("#add-cart");
+
+     add_cart.forEach((cart,index)=>{
+     cart.addEventListener("click",()=>{
+       var product_name=cart.getAttribute("data-product-name");
+       var product_id=cart.getAttribute("data-product-id");
+       var quantity=1;
+       let formData = new FormData();
+       formData.append("product_id",product_id);
+       formData.append("quantity",quantity);
+       formData.append("product_name",product_name);
+       $.ajax({
+            url:"@Url.Action("addItemToCart","Cart")",
+            type:"POST",
+            data:formData,
+            contentType: false,
+            processData: false, 
+            success:function(response)
+            {
+                const status=response.status;
+                const message = response.message;
+                document.getElementById("toast-title").innerHTML="Thông báo";
+                document.getElementById("toast-message").innerHTML=message;
+                var toastEl = document.querySelector('.toast');
+
+                if(status==1)
+                {
+              
+                 toastEl.classList.add('bg-success');
+      
+                }
+            else
+            {
+                toastEl.classList.add('bg-danger');
+            }
+                var toast = new bootstrap.Toast(toastEl);
+                
+                 toast.show();
+            },
+            error:function(xhr, status, error)
+            {
+                  document.getElementById("toast-title").innerHTML="Thông báo";
+                 document.getElementById("toast-message").innerHTML=error;
+                var toastEl = document.querySelector('.toast');
+                toastEl.classList.add('bg-danger');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();           
+                 }
+        });
+     });
+     });
 
       document.addEventListener('show.bs.modal', function(event) 
 {
