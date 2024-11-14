@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-    @{
+    @{ 
         var view_controller=ViewContext.RouteData.Values["controller"]?.ToString();
         var view_action = ViewContext.RouteData.Values["action"]?.ToString();
         string username="";
         string email="";
         string password = "";
         string avatar="";
+       int total_value=0;
         ChangePassword change_pass= null;
        if(User.Identity.IsAuthenticated && User.IsInRole("User"))
        {
@@ -17,7 +18,9 @@
         change_pass=new ChangePassword(email,password,"");
        }
        var categories = ViewBag.Categories as List<Category>;
-
+        
+        var cart = ViewBag.cart as List<CartModel>;
+     
         Console.WriteLine("Current category list size is:"+categories.Count);
         Console.WriteLine("Current view controller is:"+view_action);
     }
@@ -45,8 +48,6 @@
       <link rel="stylesheet" href="~/user_layout/css/style.css">
       <link rel="stylesheet" href="~/user_layout/css/garmin.css">
       <link rel="stylesheet" href="~/user_layout/css/product_detail.css">
-
-
         <link rel="stylesheet" href="~/vendor/fonts/boxicons.css"/>
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
@@ -66,13 +67,6 @@
       rel="stylesheet"
     />
 
-
-<style>
-    body 
-    {
-        font-family: 'Roboto', sans-serif !important;
-    }
-</style>
 
 </head>
 <body>
@@ -376,55 +370,81 @@
                                 
                               
                                 <div class="block-cart action">
-                                    <a class="icon-link" href="cart.html">
+                                    <a class="icon-link" href="@Url.Action("Cart","Cart")">
                                     <i class="flaticon-shopping-bag"></i>
                                     <span class="count">1</span>
                                     <span class="text">
                                     <span class="sub">Giỏ hàng:</span>
                                     $00.00 </span>
                                     </a>
+                                    @if(cart.Count>0)
+                                    {
                                     <div class="cart">
                                         <div class="cart__mini">
                                             <ul>
                                                 <li>
                                                   <div class="cart__title">
-                                                    <h4>Your Cart</h4>
-                                                    <span>(1 Item in Cart)</span>
+                                                    <h4>Giỏ hàng của bạn</h4>
+                                                    <span>(@cart.Count sản phẩm)</span>
                                                   </div>
                                                 </li>
+                                               @foreach(var item in cart)
+                                            {   
+                                                total_value+=Convert.ToInt32(item.Product.Price)*item.Quantity;
                                                 <li>
                                                   <div class="cart__item d-flex justify-content-between align-items-center">
                                                     <div class="cart__inner d-flex">
+                                             
                                                       <div class="cart__thumb">
                                                         <a href="product-details.html">
-                                                          <img src="assets/img/cart/20.jpg" alt="">
+                                 <img src="~/@item.Product.Frontavatar.Substring(item.Product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="User Front Avatar">
                                                         </a>
                                                       </div>
+                                              
                                                       <div class="cart__details">
-                                                        <h6><a href="product-details.html"> Samsung C49J89: £875, Debenhams Plus  </a></h6>
+                                                        <h6><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=item.Product.ProductName})">@item.Product.ProductName</a></h6>
+                                                      <div class="cart__qty">
+                                                            <span>Số lượng:@item.Quantity</span>
+                                                        </div>
                                                         <div class="cart__price">
-                                                          <span>$255.00</span>
+                                                          <span>(@(Convert.ToInt32(item.Product.Price)*item.Quantity)đ)</span>
+                                                          
                                                         </div>
                                                       </div>
+                                                      
                                                     </div>
                                                     <div class="cart__del">
                                                         <a href="#"><i class="fal fa-times"></i></a>
                                                     </div>
                                                   </div>
                                                 </li>
+                                        
+                                                }
                                                 <li>
                                                   <div class="cart__sub d-flex justify-content-between align-items-center">
-                                                    <h6>Subtotal</h6>
-                                                    <span class="cart__sub-total">$255.00</span>
+                                                    <h6>Tổng tiền</h6>
+                                                    <span class="cart__sub-total">@total_value đ</span>
                                                   </div>
                                                 </li>
                                                 <li>
-                                                    <a href="cart.html" class="wc-cart mb-10">View cart</a>
-                                                    <a href="checkout.html" class="wc-checkout">Checkout</a>
+                                                    <a href="@Url.Action("Cart","Cart")" class="wc-cart mb-10">Xem giỏ hàng</a>
+                                                    <a href="checkout.html" class="wc-checkout">Đặt hàng</a>
                                                 </li>
                                             </ul>
                                         </div>
                                     </div>
+                                    }
+                                else
+                                {  <div class="cart">
+                                    <div class="cart__mini">
+                                   <div class="empty-cart">
+                                     <img src="~/user_layout/img/banner/shopping-bag.png" alt="empty-cart" class="empty-cart-image"/>
+                                    <p class="empty-cart-text">Chưa có sản phẩm nào trong giỏ hàng...</p>
+                                    <a href="@Url.Action("HomePage","HomePage")" class="cart-btn" type="button">Tiếp tục mua sắm</a>
+                                   </div>
+                                   </div>
+                                   </div>
+                                }
                                 </div>
                             </div>
                         </div>
@@ -458,7 +478,6 @@
                                                   {
                                                     <li><a href="@Url.Action("ProductsByCategory","Products",new{category_name=cat.CategoryName})">@cat.CategoryName</a></li>
                                                     }
-                                                
                                                 else{
                                                 <li><a href="@Url.Action("ProductsByCategory","Products",new{category_name=cat.CategoryName})">@cat.CategoryName<i class="far fa-angle-down"></i></a>
                                                 <ul class="submenu">
@@ -827,7 +846,7 @@
       <script src="~/user_layout/js/imagesloaded-pkgd.js"></script>
       <script src="~/user_layout/js/ajax-form.js"></script>
       <script src="~/user_layout/js/main.js"></script>
-    <script src="~/user_layout/js/garmin.js"></script> 
+      <script src="~/user_layout/js/garmin.js"></script> 
 
       <script src="~/js/ui-modals.js"></script> 
 
