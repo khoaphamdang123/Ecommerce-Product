@@ -12,22 +12,22 @@
     {
      nums_review=review_list.Count;
     }
-
     var count_stars=ViewBag.count_stars as Dictionary<string,int>;
     List<double> star_percen=new List<double>();
    var stats_description=Html.Raw(Model?.Statdescription);
    Console.WriteLine(stats_description);
    var user=this.ViewContext.HttpContext.Session.GetString("UserId");
-
    
     for(int i=1;i<=5;i++)
     {
         if(count_stars.ContainsKey(i.ToString()) && count_reviews[Model?.ProductName]!=0)
-        {   double value=(double)(count_stars[i.ToString()]/count_reviews[Model?.ProductName])*100;
-            
+        {   
+            double value=(double)(count_stars[i.ToString()]/count_reviews[Model?.ProductName])*100;
+
             star_percen.Add(value);
         }
-        else{
+        else
+        {
             star_percen.Add(0);
         }
     }
@@ -40,9 +40,9 @@
        aria-atomic="true"
        data-bs-dismiss="toast"
        style="cursor: pointer; position: fixed; top: 20px; right: 20px; z-index: 1050;"
-         data-delay="3000"
-         data-bs-autohide="true" 
-         data-bs-delay="3000"
+       data-delay="3000"
+       data-bs-autohide="true" 
+       data-bs-delay="3000"
              >
                         <div class="toast-header">
                           <i class="bx bx-bell me-2"></i>
@@ -207,11 +207,9 @@
                                        @Model.Status
                                     </span>
                                 </div>
-                                
                             </div>
-                           <div class="rating-card">
+    <div class="rating-card">
         <h4>Đánh giá khách hàng</h4>
-    
     <div class="overall-rating">
         <span class="average-rating">@rating</span> 
         <span class="total-ratings">(@count_reviews[Model.ProductName] đánh giá)</span> 
@@ -484,7 +482,6 @@
                                                     {
                                                         <button type="submit" class="cart-btn" disabled>Thêm đánh giá</button>
                                                     }
-
                                                     </div>
                                                  </div>
                                               </div>
@@ -504,7 +501,6 @@
                      string[] embed_code_arr=video_url.Split('/');
                      string embed_code=embed_code_arr[embed_code_arr.Length-1];
                     string embed_url="https://www.youtube.com/embed/"+embed_code;
-                    Console.WriteLine("EMBED URL here is:"+embed_url);
                      <div class="col-md-6 mb-3">
       <iframe width="560" height="315" src="@embed_url" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                      </div>
