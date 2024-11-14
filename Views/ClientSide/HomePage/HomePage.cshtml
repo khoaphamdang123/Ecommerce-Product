@@ -278,7 +278,7 @@
                                 </div>
                             </div>
                             <div class="product__add-cart text-center">
-                                <button type="button" class="cart-btn-3 product-modal-sidebar-open-btn d-flex align-items-center justify-content-center w-100">
+                                <button type="button" id="add-cart" data-product-name="@product.ProductName" data-product-id="@product.Id" class="cart-btn-3 product-modal-sidebar-open-btn d-flex align-items-center justify-content-center w-100">
                                Thêm vào giỏ hàng
                                 </button>
                             </div>
@@ -466,7 +466,7 @@
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                                 <div class="product__modal-content">
-                                    <h4><a href="product-details.html"><span id="product-name"></span></a></h4>
+                                    <h4><a href="product-details.html" id="name-link"><span id="product-name"></span></a></h4>
                                     <div class="product__review d-sm-flex">
                                         <div class="rating rating__shop mb-10 mr-30">
                                          <ul id="quick-view-list">
@@ -503,7 +503,7 @@
                                                 <div class="cart-plus-minus p-relative"><input type="text" value="1" /></div>
                                             </div>
                                             <div class="pro-cart-btn mb-25">
-                                                <button class="cart-btn" type="submit">Thêm vào giỏ hàng</button>
+                                                <button class="cart-btn" id="add-cart" type="button">Thêm vào giỏ hàng</button>
                                             </div>
                                         </div>
                                         </form>
@@ -665,6 +665,13 @@ if (wwwrootIndex !== -1) {
 
         document.getElementById('product-quantity-value').textContent = quantity+ " sản phẩm";
 
+        var name_url='@Url.Action("ProductDetail","ProductDetail",new{product_name="__id__"})';
+
+        name_url=name_url.replace("__id__",productName);
+
+
+
+        document.getElementById('name-link').href = name_url;
         }
         });
 });
