@@ -56,9 +56,9 @@
                                           <td class="product-name"><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=item.Product.ProductName})">@item.Product.ProductName</a></td>
                                           <td class="product-price"><span class="amount">@item.Product.Price đ</span></td>
                                           <td class="product-quantity">
-                                                <div class="cart-plus-minus"><input id="quantity-value" type="text" value="@item.Quantity"><div id="inc-value" class="dec qtybutton">-</div><div id="dec-value" class="inc qtybutton">+</div></div>
+                                                <div class="cart-plus-minus"><input class="quantity-value" type="text" value="@item.Quantity" data-price="@(Convert.ToInt32(item.Product.Price))"></div>
                                           </td>
-                                          <td class="product-subtotal"><span class="amount">@total_amount đ</span></td>
+                                          <td class="product-subtotal"><span class="amount">@(Convert.ToInt32(item.Product.Price)*item.Quantity) đ</span></td>
                                           <td class="product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
                                        </tr>
                                       
@@ -106,29 +106,53 @@
          </section>
      
    <script>
-    var redirect_btn=document.getElementById("redirect-btn");
+  
+     var redirect_btn=document.getElementById("redirect-btn");
    const redirectToHomePage=()=>
    { 
        window.location.href="@Url.Action("HomePage","HomePage")";
    }
-
-   var inc_value=document.getElementById("inc-value");
-
-   var dec_value=document.getElementById("dec-value");
-
-   var quantity=document.getElementById("quantity-value");
-   
-    inc_value.addEventListener("click",()=>
+ document.addEventListener("DOMContentLoaded",()=>{
+    var inc_value=document.querySelectorAll(".dec").forEach((item)=>
     {
-        var value = quantity.value;
-        
-        alert(value);
+        item.addEventListener("click",()=>
+        {
+         const quantity_ob=item.parentElement.querySelector(".quantity-value");
+         var quantity=parseInt(quantity_ob.value);
+         const pricePerItem = parseInt(quantity_ob.getAttribute('data-price'));
+         const subtotal=pricePerItem*quantity;
+         const subtotalDisplay = quantity_ob.closest('tr').querySelector('.product-subtotal .amount');
+         subtotalDisplay.textContent = `${subtotal} đ`;
+        });
     });
 
-    dec_value.addEventListener("click",()=>{
-        var value = quantity.value;
-
-        alert(value);
+    var dec_value=document.querySelectorAll(".inc").forEach((item)=>
+    {
+        item.addEventListener("click",()=>
+        {
+        const quantity_ob=item.parentElement.querySelector(".quantity-value");
+         var quantity=parseInt(quantity_ob.value);
+         const pricePerItem = parseInt(quantity_ob.getAttribute('data-price'));
+         const subtotal=pricePerItem*quantity;
+         const subtotalDisplay = quantity_ob.closest('tr').querySelector('.product-subtotal .amount');
+         subtotalDisplay.textContent = `${subtotal} đ`;        }); 
     });
+      document.querySelectorAll('.quantity-value').forEach(input => {
+        input.addEventListener('input', function () {
+      
+            const pricePerItem = parseInt(this.getAttribute('data-price'));
+            const quantity = parseInt(this.value) || 1; 
+            
+            // Calculate subtotal
+            const subtotal = pricePerItem * quantity;
+            
+            // Update the subtotal display in the respective row
+            const subtotalDisplay = this.closest('tr').querySelector('.product-subtotal .amount');
+            subtotalDisplay.textContent = `${subtotal} đ`;
+        });
+    });
+    });
+    
+ 
 
    </script>
