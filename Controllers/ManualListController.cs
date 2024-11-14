@@ -184,9 +184,9 @@ public class ManualListController : Controller
     }
      catch(Exception er)
     {      
-        this._logger.LogError("Add Manual Exception:"+er.Message);
+      this._logger.LogError("Add Manual Exception:"+er.Message);
+      
       return Json(new {status=0,message="Có lỗi xảy ra:"+er.Message});
-
     }
    if(update_res==0)
     {

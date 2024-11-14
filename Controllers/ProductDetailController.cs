@@ -30,18 +30,25 @@ public ProductDetailController(IBannerListRepository banner,IProductRepository p
 [HttpGet]
 public async Task<IActionResult> ProductDetail(string product_name)
 {   
-  Console.WriteLine("Product name here is:"+product_name);
-  var banners= await this._banner.findBannerByName("Home");
+  //var banners= await this._banner.findBannerByName("Home");
     var products = await this._product.getAllProduct();
+    
     var categories = await this._category.getAllCategory();
+    
     var brands = await this._category.getAllBrandList();
-    ViewBag.banners=banners;
+    //ViewBag.banners=banners;
     ViewBag.products = products;
+    
     ViewBag.categories=categories;
+    
     ViewBag.brands=brands;
+    
     Dictionary<string,int> count_stars=new Dictionary<string, int>();    
+    
     Console.WriteLine("Product name here is:"+product_name);
+    
     var product= await this._product.findProductByName(product_name);
+    
     if(product!=null)
     { 
       var products_image=product.ProductImages.Count;
@@ -60,7 +67,8 @@ public async Task<IActionResult> ProductDetail(string product_name)
       int count_star=await this._product.countProductRatingByStar(i,product.Id);
       count_stars.Add(i.ToString(),count_star);
     }
-     ViewBag.count_stars=count_stars;
+
+    ViewBag.count_stars=count_stars;
 
     var review_list=await this._product.getProductReviewList(product.Id);
 
@@ -72,21 +80,26 @@ public async Task<IActionResult> ProductDetail(string product_name)
 
       if(!string.IsNullOrEmpty(product.Statdescription))
       {  
-        string stat_description=product.Statdescription;
+        // string stat_description=product.Statdescription;
+        // stat_description=reg.Replace(stat_description,"$1");
+        
+        // stat_description=HttpUtility.HtmlDecode(stat_description);
 
+        // stat_description=stat_description.Replace("<p>","").Replace("</p>","").Replace("<span style=\"white-space: normal;\">","").Replace("</span>","").Replace("<span style=\"white-space:pre;\"","").Replace(">>",">");
         
-        stat_description=reg.Replace(stat_description,"$1");
-        
-        stat_description=HttpUtility.HtmlDecode(stat_description);
-
-        stat_description=stat_description.Replace("<p>","").Replace("</p>","").Replace("<span style=\"white-space: normal;\">","").Replace("</span>","").Replace("<span style=\"white-space:pre;\"","").Replace(">>",">");
-          
-        
-        product.Statdescription=stat_description;
+        product.Statdescription=HttpUtility.HtmlDecode(product.Statdescription);
       }
       if(!string.IsNullOrEmpty(product.Description))
       {
         product.Description=HttpUtility.HtmlDecode(product.Description);        
+      }
+      if(!string.IsNullOrEmpty(product.InboxDescription))
+      {
+        product.InboxDescription=HttpUtility.HtmlDecode(product.InboxDescription);
+      }
+      if(!string.IsNullOrEmpty(product.DiscountDescription))
+      {
+        product.DiscountDescription=HttpUtility.HtmlDecode(product.DiscountDescription);
       }
     }    
     return View("~/Views/ClientSide/ProductDetail/ProductDetail.cshtml",product);        
@@ -125,5 +138,4 @@ else
   return Json(new{status=0,message=$"Thêm đánh giá cho sản phẩm mã {product_id} thất bại"});
 }
 }
-
 }
