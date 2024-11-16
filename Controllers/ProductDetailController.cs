@@ -102,7 +102,7 @@ public async Task<IActionResult> ProductDetail(string product_name)
         product.DiscountDescription=HttpUtility.HtmlDecode(product.DiscountDescription);
       }
     }    
-    return View("~/Views/ClientSide/ProductDetail/ProductDetail.cshtml",product);        
+    return View("~/Views/ClientSide/ProductDetail/ProductDetail.cshtml",product);          
 }
 
 [HttpPost]
@@ -118,6 +118,7 @@ public async Task<JsonResult> addProductReviews(string product_id,string user_id
   {
     return Json(new{status=0,message=$"Không được để trống thông tin đánh giá."});
   }
+
   Console.WriteLine("Review content here is:"+review);  
   
   int productId=Convert.ToInt32(product_id);
@@ -127,6 +128,7 @@ public async Task<JsonResult> addProductReviews(string product_id,string user_id
   catch(Exception er)
   { 
     Console.WriteLine("Add Product Review Exception:"+er.Message);
+
     this._logger.LogError("Add Product Review Exception:"+er.Message);
   }
   if(add_reviews_res==1)

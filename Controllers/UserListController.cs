@@ -31,7 +31,6 @@ public class UserListController : Controller
         this._sp_service=sp_service;
         this._webHostEnv=webHost;
     }
-   [Authorize(Roles ="Admin")]
    [HttpGet("user_list")]
     public async Task<IActionResult> UserList()
     {  Console.WriteLine("gere");

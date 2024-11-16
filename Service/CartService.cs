@@ -41,8 +41,12 @@ try{
 
     var check_exist=cart_list.FirstOrDefault(c=>c.Product.ProductName==model.Product.ProductName);
     if(check_exist!=null)
-    {
+    {   
         check_exist.Quantity+=model.Quantity;
+        session.SetString("cart",JsonConvert.SerializeObject(cart_list,new JsonSerializerSettings
+    {
+        ReferenceLoopHandling=ReferenceLoopHandling.Ignore
+    }));
         return -1;
     }
     else
@@ -85,6 +89,33 @@ public async Task<int> deleteProductFromCart(int product_id)
     }
     return remove_res;
 }
+
+
+ public async Task<int> updateCart(int product_id,CartModel model)
+ { int update_res=0;
+    try
+    {
+         var cart=this.getCart();
+         var product=cart.FirstOrDefault(c=>c.Product.Id==product_id);
+         product.Quantity=model.Quantity;
+         if(cart.Contains(product))
+         {
+        cart.Remove(product);
+         }
+         cart.Add(product);
+          session.SetString("cart",JsonConvert.SerializeObject(cart,new JsonSerializerSettings
+        {
+            ReferenceLoopHandling=ReferenceLoopHandling.Ignore
+        }));
+        update_res=1;
+    }
+    catch(Exception er)
+    {
+        Console.WriteLine("Update cart exception:"+er.Message);
+    }
+    return update_res;
+ }
+
 
 
   public async Task saveChanges()

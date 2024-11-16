@@ -317,6 +317,9 @@
                                     Tài khoản của tôi </span>
                                     </a>
                     }
+                    <div id="sub-cart-section">
+                    @Html.Partial("~/Views/ClientSide/Cart/_SubCartPartial.cshtml",cart);
+                    </div>
    
 @* 
            <li class="nav-item navbar-dropdown dropdown-user dropdown">
@@ -366,18 +369,21 @@
                       </a>
                     </li>
                   </ul>
-                </li> *@
-                                
-                              
+                </li> *@                                
+@* 
                                 <div class="block-cart action">
                                     <a class="icon-link" href="@Url.Action("Cart","Cart")">
                                     <i class="flaticon-shopping-bag"></i>
-                                    <span class="count">1</span>
+                                    <span class="count" id="count-cart">@cart.Count</span>
                                     <span class="text">
                                     <span class="sub">Giỏ hàng:</span>
                                     $00.00 </span>
                                     </a>
-                                    @if(cart.Count>0)
+                                    <div id="sub-cart-list">
+         @Html.Partial("~/Views/ClientSide/Cart/_SubCartPartial.cshtml",cart);
+                                    </div>
+
+                                     @if(cart.Count>0)
                                     {
                                     <div class="cart">
                                         <div class="cart__mini">
@@ -398,7 +404,7 @@
                                                       <div class="cart__thumb">
                                                         <a href="product-details.html">
                                  <img src="~/@item.Product.Frontavatar.Substring(item.Product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="User Front Avatar">
-                                                        </a>
+                                                        </a> 
                                                       </div>
                                               
                                                       <div class="cart__details">
@@ -444,8 +450,8 @@
                                    </div>
                                    </div>
                                    </div>
-                                }
-                                </div>
+                                } 
+                                </div> *@
                             </div>
                         </div>
                     </div>

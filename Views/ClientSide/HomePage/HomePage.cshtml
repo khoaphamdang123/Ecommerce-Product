@@ -16,7 +16,7 @@
        aria-live="assertive"
        aria-atomic="true"
        data-bs-dismiss="toast"
-       style="cursor: pointer; position: fixed; top: 20px; right: 20px; z-index: 1050;"
+       style="cursor: pointer; position: fixed; top: 20px; right: 20px; z-index: 5000;"
        data-delay="3000"
        data-bs-autohide="true" 
        data-bs-delay="3000"
@@ -500,10 +500,10 @@
                                         <form action="#">
                                         <div class="pro-quan-area d-lg-flex align-items-center">
                                             <div class="product-quantity mr-20 mb-25">
-                                                <div class="cart-plus-minus p-relative"><input type="text" value="1" /></div>
+                                                <div class="cart-plus-minus p-relative"><input type="text" id="quantity-value" value="1" /></div>
                                             </div>
                                             <div class="pro-cart-btn mb-25">
-                                                <button class="cart-btn" id="add-cart" type="button">Thêm vào giỏ hàng</button>
+                                                <button class="cart-btn" id="add-cart-detail" type="button">Thêm vào giỏ hàng</button>
                                             </div>
                                         </div>
                                         </form>
@@ -528,9 +528,10 @@
 
     <script>
      document.addEventListener("DOMContentLoaded",()=>{
-      
+     
+     
      var add_cart=document.querySelectorAll("#add-cart");
-
+      
      add_cart.forEach((cart,index)=>{
      cart.addEventListener("click",()=>{
        var product_name=cart.getAttribute("data-product-name");
@@ -550,6 +551,20 @@
             {
                 const status=response.status;
                 const message = response.message;
+                const data=response.data;
+             if(data!="")
+             {
+                $("#count-cart").text(data.length);
+               
+                var section_url="@Url.Action("SubCartPartialView","Cart")";
+                   $.ajax({
+                    url:section_url,
+                    type:"POST",
+                    success: function(partialHtml) {
+                        $('#sub-cart-section').html(partialHtml);
+                    }
+                });
+            }
                 document.getElementById("toast-title").innerHTML="Thông báo";
                 document.getElementById("toast-message").innerHTML=message;
                 var toastEl = document.querySelector('.toast');
@@ -632,8 +647,6 @@ if (wwwrootIndex !== -1) {
 
             }
         }
-         
-
 
        const count_review_value=button.getAttribute('data-count-review');
         
@@ -669,6 +682,66 @@ if (wwwrootIndex !== -1) {
 
         name_url=name_url.replace("__id__",productName);
 
+       const add_cart_btn=document.getElementById('add-cart-detail');
+       add_cart_btn.addEventListener("click",()=>{ 
+         var quantity_value=document.getElementById('quantity-value').value;
+         let formData = new FormData();
+         formData.append("quantity",quantity_value);
+         formData.append("product_name",productName);
+         $.ajax({
+            url:"@Url.Action("addItemToCart","Cart")",
+            type:"POST",
+            data:formData,
+            contentType: false,
+            processData: false,
+            success:function(response)
+            {   
+                const status=response.status;
+                const message = response.message;
+                const data=response.data;
+                 if(data!="")
+             {
+                $("#count-cart").text(data.length);
+               
+                var section_url="@Url.Action("SubCartPartialView","Cart")";
+                   $.ajax({
+                    url:section_url,
+                    type:"POST",
+                    success: function(partialHtml) {
+                        $('#sub-cart-section').html(partialHtml); 
+                    }
+                });
+            }
+            
+                document.getElementById("toast-title").innerHTML="Thông báo";
+                document.getElementById("toast-message").innerHTML=message;
+                var toastEl = document.querySelector('.toast');
+
+                if(status==1)
+                {
+              
+                 toastEl.classList.add('bg-success');
+      
+                }
+            else
+            {
+                toastEl.classList.add('bg-danger');
+            }
+                var toast = new bootstrap.Toast(toastEl);
+                
+                 toast.show();
+            },
+            error:function(xhr, status, error)
+            { 
+                  document.getElementById("toast-title").innerHTML="Thông báo";
+                 document.getElementById("toast-message").innerHTML=error;
+                var toastEl = document.querySelector('.toast');
+                toastEl.classList.add('bg-danger');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();           
+                 }
+        });
+        }); 
 
 
         document.getElementById('name-link').href = name_url;

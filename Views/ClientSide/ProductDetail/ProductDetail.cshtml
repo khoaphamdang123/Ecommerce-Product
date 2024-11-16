@@ -184,9 +184,9 @@
                           
                             <div class="cart-option mb-15">
                                 <div class="product-quantity mr-20">
-                                    <div class="cart-plus-minus p-relative"><input type="text" value="1"><div class="dec qtybutton">-</div><div class="inc qtybutton">+</div></div>
+                                    <div class="cart-plus-minus p-relative"><input type="text" id="quantity-value" value="1"><div class="dec qtybutton">-</div><div class="inc qtybutton">+</div></div>
                                 </div>
-                                <a href="" class="cart-btn">Thêm vào giỏ hàng</a>
+                                <button class="cart-btn" id="add-cart" data-product-name="@Model.ProductName" data-product-id="@Model.Id">Thêm vào giỏ hàng</button>
                             </div>
                          
                             <div class="product-tag-area mt-15 mb-10">
@@ -394,10 +394,11 @@
                     </div>
 
                     <div class="tab-pane fade" id="aditional" role="tabpanel" aria-labelledby="aditional-tab">
-                                @if(!string.IsNullOrEmpty(Model.Statdescription))
+                        
+                        @if(!string.IsNullOrEmpty(Model.Statdescription))
                          {
                            @Html.Raw(Model.Statdescription)
-                         }                     
+                         }                                              
                     </div>
                 
                     <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
@@ -497,13 +498,15 @@
                     <h3>Danh sách video</h3>
                     <div class="row">
                     @foreach(var video in Model.Videos)
-                    {string video_url=video.Link;
+                    {
+                    string video_url=video.Link;
                      string[] embed_code_arr=video_url.Split('/');
                      string embed_code=embed_code_arr[embed_code_arr.Length-1];
                     string embed_url="https://www.youtube.com/embed/"+embed_code;
-                     <div class="col-md-6 mb-3">
+                     
+                <div class="col-md-6 mb-3">
       <iframe width="560" height="315" src="@embed_url" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                     </div>
+                </div>
                      }
                 </div>
             </div>
@@ -644,6 +647,72 @@
     var images=Array.from(document.querySelectorAll('.zoomable-image')).map(img=>img.src);
 
      document.addEventListener("DOMContentLoaded",()=>{
+
+     var add_cart=document.querySelectorAll("#add-cart");
+      
+     add_cart.forEach((cart,index)=>{
+     cart.addEventListener("click",()=>{
+       var product_name=cart.getAttribute("data-product-name");
+       var product_id=cart.getAttribute("data-product-id");
+       var quantity_value=document.getElementById('quantity-value').value;
+       let formData = new FormData();
+       formData.append("product_id",product_id);
+       formData.append("quantity",quantity_value);
+       formData.append("product_name",product_name);
+       $.ajax({
+            url:"@Url.Action("addItemToCart","Cart")",
+            type:"POST",
+            data:formData,
+            contentType: false,
+            processData: false, 
+            success:function(response)
+            {
+                const status=response.status;
+                const message = response.message;
+                const data=response.data;
+             if(data!="")
+             {
+                $("#count-cart").text(data.length);
+               
+                var section_url="@Url.Action("SubCartPartialView","Cart")";
+                   $.ajax({
+                    url:section_url,
+                    type:"POST",
+                    success: function(partialHtml) {
+                        $('#sub-cart-section').html(partialHtml);
+                    }
+                });
+            }
+                document.getElementById("toast-title").innerHTML="Thông báo";
+                document.getElementById("toast-message").innerHTML=message;
+                var toastEl = document.querySelector('.toast');
+
+                if(status==1)
+                {
+              
+                 toastEl.classList.add('bg-success');
+      
+                }
+            else
+            {
+                toastEl.classList.add('bg-danger');
+            }
+                var toast = new bootstrap.Toast(toastEl);
+                
+                 toast.show();
+            },
+            error:function(xhr, status, error)
+            {
+                  document.getElementById("toast-title").innerHTML="Thông báo";
+                 document.getElementById("toast-message").innerHTML=error;
+                var toastEl = document.querySelector('.toast');
+                toastEl.classList.add('bg-danger');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();           
+                 }
+        });
+     });
+     });
    
     var review_form=document.getElementById("review-form");
 

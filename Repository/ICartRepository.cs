@@ -14,6 +14,8 @@ public interface ICartRepository
 
  public Task<int> deleteProductFromCart(int product_id);
 
+ public Task<int> updateCart(int product_id,CartModel model); 
+
  public Task saveChanges(); 
 
 }

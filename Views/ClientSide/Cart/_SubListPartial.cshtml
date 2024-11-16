@@ -1,0 +1,58 @@
+  @model List<CartModel>
+    @{
+        int total_value=0;
+    }
+   <ul>
+                                                <li>
+                                                  <div id="update-count" data-count="@Model.Count"></div>
+                                                  <div class="cart__title">
+                                                    <h4>Giỏ hàng của bạn</h4>
+                                                    <span>(@Model.Count sản phẩm)</span>
+                                                  </div>
+                                                </li>
+                                               @foreach(var item in Model)
+                                            {   
+                                                total_value+=Convert.ToInt32(item.Product.Price)*item.Quantity;
+                                                <li>
+                                                  <div class="cart__item d-flex justify-content-between align-items-center">
+                                                    <div class="cart__inner d-flex">
+                                                      <div class="cart__thumb">
+                                                        <a href="product-details.html">
+                                 <img src="~/@item.Product.Frontavatar.Substring(item.Product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="User Front Avatar">
+                                                        </a> 
+                                                      </div>
+                                              
+                                                      <div class="cart__details">
+                                                        <h6><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=item.Product.ProductName})">@item.Product.ProductName</a></h6>
+                                                      <div class="cart__qty">
+                                                            <span>Số lượng:@item.Quantity</span>
+                                                        </div>
+                                                        <div class="cart__price">
+                                                          <span>(@(Convert.ToInt32(item.Product.Price)*item.Quantity)đ)</span>
+                                                          
+                                                        </div>
+                                                      </div>
+                                                      
+                                                    </div>
+                                                    <div class="cart__del">
+                                                      <a href="javascript:void(0);" type="button" class="remove-btn" data-product-id="@item.Product.Id"><i class="fa fa-times"></i></a>
+                                                    </div>
+                                                  </div>
+                                                </li>
+                                        
+                                                }
+                                                <li>
+                                                  <div class="cart__sub d-flex justify-content-between align-items-center">
+                                                    <h6>Tổng tiền</h6>
+                                                    <span class="cart__sub-total">@total_value đ</span>
+
+                                                  </div>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Cart","Cart")" class="wc-cart mb-10">Xem giỏ hàng</a>
+                                                    <a href="checkout.html" class="wc-checkout">Đặt hàng</a>
+                                                </li>
+                                            </ul>
+<script>
+         var cart=@Html.Raw(Json.Serialize(Model));
+</script>

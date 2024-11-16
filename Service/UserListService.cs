@@ -13,7 +13,7 @@ using System.Text;
 namespace Ecommerce_Product.Service;
 public class UserListService:IUserListRepository
 {
-
+  
     private readonly UserManager<ApplicationUser> _userManager;
 
     private readonly RoleManager<IdentityRole> _roleManager;
