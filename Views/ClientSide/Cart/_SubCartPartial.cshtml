@@ -1,0 +1,77 @@
+@model List<CartModel>
+    
+@{
+  int total_value=0;
+ }
+ 
+                                <div class="block-cart action">
+                                    <a class="icon-link" href="@Url.Action("Cart","Cart")">
+                                    <i class="flaticon-shopping-bag"></i>
+                                    <span class="count" id="count-cart">@Model.Count</span>
+                                    <span class="text">
+                                    <span class="sub">Giỏ hàng:</span>
+                                    $00.00 </span>
+                                    </a>
+        
+ @if(Model.Count>0)
+                { 
+                                    <div class="cart">
+                                        <div class="cart__mini">
+                                        <div id="sub-list-section">
+                    @Html.Partial("~/Views/ClientSide/Cart/_SubListPartial.cshtml",Model)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    }
+                                else
+                                { 
+                                    <div class="cart">
+                                    <div class="cart__mini">
+                                   <div class="empty-cart">
+                                     <img src="~/user_layout/img/banner/shopping-bag.png" alt="empty-cart" class="empty-cart-image"/>
+                                    <p class="empty-cart-text">Chưa có sản phẩm nào trong giỏ hàng...</p>
+                                    <a href="@Url.Action("HomePage","HomePage")" class="cart-btn" type="button">Tiếp tục mua sắm</a>
+                                   </div>
+                                   </div>
+                                   </div>
+                                }
+                        </div>
+
+<script>
+     function attachRemoveButtonListeners() {
+    document.querySelectorAll(".remove-btn").forEach((item) => {
+        item.addEventListener("click", () => {
+            var product_id = item.getAttribute("data-product-id");
+            var cart_name="view";
+            let formData = new FormData();
+            formData.append("product_id", product_id);
+            formData.append("view_name",cart_name);
+            $.ajax({
+                url: "@Url.Action("removeItemFromCart","Cart")",
+                type: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                   
+                    $("#sub-list-section").html(response);
+                    attachRemoveButtonListeners();
+                    var updated_count=$("#update-count").data("count");
+                    $("#count-cart").text(updated_count);
+                },
+                error: function(xhr, status, error) 
+                {
+                    document.getElementById("toast-title").innerHTML = "Thông báo";
+                    document.getElementById("toast-message").innerHTML = error;
+                    var toastEl = document.querySelector('.toast');
+                    toastEl.classList.add('bg-danger');
+                    var toast = new bootstrap.Toast(toastEl);
+                    //toast.show(); 
+                }
+            });
+        });
+    });
+}
+
+attachRemoveButtonListeners();
+</script>

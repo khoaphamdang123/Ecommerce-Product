@@ -7118,13 +7118,14 @@ align-items: center;
   color: #16bcdc;
 }
 
-.payment-image img {
+.payment-image img 
+{
   width: auto;
 }
+
 @media (max-width: 575px) {
-  .payment-image img {
+  .payment-image img 
+  {
     width: 100%;
   }
 }
-
-/*# sourceMappingURL=style.css.map */

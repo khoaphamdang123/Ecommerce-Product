@@ -65,7 +65,7 @@ public class ManualListController : Controller
   public async Task<IActionResult> ManualListByProduct(int product_id)
   {
  string select_size="7";          
- ViewBag.select_size=select_size;
+ ViewBag.select_size=select_size; 
  List<string> options=new List<string>(){"7","10","20","50"};
   ViewBag.options=options;
 
@@ -141,7 +141,6 @@ public class ManualListController : Controller
     try
     {
     add_res=await this._manual.addManual(manual);
-  
     }
      catch(Exception er)
     {      
@@ -176,8 +175,6 @@ public class ManualListController : Controller
   public async Task<JsonResult> updateManualList(int id,ManualModel manual)
    { 
    int update_res=0;
-   Console.WriteLine("Id:"+id);
-   Console.WriteLine("Come to this Manual function");
     try
     {
     update_res=await this._manual.updateManual(id,manual);    
@@ -192,7 +189,8 @@ public class ManualListController : Controller
     {
       return Json(new {status=0,message="Cập nhật tài liệu thất bại"});
     }
-    else{
+    else
+    {
       return Json(new {status=1,message="Cập nhật tài liệu thành công"});
     }  
    }

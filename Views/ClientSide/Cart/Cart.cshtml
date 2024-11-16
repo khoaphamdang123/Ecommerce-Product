@@ -2,7 +2,25 @@
     Layout="_UserLayout";
     var cart =ViewBag.cart as List<CartModel>; 
     int total_amount=0;
-}
+} 
+   <div
+       class="bs-toast toast fade hide toast-placement-ex top-5 end-0"
+       role="alert"
+       aria-live="assertive"
+       aria-atomic="true"
+       data-bs-dismiss="toast"
+       style="cursor: pointer; position: fixed; top: 20px; right: 20px; z-index: 5000;"
+       data-delay="3000"
+       data-bs-autohide="true"        
+       data-bs-delay="3000"
+             >
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold" id="toast-title"></div>
+                        </div>
+                        <div class="toast-body" id="toast-message">
+                        </div>
+        </div>
         <div class="page-banner-area page-banner-height-2" data-background="@Url.Content("~/user_layout/img/banner/page-banner-4.jpg")">
             <div class="container">
                 <div class="row">
@@ -28,7 +46,10 @@
                 </div>
             </div>
         </div>
-
+      <div id="cart-section">
+         @Html.Partial("~/Views/ClientSide/Cart/_CartPartial.cshtml",cart);
+      </div>
+@*   
         <section class="cart-area pt-120 pb-120">
             <div class="container">
                <div class="row">
@@ -52,14 +73,14 @@
                                         @foreach(var item in cart)
                                         {total_amount+=Convert.ToInt32(item.Product.Price)*item.Quantity;
                                        <tr>
-                                          <td class="product-thumbnail"><a href="shop-details.html"><img src="~/@item.Product.Frontavatar.Substring(item.Product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="User Front Avatar"></a></td>
+                                          <td class="product-thumbnail"><img src="~/@item.Product.Frontavatar.Substring(item.Product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="User Front Avatar"></td>
                                           <td class="product-name"><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=item.Product.ProductName})">@item.Product.ProductName</a></td>
                                           <td class="product-price"><span class="amount">@item.Product.Price đ</span></td>
                                           <td class="product-quantity">
                                                 <div class="cart-plus-minus"><input class="quantity-value" type="text" value="@item.Quantity" data-price="@(Convert.ToInt32(item.Product.Price))"></div>
                                           </td>
                                           <td class="product-subtotal"><span class="amount">@(Convert.ToInt32(item.Product.Price)*item.Quantity) đ</span></td>
-                                          <td class="product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
+                                          <td class="product-remove"><a href="javascript:void(0);" type="button" class="remove-btn" data-product-id="@item.Product.Id"><i class="fa fa-times"></i></a></td>
                                        </tr>
                                       
                                        }
@@ -104,7 +125,7 @@
                </div>
             </div>
          </section>
-     
+      *@
    <script>
   
      var redirect_btn=document.getElementById("redirect-btn");
@@ -112,12 +133,13 @@
    { 
        window.location.href="@Url.Action("HomePage","HomePage")";
    }
+
  document.addEventListener("DOMContentLoaded",()=>{
-    var inc_value=document.querySelectorAll(".dec").forEach((item)=>
+  document.querySelectorAll(".dec").forEach((item)=>
     {
         item.addEventListener("click",()=>
         {
-         const quantity_ob=item.parentElement.querySelector(".quantity-value");
+         const quantity_ob=item.parentElement.querySelector(".quantity-value");         
          var quantity=parseInt(quantity_ob.value);
          const pricePerItem = parseInt(quantity_ob.getAttribute('data-price'));
          const subtotal=pricePerItem*quantity;
@@ -126,7 +148,7 @@
         });
     });
 
-    var dec_value=document.querySelectorAll(".inc").forEach((item)=>
+   document.querySelectorAll(".inc").forEach((item)=>
     {
         item.addEventListener("click",()=>
         {
@@ -135,24 +157,115 @@
          const pricePerItem = parseInt(quantity_ob.getAttribute('data-price'));
          const subtotal=pricePerItem*quantity;
          const subtotalDisplay = quantity_ob.closest('tr').querySelector('.product-subtotal .amount');
-         subtotalDisplay.textContent = `${subtotal} đ`;        }); 
+         subtotalDisplay.textContent = `${subtotal} đ`;}); 
     });
       document.querySelectorAll('.quantity-value').forEach(input => {
-        input.addEventListener('input', function () {
+      
+      input.addEventListener('input', function () {
       
             const pricePerItem = parseInt(this.getAttribute('data-price'));
+            
             const quantity = parseInt(this.value) || 1; 
             
-            // Calculate subtotal
             const subtotal = pricePerItem * quantity;
             
-            // Update the subtotal display in the respective row
             const subtotalDisplay = this.closest('tr').querySelector('.product-subtotal .amount');
+            
             subtotalDisplay.textContent = `${subtotal} đ`;
         });
     });
+  
+  
+  function attatchAddValue()
+  {
+   
+    document.querySelectorAll(".dec").forEach((item)=>
+    {
+        item.addEventListener("click",()=>
+        {
+         const quantity_ob=item.parentElement.querySelector(".quantity-value");         
+         var quantity=parseInt(quantity_ob.value)||1;
+       if(quantity>1)
+       {
+         quantity_ob.value=quantity-1;
+       }
+         const pricePerItem = parseInt(quantity_ob.getAttribute('data-price'));
+         const subtotal=pricePerItem*quantity;
+         const subtotalDisplay = quantity_ob.closest('tr').querySelector('.product-subtotal .amount');
+         subtotalDisplay.textContent = `${subtotal} đ`;
+        });
     });
+
+   document.querySelectorAll(".inc").forEach((item)=>
+    {
+        item.addEventListener("click",()=>
+        {
+        const quantity_ob=item.parentElement.querySelector(".quantity-value");
+         var quantity=parseInt(quantity_ob.value);
+         quantity_ob.value=quantity+1;
+         const pricePerItem = parseInt(quantity_ob.getAttribute('data-price'));
+         const subtotal=pricePerItem*quantity;
+         const subtotalDisplay = quantity_ob.closest('tr').querySelector('.product-subtotal .amount');
+         subtotalDisplay.textContent = `${subtotal} đ`;}); 
+    });
+      document.querySelectorAll('.quantity-value').forEach(input => {
+      
+      input.addEventListener('input', function () {
+      
+            const pricePerItem = parseInt(this.getAttribute('data-price'));
+            
+            const quantity = parseInt(this.value) || 1; 
+            
+            const subtotal = pricePerItem * quantity;
+            
+            const subtotalDisplay = this.closest('tr').querySelector('.product-subtotal .amount');
+            
+            subtotalDisplay.textContent = `${subtotal} đ`;
+        });
+    });
+    }
     
- 
+  function attachRemoveButtonListeners() {
+    document.querySelectorAll(".remove-btn").forEach((item) => {
+        item.addEventListener("click", () => {
+            var product_id = item.getAttribute("data-product-id");
+            var cart_name="cart";
+            let formData = new FormData();
+            formData.append("product_id", product_id);
+            formData.append("view_name",cart_name);
+            $.ajax({
+                url: "@Url.Action("removeItemFromCart","Cart")",
+                type: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    $("#cart-section").html(response);
+                    attachRemoveButtonListeners();
+                    attatchAddValue();
+                   var section_url="@Url.Action("SubCartPartialView","Cart")";
+                   $.ajax({
+                    url:section_url,
+                    type:"POST",
+                    success: function(partialHtml) {
+                        $('#sub-cart-section').html(partialHtml);
+                    }
+                });  
+                },
+                error: function(xhr, status, error) {
+                    document.getElementById("toast-title").innerHTML = "Thông báo";
+                    document.getElementById("toast-message").innerHTML = error;
+                    var toastEl = document.querySelector('.toast');
+                    toastEl.classList.add('bg-danger');
+                    var toast = new bootstrap.Toast(toastEl);
+                    toast.show(); 
+                  
+                }
+            });
+        });
+    });
+}
+attachRemoveButtonListeners();
+      });
 
    </script>

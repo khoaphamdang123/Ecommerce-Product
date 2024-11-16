@@ -381,14 +381,13 @@ public class ProductListController : Controller
     ViewBag.CategoryList=category_list;
     ViewBag.BrandList=brand_list;
     ViewBag.SubCatList=sub_cat_list;
-    ViewBag.SubCat=sub_cat;
+    ViewBag.SubCat=sub_cat;    
     var product_list=await this._product.getProductBySubCategory(sub_cat);
     return View("~/Views/ProductList/ProductList.cshtml",product_list);
  }
 
 
   [Route("product_list/{id}/variant/paging")]
-  
   [HttpGet]
   public async Task<IActionResult> VariantListPaging(int id,int page_size,int page=1)
   { 
