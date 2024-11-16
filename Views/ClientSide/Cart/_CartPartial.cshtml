@@ -26,6 +26,7 @@
                                         @foreach(var item in Model)
                                         {total_amount+=Convert.ToInt32(item.Product.Price)*item.Quantity;
                                        <tr>
+                                          <input id="product-id" type="hidden" value="@item.Product.Id">
                                           <td class="product-thumbnail"><img src="~/@item.Product.Frontavatar.Substring(item.Product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="User Front Avatar"></td>
                                           <td class="product-name"><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=item.Product.ProductName})">@item.Product.ProductName</a></td>
                                           <td class="product-price"><span class="amount">@item.Product.Price đ</span></td>
@@ -49,7 +50,7 @@
                                                 coupon</button>
                                        </div>
                                        <div class="coupon2">
-                                          <button class="tp-btn-h1" name="update_cart" type="submit">Cập nhật giỏ hàng</button>
+                                          <button class="tp-btn-h1" id="update-cart" name="update_cart" type="button">Cập nhật giỏ hàng</button>
                                        </div>
                                     </div>
                               </div>
@@ -57,10 +58,10 @@
                            <div class="row justify-content-end">
                               <div class="col-md-5">
                                     <div class="cart-page-total">
-                                       <h2>Cart totals</h2>
+                                       <h2>Giỏ hàng</h2>
                                        <ul class="mb-20">
-                                          <li>Subtotal <span>$250.00</span></li>
-                                          <li>Total <span>$250.00</span></li>
+                                          <li>Tổng tiền <span>$250.00</span></li>
+                                          <li>Tổng tiền(+VAT) <span>$250.00</span></li>
                                        </ul>
                                        <a class="tp-btn-h1" href="checkout.html">Tiến hành đặt hàng</a>
                                     </div>
@@ -79,12 +80,15 @@
             </div>
          </section>
 <script>
-   var cart_data=@Html.Raw(Json.Serialize(Model));   
-   $(document).ready(()=>
+   var cart_data=@Html.Raw(Json.Serialize(Model));  
+   @* $(document).ready(()=>
    {
     var cart_amount=cart_data.length;
     
    $("#count-cart").text(cart_amount);
 
-   });
+   });   *@
+
+    
+
 </script>

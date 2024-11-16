@@ -266,6 +266,65 @@
     });
 }
 attachRemoveButtonListeners();
+ const add_cart_btn=document.getElementById("update-cart");
+    add_cart_btn.addEventListener("click",()=>{
+        const quantity_values=document.querySelectorAll(".quantity-value");
+        const product_ids_value=document.querySelectorAll("#product-id");
+        const quantities=Array.from(quantity_values).map((item)=>parseInt(item.value));
+        const product_ids=Array.from(product_ids_value).map((item)=>parseInt(item.value));
+        let formData = new FormData();
+        quantities.forEach((item,index)=>
+        {
+            formData.append(`quantities[${index}]`,item);
+        });
+        product_ids.forEach((item,index)=>
+        {
+            formData.append(`product_ids[${index}]`,item);
+        });
+        $.ajax({
+            url: "@Url.Action("updateCart","Cart")",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                   const status=response.status;
+                const message = response.message;
+                document.getElementById("toast-title").innerHTML="Thông báo";
+                document.getElementById("toast-message").innerHTML=message;
+                var toastEl = document.querySelector('.toast');
+                if(status==1)
+                {
+              
+                 toastEl.classList.add('bg-success');
+      
+                }
+            else
+            {
+                toastEl.classList.add('bg-danger');
+            }
+                var toast = new bootstrap.Toast(toastEl);
+                
+                 toast.show();
+                var section_url="@Url.Action("SubCartPartialView","Cart")";
+                   $.ajax({
+                    url:section_url,
+                    type:"POST",
+                    success: function(partialHtml) {
+                        $('#sub-cart-section').html(partialHtml);
+                    }
+                });  
+            },
+            error: function(xhr, status, error) {
+                document.getElementById("toast-title").innerHTML = "Thông báo";
+                document.getElementById("toast-message").innerHTML = error;
+                var toastEl = document.querySelector('.toast');
+                toastEl.classList.add('bg-danger');
+                var toast = new bootstrap.Toast(toastEl);
+                //toast.show(); 
+            }
+        });
+    });
       });
 
    </script>
