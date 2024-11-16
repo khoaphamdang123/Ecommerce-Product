@@ -133,6 +133,37 @@ public class CartController : BaseController
             return writer.GetStringBuilder().ToString();
         }
     }
+
+  [Route("card/update_cart")]
+  [HttpPost]
+
+  public async Task<JsonResult> updateCart(List<int> product_ids,List<int> quantities)
+  { int update_res=0;
+  Console.WriteLine("product ids:"+product_ids.Count); 
+  Console.WriteLine("quantities:"+quantities.Count); 
+  try
+  {
+    for(int i=0;i<quantities.Count;i++)
+    {
+    if(quantities[i]<1)
+    {
+      quantities[i]=1;
+    }
+    int update_value=await this._cart.updateCart(product_ids[i],quantities[i]);
+    if(update_value==0)
+    {
+      return Json(new {status=0,message="Cập nhật giỏ hàng thất bại."});
+    }
+    }
+    update_res=1;
+  }
+  catch(Exception er)
+  {
+    this._logger.LogError("Update Cart Exception:"+er.Message);
+    return Json(new {status=0,message=$"Cập nhật giỏ hàng thất bại:{er.Message}"}); 
+  }
+  return Json(new {status=1,message="Cập nhật giỏ hàng thành công."});
+  }
  
  [Route("cart/remove_item")]
  [HttpPost]
@@ -159,8 +190,6 @@ url="~/Views/ClientSide/Cart/_CartPartial.cshtml";
     if(remove_res==1)
     { 
  var cart=this._cart.getCart();
- 
- Console.WriteLine("Delete here:"+cart.Count+" "+url);
 
  return PartialView(url,cart);
     }

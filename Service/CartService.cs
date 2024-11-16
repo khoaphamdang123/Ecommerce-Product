@@ -91,13 +91,13 @@ public async Task<int> deleteProductFromCart(int product_id)
 }
 
 
- public async Task<int> updateCart(int product_id,CartModel model)
+ public async Task<int> updateCart(int product_id,int quantity)
  { int update_res=0;
     try
     {
          var cart=this.getCart();
          var product=cart.FirstOrDefault(c=>c.Product.Id==product_id);
-         product.Quantity=model.Quantity;
+         product.Quantity=quantity;
          if(cart.Contains(product))
          {
         cart.Remove(product);
