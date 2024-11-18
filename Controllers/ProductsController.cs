@@ -347,7 +347,6 @@ public async Task<IActionResult> Products()
     brand_list=brands.Split(',').ToList();
  }
 
-
  var products=await this._product.filterProductByPriceAndBrands(brand_list,prices_list);
     
     
@@ -363,7 +362,8 @@ public async Task<IActionResult> Products()
  Console.WriteLine("Number of brands here is:"+brands);
 
 Console.WriteLine("gere");
- return PartialView("~/Views/ClientSide/Products/_ProductsPartial.cshtml",prods); 
+
+return PartialView("~/Views/ClientSide/Products/_ProductsPartial.cshtml",prods); 
  }
  catch(Exception er)
  {

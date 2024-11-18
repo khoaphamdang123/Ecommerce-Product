@@ -13,5 +13,7 @@ public partial class Payment
 
     public string? Updateddate { get; set; }
 
+    public short? Status { get; set; }
+
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 }

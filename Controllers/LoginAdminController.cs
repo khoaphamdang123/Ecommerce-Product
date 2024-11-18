@@ -232,7 +232,7 @@ int setting_status=await this._setting.getStatusByName("recaptcha");
               return RedirectToAction("Index");
              }
              else
-             { 
+             {  
                 ViewBag.ChangePassword="False";
                 ViewBag.ErrorContent="Mật khẩu hiện tại của bạn không đúng";
              foreach(var error in change_password.Errors)

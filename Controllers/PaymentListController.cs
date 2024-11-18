@@ -164,6 +164,27 @@ public class PaymentListController : Controller
     return RedirectToAction("PaymentList","PaymentList");
   }
 
+  [Route("payment/update/{id}")]
+  [HttpGet]
+  public async Task<IActionResult> UpdatePayment(int id)
+  {
+    int payment=await this._payment.updatePaymentMethod(id);
+
+    if(payment!=1)
+    {
+        TempData["Status_Update"]=0;
+        
+        TempData["Message_Update"]="Cập nhật trạng thái phương thức thanh toán thất bại";
+    }
+    else
+    {
+       TempData["Status_Update"]=1;
+        
+       TempData["Message_Update"]="Cập nhật trạng thái phương thức thanh toán thành công";
+    }
+    return RedirectToAction("PaymentList","PaymentList");
+  }
+
 //   [Route("file_list/{id}/page_info")]
 //   [HttpGet]
 //   public async Task<IActionResult> StaticFilesInfo(int id)

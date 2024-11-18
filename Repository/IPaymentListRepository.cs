@@ -16,6 +16,8 @@ public Task<Payment> findPaymentById(int id);
  
   public Task<int> addPaymentMethod(Payment payment);
   public Task<int> deletePaymentMethod(int id);
+
+  public Task<int> updatePaymentMethod(int id);
  
 
   public Task saveChanges();

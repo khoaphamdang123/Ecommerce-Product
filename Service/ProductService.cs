@@ -356,7 +356,7 @@ public async Task<Dictionary<string,int>> countAllReview(List<Product> products)
   { int res_add=0;
     try
     { 
-      string created_date=DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss");
+      string created_date=DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
     
       var review=new Reviewdetail{ProductId=product_id,UserId=user_id,ReviewText=comment,CreatedDate=created_date};
       await this._context.Reviewdetails.AddAsync(review);
@@ -411,7 +411,7 @@ public async Task<int> addRatingStar(int product_id,string user_id,int star)
     }
     else
     { 
-      string created_date=DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss");
+      string created_date=DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
       var rating=new Ratingdetail{ProductId=product_id,UserId=user_id,Rating=star,CreatedDate=created_date};
       await this._context.Ratingdetails.AddAsync(rating);
       await this.saveChanges();
@@ -568,9 +568,9 @@ variant_files = model.VariantFiles;
   Console.WriteLine("check point 2.5");
 
 
- string created_date=DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss");
+ string created_date=DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
  
- string updated_date = DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss");
+ string updated_date = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
  
  List<Variant> variant=new List<Variant>();
  
@@ -833,7 +833,7 @@ string product_name=model.ProductName;
  Console.WriteLine("check point 2");
 
  
- string updated_date = DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss");
+ string updated_date = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
  
  List<Variant> variant=new List<Variant>();
  

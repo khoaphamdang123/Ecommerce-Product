@@ -29,6 +29,8 @@ public partial class EcommerceshopContext : DbContext
 
     public virtual DbSet<Banner> Banners { get; set; }
 
+    public virtual DbSet<Blog> Blogs { get; set; }
+
     public virtual DbSet<Brand> Brands { get; set; }
 
     public virtual DbSet<Cart> Carts { get; set; }
@@ -173,6 +175,36 @@ public partial class EcommerceshopContext : DbContext
             entity.Property(e => e.Updateddate)
                 .HasColumnType("character varying")
                 .HasColumnName("updateddate");
+        });
+
+        modelBuilder.Entity<Blog>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("blog_pk");
+
+            entity.ToTable("blog");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Author)
+                .HasColumnType("character varying")
+                .HasColumnName("author");
+            entity.Property(e => e.Blogname)
+                .HasColumnType("character varying")
+                .HasColumnName("blogname");
+            entity.Property(e => e.CategoryId).HasColumnName("category_id");
+            entity.Property(e => e.Content).HasColumnName("content");
+            entity.Property(e => e.Createddate)
+                .HasColumnType("character varying")
+                .HasColumnName("createddate");
+            entity.Property(e => e.FeatureImage)
+                .HasColumnType("character varying")
+                .HasColumnName("feature_image");
+            entity.Property(e => e.Updateddate)
+                .HasColumnType("character varying")
+                .HasColumnName("updateddate");
+
+            entity.HasOne(d => d.Category).WithMany(p => p.Blogs)
+                .HasForeignKey(d => d.CategoryId)
+                .HasConstraintName("blog_category_fk");
         });
 
         modelBuilder.Entity<Brand>(entity =>
@@ -414,6 +446,7 @@ public partial class EcommerceshopContext : DbContext
             entity.Property(e => e.Paymentname)
                 .HasColumnType("character varying")
                 .HasColumnName("paymentname");
+            entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.Updateddate)
                 .HasColumnType("character varying")
                 .HasColumnName("updateddate");
