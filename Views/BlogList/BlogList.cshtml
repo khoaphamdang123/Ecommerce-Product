@@ -145,14 +145,21 @@
                              <td class="text-center">
                               <strong>@file.Blogname</strong>
                               </td>
-                            <td class="text-center">
+                            <td class="text-center align-items-center">
                              @if(file.FeatureImage.Contains("wwwroot"))
-                             {
-                                <img src="~/@file.FeatureImage.Substring(file.FeatureImage.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="Blog Avatar">
+                             { <div class="avatar-wrapper">
+                                <div class="avatar avatar-sm me-2 rounded-2">
+                                <img src="~/@file.FeatureImage.Substring(file.FeatureImage.IndexOf("wwwroot")+("wwwroot".Length+1))" class="d-block rounded" alt="Blog Avatar">
+                                </div>
+                              </div>
                              }
                              else
                              {
+                            <div class="avatar-wrapper">
+                                <div class="avatar avatar-sm me-2 rounded-2">
                              <img src="@file.FeatureImage" alt="Blog Avatar"> 
+                                </div>
+                              </div>
                              }
                             </td>
                             <td class="text-center">@file.Createddate</td>

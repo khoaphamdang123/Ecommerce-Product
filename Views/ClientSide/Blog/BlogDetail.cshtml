@@ -1,0 +1,398 @@
+@model Blog
+@{
+    Layout = "_UserLayout";
+    string img_url=Model.FeatureImage;
+  if(!img_url.Contains("wwwroot"))
+   {
+  img_url="https://cdn-icons-png.flaticon.com/128/16955/16955062.png";
+   }
+    else
+    {
+img_url=$"~/{img_url.Substring(img_url.IndexOf("wwwroot")+("wwwroot".Length+1)).Replace("\\","/")}";
+    }
+@* string created_date=Model.Createddate;
+   DateTime createdDate=DateTime.ParseExact(created_date,"MM/dd/yyyy",System.Globalization.CultureInfo.InvariantCulture);
+   string formatted_date = createdDate.ToString("dd 'Tháng' MM, yyyy", new System.Globalization.CultureInfo("vi-VN")); *@
+}
+<div class="layout-article" id="article">
+<div class="breadcrumb-shop">
+	<div class="container">
+	<div class="breadcrumb-list blog-breadcrumb ">
+		<nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                  <li class="breadcrumb-item"><a href="@Url.Action("HomePage","HomePage")">Trang chủ</a></li>
+                                  <li class="breadcrumb-item"><a href="@Url.Action("Blog","Blog")">Tin tức</a></li>
+                                  <li class="breadcrumb-item active" aria-current="page"></li>
+                                </ol>
+                              </nav>
+	</div>
+</div>
+</div>
+	<div class="wrapper-contentArticle">
+		<div class="container pd-top">
+			<div class="row">
+				<div class="col-lg-9 col-md-12 col-12 boxAricle-left">
+					<div class="inforArticle-content">
+						<div class="boxArticle-detail">
+							<div class="heading-article">	
+								<h1>@Model.Blogname</h1>	
+								<div class="article-post-meta">   
+									<span class="author">bởi:@Model.Author</span>
+									<span class="date">                
+										<time pubdate="" datetime="06 Tháng 02, 2023">@Model.Updateddate</time>
+									</span>
+										
+								</div>		
+							</div>
+							<div class="article-content">
+								<div class="box-article-heading clearfix">		
+									<div class="background-img">
+										<img src="@Url.Content(img_url)" alt="@Model.Blogname">
+									</div>
+								</div>
+								@* <div id="table-content-container" class="table-of-contents"><div class="table-title">
+                                    <div class="htitle">
+                                    Các nội dung chính<span class="toc_toggle">[<a class="icon-list" href="javascript:void(0)">Ẩn</a>]
+                                    </span></div></div><ul><li><a href="#menuid0">1. Adventurer</a></li><li><a href="#menuid1">2. Athlete</a></li><li><a href="#menuid2">3. Aviator</a></li><li><a href="#menuid3">4. Captain</a></li><li><a href="#menuid4">5. Golfer</a></li><li><a href="#menuid5">6. Một vài thông số phần cứng chung giữa các phiên bản</a></li></ul></div> *@
+                                    <div class="box-article-detail article-body article-table-contents typeList-style">
+                                        @Html.Raw(Model.Content)
+                                    </div>
+								<div class="box-article-tags">
+									<strong class="tags-title">Loại sản phẩm: @Model.Category.CategoryName</strong> 
+									
+								</div>
+
+								<div class="box-article-navigation post-navigation articleToolbar ">							
+									<div class="flex-row-articleToolbar">
+										<div class="articleToolbar-title col-lg-8 col-md-12 col-12">
+											<p>Đang xem:<span>@Model.Blogname</span></p>
+										</div>
+										<div class="articleToolbar-navigation col-lg-4 col-md-12 col-12 ">
+											<div class="articleToolbar--nav">							
+												
+														
+												
+												<span>
+													<a href="/blogs/news/gap-go-garmin-zumo-xt" title="">Bài sau</a>
+													<svg class="arrow-right" role="presentation" viewBox="0 0 11 18">
+														<path d="M1.5 1.5l8 7.5-8 7.5" stroke-width="2" stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="square"></path>
+													</svg>
+												</span>
+																			
+											</div>
+										</div>
+									</div>					
+								</div>	
+							</div>					
+						</div>
+							
+						
+						<div class="article-related">
+							<h3 class="title-blog-related">
+								<span>
+ Bài viết liên quan								
+</span>
+							</h3>		
+							<div class="content-blogs-related">
+								<div class="list-blogs-related list-article-content owl-carousel owlCarousel-style owlCarousel-dfex owl-loaded">	
+							
+								<div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all; width: 740px; padding-left: 30px; padding-right: 30px;"><div class="owl-item active" style="width: 170px;"><article class="article-loop">
+										<div class="article-inner">				
+											<div class="article-image">
+												<a href="/blogs/news/marq-gen-2-chinh-thuc-dong-ho-gps-cao-cap-nhat-cua-nha-garmin" class="blog-post-thumbnail" title="MARQ Gen 2 chính thức: Đồng hồ GPS cao cấp nhất của nhà Garmin" rel="nofollow">
+													<img class="lazyload" data-src="//file.hstatic.net/1000382550/article/untitled-7663-1674184395_a293b20695584e7b9c7a66b86d9d4707_1024x1024.jpg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="MARQ Gen 2 chính thức: Đồng hồ GPS cao cấp nhất của nhà Garmin">
+												</a>
+											</div>
+											<div class="article-detail">	
+												<div class="article-title">
+													<h3 class="post-title">
+														<a href="/blogs/news/marq-gen-2-chinh-thuc-dong-ho-gps-cao-cap-nhat-cua-nha-garmin" title="MARQ Gen 2 chính thức: Đồng hồ GPS cao cấp nhất của nhà Garmin">MARQ Gen 2 chính thức: Đồng hồ GPS cao cấp nhất của nhà Garmin</a>
+													</h3>
+												</div>		
+
+												<p class="entry-content">MARQ&nbsp;là bộ sưu tập đồng hồ GPS cao cấp nhất của nhà&nbsp;Garmin, thế hệ đầu tiên được ra mắt năm 2019 và mãi tới cuối 2022 thì mới có phiên bản thứ 2 này.Garmin MARQ...</p>
+
+												<div class="article-post-meta">   
+													<span class="date">                
+														<time pubdate="" datetime="06 Tháng 02, 2023">06 Tháng 02, 2023</time>
+													</span>
+												</div>										
+											</div>
+										</div>						
+									</article></div><div class="owl-item active" style="width: 170px;"><article class="article-loop">
+										<div class="article-inner">				
+											<div class="article-image">
+												<a href="/blogs/news/gap-go-garmin-zumo-xt" class="blog-post-thumbnail" title="Gặp gỡ Garmin Zumo XT" rel="nofollow">
+													<img class="lazyload" data-src="//file.hstatic.net/1000382550/article/garmin-zumo-xt-review-fb_c473af133cd14a29b20d5fe7311846bb_grande.jpg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Gặp gỡ Garmin Zumo XT">
+												</a>
+											</div>
+											<div class="article-detail">	
+												<div class="article-title">
+													<h3 class="post-title">
+														<a href="/blogs/news/gap-go-garmin-zumo-xt" title="Gặp gỡ Garmin Zumo XT">Gặp gỡ Garmin Zumo XT</a>
+													</h3>
+												</div>		
+
+												<p class="entry-content">Garmin thường xuyên cập nhật dòng GPS dành cho xe máy của họ, thêm các sản phẩm mới và loại bỏ các thiết bị cũ.&nbsp;Zumo XT là sản phẩm mới nhất được cung cấp.&nbsp;Nó là...</p>
+
+												<div class="article-post-meta">   
+													<span class="date">                
+														<time pubdate="" datetime="06 Tháng 02, 2023">06 Tháng 02, 2023</time>
+													</span>
+												</div>										
+											</div>
+										</div>						
+									</article></div><div class="owl-item" style="width: 170px;"><article class="article-loop">
+										<div class="article-inner">				
+											<div class="article-image">
+												<a href="/blogs/news/edge-1040-series-luon-san-sang-cho-moi-chuyen-di" class="blog-post-thumbnail" title="Edge 1040 series: Luôn sẵn sàng cho mọi chuyến đi" rel="nofollow">
+													<img class="lazyload" data-src="//file.hstatic.net/1000382550/article/e1040_4_ea43a2ca597642aa9c0a4b8c733f1346_grande.jpg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Edge 1040 series: Luôn sẵn sàng cho mọi chuyến đi">
+												</a>
+											</div>
+											<div class="article-detail">	
+												<div class="article-title">
+													<h3 class="post-title">
+														<a href="/blogs/news/edge-1040-series-luon-san-sang-cho-moi-chuyen-di" title="Edge 1040 series: Luôn sẵn sàng cho mọi chuyến đi">Edge 1040 series: Luôn sẵn sàng cho mọi chuyến đi</a>
+													</h3>
+												</div>		
+
+												<p class="entry-content">Garmin Edge 1040 Solar là sản phẩm mới nhất, cao cấp nhất của dòng sản phẩm bike computer mới ra mắt tháng 8/2022 ở Việt Nam, thay thế phiên bản cũ là Edge 1030. Ngoài...</p>
+
+												<div class="article-post-meta">   
+													<span class="date">                
+														<time pubdate="" datetime="06 Tháng 02, 2023">06 Tháng 02, 2023</time>
+													</span>
+												</div>										
+											</div>
+										</div>						
+									</article></div><div class="owl-item" style="width: 170px;"><article class="article-loop">
+										<div class="article-inner">				
+											<div class="article-image">
+												<a href="/blogs/news/garmin-fenix-7-series-danh-gia" class="blog-post-thumbnail" title="Garmin fenix 7 Series: Đánh giá và trải nghiệm" rel="nofollow">
+													<img class="lazyload" data-src="//file.hstatic.net/1000382550/article/nextpit_1280x720-800-resize_cf3aca650d4247c3a82ed5966d3e64dc_grande.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Garmin fenix 7 Series: Đánh giá và trải nghiệm">
+												</a>
+											</div>
+											<div class="article-detail">	
+												<div class="article-title">
+													<h3 class="post-title">
+														<a href="/blogs/news/garmin-fenix-7-series-danh-gia" title="Garmin fenix 7 Series: Đánh giá và trải nghiệm">Garmin fenix 7 Series: Đánh giá và trải nghiệm</a>
+													</h3>
+												</div>		
+
+												<p class="entry-content">Garmin fenix là dòng đồng hồ thuộc phân khúc cao cấp của Garmin. Đây là dòng đồng hồ phổ biến cho giới&nbsp;chạy trail&nbsp;nhờ thời lượng pin khủng, đủ đáp ứng phần lớn các cuộc thi...</p>
+
+												<div class="article-post-meta">   
+													<span class="date">                
+														<time pubdate="" datetime="06 Tháng 02, 2023">06 Tháng 02, 2023</time>
+													</span>
+												</div>										
+											</div>
+										</div>						
+									</article></div></div></div><div class="owl-nav"><button type="button" role="presentation" class="owl-prev disabled"><span aria-label="Previous">‹</span></button><button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button></div><div class="owl-dots disabled"></div></div>
+							</div>							
+						</div>
+							
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-12 col-12 boxAricle-right">
+					<aside class="sidebar-blogs blogs-aside--sticky">
+	<!-- Bai viet moi nhat -->
+	<div class="group-sidebox">
+		<div class="sidebox-title ">
+			<h3 class="htitle">Bài viêt mới nhất</h3>
+		</div>
+		<div class="sidebox-content sidebox-content-togged">
+			<div class="list-blogs-latest">	
+				
+				
+	
+				<div class="item-article clearfix ">
+					<div class="post-image">
+						<a href="/blogs/news/marq-gen-2-chinh-thuc-dong-ho-gps-cao-cap-nhat-cua-nha-garmin">
+							<img class=" ls-is-cached lazyloaded" data-src="//file.hstatic.net/1000382550/article/untitled-7663-1674184395_a293b20695584e7b9c7a66b86d9d4707_compact.jpg" src="//file.hstatic.net/1000382550/article/untitled-7663-1674184395_a293b20695584e7b9c7a66b86d9d4707_compact.jpg" alt="MARQ Gen 2 chính thức: Đồng hồ GPS cao cấp nhất của nhà Garmin"></a>
+					</div>
+					<div class="post-content">
+						<h3><a href="/blogs/news/marq-gen-2-chinh-thuc-dong-ho-gps-cao-cap-nhat-cua-nha-garmin">MARQ Gen 2 chính thức: Đồng hồ GPS cao cấp nhất của nhà Garmin</a></h3>
+						<p class="post-meta">
+							<span class="cate">Tin tức</span>
+							<span class="author d-none"><a href="/blogs/news/marq-gen-2-chinh-thuc-dong-ho-gps-cao-cap-nhat-cua-nha-garmin">Trần Hoàng Long</a></span>
+							<span class="date">- 06.02.2023</span>
+						</p>
+					</div>
+				</div>				
+				
+				
+	
+				<div class="item-article clearfix ">
+					<div class="post-image">
+						<a href="/blogs/news/gap-go-garmin-zumo-xt">
+							<img class=" ls-is-cached lazyloaded" data-src="//file.hstatic.net/1000382550/article/garmin-zumo-xt-review-fb_c473af133cd14a29b20d5fe7311846bb_compact.jpg" src="//file.hstatic.net/1000382550/article/garmin-zumo-xt-review-fb_c473af133cd14a29b20d5fe7311846bb_compact.jpg" alt="Gặp gỡ Garmin Zumo XT"></a>
+					</div>
+					<div class="post-content">
+						<h3><a href="/blogs/news/gap-go-garmin-zumo-xt">Gặp gỡ Garmin Zumo XT</a></h3>
+						<p class="post-meta">
+							<span class="cate">Tin tức</span>
+							<span class="author d-none"><a href="/blogs/news/gap-go-garmin-zumo-xt">Trần Hoàng Long</a></span>
+							<span class="date">- 06.02.2023</span>
+						</p>
+					</div>
+				</div>				
+				
+				
+	
+				<div class="item-article clearfix ">
+					<div class="post-image">
+						<a href="/blogs/news/edge-1040-series-luon-san-sang-cho-moi-chuyen-di">
+							<img class=" ls-is-cached lazyloaded" data-src="//file.hstatic.net/1000382550/article/e1040_4_ea43a2ca597642aa9c0a4b8c733f1346_compact.jpg" src="//file.hstatic.net/1000382550/article/e1040_4_ea43a2ca597642aa9c0a4b8c733f1346_compact.jpg" alt="Edge 1040 series: Luôn sẵn sàng cho mọi chuyến đi"></a>
+					</div>
+					<div class="post-content">
+						<h3><a href="/blogs/news/edge-1040-series-luon-san-sang-cho-moi-chuyen-di">Edge 1040 series: Luôn sẵn sàng cho mọi chuyến đi</a></h3>
+						<p class="post-meta">
+							<span class="cate">Tin tức</span>
+							<span class="author d-none"><a href="/blogs/news/edge-1040-series-luon-san-sang-cho-moi-chuyen-di">Trần Hoàng Long</a></span>
+							<span class="date">- 06.02.2023</span>
+						</p>
+					</div>
+				</div>				
+				
+				
+	
+				<div class="item-article clearfix ">
+					<div class="post-image">
+						<a href="/blogs/news/garmin-fenix-7-series-danh-gia">
+							<img class=" ls-is-cached lazyloaded" data-src="//file.hstatic.net/1000382550/article/nextpit_1280x720-800-resize_cf3aca650d4247c3a82ed5966d3e64dc_compact.png" src="//file.hstatic.net/1000382550/article/nextpit_1280x720-800-resize_cf3aca650d4247c3a82ed5966d3e64dc_compact.png" alt="Garmin fenix 7 Series: Đánh giá và trải nghiệm"></a>
+					</div>
+					<div class="post-content">
+						<h3><a href="/blogs/news/garmin-fenix-7-series-danh-gia">Garmin fenix 7 Series: Đánh giá và trải nghiệm</a></h3>
+						<p class="post-meta">
+							<span class="cate">Tin tức</span>
+							<span class="author d-none"><a href="/blogs/news/garmin-fenix-7-series-danh-gia">Trần Hoàng Long</a></span>
+							<span class="date">- 06.02.2023</span>
+						</p>
+					</div>
+				</div>				
+				
+			</div>
+		</div>
+	</div>
+	
+	<!-- Menu bai viet -->
+
+	<div class="group-sidebox">
+		<div class="sidebox-title ">
+			<h3 class="htitle">Danh mục bài viết</h3>
+		</div>
+		<div class="sidebox-content sidebox-content-togged">
+			<ul class="menuList-links">
+				
+				
+				<li class="has-submenu level0 ">
+					<a href="/collections/frontpage" title="GPS">GPS <span class="icon-plus-submenu plus-nClick1"></span></a>
+					<ul class="submenu-links">
+						
+						
+						<li><a href="/collections/dan-duong-xe-hoi" title="GPS dẫn đường Ô tô">GPS dẫn đường Ô tô</a></li>
+						
+						
+						
+						<li><a href="/collections/dan-duong-xe-dap" title="GPS dẫn đường xe đạp">GPS dẫn đường xe đạp</a></li>
+						
+						
+						
+						<li><a href="/collections/dan-duong-mo-to" title="GPS dẫn đường mô tô">GPS dẫn đường mô tô</a></li>
+						
+						
+						
+						<li><a href="/collections/gps-cam-tay" title="GPS cầm tay">GPS cầm tay</a></li>
+						
+						
+						
+						<li><a href="/collections/may-do-ca" title="Máy dò cá - Hải đồ">Máy dò cá - Hải đồ</a></li>
+						
+						
+					</ul>
+				</li>
+				
+				
+				
+				<li class="has-submenu level0 ">
+					<a href="/collections/dong-ho-thong-minh" title="Đồng hồ">Đồng hồ <span class="icon-plus-submenu plus-nClick1"></span></a>
+					<ul class="submenu-links">
+						
+						
+						<li class="has-submenu level1">
+							<a href="/collections/garmin">Garmin  <span class="icon-plus-submenu plus-nClick2"></span></a>
+							<ul class="submenu-links">
+														
+								<li class=""><a href="/collections/dong-ho-vong-garmin" title="Đồng hồ thể thao - Theo dõi sức khỏe">Đồng hồ thể thao - Theo dõi sức khỏe</a></li>
+														
+								<li class=""><a href="/collections/choi-golf" title="Đồng hồ chuyên Golf">Đồng hồ chuyên Golf</a></li>
+								
+							</ul>
+						</li>
+						
+						
+						
+						<li><a href="/collections/coros" title="Coros">Coros</a></li>
+						
+						
+						
+						<li><a href="/collections/samsung" title="Samsung">Samsung</a></li>
+						
+						
+						
+						<li><a href="/collections/apple" title="Apple">Apple</a></li>
+						
+						
+					</ul>
+				</li>
+				
+				
+								
+				<li class=""><a href="/collections/camera" title="Camera"><span>Camera</span></a></li>
+				
+				
+				
+				<li class="has-submenu level0 ">
+					<a href="/collections/ban-do" title="Phần mềm dẫn đường">Phần mềm dẫn đường <span class="icon-plus-submenu plus-nClick1"></span></a>
+					<ul class="submenu-links">
+						
+						
+						<li><a href="/collections/ban-do-cho-gps-cam-tay-garmin-handheld" title="Phần mềm dẫn đường Garmin - Việt Nam">Phần mềm dẫn đường Garmin - Việt Nam</a></li>
+						
+						
+						
+						<li><a href="/collections/ban-do-cho-gps-dan-duong-o-to-garmin" title="Phần mềm dẫn đường Garmin - các nước khác">Phần mềm dẫn đường Garmin - các nước khác</a></li>
+						
+						
+					</ul>
+				</li>
+				
+				
+				
+				<li class="has-submenu level0 ">
+					<a href="/collections/phu-kien" title="Phụ kiện">Phụ kiện <span class="icon-plus-submenu plus-nClick1"></span></a>
+					<ul class="submenu-links">
+						
+						
+						<li><a href="/collections/phu-kien-gps" title="Phụ kiện GPS">Phụ kiện GPS</a></li>
+						
+						
+						
+						<li><a href="/collections/phu-kien-dong-ho" title="Phụ kiện Đồng hồ">Phụ kiện Đồng hồ</a></li>
+						
+						
+					</ul>
+				</li>
+				
+				
+			</ul>
+		</div>
+	</div>
+
+</aside>	
+				</div>
+			</div>
+		</div>
+	</div>
+<div class="table-content-button"><button class="btn-icolist"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.994 511.994"><path d="M35.537 292.17l-.225-.863 14.613-15.857c9.495-10.333 16.006-18.227 19.544-23.47s5.3-11.326 5.3-18.148c0-10.135-3.326-18.146-9.974-23.984-6.65-5.83-15.9-8.76-27.775-8.76-11.174 0-20.15 3.467-26.923 10.412S.06 226.807.3 236.795l.15.34 24.473.002c0-4.403 1.076-8.9 3.227-12.097s5.105-4.73 8.863-4.73c4.202 0 7.355 1.26 9.457 3.73s3.152 5.8 3.152 9.955c0 2.917-1.04 6.36-3.115 10.313s-5.72 8.458-10.122 13.5L1.28 294.304v15.478h74.847v-17.6h-40.6zM51.9 127.068V37.72L1.28 45.283v17.945h24.215v63.84H1.28v19.812h74.846v-19.812zm21.156 299.964c-3.265-4.33-7.8-7.542-13.574-9.668 5.092-2.325 9.16-5.55 12.2-9.677s4.56-8.643 4.56-13.534c0-9.84-3.5-17.442-10.53-22.806s-16.4-8.046-28.1-8.046c-10.087 0-18.665 2.67-25.736 8S1.418 384.007 1.716 392.6l.15.83h24.327c0-4.403 1.233-5.774 3.707-7.654s5.34-3 8.603-3c4.154 0 7.317 1.065 9.495 3.4s3.262 5.142 3.262 8.555c0 4.3-1.2 7.868-3.632 10.3s-5.884 3.837-10.384 3.837h-11.75v17.6h11.75c4.995 0 8.863 1.475 11.608 3.872s4.117 6.358 4.117 11.597c0 3.76-1.312 6.943-3.93 9.415s-6.133 3.74-10.534 3.74c-3.857 0-7.13-1.662-9.827-4s-4.042-4.803-4.042-9.206H.16l-.147.95c-.247 10.087 3.423 18.042 11.013 23.357s16.453 8.1 26.588 8.1c11.77 0 21.435-2.765 29-8.427S77.96 452.44 77.96 442.55c0-6.033-1.63-11.195-4.894-15.523zm75.7-64.426h363.227v72.645H148.767zm0-143.09h363.227v72.645H148.767zm0-147.483h363.227v72.645H148.767z"></path></svg></button> </div><div class="table-content-fixed"><div class="table-of-header"><span class="hTitle"> Các nội dung chính</span><span class="hClose"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512.001 512.001"><path d="M284.286 256.002L506.143 34.144c7.81-7.81 7.81-20.475 0-28.285s-20.475-7.81-28.285 0L256 227.717 34.143 5.86c-7.81-7.81-20.475-7.81-28.285 0s-7.81 20.475 0 28.285L227.715 256 5.858 477.86c-7.81 7.81-7.81 20.475 0 28.285C9.763 510.05 14.882 512 20 512a19.94 19.94 0 0 0 14.143-5.857L256 284.287l221.857 221.857C481.762 510.05 486.88 512 492 512a19.94 19.94 0 0 0 14.143-5.857c7.81-7.81 7.81-20.475 0-28.285L284.286 256.002z"></path></svg></span></div><div id="clone-table" class="table-of-contents"><div class="table-title"><div class="htitle">Các nội dung chính<span class="toc_toggle">[<a class="icon-list" href="javascript:void(0)">Ẩn</a>]</span></div></div><ul><li><a href="#menuid0">1. Adventurer</a></li><li><a href="#menuid1">2. Athlete</a></li><li><a href="#menuid2">3. Aviator</a></li><li><a href="#menuid3">4. Captain</a></li><li><a href="#menuid4">5. Golfer</a></li><li><a href="#menuid5">6. Một vài thông số phần cứng chung giữa các phiên bản</a></li></ul></div></div></div>

@@ -4,10 +4,19 @@
    var create_status=ViewBag.Status;
    var categories = ViewBag.categories as List<Category>;
    var img_url = Model.FeatureImage;
+   
+
    if(!img_url.Contains("wwwroot"))
    {
   img_url="https://cdn-icons-png.flaticon.com/128/16955/16955062.png";
    }
+    else
+    {
+img_url=$"~/{img_url.Substring(img_url.IndexOf("wwwroot")+("wwwroot".Length+1)).Replace("\\","/")}";
+    }
+
+    Console.WriteLine(img_url);
+
 }
 
 
@@ -58,11 +67,12 @@
                   </ul>
                   <div class="card mb-4">
                     <h5 class="card-header">Thông tin bài viết</h5>
+               <form id="formAccountSettings" method="POST" asp-action="addNewBlog" asp-controller="BlogList">
                 <div class="card-body">
                       <div class="d-flex align-items-start align-items-sm-center gap-4">
                         <img
-                          src="@img_url"
-                          alt="user-avatar"
+                          src="@Url.Content(img_url)"
+                          alt="blog-avatar"
                           class="d-block rounded"
                           height="100"
                           width="100"
@@ -90,7 +100,6 @@
                     </div>
                     <hr class="my-0"/>
                     <div class="card-body">
-                      <form id="formAccountSettings" method="POST" asp-action="addNewBlog" asp-controller="BlogList">
                         <div class="row mb-3">
                           <div class="mb-3 col-md-6">
                             <label for="username" class="form-label mb-2">Tên tác giả:</label>

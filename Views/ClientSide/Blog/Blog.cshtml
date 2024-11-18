@@ -1,0 +1,215 @@
+@model List<Blog>
+@{
+    Layout="_UserLayout";
+}
+
+<div class="layout-blogs">
+	
+<div class="breadcrumb-shop">
+	<div class="container">
+	<div class="breadcrumb-list  ">
+		 <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                  <li class="breadcrumb-item"><a href="@Url.Action("HomePage","HomePage")">Trang chủ</a></li>
+                                  <li class="breadcrumb-item active" aria-current="page">Tin tức</li>
+                                </ol>
+                              </nav>
+	</div>
+</div>
+</div>	<div class="wrapper-contentBlogs">
+		<div class="container pd-top">
+			<div class="row dFlex-row">
+				<div class="col-lg-9 col-md-12 col-12 boxBlog-left">
+					<div class="listBlogs-content">	
+						<div class="heading-page"><h1>Tin tức</h1></div>
+						<div class="list-article-content blog-posts row">
+						@foreach(var blog in Model)
+                        {
+							<article class="article-loop col-md-6 col-6">
+								<div class="article-inner">				
+									<div class="article-image">
+										<a href="@Url.Action("BlogDetail","Blog",new{id=blog.Id})" class="blog-post-thumbnail" title="@blog.Blogname" rel="nofollow">
+											<img class="lazyloaded" data-src="~/@blog.FeatureImage.Substring(blog.FeatureImage.IndexOf("wwwroot")+("wwwroot".Length+1))" src="~/@blog.FeatureImage.Substring(blog.FeatureImage.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="@blog.Blogname">
+										</a>
+									</div>
+									<div class="article-detail">	
+										<div class="article-title">
+											<h3 class="post-title">
+												<a href="@Url.Action("BlogDetail","Blog",new{id=blog.Id})" title="@blog.Blogname">@blog.Blogname</a>
+											</h3>
+										</div>		
+										
+										<p class="entry-content">@blog.GetFirstPContent()</p>
+										
+										<div class="article-post-meta">   
+											<span class="author">bởi:@blog.Author</span>
+											<span class="date">                
+												<time pubdate="" datetime="06 Tháng 02, 2023">@blog.Updateddate</time>
+											</span>
+												
+										</div>										
+									</div>
+								</div>						
+							</article>
+                            }
+						</div>
+						<div class="pagination-shop pagi text-center">				
+							<div id="pagination">
+</div>				
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-12 col-12 boxBlog-right">				
+					<aside class="sidebar-blogs blogs-aside--sticky">
+	<!-- Bai viet moi nhat -->
+	<div class="group-sidebox">
+		<div class="sidebox-title ">
+			<h3 class="htitle">Bài viết mới nhất</h3>
+		</div>
+		<div class="sidebox-content sidebox-content-togged">
+			<div class="list-blogs-latest">	
+				
+			@foreach(var blog in Model)
+            {
+				<div class="item-article clearfix ">
+					<div class="post-image">
+						<a href="@Url.Action("BlogDetail","Blog",new{id=blog.Id})">
+							<img class="ls-is-cached lazyloaded" data-src="~/@blog.FeatureImage.Substring(blog.FeatureImage.IndexOf("wwwroot")+("wwwroot".Length+1))" src="~/@blog.FeatureImage.Substring(blog.FeatureImage.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="@blog.Blogname">
+                    </div>
+					<div class="post-content">
+						<h3><a href="@Url.Action("BlogDetail","Blog",new{id=blog.Id})">@blog.Blogname</a></h3>
+						<p class="post-meta">
+							<span class="cate">Tin tức</span>
+							<span class="author d-none"><a href="@Url.Action("BlogDetail","Blog",new{id=blog.Id})">@blog.Author</a></span>
+							<span class="date">-@(blog.Updateddate)</span>
+						</p>
+					</div>
+				</div>	
+                }			
+				
+								
+			</div>
+		</div>
+	</div>
+	
+	<!-- Menu bai viet -->
+
+	<div class="group-sidebox">
+		<div class="sidebox-title ">
+			<h3 class="htitle">Danh mục bài viết</h3>
+		</div>
+		<div class="sidebox-content sidebox-content-togged">
+			<ul class="menuList-links">
+				
+				
+				<li class="has-submenu level0 ">
+					<a href="/collections/frontpage" title="GPS">GPS <span class="icon-plus-submenu plus-nClick1"></span></a>
+					<ul class="submenu-links">
+						
+						
+						<li><a href="/collections/dan-duong-xe-hoi" title="GPS dẫn đường Ô tô">GPS dẫn đường Ô tô</a></li>
+						
+						
+						
+						<li><a href="/collections/dan-duong-xe-dap" title="GPS dẫn đường xe đạp">GPS dẫn đường xe đạp</a></li>
+						
+						
+						
+						<li><a href="/collections/dan-duong-mo-to" title="GPS dẫn đường mô tô">GPS dẫn đường mô tô</a></li>
+						
+						
+						
+						<li><a href="/collections/gps-cam-tay" title="GPS cầm tay">GPS cầm tay</a></li>
+						
+						
+						
+						<li><a href="/collections/may-do-ca" title="Máy dò cá - Hải đồ">Máy dò cá - Hải đồ</a></li>
+						
+						
+					</ul>
+				</li>
+				
+				
+				
+				<li class="has-submenu level0 ">
+					<a href="/collections/dong-ho-thong-minh" title="Đồng hồ">Đồng hồ <span class="icon-plus-submenu plus-nClick1"></span></a>
+					<ul class="submenu-links">
+						
+						
+						<li class="has-submenu level1">
+							<a href="/collections/garmin">Garmin  <span class="icon-plus-submenu plus-nClick2"></span></a>
+							<ul class="submenu-links">
+														
+								<li class=""><a href="/collections/dong-ho-vong-garmin" title="Đồng hồ thể thao - Theo dõi sức khỏe">Đồng hồ thể thao - Theo dõi sức khỏe</a></li>
+														
+								<li class=""><a href="/collections/choi-golf" title="Đồng hồ chuyên Golf">Đồng hồ chuyên Golf</a></li>
+								
+							</ul>
+						</li>
+						
+						
+						
+						<li><a href="/collections/coros" title="Coros">Coros</a></li>
+						
+						
+						
+						<li><a href="/collections/samsung" title="Samsung">Samsung</a></li>
+						
+						
+						
+						<li><a href="/collections/apple" title="Apple">Apple</a></li>
+						
+						
+					</ul>
+				</li>
+				
+				
+								
+				<li class=""><a href="/collections/camera" title="Camera"><span>Camera</span></a></li>
+				
+				
+				
+				<li class="has-submenu level0 ">
+					<a href="/collections/ban-do" title="Phần mềm dẫn đường">Phần mềm dẫn đường <span class="icon-plus-submenu plus-nClick1"></span></a>
+					<ul class="submenu-links">
+						
+						
+						<li><a href="/collections/ban-do-cho-gps-cam-tay-garmin-handheld" title="Phần mềm dẫn đường Garmin - Việt Nam">Phần mềm dẫn đường Garmin - Việt Nam</a></li>
+						
+						
+						
+						<li><a href="/collections/ban-do-cho-gps-dan-duong-o-to-garmin" title="Phần mềm dẫn đường Garmin - các nước khác">Phần mềm dẫn đường Garmin - các nước khác</a></li>
+						
+						
+					</ul>
+				</li>
+				
+				
+				
+				<li class="has-submenu level0 ">
+					<a href="/collections/phu-kien" title="Phụ kiện">Phụ kiện <span class="icon-plus-submenu plus-nClick1"></span></a>
+					<ul class="submenu-links">
+						
+						
+						<li><a href="/collections/phu-kien-gps" title="Phụ kiện GPS">Phụ kiện GPS</a></li>
+						
+						
+						
+						<li><a href="/collections/phu-kien-dong-ho" title="Phụ kiện Đồng hồ">Phụ kiện Đồng hồ</a></li>
+						
+						
+					</ul>
+				</li>
+				
+				
+			</ul>
+		</div>
+	</div>
+
+</aside>	
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
