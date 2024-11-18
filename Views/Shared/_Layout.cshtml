@@ -296,6 +296,26 @@
               </ul>
             </li>    
 
+             <li class="menu-item @(view_controller=="BlogList"?"active open":"")">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-news"></i>
+                <div data-i18n="Account Settings">Tin tức</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item @(view_action=="BlogList"?"active":"")">
+                  <a href="@Url.Action("BlogList","BlogList")" class="menu-link">
+                    <div data-i18n="Account">Danh sách các bài viết</div>
+                  </a>
+                </li>
+                <li class="menu-item @(view_action=="AddBlog"?"active":"")">
+                  <a href="@Url.Action("AddBlog","BlogList")" class="menu-link">
+                    <div data-i18n="Notifications">Thêm bài</div>
+                  </a>
+                </li>
+              </ul>
+            </li>    
+
+
             
               <li class="menu-item @(view_controller=="BannerList"?"active open":"")">
               <a href="javascript:void(0);" class="menu-link menu-toggle">

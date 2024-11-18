@@ -81,7 +81,7 @@ public class PaymentListService:IPaymentRepository
       }
       string created_date=DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss");
       string updated_date = DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss");    
-      var payment_method=new Payment{Paymentname=payment.Paymentname,Createddate=created_date,Updateddate=updated_date};
+      var payment_method=new Payment{Paymentname=payment.Paymentname,Status=1,Createddate=created_date,Updateddate=updated_date};
       await this._context.Payments.AddAsync(payment_method);
       await this.saveChanges();
       created_res=1;
@@ -92,6 +92,36 @@ public class PaymentListService:IPaymentRepository
     }
     return created_res;
   }
+
+
+    public async Task<int> updatePaymentMethod(int id)
+    { int update_res=0;
+      try
+      {
+        var payment=await this.findPaymentById(id);
+        if(payment!=null)
+        {
+          if(payment.Status==1)
+          {
+            payment.Status=0;
+          }
+          else
+          {
+            payment.Status=1;
+          }
+          this._context.Payments.Update(payment);
+          await this.saveChanges();
+          update_res=1;
+        }
+      }
+      catch(Exception er)
+      {
+      Console.WriteLine("Update Payment Method Exception:"+er.InnerException??er.Message);
+      return -1;
+      }
+      return update_res;
+    }
+
 
 
   public async Task saveChanges()

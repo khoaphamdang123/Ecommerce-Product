@@ -170,7 +170,7 @@ public class VideoListController : Controller
     var video=await this._video.findVideoById(id);
     var products=await this._product.getAllProduct();
     ViewBag.products=products;
-    return View(video);
+    return View(video);    
   }
 
   [Route("video_list/update_video")]

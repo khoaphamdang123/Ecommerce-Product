@@ -15,6 +15,8 @@ public partial class Category
 
     public string? Avatar { get; set; }
 
+    public virtual ICollection<Blog> Blogs { get; set; } = new List<Blog>();
+
     public virtual ICollection<CategoryBrandDetail> CategoryBrandDetail { get; set; } = new List<CategoryBrandDetail>();
 
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
