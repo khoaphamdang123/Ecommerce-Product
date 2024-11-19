@@ -6,6 +6,7 @@ using System.Web;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using HtmlAgilityPack;
 using System.Text.RegularExpressions;
+using iText.IO.Source;
 
 namespace Ecommerce_Product.Controllers;
 public class BlogController:BaseController
@@ -32,6 +33,8 @@ public async Task<IActionResult> Blog()
     try
     {
         var blogs=await this._blog.getAllBlog();
+        var categories=await this._category.getAllCategory();
+        ViewBag.categories=categories;
         return View("~/Views/ClientSide/Blog/Blog.cshtml",blogs);
     }
     catch(Exception er)
@@ -46,7 +49,37 @@ public async Task<IActionResult> Blog()
 
 public async Task<IActionResult> BlogDetail(int id)
 {  
-   var blog=await this._blog.findBlogById(id);
+   var list_blog=await this._blog.getAllBlog();
+   
+   var blog = list_blog.FirstOrDefault(x=>x.Id==id);
+
+   var blog_by_cat=await this._blog.findBlogByCategory(blog.CategoryId);
+
+   var sorted_blog = list_blog.OrderByDescending(x=>DateTime.Parse(x.Createddate)).Take(4).ToList();
+
+   Random rand=new Random();
+
+  var categories=await this._category.getAllCategory();
+  
+  ViewBag.categories=categories;
+
+  if(blog_by_cat.Count()>0)
+  {
+   int nxt_index=rand.Next(0,blog_by_cat.Count());
+   int retry=2;
+   while(nxt_index==id && retry<2)
+   {
+    nxt_index=rand.Next(0,blog_by_cat.Count());
+    retry+=1;
+   }
+   Console.WriteLine("nxt_index:"+nxt_index);
+   ViewBag.nxt_index=nxt_index;
+  }
+
+
+   ViewBag.blog_by_cat=blog_by_cat;
+
+   ViewBag.list_blog=sorted_blog;
 
    blog.Content=HttpUtility.HtmlDecode(blog.Content);
     
