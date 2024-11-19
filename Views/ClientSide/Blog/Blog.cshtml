@@ -1,6 +1,7 @@
 @model List<Blog>
 @{
     Layout="_UserLayout";
+    var categories=ViewBag.categories as List<Category>;
 }
 
 <div class="layout-blogs">
@@ -64,9 +65,9 @@
 	<!-- Bai viet moi nhat -->
 	<div class="group-sidebox">
 		<div class="sidebox-title ">
-			<h3 class="htitle">Bài viết mới nhất</h3>
+			<h3 class="htitle"><strong>Bài viết mới nhất</strong></h3>
 		</div>
-		<div class="sidebox-content sidebox-content-togged">
+		<div class="sidebox-content sidebox-content-togged active">
 			<div class="list-blogs-latest">	
 				
 			@foreach(var blog in Model)
@@ -95,49 +96,45 @@
 	<!-- Menu bai viet -->
 
 	<div class="group-sidebox">
-		<div class="sidebox-title ">
-			<h3 class="htitle">Danh mục bài viết</h3>
+		<div class="sidebox-title">
+			<h3 class="htitle"><strong>Danh mục bài viết</strong></h3>
 		</div>
-		<div class="sidebox-content sidebox-content-togged">
+		<div class="sidebox-content sidebox-content-togged active">
 			<ul class="menuList-links">
-				
-				
+	           <li class=""><a href="@Url.Action("HomePage","HomePage")" title="HomePage"><span>Trang chủ</span></a></li>
+			    
+                <li class=""><a href="@Url.Action("StaticPage","StaticPage",new{page_name="about"})" title="About Us"><span>Về chúng tôi</span></a></li>
+			 @foreach(var cat in categories )
+             { if(cat.SubCategory.Count>0)
+             {
 				<li class="has-submenu level0 ">
-					<a href="/collections/frontpage" title="GPS">GPS <span class="icon-plus-submenu plus-nClick1"></span></a>
+					<a href="@Url.Action("ProductsByCategory","Products",new{category_name=cat.CategoryName})" title="@cat.CategoryName">@cat.CategoryName<span class="icon-submenu toggle-icon">+</span></a>
 					<ul class="submenu-links">
-						
-						
-						<li><a href="/collections/dan-duong-xe-hoi" title="GPS dẫn đường Ô tô">GPS dẫn đường Ô tô</a></li>
-						
-						
-						
-						<li><a href="/collections/dan-duong-xe-dap" title="GPS dẫn đường xe đạp">GPS dẫn đường xe đạp</a></li>
-						
-						
-						
-						<li><a href="/collections/dan-duong-mo-to" title="GPS dẫn đường mô tô">GPS dẫn đường mô tô</a></li>
-						
-						
-						
-						<li><a href="/collections/gps-cam-tay" title="GPS cầm tay">GPS cầm tay</a></li>
-						
-						
-						
-						<li><a href="/collections/may-do-ca" title="Máy dò cá - Hải đồ">Máy dò cá - Hải đồ</a></li>
-						
-						
+
+					 @foreach(var sub_cat in cat.SubCategory)
+                     {
+						<li><a href="@Url.Action("ProductBySubCategory","Products",new{sub_cat_id=sub_cat.Id})" title="@sub_cat.SubCategoryName">@sub_cat.SubCategoryName</a></li>
+                     }
+
 					</ul>
 				</li>
+                }
+            else{
+            <li>
+                <a href="@Url.Action("ProductsByCategory","Products",new{category_name=cat.CategoryName})" title="@cat.CategoryName"><span>@cat.CategoryName</span></a>
+            </li>
+            }
+                }
 				
 				
 				
-				<li class="has-submenu level0 ">
+				@* <li class="has-submenu level0">
 					<a href="/collections/dong-ho-thong-minh" title="Đồng hồ">Đồng hồ <span class="icon-plus-submenu plus-nClick1"></span></a>
 					<ul class="submenu-links">
 						
 						
 						<li class="has-submenu level1">
-							<a href="/collections/garmin">Garmin  <span class="icon-plus-submenu plus-nClick2"></span></a>
+							<a href="/collections/garmin">Garmin<span class="icon-plus-submenu plus-nClick2"></span></a>
 							<ul class="submenu-links">
 														
 								<li class=""><a href="/collections/dong-ho-vong-garmin" title="Đồng hồ thể thao - Theo dõi sức khỏe">Đồng hồ thể thao - Theo dõi sức khỏe</a></li>
@@ -161,45 +158,9 @@
 						
 						
 					</ul>
-				</li>
+				</li> *@
 				
 				
-								
-				<li class=""><a href="/collections/camera" title="Camera"><span>Camera</span></a></li>
-				
-				
-				
-				<li class="has-submenu level0 ">
-					<a href="/collections/ban-do" title="Phần mềm dẫn đường">Phần mềm dẫn đường <span class="icon-plus-submenu plus-nClick1"></span></a>
-					<ul class="submenu-links">
-						
-						
-						<li><a href="/collections/ban-do-cho-gps-cam-tay-garmin-handheld" title="Phần mềm dẫn đường Garmin - Việt Nam">Phần mềm dẫn đường Garmin - Việt Nam</a></li>
-						
-						
-						
-						<li><a href="/collections/ban-do-cho-gps-dan-duong-o-to-garmin" title="Phần mềm dẫn đường Garmin - các nước khác">Phần mềm dẫn đường Garmin - các nước khác</a></li>
-						
-						
-					</ul>
-				</li>
-				
-				
-				
-				<li class="has-submenu level0 ">
-					<a href="/collections/phu-kien" title="Phụ kiện">Phụ kiện <span class="icon-plus-submenu plus-nClick1"></span></a>
-					<ul class="submenu-links">
-						
-						
-						<li><a href="/collections/phu-kien-gps" title="Phụ kiện GPS">Phụ kiện GPS</a></li>
-						
-						
-						
-						<li><a href="/collections/phu-kien-dong-ho" title="Phụ kiện Đồng hồ">Phụ kiện Đồng hồ</a></li>
-						
-						
-					</ul>
-				</li>
 				
 				
 			</ul>

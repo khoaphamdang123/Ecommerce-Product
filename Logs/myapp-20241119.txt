@@ -1,0 +1,664 @@
+2024-11-19 13:54:15.178 +07:00 [WRN] Failed to determine the https port for redirect.
+2024-11-19 13:54:23.145 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-11-19 13:54:50.930 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Ecommerce_Product.Controllers.BlogController.BlogDetail(Int32 id)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Ecommerce_Product.Support_Serive.NotFoundMiddleware.InvokeAsync(HttpContext context)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-11-19 14:15:38.901 +07:00 [WRN] Failed to determine the https port for redirect.
+2024-11-19 14:31:28.525 +07:00 [WRN] Failed to determine the https port for redirect.
+2024-11-19 14:49:54.892 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-11-19 14:55:31.560 +07:00 [ERR] Failed executing DbCommand (19,172ms) [Parameters=[@__cat_id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT b.id, b.author, b.blogname, b.category_id, b.content, b.createddate, b.feature_image, b.updateddate
+FROM blog AS b
+WHERE b.category_id = @__cat_id_0
+2024-11-19 14:55:31.571 +07:00 [ERR] An exception occurred while iterating over the results of a query for context type 'Ecommerce_Product.Models.EcommerceshopContext'.
+System.InvalidOperationException: An exception has been raised that is likely due to a transient failure.
+ ---> Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.IO.IOException: Unable to read data from the transport connection: An existing connection was forcibly closed by the remote host..
+ ---> System.Net.Sockets.SocketException (10054): An existing connection was forcibly closed by the remote host.
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource<System.Int32>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](CancellationToken cancellationToken, Int32 estimatedSize)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.ReadAsyncInternal[TIOAdapter](Memory`1 buffer, CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|55_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|55_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+System.InvalidOperationException: An exception has been raised that is likely due to a transient failure.
+ ---> Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.IO.IOException: Unable to read data from the transport connection: An existing connection was forcibly closed by the remote host..
+ ---> System.Net.Sockets.SocketException (10054): An existing connection was forcibly closed by the remote host.
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource<System.Int32>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](CancellationToken cancellationToken, Int32 estimatedSize)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.ReadAsyncInternal[TIOAdapter](Memory`1 buffer, CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|55_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|55_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2024-11-19 14:55:31.572 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: An exception has been raised that is likely due to a transient failure.
+ ---> Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.IO.IOException: Unable to read data from the transport connection: An existing connection was forcibly closed by the remote host..
+ ---> System.Net.Sockets.SocketException (10054): An existing connection was forcibly closed by the remote host.
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource<System.Int32>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](CancellationToken cancellationToken, Int32 estimatedSize)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.ReadAsyncInternal[TIOAdapter](Memory`1 buffer, CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|55_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|55_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Ecommerce_Product.Service.BlogListService.findBlogByCategory(Int32 cat_id)
+   at Ecommerce_Product.Controllers.BlogController.BlogDetail(Int32 id)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Ecommerce_Product.Support_Serive.NotFoundMiddleware.InvokeAsync(HttpContext context)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-11-19 15:11:04.294 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+2024-11-19 15:11:04.297 +07:00 [ERR] An exception was thrown attempting to display the error page.
+System.TypeLoadException: Could not resolve type 'AspNetCoreGeneratedDocument.Views_ClientSide_Blog_Blog' in assembly 'Ecommerce-Product, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+   at System.Reflection.TypeNameParser.GetTypeFromDefaultAssemblies(String typeName, ReadOnlySpan`1 nestedTypeNames)
+   at System.Reflection.TypeNameParser.GetType(String typeName, ReadOnlySpan`1 nestedTypeNames, String assemblyNameIfAny)
+   at System.Reflection.TypeNameParser.NestedNamespaceTypeName.ResolveType(TypeNameParser& parser, String containingAssemblyIfAny)
+   at System.Reflection.TypeNameParser.GetTypeHelper(Char* pTypeName, RuntimeAssembly requestingAssembly, Boolean throwOnError, Boolean requireAssemblyQualifiedName)
+   at System.Reflection.CustomAttribute._CreateCaObject(RuntimeModule pModule, RuntimeType type, IRuntimeMethodInfo pCtor, Byte** ppBlob, Byte* pEndBlob, Int32* pcNamedArgs)
+   at System.Reflection.CustomAttribute.AddCustomAttributes(ListBuilder`1& attributes, RuntimeModule decoratedModule, Int32 decoratedMetadataToken, RuntimeType attributeFilterType, Boolean mustBeInheritable, ListBuilder`1 derivedAttributes)
+   at System.Reflection.CustomAttribute.GetCustomAttributes(RuntimeMethodInfo method, RuntimeType caType, Boolean inherit)
+   at System.Attribute.GetCustomAttributes(MemberInfo element, Type attributeType, Boolean inherit)
+   at System.Reflection.CustomAttributeExtensions.GetCustomAttributes[T](MemberInfo element)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.TryResolveStateMachineMethod(MethodBase& method, Type& declaringType)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetMethodDisplayString(MethodBase method)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetFrames(Exception exception, AggregateException& error)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetStackFrames(Exception original)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetDetails(Exception exception)+MoveNext()
+   at Microsoft.AspNetCore.Diagnostics.RazorViews.ErrorPage.ExecuteAsync()
+   at Microsoft.Extensions.RazorViews.BaseView.ExecuteAsync(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-11-19 15:11:04.298 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+2024-11-19 15:11:04.299 +07:00 [ERR] An exception was thrown attempting to display the error page.
+System.TypeLoadException: Could not resolve type 'AspNetCoreGeneratedDocument.Views_ClientSide_Blog_Blog' in assembly 'Ecommerce-Product, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+   at System.Reflection.TypeNameParser.GetTypeFromDefaultAssemblies(String typeName, ReadOnlySpan`1 nestedTypeNames)
+   at System.Reflection.TypeNameParser.GetType(String typeName, ReadOnlySpan`1 nestedTypeNames, String assemblyNameIfAny)
+   at System.Reflection.TypeNameParser.NestedNamespaceTypeName.ResolveType(TypeNameParser& parser, String containingAssemblyIfAny)
+   at System.Reflection.TypeNameParser.GetTypeHelper(Char* pTypeName, RuntimeAssembly requestingAssembly, Boolean throwOnError, Boolean requireAssemblyQualifiedName)
+   at System.Reflection.CustomAttribute._CreateCaObject(RuntimeModule pModule, RuntimeType type, IRuntimeMethodInfo pCtor, Byte** ppBlob, Byte* pEndBlob, Int32* pcNamedArgs)
+   at System.Reflection.CustomAttribute.AddCustomAttributes(ListBuilder`1& attributes, RuntimeModule decoratedModule, Int32 decoratedMetadataToken, RuntimeType attributeFilterType, Boolean mustBeInheritable, ListBuilder`1 derivedAttributes)
+   at System.Reflection.CustomAttribute.GetCustomAttributes(RuntimeMethodInfo method, RuntimeType caType, Boolean inherit)
+   at System.Attribute.GetCustomAttributes(MemberInfo element, Type attributeType, Boolean inherit)
+   at System.Reflection.CustomAttributeExtensions.GetCustomAttributes[T](MemberInfo element)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.TryResolveStateMachineMethod(MethodBase& method, Type& declaringType)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetMethodDisplayString(MethodBase method)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetFrames(Exception exception, AggregateException& error)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetStackFrames(Exception original)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetDetails(Exception exception)+MoveNext()
+   at Microsoft.AspNetCore.Diagnostics.RazorViews.ErrorPage.ExecuteAsync()
+   at Microsoft.Extensions.RazorViews.BaseView.ExecuteAsync(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-11-19 15:11:04.302 +07:00 [ERR] Connection id "0HN88DGN6NO3D", Request id "0HN88DGN6NO3D:00000024": An unhandled exception was thrown by the application.
+2024-11-19 15:11:05.534 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+2024-11-19 15:11:05.535 +07:00 [ERR] An exception was thrown attempting to display the error page.
+System.TypeLoadException: Could not resolve type 'AspNetCoreGeneratedDocument.Views_ClientSide_Blog_Blog' in assembly 'Ecommerce-Product, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+   at System.Reflection.TypeNameParser.GetTypeFromDefaultAssemblies(String typeName, ReadOnlySpan`1 nestedTypeNames)
+   at System.Reflection.TypeNameParser.GetType(String typeName, ReadOnlySpan`1 nestedTypeNames, String assemblyNameIfAny)
+   at System.Reflection.TypeNameParser.NestedNamespaceTypeName.ResolveType(TypeNameParser& parser, String containingAssemblyIfAny)
+   at System.Reflection.TypeNameParser.GetTypeHelper(Char* pTypeName, RuntimeAssembly requestingAssembly, Boolean throwOnError, Boolean requireAssemblyQualifiedName)
+   at System.Reflection.CustomAttribute._CreateCaObject(RuntimeModule pModule, RuntimeType type, IRuntimeMethodInfo pCtor, Byte** ppBlob, Byte* pEndBlob, Int32* pcNamedArgs)
+   at System.Reflection.CustomAttribute.AddCustomAttributes(ListBuilder`1& attributes, RuntimeModule decoratedModule, Int32 decoratedMetadataToken, RuntimeType attributeFilterType, Boolean mustBeInheritable, ListBuilder`1 derivedAttributes)
+   at System.Reflection.CustomAttribute.GetCustomAttributes(RuntimeMethodInfo method, RuntimeType caType, Boolean inherit)
+   at System.Attribute.GetCustomAttributes(MemberInfo element, Type attributeType, Boolean inherit)
+   at System.Reflection.CustomAttributeExtensions.GetCustomAttributes[T](MemberInfo element)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.TryResolveStateMachineMethod(MethodBase& method, Type& declaringType)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetMethodDisplayString(MethodBase method)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetFrames(Exception exception, AggregateException& error)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetStackFrames(Exception original)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetDetails(Exception exception)+MoveNext()
+   at Microsoft.AspNetCore.Diagnostics.RazorViews.ErrorPage.ExecuteAsync()
+   at Microsoft.Extensions.RazorViews.BaseView.ExecuteAsync(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-11-19 15:11:05.535 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+2024-11-19 15:11:05.536 +07:00 [ERR] An exception was thrown attempting to display the error page.
+System.TypeLoadException: Could not resolve type 'AspNetCoreGeneratedDocument.Views_ClientSide_Blog_Blog' in assembly 'Ecommerce-Product, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+   at System.Reflection.TypeNameParser.GetTypeFromDefaultAssemblies(String typeName, ReadOnlySpan`1 nestedTypeNames)
+   at System.Reflection.TypeNameParser.GetType(String typeName, ReadOnlySpan`1 nestedTypeNames, String assemblyNameIfAny)
+   at System.Reflection.TypeNameParser.NestedNamespaceTypeName.ResolveType(TypeNameParser& parser, String containingAssemblyIfAny)
+   at System.Reflection.TypeNameParser.GetTypeHelper(Char* pTypeName, RuntimeAssembly requestingAssembly, Boolean throwOnError, Boolean requireAssemblyQualifiedName)
+   at System.Reflection.CustomAttribute._CreateCaObject(RuntimeModule pModule, RuntimeType type, IRuntimeMethodInfo pCtor, Byte** ppBlob, Byte* pEndBlob, Int32* pcNamedArgs)
+   at System.Reflection.CustomAttribute.AddCustomAttributes(ListBuilder`1& attributes, RuntimeModule decoratedModule, Int32 decoratedMetadataToken, RuntimeType attributeFilterType, Boolean mustBeInheritable, ListBuilder`1 derivedAttributes)
+   at System.Reflection.CustomAttribute.GetCustomAttributes(RuntimeMethodInfo method, RuntimeType caType, Boolean inherit)
+   at System.Attribute.GetCustomAttributes(MemberInfo element, Type attributeType, Boolean inherit)
+   at System.Reflection.CustomAttributeExtensions.GetCustomAttributes[T](MemberInfo element)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.TryResolveStateMachineMethod(MethodBase& method, Type& declaringType)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetMethodDisplayString(MethodBase method)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetFrames(Exception exception, AggregateException& error)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetStackFrames(Exception original)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetDetails(Exception exception)+MoveNext()
+   at Microsoft.AspNetCore.Diagnostics.RazorViews.ErrorPage.ExecuteAsync()
+   at Microsoft.Extensions.RazorViews.BaseView.ExecuteAsync(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-11-19 15:11:05.536 +07:00 [ERR] Connection id "0HN88DGN6NO3D", Request id "0HN88DGN6NO3D:00000025": An unhandled exception was thrown by the application.
+2024-11-19 15:11:15.830 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+2024-11-19 15:11:15.831 +07:00 [ERR] An exception was thrown attempting to display the error page.
+System.TypeLoadException: Could not resolve type 'AspNetCoreGeneratedDocument.Views_ClientSide_Blog_Blog' in assembly 'Ecommerce-Product, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+   at System.Reflection.TypeNameParser.GetTypeFromDefaultAssemblies(String typeName, ReadOnlySpan`1 nestedTypeNames)
+   at System.Reflection.TypeNameParser.GetType(String typeName, ReadOnlySpan`1 nestedTypeNames, String assemblyNameIfAny)
+   at System.Reflection.TypeNameParser.NestedNamespaceTypeName.ResolveType(TypeNameParser& parser, String containingAssemblyIfAny)
+   at System.Reflection.TypeNameParser.GetTypeHelper(Char* pTypeName, RuntimeAssembly requestingAssembly, Boolean throwOnError, Boolean requireAssemblyQualifiedName)
+   at System.Reflection.CustomAttribute._CreateCaObject(RuntimeModule pModule, RuntimeType type, IRuntimeMethodInfo pCtor, Byte** ppBlob, Byte* pEndBlob, Int32* pcNamedArgs)
+   at System.Reflection.CustomAttribute.AddCustomAttributes(ListBuilder`1& attributes, RuntimeModule decoratedModule, Int32 decoratedMetadataToken, RuntimeType attributeFilterType, Boolean mustBeInheritable, ListBuilder`1 derivedAttributes)
+   at System.Reflection.CustomAttribute.GetCustomAttributes(RuntimeMethodInfo method, RuntimeType caType, Boolean inherit)
+   at System.Attribute.GetCustomAttributes(MemberInfo element, Type attributeType, Boolean inherit)
+   at System.Reflection.CustomAttributeExtensions.GetCustomAttributes[T](MemberInfo element)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.TryResolveStateMachineMethod(MethodBase& method, Type& declaringType)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetMethodDisplayString(MethodBase method)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetFrames(Exception exception, AggregateException& error)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetStackFrames(Exception original)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetDetails(Exception exception)+MoveNext()
+   at Microsoft.AspNetCore.Diagnostics.RazorViews.ErrorPage.ExecuteAsync()
+   at Microsoft.Extensions.RazorViews.BaseView.ExecuteAsync(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-11-19 15:11:15.831 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+2024-11-19 15:11:15.832 +07:00 [ERR] An exception was thrown attempting to display the error page.
+System.TypeLoadException: Could not resolve type 'AspNetCoreGeneratedDocument.Views_ClientSide_Blog_Blog' in assembly 'Ecommerce-Product, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+   at System.Reflection.TypeNameParser.GetTypeFromDefaultAssemblies(String typeName, ReadOnlySpan`1 nestedTypeNames)
+   at System.Reflection.TypeNameParser.GetType(String typeName, ReadOnlySpan`1 nestedTypeNames, String assemblyNameIfAny)
+   at System.Reflection.TypeNameParser.NestedNamespaceTypeName.ResolveType(TypeNameParser& parser, String containingAssemblyIfAny)
+   at System.Reflection.TypeNameParser.GetTypeHelper(Char* pTypeName, RuntimeAssembly requestingAssembly, Boolean throwOnError, Boolean requireAssemblyQualifiedName)
+   at System.Reflection.CustomAttribute._CreateCaObject(RuntimeModule pModule, RuntimeType type, IRuntimeMethodInfo pCtor, Byte** ppBlob, Byte* pEndBlob, Int32* pcNamedArgs)
+   at System.Reflection.CustomAttribute.AddCustomAttributes(ListBuilder`1& attributes, RuntimeModule decoratedModule, Int32 decoratedMetadataToken, RuntimeType attributeFilterType, Boolean mustBeInheritable, ListBuilder`1 derivedAttributes)
+   at System.Reflection.CustomAttribute.GetCustomAttributes(RuntimeMethodInfo method, RuntimeType caType, Boolean inherit)
+   at System.Attribute.GetCustomAttributes(MemberInfo element, Type attributeType, Boolean inherit)
+   at System.Reflection.CustomAttributeExtensions.GetCustomAttributes[T](MemberInfo element)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.TryResolveStateMachineMethod(MethodBase& method, Type& declaringType)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetMethodDisplayString(MethodBase method)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetFrames(Exception exception, AggregateException& error)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetStackFrames(Exception original)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetDetails(Exception exception)+MoveNext()
+   at Microsoft.AspNetCore.Diagnostics.RazorViews.ErrorPage.ExecuteAsync()
+   at Microsoft.Extensions.RazorViews.BaseView.ExecuteAsync(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-11-19 15:11:15.832 +07:00 [ERR] Connection id "0HN88DGN6NO3D", Request id "0HN88DGN6NO3D:00000026": An unhandled exception was thrown by the application.
+2024-11-19 15:11:16.113 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+2024-11-19 15:11:16.114 +07:00 [ERR] An exception was thrown attempting to display the error page.
+System.TypeLoadException: Could not resolve type 'AspNetCoreGeneratedDocument.Views_ClientSide_Blog_Blog' in assembly 'Ecommerce-Product, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+   at System.Reflection.TypeNameParser.GetTypeFromDefaultAssemblies(String typeName, ReadOnlySpan`1 nestedTypeNames)
+   at System.Reflection.TypeNameParser.GetType(String typeName, ReadOnlySpan`1 nestedTypeNames, String assemblyNameIfAny)
+   at System.Reflection.TypeNameParser.NestedNamespaceTypeName.ResolveType(TypeNameParser& parser, String containingAssemblyIfAny)
+   at System.Reflection.TypeNameParser.GetTypeHelper(Char* pTypeName, RuntimeAssembly requestingAssembly, Boolean throwOnError, Boolean requireAssemblyQualifiedName)
+   at System.Reflection.CustomAttribute._CreateCaObject(RuntimeModule pModule, RuntimeType type, IRuntimeMethodInfo pCtor, Byte** ppBlob, Byte* pEndBlob, Int32* pcNamedArgs)
+   at System.Reflection.CustomAttribute.AddCustomAttributes(ListBuilder`1& attributes, RuntimeModule decoratedModule, Int32 decoratedMetadataToken, RuntimeType attributeFilterType, Boolean mustBeInheritable, ListBuilder`1 derivedAttributes)
+   at System.Reflection.CustomAttribute.GetCustomAttributes(RuntimeMethodInfo method, RuntimeType caType, Boolean inherit)
+   at System.Attribute.GetCustomAttributes(MemberInfo element, Type attributeType, Boolean inherit)
+   at System.Reflection.CustomAttributeExtensions.GetCustomAttributes[T](MemberInfo element)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.TryResolveStateMachineMethod(MethodBase& method, Type& declaringType)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetMethodDisplayString(MethodBase method)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetFrames(Exception exception, AggregateException& error)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetStackFrames(Exception original)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetDetails(Exception exception)+MoveNext()
+   at Microsoft.AspNetCore.Diagnostics.RazorViews.ErrorPage.ExecuteAsync()
+   at Microsoft.Extensions.RazorViews.BaseView.ExecuteAsync(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-11-19 15:11:16.114 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+2024-11-19 15:11:16.115 +07:00 [ERR] An exception was thrown attempting to display the error page.
+System.TypeLoadException: Could not resolve type 'AspNetCoreGeneratedDocument.Views_ClientSide_Blog_Blog' in assembly 'Ecommerce-Product, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+   at System.Reflection.TypeNameParser.GetTypeFromDefaultAssemblies(String typeName, ReadOnlySpan`1 nestedTypeNames)
+   at System.Reflection.TypeNameParser.GetType(String typeName, ReadOnlySpan`1 nestedTypeNames, String assemblyNameIfAny)
+   at System.Reflection.TypeNameParser.NestedNamespaceTypeName.ResolveType(TypeNameParser& parser, String containingAssemblyIfAny)
+   at System.Reflection.TypeNameParser.GetTypeHelper(Char* pTypeName, RuntimeAssembly requestingAssembly, Boolean throwOnError, Boolean requireAssemblyQualifiedName)
+   at System.Reflection.CustomAttribute._CreateCaObject(RuntimeModule pModule, RuntimeType type, IRuntimeMethodInfo pCtor, Byte** ppBlob, Byte* pEndBlob, Int32* pcNamedArgs)
+   at System.Reflection.CustomAttribute.AddCustomAttributes(ListBuilder`1& attributes, RuntimeModule decoratedModule, Int32 decoratedMetadataToken, RuntimeType attributeFilterType, Boolean mustBeInheritable, ListBuilder`1 derivedAttributes)
+   at System.Reflection.CustomAttribute.GetCustomAttributes(RuntimeMethodInfo method, RuntimeType caType, Boolean inherit)
+   at System.Attribute.GetCustomAttributes(MemberInfo element, Type attributeType, Boolean inherit)
+   at System.Reflection.CustomAttributeExtensions.GetCustomAttributes[T](MemberInfo element)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.TryResolveStateMachineMethod(MethodBase& method, Type& declaringType)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetMethodDisplayString(MethodBase method)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetFrames(Exception exception, AggregateException& error)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetStackFrames(Exception original)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetDetails(Exception exception)+MoveNext()
+   at Microsoft.AspNetCore.Diagnostics.RazorViews.ErrorPage.ExecuteAsync()
+   at Microsoft.Extensions.RazorViews.BaseView.ExecuteAsync(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-11-19 15:11:16.115 +07:00 [ERR] Connection id "0HN88DGN6NO3D", Request id "0HN88DGN6NO3D:00000027": An unhandled exception was thrown by the application.
+2024-11-19 15:11:16.362 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+2024-11-19 15:11:16.362 +07:00 [ERR] An exception was thrown attempting to display the error page.
+System.TypeLoadException: Could not resolve type 'AspNetCoreGeneratedDocument.Views_ClientSide_Blog_Blog' in assembly 'Ecommerce-Product, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+   at System.Reflection.TypeNameParser.GetTypeFromDefaultAssemblies(String typeName, ReadOnlySpan`1 nestedTypeNames)
+   at System.Reflection.TypeNameParser.GetType(String typeName, ReadOnlySpan`1 nestedTypeNames, String assemblyNameIfAny)
+   at System.Reflection.TypeNameParser.NestedNamespaceTypeName.ResolveType(TypeNameParser& parser, String containingAssemblyIfAny)
+   at System.Reflection.TypeNameParser.GetTypeHelper(Char* pTypeName, RuntimeAssembly requestingAssembly, Boolean throwOnError, Boolean requireAssemblyQualifiedName)
+   at System.Reflection.CustomAttribute._CreateCaObject(RuntimeModule pModule, RuntimeType type, IRuntimeMethodInfo pCtor, Byte** ppBlob, Byte* pEndBlob, Int32* pcNamedArgs)
+   at System.Reflection.CustomAttribute.AddCustomAttributes(ListBuilder`1& attributes, RuntimeModule decoratedModule, Int32 decoratedMetadataToken, RuntimeType attributeFilterType, Boolean mustBeInheritable, ListBuilder`1 derivedAttributes)
+   at System.Reflection.CustomAttribute.GetCustomAttributes(RuntimeMethodInfo method, RuntimeType caType, Boolean inherit)
+   at System.Attribute.GetCustomAttributes(MemberInfo element, Type attributeType, Boolean inherit)
+   at System.Reflection.CustomAttributeExtensions.GetCustomAttributes[T](MemberInfo element)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.TryResolveStateMachineMethod(MethodBase& method, Type& declaringType)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetMethodDisplayString(MethodBase method)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetFrames(Exception exception, AggregateException& error)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetStackFrames(Exception original)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetDetails(Exception exception)+MoveNext()
+   at Microsoft.AspNetCore.Diagnostics.RazorViews.ErrorPage.ExecuteAsync()
+   at Microsoft.Extensions.RazorViews.BaseView.ExecuteAsync(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-11-19 15:11:16.363 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+2024-11-19 15:11:16.364 +07:00 [ERR] An exception was thrown attempting to display the error page.
+System.TypeLoadException: Could not resolve type 'AspNetCoreGeneratedDocument.Views_ClientSide_Blog_Blog' in assembly 'Ecommerce-Product, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+   at System.Reflection.TypeNameParser.GetTypeFromDefaultAssemblies(String typeName, ReadOnlySpan`1 nestedTypeNames)
+   at System.Reflection.TypeNameParser.GetType(String typeName, ReadOnlySpan`1 nestedTypeNames, String assemblyNameIfAny)
+   at System.Reflection.TypeNameParser.NestedNamespaceTypeName.ResolveType(TypeNameParser& parser, String containingAssemblyIfAny)
+   at System.Reflection.TypeNameParser.GetTypeHelper(Char* pTypeName, RuntimeAssembly requestingAssembly, Boolean throwOnError, Boolean requireAssemblyQualifiedName)
+   at System.Reflection.CustomAttribute._CreateCaObject(RuntimeModule pModule, RuntimeType type, IRuntimeMethodInfo pCtor, Byte** ppBlob, Byte* pEndBlob, Int32* pcNamedArgs)
+   at System.Reflection.CustomAttribute.AddCustomAttributes(ListBuilder`1& attributes, RuntimeModule decoratedModule, Int32 decoratedMetadataToken, RuntimeType attributeFilterType, Boolean mustBeInheritable, ListBuilder`1 derivedAttributes)
+   at System.Reflection.CustomAttribute.GetCustomAttributes(RuntimeMethodInfo method, RuntimeType caType, Boolean inherit)
+   at System.Attribute.GetCustomAttributes(MemberInfo element, Type attributeType, Boolean inherit)
+   at System.Reflection.CustomAttributeExtensions.GetCustomAttributes[T](MemberInfo element)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.TryResolveStateMachineMethod(MethodBase& method, Type& declaringType)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetMethodDisplayString(MethodBase method)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetFrames(Exception exception, AggregateException& error)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetStackFrames(Exception original)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetDetails(Exception exception)+MoveNext()
+   at Microsoft.AspNetCore.Diagnostics.RazorViews.ErrorPage.ExecuteAsync()
+   at Microsoft.Extensions.RazorViews.BaseView.ExecuteAsync(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-11-19 15:11:16.364 +07:00 [ERR] Connection id "0HN88DGN6NO3D", Request id "0HN88DGN6NO3D:00000028": An unhandled exception was thrown by the application.
+2024-11-19 15:11:16.606 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+2024-11-19 15:11:16.607 +07:00 [ERR] An exception was thrown attempting to display the error page.
+System.TypeLoadException: Could not resolve type 'AspNetCoreGeneratedDocument.Views_ClientSide_Blog_Blog' in assembly 'Ecommerce-Product, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+   at System.Reflection.TypeNameParser.GetTypeFromDefaultAssemblies(String typeName, ReadOnlySpan`1 nestedTypeNames)
+   at System.Reflection.TypeNameParser.GetType(String typeName, ReadOnlySpan`1 nestedTypeNames, String assemblyNameIfAny)
+   at System.Reflection.TypeNameParser.NestedNamespaceTypeName.ResolveType(TypeNameParser& parser, String containingAssemblyIfAny)
+   at System.Reflection.TypeNameParser.GetTypeHelper(Char* pTypeName, RuntimeAssembly requestingAssembly, Boolean throwOnError, Boolean requireAssemblyQualifiedName)
+   at System.Reflection.CustomAttribute._CreateCaObject(RuntimeModule pModule, RuntimeType type, IRuntimeMethodInfo pCtor, Byte** ppBlob, Byte* pEndBlob, Int32* pcNamedArgs)
+   at System.Reflection.CustomAttribute.AddCustomAttributes(ListBuilder`1& attributes, RuntimeModule decoratedModule, Int32 decoratedMetadataToken, RuntimeType attributeFilterType, Boolean mustBeInheritable, ListBuilder`1 derivedAttributes)
+   at System.Reflection.CustomAttribute.GetCustomAttributes(RuntimeMethodInfo method, RuntimeType caType, Boolean inherit)
+   at System.Attribute.GetCustomAttributes(MemberInfo element, Type attributeType, Boolean inherit)
+   at System.Reflection.CustomAttributeExtensions.GetCustomAttributes[T](MemberInfo element)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.TryResolveStateMachineMethod(MethodBase& method, Type& declaringType)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetMethodDisplayString(MethodBase method)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetFrames(Exception exception, AggregateException& error)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetStackFrames(Exception original)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetDetails(Exception exception)+MoveNext()
+   at Microsoft.AspNetCore.Diagnostics.RazorViews.ErrorPage.ExecuteAsync()
+   at Microsoft.Extensions.RazorViews.BaseView.ExecuteAsync(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-11-19 15:11:16.607 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+2024-11-19 15:11:16.608 +07:00 [ERR] An exception was thrown attempting to display the error page.
+System.TypeLoadException: Could not resolve type 'AspNetCoreGeneratedDocument.Views_ClientSide_Blog_Blog' in assembly 'Ecommerce-Product, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+   at System.Reflection.TypeNameParser.GetTypeFromDefaultAssemblies(String typeName, ReadOnlySpan`1 nestedTypeNames)
+   at System.Reflection.TypeNameParser.GetType(String typeName, ReadOnlySpan`1 nestedTypeNames, String assemblyNameIfAny)
+   at System.Reflection.TypeNameParser.NestedNamespaceTypeName.ResolveType(TypeNameParser& parser, String containingAssemblyIfAny)
+   at System.Reflection.TypeNameParser.GetTypeHelper(Char* pTypeName, RuntimeAssembly requestingAssembly, Boolean throwOnError, Boolean requireAssemblyQualifiedName)
+   at System.Reflection.CustomAttribute._CreateCaObject(RuntimeModule pModule, RuntimeType type, IRuntimeMethodInfo pCtor, Byte** ppBlob, Byte* pEndBlob, Int32* pcNamedArgs)
+   at System.Reflection.CustomAttribute.AddCustomAttributes(ListBuilder`1& attributes, RuntimeModule decoratedModule, Int32 decoratedMetadataToken, RuntimeType attributeFilterType, Boolean mustBeInheritable, ListBuilder`1 derivedAttributes)
+   at System.Reflection.CustomAttribute.GetCustomAttributes(RuntimeMethodInfo method, RuntimeType caType, Boolean inherit)
+   at System.Attribute.GetCustomAttributes(MemberInfo element, Type attributeType, Boolean inherit)
+   at System.Reflection.CustomAttributeExtensions.GetCustomAttributes[T](MemberInfo element)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.TryResolveStateMachineMethod(MethodBase& method, Type& declaringType)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetMethodDisplayString(MethodBase method)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetFrames(Exception exception, AggregateException& error)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetStackFrames(Exception original)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetDetails(Exception exception)+MoveNext()
+   at Microsoft.AspNetCore.Diagnostics.RazorViews.ErrorPage.ExecuteAsync()
+   at Microsoft.Extensions.RazorViews.BaseView.ExecuteAsync(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-11-19 15:11:16.608 +07:00 [ERR] Connection id "0HN88DGN6NO3D", Request id "0HN88DGN6NO3D:00000029": An unhandled exception was thrown by the application.
+2024-11-19 15:11:16.740 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+2024-11-19 15:11:16.741 +07:00 [ERR] An exception was thrown attempting to display the error page.
+System.TypeLoadException: Could not resolve type 'AspNetCoreGeneratedDocument.Views_ClientSide_Blog_Blog' in assembly 'Ecommerce-Product, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+   at System.Reflection.TypeNameParser.GetTypeFromDefaultAssemblies(String typeName, ReadOnlySpan`1 nestedTypeNames)
+   at System.Reflection.TypeNameParser.GetType(String typeName, ReadOnlySpan`1 nestedTypeNames, String assemblyNameIfAny)
+   at System.Reflection.TypeNameParser.NestedNamespaceTypeName.ResolveType(TypeNameParser& parser, String containingAssemblyIfAny)
+   at System.Reflection.TypeNameParser.GetTypeHelper(Char* pTypeName, RuntimeAssembly requestingAssembly, Boolean throwOnError, Boolean requireAssemblyQualifiedName)
+   at System.Reflection.CustomAttribute._CreateCaObject(RuntimeModule pModule, RuntimeType type, IRuntimeMethodInfo pCtor, Byte** ppBlob, Byte* pEndBlob, Int32* pcNamedArgs)
+   at System.Reflection.CustomAttribute.AddCustomAttributes(ListBuilder`1& attributes, RuntimeModule decoratedModule, Int32 decoratedMetadataToken, RuntimeType attributeFilterType, Boolean mustBeInheritable, ListBuilder`1 derivedAttributes)
+   at System.Reflection.CustomAttribute.GetCustomAttributes(RuntimeMethodInfo method, RuntimeType caType, Boolean inherit)
+   at System.Attribute.GetCustomAttributes(MemberInfo element, Type attributeType, Boolean inherit)
+   at System.Reflection.CustomAttributeExtensions.GetCustomAttributes[T](MemberInfo element)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.TryResolveStateMachineMethod(MethodBase& method, Type& declaringType)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetMethodDisplayString(MethodBase method)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetFrames(Exception exception, AggregateException& error)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetStackFrames(Exception original)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetDetails(Exception exception)+MoveNext()
+   at Microsoft.AspNetCore.Diagnostics.RazorViews.ErrorPage.ExecuteAsync()
+   at Microsoft.Extensions.RazorViews.BaseView.ExecuteAsync(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-11-19 15:11:16.741 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+2024-11-19 15:11:16.741 +07:00 [ERR] An exception was thrown attempting to display the error page.
+System.TypeLoadException: Could not resolve type 'AspNetCoreGeneratedDocument.Views_ClientSide_Blog_Blog' in assembly 'Ecommerce-Product, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+   at System.Reflection.TypeNameParser.GetTypeFromDefaultAssemblies(String typeName, ReadOnlySpan`1 nestedTypeNames)
+   at System.Reflection.TypeNameParser.GetType(String typeName, ReadOnlySpan`1 nestedTypeNames, String assemblyNameIfAny)
+   at System.Reflection.TypeNameParser.NestedNamespaceTypeName.ResolveType(TypeNameParser& parser, String containingAssemblyIfAny)
+   at System.Reflection.TypeNameParser.GetTypeHelper(Char* pTypeName, RuntimeAssembly requestingAssembly, Boolean throwOnError, Boolean requireAssemblyQualifiedName)
+   at System.Reflection.CustomAttribute._CreateCaObject(RuntimeModule pModule, RuntimeType type, IRuntimeMethodInfo pCtor, Byte** ppBlob, Byte* pEndBlob, Int32* pcNamedArgs)
+   at System.Reflection.CustomAttribute.AddCustomAttributes(ListBuilder`1& attributes, RuntimeModule decoratedModule, Int32 decoratedMetadataToken, RuntimeType attributeFilterType, Boolean mustBeInheritable, ListBuilder`1 derivedAttributes)
+   at System.Reflection.CustomAttribute.GetCustomAttributes(RuntimeMethodInfo method, RuntimeType caType, Boolean inherit)
+   at System.Attribute.GetCustomAttributes(MemberInfo element, Type attributeType, Boolean inherit)
+   at System.Reflection.CustomAttributeExtensions.GetCustomAttributes[T](MemberInfo element)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.TryResolveStateMachineMethod(MethodBase& method, Type& declaringType)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetMethodDisplayString(MethodBase method)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetFrames(Exception exception, AggregateException& error)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetStackFrames(Exception original)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetDetails(Exception exception)+MoveNext()
+   at Microsoft.AspNetCore.Diagnostics.RazorViews.ErrorPage.ExecuteAsync()
+   at Microsoft.Extensions.RazorViews.BaseView.ExecuteAsync(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-11-19 15:11:16.742 +07:00 [ERR] Connection id "0HN88DGN6NO3D", Request id "0HN88DGN6NO3D:0000002A": An unhandled exception was thrown by the application.
+2024-11-19 15:11:16.881 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+2024-11-19 15:11:16.881 +07:00 [ERR] An exception was thrown attempting to display the error page.
+System.TypeLoadException: Could not resolve type 'AspNetCoreGeneratedDocument.Views_ClientSide_Blog_Blog' in assembly 'Ecommerce-Product, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+   at System.Reflection.TypeNameParser.GetTypeFromDefaultAssemblies(String typeName, ReadOnlySpan`1 nestedTypeNames)
+   at System.Reflection.TypeNameParser.GetType(String typeName, ReadOnlySpan`1 nestedTypeNames, String assemblyNameIfAny)
+   at System.Reflection.TypeNameParser.NestedNamespaceTypeName.ResolveType(TypeNameParser& parser, String containingAssemblyIfAny)
+   at System.Reflection.TypeNameParser.GetTypeHelper(Char* pTypeName, RuntimeAssembly requestingAssembly, Boolean throwOnError, Boolean requireAssemblyQualifiedName)
+   at System.Reflection.CustomAttribute._CreateCaObject(RuntimeModule pModule, RuntimeType type, IRuntimeMethodInfo pCtor, Byte** ppBlob, Byte* pEndBlob, Int32* pcNamedArgs)
+   at System.Reflection.CustomAttribute.AddCustomAttributes(ListBuilder`1& attributes, RuntimeModule decoratedModule, Int32 decoratedMetadataToken, RuntimeType attributeFilterType, Boolean mustBeInheritable, ListBuilder`1 derivedAttributes)
+   at System.Reflection.CustomAttribute.GetCustomAttributes(RuntimeMethodInfo method, RuntimeType caType, Boolean inherit)
+   at System.Attribute.GetCustomAttributes(MemberInfo element, Type attributeType, Boolean inherit)
+   at System.Reflection.CustomAttributeExtensions.GetCustomAttributes[T](MemberInfo element)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.TryResolveStateMachineMethod(MethodBase& method, Type& declaringType)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetMethodDisplayString(MethodBase method)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetFrames(Exception exception, AggregateException& error)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetStackFrames(Exception original)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetDetails(Exception exception)+MoveNext()
+   at Microsoft.AspNetCore.Diagnostics.RazorViews.ErrorPage.ExecuteAsync()
+   at Microsoft.Extensions.RazorViews.BaseView.ExecuteAsync(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-11-19 15:11:16.882 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+2024-11-19 15:11:16.882 +07:00 [ERR] An exception was thrown attempting to display the error page.
+System.TypeLoadException: Could not resolve type 'AspNetCoreGeneratedDocument.Views_ClientSide_Blog_Blog' in assembly 'Ecommerce-Product, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+   at System.Reflection.TypeNameParser.GetTypeFromDefaultAssemblies(String typeName, ReadOnlySpan`1 nestedTypeNames)
+   at System.Reflection.TypeNameParser.GetType(String typeName, ReadOnlySpan`1 nestedTypeNames, String assemblyNameIfAny)
+   at System.Reflection.TypeNameParser.NestedNamespaceTypeName.ResolveType(TypeNameParser& parser, String containingAssemblyIfAny)
+   at System.Reflection.TypeNameParser.GetTypeHelper(Char* pTypeName, RuntimeAssembly requestingAssembly, Boolean throwOnError, Boolean requireAssemblyQualifiedName)
+   at System.Reflection.CustomAttribute._CreateCaObject(RuntimeModule pModule, RuntimeType type, IRuntimeMethodInfo pCtor, Byte** ppBlob, Byte* pEndBlob, Int32* pcNamedArgs)
+   at System.Reflection.CustomAttribute.AddCustomAttributes(ListBuilder`1& attributes, RuntimeModule decoratedModule, Int32 decoratedMetadataToken, RuntimeType attributeFilterType, Boolean mustBeInheritable, ListBuilder`1 derivedAttributes)
+   at System.Reflection.CustomAttribute.GetCustomAttributes(RuntimeMethodInfo method, RuntimeType caType, Boolean inherit)
+   at System.Attribute.GetCustomAttributes(MemberInfo element, Type attributeType, Boolean inherit)
+   at System.Reflection.CustomAttributeExtensions.GetCustomAttributes[T](MemberInfo element)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.TryResolveStateMachineMethod(MethodBase& method, Type& declaringType)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetMethodDisplayString(MethodBase method)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetFrames(Exception exception, AggregateException& error)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetStackFrames(Exception original)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetDetails(Exception exception)+MoveNext()
+   at Microsoft.AspNetCore.Diagnostics.RazorViews.ErrorPage.ExecuteAsync()
+   at Microsoft.Extensions.RazorViews.BaseView.ExecuteAsync(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-11-19 15:11:16.882 +07:00 [ERR] Connection id "0HN88DGN6NO3D", Request id "0HN88DGN6NO3D:0000002B": An unhandled exception was thrown by the application.
+2024-11-19 15:14:41.428 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+2024-11-19 15:14:41.429 +07:00 [ERR] An exception was thrown attempting to display the error page.
+System.TypeLoadException: Could not resolve type 'AspNetCoreGeneratedDocument.Views_ClientSide_Blog_Blog' in assembly 'Ecommerce-Product, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+   at System.Reflection.TypeNameParser.GetTypeFromDefaultAssemblies(String typeName, ReadOnlySpan`1 nestedTypeNames)
+   at System.Reflection.TypeNameParser.GetType(String typeName, ReadOnlySpan`1 nestedTypeNames, String assemblyNameIfAny)
+   at System.Reflection.TypeNameParser.NestedNamespaceTypeName.ResolveType(TypeNameParser& parser, String containingAssemblyIfAny)
+   at System.Reflection.TypeNameParser.GetTypeHelper(Char* pTypeName, RuntimeAssembly requestingAssembly, Boolean throwOnError, Boolean requireAssemblyQualifiedName)
+   at System.Reflection.CustomAttribute._CreateCaObject(RuntimeModule pModule, RuntimeType type, IRuntimeMethodInfo pCtor, Byte** ppBlob, Byte* pEndBlob, Int32* pcNamedArgs)
+   at System.Reflection.CustomAttribute.AddCustomAttributes(ListBuilder`1& attributes, RuntimeModule decoratedModule, Int32 decoratedMetadataToken, RuntimeType attributeFilterType, Boolean mustBeInheritable, ListBuilder`1 derivedAttributes)
+   at System.Reflection.CustomAttribute.GetCustomAttributes(RuntimeMethodInfo method, RuntimeType caType, Boolean inherit)
+   at System.Attribute.GetCustomAttributes(MemberInfo element, Type attributeType, Boolean inherit)
+   at System.Reflection.CustomAttributeExtensions.GetCustomAttributes[T](MemberInfo element)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.TryResolveStateMachineMethod(MethodBase& method, Type& declaringType)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetMethodDisplayString(MethodBase method)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetFrames(Exception exception, AggregateException& error)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetStackFrames(Exception original)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetDetails(Exception exception)+MoveNext()
+   at Microsoft.AspNetCore.Diagnostics.RazorViews.ErrorPage.ExecuteAsync()
+   at Microsoft.Extensions.RazorViews.BaseView.ExecuteAsync(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-11-19 15:14:41.429 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+2024-11-19 15:14:41.429 +07:00 [ERR] An exception was thrown attempting to display the error page.
+System.TypeLoadException: Could not resolve type 'AspNetCoreGeneratedDocument.Views_ClientSide_Blog_Blog' in assembly 'Ecommerce-Product, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+   at System.Reflection.TypeNameParser.GetTypeFromDefaultAssemblies(String typeName, ReadOnlySpan`1 nestedTypeNames)
+   at System.Reflection.TypeNameParser.GetType(String typeName, ReadOnlySpan`1 nestedTypeNames, String assemblyNameIfAny)
+   at System.Reflection.TypeNameParser.NestedNamespaceTypeName.ResolveType(TypeNameParser& parser, String containingAssemblyIfAny)
+   at System.Reflection.TypeNameParser.GetTypeHelper(Char* pTypeName, RuntimeAssembly requestingAssembly, Boolean throwOnError, Boolean requireAssemblyQualifiedName)
+   at System.Reflection.CustomAttribute._CreateCaObject(RuntimeModule pModule, RuntimeType type, IRuntimeMethodInfo pCtor, Byte** ppBlob, Byte* pEndBlob, Int32* pcNamedArgs)
+   at System.Reflection.CustomAttribute.AddCustomAttributes(ListBuilder`1& attributes, RuntimeModule decoratedModule, Int32 decoratedMetadataToken, RuntimeType attributeFilterType, Boolean mustBeInheritable, ListBuilder`1 derivedAttributes)
+   at System.Reflection.CustomAttribute.GetCustomAttributes(RuntimeMethodInfo method, RuntimeType caType, Boolean inherit)
+   at System.Attribute.GetCustomAttributes(MemberInfo element, Type attributeType, Boolean inherit)
+   at System.Reflection.CustomAttributeExtensions.GetCustomAttributes[T](MemberInfo element)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.TryResolveStateMachineMethod(MethodBase& method, Type& declaringType)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetMethodDisplayString(MethodBase method)
+   at Microsoft.Extensions.StackTrace.Sources.StackTraceHelper.GetFrames(Exception exception, AggregateException& error)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetStackFrames(Exception original)
+   at Microsoft.Extensions.StackTrace.Sources.ExceptionDetailsProvider.GetDetails(Exception exception)+MoveNext()
+   at Microsoft.AspNetCore.Diagnostics.RazorViews.ErrorPage.ExecuteAsync()
+   at Microsoft.Extensions.RazorViews.BaseView.ExecuteAsync(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-11-19 15:16:00.659 +07:00 [WRN] Failed to determine the https port for redirect.
+2024-11-19 15:16:01.914 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at AspNetCoreGeneratedDocument.Views_ClientSide_Blog_Blog.ExecuteAsync() in C:\Users\QuanDEV\Ecommerce-Product\Views\ClientSide\Blog\Blog.cshtml:line 107
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ActionContext actionContext, IView view, ViewDataDictionary viewData, ITempDataDictionary tempData, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor.ExecuteAsync(ActionContext context, ViewResult result)
+   at Microsoft.AspNetCore.Mvc.ViewResult.ExecuteResultAsync(ActionContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Ecommerce_Product.Support_Serive.NotFoundMiddleware.InvokeAsync(HttpContext context) in C:\Users\QuanDEV\Ecommerce-Product\Support_Service\NotFoundMiddleware.cs:line 54
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-11-19 15:16:25.816 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at AspNetCoreGeneratedDocument.Views_ClientSide_Blog_Blog.ExecuteAsync() in C:\Users\QuanDEV\Ecommerce-Product\Views\ClientSide\Blog\Blog.cshtml:line 107
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ActionContext actionContext, IView view, ViewDataDictionary viewData, ITempDataDictionary tempData, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor.ExecuteAsync(ActionContext context, ViewResult result)
+   at Microsoft.AspNetCore.Mvc.ViewResult.ExecuteResultAsync(ActionContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Ecommerce_Product.Support_Serive.NotFoundMiddleware.InvokeAsync(HttpContext context) in C:\Users\QuanDEV\Ecommerce-Product\Support_Service\NotFoundMiddleware.cs:line 54
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-11-19 15:16:48.406 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-11-19 15:17:36.838 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-11-19 15:28:26.097 +07:00 [WRN] Failed to determine the https port for redirect.
+2024-11-19 15:28:27.290 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-11-19 15:28:47.113 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-11-19 15:39:30.381 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-11-19 16:08:31.667 +07:00 [INF] Running in Login Action
+2024-11-19 16:08:37.126 +07:00 [INF] Running in Login Action
+2024-11-19 16:17:08.576 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-11-19 16:21:27.613 +07:00 [INF] admin123 delete product 72 successfully
+2024-11-19 17:42:55.658 +07:00 [INF] admin123 delete product 79 successfully
+2024-11-19 17:43:00.073 +07:00 [INF] admin123 delete product 78 successfully
+2024-11-19 17:43:04.150 +07:00 [INF] admin123 delete product 77 successfully
+2024-11-19 17:43:08.367 +07:00 [INF] admin123 delete product 76 successfully
+2024-11-19 17:43:17.892 +07:00 [INF] admin123 delete product 75 successfully
+2024-11-19 17:57:30.286 +07:00 [INF] admin123 delete product 81 successfully
+2024-11-19 17:57:32.963 +07:00 [INF] admin123 delete product 80 successfully
+2024-11-19 17:57:36.444 +07:00 [INF] admin123 delete product 82 successfully
+2024-11-19 17:57:40.576 +07:00 [INF] admin123 delete product 83 successfully
+2024-11-19 17:57:43.450 +07:00 [INF] admin123 delete product 87 successfully
+2024-11-19 17:57:45.661 +07:00 [INF] admin123 delete product 86 successfully
+2024-11-19 17:57:48.503 +07:00 [INF] admin123 delete product 85 successfully
+2024-11-19 17:57:50.604 +07:00 [INF] admin123 delete product 84 successfully
+2024-11-19 18:08:27.332 +07:00 [WRN] Failed to determine the https port for redirect.
+2024-11-19 18:08:49.952 +07:00 [INF] Running in Login Action
+2024-11-19 18:16:00.072 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-11-19 18:16:05.137 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-11-19 18:16:05.205 +07:00 [INF] admin123 delete product 93 successfully
+2024-11-19 18:16:08.145 +07:00 [INF] admin123 delete product 92 successfully
+2024-11-19 18:16:10.773 +07:00 [INF] admin123 delete product 91 successfully
+2024-11-19 18:16:13.191 +07:00 [INF] admin123 delete product 90 successfully
+2024-11-19 18:16:17.218 +07:00 [INF] admin123 delete product 89 successfully
+2024-11-19 18:36:12.994 +07:00 [ERR] Failed executing DbCommand (19,173ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT v.id, v.versionname
+FROM "Version" AS v
+WHERE FALSE
+LIMIT 1
+2024-11-19 18:36:13.015 +07:00 [ERR] An exception occurred while iterating over the results of a query for context type 'Ecommerce_Product.Models.EcommerceshopContext'.
+System.InvalidOperationException: An exception has been raised that is likely due to a transient failure.
+ ---> Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.IO.IOException: Unable to read data from the transport connection: An existing connection was forcibly closed by the remote host..
+ ---> System.Net.Sockets.SocketException (10054): An existing connection was forcibly closed by the remote host.
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource<System.Int32>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](CancellationToken cancellationToken, Int32 estimatedSize)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.ReadAsyncInternal[TIOAdapter](Memory`1 buffer, CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|55_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|55_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+System.InvalidOperationException: An exception has been raised that is likely due to a transient failure.
+ ---> Npgsql.NpgsqlException (0x80004005): Exception while reading from stream
+ ---> System.IO.IOException: Unable to read data from the transport connection: An existing connection was forcibly closed by the remote host..
+ ---> System.Net.Sockets.SocketException (10054): An existing connection was forcibly closed by the remote host.
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource<System.Int32>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](CancellationToken cancellationToken, Int32 estimatedSize)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at System.Net.Security.SslStream.ReadAsyncInternal[TIOAdapter](Memory`1 buffer, CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|55_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at Npgsql.Internal.NpgsqlReadBuffer.<Ensure>g__EnsureLong|55_0(NpgsqlReadBuffer buffer, Int32 count, Boolean async, Boolean readingNotifications)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2024-11-19 18:36:51.196 +07:00 [INF] admin123 delete product 96 successfully

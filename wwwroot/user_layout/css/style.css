@@ -886,6 +886,21 @@ input {
   border-bottom-color: #fcbe00;
 }
 
+.hidden {
+  display: none;
+}
+
+.sidebox-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out!important;
+}
+
+.sidebox-content.active {
+  max-height: 1000px;
+  display: block!important; /* Set a high enough value to accommodate content height */
+}
+
 /*----------------------------------------*/
 /*  07. section-title CSS
 /*----------------------------------------*/
@@ -1414,10 +1429,40 @@ input {
     padding: 15px 0;
   }
 }
+.icon-submenu {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  border: 1px solid transparent; }
+
+  .icon-submenu:hover
+  {
+  border:1px solid #e6f2f4;
+  }
+
+
 
 .side-menu-btn {
   color: #ffffff;
   font-size: 25px;
+}
+
+.submenu-links {
+  max-height: 0;
+  transition: max-height 0.3s ease !important;
+}
+
+.submenu-links.active {
+  max-height: 500px!important;
+  display: block!important; /* Adjust to the maximum height of the submenu */
 }
 
 .header__bottom-left {

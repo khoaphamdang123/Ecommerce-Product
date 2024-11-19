@@ -914,6 +914,7 @@ if(img_files!=null)
    if(i==0)
    {
    front_avatar=file_path;
+   
    if(!string.IsNullOrEmpty(product_ob.Frontavatar))
    {
     temp_front_avatar=product_ob.Frontavatar;

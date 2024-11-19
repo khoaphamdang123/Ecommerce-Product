@@ -10,6 +10,8 @@ public interface IBlogRepository
 
   public Task<Blog> findBlogById(int id);
 
+  public Task<IEnumerable<Blog>> findBlogByCategory(int cat_id);
+
   public Task<int> addBlog(BlogModel blog);
 
   public Task<int> updateBlog(int id,BlogModel blog);

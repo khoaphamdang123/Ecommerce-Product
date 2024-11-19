@@ -36,6 +36,13 @@ public class BlogListService:IBlogRepository
    return paging_list_file;
   }
 
+  public async Task<IEnumerable<Blog>> findBlogByCategory(int cat_id)
+  {
+    var blogs=await this._context.Blogs.Where(s=>s.CategoryId==cat_id).ToListAsync();
+    return blogs;
+  }
+
+
     public async Task<Blog> findBlogById(int id)
     {
         var blog=await this._context.Blogs.FirstOrDefaultAsync(s=>s.Id==id);

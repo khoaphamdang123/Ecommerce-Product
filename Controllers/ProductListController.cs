@@ -218,11 +218,12 @@ public class ProductListController : Controller
     ViewBag.SubCatList=sub_cat_list;
     return View();
   }
-  [Route("product_list/add_val")]
 
+  
+  [Route("product_list/add_val")]
   [HttpPost]
   public async Task<JsonResult> GetSampleData(AddProductModel model)
-{ Console.WriteLine("used to stay here");
+{ Console.WriteLine("used to stay here:"+model.ProductName);
     StatusResponse response_data; 
 
     int created_res = await this._product.addNewProduct(model);

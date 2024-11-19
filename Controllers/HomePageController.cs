@@ -10,7 +10,7 @@ public class HomePageController:BaseController
 
  private readonly ICategoryListRepository _category;
 
- private readonly ILogger<HomePageController> _logger;
+ private readonly ILogger<HomePageController> _logger; 
 
 public HomePageController(IBannerListRepository banner,IProductRepository product,ICategoryListRepository category,ILogger<HomePageController> logger):base(category)
 {
