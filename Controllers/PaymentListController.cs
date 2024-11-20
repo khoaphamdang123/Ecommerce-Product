@@ -23,13 +23,15 @@ public class PaymentListController : Controller
    public PaymentListController(IPaymentRepository payment,ILogger<PaymentListController> logger)
    {
   this._payment=payment;
+
   this._logger=logger;   
    }
   //[Authorize(Roles ="Admin")]
   [Route("payment")]
   [HttpGet]
   public async Task<IActionResult> PaymentList()
-  {       string select_size="7";
+  {       
+          string select_size="7";
           ViewBag.select_size=select_size;
           List<string> options=new List<string>(){"7","10","20","50"};
           ViewBag.options=options;
@@ -43,6 +45,7 @@ public class PaymentListController : Controller
         this._logger.LogTrace("Get Static File List Exception:"+er.Message);
     }
     return View();
+    
   }
 
 

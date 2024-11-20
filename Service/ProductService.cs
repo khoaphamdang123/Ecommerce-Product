@@ -54,7 +54,7 @@ public class ProductService:IProductRepository
   }
  public async Task<Product> findProductById(int id)
  {
-    var product=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(i=>i.ProductImages).Include(c=>c.Variants).ThenInclude(v=>v.Color).Include(c=>c.Variants).ThenInclude(v=>v.Size).Include(c=>c.Variants).ThenInclude(c=>c.Version).Include(c=>c.Variants).ThenInclude(c=>c.Mirror).Include(c=>c.Videos).Include(c=>c.Manuals).FirstOrDefaultAsync(p=>p.Id==id);
+    var product=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(i=>i.ProductImages).Include(c=>c.Variants).ThenInclude(v=>v.Color).Include(c=>c.Variants).ThenInclude(v=>v.Size).Include(c=>c.Variants).ThenInclude(c=>c.Version).Include(c=>c.Variants).ThenInclude(c=>c.Mirror).Include(c=>c.Videos).Include(c=>c.Manuals).Include(c=>c.ProductImages).FirstOrDefaultAsync(p=>p.Id==id);
     return product;
  }
 
@@ -276,15 +276,22 @@ public async Task<int> countProductRatingByStar(int star,int product_id)
 
 private async Task<int> calculateAvgStar(Dictionary<int,int> list_star)
 {  int total_star=0;
+
    int total_reviews=0;
+   
    foreach(KeyValuePair<int,int> kvp in list_star)
    {
      int star=kvp.Key;
+
      int count=kvp.Value;
+     
      total_star+=star*count;
+     
      total_reviews+=count;
    }
+   
    int avg=0;
+   
    if(total_reviews!=0)
    {
     avg=total_star/total_reviews;
@@ -293,6 +300,8 @@ private async Task<int> calculateAvgStar(Dictionary<int,int> list_star)
 }
 
 public async Task<int>getSingleProductRating(int product_id)
+{ int value=0;
+try
 {
   List<int> stars=new List<int>{5,4,3,2,1};
   Dictionary<int,int> dict=new Dictionary<int, int>();
@@ -303,6 +312,12 @@ public async Task<int>getSingleProductRating(int product_id)
   }
   int avg_rate=await this.calculateAvgStar(dict);
   return avg_rate;
+}
+catch(Exception er)
+{
+  Console.WriteLine("Get Single Product Rating Exception:"+er.Message);
+}
+return value;
 }
 public async Task<List<Product>> getListProductRating(int star)
 { List<Product> list_prod= new List<Product>();
@@ -646,9 +661,11 @@ if(img_files!=null)
  { 
    var img=img_files[i];
    
-   string file_name=Guid.NewGuid()+"_"+Path.GetFileName(img.FileName);
-   
-   string file_path=Path.Combine(upload_path,file_name);
+  string extension=Path.GetExtension(img.FileName);
+
+  string file_name=Guid.NewGuid().ToString()+extension;
+
+  string file_path = Path.Combine(upload_path,file_name);
    if(i==0)
    {
    front_avatar=file_path;
@@ -668,12 +685,14 @@ if(img_files!=null)
 List<ProductImage> list_img=new List<ProductImage>();
 
 if(variant_files!=null)
-{
+{ 
 for(int i=0;i<variant_files.Count;i++)
 {
   var img = variant_files[i];
 
-  string file_name=Guid.NewGuid()+"_"+Path.GetFileName(img.FileName);
+  string extension=Path.GetExtension(img.FileName);
+
+  string file_name=Guid.NewGuid().ToString()+extension;
 
   string file_path = Path.Combine(upload_path,file_name);
 
@@ -810,6 +829,8 @@ string product_name=model.ProductName;
    
    List<IFormFile> variant_files = model.VariantFiles;
 
+  //  Console.WriteLine("Lengh of variant file here is:"+variant_files.Count);
+
           // Console.WriteLine("variant file:"+variant_files.Count);
 
    
@@ -901,16 +922,19 @@ string product_name=model.ProductName;
  }
 
 
-
+Console.WriteLine("did here");
 if(img_files!=null)
-{
+{ Console.WriteLine("img avatar here");
  for(int i=0;i<img_files.Count;i++)
  { 
    var img=img_files[i];
    
-   string file_name=Guid.NewGuid()+"_"+Path.GetFileName(img.FileName);
+   string extension=Path.GetExtension(img.FileName);
+
+  string file_name=Guid.NewGuid().ToString()+extension;
+
+  string file_path = Path.Combine(upload_path,file_name);
    
-   string file_path=Path.Combine(upload_path,file_name);
    if(i==0)
    {
    front_avatar=file_path;
@@ -928,23 +952,36 @@ if(img_files!=null)
       temp_back_avatar=product_ob.Backavatar;
     }
    }
-    
+ 
    using(var fileStream=new FileStream(file_path,FileMode.Create))
    {
     await img.CopyToAsync(fileStream);
-   }
+   
+  }
  }
+}
+else
+{   if(!string.IsNullOrEmpty(product_ob.Frontavatar))
+   {
+    temp_front_avatar=product_ob.Frontavatar;
+   }
+    if(!string.IsNullOrEmpty(product_ob.Backavatar))
+    {
+      temp_back_avatar=product_ob.Backavatar;
+    }
 }
 
 List<ProductImage> list_img=new List<ProductImage>();
 
 if(variant_files!=null)
-{
+{Console.WriteLine("Lengh of variant file here is:"+variant_files.Count);
 for(int i=0;i<variant_files.Count;i++)
 {
   var img = variant_files[i];
 
-  string file_name=Guid.NewGuid()+"_"+Path.GetFileName(img.FileName);
+ string extension=Path.GetExtension(img.FileName);
+
+  string file_name=Guid.NewGuid().ToString()+extension;
 
   string file_path = Path.Combine(upload_path,file_name);
 
@@ -966,9 +1003,20 @@ for(int i=0;i<variant_files.Count;i++)
   }
 }
 }
+else
+{ Console.WriteLine("In this else case");
+  foreach(var prod_img in product_ob.ProductImages)
+  {
+    if(!string.IsNullOrEmpty(prod_img.Avatar))
+    {
+      temp_list_img.Add(prod_img.Avatar);
+    }
+  }
+  Console.WriteLine("temp list img count:"+temp_list_img.Count);
+}
 
 
- var product= new Product{ProductName=product_name,CategoryId=category,SubCatId=sub_cat==-1?null:sub_cat,BrandId=brand==-1?null:brand,Price=price.ToString(),Quantity=quantity,Status=status,Description=description,Statdescription=stat_description,InboxDescription=inbox_description,DiscountDescription=discount_description,Frontavatar=string.IsNullOrEmpty(front_avatar)?product_ob.Frontavatar:front_avatar,Backavatar=string.IsNullOrEmpty(back_avatar)?product_ob.Backavatar:back_avatar,UpdatedDate=updated_date,ProductImages=list_img.Count==0?product_ob.ProductImages:list_img,Variants=variant};
+ var product= new Product{ProductName=product_name,CategoryId=category,SubCatId=sub_cat==-1?null:sub_cat,BrandId=brand==-1?null:brand,Price=price.ToString(),Quantity=quantity,Status=status,Description=description,Statdescription=stat_description,InboxDescription=inbox_description,DiscountDescription=discount_description,Frontavatar=string.IsNullOrEmpty(front_avatar)?"":front_avatar,Backavatar=string.IsNullOrEmpty(back_avatar)?"":back_avatar,UpdatedDate=updated_date,ProductImages=list_img.Count==0?list_img:list_img,Variants=variant};
 
   if(product_ob!=null)
   {
@@ -981,6 +1029,8 @@ for(int i=0;i<variant_files.Count;i++)
     product_ob.Frontavatar=product.Frontavatar;
     product_ob.Backavatar=product.Backavatar;
     product_ob.ProductImages=product.ProductImages;
+      Console.WriteLine("DID STAY HEREe");
+
     product_ob.Variants=product.Variants;
     product_ob.Status=product.Status;
     product_ob.Description=product.Description;
@@ -989,6 +1039,7 @@ for(int i=0;i<variant_files.Count;i++)
     product_ob.DiscountDescription=product.DiscountDescription;
     this._context.Products.Update(product_ob);
     await this.saveChanges();
+    Console.WriteLine("DID STAY HERE");
     updated_res=1;
     if(!string.IsNullOrEmpty(temp_front_avatar))
     {

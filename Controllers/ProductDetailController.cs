@@ -31,12 +31,16 @@ public ProductDetailController(IBannerListRepository banner,IProductRepository p
 public async Task<IActionResult> ProductDetail(string product_name)
 {   
   //var banners= await this._banner.findBannerByName("Home");
+ try
+ {  
+    product_name=Uri.UnescapeDataString(product_name);
+ 
     var products = await this._product.getAllProduct();
     
     var categories = await this._category.getAllCategory();
     
     var brands = await this._category.getAllBrandList();
-    //ViewBag.banners=banners;
+
     ViewBag.products = products;
     
     ViewBag.categories=categories;
@@ -46,21 +50,30 @@ public async Task<IActionResult> ProductDetail(string product_name)
     Dictionary<string,int> count_stars=new Dictionary<string, int>();    
     
     Console.WriteLine("Product name here is:"+product_name);
-    
+
     var product= await this._product.findProductByName(product_name);
     
     if(product!=null)
     { 
       var products_image=product.ProductImages.Count;
-       var manual = await this._product.findManualByLanguage("English",product);
+      
+      var manual = await this._product.findManualByLanguage("English",product);
+      
        if(manual!=null)
        {
         ViewBag.manual_link=manual.ManualLink;
        }
+      
       List<Product> single_product = new List<Product>{product};
+      
       var count_reviews=await this._product.countAllReview(single_product);            
+      
       ViewBag.count_reviews=count_reviews;
+      
+      Console.WriteLine("Product Id here is:"+product.Id);
+      
       int rating_star=await this._product.getSingleProductRating(product.Id);      
+      
       ViewBag.rating_star=rating_star;
       for(int i=1;i<=5;i++)
     {
@@ -102,7 +115,19 @@ public async Task<IActionResult> ProductDetail(string product_name)
         product.DiscountDescription=HttpUtility.HtmlDecode(product.DiscountDescription);
       }
     }    
-    return View("~/Views/ClientSide/ProductDetail/ProductDetail.cshtml",product);          
+  else
+  {
+    Console.WriteLine("Product here is null");
+  }
+    return View("~/Views/ClientSide/ProductDetail/ProductDetail.cshtml",product);
+ }
+ catch(Exception er)
+ {
+    Console.WriteLine("Product Detail Exception:"+er.Message);
+    this._logger.LogError("Product Detail Exception:"+er.Message);
+ }          
+    return View("~/Views/ClientSide/ProductDetail/ProductDetail.cshtml");
+
 }
 
 [HttpPost]

@@ -74,10 +74,10 @@
                          <div class="col-xl-6 col-lg-6 col-md-6">
                                 <div class="banner__item p-relative w-img mb-30">
                                     <div class="banner__img b-radius-2">
-                                        <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=products[i].ProductName})"><img src="~/@products[i].Frontavatar.Substring(products[i].Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt=""></a>
+                                        <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=products[i].ProductName.Replace("/","%2F")})"><img src="~/@products[i].Frontavatar.Substring(products[i].Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt=""></a>
                                     </div>
                                     <div class="banner__content banner__content-2">
-                                        <h6 style="color: #fcbe00; font-weight: bold;"><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=products[i].ProductName})">@products[i].ProductName</a></h6>
+                                        <h6 style="color: #fcbe00; font-weight: bold;"><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=products[i].ProductName.Replace("/","%2F")})">@products[i].ProductName</a></h6>
                                         <p style="color: #fcbe00; font-weight: bold;">@products[i].Category.CategoryName</p>
                                     </div>
                                 </div>
@@ -115,7 +115,7 @@
                         <div class="product__item product__item-2 b-radius-2 mb-20">
                             <div class="product__thumb fix">
                                 <div class="product-image w-img">
-                                    <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=product.ProductName})">
+                                    <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=product.ProductName.Replace("/","%2F")})">
                                         <img src="~/@product.Frontavatar.Substring(product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="product">
                                     </a>
                                 </div>
@@ -141,14 +141,14 @@
                                         <i class="fal fa-eye"></i>
                                         <i class="fal fa-eye"></i>
                                     </a>
-                                    <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=product.ProductName})"  class="icon-box icon-box-1">
+                                    <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=product.ProductName.Replace("/","%2F")})"  class="icon-box icon-box-1">
                                         <i class="fal fa-layer-group"></i>
                                         <i class="fal fa-layer-group"></i>
                                     </a>
                                 </div>
                             </div>
                             <div class="product__content product__content-2">
-                                <h6><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=product.ProductName})">@product.ProductName</a></h6>
+                                <h6><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=product.ProductName.Replace("/","%2F")})">@product.ProductName</a></h6>
                                 <div class="rating mb-5 mt-10">
                                     <ul>
                                         <li><a href="#"><i class="fal fa-star"></i></a></li>
@@ -232,7 +232,7 @@
                         <div class="product__item product__item-2 b-radius-2 mb-20">
                             <div class="product__thumb fix">
                                 <div class="product-image w-img">
-                                    <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=product.ProductName})">
+                                    <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=product.ProductName.Replace("/","%2F")})">
                                         <img src="~/@product.Frontavatar.Substring(product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="product">
                                     </a>
                                 </div>
@@ -256,14 +256,14 @@
                                         <i class="fal fa-eye"></i>
                                     </a>
                         
-                                    <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=product.ProductName})"  class="icon-box icon-box-1">
+                                    <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=product.ProductName.Replace("/","%2F")})"  class="icon-box icon-box-1">
                                         <i class="fal fa-layer-group"></i>
                                         <i class="fal fa-layer-group"></i>
                                     </a>
                                 </div>
                             </div>
                             <div class="product__content product__content-2">
-                                <h6><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=product.ProductName})">@product.ProductName</a></h6>
+                                <h6><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=product.ProductName.Replace("/","%2F")})">@product.ProductName</a></h6>
                                 <div class="rating mb-5 mt-10">
                                     <ul>
                                         <li><a href="#"><i class="fal fa-star"></i></a></li>
