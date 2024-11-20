@@ -207,6 +207,26 @@ public async Task<bool> checkUserExist(string email,string username)
    var user=await this._userManager.FindByIdAsync(id);
    if(user!=null)
    {
+     if(user_info.UserName=="company")
+     {Console.WriteLine("jeree");
+      user.UserName=user_info.UserName;
+      user.Email=user_info.Email;
+      user.PhoneNumber=user_info.PhoneNumber;
+      user.Address1=user_info.Address1;
+      user.Address2=user_info.Address2;
+    
+      var res_update_company=await this._userManager.UpdateAsync(user);
+      if(!res_update_company.Succeeded)
+      {Console.WriteLine("Error update user");
+        foreach(var err in res_update_company.Errors)
+        {
+            Console.WriteLine("Error update user:"+err.Description);
+        }
+      }
+      res=1;
+      return res;
+     }
+
       user.UserName=user_info.UserName;
       user.Email=user_info.Email;
       user.PhoneNumber=user_info.PhoneNumber;
@@ -214,6 +234,8 @@ public async Task<bool> checkUserExist(string email,string username)
       user.Address2=user_info.Address2;
       user.Gender=user_info.Gender;
       cur_avatar=user.Avatar;
+  
+  
     
    string folder_name="UploadImageUser";
 

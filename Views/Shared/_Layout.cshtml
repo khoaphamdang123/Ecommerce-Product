@@ -177,6 +177,12 @@
                 <div data-i18n="Analytics">Dashboard</div>
               </a>
             </li>
+           <li class="menu-item">
+              <a href="@Url.Action("GeneralInfo","GeneralInfo")" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <div data-i18n="Analytics">Thông tin chung</div>
+              </a>
+            </li>
             <li class="menu-item @(view_controller=="UserList"?"active open":"")">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-user"></i>
@@ -214,6 +220,7 @@
                 </li>
               </ul>
             </li>
+
 
               <li class="menu-item @(view_controller=="CategoryList"?"active open":"")">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -486,7 +493,6 @@
           }
         <main role="main" class="pb-3">
             @RenderBody()
-
         </main>
         </div>
       </div>

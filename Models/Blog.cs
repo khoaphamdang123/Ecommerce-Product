@@ -29,10 +29,9 @@ public partial class Blog
      public string GetFirstPContent()
     {
         if (string.IsNullOrEmpty(Content))
-        {  Console.WriteLine("did empty here");
+        { 
             return string.Empty;
         }
-Console.WriteLine("No empty");
         var doc = new HtmlDocument();
         string clean_content=HttpUtility.HtmlDecode(Content);
         doc.LoadHtml(clean_content);
