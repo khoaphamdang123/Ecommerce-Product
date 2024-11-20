@@ -14,7 +14,7 @@ public class ProductsController:BaseController
 
  private readonly ILogger<ProductsController> _logger;
 
-public ProductsController(IBannerListRepository banner,IProductRepository product,ICategoryListRepository category,ILogger<ProductsController> logger):base(category)
+public ProductsController(IBannerListRepository banner,IProductRepository product,ICategoryListRepository category,IUserListRepository user,ILogger<ProductsController> logger):base(category,user)
 {
     this._banner=banner;
     this._product=product;

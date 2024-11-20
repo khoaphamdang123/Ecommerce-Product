@@ -35,7 +35,7 @@ namespace Ecommerce_Product.Controllers
 
         private readonly ILogger<MyAccountController> _logger;
 
-        public MyAccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager,IUserListRepository userList,ICategoryListRepository category,ILogger<MyAccountController> logger,IRecaptchaService recaptcha,IOptions<RecaptchaResponse> recaptcha_response,ISettingRepository setting,ITrackDataRepository trackData,ILoginRepository loginRepos):base(category)
+        public MyAccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager,IUserListRepository userList,ICategoryListRepository category,ILogger<MyAccountController> logger,IRecaptchaService recaptcha,IOptions<RecaptchaResponse> recaptcha_response,ISettingRepository setting,ITrackDataRepository trackData,ILoginRepository loginRepos):base(category,userList)
         {
             _signInManager = signInManager;
             _userManager = userManager;

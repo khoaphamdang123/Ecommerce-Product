@@ -8,15 +8,20 @@ public class BaseController : Controller
 {
     private readonly ICategoryListRepository _category;
 
-    public BaseController(ICategoryListRepository category)
+    private readonly IUserListRepository _user;
+
+    public BaseController(ICategoryListRepository category,IUserListRepository user)
     {
-        _category = category;
+        this._category = category;
+        this._user = user;
     }
 
     public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
         var categories = await this._category.getAllCategory();
+        var user = await this._user.findUserByName("company");
         ViewBag.Categories = categories;
+        ViewBag.Company=user;
     var cart_json =this.HttpContext.Session.GetString("cart");
     
     var cart= cart_json != null ? JsonConvert.DeserializeObject<List<CartModel>>(cart_json) : new List<CartModel>();
