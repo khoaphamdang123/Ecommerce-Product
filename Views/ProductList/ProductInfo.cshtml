@@ -8,8 +8,32 @@
    var brand_list = ViewBag.BrandList as IEnumerable<Brand>;
    var sub_cat_list = ViewBag.SubCatList as List<SubCategory>; 
    var status_list = new List<string>{"Còn hàng","Hết hàng"};
-   string bg_status="";
+   string bg_status="";   
+   Console.WriteLine("Product Info name:"+Model.ProductName);
+   List<string> list_img_avatar = new List<string>();
+    if (!string.IsNullOrEmpty(Model?.Backavatar))
+        {
+            list_img_avatar.Add(Model?.Backavatar);
+        }
+        if (!string.IsNullOrEmpty(Model?.Frontavatar))
+        {
+            list_img_avatar.Add(Model?.Frontavatar);
+        }
+    
    List<string> avatar_list=new List<string>{Model?.Frontavatar,Model?.Backavatar};
+
+  List<ProductImage> list_img = Model?.ProductImages.ToList();
+  
+  var list_img_json=Newtonsoft.Json.JsonConvert.SerializeObject(list_img,new Newtonsoft.Json.JsonSerializerSettings
+    {
+        ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore
+    });
+
+  var list_img_avatar_json=Newtonsoft.Json.JsonConvert.SerializeObject(list_img_avatar,new Newtonsoft.Json.JsonSerializerSettings
+    {
+        ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore
+    });
+
    var saved_img_files=Model?.ProductImages;
    var saved_avatar_files=avatar_list;
    bg_status=create_status==1||create_status==-1?"bg-danger":create_status==1?"bg-success":"";
@@ -197,27 +221,19 @@
  <div id="previewImageContainerAvatar" class="image-preview-container">
     @if (!string.IsNullOrEmpty(Model?.Backavatar) || !string.IsNullOrEmpty(Model?.Frontavatar))
     {
-        List<string> list_img = new List<string>();
-        if (!string.IsNullOrEmpty(Model?.Backavatar))
-        {
-            list_img.Add(Model?.Backavatar);
-        }
-        if (!string.IsNullOrEmpty(Model?.Frontavatar))
-        {
-            list_img.Add(Model?.Frontavatar);
-        }
+      
 
-        for (int i = 0; i < list_img.Count; i++)
+        for (int i = 0; i < list_img_avatar.Count; i++)
         {
-            string relativePath = list_img[i].Substring(list_img[i].IndexOf("wwwroot") + "wwwroot".Length).Replace(@"\", "/");
+            string relativePath = list_img_avatar[i].Substring(list_img_avatar[i].IndexOf("wwwroot") + "wwwroot".Length).Replace(@"\", "/");
 
             <div class="card-1" id="avatar-@i">
                 <img class="card-img-top" src="@Url.Content("~" + relativePath)" alt="Image @i" />
                 <div class="card-body-1">
                     <h5 class="card-title-1">
-                        @System.IO.Path.GetFileName(list_img[i]).Replace(";", "")
+                        @System.IO.Path.GetFileName(list_img_avatar[i]).Replace(";", "")
                     </h5>
-                    <button class="btn btn-danger remove-btn" onclick="remove_img_btn('avatar-@i',event)">Xóa</button>
+                    <button class="btn btn-danger remove-btn" id='avatar-@i' onclick="remove_img_btn('avatar-@i','avatar-@(System.IO.Path.GetFileName(list_img_avatar[i]))',event)">Xóa</button>
                 </div>
             </div>
         }
@@ -241,18 +257,17 @@
     <div id="previewImageContainer" class="image-preview-container">
      @if (Model?.ProductImages.Count>0)
     {  
-        List<ProductImage> list_img = Model?.ProductImages.ToList();
        
         for (int i = 0; i < list_img.Count; i++)
         {
             string relativePath = list_img[i].Avatar.Substring(list_img[i].Avatar.IndexOf("wwwroot") + "wwwroot".Length).Replace(@"\", "/");
             <div class="card-1" id="img-@i">
-                <img class="card-img-top" src="@Url.Content("~" + relativePath)" alt="Image @i" />
+                <img class="card-img-top" src="@Url.Content("~" + relativePath)" alt="Image @i"/>
                 <div class="card-body-1">
                     <h5 class="card-title-1">
                         @System.IO.Path.GetFileName(list_img[i].Avatar).Replace(";", "")
                     </h5>
-                    <button class="btn btn-danger remove-btn" onclick="remove_img_btn('img-@i',event)">Xóa</button>
+                    <button class="btn btn-danger remove-btn" id='img-@i' onclick="remove_img_btn('img-@i','img-@(System.IO.Path.GetFileName(list_img[i].Avatar))',event)">Xóa</button>
                 </div>
             </div>
         }
@@ -544,6 +559,7 @@ document.addEventListener("DOMContentLoaded", function (event)
  let version_list=[];
 
  let mirror_list = [];
+
    
  const add_variant=document.getElementById("add-variant");
 
@@ -596,6 +612,57 @@ add_variant.addEventListener('click',()=>
 
  const preview_img_avatar = document.getElementById("previewImageContainerAvatar");
 
+ const imgList=@Html.Raw(list_img_json); 
+
+ const imgAvatarList=@Html.Raw(list_img_avatar_json);
+
+ imgList.forEach(async(file)=>
+ {   
+    var file_name=file["Avatar"];
+    
+    var file_name_value=file_name.split('\\').pop();
+    
+    const url=`http://localhost:5160/UploadImages/${file_name_value}`;
+    
+    const response=await fetch(url);
+    
+    if(!response.ok)
+    {
+      alert(response.status);
+    }
+
+
+    const blob =await response.blob();
+
+    const files=new File([blob],file_name_value,{type:blob.type});
+
+     variant_file_arr.push(files);
+ });
+ 
+  imgAvatarList.forEach(async(file)=>
+  {   
+    
+    var file_name_value=file.split('\\').pop();
+
+    
+    const url=`http://localhost:5160/UploadImages/${file_name_value}`;
+    
+    const response=await fetch(url);
+    
+    if(!response.ok)
+    {
+      alert(response.status);
+    }
+
+
+    const blob =await response.blob();
+
+    const files=new File([blob],file_name_value,{type:blob.type});
+    
+    files_arr.push(files);
+  });
+
+
  file_input_avatar_btn.addEventListener("click",()=>{e.preventDefault();file_input_avatar.click();});
 
   drop_zone_avatar.addEventListener("dragover",(e)=>
@@ -625,10 +692,33 @@ add_variant.addEventListener('click',()=>
  });
 
 
-const remove_img_btn=(id,event)=>
+const remove_img_btn=(id_event,id,event)=>
 {   
       event.stopPropagation();
-      var img_wrapper = document.getElementById(id); 
+      var img_wrapper = document.getElementById(id_event);
+      var img_id_arr=id.split('-');
+      var img_id='';
+      for(let i=1;i<img_id_arr.length;i++)
+      {if(i<img_id_arr.length-1)
+      {
+        img_id+=img_id_arr[i]+'-';
+      }
+      else
+      {
+        img_id+=img_id_arr[i];
+      }
+      }
+     if(!id.includes("avatar"))
+     {
+      var rmv_img=variant_file_arr.map((file)=>file.name).indexOf(img_id.trim());
+
+      variant_file_arr.splice(rmv_img,1);
+      }
+    else
+    {   var rmv_img=files_arr.map((file)=>file.name).indexOf(img_id.trim());
+
+      files_arr.splice(rmv_img,1);
+    }
       if(img_wrapper)
       {
         img_wrapper.remove();
@@ -693,6 +783,14 @@ const file=files[i];
        remove_btn.onclick=(e)=>{
        
        e.stopPropagation();
+
+
+       const index_file=files_arr.indexOf(file);
+
+       if(index_file>-1)
+       {
+        files_arr.splice(index_file,1);
+       }
        
        preview_img_avatar.removeChild(img_wrapper);
        
@@ -712,7 +810,7 @@ const file=files[i];
        
        img_wrapper.appendChild(cardBody);
 
-       preview_img_avatar.appendChild(img_wrapper);
+       preview_img_avatar.appendChild(img_wrapper);       
     };
 
     file_reader.readAsDataURL(file);    
@@ -721,12 +819,9 @@ const file=files[i];
     }
  }
 
-
-
-  file_input_avatar.addEventListener('change',handleFilesAvatar);
-  
-
-
+ 
+ 
+ file_input_avatar.addEventListener('change',handleFilesAvatar);
 
  const handleFiles=(e)=>
  { 
@@ -738,8 +833,11 @@ const file=files[i];
   for(let i =0;i<files.length;i++)
   { 
     const file = files[i];
+
     variant_file_arr.push(file);
+
     const file_reader= new FileReader();
+
     file_reader.onload=(event)=>
     {  
        const img=document.createElement("img");
@@ -764,15 +862,23 @@ const file=files[i];
        const remove_btn=document.createElement("button");
 
        remove_btn.textContent='Xóa';
+       
 
        remove_btn.classList.add('btn', 'btn-danger', 'remove-btn');
        
        remove_btn.onclick=(e)=>{
        
        e.stopPropagation();
+       const index_file=variant_file_arr.indexOf(file);
+       if(index_file>-1)
+       {
+        variant_file_arr.splice(index_file,1);
+       }
        
        preview_img.removeChild(img_wrapper);
+       
        var count=preview_img.children.length;
+
        if(count==0)
        {
         drop_zone.style.alignItems='center';
@@ -791,7 +897,7 @@ const file=files[i];
 
        preview_img.appendChild(img_wrapper);
     };
-    file_reader.readAsDataURL(file);
+    file_reader.readAsDataURL(file);    
     }
 }
  }
@@ -879,12 +985,19 @@ const file=files[i];
 
  document.getElementById("formAccountSettings").addEventListener("submit",(e)=>{
   e.preventDefault();
+ 
   var is_valid=true;
+  
   var product=document.getElementById("productname").value.trim();
+  
   var price =document.getElementById("price").value.trim();
+  
   var quantity= document.getElementById("quantity").value.trim();
+  
   var sub_cat=document.getElementById("sub-select");
+  
   var category=document.getElementById("cat-select");
+  
   var brand=document.getElementById("brand-select");
 
   
@@ -970,9 +1083,8 @@ const file=files[i];
   files_arr.forEach(file=>{
     formDataVal.append("imagefiles",file);
   });
-
-  variant_file_arr.forEach(file=>{
-    formDataVal.append("variantfiles",file);
+    variant_file_arr.forEach((file,index)=>{
+    formDataVal.append(`variantfiles`,file);
   });
   var id_ob=document.getElementById("product-id");
   let  id_value=id_ob.getAttribute("data-id");

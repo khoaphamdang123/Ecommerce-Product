@@ -35,7 +35,9 @@ public async Task<IEnumerable<Category>> getAllCategory()
     return null;
 }
 public async Task<IEnumerable<Category>> filterCategoryList(FilterCategory category)
-{   var cat_list=this._context.Categories.ToList();
+{ 
+  var cat_list=this._context.Categories.ToList();
+  
   try
   {
    string category_name=category.Category;
