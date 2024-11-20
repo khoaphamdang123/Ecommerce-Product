@@ -31,7 +31,7 @@ public class CartController : BaseController
 
 
    private readonly ICartRepository _cart;
-   public CartController(ICartRepository cart,IProductRepository product,Support_Serive.Service sp,ICompositeViewEngine viewEngine,ICategoryListRepository category,ILogger<CartController> logger):base(category)
+   public CartController(ICartRepository cart,IProductRepository product,Support_Serive.Service sp,IUserListRepository user,ICompositeViewEngine viewEngine,ICategoryListRepository category,ILogger<CartController> logger):base(category,user)
    {
   this._cart=cart;
   this._sp=sp;

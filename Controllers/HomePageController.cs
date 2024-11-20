@@ -12,7 +12,7 @@ public class HomePageController:BaseController
 
  private readonly ILogger<HomePageController> _logger; 
 
-public HomePageController(IBannerListRepository banner,IProductRepository product,ICategoryListRepository category,ILogger<HomePageController> logger):base(category)
+public HomePageController(IBannerListRepository banner,IProductRepository product,ICategoryListRepository category,IUserListRepository user,ILogger<HomePageController> logger):base(category,user)
 {
     this._banner=banner;
     this._product=product;

@@ -19,7 +19,8 @@ private readonly ILogger<BlogController> _logger;
 
 private readonly IBlogRepository _blog;
 
-public BlogController(ICategoryListRepository category,IBlogRepository blog,ILogger<BlogController> logger):base(category)
+
+public BlogController(ICategoryListRepository category,IBlogRepository blog,IUserListRepository user,ILogger<BlogController> logger):base(category,user)
 {
     this._blog=blog;
     this._category=category;
