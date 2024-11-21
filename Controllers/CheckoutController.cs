@@ -28,15 +28,18 @@ public class CheckoutController : BaseController
 
     private readonly IHttpContextAccessor _httpContextAccessor;
 
+    private readonly IPaymentRepository _payment;
+
 
    private readonly ICartRepository _cart;
-   public CheckoutController(ICartRepository cart,IProductRepository product,Support_Serive.Service sp,IUserListRepository user,ICategoryListRepository category,ILogger<CheckoutController> logger):base(category,user)
+   public CheckoutController(ICartRepository cart,IProductRepository product,Support_Serive.Service sp,IPaymentRepository payment,IUserListRepository user,ICategoryListRepository category,ILogger<CheckoutController> logger):base(category,user)
   {
   this._cart=cart;
   this._sp=sp;
   this._category=category;
   this._product=product;
-  this._logger=logger;     
+  this._logger=logger; 
+  this._payment=payment;    
   this._user=user;
    }
 
@@ -67,12 +70,16 @@ public class CheckoutController : BaseController
      }
      string username=HttpContext.Session.GetString("Username");
 
+     var paymeny_methods=await this._payment.getAllPayment();
+
      if(string.IsNullOrEmpty(username))
      {
         return View("~/Views/ClientSide/Checkout/Checkout.cshtml",cart);
      }
 
      var user=await this._user.findUserByName(username);
+
+     ViewBag.payment_methods=paymeny_methods;
      
      ViewBag.user=user;
     }
