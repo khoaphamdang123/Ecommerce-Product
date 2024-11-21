@@ -83,7 +83,7 @@ public class UserListService:IUserListRepository
       string role="User";       
       var users=this._userManager.Users.ToList();
       List<ApplicationUser> userList=new List<ApplicationUser>();
-      foreach(var user in userList)
+      foreach(var user in users)
       {
         if(await this._userManager.IsInRoleAsync(user,role))
         {
@@ -103,9 +103,9 @@ public class UserListService:IUserListRepository
  
    IEnumerable<ApplicationUser> all_user= await this.getAllUserList();
 
-   //List<ApplicationUser> users=all_user.OrderByDescending(u=>u.No).ToList(); 
+   List<ApplicationUser> users=all_user.ToList(); 
 
-   var users=this._userManager.Users;
+   //var users=this._userManager.Users;
    
    var user_list=PageList<ApplicationUser>.CreateItem(users.AsQueryable(),page,page_size);
    

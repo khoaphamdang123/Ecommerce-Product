@@ -218,7 +218,12 @@
                     </thead>
                     <tbody class="table-border-bottom-0">
                        @foreach(var user in Model?.item)
-                       { current_total_item+=1;
+                       { 
+                        if(user.UserName=="company")
+                        {
+                          continue;
+                        }
+                        current_total_item+=1;
                          <tr>
                             <td class="text-center">@current_total_item</td>
                             <td class="text-center">@user.Seq</td>
@@ -238,7 +243,9 @@
                             <td class="text-center">@user.Address1</td>
                             <td class="text-center">@user.Address2</td>
                             <td class="text-center">@user.Created_Date</td>
+                            
                             <td class="text-center">
+                       
                             <div class="d-flex align-items-center justify-content-center">
                               <a data-bs-toggle="modal" data-bs-target="#modalLong" class="btn btn-icon delete-record icon-style-delete" id="delete-record-btn" data-email="@user.Email">
                                 <i class="bx bx-trash bx-md"></i>
@@ -276,6 +283,7 @@
                                 <i class="bx bx-key bx-md"></i>
                               </a>
                             </div>
+                            
                             </td>
                          </tr>
                          }

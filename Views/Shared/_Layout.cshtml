@@ -171,15 +171,15 @@
             <li class="menu-header small text-uppercase">
               <span class="menu-header-text">Pages</span>
             </li>
-              <li class="menu-item">
+              <li class="menu-item  @(view_controller=="Dashboard"?"active":"")">
               <a href="@Url.Action("Dashboard","Dashboard")" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Dashboard</div>
               </a>
             </li>
-           <li class="menu-item">
+           <li class="menu-item  @(view_controller=="GeneralInfo"?"active":"")">
               <a href="@Url.Action("GeneralInfo","GeneralInfo")" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <i class="menu-icon tf-icons bx bx-info-circle"></i>
                 <div data-i18n="Analytics">Thông tin chung</div>
               </a>
             </li>

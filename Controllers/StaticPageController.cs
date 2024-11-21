@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using Ecommerce_Product.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 namespace Ecommerce_Product.Controllers;
 public class StaticPageController:BaseController
 {
@@ -12,12 +13,15 @@ public class StaticPageController:BaseController
 
  private readonly IStaticFilesRepository _static_files;
 
+ private readonly IUserListRepository _user;
+
  private readonly ILogger<StaticPageController> _logger;
 
 public StaticPageController(ICategoryListRepository category,IStaticFilesRepository static_files,IUserListRepository user,ILogger<StaticPageController> logger):base(category,user)
 {
    
     this._category=category;
+    this._user=user;
     this._static_files=static_files;
     this._logger=logger;
 }
@@ -43,4 +47,13 @@ public async Task<IActionResult> StaticPage(string page_name)
     return View("~/Views/ClientSide/StaticPage/StaticPage.cshtml");
 }
 
+[HttpGet]
+[Route("about-us")]
+public async Task<IActionResult> AboutUs()
+{   var categories=await this._category.getAllCategory();
+    var company=await this._user.findUserByName("company");
+    ViewBag.company=company;
+    ViewBag.categories=categories;
+    return View("~/Views/ClientSide/StaticPage/AboutPage.cshtml");
+}
 }

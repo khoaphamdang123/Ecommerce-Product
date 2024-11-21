@@ -46,8 +46,13 @@ public class CartController : BaseController
  [HttpGet]
 
  public async Task<IActionResult> Cart()
- {  Console.WriteLine("did come to this cart route already");
+ {  
     var cart=this._cart.getCart();
+    if(string.IsNullOrEmpty(this.HttpContext.Session.GetString("UserId")))
+    {
+      string session_id=Guid.NewGuid().ToString();
+      this.HttpContext.Session.SetString("UserId",session_id);
+    }
     ViewBag.cart = cart;
     return View("~/Views/ClientSide/Cart/Cart.cshtml");
  }
