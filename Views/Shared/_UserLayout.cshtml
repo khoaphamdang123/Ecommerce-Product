@@ -18,6 +18,28 @@
         change_pass=new ChangePassword(email,password,"");
        }
        var categories = ViewBag.Categories as List<Category>;
+
+       var company = ViewBag.Company as ApplicationUser;
+
+       string phone1="";
+       string phone2="";
+
+
+       string[] company_name=company.Address1.Split('!');
+       string[] phones= company.PhoneNumber.Split(',');
+       
+       if(phones.Length>1)
+       {
+        phone1=phones[0];
+        phone2=phones[1];
+       }
+       else if(phones.Length==1)
+       {
+        phone1=phones[0];
+       }
+       string company_name_value=company_name[0];
+       
+       string address1=company_name[1];
         
         var cart = ViewBag.cart as List<CartModel>;
      
@@ -201,7 +223,7 @@
                                     </select>
                                 </div> *@
                                 <div class="support d-none d-sm-block">
-                                    <p>Cần hỗ trợ? <a href="tel:+001123456789">(84.8) 3 9650450</a></p>
+                                    <p>Cần hỗ trợ? <a href="tel:+001123456789">@(string.IsNullOrEmpty(phone2)?phone1:phone2)</a></p>
                                 </div>
                             </div>
                         </div>
@@ -209,7 +231,7 @@
                             <div class="header-inner-end text-md-end">
                                 <div class="ovic-menu-wrapper">
                                     <ul>
-                                        <li><a href="@Url.Action("StaticPage","StaticPage",new{page_name="about"})">Về chúng tôi</a></li>
+                                        <li><a href="@Url.Action("AboutUs","StaticPage")">Về chúng tôi</a></li>
                                         <li><a href="contact.html">Liên hệ</a></li>
                                         <li><a href="faq.html">FAQs</a></li>
                                     </ul>
@@ -475,7 +497,7 @@
                                                 </a>
                                             </li>
                                            <li>
-                                                <a href="@Url.Action("StaticPage","StaticPage",new{page_name="about"})">Về chúng tôi
+                                                <a href="@Url.Action("AboutUs","StaticPage")">Về chúng tôi
                                                 </a>
                                             </li>
                                             <li>
@@ -501,8 +523,8 @@
                                                 </ul>
                                             </li>
                                           <li>
-                                                <a href="@Url.Action("Blog","Blog")">Blog
-                                                </a>
+                                            <a href="@Url.Action("Blog","Blog")">Blog
+                                            </a>
                                             </li>
                                         </ul>
                                     </nav>
@@ -521,7 +543,7 @@
                                     <li>
                                         <a href="@Url.Action("HomePage","HomePage")">Trang chủ</a>
                                     </li>
-                                    <li><a href="@Url.Action("StaticPage","StaticPage",new{page_name="about"})">Về chúng tôi</a></li>
+                                    <li><a href="@Url.Action("AboutUs","StaticPage")">Về chúng tôi</a></li>
                                     <li class="product-list"><a href="@Url.Action("Products","Products")">Sản phẩm<i class="far fa-angle-down"></i></a>
                                      <ul class="dropdown">
                                            @foreach(var cat in categories)
@@ -713,7 +735,7 @@
                                             <div class="footer__link">
                                                 <ul>
                                                     <li><a href="faq.html">Trung tâm hỗ trợ</a></li>
-                                                    <li><a href="faq.html">Liên hệ chúng tôi: (84.8) 3 9650452</a></li>
+                                                    <li><a href="faq.html">Liên hệ chúng tôi: @phone1</a></li>
                                                     <li><a href="faq.html">Báo cáo lỗi</a></li>
                                                 </ul>
                                             </div>
@@ -776,13 +798,13 @@
                                                     </div>
                                                     <div class="text">
                                                         <h4>Có thắc mắc? Gọi ngay cho chúng tôi!</h4>
-                                                        <span><a href="tel:100-123-456-7890"> (84.8) 3 9650450</a></span>
+                                                        <span><a href="tel:100-123-456-7890">@(string.IsNullOrEmpty(phone2)?phone1:phone2)</a></span>
                                                     </div>
                                                 </div>
                                                 <div class="footer__info">
                                                     <ul>
                                                         <li>
-                                                            <span>Địa chỉ:  <a target="_blank" href="https://goo.gl/maps/c82DDZ8ALvL878Bv8">337 Minh Phụng, Phường 2, Quận 11, HCM</a></span>
+                                                            <span>Địa chỉ:  <a target="_blank" href="https://goo.gl/maps/c82DDZ8ALvL878Bv8">@address1</a></span>
                                                         </li>
                                                     </ul>
                                                 </div>
