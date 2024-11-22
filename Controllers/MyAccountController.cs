@@ -153,7 +153,8 @@ namespace Ecommerce_Product.Controllers
              var recapchaResult = await this._recaptcha.Validate(Request);
              if(!recapchaResult.success)
              {
-            response=new StatusResponse{
+            response=new StatusResponse
+            {
                             Status=0,
                             Title="Đăng nhập",
                             Message="Hãy chọn captcha để chứng minh bạn ko phải robot.",
@@ -172,7 +173,8 @@ namespace Ecommerce_Product.Controllers
                 response=new StatusResponse{
                             Status=1,
                             Title="Đăng nhập",
-                            Message="Đăng nhập thành công"
+                            Message="Đăng nhập thành công",
+                            User=admin_user
                      };
             }
             }
@@ -473,8 +475,11 @@ public async Task<JsonResult> ForgotPasswordHandle(string email)
    
         
             Console.WriteLine("Received email:"+email);
-            string subject="Nhận mật khẩu mới";               
+
+           string subject="Nhận mật khẩu mới";               
+           
            bool is_send= await this._loginRepos.sendEmail(email,email,subject,0);
+
            if(is_send)
            {
             response=new StatusResponse{

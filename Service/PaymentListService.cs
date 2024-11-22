@@ -33,7 +33,7 @@ public class PaymentListService:IPaymentRepository
 
     public async Task<PageList<Payment>> pagingPayment(int page_size,int page)
     {
-        IEnumerable<Payment> all_payment= await this.getAllPayment();
+    IEnumerable<Payment> all_payment= await this.getAllPayment();
 
    List<Payment> list_payment=all_payment.OrderByDescending(u=>u.Id).ToList(); 
 

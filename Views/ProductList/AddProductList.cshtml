@@ -13,11 +13,17 @@
 <!-- beautify ignore:start -->
 @{
    var created_product=ViewBag.Created_Product;
+   
    var create_status=ViewBag.Status;
+   
    var cat_list =ViewBag.CategoryList as IEnumerable<Category>;
+   
    var brand_list = ViewBag.BrandList as IEnumerable<Brand>;
+   
    var sub_cat_list = ViewBag.SubCatList as List<SubCategory>; 
+   
    string bg_status="";
+   
    bg_status=create_status==1||create_status==-1?"bg-danger":create_status==1?"bg-success":"";
 
     Console.WriteLine("Status here:"+create_status);

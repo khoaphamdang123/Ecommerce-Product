@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Ecommerce_Product.Models;
 using Microsoft.AspNetCore.Authorization;
 using Ecommerce_Product.Repository;
+using Microsoft.Extensions.Options;
 using System.IO;
+using System.Configuration;
 
 
 
@@ -26,17 +28,24 @@ public class CheckoutController : BaseController
 
     private readonly IUserListRepository _user;
 
+    private readonly RecaptchaResponse _recaptcha_response;
+
+    private readonly ISettingRepository _setting;
+
+
     private readonly IHttpContextAccessor _httpContextAccessor;
 
     private readonly IPaymentRepository _payment;
 
 
    private readonly ICartRepository _cart;
-   public CheckoutController(ICartRepository cart,IProductRepository product,Support_Serive.Service sp,IPaymentRepository payment,IUserListRepository user,ICategoryListRepository category,ILogger<CheckoutController> logger):base(category,user)
+   public CheckoutController(ICartRepository cart,IProductRepository product,Support_Serive.Service sp,IOptions<RecaptchaResponse> recaptcha_response,ISettingRepository setting,IPaymentRepository payment,IUserListRepository user,ICategoryListRepository category,ILogger<CheckoutController> logger):base(category,user)
   {
   this._cart=cart;
   this._sp=sp;
   this._category=category;
+  this._setting=setting;
+  this._recaptcha_response=recaptcha_response.Value;
   this._product=product;
   this._logger=logger; 
   this._payment=payment;    
@@ -70,8 +79,17 @@ public class CheckoutController : BaseController
      }
      string username=HttpContext.Session.GetString("Username");
 
-     var paymeny_methods=await this._payment.getAllPayment();
+     var payment_methods=await this._payment.getAllPayment();
+     
+      ViewBag.payment_methods=payment_methods;
 
+   int setting_status=await this._setting.getStatusByName("recaptcha");
+
+       if(setting_status==1)
+       {
+        ViewBag.SiteKey=this._recaptcha_response.SiteKey;
+       }
+    
      if(string.IsNullOrEmpty(username))
      {
         return View("~/Views/ClientSide/Checkout/Checkout.cshtml",cart);
@@ -79,7 +97,8 @@ public class CheckoutController : BaseController
 
      var user=await this._user.findUserByName(username);
 
-     ViewBag.payment_methods=paymeny_methods;
+  
+
      
      ViewBag.user=user;
     }
@@ -89,7 +108,7 @@ public class CheckoutController : BaseController
 
         this._logger.LogError("Checkout Cart Exception:"+er.Message);
     }
-    return View("~/Views/ClientSide/Checkout/Checkout.cshtml",cart);
+    return View("~/Views/ClientSide/Checkout/Checkout.cshtml",cart);    
  }
 
 }
