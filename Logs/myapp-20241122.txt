@@ -836,3 +836,55 @@ System.InvalidOperationException: Multiple constructors accepting all given argu
 2024-11-22 15:25:04.489 +07:00 [INF] Running in Login Action
 2024-11-22 15:25:56.584 +07:00 [INF]  Updated Setting Successfully
 2024-11-22 15:25:56.619 +07:00 [INF]  Updated Setting Successfully
+2024-11-22 21:21:55.035 +07:00 [WRN] Failed to determine the https port for redirect.
+2024-11-22 21:21:57.515 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-11-22 21:22:08.266 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-11-22 21:25:47.460 +07:00 [INF] Running in Login Action
+2024-11-22 21:25:50.648 +07:00 [INF] Running in Login Action
+2024-11-22 21:25:57.312 +07:00 [INF] Running in Login Action
+2024-11-22 21:25:57.974 +07:00 [INF] Running in Login Action
+2024-11-22 21:25:58.157 +07:00 [INF] Running in Login Action
+2024-11-22 21:25:58.666 +07:00 [INF] Running in Login Action
+2024-11-22 21:26:09.191 +07:00 [INF] Running in Login Action
+2024-11-22 21:26:09.251 +07:00 [INF] Running in Login Action
+2024-11-22 21:26:09.377 +07:00 [INF] Running in Login Action
+2024-11-22 21:26:09.444 +07:00 [INF] Running in Login Action
+2024-11-22 21:26:09.527 +07:00 [INF] Running in Login Action
+2024-11-22 21:26:09.614 +07:00 [INF] Running in Login Action
+2024-11-22 21:26:09.702 +07:00 [INF] Running in Login Action
+2024-11-22 21:26:55.064 +07:00 [INF] Running in Login Action
+2024-11-22 21:27:36.353 +07:00 [INF] Running in Login Action
+2024-11-22 21:27:39.479 +07:00 [INF] Running in Login Action
+2024-11-22 21:28:35.988 +07:00 [INF] Running in Login Action
+2024-11-22 21:31:11.673 +07:00 [INF] Running in Login Action
+2024-11-22 21:31:15.199 +07:00 [INF] Running in Login Action
+2024-11-22 21:32:16.039 +07:00 [INF] Running in Login Action
+2024-11-22 21:40:12.128 +07:00 [INF] Running in Login Action
+2024-11-22 21:48:54.228 +07:00 [INF] Running in Login Action
+2024-11-22 21:49:01.482 +07:00 [INF] Running in Login Action
+2024-11-22 21:49:13.761 +07:00 [INF] Running in Login Action
+2024-11-22 21:49:29.781 +07:00 [INF] Running in Login Action
+2024-11-22 21:50:04.133 +07:00 [INF] Running in Login Action
+2024-11-22 21:50:57.385 +07:00 [INF] Running in Login Action
+2024-11-22 21:52:04.466 +07:00 [INF] Running in Login Action
+2024-11-22 21:52:06.048 +07:00 [INF] Running in Login Action
+2024-11-22 21:52:21.532 +07:00 [INF] Running in Login Action
+2024-11-22 21:52:22.576 +07:00 [INF] Running in Login Action
+2024-11-22 21:52:22.704 +07:00 [INF] Running in Login Action
+2024-11-22 21:54:53.122 +07:00 [INF] Running in Login Action
+2024-11-22 21:54:56.527 +07:00 [INF] Running in Login Action
+2024-11-22 21:56:53.922 +07:00 [INF] Running in Login Action
+2024-11-22 21:57:04.251 +07:00 [INF] Running in Login Action
+2024-11-22 22:03:57.204 +07:00 [INF] Running in Login Action
+2024-11-22 22:04:05.024 +07:00 [INF] Running in Login Action
+2024-11-22 22:04:06.140 +07:00 [INF] Running in Login Action
+2024-11-22 22:30:13.411 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-11-22 23:08:03.200 +07:00 [WRN] Failed to determine the https port for redirect.
+2024-11-22 23:09:03.255 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-11-22 23:09:28.864 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-11-22 23:09:42.570 +07:00 [INF] Running in Login Action
+2024-11-22 23:15:22.429 +07:00 [INF] Running in Login Action
+2024-11-22 23:15:32.681 +07:00 [INF] Running in Login Action
+2024-11-22 23:24:45.513 +07:00 [WRN] Failed to determine the https port for redirect.
+2024-11-22 23:24:47.751 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-11-22 23:25:11.155 +07:00 [INF] Running in Login Action

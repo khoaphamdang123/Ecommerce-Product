@@ -110,5 +110,10 @@ public class CheckoutController : BaseController
     }
     return View("~/Views/ClientSide/Checkout/Checkout.cshtml",cart);    
  }
-
+  [Route("checkout/partial_view")]
+  [HttpPost]
+  public async Task<IActionResult> UserLoginPartialView()
+  {
+    return PartialView("~/Views/Shared/_LoginUser.cshtml");
+  }
 }

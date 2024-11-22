@@ -273,10 +273,11 @@
                             </div>
                         </div>
                         <div class="col-xl-4 col-lg-5 col-md-8 col-sm-8">
-                            <div class="header-action">
+                            <div class="header-action" id="user_avatar">
                                  @if(User.Identity.IsAuthenticated && User.IsInRole("User"))
-                    { 
-                      <div class="nav-item navbar-dropdown dropdown-user dropdown">
+                    {   
+                        @Html.Partial("~/Views/Shared/_LoginUser.cshtml")
+                      @* <div class="nav-item navbar-dropdown dropdown-user dropdown">
                         <a class="icon-link dropdown-toggle hide-arrow" data-bs-toggle="dropdown" href="javascript:void(0);">
                       @if(avatar!=null)
                       { 
@@ -332,7 +333,7 @@
                       </a>
                     </li>
                   </ul>
-                      </div>
+                      </div> *@
                     }
                                 else{
                                     <a class="icon-link" href="@Url.Action("MyAccount","MyAccount")" >
