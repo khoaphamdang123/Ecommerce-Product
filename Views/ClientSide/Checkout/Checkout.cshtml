@@ -78,7 +78,7 @@
                                     </p>
                                     <p class="form-row-last">
                                     <label>Mật khẩu<span class="required">*</span></label>
-                                    <input type="text" name="password" id="password">
+                                    <input type="password" name="password" id="password">
                                 <span class="text-danger" id="password-error"></span><br>
                                     </p>
                                     <p class="form-row">
@@ -91,7 +91,7 @@
                                     <p class="lost-password">
                                     <a href="@Url.Action("ForgotPassword","MyAccount")">Quên mật khẩu?</a>
                                     </p>
-                                    <div class="g-recaptcha" data-sitekey="@siteKey"></div>
+                                    <div class="g-recaptcha mt-3" data-sitekey="@siteKey"></div>
                             </form>
                         </div>
                         </div>
@@ -127,7 +127,7 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="checkbox-form">
-                                <h3>Chi tiết hóa đơn</h3>
+                                <h3>Chi tiết thông tin</h3>
                                 <div class="row">
                                 
                                     <div class="col-md-12">
@@ -581,7 +581,8 @@
                    toastEl.classList.add('bg-danger');
                 }
 
-                else{
+                else
+                {
                    
                    toastEl.classList.add('bg-success');
 
@@ -589,7 +590,12 @@
 
                    coupon_hide.style.display="none";
                   
-                  var user_ressponse=response.user;
+                  var user_response=response.user;
+
+                  //alert(JSON.stringify(user_response));
+
+                  
+
                  if(user_response!=null)
                  {
                    var order_username=document.getElementById("user-name");
@@ -600,13 +606,23 @@
 
                    var address=document.getElementById("address");
 
-                    order_username.value=user_response['Username'];
+                    order_username.value=user_response.userName;
 
-                    email.value=user_response['Email'];
+                    email.value=user_response.email;
 
-                    phone.value=user_response['PhoneNumber'];
+                    phone.value=user_response.phoneNumber;
 
-                    address.value=user_response['Address1'];
+                    address.value=user_response.address1;
+
+                   var section_url="@Url.Action("UserLoginPartialView","Checkout")";
+                   $.ajax({
+                    url:section_url,
+                    type:"POST",
+                    success: function(partialHtml) {
+                        $('#user_avatar').html(partialHtml);
+                    }
+                });  
+
                     }
                 }
                 
