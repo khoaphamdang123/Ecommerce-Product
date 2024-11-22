@@ -227,15 +227,20 @@
                           </div>
                         </div>
                       </div>
-                            <a href="@Url.Action("UpdatePayment","PaymentList",new{id=@file.Id})" class="btn btn-icon delete-record icon-style-update" id="delete-record-btn"  data-page="@file.Id">
-                               @if(file.Status==0)
+                       @if(file.Status==0)
                                { 
+                            <a href="@Url.Action("UpdatePayment","PaymentList",new{id=@file.Id})" class="btn btn-icon delete-record" style="color:red !important" id="delete-record-btn"  data-page="@file.Id">
+                              
                                 <i class="bx bx-toggle-left bx-md"></i>
+                                </a>
                                 }
+                                
                               else{
+                              <a href="@Url.Action("UpdatePayment","PaymentList",new{id=@file.Id})" class="btn btn-icon delete-record icon-style-update" style="color:" id="delete-record-btn"  data-page="@file.Id">
+                              
                                 <i class="bx bx-toggle-right bx-md"></i>
+                                </a>
                               }
-                              </a> 
                             </div>
                             </td>
                          </tr>

@@ -8,4 +8,6 @@ public class StatusResponse
     public string Message { get; set; }
 
     public string SiteKey { get; set; }
+
+    public ApplicationUser User{get;set;}
 }
