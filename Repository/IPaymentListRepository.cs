@@ -11,6 +11,8 @@ public interface IPaymentRepository
 
 public Task<Payment> findPaymentById(int id);
 
+public Task<Payment> findPaymentByName(string name);
+
   public Task<PageList<Payment>> pagingPayment(int page_size,int page);
 
  

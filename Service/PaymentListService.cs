@@ -67,6 +67,13 @@ public class PaymentListService:IPaymentRepository
     return deleted_res;
   }
 
+  public async Task<Payment> findPaymentByName(string name)
+{
+  var payment=await this._context.Payments.FirstOrDefaultAsync(s=>s.Paymentname==name);
+  return payment;
+}
+
+
 
   public async Task<int>addPaymentMethod(Payment payment)
   {

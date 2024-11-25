@@ -235,7 +235,7 @@ namespace Ecommerce_Product.Controllers
         //     Console.WriteLine("gender:"+gender);
         //     string avatar="https://cdn-icons-png.flaticon.com/128/3135/3135715.png";
         //  var newNormalUser = new ApplicationUser{UserName = username,Email=email,Address1=address1,Address2=address2,Gender=gender,PhoneNumber=phone,Avatar=avatar};
-            int createUser = await this._userList.createUser(model);
+            int createUser = await this._userList.createUser(model,"User");
             if(createUser==1)
             { 
                

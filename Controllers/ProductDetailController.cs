@@ -146,6 +146,7 @@ public async Task<JsonResult> addProductReviews(string product_id,string user_id
 
   Console.WriteLine("Review content here is:"+review);  
   
+  
   int productId=Convert.ToInt32(product_id);
   
    add_reviews_res=await this._product.addReviews(productId,user_id,review);
