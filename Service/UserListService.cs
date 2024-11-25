@@ -119,19 +119,43 @@ public class UserListService:IUserListRepository
    }
 
    
+
+   
 public async Task<bool> checkUserExist(string email,string username)
 {
     bool res=false;
     var check_user_email_exist=await this._userManager.FindByEmailAsync(email);
-    var check_user_name_exist = await this._userManager.FindByNameAsync(username);
-    if(check_user_email_exist!=null || check_user_name_exist!=null)
-    {
-        res=true;
-    }
+     if(check_user_email_exist!=null && check_user_email_exist.UserName==username)
+     {
+         res=true;
+     }
+   
     return res;
 }
 
-   public async Task<int> createUser(Register user)
+public async Task<bool> createRole(string role)
+{
+  bool create_role=false;
+  if(!string.IsNullOrEmpty(role))
+  {
+    if(!await this._roleManager.RoleExistsAsync(role))
+    {
+      var new_role=new IdentityRole(role);
+      var res=await this._roleManager.CreateAsync(new_role);
+      if(res.Succeeded)
+      {
+        create_role=true;
+      }
+    }
+  }
+  return create_role;
+}
+
+
+
+
+
+   public async Task<int> createUser(Register user,string role)
    { 
      int res_created=0;
 
@@ -150,7 +174,6 @@ public async Task<bool> checkUserExist(string email,string username)
     {
       seq=(latestUser.Seq??0)+1;
     }
-  string role = "User";
   string folder_name="UploadImageUser";
 
    string upload_path=Path.Combine(this._webHostEnv.WebRootPath,folder_name);

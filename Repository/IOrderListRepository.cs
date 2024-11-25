@@ -15,6 +15,8 @@ public interface IOrderRepository
 
   public Task<PageList<Order>> pagingOrderList(int page_size,int page);
 
+  public Task<int> createOrder(AspNetUser user,List<CartModel> cart,Payment payment);
+
   public Task<int> deleteOrder(int id);
 
   public Task<int> deleteProductOrderDetail(int id);

@@ -22,10 +22,13 @@ public class GeneralInfoController : Controller
   [Route("general_info")]
   [HttpGet]
   public async Task<IActionResult> GeneralInfo()
-  {  ApplicationUser user=null;
+  {  
+   
+   ApplicationUser user=null;
+
    try
    {
-    user= await this._user.findUserByName("company");
+    user= await this._user.findUserByName("company");    
    }
    catch(Exception er)
    {
@@ -34,7 +37,9 @@ public class GeneralInfoController : Controller
    return View(user);
   }
 
+  
   [Route("general_info/update")]
+  
   [HttpPost]
   public async Task<JsonResult> updateUser(UserInfo user)
   {      Console.WriteLine("User info here is:"+JsonConvert.SerializeObject(user));

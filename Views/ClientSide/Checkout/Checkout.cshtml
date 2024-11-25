@@ -6,7 +6,6 @@
     var payment_methods=ViewBag.payment_methods as List<Payment>;
     Console.WriteLine(payment_methods.Count);
     int total_value=0;
-
     var siteKey=ViewBag.SiteKey;
     
     Console.WriteLine("Sitekey here is:"+siteKey);
@@ -78,7 +77,7 @@
                                     </p>
                                     <p class="form-row-last">
                                     <label>Mật khẩu<span class="required">*</span></label>
-                                    <input type="password" name="password" id="password">
+                                    <input type="password" name="password" id="password" autocomplete>
                                 <span class="text-danger" id="password-error"></span><br>
                                     </p>
                                     <p class="form-row">
@@ -123,17 +122,18 @@
         <!-- checkout-area-start -->
         <section class="checkout-area pb-85">
             <div class="container">
-                <form action="#">
+                <form id="checkout-form" method="POST" asp-action="CheckoutOrder" asp-controller="Checkout">
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="checkbox-form">
                                 <h3>Chi tiết thông tin</h3>
-                                <div class="row">
-                                
+                                <div class="row">                                
                                     <div class="col-md-12">
                                         <div class="checkout-form-list">
                                             <label>Tên<span class="required">*</span></label>
-                                            <input type="text" placeholder="Nhập tên" name="username" id="user-name" value="@(user!=null?user.UserName:"")">
+                                            <input type="text" placeholder="Nhập tên" name="username" id="user-name" value="@(user!=null?user.UserName:"")" @(user!=null?"disabled":"")>
+                                        <span class="text-danger" id="name-error"></span><br>
+
                                         </div>
                                     </div>
                                     @* <div class="col-md-12">
@@ -145,7 +145,9 @@
                                     <div class="col-md-12">
                                         <div class="checkout-form-list">
                                             <label>Địa chỉ<span class="required">*</span></label>
-                                            <input type="text" placeholder="Nhập địa chỉ giao hàng" id="address" value="@(user!=null?user.Address1:"")">
+                                            <input type="text" placeholder="Nhập địa chỉ giao hàng" id="address" name="address1" value="@(user!=null?user.Address1:"")"  @(user!=null?"disabled":"")>
+                                            <span class="text-danger" id="address-error"></span><br>
+
                                         </div>
                                     </div>
                                     @* <div class="col-md-12">
@@ -174,13 +176,17 @@
                                     <div class="col-md-6">
                                         <div class="checkout-form-list">
                                             <label>Email<span class="required">*</span></label>
-                                            <input type="email" placeholder="Nhập Email của bạn" id="email" value="@(user!=null?user.Email:"")">                                                                                        
+                                            <input type="email" placeholder="Nhập Email của bạn" id="email" name="email" value="@(user!=null?user.Email:"")"  @(user!=null?"disabled":"")>      
+                                            <span class="text-danger" id="email-error"></span><br>
+                                                                                  
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="checkout-form-list">
                                             <label>Số điện thoại<span class="required">*</span></label>
-                                            <input type="text" placeholder="Nhập số điện thoại của bạn" id="phone" value="@(user!=null?user.PhoneNumber:"")">
+                                            <input type="text" placeholder="Nhập số điện thoại của bạn" id="phone" name="phonenumber" value="@(user!=null?user.PhoneNumber:"")"  @(user!=null?"disabled":"")>
+                                        <span class="text-danger" id="phone-error"></span><br>
+
                                         </div>
                                     </div>
                                     @* <div class="col-md-12">
@@ -352,11 +358,12 @@
                                         </tfoot>
                                     </table>
                                 </div>
-
+                            </form>
                                 <div class="payment-method">
                                     
                                
-                                    <div class="accordion" id="checkoutAccordion">
+                            <div class="accordion" id="checkoutAccordion">
+                                  
                                   @foreach(var payment in payment_methods)
                                  {    
 
@@ -370,11 +377,14 @@
                                         </h2>
                                         <div id="deliver" class="accordion-collapse collapse" aria-labelledby="delivery" data-bs-parent="#checkoutAccordion">
                                             <div class="accordion-body">
-                                                <label  class="checkbox-container">
+                                                @* <label  class="checkbox-container">
                                                  <input type="checkbox" id="payment-on-delivery" name="payment-method" value="delivery">
                                                   <span class="checkmark"></span>
                                                   Thanh toán khi nhận hàng
-                                                    </label>
+                                                    </label> *@
+                                            <p><span style="color: red;">*</span>
+                                            Quý khách vui lòng kiểm tra kỹ thông tin đơn hàng trước khi nhận hàng.Đơn hàng của quý khách sẽ được giao đến địa chỉ đã đăng ký trong vòng 1-2 ngày làm việc kể từ khi đặt hàng.
+                                             </p>
                                             </div>
                                         </div>
                                     </div>
@@ -422,8 +432,7 @@
                                             </button>
                                         </h2>
                                         <div id="paypal" class="accordion-collapse collapse" aria-labelledby="paypalThree" data-bs-parent="#checkoutAccordion">
-                                            <div class="accordion-body">
-        <form action="/process-payment" method="POST">
+          <div class="accordion-body">
      
       <div class="payment-method">
         <div class="visa-logo">
@@ -433,26 +442,25 @@
         <div class="credit-card-form">
           <div class="form-group">
             <label for="card-holder"><strong>Tên chủ thể thẻ</strong></label>
-            <input type="text" id="card-holder" name="card-holder" placeholder="John Doe" required>
+            <input type="text" id="card-holder" name="card-holder" placeholder="John Doe">
           </div>
           <div class="form-group">
             <label for="card-number"><strong>Số tài khoản</strong></label>
-            <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9012 3456" required>
+            <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9012 3456">
           </div>
           <div class="form-group-grouped">
             <div class="form-group">
               <label for="expiry-date"><strong>Ngày hết hạn</strong></label>
-              <input type="text" id="expiry-date" name="expiry-date" placeholder="MM/YY" required>
+              <input type="text" id="expiry-date" name="expiry-date" placeholder="MM/YY">
             </div>
             <div class="form-group">
               <label for="cvv"><strong>CVV</strong></label>
-              <input type="text" id="cvv" name="cvv" placeholder="123" required>
+              <input type="text" id="cvv" name="cvv" placeholder="123">
             </div>
           </div>
         </div>
       </div>
-      <button type="submit" class="pay-button">Thanh toán</button>
-    </form>
+      <button type="button" class="pay-button">Thanh toán</button>
                                             </div>
                                         </div>
                                     </div>
@@ -501,22 +509,97 @@
                                     }
                                     </div>
                                     <div class="order-button-payment mt-20">
-                                    <button type="submit" class="tp-btn-h1">Tiến hành đặt hàng</button>
+                                    <button type="button" id="checkout-order-btn" class="tp-btn-h1">Tiến hành đặt hàng</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </form>
             </div>
         </section>
 
 <script>
+    var payment_method='';
+
+    const getAccordionItem=()=>
+    {
+     const openItem=document.querySelector('.accordion-collapse.show');
+     if(openItem)
+     {
+  payment_method=openItem.id;
+     }
+    };
+
+    const convertPaymentMethod=(payment_method)=>
+    {
+        switch(payment_method)
+        {
+            case "deliver":
+            return "Delivery";
+            case "bankOne":
+            return "Bank";
+            case "paypal":
+            return "Paypal";
+            default:
+            return "";
+        }
+    };
+
     document.addEventListener("DOMContentLoaded",()=>{
+    getAccordionItem();
     var form=document.getElementById("signinForm");
+    var checkout_form=document.getElementById("checkout-form");
+    var checkout_order_btn=document.getElementById("checkout-order-btn"); 
     var username=document.getElementById("username");
     var password= document.getElementById("password");
-   
+    checkout_order_btn.addEventListener("click",()=>{
+    var is_valid=true;
+    const user_name=document.getElementById("user-name");
+    const address=document.getElementById("address");
+    const phone=document.getElementById("phone");
+    const email=document.getElementById("email");
+    if(user_name.value=="")
+    {
+        is_valid=false;
+        document.getElementById("name-error").innerHTML="*Tên không được để trống";
+    }
+    if(address.value=="")
+    {
+        is_valid=false;
+        document.getElementById("address-error").innerHTML="*Địa chỉ không được để trống";
+    }
+    if(phone.value=="")
+    {
+        is_valid=false;
+        document.getElementById("phone-error").innerHTML="*Số điện thoại không được để trống";
+    }
+    if(email.value=="")
+    {
+        is_valid=false;
+
+        document.getElementById("email-error").innerHTML="*Email không được để trống";
+    }
+    if(!is_valid)
+    {
+      event.preventDefault();
+      return;
+    }
+    payment_method=convertPaymentMethod(payment_method);
+    var payment_input=document.createElement("input");
+    payment_input.type="text";
+    payment_input.name="paymentmethod";
+    payment_input.value=payment_method;
+    checkout_form.appendChild(payment_input);
+    checkout_form.submit();
+    });
+
+      const accordion = document.getElementById('checkoutAccordion');
+
+        accordion.addEventListener('show.bs.collapse', (event) => {
+            payment_method=event.target.id;
+        });
+
+
     form.addEventListener("submit",()=>{
       event.preventDefault();
       var is_valid=true;
@@ -572,18 +655,17 @@
                         grecaptcha.reset();
                     }
                  document.getElementById("toast-title").innerHTML=title;
+
                  document.getElementById("toast-message").innerHTML=message;
      
-                var toastEl = document.querySelector('.toast');
+                 var toastEl = document.querySelector('.toast');
 
                   if(status==-1 || status==0)
                 { 
                    toastEl.classList.add('bg-danger');
                 }
-
                 else
-                {
-                   
+                { 
                    toastEl.classList.add('bg-success');
 
                    var coupon_hide=document.querySelector(".coupon-accordion");
@@ -593,9 +675,6 @@
                   var user_response=response.user;
 
                   //alert(JSON.stringify(user_response));
-
-                  
-
                  if(user_response!=null)
                  {
                    var order_username=document.getElementById("user-name");
@@ -613,22 +692,24 @@
                     phone.value=user_response.phoneNumber;
 
                     address.value=user_response.address1;
-
+                    
                    var section_url="@Url.Action("UserLoginPartialView","Checkout")";
                    $.ajax({
                     url:section_url,
                     type:"POST",
                     success: function(partialHtml) {
                         $('#user_avatar').html(partialHtml);
+
                     }
                 });  
 
                     }
                 }
                 
-                var toast = new bootstrap.Toast(toastEl);                
+                var toast = new bootstrap.Toast(toastEl);
                 
                 toast.show();
+
                 },
                 error: function (xhr, status, error) 
                 {

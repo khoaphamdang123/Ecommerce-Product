@@ -189,7 +189,7 @@ string folder_name="UploadImageUser";
   Console.WriteLine(email);
   Console.WriteLine(password);
   Console.WriteLine(gender);
-  int res=await this._userList.createUser(user);
+  int res=await this._userList.createUser(user,"User");
      if(res==1)
      {
       ViewBag.Status=1;

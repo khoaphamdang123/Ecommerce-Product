@@ -62,9 +62,10 @@ public class CategoryListController : Controller
     List<string> options=new List<string>(){"7","10","20","50"};
     ViewBag.options=options;
    try
-   {      var all_sub_cat=await this._category.pagingSubCategory(category,7,1);
+   {      
+          var all_sub_cat=await this._category.pagingSubCategory(category,7,1);
 
-          return View(all_sub_cat);
+          return View(all_sub_cat);          
    }
    catch(Exception er)
    {
@@ -73,10 +74,12 @@ public class CategoryListController : Controller
    return View();
   }
   [Route("category_list/{category}/brand/paging")]
-   [HttpGet]
+  
+  [HttpGet]
   public async Task<IActionResult> BrandList(int category,[FromQuery]int page_size,[FromQuery] int page=1)
   {
-    try{
+    try
+    {
          var cats=await this._category.pagingBrand(category,page_size,page);
         
           List<string> options=new List<string>(){"7","10","20","50"};

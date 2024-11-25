@@ -41,6 +41,45 @@ public class OrderListService:IOrderRepository
    return paging_list_order;
   }
 
+    public async Task<int> createOrder(AspNetUser user,List<CartModel> cart,Payment payment)
+    {
+     int created_res=0;
+   try
+   {
+    var order=new Order{
+      User=user,
+      Payment=payment,
+      Status="Đang chờ xử lý",
+      Total=cart.Sum(s=>Convert.ToInt32(s.Product.Price)*s.Quantity),
+      Shippingaddress=user.Address1,
+      Createddate=DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss")
+    };
+
+    foreach(var product in cart)
+    {
+      var order_detail=new OrderDetail
+      {
+        Product=product.Product,
+        Quantity=product.Quantity,
+        Price=Convert.ToInt32(product.Product.Price),
+        Order=order
+      };
+      await this._context.OrderDetails.AddAsync(order_detail);
+    }
+    await this._context.Orders.AddAsync(order);
+
+    await this.saveChanges();
+
+    created_res=1;
+   }
+   catch(Exception er)
+   {
+      Console.WriteLine("Create Order Exception:"+er.InnerException??er.Message);
+   }
+  return created_res;  
+  }
+
+
   public async Task<int> deleteOrder(int id)
   {
     int deleted_res=0;
