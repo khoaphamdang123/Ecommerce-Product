@@ -15,6 +15,8 @@ public interface IOrderRepository
 
   public Task<PageList<Order>> pagingOrderList(int page_size,int page);
 
+  public Task<Order> getLatestOrderByUsername(string user_id);
+
   public Task<int> createOrder(AspNetUser user,List<CartModel> cart,Payment payment);
 
   public Task<int> deleteOrder(int id);
@@ -24,7 +26,7 @@ public interface IOrderRepository
   public int countOrderStatus(string status);
 
   public int countOrder(string id);
-
+  
   public Task<MemoryStream> exportToExcel();
 
   public Task saveChanges();

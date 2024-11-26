@@ -81,7 +81,7 @@ public partial class EcommerceshopContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql("Host=14.225.212.107;Port=5433;Database=ecommerceshop;Username=postgres;Password=miyuki123");
+        => optionsBuilder.UseNpgsql("Host=14.225.212.107;Database=ecommerceshop;Port=5433;Username=postgres;Password=miyuki123");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -299,7 +299,7 @@ public partial class EcommerceshopContext : DbContext
                 .HasForeignKey(d => d.BrandId)
                 .HasConstraintName("brand_fk");
 
-            entity.HasOne(d => d.Category).WithMany(p => p.CategoryBrandDetail)
+            entity.HasOne(d => d.Category).WithMany(p => p.CategoryBrandDetails)
                 .HasForeignKey(d => d.CategoryId)
                 .HasConstraintName("category_fk");
         });
@@ -390,6 +390,9 @@ public partial class EcommerceshopContext : DbContext
             entity.Property(e => e.Createddate)
                 .HasColumnType("character varying")
                 .HasColumnName("createddate");
+            entity.Property(e => e.OrderId)
+                .HasColumnType("character varying")
+                .HasColumnName("order_id");
             entity.Property(e => e.Paymentid).HasColumnName("paymentid");
             entity.Property(e => e.Shippingaddress)
                 .HasColumnType("character varying")
@@ -464,6 +467,7 @@ public partial class EcommerceshopContext : DbContext
                 .HasColumnName("backavatar");
             entity.Property(e => e.CreatedDate).HasColumnType("character varying");
             entity.Property(e => e.Description).HasColumnType("character varying");
+            entity.Property(e => e.Discount).HasColumnName("discount");
             entity.Property(e => e.DiscountDescription).HasColumnType("character varying");
             entity.Property(e => e.Frontavatar)
                 .HasColumnType("character varying")

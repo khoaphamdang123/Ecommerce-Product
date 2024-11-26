@@ -34,7 +34,6 @@
    status_delete=Convert.ToInt32(TempData["Status_Delete"]);
   }
   var message_delete =TempData["Message_Delete"];
-
 }
 
 @if(status_delete==1)
@@ -44,7 +43,7 @@
        role="alert"
        aria-live="assertive"
        aria-atomic="true"
-        data-bs-dismiss="toast"
+       data-bs-dismiss="toast"
         style="cursor: pointer;"
          data-delay="3000"
          data-bs-autohide="true" 

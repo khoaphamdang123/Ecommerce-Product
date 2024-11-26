@@ -37,6 +37,8 @@ public partial class Product
 
     public string? Statdescription { get; set; }
 
+    public int? Discount { get; set; }
+
     public virtual Brand? Brand { get; set; }
 
     public virtual ICollection<CartDetail> CartDetails { get; set; } = new List<CartDetail>();

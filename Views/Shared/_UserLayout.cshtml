@@ -14,7 +14,7 @@
         username=this.ViewContext.HttpContext.Session.GetString("Username");
         email=this.ViewContext.HttpContext.Session.GetString("Email");
         password = this.ViewContext.HttpContext.Session.GetString("Password");
-        avatar = this.ViewContext.HttpContext.Session.GetString("Avatar");
+        avatar = this.ViewContext.HttpContext.Session.GetString("Avatar");        
         change_pass=new ChangePassword(email,password,"");
        }
        var categories = ViewBag.Categories as List<Category>;
