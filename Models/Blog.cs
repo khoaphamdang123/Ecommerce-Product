@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web;
 using HtmlAgilityPack;
+using System.Web;
 
 
 namespace Ecommerce_Product.Models;
@@ -22,11 +22,11 @@ public partial class Blog
 
     public string FeatureImage { get; set; } = null!;
 
-    public int CategoryId { get; set; } 
+    public int CategoryId { get; set; }
 
     public virtual Category Category { get; set; } = null!;
 
-     public string GetFirstPContent()
+      public string GetFirstPContent()
     {
         if (string.IsNullOrEmpty(Content))
         { 
@@ -34,6 +34,7 @@ public partial class Blog
         }
         var doc = new HtmlDocument();
         string clean_content=HttpUtility.HtmlDecode(Content);
+        
         doc.LoadHtml(clean_content);
 
         var firstP = doc.DocumentNode.SelectNodes("//p")?[1];
@@ -44,7 +45,7 @@ public partial class Blog
         var words= fullText.Split(' ',StringSplitOptions.RemoveEmptyEntries);
         if(words.Length<=30)
         {
-            return fullText;
+            return fullText;            
         }
         return string.Join(" ",words.Take(30))+"...";
     }

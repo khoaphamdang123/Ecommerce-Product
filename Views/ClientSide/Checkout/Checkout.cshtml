@@ -7,11 +7,42 @@
     Console.WriteLine(payment_methods.Count);
     int total_value=0;
     var siteKey=ViewBag.SiteKey;
-    
+    var message_checkout=ViewBag.Message;
+    var status_checkout = ViewBag.Status;
     Console.WriteLine("Sitekey here is:"+siteKey);
 
  } 
-
+ if(status_checkout==0)
+ {
+ <div
+       class="bs-toast toast fade hide bg-danger toast-placement-ex top-5 end-0"
+       role="alert"
+       aria-live="assertive"
+       aria-atomic="true"
+        data-bs-dismiss="toast"
+        style="cursor: pointer;"
+         data-delay="3000"
+         data-bs-autohide="true" 
+         data-bs-delay="3000"
+             >
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold">Đặt hàng</div>
+                        </div>
+                        <div class="toast-body">
+                         @(message_checkout)
+                        </div>
+                      </div>
+                        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var toastEl = document.querySelector('.toast');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            });
+        </script>
+        }
+        
+  
   <div
        class="bs-toast toast fade hide toast-placement-ex top-5 end-0"
        role="alert"

@@ -79,6 +79,29 @@ public class OrderListService:IOrderRepository
   return created_res;  
   }
 
+  private string generateOrderId(int id)
+  {
+    string prefix="#ORD";
+    string time_stamp=DateTime.Now.ToString("MMddhhmmss");
+    string order_id=prefix+time_stamp+id.ToString();
+    return order_id;
+  }
+  public async Task<Order> getLatestOrderByUsername(string user_id)
+  {
+    var order=await this._context.Orders.Include(c=>c.User).Include(c=>c.Payment).Include(c=>c.OrderDetails).ThenInclude(c=>c.Product).Where(s=>s.User.Id==user_id).OrderByDescending(s=>s.Id).FirstOrDefaultAsync();
+    
+    string order_id=this.generateOrderId(order.Id);
+
+    order.OrderId=order_id;
+
+    this._context.Orders.Update(order);
+
+    await this.saveChanges();
+    
+    return order;
+  }
+
+
 
   public async Task<int> deleteOrder(int id)
   {
@@ -105,7 +128,7 @@ public class OrderListService:IOrderRepository
     }
     return deleted_res;
   }
-
+  
   public async Task<MemoryStream> exportToExcel()
   {
     

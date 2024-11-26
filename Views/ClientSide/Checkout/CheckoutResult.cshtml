@@ -1,4 +1,4 @@
- 
+@model Order 
  @{
     Layout="_UserLayout";
  }
@@ -10,19 +10,17 @@
 
         <div class="order-info">
             <h2>Thông tin đơn hàng</h2>
-            <p><strong>Mã đơn hàng:</strong> #C1263EAF</p>
-            <p><strong>Tên khách hàng:</strong> John Doe</p>
-            <p><strong>Tổng tiền:</strong> $120.00</p>
+            <p><strong>Mã đơn hàng:</strong>@Model.OrderId</p>
+            <p><strong>Tên khách hàng:</strong>@Model.User.UserName</p>
+            <p><strong>Tổng tiền:</strong>@Model.Total</p>
             <p><strong>Phí vận chuyển:</strong> Miễn phí</p>
-            <p><strong>Phương thức thanh toán:</strong> Paid via Visa</p>
+            <p><strong>Phương thức thanh toán:</strong>@Model.Payment.Paymentname</p>
         </div>
 
         <div class="shipping-address">
             <h2>Địa chỉ giao hàng</h2>
-            <p>John Doe</p>
-            <p>123 Main Street</p>
-            <p>New York, NY 10001</p>
-            <p>United States</p>
+            <p>@Model.User.UserName</p>
+            <p>@Model.User.Address1</p>
         </div>
         <div class="order-summary">
             <h2>Chi tiết hóa đơn</h2>
@@ -35,16 +33,14 @@
                     </tr>
                 </thead>
                 <tbody>
+                @foreach(var product in Model.OrderDetails)
+                {
                     <tr>
-                        <td>Product A</td>
-                        <td>1</td>
-                        <td>$50.00</td>
+                        <td>@product.Product.ProductName</td>
+                        <td>@product.Quantity</td>
+                        <td>@(Convert.ToInt32(product.Product.Price)*product.Quantity)</td>
                     </tr>
-                    <tr>
-                        <td>Product B</td>
-                        <td>2</td>
-                        <td>$70.00</td>
-                    </tr>
+                    }
                 </tbody>
             </table>
         </div>

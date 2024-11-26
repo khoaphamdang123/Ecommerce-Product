@@ -128,14 +128,19 @@ public class CheckoutController : BaseController
     Console.WriteLine("PHONE here is:"+checkout.PhoneNumber);
     Console.WriteLine("Payment method here is:"+checkout.PaymentMethod);
     string username=checkout.UserName;
+
     string email=checkout.Email;
+
     string address1=checkout.Address1;
+
     string phone=checkout.PhoneNumber;
+
     string payment_method=checkout.PaymentMethod;
+
     var check_user_exist=await this._user.checkUserExist(email,username);
   
     ApplicationUser user= new ApplicationUser();
-    if(check_user_exist)
+    if(check_user_exist && User.Identity.IsAuthenticated && User.IsInRole("User"))
     {
       user=await this._user.findUserByName(username);
     }
@@ -143,10 +148,11 @@ public class CheckoutController : BaseController
     {
       user=new ApplicationUser{UserName=username,Email=email,PhoneNumber=phone,Address1=address1};
       string role="Anonymous";
-      var create_role=await this._user.createRole(role);
+      var create_role=await this._user.createRole(role);     
       var new_user=new Register{UserName=username,Email=email,Password="123456",Address1=address1,PhoneNumber=phone};
       var create_user=await this._user.createUser(new_user,role);
     }
+    
     var cart=this._cart.getCart();
 
     var payment=await this._payment.findPaymentByName(payment_method);
@@ -154,24 +160,21 @@ public class CheckoutController : BaseController
     var asp_user = new AspNetUser{UserName=user.UserName,Email=user.Email,PhoneNumber=user.PhoneNumber,Address1=user.Address1};
 
     var created_order=await this._order.createOrder(asp_user,cart,payment);
-
+      
     if(created_order==1)
-    {
-      ViewBag.OrderStatus=1;
-      ViewBag.OrderMessage="Đặt hàng thành công";
-    }
-    else
-    {
-      ViewBag.OrderStatus=0;
-      ViewBag.OrderMessage="Đặt hàng thất bại";
-    }
+    { 
+      var order=await this._order.getLatestOrderByUsername(asp_user.Id);
 
+      return View("~/Views/ClientSide/Checkout/CheckoutResult.cshtml",order);
+    }
   }
   catch(Exception er)
   {Console.WriteLine("Checkout Exception:"+er.Message);
     this._logger.LogError("Checkout Exception:"+er.Message);
   }
-    return View("~/Views/ClientSide/Checkout/Checkout.cshtml");    
+  ViewBag.Status=0;
+  ViewBag.Message="Đặt hàng thất bại";
+  return View("~/Views/ClientSide/Checkout/Checkout.cshtml");    
  }
    
   [Route("checkout/done")]
