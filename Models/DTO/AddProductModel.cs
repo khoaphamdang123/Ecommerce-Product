@@ -22,6 +22,8 @@ public class AddProductModel
 
     public string? StatDescription { get; set; }
 
+    public int Discount{get;set;}
+
 
     public string DiscountDescription{get;set;}
     

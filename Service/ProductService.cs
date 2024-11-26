@@ -462,7 +462,7 @@ public async Task<int> addNewProduct(AddProductModel model)
 
    string product_name=model.ProductName;
 
-
+   int discount = model.Discount;
 
    Console.WriteLine("Product name:"+product_name);
    
@@ -707,7 +707,7 @@ for(int i=0;i<variant_files.Count;i++)
 }
 }
 
- var product= new Product{ProductName=product_name,CategoryId=category,SubCatId=sub_cat==-1?null:sub_cat,BrandId=brand==-1?null:brand,Price=price.ToString(),Quantity=quantity,Status="Còn hàng",Description=description,Statdescription=stat_description,InboxDescription=inbox_description,DiscountDescription=discount_description,Frontavatar=front_avatar,Backavatar=back_avatar,CreatedDate=created_date,UpdatedDate=updated_date,ProductImages=list_img,Variants=variant};
+ var product= new Product{ProductName=product_name,CategoryId=category,Discount=discount,SubCatId=sub_cat==-1?null:sub_cat,BrandId=brand==-1?null:brand,Price=price.ToString(),Quantity=quantity,Status="Còn hàng",Description=description,Statdescription=stat_description,InboxDescription=inbox_description,DiscountDescription=discount_description,Frontavatar=front_avatar,Backavatar=back_avatar,CreatedDate=created_date,UpdatedDate=updated_date,ProductImages=list_img,Variants=variant};
 
   await this._context.Products.AddAsync(product);
 
@@ -750,6 +750,8 @@ string product_name=model.ProductName;
 
    
    int sub_cat=model.SubCategory;
+
+   int discount=model.Discount;
 
       Console.WriteLine("Subcat:"+sub_cat);
 
@@ -1016,7 +1018,7 @@ else
 }
 
 
- var product= new Product{ProductName=product_name,CategoryId=category,SubCatId=sub_cat==-1?null:sub_cat,BrandId=brand==-1?null:brand,Price=price.ToString(),Quantity=quantity,Status=status,Description=description,Statdescription=stat_description,InboxDescription=inbox_description,DiscountDescription=discount_description,Frontavatar=string.IsNullOrEmpty(front_avatar)?"":front_avatar,Backavatar=string.IsNullOrEmpty(back_avatar)?"":back_avatar,UpdatedDate=updated_date,ProductImages=list_img.Count==0?list_img:list_img,Variants=variant};
+ var product= new Product{ProductName=product_name,Discount=discount,CategoryId=category,SubCatId=sub_cat==-1?null:sub_cat,BrandId=brand==-1?null:brand,Price=price.ToString(),Quantity=quantity,Status=status,Description=description,Statdescription=stat_description,InboxDescription=inbox_description,DiscountDescription=discount_description,Frontavatar=string.IsNullOrEmpty(front_avatar)?"":front_avatar,Backavatar=string.IsNullOrEmpty(back_avatar)?"":back_avatar,UpdatedDate=updated_date,ProductImages=list_img.Count==0?list_img:list_img,Variants=variant};
 
   if(product_ob!=null)
   {
@@ -1026,6 +1028,7 @@ else
     product_ob.CategoryId=product.CategoryId;
     product_ob.BrandId=product.BrandId;
     product_ob.SubCatId=product.SubCatId;
+    product_ob.Discount=product.Discount;
     product_ob.Frontavatar=product.Frontavatar;
     product_ob.Backavatar=product.Backavatar;
     product_ob.ProductImages=product.ProductImages;
