@@ -18,6 +18,8 @@ public class UserListService:IUserListRepository
 
     private readonly RoleManager<IdentityRole> _roleManager;
 
+    private readonly EcommerceshopContext _context;
+
     private readonly Support_Serive.Service _support_service;
 
     private readonly SmtpService _smtpService;
@@ -26,12 +28,13 @@ public class UserListService:IUserListRepository
 
     private readonly IWebHostEnvironment _webHostEnv;
 
-    public UserListService(UserManager<ApplicationUser> userManager,RoleManager<IdentityRole> roleManager,Support_Serive.Service service,SmtpService smtpService,ILogger<LoginService> logger,IWebHostEnvironment webHost)
+    public UserListService(UserManager<ApplicationUser> userManager,RoleManager<IdentityRole> roleManager,EcommerceshopContext context,Support_Serive.Service service,SmtpService smtpService,ILogger<LoginService> logger,IWebHostEnvironment webHost)
     {
         this._userManager=userManager;
         this._roleManager=roleManager;
         this._support_service=service;
         this._smtpService=smtpService;
+        this._context=context;
         this._logger=logger;
         this._webHostEnv=webHost;
     }
@@ -115,6 +118,7 @@ public class UserListService:IUserListRepository
    public async Task<ApplicationUser> findUserByName(string name)
    {
     var user=await this._userManager.FindByNameAsync(name);
+    
     return user;
    }
 
@@ -125,7 +129,7 @@ public async Task<bool> checkUserExist(string email,string username)
 {
     bool res=false;
     var check_user_email_exist=await this._userManager.FindByEmailAsync(email);
-     if(check_user_email_exist!=null && check_user_email_exist.UserName==username)
+     if(check_user_email_exist!=null)
      {
          res=true;
      }
@@ -141,7 +145,9 @@ public async Task<bool> createRole(string role)
     if(!await this._roleManager.RoleExistsAsync(role))
     {
       var new_role=new IdentityRole(role);
+      
       var res=await this._roleManager.CreateAsync(new_role);
+      
       if(res.Succeeded)
       {
         create_role=true;
@@ -466,6 +472,16 @@ Console.WriteLine("this user list is not null");
   byte[] content = ms.ToArray();
   return content;
  }
+
+ public async Task<AspNetUser> getAspUser(string id)
+ {
+  var user=await this._context.AspNetUsers.FindAsync(id);
+  return user;
+ }
+
+
+
+
 
 public async Task<byte[]> exportToCSV()
 {
