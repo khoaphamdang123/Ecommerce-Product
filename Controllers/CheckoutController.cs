@@ -67,6 +67,7 @@ public class CheckoutController : BaseController
    }
 
    return RedirectToAction("CheckoutCart","Checkout",new {id=this.HttpContext.Session.GetString("UserId")});
+
  }
 
 
@@ -130,6 +131,8 @@ public class CheckoutController : BaseController
     string username=checkout.UserName;
 
     string email=checkout.Email;
+
+    Console.WriteLine("Email here is:"+email);
 
     string address1=checkout.Address1;
 

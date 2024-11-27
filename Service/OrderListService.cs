@@ -44,16 +44,22 @@ public class OrderListService:IOrderRepository
     public async Task<int> createOrder(AspNetUser user,List<CartModel> cart,Payment payment)
     {
      int created_res=0;
+     Console.WriteLine("Cart length here is:"+cart.Count);
+     Console.WriteLine("Cart Product name here is:"+cart[0].Product.ProductName);
    try
    {
+    Console.WriteLine("Did come to order create section");
     var order=new Order{
       User=user,
       Payment=payment,
       Status="Đang chờ xử lý",
       Total=cart.Sum(s=>Convert.ToInt32(s.Product.Price)*s.Quantity),
       Shippingaddress=user.Address1,
+      Userid=user.Id,
       Createddate=DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss")
     };
+
+    Console.WriteLine("did come to here");
 
     foreach(var product in cart)
     {
@@ -62,13 +68,21 @@ public class OrderListService:IOrderRepository
         Product=product.Product,
         Quantity=product.Quantity,
         Price=Convert.ToInt32(product.Product.Price),
-        Order=order
+        Order=order,
+        Productid=product.Product.Id,
+        Orderid=order.Id
       };
       await this._context.OrderDetails.AddAsync(order_detail);
+      
+      await this.saveChanges();
+
     }
+    Console.WriteLine("Create Product Detail for the order");
     await this._context.Orders.AddAsync(order);
 
     await this.saveChanges();
+
+
 
     created_res=1;
    }

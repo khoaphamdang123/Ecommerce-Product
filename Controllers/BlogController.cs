@@ -19,7 +19,6 @@ private readonly ILogger<BlogController> _logger;
 
 private readonly IBlogRepository _blog;
 
-
 public BlogController(ICategoryListRepository category,IBlogRepository blog,IUserListRepository user,ILogger<BlogController> logger):base(category,user)
 {
     this._blog=blog;
@@ -43,7 +42,6 @@ public async Task<IActionResult> Blog()
         this._logger.LogTrace("Get Manual File List Exception:"+er.Message);
     }
     return View("~/Views/ClientSide/Blog/Blog.cshtml");
-
 }
 
 [Route("blog/blog_detail/{id}")]
@@ -65,18 +63,21 @@ public async Task<IActionResult> BlogDetail(int id)
   ViewBag.categories=categories;
 
   if(blog_by_cat.Count()>0)
-  {
+  {   
    int nxt_index=rand.Next(0,blog_by_cat.Count());
+   
    int retry=2;
+   
    while(nxt_index==id && retry<2)
    {
     nxt_index=rand.Next(0,blog_by_cat.Count());
     retry+=1;
    }
+   
    Console.WriteLine("nxt_index:"+nxt_index);
+   
    ViewBag.nxt_index=nxt_index;
   }
-
 
    ViewBag.blog_by_cat=blog_by_cat;
 
@@ -86,6 +87,5 @@ public async Task<IActionResult> BlogDetail(int id)
     
    return View("~/Views/ClientSide/Blog/BlogDetail.cshtml",blog);
 }
-
 
 }

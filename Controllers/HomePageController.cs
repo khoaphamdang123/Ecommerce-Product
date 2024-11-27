@@ -10,12 +10,15 @@ public class HomePageController:BaseController
 
  private readonly ICategoryListRepository _category;
 
- private readonly ILogger<HomePageController> _logger; 
+ private readonly IBlogRepository _blog;
+ private readonly ILogger<HomePageController> _logger;
+ 
 
-public HomePageController(IBannerListRepository banner,IProductRepository product,ICategoryListRepository category,IUserListRepository user,ILogger<HomePageController> logger):base(category,user)
+public HomePageController(IBannerListRepository banner,IProductRepository product,ICategoryListRepository category,IBlogRepository blog,IUserListRepository user,ILogger<HomePageController> logger):base(category,user)
 {
     this._banner=banner;
     this._product=product;
+    this._blog=blog;
     this._category=category;
     this._logger=logger;
 }
@@ -30,7 +33,6 @@ public HomePageController(IBannerListRepository banner,IProductRepository produc
 [HttpGet]
 [Route("")]
 [Route("home")]
-
 public async Task<IActionResult> HomePage()
 {   
     var banners= await this._banner.findBannerByName("Home");
@@ -38,35 +40,50 @@ public async Task<IActionResult> HomePage()
    
     DateTime startTime=DateTime.Now;
     
-    var products = await this._product.getAllProduct();
+    var products = await this._product.getAllProduct();    
     
     DateTime endTime=DateTime.Now;
     
     int secons=endTime.Second-startTime.Second;
     
     Console.WriteLine("Time taken to get all products is:"+secons);
-    startTime=DateTime.Now;
-    var categories = await this._category.getAllCategory();
-    endTime=DateTime.Now;
-       secons=endTime.Second-startTime.Second;
     
-    Console.WriteLine("Time taken to get all cat is:"+secons);
     startTime=DateTime.Now;
-    var brands = await this._category.getAllBrandList();
+    
+    var categories = await this._category.getAllCategory();
+    
     endTime=DateTime.Now;
-       secons=endTime.Second-startTime.Second;
+       
+    secons=endTime.Second-startTime.Second;
+
+    Console.WriteLine("Time taken to get all cat is:"+secons);
+    
+    startTime=DateTime.Now;
+    
+    var brands = await this._category.getAllBrandList();
+    
+    endTime=DateTime.Now;
+    
+    secons=endTime.Second-startTime.Second;
          Console.WriteLine("Time taken to get all brands is:"+secons);
  
 startTime=DateTime.Now;
+  
   Dictionary<string,int> count_reviews=await this._product.countAllReview(products.ToList()); 
+  
   endTime=DateTime.Now;
-       secons=endTime.Second-startTime.Second;
+  
+  secons=endTime.Second-startTime.Second;
          Console.WriteLine("Time taken to get all reviews is:"+secons);
+    var blogs= await this._blog.getAllBlog();
+
     ViewBag.count_reviews=count_reviews;
     
     ViewBag.banners=banners;
-    
+
     ViewBag.products = products;
+
+    ViewBag.blogs=blogs;
         
     ViewBag.brands=brands;
 

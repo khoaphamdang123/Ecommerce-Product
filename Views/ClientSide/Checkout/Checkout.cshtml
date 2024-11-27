@@ -10,9 +10,8 @@
     var message_checkout=ViewBag.Message;
     var status_checkout = ViewBag.Status;
     Console.WriteLine("Sitekey here is:"+siteKey);
-
  } 
- if(status_checkout==0)
+ @if(status_checkout==0)
  {
  <div
        class="bs-toast toast fade hide bg-danger toast-placement-ex top-5 end-0"
@@ -340,7 +339,11 @@
                                         </thead>
                                         <tbody>
                                           @foreach(var item in Model)
-                                          { total_value+=Convert.ToInt32(item.Product.Price)*item.Quantity;
+                                          { 
+                                          int discount=string.IsNullOrEmpty(item.Product.Discount.ToString()) ? 0 : Convert.ToInt32(item.Product.Discount);
+                                          
+                                          total_value+=(Convert.ToInt32(item.Product.Price)-(Convert.ToInt32(item.Product.Price)*(discount)/100))*item.Quantity;
+                                            
                                             <tr class="cart_item">
                                                 <td class="product-name">
                                                  @(item.Product.ProductName) <strong class="product-quantity"> ×&nbsp;@(item.Quantity)</strong>
@@ -423,7 +426,7 @@
 
                                     if(payment.Paymentname=="Bank" && payment.Status==1)
                                     {
-                                           <div class="accordion-item">
+                                     <div class="accordion-item">
                                         <h2 class="accordion-header" id="checkoutOne">
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#bankOne" aria-expanded="true" aria-controls="bankOne">
                                             Thanh toán qua ngân hàng
@@ -438,7 +441,7 @@
       <div class="qr-info">
         <h3>Thông tin ngân hàng:</h3>
         <ul>
-          <li><strong>Số tiền cần chuyển:</strong>@total_value VND</li>
+          <li><strong>Số tiền cần chuyển:</strong>@total_value VNĐ</li>
           <li><strong>Tên ngân hàng:</strong>TPBank</li>
           <li><strong>Tên chủ thể:</strong>Huỳnh Kiếng Quân</li>
           <li><strong>Số tài khoản:</strong>66090781093</li>
@@ -464,7 +467,6 @@
                                         </h2>
                                         <div id="paypal" class="accordion-collapse collapse" aria-labelledby="paypalThree" data-bs-parent="#checkoutAccordion">
           <div class="accordion-body">
-     
       <div class="payment-method">
         <div class="visa-logo">
           <img src="@Url.Content("~/user_layout/img/banner/card.png")" alt="Visa Logo">

@@ -4,6 +4,7 @@
     var products = ViewBag.products as List<Product>; 
     var categories = ViewBag.categories as List<Category>;
     var brands=ViewBag.brands;
+    var blogs = ViewBag.blogs as List<Blog>;
     var count_reviews=ViewBag.count_reviews as Dictionary<string,int>;
     string value="~/"+@products[0].Frontavatar.Substring(products[0].Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1));
     string user_id=this.ViewContext.HttpContext.Session.GetString("UserId");
@@ -226,8 +227,12 @@
                     </div>
                 </div>
                 <div class="row">
-                @foreach(var product in products)
-                {
+                @for(int j=0;j<products.Count;j++)
+                {  var product=products[j];
+                   if(j==12)
+                   {
+                    break;
+                   }
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-3 col-xxl-2">
                         <div class="product__item product__item-2 b-radius-2 mb-20">
                             <div class="product__thumb fix">
@@ -237,7 +242,11 @@
                                     </a>
                                 </div>
                                 <div class="product__offer">
-                                <span class="discount">-15%</span>
+                               
+                                   @if(!string.IsNullOrEmpty(product?.Discount.ToString()) && product?.Discount!=0)
+                                   {
+                                   <span class="discount">@product?.Discount%</span>
+                                   }  
                                 </div>
                                 <div class="product-action product-action-2">
                                     <a href="#" class="icon-box icon-box-1" data-bs-toggle="modal" data-product-name="@product.ProductName" data-product-price="@product.Price" data-main-avatar="@product.Frontavatar" 
@@ -252,7 +261,9 @@
                                                     @Html.Raw(val);
                                                     }
                                                     data-bs-target="#productModalId">
+
                                         <i class="fal fa-eye"></i>
+                                        
                                         <i class="fal fa-eye"></i>
                                     </a>
                         
@@ -279,17 +290,194 @@
                             </div>
                             <div class="product__add-cart text-center">
                                 <button type="button" id="add-cart" data-product-name="@product.ProductName" data-product-id="@product.Id" class="cart-btn-3 product-modal-sidebar-open-btn d-flex align-items-center justify-content-center w-100">
-                               Thêm vào giỏ hàng
+                               Thêm vào giỏ hàng                               
                                 </button>
                             </div>
                         </div>
                     </div>
                     }
-            
                 </div>
             </div>
         </section>
-   
+    <div class="blog-area light-bg-s pt-20 pb-30">
+            <div class="container custom-conatiner">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="section__head d-flex justify-content-between mb-30">
+                            <div class="section__title section__title-2">
+                                <h5 class="st-titile">Tin tức đề xuất</h5>
+                            </div>
+                            <div class="button-wrap button-wrap-2">
+                                <a href="@Url.Action("Blog","Blog")">Xem toàn bộ blog<i class="fal fa-chevron-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                  @for(int i=0;i<blogs.Count;i++)
+                  {  
+                
+                var blog=blogs[i];
+                  
+                  if(i>6)
+                  {
+                    break;
+                  }
+                    <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-4">
+                        <div class="single-smblog mb-30">
+                            <div class="smblog-thum">
+                                <div class="blog-image w-img">
+                                   <a href="@Url.Action("BlogDetail","Blog",new{id=blog.Id})"><img class="ls-is-cached lazyloaded" data-src="~/@blog.FeatureImage.Substring(blog.FeatureImage.IndexOf("wwwroot")+("wwwroot".Length+1))" src="~/@blog.FeatureImage.Substring(blog.FeatureImage.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="@blog.Blogname"></a>
+                                </div>
+                                <div class="blog-tag">
+                                    <a href="javascript:void(0);">@blog.Category.CategoryName</a>
+                                </div>
+                            </div>
+                            <div class="smblog-content">
+                                <h6><a href="@Url.Action("BlogDetail","Blog",new{id=blog.Id})">@blog.Blogname</a></h6>
+                                <span class="author mb-10">posted by <a href="javascript:void(0);"> @blog.Author</a></span>
+                                <p>@blog.GetFirstPContent()</p>
+                                <div class="smblog-foot pt-15">
+                                    <div class="post-readmore">
+                                       <a href="@Url.Action("BlogDetail","Blog",new{id=blog.Id})"> Read More <span class="icon"></span></a>
+                                    </div>
+                                    <div class="post-date">
+                                        <a href="javascript:void(0);">-@(blog.Updateddate)</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                    @* <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-4">
+                        <div class="single-smblog mb-30">
+                            <div class="smblog-thum">
+                                <div class="blog-image w-img">
+                                    <a href="blog-details.html"><img src="assets/img/blog/sm-b-2.jpg" alt=""></a>
+                                </div>
+                                <div class="blog-tag">
+                                    <a href="#">New</a>
+                                </div>
+                            </div>
+                            <div class="smblog-content">
+                                <h6><a href="blog-details.html">Top 5 Best Digital Cameras for 2021 You Should Buy</a></h6>
+                                <span class="author mb-10">posted by <a href="#">Angelia</a></span>
+                                <p>It is accompanied by a case that can contain...</p>
+                                <div class="smblog-foot pt-15">
+                                    <div class="post-readmore">
+                                        <a href="#">Read More <span class="icon"></span></a>
+                                    </div>
+                                    <div class="post-date">
+                                        <a href="#">Jan 24, 2022</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> *@
+                    @* <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-4">
+                        <div class="single-smblog mb-30">
+                            <div class="smblog-thum">
+                                <div class="blog-image w-img">
+                                    <a href="blog-details.html"><img src="assets/img/blog/sm-b-3.jpg" alt=""></a>
+                                </div>
+                                <div class="blog-tag">
+                                    <a href="#">Update</a>
+                                </div>
+                            </div>
+                            <div class="smblog-content">
+                                <h6><a href="blog-details.html">Capture the moment with 4 cameras on Oppo A92</a></h6>
+                                <span class="author mb-10">posted by <a href="#">Iqbal</a></span>
+                                <p>It is accompanied by a case that can contain...</p>
+                                <div class="smblog-foot pt-15">
+                                    <div class="post-readmore">
+                                        <a href="#"> Read More <span class="icon"></span></a>
+                                    </div>
+                                    <div class="post-date">
+                                        <a href="#">Jan 24, 2022</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> *@
+                    @* <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-4">
+                        <div class="single-smblog mb-30">
+                            <div class="smblog-thum">
+                                <div class="blog-image w-img">
+                                    <a href="blog-details.html"><img src="assets/img/blog/sm-b-4.jpg" alt=""></a>
+                                </div>
+                                <div class="blog-tag">
+                                    <a href="#">Offer</a>
+                                </div>
+                            </div>
+                            <div class="smblog-content">
+                                <h6><a href="blog-details.html">Use Headphones Properly Not To Damage Your Hearing</a></h6>
+                                <span class="author mb-10">posted by <a href="#">Jenny</a></span>
+                                <p>It is accompanied by a case that can contain...</p>
+                                <div class="smblog-foot pt-15">
+                                    <div class="post-readmore">
+                                        <a href="#"> Read More <span class="icon"></span></a>
+                                    </div>
+                                    <div class="post-date">
+                                        <a href="#">Jan 24, 2022</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> *@
+                    @* <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-4">
+                        <div class="single-smblog mb-30">
+                            <div class="smblog-thum">
+                                <div class="blog-image w-img">
+                                    <a href="blog-details.html"><img src="assets/img/blog/sm-b-5.jpg" alt=""></a>
+                                </div>
+                                <div class="blog-tag">
+                                    <a href="#">Common</a>
+                                </div>
+                            </div>
+                            <div class="smblog-content">
+                                <h6><a href="blog-details.html">Laptops Become More Common in Everyday Life</a></h6>
+                                <span class="author mb-10">posted by <a href="#">Nihal Fultu</a></span>
+                                <p>It is accompanied by a case that can contain...</p>
+                                <div class="smblog-foot pt-15">
+                                    <div class="post-readmore">
+                                        <a href="#"> Read More <span class="icon"></span></a>
+                                    </div>
+                                    <div class="post-date">
+                                        <a href="#">Jan 24, 2022</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> *@
+                    @* <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-4">
+                        <div class="single-smblog mb-30">
+                            <div class="smblog-thum">
+                                <div class="blog-image w-img">
+                                    <a href="blog-details.html"><img src="assets/img/blog/sm-b-6.jpg" alt=""></a>
+                                </div>
+                                <div class="blog-tag">
+                                    <a href="#">Hot</a>
+                                </div>
+                            </div>
+                            <div class="smblog-content">
+                                <h6><a href="blog-details.html">Do you know how to wear headphones properly?</a></h6>
+                                <span class="author mb-10">posted by <a href="#">Rosanlina</a></span>
+                                <p>It is accompanied by a case that can contain...</p>
+                                <div class="smblog-foot pt-15">
+                                    <div class="post-readmore">
+                                        <a href="#"> Read More <span class="icon"></span></a>
+                                    </div>
+                                    <div class="post-date">
+                                        <a href="#">Jan 24, 2022</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> *@
+                </div>
+            </div>
+        </div>
+
         <section class="brand-area light-bg-s pb-60">
             <div class="container custom-conatiner">
                 <div class="brand-slider brand-slider-2 swiper-container pt-35 pb-30">
@@ -300,7 +488,6 @@
                         <a href="#"><img src="~/@brand?.Avatar.Substring(brand.Avatar.IndexOf("wwwroot")+("wwwroot".Length+1))" accesskey=""alt="brand"></a>
                         </div>
                         }
-                    
                     </div>
                 </div>
             </div>
@@ -459,7 +646,6 @@
                                         <div id="sub-img-4">
                                         </div>
                                             </button>
-                                       
                                         </li>
                                         </ul>
                                 </div>

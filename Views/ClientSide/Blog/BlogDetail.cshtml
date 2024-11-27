@@ -104,7 +104,8 @@ img_url=$"~/{img_url.Substring(img_url.IndexOf("wwwroot")+("wwwroot".Length+1)).
 								<div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all; width: 740px; padding-left: 30px; padding-right: 30px;">
 								@foreach(var blog in blog_by_cat)
 								{	
-									<div class="owl-item" style="width:150px;"><article class="article-loop">
+									<div class="owl-item" style="width:150px;">
+									<article class="article-loop">
 										<div class="article-inner">				
 											<div class="article-image">
 												<a href="@Url.Action("BlogDetail","Blog",new{id=blog.Id})" class="blog-post-thumbnail" title="@blog.Blogname" rel="nofollow">
@@ -129,15 +130,16 @@ img_url=$"~/{img_url.Substring(img_url.IndexOf("wwwroot")+("wwwroot".Length+1)).
 										</div>						
 									</article></div>
 									}
-								
-									</div></div>
+									</div>
+									</div>
 									<div class="owl-nav"><button type="button" role="presentation" class="owl-prev disabled"><span aria-label="Previous">‹</span></button><button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button></div><div class="owl-dots disabled"></div></div>
 							</div>							
 						</div>
 					</div>
 					</div>
-				<div class="col-lg-3 col-md-12 col-12 boxAricle-right">
-					<aside class="sidebar-blogs blogs-aside--sticky">
+<div class="col-lg-3 col-md-12 col-12 boxAricle-right">
+  
+  <aside class="sidebar-blogs blogs-aside--sticky">
 	<!-- Bai viet moi nhat -->
 	<div class="group-sidebox">
 		<div class="sidebox-title ">
@@ -162,9 +164,7 @@ img_url=$"~/{img_url.Substring(img_url.IndexOf("wwwroot")+("wwwroot".Length+1)).
 						</p>
 					</div>
 				</div>	
-                }			
-				
-								
+                }								
 			</div>
 		</div>
 	</div>
@@ -180,11 +180,11 @@ img_url=$"~/{img_url.Substring(img_url.IndexOf("wwwroot")+("wwwroot".Length+1)).
 	           <li class=""><a href="@Url.Action("HomePage","HomePage")" title="HomePage"><span>Trang chủ</span></a></li>
 			    
                 <li class=""><a href="@Url.Action("StaticPage","StaticPage",new{page_name="about"})" title="About Us"><span>Về chúng tôi</span></a></li>
-			 @foreach(var cat in categories )
+			 @foreach(var cat in categories)
              { 
 				if(cat.SubCategory.Count>0)
              {
-				<li class="has-submenu level0 ">
+				<li class="has-submenu level0">
 					<a href="@Url.Action("ProductsByCategory","Products",new{category_name=cat.CategoryName})" title="@cat.CategoryName">@cat.CategoryName<span class="icon-submenu toggle-icon">+</span></a>
 					<ul class="submenu-links">
 
@@ -194,47 +194,17 @@ img_url=$"~/{img_url.Substring(img_url.IndexOf("wwwroot")+("wwwroot".Length+1)).
                      }
 					</ul>
 				</li>
-                }
-            else{
+             }
+            else
+			{
             <li>
-                <a href="@Url.Action("ProductsByCategory","Products",new{category_name=cat.CategoryName})" title="@cat.CategoryName"><span>@cat.CategoryName</span></a>
-            </li>
+				<a href="@Url.Action("ProductsByCategory","Products",new{category_name=cat.CategoryName})" title="@cat.CategoryName"><span>@cat.CategoryName</span></a>            
+			</li>
             }
                 }
 				
 				
 				
-				@* <li class="has-submenu level0">
-					<a href="/collections/dong-ho-thong-minh" title="Đồng hồ">Đồng hồ <span class="icon-plus-submenu plus-nClick1"></span></a>
-					<ul class="submenu-links">
-						
-						
-						<li class="has-submenu level1">
-							<a href="/collections/garmin">Garmin<span class="icon-plus-submenu plus-nClick2"></span></a>
-							<ul class="submenu-links">
-														
-								<li class=""><a href="/collections/dong-ho-vong-garmin" title="Đồng hồ thể thao - Theo dõi sức khỏe">Đồng hồ thể thao - Theo dõi sức khỏe</a></li>
-														
-								<li class=""><a href="/collections/choi-golf" title="Đồng hồ chuyên Golf">Đồng hồ chuyên Golf</a></li>
-								
-							</ul>
-						</li>
-						
-						
-						
-						<li><a href="/collections/coros" title="Coros">Coros</a></li>
-						
-						
-						
-						<li><a href="/collections/samsung" title="Samsung">Samsung</a></li>
-						
-						
-						
-						<li><a href="/collections/apple" title="Apple">Apple</a></li>
-						
-						
-					</ul>
-				</li> *@
 				
 				
 				
