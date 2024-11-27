@@ -13,14 +13,11 @@ public Task<PageList<ApplicationUser>> pagingUser(int page_size,int page);
 
 public Task<bool> checkUserExist(string email,string username);
 
-
-
 public Task<int> createUser(Register user,string role);
 
 public Task<bool> createRole(string role);
 
 public Task<ApplicationUser> findUserByEmail(string email);
-
 
 public Task<ApplicationUser> findUserById(string id);
 
@@ -29,6 +26,8 @@ public Task<ApplicationUser> findUserByName(string name);
 public Task<int> updateUser(UserInfo user);
 
 public Task<int> deleteUser(string email);
+
+public Task<AspNetUser> getAspUser(string id);
 
 public Task<int> changeUserPassword(string email);
    

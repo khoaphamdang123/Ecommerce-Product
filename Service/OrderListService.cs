@@ -73,22 +73,19 @@ public class OrderListService:IOrderRepository
         Orderid=order.Id
       };
       await this._context.OrderDetails.AddAsync(order_detail);
-      
-      await this.saveChanges();
-
     }
+    await this.saveChanges();
+
     Console.WriteLine("Create Product Detail for the order");
     await this._context.Orders.AddAsync(order);
 
     await this.saveChanges();
 
-
-
     created_res=1;
    }
    catch(Exception er)
    {
-      Console.WriteLine("Create Order Exception:"+er.InnerException??er.Message);
+      Console.WriteLine("Create Order Exception:"+er.Message);
    }
   return created_res;  
   }
