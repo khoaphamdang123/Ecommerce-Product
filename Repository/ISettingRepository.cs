@@ -11,6 +11,8 @@ public interface ISettingRepository
    public Task<int> updateSetting(SettingModel model);
 
    public Task<int> getStatusByName(string name);
+
+   public Task<string> getContentByName(string name);
    
    public Task saveChanges();
 }

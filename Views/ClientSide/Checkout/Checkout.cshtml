@@ -208,7 +208,6 @@
                                             <label>Email<span class="required">*</span></label>
                                             <input type="email" placeholder="Nhập Email của bạn" id="email" name="email" value="@(user!=null?user.Email:"")"  @(user!=null?"disabled":"")>      
                                             <span class="text-danger" id="email-error"></span><br>
-                                                                                  
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -374,7 +373,7 @@
                                                         <li>
                                                             <input type="radio" name="shipping">
                                                             <label>
-                                                                Giá niêm yết: <span class="amount">$7.00</span>
+                                                                Giá niêm yết: <span class="amount">10000 VNĐ</span>
                                                             </label>
                                                         </li>
                                                         <li>
@@ -586,6 +585,7 @@
     var username=document.getElementById("username");
     var password= document.getElementById("password");
     checkout_order_btn.addEventListener("click",()=>{
+ 
     var is_valid=true;
     const user_name=document.getElementById("user-name");
     const address=document.getElementById("address");
@@ -613,10 +613,12 @@
         document.getElementById("email-error").innerHTML="*Email không được để trống";
     }
     if(!is_valid)
-    {
-      event.preventDefault();
-      return;
+    {  
+        event.preventDefault();
+        
+        return;
     }
+    alert(address.value);
     payment_method=convertPaymentMethod(payment_method);
     var payment_input=document.createElement("input");
     payment_input.type="text";
@@ -640,7 +642,6 @@
      var password_val=password.value;
         if(username_val=="")
         {
-        
         is_valid=false;
         
         document.getElementById("username-error").innerHTML="Tên đăng nhập không được để trống";

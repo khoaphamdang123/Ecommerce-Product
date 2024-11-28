@@ -18,6 +18,18 @@ public class SettingService:ISettingRepository
     this._sp_services=sp_services;
   }
 
+   public async Task<string> getContentByName(string name)
+   {
+      string content="";
+      var setting=await this._context.Settings.FirstOrDefaultAsync(s=>s.Settingname==name);
+      if(setting!=null)
+      {
+          content=setting.App;
+      }
+      return content;
+   }
+
+
 
 public async Task<IEnumerable<Setting>> getAllSetting()
 {
@@ -39,6 +51,7 @@ public async Task<int> updateSetting(SettingModel setting)
    string cancelled = setting.Cancelled;
    string refund = setting.Refund;
    string maintainance = setting.Maintainance;
+   string homepage = setting.HomePage;
    
    Console.WriteLine("SIGNUP:"+signup);
    Console.WriteLine("CHANGE PASSWORD:"+change_password);
@@ -62,6 +75,8 @@ public async Task<int> updateSetting(SettingModel setting)
 
    int maintainance_val=string.IsNullOrEmpty(maintainance)?0:1;
 
+   int homepage_val=1;
+
 
 //    Console.WriteLine("singup_val:"+signup_val);
 //    Console.WriteLine("change_password_val:"+change_password_val);
@@ -70,7 +85,7 @@ public async Task<int> updateSetting(SettingModel setting)
 //    Console.WriteLine("cancelled_val:"+cancelled_val);
 //    Console.WriteLine("refund_val:"+refund_val);
 
-   Dictionary<string,int> setting_name=new Dictionary<string,int>{{"signup",signup_val},{"changepassword",change_password_val},{"recaptcha",recaptcha_val},{"purchased",purchased_val},{"cancelled",cancelled_val},{"refund",refund_val},{"maintainance",maintainance_val}};
+   Dictionary<string,int> setting_name=new Dictionary<string,int>{{"signup",signup_val},{"changepassword",change_password_val},{"recaptcha",recaptcha_val},{"purchased",purchased_val},{"cancelled",cancelled_val},{"refund",refund_val},{"maintainance",maintainance_val},{"homepage",homepage_val}};
   
   for(int i=0;i<setting_name.Count;i++)
   { //Console.WriteLine("Settingname:"+setting_name.Keys.ElementAt(i));    
@@ -94,6 +109,13 @@ public async Task<int> updateSetting(SettingModel setting)
             setting_obs.Updateddate=updatetime;
             this._context.Settings.Update(setting_obs);
             }
+          }
+          if(setting_obs.Settingname=="homepage")
+          { 
+            string updatetime=DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss");
+            setting_obs.App=homepage;
+            setting_obs.Updateddate=updatetime;
+            this._context.Settings.Update(setting_obs);
           }
          }
   
