@@ -83,12 +83,13 @@ public class UserListService:IUserListRepository
 
     public async Task<IEnumerable<ApplicationUser>> getAllUserList()
     {
-      string role="User";       
+      string role="User";
+      string sub_role="Anonymous";       
       var users=this._userManager.Users.ToList();
       List<ApplicationUser> userList=new List<ApplicationUser>();
       foreach(var user in users)
       {
-        if(await this._userManager.IsInRoleAsync(user,role))
+        if(await this._userManager.IsInRoleAsync(user,role) || await this._userManager.IsInRoleAsync(user,sub_role))
         {
             userList.Add(user);
         }
@@ -98,7 +99,7 @@ public class UserListService:IUserListRepository
 
    public async Task<PageList<ApplicationUser>> pagingUser(int page_size,int page)
    { 
-    
+
     if(page_size<page)
     {
         return PageList<ApplicationUser>.CreateItem(new List<ApplicationUser>().AsQueryable(),0,0);
@@ -118,8 +119,12 @@ public class UserListService:IUserListRepository
    public async Task<ApplicationUser> findUserByName(string name)
    {
     var user=await this._userManager.FindByNameAsync(name);
-    
+
+   if(await this._userManager.IsInRoleAsync(user,"User"))
+    {
     return user;
+    }
+    return null;
    }
 
    
@@ -129,7 +134,8 @@ public async Task<bool> checkUserExist(string email,string username)
 {
     bool res=false;
     var check_user_email_exist=await this._userManager.FindByEmailAsync(email);
-     if(check_user_email_exist!=null)
+     
+    if(check_user_email_exist!=null)
      {
          res=true;
      }

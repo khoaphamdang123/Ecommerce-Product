@@ -15,4 +15,6 @@ public string Refund{get;set;}
 
 public string Maintainance{get;set;}
 
+public string HomePage{get;set;}
+
 }

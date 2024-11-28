@@ -50,14 +50,17 @@ public class OrderListService:IOrderRepository
    {
     Console.WriteLine("Did come to order create section");
     var order=new Order{
-      User=user,
-      Payment=payment,
-      Status="Đang chờ xử lý",
+      Status="Đang xử lý",
       Total=cart.Sum(s=>Convert.ToInt32(s.Product.Price)*s.Quantity),
       Shippingaddress=user.Address1,
       Userid=user.Id,
+      Paymentid=payment.Id,
       Createddate=DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss")
     };
+
+    await this._context.Orders.AddAsync(order);
+
+    await this.saveChanges();
 
     Console.WriteLine("did come to here");
 
@@ -65,27 +68,26 @@ public class OrderListService:IOrderRepository
     {
       var order_detail=new OrderDetail
       {
-        Product=product.Product,
         Quantity=product.Quantity,
         Price=Convert.ToInt32(product.Product.Price),
-        Order=order,
         Productid=product.Product.Id,
         Orderid=order.Id
       };
+      
       await this._context.OrderDetails.AddAsync(order_detail);
+      
+      await this.saveChanges();
     }
-    await this.saveChanges();
-
     Console.WriteLine("Create Product Detail for the order");
-    await this._context.Orders.AddAsync(order);
+ 
 
-    await this.saveChanges();
+
 
     created_res=1;
    }
    catch(Exception er)
    {
-      Console.WriteLine("Create Order Exception:"+er.Message);
+      Console.WriteLine("Create Order Exception:"+er.InnerException??er.Message);
    }
   return created_res;  
   }

@@ -6,8 +6,10 @@
     var brands=ViewBag.brands;
     var blogs = ViewBag.blogs as List<Blog>;
     var count_reviews=ViewBag.count_reviews as Dictionary<string,int>;
+    var slider_content=ViewBag.slider_content as string;
     string value="~/"+@products[0].Frontavatar.Substring(products[0].Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1));
     string user_id=this.ViewContext.HttpContext.Session.GetString("UserId");
+
     //List<string> details_img=new List<string>();
     int count_trending=0;
 }        <!-- slider-area-start -->
@@ -212,6 +214,21 @@
             </div>
         </section>
 
+
+        <section class="moveing-text-area">
+            <div class="container">
+                <div class="ovic-running">
+                    <div class="wrap">
+                        <div class="inner">
+                            <p class="item">@slider_content</p>
+                            @* <p class="item">Design Week / 15% Off the website / Code: AYOSALE-2020</p>
+                            <p class="item">Always iconic. Now organic. Introducing the $20 Organic Tee.</p> *@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="recomand-product-area light-bg-s pt-50 pb-15">
             <div class="container custom-conatiner">
                 <div class="row">
@@ -242,7 +259,6 @@
                                     </a>
                                 </div>
                                 <div class="product__offer">
-                               
                                    @if(!string.IsNullOrEmpty(product?.Discount.ToString()) && product?.Discount!=0)
                                    {
                                    <span class="discount">@product?.Discount%</span>

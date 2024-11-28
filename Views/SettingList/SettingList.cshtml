@@ -219,7 +219,31 @@
                 </table>
               </div>
             </div>
-
+          
+      <h5 class="card-title mb-3">Cài đặt hiển thị nội dung</h5>
+            <div class="card shadow-none mb-5 border-0">
+              <div class="table-responsive border rounded">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th class="text-nowrap w-50">Trang</th>
+                      <th class="text-nowrap text-center w-25">Nội dung</th>
+                    <th class="text-nowrap text-center w-25"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="text-nowrap text-heading">Trang chủ</td>
+                      <td>
+                        <div class="form-check d-flex justify-content-center">
+                          <input class="form-control" type="text" id="defaultCheck_order_1" name="homepage"  value="@(!string.IsNullOrEmpty(Model?.FirstOrDefault(s=>s.Settingname=="homepage")?.App)?Model?.FirstOrDefault(s=>s.Settingname=="homepage")?.App:"")"/>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
 
             <h5 class="card-title mb-3">Cài đặt chung</h5>
             <div class="card shadow-none mb-6 border-0">

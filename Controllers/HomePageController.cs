@@ -10,16 +10,19 @@ public class HomePageController:BaseController
 
  private readonly ICategoryListRepository _category;
 
+ private readonly ISettingRepository _setting;
+
  private readonly IBlogRepository _blog;
  private readonly ILogger<HomePageController> _logger;
  
 
-public HomePageController(IBannerListRepository banner,IProductRepository product,ICategoryListRepository category,IBlogRepository blog,IUserListRepository user,ILogger<HomePageController> logger):base(category,user)
+public HomePageController(IBannerListRepository banner,IProductRepository product,ISettingRepository setting,ICategoryListRepository category,IBlogRepository blog,IUserListRepository user,ILogger<HomePageController> logger):base(category,user)
 {
     this._banner=banner;
     this._product=product;
     this._blog=blog;
     this._category=category;
+    this._setting=setting;
     this._logger=logger;
 }
 
@@ -74,8 +77,14 @@ startTime=DateTime.Now;
   endTime=DateTime.Now;
   
   secons=endTime.Second-startTime.Second;
+
+
          Console.WriteLine("Time taken to get all reviews is:"+secons);
     var blogs= await this._blog.getAllBlog();
+
+    var slider_content=await this._setting.getContentByName("homepage");
+
+    ViewBag.slider_content=slider_content;
 
     ViewBag.count_reviews=count_reviews;
     

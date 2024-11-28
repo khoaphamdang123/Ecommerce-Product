@@ -120,6 +120,7 @@ public class CheckoutController : BaseController
   }
   
  [Route("checkout/submit")]
+ [ValidateAntiForgeryToken]
  [HttpPost]
  public async Task<IActionResult> CheckoutOrder(CheckoutModel checkout)
  {Console.WriteLine("Checkout Submit did come here");
@@ -151,10 +152,15 @@ public class CheckoutController : BaseController
     else
     {
       user=new ApplicationUser{UserName=username,Email=email,PhoneNumber=phone,Address1=address1};
+      
       string role="Anonymous";
-      var create_role=await this._user.createRole(role);     
+      
+      var create_role=await this._user.createRole(role);
+           
       var new_user=new Register{UserName=username,Email=email,Password="123456",Address1=address1,PhoneNumber=phone};
+      
       var create_user=await this._user.createUser(new_user,role);
+      
       user=await this._user.findUserByEmail(email);
     }
     
@@ -204,9 +210,9 @@ public class CheckoutController : BaseController
 
      var user_value=await this._user.findUserByName(username_value);
 
-
      ViewBag.user=user_value;
-  return View("~/Views/ClientSide/Checkout/Checkout.cshtml");    
+
+     return View("~/Views/ClientSide/Checkout/Checkout.cshtml");    
  }
    
   [Route("checkout/done")]
