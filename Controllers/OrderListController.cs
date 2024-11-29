@@ -72,7 +72,7 @@ public class OrderListController : Controller
             var filtered_order_paging=PageList<Order>.CreateItem(filtered_order.AsQueryable(),page,page_size);
             ViewBag.filter_obj=filtered_order_paging;
          }
-         string select_size="7";
+         string select_size=page_size.ToString();
           ViewBag.select_size=select_size;
           List<string> options=new List<string>(){"7","10","20","50"};
           ViewBag.options=options;
@@ -183,6 +183,92 @@ public class OrderListController : Controller
   }
 
   [Route("order/{id}/delete")]
+
+  [HttpGet]
+
+  public async Task<IActionResult> DeleteOrder(int id)
+  { Console.WriteLine("did come to delete order");
+    try
+    {
+    var order=await this._order.deleteOrder(id);
+    if(order==0)
+    {
+        ViewBag.Delete_Status=0;
+        ViewBag.Delete_Message="Xóa đơn hàng thất bại";
+        this._logger.LogInformation($"{this.HttpContext.Session.GetString("Username")} Delete Order Id:{id} Failed");
+    }
+    else
+    {
+        ViewBag.Delete_Status=1;
+        ViewBag.Delete_Message="Xóa đơn hàng thành công";
+    this._logger.LogInformation($"{this.HttpContext.Session.GetString("Username")} Delete Order Id:{id}");
+    }
+    }
+    catch(Exception er)
+    {
+        this._logger.LogTrace("Delete Order Exception:"+er.Message);
+    }
+  
+    string select_size="7";
+          ViewBag.select_size=select_size;
+          List<string> options=new List<string>(){"7","10","20","50"};
+          ViewBag.options=options;
+          int processing_count=this._order.countOrderStatus("Processing");
+            int completed_count=this._order.countOrderStatus("Finished");
+            int cancelled_count=this._order.countOrderStatus("Cancelled");
+            int refund_count=this._order.countOrderStatus("Refund");
+
+            ViewBag.processing_count=processing_count; 
+            ViewBag.completed_count=completed_count;
+            ViewBag.cancelled_count=cancelled_count;
+            ViewBag.refund_count=refund_count;
+            var orders=await this._order.pagingOrderList(7,1);
+
+    return View("~/Views/OrderList/OrderList.cshtml",orders);
+  }
+
+
+  [Route("order/{id}/status")]
+  [HttpGet]
+  public async Task<IActionResult> OrderStatus(int id)
+  {
+    var order=await this._order.findOrderById(id);
+    return View("~/Views/OrderList/UpdateOrder.cshtml",order);
+  }
+
+  [Route("order/update_status")]
+  
+  [HttpPost]
+  public async Task<IActionResult> UpdateOrderStatus(int id,string status)
+  {Console.WriteLine("did come to update order status");
+    try
+    {
+    var updated_order=await this._order.updateOrderStatus(id,status);
+    if(updated_order==0)
+    {
+        ViewBag.Status=0;
+        ViewBag.Message="Cập nhật trạng thái đơn hàng thất bại";
+        this._logger.LogInformation($"{this.HttpContext.Session.GetString("Username")} Update Order Status Failed");
+    }
+    else
+    {
+        ViewBag.Status=1;
+        ViewBag.Message="Cập nhật trạng thái đơn hàng thành công";
+        this._logger.LogInformation($"{this.HttpContext.Session.GetString("Username")} Update Order Status Success");
+    }
+    }
+    catch(Exception er)
+    {
+        this._logger.LogTrace("Update Order Status Exception:"+er.Message);
+    }
+    
+    var order=await this._order.findOrderById(id);    
+    
+    return View("~/Views/OrderList/UpdateOrder.cshtml",order);
+
+  }
+
+  [Route("order/{id}/detail/delete")]
   
   [HttpGet]
   public async Task<IActionResult> DeleteOrderDetailByProducts(int id,int[] ids)
@@ -192,7 +278,7 @@ public class OrderListController : Controller
     try
     {
     foreach(var detail_id in ids)
-    {
+    {   Console.WriteLine("Detail Id here is:"+detail_id);
         var orderDetail = await this._order.deleteProductOrderDetail(detail_id);
     }
         ViewBag.Delete_Multiple_Status=1;

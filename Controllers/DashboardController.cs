@@ -42,17 +42,24 @@ public class DashboardController : Controller
     int total_profit_previous_2_year=this._dashboard.countProfitByYear(DateTime.Now.Year-2);
     var cat_list = await this._category.getAllCategory();
     int total_visitors=await this._trackData.getCurrentVisitedCount();
+    
     Console.WriteLine("len of cat list:"+cat_list.Count().ToString());
+    
     Dictionary<Category,int> profit_by_cats=new Dictionary<Category,int>();
+    
     List<int> order_in_months=new List<int>();
+    
     for(int i=1;i<=12;i++)
     {
         int order_in_month=this._dashboard.countOrderByMonth(i);
+
         order_in_months.Add(order_in_month);
     }
+
     foreach(var item in cat_list)
     {
      int profit=this._dashboard.countProfitByOrder(item.Id);
+
      profit_by_cats.Add(item,profit);
     }
     
@@ -71,10 +78,14 @@ public class DashboardController : Controller
     ViewData["total_profit_previous_1_year"]=total_profit_previous_1_year;
     ViewData["total_profit_previous_2_year"]=total_profit_previous_2_year;
     ViewData["total_visitors"]=total_visitors;
+    
   var viewId="G-KHS83JFC5Y";
+  
   DateTime startDate = DateTime.Now.AddDays(-30);
+  
   DateTime endDate = DateTime.Now;
-    }
+    
+  }
     catch(Exception er)
     {   
         Console.WriteLine("Get Dashboard List Exception:"+er.Message);

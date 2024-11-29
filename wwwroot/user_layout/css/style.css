@@ -215,6 +215,18 @@ input {
   opacity: 1;
 }
 
+
+.cart-index {
+  max-height: 620px; /* Set maximum height */
+  overflow-y: scroll; /* Enable scrolling */
+  scrollbar-width: none; /* For Firefox: Hide the scrollbar */
+  -ms-overflow-style: none; /* For IE and Edge */
+}
+
+.cart-index::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and WebKit browsers */
+}
+
 /*---------------------------------
     common classes css start 
 ---------------------------------*/
@@ -273,9 +285,11 @@ input {
   border-radius: 2px;
 }
 
-.b-radius-2 {
+.b-radius-2 
+{
   border-radius: 20px;
 }
+
 
 .z-tooltip {
   position: absolute;

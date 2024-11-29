@@ -79,7 +79,8 @@ startTime=DateTime.Now;
   secons=endTime.Second-startTime.Second;
 
 
-         Console.WriteLine("Time taken to get all reviews is:"+secons);
+    Console.WriteLine("Time taken to get all reviews is:"+secons);
+    
     var blogs= await this._blog.getAllBlog();
 
     var slider_content=await this._setting.getContentByName("homepage");

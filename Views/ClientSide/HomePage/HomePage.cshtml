@@ -3,7 +3,7 @@
     var banners=ViewBag.banners;
     var products = ViewBag.products as List<Product>; 
     var categories = ViewBag.categories as List<Category>;
-    var brands=ViewBag.brands;
+    var brands=ViewBag.brands as List<Brand>;
     var blogs = ViewBag.blogs as List<Blog>;
     var count_reviews=ViewBag.count_reviews as Dictionary<string,int>;
     var slider_content=ViewBag.slider_content as string;
@@ -351,8 +351,11 @@
                             </div>
                             <div class="smblog-content">
                                 <h6><a href="@Url.Action("BlogDetail","Blog",new{id=blog.Id})">@blog.Blogname</a></h6>
+
                                 <span class="author mb-10">posted by <a href="javascript:void(0);"> @blog.Author</a></span>
+                                
                                 <p>@blog.GetFirstPContent()</p>
+                                
                                 <div class="smblog-foot pt-15">
                                     <div class="post-readmore">
                                        <a href="@Url.Action("BlogDetail","Blog",new{id=blog.Id})"> Read More <span class="icon"></span></a>
@@ -501,7 +504,7 @@
                     @foreach(var brand in brands)
                         {
                         <div class="brand-item w-img swiper-slide">
-                        <a href="#"><img src="~/@brand?.Avatar.Substring(brand.Avatar.IndexOf("wwwroot")+("wwwroot".Length+1))" accesskey=""alt="brand"></a>
+                        <a href="@Url.Action("ProductByBrand","Products",new{brand_name=brand.BrandName})"><img src="~/@brand?.Avatar.Substring(brand.Avatar.IndexOf("wwwroot")+("wwwroot".Length+1))" accesskey="" alt="brand"></a>
                         </div>
                         }
                     </div>
@@ -716,7 +719,6 @@
                                                 <span class="cat mr-10">Loại sản phẩm:</span>
                                                 <span id="product-category"></span></a>
                                             </li>
-                              
                                         </ul>
                                     </div>
                                 </div>
