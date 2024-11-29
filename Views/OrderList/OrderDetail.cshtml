@@ -6,7 +6,7 @@
    var delete_multiple_message = ViewBag.Delete_Multiple_Message;
    string curr_status_class="";
    int sum_order=0;
-   int order_count=ViewBag.OrderCount;
+   var order_count=ViewBag.OrderCount;
   Dictionary<string,string> order_status=new Dictionary<string, string>{
     {"Processing","Đang xử lý"},
     {"Finished","Đã hoàn thành"},
@@ -160,7 +160,7 @@
 <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3 row-gap-4">
   <div class="d-flex flex-column justify-content-center">
     <div class="mb-1">
-      <span class="h5">Đơn hàng #@Model?.Id </span><span class="badge @curr_status_class me-1 ms-2">@order_status[Model?.Status]</span>
+      <span class="h5">Đơn hàng @Model?.OrderId </span><span class="badge @curr_status_class me-1 ms-2">@order_status[Model?.Status]</span>
     </div>
     <p class="mb-0">@Model?.Createddate</p>
   </div>
@@ -209,10 +209,10 @@
                 </div>
                 </td>
                 <td class="w-25">
-                    @item.Price VND
+                    @item.Price VNĐ
                     </td>
                 <td class="w-25">@item.Quantity</td>
-                <td>@sum VND</td>
+                <td>@sum VNĐ</td>
                 <td>
                 <div class="d-flex align-items-center justify-content-center">
              <a data-bs-toggle="modal" data-bs-target="#modalLong" class="btn btn-icon delete-record icon-style-delete mr-2" id="delete-record-btn" data-page="@item.Id" data-order="@Model?.Id">
@@ -254,7 +254,9 @@
                                 class="btn-close"
                                 data-bs-dismiss="modal"
                                 aria-label="Close"
-                              ></button>
+                              >
+                              
+                              </button>
                             </div>
                             <div class="modal-body">
                              <p class="modal-font">

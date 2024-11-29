@@ -23,6 +23,8 @@ public interface IOrderRepository
 
   public Task<int> deleteProductOrderDetail(int id);
 
+  public Task<int> updateOrderStatus(int id,string status);
+
   public int countOrderStatus(string status);
 
   public int countOrder(string id);

@@ -1,18 +1,23 @@
+@model Order
 @{
-   var created_page=ViewBag.Created_Page;
-   var create_status=ViewBag.Status;
-   var lang_list=ViewBag.language_list as List<string>;
-   var products = ViewBag.products as List<Product>;
-   var categories = ViewBag.categories as List<string>; // Add this line
+   var update_status=ViewBag.Status;
+   var update_message = ViewBag.Message;
+    Dictionary<string,string> order_status=new Dictionary<string, string>{
+    {"Processing","Đang xử lý"},
+    {"Finished","Đã hoàn thành"},
+    {"Cancelled","Đã hủy"},
+    {"Refund","Được hoàn tiền"}
+  };  
 }
 
-
-      <div
-       class="bs-toast toast fade hide toast-placement-ex top-5 end-0"
+@if(update_status==1)
+{
+   <div
+       class="bs-toast toast fade hide bg-success toast-placement-ex top-5 end-0"
        role="alert"
        aria-live="assertive"
        aria-atomic="true"
-        data-bs-dismiss="toast"
+       data-bs-dismiss="toast"
         style="cursor: pointer;"
          data-delay="3000"
          data-bs-autohide="true" 
@@ -20,13 +25,53 @@
              >
                         <div class="toast-header">
                           <i class="bx bx-bell me-2"></i>
-                          <div class="me-auto fw-semibold">Thêm Video</div>
+                          <div class="me-auto fw-semibold">Cập nhật trạng thái đơn hàng</div>
                           <!--<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>-->
                         </div>
                         <div class="toast-body">
-                          <div id="toast-message"></div>
+                            @update_message
                         </div>
                       </div>
+                <script>
+            document.addEventListener('DOMContentLoaded', function() 
+            {
+                var toastEl = document.querySelector('.toast');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();                
+            });
+        </script>
+}
+
+
+@if(update_status==0)
+{
+   <div
+       class="bs-toast toast fade hide bg-danger toast-placement-ex top-5 end-0"
+       role="alert"
+       aria-live="assertive"
+       aria-atomic="true"
+        data-bs-dismiss="toast"
+        style="cursor: pointer;"
+        data-delay="3000"
+         data-bs-autohide="true" 
+         data-bs-delay="3000"
+             >
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold">Cập nhật trạng thái đơn hàng</div>
+                        </div>
+                        <div class="toast-body">
+                         @(update_message)
+                        </div>
+                      </div>
+                        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var toastEl = document.querySelector('.toast');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            });
+        </script>
+}
     
     
 
@@ -48,37 +93,45 @@
             <!-- Content -->
 
             <div class="container-xxl flex-grow-1 container-p-y">
-              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Video sản phẩm/</span>Thêm video</h4>
+              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Đơn hàng/</span>Cập nhật trạng thái đơn hàng</h4>
               <div class="row">
                 <div class="col-md-12">
                   <ul class="nav nav-pills flex-column flex-md-row mb-3">
                     <li class="nav-item">
-                      <a class="nav-link active" href="javascript:void(0);"><i class="bx bx-grid me-1"></i>Thêm file hướng dẫn</a>
+                      <a class="nav-link active" href="javascript:void(0);"><i class="bx bx-grid me-1"></i>Cập nhật trạng thái đơn hàng</a>
                     </li>     
                   </ul>
                   <div class="card mb-4">
-                    <h5 class="card-header">Thông tin video</h5>
+                    <h5 class="card-header">Trạng thái đơn hàng</h5>
                     <div class="card-body">
-                      <form id="formAccountSettings" method="POST" asp-action="addVideo" asp-controller="VideoList">
+                      <form id="formAccountSettings" method="POST" asp-action="UpdateOrderStatus" asp-controller="OrderList">
                         <div class="row mb-3">
                           <div class="mb-3 col-md-6">
-                            <label for="username" class="form-label mb-2">Link Video:</label>
+                            <label for="username" class="form-label mb-2">Mã đơn hàng:</label>
                             <input
                               class="form-control"
                               type="text"
-                              id="filename"
-                              name="link"
-                              autofocus
-                              placeholder="Nhập tên file"
+                              id="id"
+                              value="@Model.OrderId"
+                              readonly
                             />
+                        
                           <span id="file-name-error" class="text-danger"></span>
+                          <input type="hidden" name="id" value="@Model.Id"/>
                           </div>
+
                           <div class="mb-3 col-md-6">
-                            <label for="product_id" class="form-label mb-2">Tên sản phẩm</label>
-                            <select name="productid" class="form-select">
-                                @foreach(var product in products)
+                            <label for="product_id" class="form-label mb-2">Trạng thái:</label>
+                            <select name="status" class="form-select">
+                                @foreach(var status in order_status)
+                                {  @if(Model.Status==status.Key)
                                 {
-                                    <option value="@product.Id">@product.ProductName</option>
+                                    <option value="@status.Key" selected>@status.Value</option>
+                                }
+                                 else
+                                 {
+                                <option value="@status.Key">@status.Value</option>
+                                 }
                                 }
                             </select>
                           </div>
@@ -114,8 +167,8 @@
                           </div>
                         </div> *@
                         <div class="mt-2 d-flex flex-row justify-content-md-start justify-content-sm-between">
-                          <button type="submit" class="btn btn-primary me-4">Thêm video</button>
-                          <button type="button" class="btn btn-primary" type="button" id="back-btn">Trở lại danh sách video</button>
+                          <button type="submit" class="btn btn-primary me-4">Cập nhật trạng thái</button>
+                          <button type="button" class="btn btn-primary" type="button" id="back-btn">Trở lại danh sách đơn hàng</button>
                         </div>
                       </form>
 
@@ -132,75 +185,12 @@
 
 <script>
 
-  document.getElementById("formAccountSettings").addEventListener("submit",()=>{
 
-event.preventDefault();
-
-  var is_valid=true;
-  
-  var file_name=document.getElementById("filename").value.trim();
-
-
-
-  if(file_name==='')
-  {
-    is_valid=false;
-    document.getElementById("file-name-error").innerHTML='Không được để trống thông tin này';
-  }
-
- 
-
-  if(!is_valid)
-  {
-    return;
-  }  
-
-   var formData=new FormData(document.getElementById("formAccountSettings"));
-
-  
-  var url='@Url.Action("addVideoList","VideoList")';
-
-
-
-   $.ajax({  
-                url: url,
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false, 
-                success:function(response)
-                { 
-                  var status=response.status;
-                  var message=response.message;
-                 var toast_obj=document.querySelector('.toast');
-                 var toast_message=document.getElementById('toast-message');
-                 toast_message.innerText=message;
-                  if(status==0)
-                { 
-                 toast_obj.classList.add('bg-danger');
-                }
-
-                else{
-
-               toast_obj.classList.add('bg-success');
-                }
-                var toast = new bootstrap.Toast(toast_obj);
-                toast.show();       
-                },
-                error: function (xhr, status, error) {
-               document.getElementById('toast-message').innerText=error.message;
-               document.querySelector('.toast').classList.add('bg-danger');
-                var toastEl = document.querySelector('.toast');
-                var toast = new bootstrap.Toast(toastEl);
-                toast.show();            
-              }
-            });
-            });
 
 
   document.getElementById('back-btn').addEventListener("click",()=>
   {
-   var url='@Url.Action("VideoList","VideoList")';
+   var url='@Url.Action("OrderList","OrderList")';
    window.location.href=url;
   });
 

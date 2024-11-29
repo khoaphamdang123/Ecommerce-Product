@@ -12,14 +12,21 @@
                                     <span class="sub">Giỏ hàng:</span>
                                     $00.00 </span>
                                     </a>
-        
  @if(Model.Count>0)
                 { 
                                     <div class="cart">
                                         <div class="cart__mini">
-                                        <div id="sub-list-section">
+                                                  <div id="update-count" data-count="@Model.Count"></div>
+                                                  <div class="cart__title">
+                                                    <h4>Giỏ hàng của bạn</h4>
+                                                    <span>(@Model.Count sản phẩm)</span>
+                                                  </div>
+                                        <div id="sub-list-section" class="cart-index">
+                            
                     @Html.Partial("~/Views/ClientSide/Cart/_SubListPartial.cshtml",Model)
                                             </div>
+                                                    <a href="@Url.Action("Cart","Cart")" class="wc-cart mb-10">Xem giỏ hàng</a>
+                                                    <a href="@Url.Action("Checkout","Checkout")" class="wc-checkout">Đặt hàng</a>
                                         </div>
                                     </div>
                                     }
@@ -56,7 +63,7 @@
                    
                     $("#sub-list-section").html(response);
                     attachRemoveButtonListeners();
-                    var updated_count=$("#update-count").data("count");
+                    var updated_count=$("#update-count").data("count");                    
                     $("#count-cart").text(updated_count);
                 },
                 error: function(xhr, status, error) 
@@ -74,4 +81,5 @@
 }
 
 attachRemoveButtonListeners();
+
 </script>

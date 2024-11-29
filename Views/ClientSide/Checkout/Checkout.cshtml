@@ -9,6 +9,16 @@
     var siteKey=ViewBag.SiteKey;
     var message_checkout=ViewBag.Message;
     var status_checkout = ViewBag.Status;
+    var account= ViewBag.Account;
+    var saved_account= ViewBag.SavedAccount;
+     string username="";
+     string password="";
+ if(account!=null)
+  {  string[] account_part=account.Split('\n');
+     username=account_part[0];
+     password=account_part[1];
+  }
+
     Console.WriteLine("Sitekey here is:"+siteKey);
  } 
  @if(status_checkout==0)
@@ -102,18 +112,25 @@
                             <form id="signinForm" method="POST" asp-action="MyAccount" asp-controller="MyAccount">
                                     <p class="form-row-first">
                                     <label>Tên đăng nhập<span class="required">*</span></label>
-                                    <input type="text" name="username" id="username">
+                                    <input type="text" name="username" id="username" value="@(!string.IsNullOrEmpty(username)?username:"")">
                                     <span class="text-danger" id="username-error"></span><br>
                                     </p>
                                     <p class="form-row-last">
                                     <label>Mật khẩu<span class="required">*</span></label>
-                                    <input type="password" name="password" id="password" autocomplete>
+                                    <input type="password" name="password" id="password" value="@(!string.IsNullOrEmpty(password)?password:"")" autocomplete>
                                 <span class="text-danger" id="password-error"></span><br>
                                     </p>
                                     <p class="form-row">
                                     <button class="tp-btn-h1" type="submit">Đăng nhập</button>
                                     <label>
-                                     <input type="checkbox" name="rememberme">
+                                    @if(saved_account!=null && saved_account)
+                                    {
+                                     <input type="checkbox" name="rememberme" value="true" checked>
+                                     }
+                                     else
+                                     {
+                                    <input type="checkbox" name="rememberme" value="true">
+                                     }
                                         Nhớ mật khẩu
                                     </label>
                                     </p>
@@ -161,7 +178,7 @@
                                     <div class="col-md-12">
                                         <div class="checkout-form-list">
                                             <label>Tên<span class="required">*</span></label>
-                                            <input type="text" placeholder="Nhập tên" name="username" id="user-name" value="@(user!=null?user.UserName:"")" @(user!=null?"disabled":"")>
+                                            <input type="text" placeholder="Nhập tên" name="username" id="user-name" value="@(user!=null?user.UserName:"")" @(user!=null?"readonly":"")>
                                         <span class="text-danger" id="name-error"></span><br>
 
                                         </div>
@@ -175,7 +192,7 @@
                                     <div class="col-md-12">
                                         <div class="checkout-form-list">
                                             <label>Địa chỉ<span class="required">*</span></label>
-                                            <input type="text" placeholder="Nhập địa chỉ giao hàng" id="address" name="address1" value="@(user!=null?user.Address1:"")"  @(user!=null?"disabled":"")>
+                                            <input type="text" placeholder="Nhập địa chỉ giao hàng" id="address" name="address1" value="@(user!=null?user.Address1:"")"  @(user!=null?"readonly":"")>
                                             <span class="text-danger" id="address-error"></span><br>
 
                                         </div>
@@ -206,14 +223,14 @@
                                     <div class="col-md-6">
                                         <div class="checkout-form-list">
                                             <label>Email<span class="required">*</span></label>
-                                            <input type="email" placeholder="Nhập Email của bạn" id="email" name="email" value="@(user!=null?user.Email:"")"  @(user!=null?"disabled":"")>      
+                                            <input type="email" placeholder="Nhập Email của bạn" id="email" name="email" value="@(user!=null?user.Email:"")"  @(user!=null?"readonly":"")>      
                                             <span class="text-danger" id="email-error"></span><br>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="checkout-form-list">
                                             <label>Số điện thoại<span class="required">*</span></label>
-                                            <input type="text" placeholder="Nhập số điện thoại của bạn" id="phone" name="phonenumber" value="@(user!=null?user.PhoneNumber:"")"  @(user!=null?"disabled":"")>
+                                            <input type="text" placeholder="Nhập số điện thoại của bạn" id="phone" name="phonenumber" value="@(user!=null?user.PhoneNumber:"")"  @(user!=null?"readonly":"")>
                                         <span class="text-danger" id="phone-error"></span><br>
 
                                         </div>
@@ -370,14 +387,14 @@
                                                 <th>Giao hàng</th>
                                                 <td>
                                                     <ul>
-                                                        <li>
+                                                        @* <li>
                                                             <input type="radio" name="shipping">
                                                             <label>
                                                                 Giá niêm yết: <span class="amount">10000 VNĐ</span>
                                                             </label>
-                                                        </li>
+                                                        </li> *@
                                                         <li>
-                                                            <input type="radio" name="shipping">
+                                                            <input type="radio" name="shipping" checked>
                                                             <label>Miễn phí giao hàng:</label>
                                                         </li>
                                                     </ul>
@@ -440,11 +457,11 @@
       <div class="qr-info">
         <h3>Thông tin ngân hàng:</h3>
         <ul>
-          <li><strong>Số tiền cần chuyển:</strong>@total_value VNĐ</li>
-          <li><strong>Tên ngân hàng:</strong>TPBank</li>
-          <li><strong>Tên chủ thể:</strong>Huỳnh Kiếng Quân</li>
-          <li><strong>Số tài khoản:</strong>66090781093</li>
-          <li><strong>Nội dung:</strong>"#(Mã đơn hàng) chuyển khoản" Vd:#100101 chuyển khoản</li>
+          <li><strong>Số tiền cần chuyển:</strong>&nbsp;@total_value VNĐ</li>
+          <li><strong>Tên ngân hàng:</strong>&nbsp;TPBank</li>
+          <li><strong>Tên chủ thể:</strong>&nbsp;Huỳnh Kiếng Quân</li>
+          <li><strong>Số tài khoản:</strong>&nbsp;66090781093</li>
+          <li><strong>Nội dung:</strong>&nbsp;"#(Mã đơn hàng) chuyển khoản" Vd:#100101 chuyển khoản</li>
         </ul>
       </div>
       <div class="qr-code">
@@ -599,6 +616,7 @@
     if(address.value=="")
     {
         is_valid=false;
+
         document.getElementById("address-error").innerHTML="*Địa chỉ không được để trống";
     }
     if(phone.value=="")
@@ -618,7 +636,7 @@
         
         return;
     }
-    alert(address.value);
+
     payment_method=convertPaymentMethod(payment_method);
     var payment_input=document.createElement("input");
     payment_input.type="text";
@@ -731,9 +749,9 @@
                    $.ajax({
                     url:section_url,
                     type:"POST",
-                    success: function(partialHtml) {
+                    success: function(partialHtml) 
+                    {
                         $('#user_avatar').html(partialHtml);
-
                     }
                 });  
 

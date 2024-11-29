@@ -3,13 +3,7 @@
         int total_value=0;
     }
    <ul>
-                                                <li>
-                                                  <div id="update-count" data-count="@Model.Count"></div>
-                                                  <div class="cart__title">
-                                                    <h4>Giỏ hàng của bạn</h4>
-                                                    <span>(@Model.Count sản phẩm)</span>
-                                                  </div>
-                                                </li>
+                                             
                                                @foreach(var item in Model)
                                             {   
                                                 total_value+=Convert.ToInt32(item.Product.Price)*item.Quantity;
@@ -48,10 +42,7 @@
 
                                                   </div>
                                                 </li>
-                                                <li>
-                                                    <a href="@Url.Action("Cart","Cart")" class="wc-cart mb-10">Xem giỏ hàng</a>
-                                                    <a href="@Url.Action("Checkout","Checkout")" class="wc-checkout">Đặt hàng</a>
-                                                </li>
+                                           
                                             </ul>
 <script>
          var cart=@Html.Raw(Json.Serialize(Model));

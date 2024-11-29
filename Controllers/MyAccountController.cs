@@ -71,6 +71,17 @@ namespace Ecommerce_Product.Controllers
         };
         Response.Cookies.Append("VisitorCounted","true",options);
         }
+    
+      bool is_saved_account=false;
+        
+        if(Request.Cookies["UserAccount"]!=null)
+        {
+            is_saved_account=true;
+            string account=Request.Cookies["UserAccount"];
+            Console.WriteLine("Account here is:"+account);
+            ViewBag.Account=account;
+            ViewBag.SavedAccount=is_saved_account;
+        }
 
        int setting_status=await this._setting.getStatusByName("recaptcha");
        if(setting_status==1)
@@ -114,12 +125,13 @@ namespace Ecommerce_Product.Controllers
       
       bool is_remember_me= model.RememberMe;
 
-      Console.WriteLine("is remember me:"+is_remember_me);
-
+      Console.WriteLine("is remember me here:"+is_remember_me);
       
       var admin_user=await this._loginRepos.getUserByUsername(username);
+      
       int setting_status=await this._setting.getStatusByName("recaptcha");
-    if(setting_status==1)
+    
+      if(setting_status==1)
        {
         ViewBag.SiteKey=this._recaptcha_response.SiteKey;
        }
@@ -164,6 +176,29 @@ namespace Ecommerce_Product.Controllers
          return Json(response);
              }
              }
+
+    if(Request.Cookies["UserAccount"]==null)
+        {  
+        if(is_remember_me)
+        {
+        CookieOptions options = new CookieOptions
+        {
+        Expires=DateTime.Now.AddYears(1),
+        IsEssential=true,
+        HttpOnly=true
+        };
+        string account=username+"\n"+password;
+        Response.Cookies.Append("UserAccount",account,options);
+        }
+        }
+     if(!is_remember_me)
+     {
+        if(Request.Cookies["UserAccount"]!=null)
+        {
+            Response.Cookies.Delete("UserAccount");
+        }
+     }
+            
               HttpContext.Session.SetString("UserId",admin_user.Id);
               HttpContext.Session.SetString("Username",admin_user.UserName);
               HttpContext.Session.SetString("Email",admin_user.Email);

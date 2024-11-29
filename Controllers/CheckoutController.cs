@@ -93,12 +93,25 @@ public class CheckoutController : BaseController
        {
         ViewBag.SiteKey=this._recaptcha_response.SiteKey;
        }
+        bool is_saved_account=false;
+        
+        if(Request.Cookies["UserAccount"]!=null)
+        {
+            is_saved_account=true;
+            string account=Request.Cookies["UserAccount"];
+            Console.WriteLine("Account here is:"+account);
+            ViewBag.Account=account;
+            ViewBag.SavedAccount=is_saved_account;
+        }
     
      if(string.IsNullOrEmpty(username))
      {
         return View("~/Views/ClientSide/Checkout/Checkout.cshtml",cart);
      }
 
+    
+
+   
      var user=await this._user.findUserByName(username);
 
 

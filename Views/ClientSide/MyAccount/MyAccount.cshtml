@@ -1,6 +1,15 @@
  @{
     Layout = "_UserLayout";
     var siteKey=ViewBag.SiteKey;
+    var account= ViewBag.Account;
+    var saved_account= ViewBag.SavedAccount;
+    string username="";
+    string password="";
+  if(account!=null)
+  {  string[] account_part=account.Split('\n');
+     username=account_part[0];
+     password=account_part[1];
+  }
 }
  
 
@@ -82,17 +91,24 @@
                             <h5>Đăng nhập</h5>
                             <form id="signinForm" method="POST" asp-action="MyAccount" asp-controller="MyAccount">
                                 <label for="username">Tên tài khoản<span>*</span></label>
-                                <input id="username" name="username" type="text" placeholder="Nhập tên tài khoản">
+                                <input id="username" name="username" type="text" placeholder="Nhập tên tài khoản" value="@(!string.IsNullOrEmpty(username)?username:"")">
                                   <span class="forgot-login f-right">
                                        <a href="@Url.Action("ChangePassword","MyAccount")">Đổi mật khẩu?</a>
                                     </span>
                                 <span class="text-danger" id="username-error"></span><br>
                                 <label for="password">Mật khẩu<span>*</span></label>
-                                <input id="password" name="password" type="password" placeholder="Nhập tên mật khẩu">
+                                <input id="password" name="password" type="password" placeholder="Nhập tên mật khẩu" value="@(!string.IsNullOrEmpty(password)?password:"")">
                                 <span class="text-danger" id="password-error"></span><br>
                                 <div class="login-action mb-10 fix">
                                     <span class="log-rem f-left">
-                                       <input id="rememberme" name="rememberme" type="checkbox">
+                                     @if(saved_account!=null && saved_account)
+                                     {
+                                       <input type="checkbox" id="rememberme" name="rememberme" value="true" checked>
+                                       }
+                                     else
+                                      {
+                                    <input type="checkbox" id="rememberme" name="rememberme" value="true">
+                                      }
                                        <label for="rememberme">Nhớ mật khẩu</label>
                                     </span>
                                     <span class="forgot-login f-right">

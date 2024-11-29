@@ -50,7 +50,7 @@ public class OrderListService:IOrderRepository
    {
     Console.WriteLine("Did come to order create section");
     var order=new Order{
-      Status="Đang xử lý",
+      Status="Processing",
       Total=cart.Sum(s=>Convert.ToInt32(s.Product.Price)*s.Quantity),
       Shippingaddress=user.Address1,
       Userid=user.Id,
@@ -75,9 +75,11 @@ public class OrderListService:IOrderRepository
       };
       
       await this._context.OrderDetails.AddAsync(order_detail);
-      
-      await this.saveChanges();
+
     }
+    
+    await this.saveChanges();
+
     Console.WriteLine("Create Product Detail for the order");
  
 
@@ -91,6 +93,29 @@ public class OrderListService:IOrderRepository
    }
   return created_res;  
   }
+
+
+ public async Task<int> updateOrderStatus(int id,string status)
+ {
+    int updated_res=0;
+    try
+    {
+      var order=await this.findOrderById(id);
+      if(order!=null)
+      {
+        order.Status=status;
+        this._context.Orders.Update(order);
+        await this.saveChanges();
+        updated_res=1;
+      }
+    }
+    catch(Exception er)
+    {
+      Console.WriteLine("Update Order Status Exception:"+er.Message);
+    }
+    return updated_res;
+ }
+
 
   private string generateOrderId(int id)
   {
@@ -122,6 +147,7 @@ public class OrderListService:IOrderRepository
     try
     {
       var order=await this.findOrderById(id);
+
       if(order!=null)
       {
         this._context.Orders.Remove(order);
@@ -129,14 +155,10 @@ public class OrderListService:IOrderRepository
         deleted_res=1;
         return deleted_res;
       }
-      else
-      {
-        deleted_res=-1;
-        return deleted_res;
-      }
     }
     catch(Exception er)
-    {
+    { 
+      Console.WriteLine("Delete Order Exception:"+er.Message);
       return deleted_res;
     }
     return deleted_res;

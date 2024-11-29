@@ -58,6 +58,18 @@ namespace Ecommerce_Product.Controllers
             return RedirectToAction("Dashboard","Dashboard");            
         } 
 
+        bool is_saved_account=false;
+
+        
+        if(Request.Cookies["SavedAccount"]!=null)
+        {
+            is_saved_account=true;
+            string account=Request.Cookies["SavedAccount"];
+            Console.WriteLine("Account here is:"+account);
+            ViewBag.Account=account;
+            ViewBag.SavedAccount=is_saved_account;
+        }
+
         if(Request.Cookies["VisitorCounted"]==null)
         {
        int total_visitor=await this._trackData.getCurrentVisitedCount();
@@ -92,7 +104,7 @@ namespace Ecommerce_Product.Controllers
         {
             ViewBag.Email=email;
             ViewBag.Password= password;
-            return View();
+            return View();            
         }
 
        [Route("forgot_password")]
@@ -119,6 +131,8 @@ namespace Ecommerce_Product.Controllers
       string password = model.Password;
       
       bool is_remember_me= model.RememberMe;
+       
+      
 
       Console.WriteLine("is remember me:"+is_remember_me);
       
@@ -156,12 +170,11 @@ int setting_status=await this._setting.getStatusByName("recaptcha");
             if(check_is_admin)
             {  
                 var result = await _signInManager.PasswordSignInAsync(username,password,is_remember_me,lockoutOnFailure: false);
-
+                
                 if(!result.Succeeded)
                 {   Console.WriteLine("result here is:"+result.ToString());
                     TempData["LoginFailed"]="True";
                     TempData["ErrorContent"]="Mật khẩu không chính xác";
-             
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                 }
             else
@@ -177,6 +190,27 @@ int setting_status=await this._setting.getStatusByName("recaptcha");
          return View(model);
              }
              }
+        if(Request.Cookies["SavedAccount"]==null)
+        {  
+        if(is_remember_me)
+        {
+        CookieOptions options = new CookieOptions
+        {
+        Expires=DateTime.Now.AddYears(1),
+        IsEssential=true,
+        HttpOnly=true
+        };
+        string account=username+"\n"+password;
+        Response.Cookies.Append("SavedAccount",account,options);
+        }
+        }
+     if(!is_remember_me)
+     {
+        if(Request.Cookies["SavedAccount"]!=null)
+        {
+            Response.Cookies.Delete("SavedAccount");
+        }
+     }
               HttpContext.Session.SetString("UserId",admin_user.Id);
               HttpContext.Session.SetString("Username",admin_user.UserName);
               HttpContext.Session.SetString("Email",admin_user.Email);
