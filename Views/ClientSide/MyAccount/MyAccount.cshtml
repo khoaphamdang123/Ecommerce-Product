@@ -144,9 +144,13 @@
                                 <span class="text-danger" id="phone-error"></span><br>
 
                                <label for="address1">Địa chỉ</label>
-                                <input id="address1" name="address1" type="text" placeholder="Nhập địa chỉ">
+                                <input id="address1" name="address1" type="text" placeholder="Nhập địa chỉ" oninput="getPlacePredictions(this.value)">
+                                <ul id="addressSuggestions" class="list-group position-absolute w-100" style="z-index: 1000; display: none;"></ul>
+
                                <label for="address2">Địa chỉ phụ</label>
                                 <input id="address2" name="address2" type="text" placeholder="Nhập địa chỉ phụ">
+                                  <ul id="addressSuggestions2" class="list-group position-absolute w-100" style="z-index: 1000; display: none;"></ul>
+
                                <label for="gender">Giới tính</label>
                                <br>
                                 <select id="gender" name="gender" class="mb-3">
@@ -168,14 +172,85 @@
 
         <!-- cta-area-start -->
       
+<script  type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNwNVY3rQCn935p0SkZB2ttgmzhlG1CK8&loading=async&libraries=places&callback=initMap">
+</script>
 
 <script>
+
+
+ let autocompleteService;
+   
+  let geocoder;
+
+    function initializeGoogleServices() {
+     alert("here");
+        autocompleteService = new google.maps.places.AutocompleteService();
+        geocoder = new google.maps.Geocoder();
+    }
+
+      function getPlacePredictions(query) 
+      {
+        const suggestionsContainer = document.getElementById('addressSuggestions');
+
+        // If the query is empty, hide suggestions
+        if (!query) {
+            suggestionsContainer.style.display = 'none';
+            suggestionsContainer.innerHTML = '';
+            return;
+        }
+
+        // Get autocomplete predictions
+        autocompleteService.getPlacePredictions({ input: query }, function (predictions, status) {
+          
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                // Clear the suggestions container
+                suggestionsContainer.innerHTML = '';
+
+                // Populate suggestions
+                predictions.forEach(prediction => {
+                    const suggestionItem = document.createElement('li');
+                    suggestionItem.classList.add('list-group-item', 'list-group-item-action');
+                    suggestionItem.textContent = prediction.description;
+
+                    // On click, select the suggestion and fetch details
+                    suggestionItem.onclick = function () {
+                        document.getElementById('address').value = prediction.description;
+                        suggestionsContainer.style.display = 'none';
+
+                        // Fetch place details
+                        geocoder.geocode({ address: prediction.description }, function (results, status) {
+                            if (status === google.maps.GeocoderStatus.OK && results[0]) {
+                                const location = results[0].geometry.location;
+                                document.getElementById('latitude').value = location.lat();
+                                document.getElementById('longitude').value = location.lng();
+                            }
+                        });
+                    };
+
+                    // Append to the container
+                    suggestionsContainer.appendChild(suggestionItem);
+                });
+
+                // Show the container
+                suggestionsContainer.style.display = 'block';
+            } else {
+                // Hide suggestions if no matches
+                suggestionsContainer.style.display = 'none';
+            }
+        });
+    }
+  
+    google.maps.event.addDomListener(window, 'load', initializeGoogleServices);
+
+
+
+
   function submitForm(formId)
    {
-      var is_valid=true;
+    var is_valid=true;
 
-      let action="";
-
+    let action="";
+    
  if(formId=="signinForm")
  {
     var username=document.getElementById("username").value;
@@ -291,6 +366,8 @@ else
    
 
   document.addEventListener("DOMContentLoaded",()=>{
+
+
 
   document.getElementById("username-register").addEventListener("keydown",(event)=>{
       var username_error=document.getElementById("username-register-error").value;
