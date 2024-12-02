@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Ecommerce_Product.Data;
 using Serilog;
 using Ecommerce_Product.Models;
@@ -7,17 +8,36 @@ using Ecommerce_Product.Repository;
 using Ecommerce_Product.Service;
 using Ecommerce_Product.Support_Serive;
 using reCAPTCHA.AspNetCore;
+using Quartz;
+using Quartz.Spi;
+using Ecommerce_Product.Job;
 using Ecommerce_Product.Models;
 
 DotNetEnv.Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 var host = Environment.GetEnvironmentVariable("DB_HOST");
 var port = Environment.GetEnvironmentVariable("DB_PORT");
 var database = Environment.GetEnvironmentVariable("DB_NAME");
 var username = Environment.GetEnvironmentVariable("DB_USER");
 var password = Environment.GetEnvironmentVariable("DB_PASSWORD");
+
+builder.Services.AddQuartz(q =>
+{
+    q.UseMicrosoftDependencyInjectionJobFactory();
+
+    q.AddJob<CheckOrderJob>(opts => opts.WithIdentity("CheckOrderJob"));
+    q.AddTrigger(opts => opts
+        .ForJob("CheckOrderJob")
+        .WithIdentity("CheckOrderJobTrigger")
+        .WithSimpleSchedule(x => x.WithIntervalInHours(24).RepeatForever()) // Run every 24 hours
+    );
+});
+
+builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
+
 
 builder.Configuration["ConnectionStrings:DefaultConnection"] = 
     $"Host={host};Port={port};Database={database};Username={username};Password={password}";
@@ -44,7 +64,8 @@ builder.Services.AddRecaptcha(options =>
 builder.Services.AddDbContext<EcommerceshopContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddSession(options=>{
+builder.Services.AddSession(options=>
+{
   options.IdleTimeout=TimeSpan.FromHours(1);
   options.Cookie.HttpOnly = true;
   options.Cookie.IsEssential=true;  

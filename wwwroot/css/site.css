@@ -477,15 +477,17 @@ fork{
 
 .thumbnail-img {
   width: 85px;
-  height: 85px;
+  min-width: 85px;
+  height: auto;
   object-fit: cover; 
   border-radius: 8px;
 }
 
 .main-img
 {
-  width: 600px;
-  height: 600px;
+  width: 500px;
+  height: auto;
+  min-width: 500px;
   image-rendering: -webkit-optimize-contrast;
   object-fit: cover;
   border-radius: 8px;
@@ -604,7 +606,7 @@ z-index: 10;
   height: 8px;
   background-color: #e0e0e0;
   border-radius: 4px;
-  margin: 0 8px;
+  margin: 0 17px;
   position: relative;
 }
 

@@ -6027,71 +6027,73 @@ input {
 /*  16. cart CSS
 /*----------------------------------------*/
 /* 16. Cart */
-.table-content table {
-  background: #ffffff;
-  border-color: #e4e4e4;
-  border-radius: 0;
-  border-style: solid;
-  border-width: 1px 0 0 1px;
-  text-align: center;
-  width: 100%;
-  margin-bottom: 0;
+#table-content-cart.table-content table {
+  all: unset; /* Reset all inherited styles */
+  display: table;
+  background: #ffffff!important;
+  border-color: #e4e4e4!important;
+  border-radius: 0!important;
+  border-style: solid!important;
+  border-width: 1px 0 0 1px!important;
+  text-align: center!important;
+  width: 100%!important;
+  margin-bottom: 0!important;
 }
 
-.table-content .table > :not(:last-child) > :last-child > * {
-  border-bottom-color: #e4e4e4;
+#table-content-cart.table-content .table > :not(:last-child) > :last-child > * {
+  border-bottom-color: #e4e4e4!important;
 }
 
-.table-content .product-quantity {
-  float: none;
+#table-content-cart.table-content .product-quantity {
+  float: none !important;
 }
 
-.table-content table td.product-name {
-  font-size: 16px;
-  font-weight: 400;
-  text-transform: capitalize;
+#table-content-cart.table-content table td.product-name {
+  font-size: 16px!important;
+  font-weight: 400!important;
+  text-transform: capitalize!important;
 }
 
-.table-content table td.product-name a:hover {
-  color: #fcbe00;
+#table-content-cart.table-content table td.product-name a:hover {
+  color: #fcbe00!important;
 }
 
-.table-content table td {
-  border-top: medium none;
-  padding: 20px 10px;
-  vertical-align: middle;
-  font-size: 16px;
+#table-content-cart.table-content table td {
+  border-top: medium none!important;
+  padding: 20px 10px!important;
+  vertical-align: middle!important;
+  font-size: 16px!important;
 }
 
-.table-content table th, .table-content table td {
-  border-bottom: 1px solid #e4e4e4;
-  border-right: 1px solid #e4e4e4;
+#table-content-cart.table-content table th, .table-content table td {
+  border-bottom: 1px solid #e4e4e4!important;
+  border-right: 1px solid #e4e4e4!important;
 }
 
 .product-quantity input {
-  color: #000;
-  font-size: 14px;
-  font-weight: normal;
-  border: 1px solid #dcdcdc;
+  color: #000!important;
+  font-size: 14px!important;
+  font-weight: normal!important;
+  border: 1px solid #dcdcdc!important;
 }
 
-.table td, .table th {
-  border-top: 1px solid #e4e4e4;
+.table table td, .table table th {
+  border-top: 1px solid #e4e4e4!important;
 }
 
 .product-quantity > input {
-  width: 80px;
-  border-radius: 3px;
+  width: 80px !important;
+  border-radius: 3px !important;
 }
 
-.table-content table td.product-subtotal {
-  font-size: 16px;
+#table-content-cart.table-content table td.product-subtotal {
+  font-size: 16px!important;
 }
 
-.table-content table td .cart-plus-minus {
-  float: none;
-  margin: 0 auto;
-  position: relative;
+#table-content-cart.table-content table td .cart-plus-minus {
+  float: none!important;
+  margin: 0 auto!important;
+  position: relative!important;
 }
 
 .coupon-all {
@@ -6733,16 +6735,22 @@ p.checkout-coupon input[type=text]::placeholder {
   line-height: 1.5;
   font-weight: 500;
 }
-.mean-container .mean-nav ul li a:hover {
+.mean-container .mean-nav ul li a:hover 
+{
   color: #fcbe00;
 }
 
-.carousel-item {
+.carousel-item 
+{ 
   transition: transform 0.3s ease-in-out; 
 }
 
 
-.carousel-control-prev-icon, .carousel-control-next-icon {
+
+
+
+.carousel-control-prev-icon, .carousel-control-next-icon 
+{
   background-color: #ff5733; 
 }
 
@@ -6754,6 +6762,7 @@ p.checkout-coupon input[type=text]::placeholder {
 .carousel-control-next {
   opacity: 0;
   transition: opacity 0.3s ease; 
+
 }
 
 .carousel:hover .carousel-control-prev,
@@ -6933,7 +6942,7 @@ p.checkout-coupon input[type=text]::placeholder {
 /* Basic styling for zoomable image */
 .zoomable-image {
   cursor: zoom-in;
-  transition: transform 0.3s ease; /* Smooth zoom in/out effect */
+  transition: transform 0.3s ease; 
 }
 
 /* Styling for zoomed-in image in modal */

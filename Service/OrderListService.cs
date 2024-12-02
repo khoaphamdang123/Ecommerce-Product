@@ -95,6 +95,69 @@ public class OrderListService:IOrderRepository
   }
 
 
+private async Task<IEnumerable<Order>> getOrderByPayment()
+{
+  var orders=await this._context.Orders.Include(c=>c.Payment).Where(c=>c.Payment.Paymentname=="Bank" ||c.Payment.Paymentname=="Paypal").ToListAsync();
+  return orders;
+}
+
+public async Task checkOrderStatus()
+{
+  try
+  {
+  Console.WriteLine("Get In this check order status function");
+  var orders=await this.getOrderByPayment();
+  if(orders!=null)
+  {
+    foreach(var order in orders)
+    {
+      if(order.Status=="Processing")
+      { 
+        var created_date=DateTime.Parse(order.Createddate);
+        var current_date=DateTime.Now;
+        var diff_date=current_date.Subtract(created_date).TotalDays;
+        Console.WriteLine("Diff Date:"+diff_date);
+        if(diff_date>=3)
+        {
+          order.Status="Cancelled";
+        }
+        this._context.Orders.Update(order);
+      }
+     if(order.Status=="Cancelled")
+     {
+         var created_date=DateTime.Parse(order.Createddate);
+        var current_date=DateTime.Now;
+        var diff_date=current_date.Subtract(created_date).TotalDays;
+        if(diff_date>=7)
+        { 
+          var user_email=order.User.Email;
+          
+          var user=await this._context.AspNetUsers.Include(c=>c.Roles).FirstOrDefaultAsync(s=>s.Email==user_email);
+          
+          if(user!=null)
+          {
+          if(user.Roles.FirstOrDefault(c=>c.Name=="Anonymous")!=null)
+          {
+           this._context.AspNetUsers.Remove(user);
+          }
+        else
+        {
+          this._context.Orders.Remove(order);
+        }
+          }
+        
+        }
+      }
+    }
+    await this.saveChanges();
+  }
+  }
+  catch(Exception er)
+  {
+    Console.WriteLine("Check Order Status Exception:"+er.Message);
+  }
+}
+
  public async Task<int> updateOrderStatus(int id,string status)
  {
     int updated_res=0;
