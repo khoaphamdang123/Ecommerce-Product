@@ -202,7 +202,7 @@
                  <div class="d-flex align-items-center">
                  <div class="avatar-wrapper">   
                  <div class="avatar avatar-sm me-2">
-                <img src="@item.Product.Frontavatar" alt="Product Avatar">
+              <img src="~/@item.Product.Frontavatar.Substring(item.Product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="Product Avatar">
                 </div>
                  </div>
                 <strong>@item.Product.ProductName</strong>
