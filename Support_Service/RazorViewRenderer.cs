@@ -12,7 +12,7 @@ public class RazorViewRenderer
         _engine = new RazorLightEngineBuilder()
             .UseEmbeddedResourcesProject(typeof(Program))
             .UseMemoryCachingProvider()
-            .Build();
+            .Build();        
     }
 
     public async Task<string> RenderViewToStringAsync<T>(string viewName, T model)

@@ -6272,6 +6272,26 @@ td.product-thumbnail img {
   transition: all 0.3s ease 0s;
 }
 
+#addressSuggestions {
+  max-height: 200px;
+  overflow-y: auto;
+  background: #ffffff;
+  border: 1px solid #e4e4e4;
+  border-radius: 4px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#addressSuggestions li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+#addressSuggestions li:hover {
+  background-color: #f8f9fa;
+}
+
 p.lost-password {
   margin-top: 15px;
 }

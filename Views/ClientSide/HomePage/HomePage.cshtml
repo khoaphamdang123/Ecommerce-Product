@@ -111,7 +111,9 @@
                 </div>
                 <div class="row">
                 @foreach(var product in products)
-                { count_trending++;
+                { 
+                count_trending++;
+                
                 if(count_trending<=6)
                 {
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-3 col-xxl-2">
@@ -248,7 +250,7 @@
                 {  var product=products[j];
                    if(j==12)
                    {
-                    break;
+                    break;                    
                    }
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-3 col-xxl-2">
                         <div class="product__item product__item-2 b-radius-2 mb-20">
