@@ -100,7 +100,7 @@ public async Task<RecaptchaResponse> ValidateRecaptcha(string recaptchaToken)
         var response = await httpClient.GetStringAsync(
             $"https://www.google.com/recaptcha/api/siteverify?secret={"6LeQYl0qAAAAAGMswsbJBdkpb_anbatHza9Be52a"}&response={recaptchaToken}");
 
-        return JsonConvert.DeserializeObject<RecaptchaResponse>(response);
+        return JsonConvert.DeserializeObject<RecaptchaResponse>(response);        
     }
 
 public string getCurrentOs()

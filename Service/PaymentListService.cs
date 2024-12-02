@@ -97,12 +97,14 @@ public class PaymentListService:IPaymentRepository
     {
       return -1;
     }
-    return created_res;
+    return created_res;    
   }
 
 
     public async Task<int> updatePaymentMethod(int id)
-    { int update_res=0;
+    { 
+      int update_res=0;
+      
       try
       {
         var payment=await this.findPaymentById(id);

@@ -164,6 +164,7 @@ public async Task checkOrderStatus()
     try
     {
       var order=await this.findOrderById(id);
+
       if(order!=null)
       {
         order.Status=status;
@@ -233,12 +234,19 @@ public async Task checkOrderStatus()
     using(ExcelPackage excel = new ExcelPackage())
   {
     var worksheet=excel.Workbook.Worksheets.Add("Order");
+    
     worksheet.Cells[1,1].Value="STT";
+    
     worksheet.Cells[1,2].Value="Tên khách hàng";
+    
     worksheet.Cells[1,3].Value = "Phương thức thanh toán";
+    
     worksheet.Cells[1,4].Value="Trạng thái đơn hàng";
+    
     worksheet.Cells[1,5].Value="Giá trị đơn hàng";
+    
     worksheet.Cells[1,6].Value="Địa chỉ giao hàng";
+    
     worksheet.Cells[1,7].Value="Ngày tạo";
 
 

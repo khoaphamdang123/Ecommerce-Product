@@ -26,7 +26,7 @@ public string htmlContent(string receiver,string operating_system,string random_
 {
     string htmlContent="";
     
-    string path=this._spService.GetCurrentFilePath("Views/LoginAdmin/SendMailTemplate.html");
+    string path=this._spService.GetCurrentFilePath("Views/MailTemplate/SendMailTemplate.html");
     
     using(StreamReader sr=new StreamReader(path))
     {
