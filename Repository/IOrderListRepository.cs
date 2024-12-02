@@ -28,6 +28,8 @@ public interface IOrderRepository
   public int countOrderStatus(string status);
 
   public int countOrder(string id);
+
+  public Task checkOrderStatus();
   
   public Task<MemoryStream> exportToExcel();
 

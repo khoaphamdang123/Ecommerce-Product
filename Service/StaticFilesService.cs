@@ -18,6 +18,7 @@ public class StaticFilesService:IStaticFilesRepository
   public async Task<IEnumerable<StaticFile>> getAllStaticFile()
   {
     var static_files=this._context.StaticFile.ToList();
+    
     return static_files;
   }
 
@@ -29,7 +30,7 @@ public class StaticFilesService:IStaticFilesRepository
 
   public async Task<StaticFile> findStaticFileByName(string name)
   {
-    var static_file=await this._context.StaticFile.FirstOrDefaultAsync(s=>s.Filename==name);
+    var static_file=await this._context.StaticFile.FirstOrDefaultAsync(s=>s.Filename==name);    
     return static_file;
   }
   public async Task<PageList<StaticFile>> pagingStaticFiles(int page_size,int page)
