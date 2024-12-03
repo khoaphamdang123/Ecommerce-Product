@@ -35,17 +35,18 @@ public async Task<IActionResult> ProductDetail(string product_name)
  {  
     product_name=Uri.UnescapeDataString(product_name);
  
-    var products = await this._product.getAllProduct();
+    // var products = await this._product.getAllProduct();
     
-    var categories = await this._category.getAllCategory();
+    // var categories = await this._category.getAllCategory();
     
-    var brands = await this._category.getAllBrandList();
+    // var brands = await this._category.getAllBrandList();
 
-    ViewBag.products = products;
+
+    // ViewBag.products = products;
     
-    ViewBag.categories=categories;
+    // ViewBag.categories=categories;
     
-    ViewBag.brands=brands;
+    // ViewBag.brands=brands;
     
     Dictionary<string,int> count_stars=new Dictionary<string, int>();    
     
@@ -58,13 +59,23 @@ public async Task<IActionResult> ProductDetail(string product_name)
       var products_image=product.ProductImages.Count;
       
       var manual = await this._product.findManualByLanguage("English",product);
-      
+
+      var variants=await this._product.getProductVariant(product);
+
+      if(variants==null)
+      {
+        Console.WriteLine("Variant here is null");
+      }
+      if(variants!=null)
+      {
+      ViewBag.variants=variants;
+      }
        if(manual!=null)
        {
         ViewBag.manual_link=manual.ManualLink;
        }
       
-      List<Product> single_product = new List<Product>{product};
+      List<Product> single_product = new List<Product>{product};      
       
       var count_reviews=await this._product.countAllReview(single_product);            
       

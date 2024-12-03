@@ -22,7 +22,9 @@ public interface IProductRepository
 
   public Task<IEnumerable<Product>> filterProductByNameAndCategory(string name,string cat);
 
-   public Task<int> countProductRatingByStar(int star,int product_id);
+  public Task<int> countProductRatingByStar(int star,int product_id);
+
+  public Task<Dictionary<string,List<string>>> getProductVariant(Product product);
 
   public Task<int> addRatingStar(int product_id,string user_id,int start);
 

@@ -299,7 +299,7 @@ public partial class EcommerceshopContext : DbContext
                 .HasForeignKey(d => d.BrandId)
                 .HasConstraintName("brand_fk");
 
-            entity.HasOne(d => d.Category).WithMany(p => p.CategoryBrandDetails)
+            entity.HasOne(d => d.Category).WithMany(p => p.CategoryBrandDetail)
                 .HasForeignKey(d => d.CategoryId)
                 .HasConstraintName("category_fk");
         });
@@ -390,6 +390,9 @@ public partial class EcommerceshopContext : DbContext
             entity.Property(e => e.Createddate)
                 .HasColumnType("character varying")
                 .HasColumnName("createddate");
+            entity.Property(e => e.Note)
+                .HasComment("Note for Order")
+                .HasColumnName("note");
             entity.Property(e => e.OrderId)
                 .HasColumnType("character varying")
                 .HasColumnName("order_id");
@@ -426,6 +429,7 @@ public partial class EcommerceshopContext : DbContext
             entity.Property(e => e.Price).HasColumnName("price");
             entity.Property(e => e.Productid).HasColumnName("productid");
             entity.Property(e => e.Quantity).HasColumnName("quantity");
+            entity.Property(e => e.VariantId).HasColumnName("variant_id");
 
             entity.HasOne(d => d.Order).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.Orderid)
@@ -434,6 +438,11 @@ public partial class EcommerceshopContext : DbContext
             entity.HasOne(d => d.Product).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.Productid)
                 .HasConstraintName("orderdetail_product_fk");
+
+            entity.HasOne(d => d.Variant).WithMany(p => p.OrderDetails)
+                .HasForeignKey(d => d.VariantId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("variant_detail_fk");
         });
 
         modelBuilder.Entity<Payment>(entity =>

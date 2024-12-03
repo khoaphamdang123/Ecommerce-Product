@@ -11,5 +11,7 @@ namespace Ecommerce_Product.Models
    public string PhoneNumber{get;set;}
 
    public string PaymentMethod{get;set;}
+
+   public string Note{get;set;}
  }
 }

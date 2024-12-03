@@ -41,7 +41,7 @@ public class OrderListService:IOrderRepository
    return paging_list_order;
   }
 
-    public async Task<int> createOrder(AspNetUser user,List<CartModel> cart,Payment payment)
+    public async Task<int> createOrder(AspNetUser user,List<CartModel> cart,Payment payment,string note)
     {
      int created_res=0;
      Console.WriteLine("Cart length here is:"+cart.Count);
@@ -52,9 +52,10 @@ public class OrderListService:IOrderRepository
     var order=new Order{
       Status="Processing",
       Total=cart.Sum(s=>Convert.ToInt32(s.Product.Price)*s.Quantity),
-      Shippingaddress=user.Address1,
+      Shippingaddress=user.Address2,
       Userid=user.Id,
       Paymentid=payment.Id,
+      Note=note,
       Createddate=DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss")
     };
 
@@ -77,7 +78,7 @@ public class OrderListService:IOrderRepository
       await this._context.OrderDetails.AddAsync(order_detail);
 
     }
-    
+
     await this.saveChanges();
 
     Console.WriteLine("Create Product Detail for the order");

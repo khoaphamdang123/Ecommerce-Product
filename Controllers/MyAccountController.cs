@@ -251,7 +251,8 @@ namespace Ecommerce_Product.Controllers
              var recapchaResult = await this._recaptcha.Validate(Request);
              if(!recapchaResult.success)
              {Console.WriteLine("Captcha is not valid");
-            response=new StatusResponse{
+            response=new StatusResponse
+                    {
                             Status=0,
                             Title="Đăng ký",
                             Message="Hãy chọn captcha để chứng minh bạn ko phải robot.",

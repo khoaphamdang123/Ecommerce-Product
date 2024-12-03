@@ -62,6 +62,7 @@ public class ProductService:IProductRepository
  {
 
   var product=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(i=>i.ProductImages).Include(c=>c.Variants).ThenInclude(v=>v.Color).Include(c=>c.Variants).ThenInclude(v=>v.Size).Include(c=>c.Variants).ThenInclude(c=>c.Version).Include(c=>c.Variants).ThenInclude(c=>c.Mirror).Include(c=>c.Videos).Include(c=>c.Manuals).FirstOrDefaultAsync(p=>p.ProductName==name);
+  
   return product;
  }
 
@@ -222,6 +223,58 @@ public async Task<int> deleteProduct(int id)
  return res_del;
 }
 
+
+    public async Task<Dictionary<string,List<string>>> getProductVariant(Product product)
+    {
+      Console.WriteLine("Inside here");
+    var variants=product.Variants;
+
+    List<string> versions=new List<string>();
+    List<string> colors=new List<string>();
+    List<string> sizes=new List<string>();
+    List<string> mirrors=new List<string>();
+    
+  try
+  {
+    foreach(var variant in variants)
+    {
+      var version=variant.Version?.Versionname;
+      var color=variant.Color?.Colorname;
+      var size=variant.Size?.Sizename;
+      var mirror=variant.Mirror?.Mirrorname;
+      if(!string.IsNullOrEmpty(version) && !versions.Contains(version))
+      {
+        versions.Add(version);
+      }
+      if(!string.IsNullOrEmpty(color) && !colors.Contains(color))
+      {
+        colors.Add(color);
+      }
+      if(!string.IsNullOrEmpty(size) && !sizes.Contains(size))
+      {
+        sizes.Add(size);
+      }
+      if(!string.IsNullOrEmpty(mirror) && !mirrors.Contains(mirror))
+      {
+        mirrors.Add(mirror);
+      }
+    }
+  }
+  catch(Exception er)
+  {
+    Console.WriteLine("Get Product Variant Exception:"+er.Message);
+  }
+    Dictionary<string,List<string>> data_val=new Dictionary<string, List<string>>
+    {
+      {"versions",versions},
+      {"colors",colors},
+      {"sizes",sizes},
+      {"mirrors",mirrors},
+    };
+    return data_val;
+    }
+
+
   public async Task<MemoryStream> exportToExcelProduct()
   {
     using(ExcelPackage excel = new ExcelPackage())
@@ -231,7 +284,7 @@ public async Task<int> deleteProduct(int id)
     worksheet.Cells[1,2].Value="Tên sản phẩm";
     worksheet.Cells[1,3].Value = "Loại sản phẩm";
     worksheet.Cells[1,4].Value="Nhãn hàng";
-     worksheet.Cells[1,5].Value="Giá";
+    worksheet.Cells[1,5].Value="Giá";
     worksheet.Cells[1,6].Value="Trạng thái";
     worksheet.Cells[1,7].Value="Ngày tạo";
     worksheet.Cells[1,8].Value="Ngày cập nhật";

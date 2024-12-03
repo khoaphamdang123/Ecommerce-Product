@@ -17,7 +17,11 @@ public partial class OrderDetail
 
     public int? Discount { get; set; }
 
+    public int? VariantId { get; set; }
+
     public virtual Order Order { get; set; } = null!;
 
     public virtual Product Product { get; set; } = null!;
+
+    public virtual Variant? Variant { get; set; }
 }

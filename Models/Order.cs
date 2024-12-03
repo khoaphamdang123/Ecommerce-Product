@@ -21,6 +21,11 @@ public partial class Order
 
     public string? OrderId { get; set; }
 
+    /// <summary>
+    /// Note for Order
+    /// </summary>
+    public string? Note { get; set; }
+
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
     public virtual Payment Payment { get; set; } = null!;
