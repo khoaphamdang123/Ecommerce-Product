@@ -1,11 +1,34 @@
 @model Product
 @{
     Layout = "_UserLayout";    
+    
     var count_reviews=ViewBag.count_reviews as Dictionary<string,int>;
-    int rating=ViewBag.rating_star;
+    
+    var rating=ViewBag.rating_star;
+    
     var review_list = ViewBag.review_list as List<Reviewdetail>;
+    
     string manual_link = ViewBag.manual_link;
-    Console.WriteLine("manual_link here is:"+manual_link);
+    
+    var variants=ViewBag.variants as Dictionary<string,List<string>>;
+    
+    List<string> sizes=new List<string>();
+    
+    List<string> colors = new List<string>();
+    
+    List<string> versions=new List<string>();
+    
+    List<string> mirrors=new List<string>();
+
+    if(variants!=null)
+    {
+        sizes=variants["sizes"];
+        colors=variants["colors"];
+        versions=variants["versions"];
+        mirrors=variants["mirrors"];
+    }
+    
+
     int nums_review=0;
     int img_count=0;
     if(review_list!=null)
@@ -100,7 +123,7 @@
                                     <div id="productImageCarousel" class="carousel slide" data-bs-ride="carousel">
                                         <div class="carousel-inner">                                        
                                           <div class="carousel-item active">
-                                        <img draggable="false" src="~/@Model?.Frontavatar.Substring(Model.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="main-img" id="mainImage" class="main-img d-flex zoomable-image">
+                                        <img  draggable="false" src="~/@Model?.Frontavatar.Substring(Model.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="main-img" id="mainImage" class="main-img d-flex zoomable-image">
                                             </div>
                                             @foreach(var item in Model?.ProductImages)
                                             {
@@ -141,22 +164,27 @@
                             <h6>@Model?.ProductName</h6>                                                       
                             <div class="pd-rating mb-10">
                             @if(rating!=0)
-                            { int remain=5-rating;
+                            {   
+                                int remain=5-rating;
+                                
                                 <ul class="rating">
                                     @for(int i=1;i<=rating;i++)
                                     {
                                         <li><a href="#"><i class="fas fa-star"></i></a></li>
                                     }
+
                                   @if(remain!=0)
                                   {
                                     @for(int i=1;i<=remain;i++)
                                     {
                                         <li><a href="#"><i class="fal fa-star"></i></a></li>                            
                                     }
-                                    }
+                                   }
+
                                 </ul>
                                 }
-                                else{
+                                else
+                                {
                                  <ul class="rating">
                                     <li><a href="#"><i class="fal fa-star"></i></a></li>
                                     <li><a href="#"><i class="fal fa-star"></i></a></li>
@@ -175,12 +203,69 @@
                                 <span>@Model?.Price</span>                                
                             </div>
                             <div class="features-des mb-20 mt-10">
-                                <ul>
-                                    <li><a href=""><i class="fas fa-circle"></i> Bass and Stereo Sound.</a></li>
+                              <div class="product-options">
+                                  @if(sizes.Count>0)
+                                  {
+<div class="size-selector">
+    <h3>Kích thước:</h3>
+    <div class="size-buttons" id="size-buttons">
+    @foreach(string size in sizes)
+    {  
+    <button class="size-btn">@size</button>
+    }
+    </div>
+</div>   
+
+} 
+@if(colors.Count>0)
+    {
+    <div class="color-selector">
+    <h3>Màu sắc:</h3>
+    <div class="size-buttons" id="color-buttons">
+    @foreach(string color in colors)
+    {  
+    <button class="size-btn">@color</button>
+    }
+    </div>
+   </div>   
+      }
+
+                    
+                @if(versions.Count>0)
+                     {
+                    <div class="version-selector">
+
+                    <h3>Phiên bản:</h3>
+
+    <div class="size-buttons">
+
+    @foreach(string version in versions)
+    {  
+    <button  class="size-btn">@version</button>
+    }
+    </div>
+</div>   
+                     }
+
+                       @if(mirrors.Count>0)
+                     {
+                    <div class="mirror-selector">
+
+    <h3>Loại kính:</h3>
+    <div class="size-buttons">
+    @foreach(string mirror in mirrors)
+    {  
+    <button class="size-btn">@mirror</button>
+    }
+    </div>
+</div>   
+                     }
+
+                              </div>                 
+                                    @* <li><a href=""><i class="fas fa-circle"></i> Bass and Stereo Sound.</a></li>
                                     <li><a href=""><i class="fas fa-circle"></i> Display with 3088 x 1440 pixels resolution.</a></li>
                                     <li><a href=""><i class="fas fa-circle"></i> Memory, Storage &amp; SIM: 12GB RAM, 256GB.</a></li>
-                                    <li><a href=""><i class="fas fa-circle"></i> Androi v10.0 Operating system.</a></li>
-                                </ul>
+                                    <li><a href=""><i class="fas fa-circle"></i> Androi v10.0 Operating system.</a></li> *@
                             </div>
                           
                             <div class="cart-option mb-15">
@@ -194,7 +279,7 @@
                                 <div class="product_info mb-5">
                                     <span class="posted_in">
                                         <span class="title">Loại sản phẩm:</span>
-                                        <a href="@Url.Action("ProductsByCategory","Products",new {category_name =Model?.Category?.CategoryName})">@Model?.Category?.CategoryName</a>
+                                        <a href="@Url.Action("ProductsByCategory","Products",new {category_name=Model?.Category?.CategoryName})">@Model?.Category?.CategoryName</a>
                                     </span>
                                 </div>
                                 <div class="product_info mb-5">
@@ -462,8 +547,7 @@
                                 
                                         <div class="comment-input-box">
                                            <form id="review-form" method="post">
-                                              <div class="row">
-                                            
+                                              <div class="row">                                            
                                                  <div class="col-xxl-12">
                                                     @if(string.IsNullOrEmpty(user))
                                                     {  
@@ -644,10 +728,41 @@
             </div>
         </div>
     <script>
+
+    function handleClickButton(buttonId)
+    {
+   const container=document.getElementById(buttonId);
+
+  if(container==null)
+  {
+    return;
+  }
+   container.querySelectorAll('.size-btn').forEach((button,index)=>
+   {
+    if(index==0)
+    {
+        button.classList.add('active');
+    }
+    button.addEventListener('click',()=>
+  {
+ container.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('active'));
+ 
+ button.classList.add('active');
+    });
+   });        
+    }    
     var currIndex=0;
     var images=Array.from(document.querySelectorAll('.zoomable-image')).map(img=>img.src);
 
      document.addEventListener("DOMContentLoaded",()=>{
+     
+    handleClickButton('color-buttons');
+     
+     handleClickButton('size-buttons');
+
+     handleClickButton('version-buttons');
+
+     handleClickButton('mirror-buttons');
 
      var add_cart=document.querySelectorAll("#add-cart");
       
@@ -657,8 +772,39 @@
        var product_id=cart.getAttribute("data-product-id");
        var quantity_value=document.getElementById('quantity-value').value;
        let formData = new FormData();
+       var size_container = document.getElementById('size-buttons');
+       var color_container = document.getElementById('color-buttons');
+       var version_container = document.getElementById('version-buttons');
+       var mirror_container = document.getElementById('mirror-buttons');
+       var size_value=null;
+       var color_value=null;
+       var version_value=null;
+       var mirror_value=null;
+       if(size_container!=null)
+       {
+        size_value=size_container.querySelector('.size-btn.active').textContent;
+        formData.append("size",size_value);
+       }
+       if(color_container!=null)
+       {
+        color_value=color_container.querySelector('.size-btn.active').textContent;
+        formData.append("color",color_value);
+       }
+       if(version_container!=null)
+       {
+        version_value=version_container.querySelector('.size-btn.active').textContent;
+        formData.append("version",version_value);
+       }
+       if(mirror_container!=null)
+       {
+        mirror_value=mirror_container.querySelector('.size-btn.active').textContent;
+        formData.append("mirror",mirror_value);
+       }
+
        formData.append("product_id",product_id);
+       
        formData.append("quantity",quantity_value);
+       
        formData.append("product_name",product_name);
        $.ajax({
             url:"@Url.Action("addItemToCart","Cart")",
@@ -679,7 +825,8 @@
                    $.ajax({
                     url:section_url,
                     type:"POST",
-                    success: function(partialHtml) {
+                    success: function(partialHtml) 
+                    {
                         $('#sub-cart-section').html(partialHtml);
                     }
                 });
@@ -762,6 +909,7 @@
 
 
     let startX = 0;
+
     let endX = 0;
 
     // Mouse events for desktop

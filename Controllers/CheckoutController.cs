@@ -146,6 +146,8 @@ public class CheckoutController : BaseController
 
     string email=checkout.Email;
 
+    string note = checkout.Note;
+
     Console.WriteLine("Email here is:"+email);
 
     string address1=checkout.Address1;
@@ -164,13 +166,13 @@ public class CheckoutController : BaseController
     }
     else
     {
-      user=new ApplicationUser{UserName=username,Email=email,PhoneNumber=phone,Address1=address1};
+      user=new ApplicationUser{UserName=username,Email=email,PhoneNumber=phone,Address2=address1};
       
       string role="Anonymous";
       
       var create_role=await this._user.createRole(role);
            
-      var new_user=new Register{UserName=username,Email=email,Password="123456",Address1=address1,PhoneNumber=phone};
+      var new_user=new Register{UserName=username,Email=email,Password="123456",Address2=address1,PhoneNumber=phone};
       
       var create_user=await this._user.createUser(new_user,role);
       
@@ -185,14 +187,14 @@ public class CheckoutController : BaseController
     
     var asp_user = await this._user.getAspUser(user.Id);
 
-    var created_order=await this._order.createOrder(asp_user,cart,payment);
+    var created_order=await this._order.createOrder(asp_user,cart,payment,note);
       
     if(created_order==1)
     { 
       var order=await this._order.getLatestOrderByUsername(asp_user.Id);
 
       return View("~/Views/ClientSide/Checkout/CheckoutResult.cshtml",order);
-    }
+    }    
   }
   catch(Exception er)
   {Console.WriteLine("Checkout Exception:"+er.Message);

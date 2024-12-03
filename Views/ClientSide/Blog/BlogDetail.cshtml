@@ -72,9 +72,6 @@ img_url=$"~/{img_url.Substring(img_url.IndexOf("wwwroot")+("wwwroot".Length+1)).
 										</div>
 										<div class="articleToolbar-navigation col-lg-4 col-md-12 col-12 ">
 											<div class="articleToolbar--nav">							
-												
-														
-												
 												<span>
 													<a href="@Url.Action("BlogDetail","Blog",new{id=next_index})" title="">Bài sau</a>
 													<svg class="arrow-right" role="presentation" viewBox="0 0 11 18">
@@ -92,7 +89,7 @@ img_url=$"~/{img_url.Substring(img_url.IndexOf("wwwroot")+("wwwroot".Length+1)).
 						
 						<div class="article-related">
 							<h3 class="title-blog-related">
-								<span>
+						<span>
 <strong>
  Bài viết liên quan
  </strong>								
@@ -150,10 +147,10 @@ img_url=$"~/{img_url.Substring(img_url.IndexOf("wwwroot")+("wwwroot".Length+1)).
 				
 			@foreach(var blog in list_blog)
             {
-				<div class="item-article clearfix ">
+				<div class="item-article clearfix">
 					<div class="post-image">
 						<a href="@Url.Action("BlogDetail","Blog",new{id=blog.Id})">
-							<img class="ls-is-cached lazyloaded" data-src="~/@blog.FeatureImage.Substring(blog.FeatureImage.IndexOf("wwwroot")+("wwwroot".Length+1))" src="~/@blog.FeatureImage.Substring(blog.FeatureImage.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="@blog.Blogname">
+						<img class="ls-is-cached lazyloaded" data-src="~/@blog.FeatureImage.Substring(blog.FeatureImage.IndexOf("wwwroot")+("wwwroot".Length+1))" src="~/@blog.FeatureImage.Substring(blog.FeatureImage.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="@blog.Blogname">
                     </div>
 					<div class="post-content">
 						<h3><a href="@Url.Action("BlogDetail","Blog",new{id=blog.Id})">@blog.Blogname</a></h3>
@@ -191,7 +188,8 @@ img_url=$"~/{img_url.Substring(img_url.IndexOf("wwwroot")+("wwwroot".Length+1)).
 					 @foreach(var sub_cat in cat.SubCategory)
                      {
 						<li><a href="@Url.Action("ProductBySubCategory","Products",new{sub_cat_id=sub_cat.Id})" title="@sub_cat.SubCategoryName">@sub_cat.SubCategoryName</a></li>
-                     }
+                        
+					 }
 					</ul>
 				</li>
              }
@@ -201,14 +199,7 @@ img_url=$"~/{img_url.Substring(img_url.IndexOf("wwwroot")+("wwwroot".Length+1)).
 				<a href="@Url.Action("ProductsByCategory","Products",new{category_name=cat.CategoryName})" title="@cat.CategoryName"><span>@cat.CategoryName</span></a>            
 			</li>
             }
-                }
-				
-				
-				
-				
-				
-				
-				
+         }
 			</ul>
 		</div>
 	</div>

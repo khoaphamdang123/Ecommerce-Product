@@ -144,11 +144,11 @@
                                 <span class="text-danger" id="phone-error"></span><br>
 
                                <label for="address1">Địa chỉ</label>
-                                <input id="address1" name="address1" type="text" placeholder="Nhập địa chỉ" oninput="getPlacePredictions(this.value)">
+                                <input id="address1" name="address1" type="text" placeholder="Nhập địa chỉ">
                                 <ul id="addressSuggestions" class="list-group position-absolute w-100" style="z-index: 1000; display: none;"></ul>
 
-                               <label for="address2">Địa chỉ phụ</label>
-                                <input id="address2" name="address2" type="text" placeholder="Nhập địa chỉ phụ">
+                               <label for="address2">Địa chỉ giao hàng</label>
+                                <input id="address2" name="address2" type="text" placeholder="Nhập địa chỉ giao hàng">
                                   <ul id="addressSuggestions2" class="list-group position-absolute w-100" style="z-index: 1000; display: none;"></ul>
 
                                <label for="gender">Giới tính</label>
@@ -172,32 +172,45 @@
 
         <!-- cta-area-start -->
       
-<script  type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNwNVY3rQCn935p0SkZB2ttgmzhlG1CK8&loading=async&libraries=places&callback=initMap">
-</script>
+@* <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNwNVY3rQCn935p0SkZB2ttgmzhlG1CK8&loading=async&libraries=places&callback=initMap">
+</script> *@
 
 <script>
 
 
- let autocompleteService;
+ @* let autocompleteService;
    
-  let geocoder;
+ let geocoder;
 
-    function initializeGoogleServices() {
-     alert("here");
+  function initializeGoogleServices() {
+        
         autocompleteService = new google.maps.places.AutocompleteService();
+      
         geocoder = new google.maps.Geocoder();
     }
 
-      function getPlacePredictions(query) 
+ window.onload = function () {
+        if (google && google.maps) {
+          initializeGoogleServices();       
+          } else {
+          alert("maps is not loaded");
+            console.error("Google Maps API is not loaded.");
+        }
+    }; *@
+
+  
+
+
+      @* function getPlacePredictions(query) 
       {
         const suggestionsContainer = document.getElementById('addressSuggestions');
 
-        // If the query is empty, hide suggestions
         if (!query) {
             suggestionsContainer.style.display = 'none';
             suggestionsContainer.innerHTML = '';
             return;
         }
+
 
         // Get autocomplete predictions
         autocompleteService.getPlacePredictions({ input: query }, function (predictions, status) {
@@ -208,24 +221,19 @@
 
                 // Populate suggestions
                 predictions.forEach(prediction => {
+                    
                     const suggestionItem = document.createElement('li');
+                    
                     suggestionItem.classList.add('list-group-item', 'list-group-item-action');
+                    
                     suggestionItem.textContent = prediction.description;
 
                     // On click, select the suggestion and fetch details
                     suggestionItem.onclick = function () {
-                        document.getElementById('address').value = prediction.description;
+                        document.getElementById('address1').value = prediction.description;
                         suggestionsContainer.style.display = 'none';
-
                         // Fetch place details
-                        geocoder.geocode({ address: prediction.description }, function (results, status) {
-                            if (status === google.maps.GeocoderStatus.OK && results[0]) {
-                                const location = results[0].geometry.location;
-                                document.getElementById('latitude').value = location.lat();
-                                document.getElementById('longitude').value = location.lng();
-                            }
-                        });
-                    };
+                      
 
                     // Append to the container
                     suggestionsContainer.appendChild(suggestionItem);
@@ -238,9 +246,8 @@
                 suggestionsContainer.style.display = 'none';
             }
         });
-    }
+    } *@
   
-    google.maps.event.addDomListener(window, 'load', initializeGoogleServices);
 
 
 

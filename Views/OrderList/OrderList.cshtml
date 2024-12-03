@@ -267,6 +267,7 @@
                             <th class="text-center">Phương thức thanh toán</th>
                             <th class="text-center">Trạng thái đơn hàng</th>
                             <th class="text-center">Giá trị đơn hàng</th>
+                            <th class="text-center">Ghi chú</th>
                             <th class="text-center">Ngày tạo</th>                        
                            <th class="text-center">
                             Thao tác
@@ -318,6 +319,7 @@
                             <td class="text-center">@order.Payment.Paymentname</td>
                             <td class="text-center"><span class="badge px-2 @curr_status_class">@order_status[order.Status]</span></td>                            
                             <td class="text-center">@order.Total</td>
+                            <td class="text-center">@order.Note</td>
                             <td class="text-center">@order.Createddate</td>
                             <td class="text-center">
                             <div class="d-flex justify-content-center">
@@ -338,8 +340,8 @@
                             </div>
                             <div class="modal-body">
                              <p class="modal-font">
-                               <strong>Bạn có chắc là muốn xóa đơn hàng này?</strong>
-                              </p>
+                               <strong>Bạn có chắc là muốn xóa đơn hàng này?</strong>                               
+                            </p>
                             </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" id="remove-btn">Xóa</button>

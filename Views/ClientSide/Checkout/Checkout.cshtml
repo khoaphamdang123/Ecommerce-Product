@@ -192,9 +192,8 @@
                                     <div class="col-md-12">
                                         <div class="checkout-form-list">
                                             <label>Địa chỉ<span class="required">*</span></label>
-                                            <input type="text" placeholder="Nhập địa chỉ giao hàng" id="address" name="address1" value="@(user!=null?user.Address1:"")"  @(user!=null?"readonly":"")>
+                                            <input type="text" placeholder="Nhập địa chỉ giao hàng" id="address" name="address1" value="@(user!=null?!string.IsNullOrEmpty(user.Address2)?user.Address2:user.Address1:"")">
                                             <span class="text-danger" id="address-error"></span><br>
-
                                         </div>
                                     </div>
                                     @* <div class="col-md-12">
@@ -336,7 +335,7 @@
                                     <div class="order-notes">
                                         <div class="checkout-form-list">
                                             <label>Ghi chú đơn hàng</label>
-                                            <textarea id="checkout-mess" cols="30" rows="10" placeholder="Các yêu cầu ghi chú khi giao hàng."></textarea>
+                                            <textarea id="checkout-mess" name="note" cols="30" rows="10" placeholder="Các yêu cầu ghi chú khi giao hàng."></textarea>
                                         </div>
                                     </div>
                                 </div>

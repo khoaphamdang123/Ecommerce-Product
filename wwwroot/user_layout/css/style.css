@@ -6292,6 +6292,94 @@ td.product-thumbnail img {
   background-color: #f8f9fa;
 }
 
+.product-options {
+  margin: 20px 0;
+}
+
+.size-selector,.color-selector,.version-selector,.mirror-selector{
+  margin: 25px 0;
+  display: flex;
+  gap: 10px;
+}
+
+/* Title styling */
+.size-selector h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.color-selector h3{
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.version-selector h3
+{
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.mirror-selector
+{
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* Container for buttons */
+.size-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top:5px;
+}
+
+
+
+
+/* Individual size buttons */
+.size-btn {
+  
+  background-color: #f4f4f4;
+  border: 2px solid #ccc;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.size-btn:hover, .size-btn:focus {
+  background-color: #333;
+  border-color: #333;
+  color: white;
+  outline: none;
+}
+
+.size-btn.active 
+{
+  background-color: #333!important;
+  border-color: #333!important;
+  color: white;
+}
+
+/* .active
+{
+    background-color: #333;
+    border-color: #333;
+    color: white;
+} */
+
+
+
 p.lost-password {
   margin-top: 15px;
 }
