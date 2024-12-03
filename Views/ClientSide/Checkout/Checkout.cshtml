@@ -358,13 +358,62 @@
                                           int discount=string.IsNullOrEmpty(item.Product.Discount.ToString()) ? 0 : Convert.ToInt32(item.Product.Discount);
                                           
                                           total_value+=(Convert.ToInt32(item.Product.Price)-(Convert.ToInt32(item.Product.Price)*(discount)/100))*item.Quantity;
-                                            
+                                           string variant_info="";
+                                           if(!string.IsNullOrEmpty(item.Size))
+                                           {
+                                            if(string.IsNullOrEmpty(variant_info))
+                                            {
+                                                variant_info+=item.Size;
+                                            }
+                                            else
+                                            {
+                                                variant_info+="/"+item.Size;
+                                            }
+                                           }
+                                            if(!string.IsNullOrEmpty(item.Color))
+                                           {
+                                            if(string.IsNullOrEmpty(variant_info))
+                                            {
+                                                variant_info+=item.Color;
+                                            }
+                                            else
+                                            {
+                                                variant_info+="/"+item.Color;
+                                            }
+                                           }
+                                        
+                                         if(!string.IsNullOrEmpty(item.Version))
+                                           {
+                                            if(string.IsNullOrEmpty(variant_info))
+                                            {
+                                                variant_info+=item.Version;
+                                            }
+                                            else
+                                            {
+                                                variant_info+="/"+item.Version;
+                                            }
+                                           }
+                                        
+                                         if(!string.IsNullOrEmpty(item.Mirror))
+                                           {
+                                            if(string.IsNullOrEmpty(variant_info))
+                                            {
+                                                variant_info+=item.Mirror;
+                                            }
+                                            else
+                                            {
+                                                variant_info+="/"+item.Mirror;
+                                            }
+                                           }
+                                        
+                                        
                                             <tr class="cart_item">
                                                 <td class="product-name">
-                                                 @(item.Product.ProductName) <strong class="product-quantity"> ×&nbsp;@(item.Quantity)</strong>
+                                                 @(item.Product.ProductName) <strong class="product-quantity"> ×&nbsp;@(item.Quantity)</strong><br>
+                                                 <strong> @variant_info</strong>
                                                 </td>
                                                 <td class="product-total">
-                                                    <span class="amount">@item.Product.Price</span>
+                                                    <span class="amount">@((Convert.ToInt32(item.Product.Price)-(Convert.ToInt32(item.Product.Price)*(discount)/100))*item.Quantity)</span>
                                                 </td>
                                             </tr>
                                             @* <tr class="cart_item">

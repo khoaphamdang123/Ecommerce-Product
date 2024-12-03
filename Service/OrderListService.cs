@@ -63,9 +63,38 @@ public class OrderListService:IOrderRepository
 
     await this.saveChanges();
 
+
     Console.WriteLine("did come to here");
 
     foreach(var product in cart)
+    {
+      var product_ob=product.Product.Variants;
+      List<int> variant_id=new List<int>();
+      if(product_ob!=null)
+      {
+        foreach(var variant in product_ob)
+        {
+          if(variant.Color.Colorname==product.Color && variant.Size.Sizename==product.Size && variant.Version.Versionname==product.Version && variant.Mirror.Mirrorname==product.Mirror)
+          { if(!variant_id.Contains(variant.Id))
+            {
+            variant_id.Add(variant.Id);
+            }
+          }
+        }
+      foreach(var id in variant_id)
+      {
+        var order_detail=new OrderDetail
+        {
+          Quantity=product.Quantity,
+          Price=Convert.ToInt32(product.Product.Price),
+          Productid=product.Product.Id,
+          Orderid=order.Id,
+          VariantId=id
+        };
+        await this._context.OrderDetails.AddAsync(order_detail);
+      }
+      }
+    else
     {
       var order_detail=new OrderDetail
       {
@@ -74,9 +103,8 @@ public class OrderListService:IOrderRepository
         Productid=product.Product.Id,
         Orderid=order.Id
       };
-      
       await this._context.OrderDetails.AddAsync(order_detail);
-
+    }
     }
 
     await this.saveChanges();

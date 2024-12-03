@@ -29,15 +29,33 @@
                     <tr>
                         <th>Sản phẩm</th>
                         <th>Số lượng</th>
+                        <th>Kiểu dáng</th>
                         <th>Giá</th>
                     </tr>
                 </thead>
                 <tbody>
                 @foreach(var product in Model.OrderDetails)
-                {
+                {   string variant_info="";
+                                          if(!string.IsNullOrEmpty(product.Variant?.Size?.Sizename))
+                                          {
+                                             variant_info+="Kích thước: "+product.Variant?.Size?.Sizename+"\n";
+                                          }                                          
+                                          if(!string.IsNullOrEmpty(product.Variant?.Color?.Colorname))
+                                          {
+                                             variant_info+="Màu sắc: "+product.Variant?.Color?.Colorname+"\n";
+                                          }
+                                          if(!string.IsNullOrEmpty(product.Variant?.Version?.Versionname))
+                                          {
+                                             variant_info+="Phiên bản: "+product.Variant?.Version?.Versionname+"\n";
+                                          }
+                                          if(!string.IsNullOrEmpty(product.Variant?.Mirror?.Mirrorname))
+                                          {
+                                             variant_info+="Loại kính: "+product.Variant?.Mirror?.Mirrorname+"\n";
+                                          }
                     <tr>
                         <td>@product.Product.ProductName</td>
                         <td>@product.Quantity</td>
+                        <td>@variant_info</td>
                         <td>@(Convert.ToInt32(product.Product.Price)*product.Quantity)</td>
                     </tr>
                     }

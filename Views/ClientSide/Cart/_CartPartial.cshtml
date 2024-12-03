@@ -18,6 +18,7 @@
                                           <th style="font-weight: bolder;"  class="cart-product-name">Tên sản phẩm</th>
                                           <th style="font-weight: bolder;"  class="product-price">Giá tiền</th>
                                           <th style="font-weight: bolder;"  class="product-quantity">Số lượng</th>
+                                          <th style="font-weight: bolder;"  class="product-quantity">Kiểu dáng</th>
                                           <th style="font-weight: bolder;"  class="product-subtotal">Tổng cộng</th>
                                           <th style="font-weight: bolder;"  class="product-remove">Xóa</th>
                                        </tr>
@@ -25,7 +26,24 @@
                                     <tbody>
                                         @foreach(var item in Model)
                                         { int discount=string.IsNullOrEmpty(item.Product.Discount.ToString()) ? 0 : Convert.ToInt32(item.Product.Discount);
-                                          
+
+                                          string variant_info="";
+                                          if(!string.IsNullOrEmpty(item.Size))
+                                          {
+                                             variant_info+="Kích thước: "+item.Size+"\n";
+                                          }                                          
+                                          if(!string.IsNullOrEmpty(item.Color))
+                                          {
+                                             variant_info+="Màu sắc: "+item.Color+"\n";
+                                          }
+                                          if(!string.IsNullOrEmpty(item.Version))
+                                          {
+                                             variant_info+="Phiên bản: "+item.Version+"\n";
+                                          }
+                                          if(!string.IsNullOrEmpty(item.Mirror))
+                                          {
+                                             variant_info+="Loại kính: "+item.Mirror+"\n";
+                                          }
                                           total_amount+=(Convert.ToInt32(item.Product.Price)-(Convert.ToInt32(item.Product.Price)*(discount)/100))*item.Quantity;
                                        <tr>
                                           <input id="product-id" type="hidden" value="@item.Product.Id">
@@ -35,6 +53,7 @@
                                           <td class="product-quantity">
                                                 <div class="cart-plus-minus"><input class="quantity-value" type="text" value="@item.Quantity" data-price="@(Convert.ToInt32(item.Product.Price))"><div class="dec qtybutton">-</div><div class="inc qtybutton">+</div></div>
                                           </td>
+                                          <td class="product-price">@variant_info</td>
                                           <td class="product-subtotal"><span class="amount">@(Convert.ToInt32(item.Product.Price)*item.Quantity) đ</span></td>
                                           <td class="product-remove"><a href="javascript:void(0);" type="button" class="remove-btn" data-product-id="@item.Product.Id"><i class="fa fa-times"></i></a></td>
                                        </tr>
