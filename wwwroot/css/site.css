@@ -208,6 +208,10 @@ color: #696cff;
 
 
 
+
+
+
+
 .card-1 {
   width: 180px;
   border: 1px solid #ddd;
@@ -255,6 +259,42 @@ color: #696cff;
   opacity: 0;
   max-height: 0px;
 }
+
+.data-repeater-item.removing {
+  opacity: 0; 
+  max-height: 0px;
+  margin: 0; 
+  padding: 0; 
+}
+
+.data-repeater-item .variant-delete-btn
+{
+  position:absolute;
+  top: 0px;
+  right: 5px;
+  background-color: red;
+  color: white;
+  border:none;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  display: none;
+  font-size: 16px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.data-repeater-item:hover .variant-delete-btn
+{
+  display: block;
+}
+
+.data-repeater-item:hover .variant-delete-btn:hover
+{
+  background-color: crimson;
+}
+
+
 
 .avatar {
   position: relative;
