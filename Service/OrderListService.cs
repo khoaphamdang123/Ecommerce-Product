@@ -49,10 +49,12 @@ public class OrderListService:IOrderRepository
    try
    {
     Console.WriteLine("Did come to order create section");
-    var order=new Order{
+
+    var order=new Order
+    {
       Status="Processing",
       Total=cart.Sum(s=>Convert.ToInt32(s.Product.Price)*s.Quantity),
-      Shippingaddress=user.Address2,
+      Shippingaddress=string.IsNullOrEmpty(user.Address2)?user.Address1:user.Address2,
       Userid=user.Id,
       Paymentid=payment.Id,
       Note=note,
@@ -63,13 +65,14 @@ public class OrderListService:IOrderRepository
 
     await this.saveChanges();
 
-
     Console.WriteLine("did come to here");
 
     foreach(var product in cart)
     {
       var product_ob=product.Product.Variants;
+
       List<int> variant_id=new List<int>();
+      
       if(product_ob!=null)
       {
         foreach(var variant in product_ob)
@@ -91,7 +94,7 @@ public class OrderListService:IOrderRepository
           Orderid=order.Id,
           VariantId=id
         };
-        await this._context.OrderDetails.AddAsync(order_detail);
+        await this._context.OrderDetails.AddAsync(order_detail);        
       }
       }
     else

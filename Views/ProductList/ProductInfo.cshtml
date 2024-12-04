@@ -336,7 +336,8 @@
                    { 
                    foreach(var variant in Model?.Variants)
                    {
-                    <div class="data-repeater-item">
+                    <div class="data-repeater-item position-relative">
+                      <button type="button" class="variant-delete-btn" onclick="variantRemoveBtn(this)">X</button>
                         <div class="row g-6 mb-6">
                         <div class="col-4">
                           <label class="form-label" for="color">Màu sắc</label> 
@@ -407,8 +408,29 @@
       <div class="layout-overlay layout-menu-toggle"></div> 
 <script>
 
+
+function variantRemoveBtn(button)
+{ 
+  event.preventDefault();
+  
+  const item=button.closest('.data-repeater-item');
+
+  if(item)
+  { 
+    item.classList.add('removing');
+
+    setTimeout(()=>
+    {
+      item.remove();
+    },500);
+  }
+}
+
+
 document.addEventListener("DOMContentLoaded", function (event)
 { 
+
+
   new FroalaEditor('#Description',{
      heightMin: 300,
     toolbarButtons:{  moreText: {
@@ -549,7 +571,6 @@ document.addEventListener("DOMContentLoaded", function (event)
     colorsBackground: ['#FFFFFF', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'],
     colorsText: ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'] 
   }); 
-   @* $('#Description').froalaEditor('html.set', 'Hello'); *@
 
 
 });
@@ -577,10 +598,15 @@ add_variant.addEventListener('click',()=>{
         const groupList = document.getElementById('group-list');
 
         if(groupList.childElementCount==0)
-        {
+        { 
           const newRow=document.createElement('div');
+
           newRow.classList.add('data-repeater-item');
+
+          newRow.classList.add('position-relative');
+          
           newRow.innerHTML = `
+            <button type="button" class="variant-delete-btn" onclick="variantRemoveBtn(this)">X</button>
             <div class="row g-6 mb-6">
                 <div class="col-4">
                     <label class="form-label" for="color">Màu sắc</label>
@@ -604,9 +630,9 @@ add_variant.addEventListener('click',()=>{
                 </div>
             </div>
         `;
+       
        newRow.classList.add('hide');
-        
-        
+       
         groupList.appendChild(newRow);
        
          setTimeout(()=>{
@@ -962,8 +988,9 @@ const file=files[i];
      drop_zone.classList.add("dragging");
  });
 
- drop_zone.addEventListener("dragleave",()=>{
-   drop_zone.classList.remove("dragging");
+ drop_zone.addEventListener("dragleave",()=>
+ {
+   drop_zone.classList.remove("dragging");   
  });
 
  drop_zone.addEventListener("drop",(e)=>{

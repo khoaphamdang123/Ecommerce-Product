@@ -267,7 +267,8 @@
                     <div class="card-body">
                   @* <form class="form-repeater" asp-action="AddProductList" asp-controller="ProductList"> *@
                    <div class="group mb-4" id="group-list" data-repeater-list>
-                    <div class="data-repeater-item">
+                    <div class="data-repeater-item position-relative">
+                      <button class="variant-delete-btn" type="button" onclick="variantRemoveBtn(this)">X</button>
                         <div class="row g-6 mb-6">
                         <div class="col-4">
                           <label class="form-label" for="color">Màu sắc</label> 
@@ -281,8 +282,8 @@
                           <label class="form-label" for="size">Kích thước</label> 
                           <input class="form-control" id="size" type="text" placeholder="Nhập kích thước">
                         </div>
-                            <div class="col-4 mb-2">
-                          <label class="form-label" for="version">Phiên bản</label> 
+                          <div class="col-4 mb-2">
+                          <label class="form-label" for="version">Phiên bản</label>
                           <input class="form-control" id="version" placeholder="Nhập phiên bản">
                         </div>
                         <div class="col-4 mb-3">
@@ -312,6 +313,24 @@
       <!-- Overlay -->
       <div class="layout-overlay layout-menu-toggle"></div> 
 <script>
+
+
+function variantRemoveBtn(button)
+{ 
+  event.preventDefault();
+  
+  const item=button.closest('.data-repeater-item');
+
+  if(item)
+  { 
+    item.classList.add('removing');
+
+    setTimeout(()=>{
+      item.remove();
+    },500);
+  }
+}
+
 
 document.addEventListener("DOMContentLoaded", function (event) {
  
@@ -483,7 +502,9 @@ add_variant.addEventListener('click',()=>{
         {
           const newRow=document.createElement('div');
           newRow.classList.add('data-repeater-item');
+          newRow.classList.add('position-relative');
           newRow.innerHTML = `
+            <button type="button" class="variant-delete-btn" onclick="variantRemoveBtn(this)">X</button>
             <div class="row g-6 mb-6">
                 <div class="col-4">
                     <label class="form-label" for="color">Màu sắc</label>
