@@ -26,8 +26,44 @@ public class OrderListService:IOrderRepository
   public async Task<Order> findOrderById(int id)
   {
     var order=await this._context.Orders.Include(c=>c.User).Include(c=>c.Payment).Include(c=>c.OrderDetails).ThenInclude(c=>c.Product).FirstOrDefaultAsync(s=>s.Id==id);
+    
     return order;
   }
+
+  public async Task<Order> filterOrderDetail(int id)
+  {
+
+    var order = await this._context.Orders
+    .AsNoTracking().Include(c=>c.User).Include(c=>c.Payment)
+    .FirstOrDefaultAsync(o => o.Id == id);
+try
+{
+if (order != null)
+{ 
+    var orderDetails = this._context.OrderDetails
+        .AsNoTracking()
+        .Where(od => od.Orderid == order.Id)
+        .Include(od => od.Product)
+        .Include(p => p.Variant)
+        .ThenInclude(v => v.Color)
+        .Include(p => p.Variant)
+        .ThenInclude(v => v.Size)
+        .Include(p => p.Variant)
+        .ThenInclude(v => v.Version)
+        .Include(p => p.Variant)
+        .ThenInclude(v => v.Mirror)
+        .ToList();
+
+    order.OrderDetails = orderDetails;
+    }
+}
+ catch(Exception er)
+    {
+      Console.WriteLine(er.Message);
+    } 
+ return order;
+  }
+
 
   public async Task<PageList<Order>> pagingOrderList(int page_size,int page)
   {
@@ -53,7 +89,7 @@ public class OrderListService:IOrderRepository
     var order=new Order
     {
       Status="Processing",
-      Total=cart.Sum(s=>Convert.ToInt32(s.Product.Price)*s.Quantity),
+      Total=(decimal)cart.Sum(s=>(Convert.ToInt32(s.Product.Price)-(Convert.ToInt32(s.Product.Price)*s.Product.Discount/100))*s.Quantity),
       Shippingaddress=string.IsNullOrEmpty(user.Address2)?user.Address1:user.Address2,
       Userid=user.Id,
       Paymentid=payment.Id,
@@ -68,16 +104,37 @@ public class OrderListService:IOrderRepository
     Console.WriteLine("did come to here");
 
     foreach(var product in cart)
-    {
+    { 
+
+      
       var product_ob=product.Product.Variants;
+
+      string color=product.Color;
+
+      string size=product.Size;
+
+      string version=product.Version;
+
+      string mirror=product.Mirror;
+
+      Console.WriteLine("Product Color here is:"+color);
+
 
       List<int> variant_id=new List<int>();
       
       if(product_ob!=null)
-      {
+      { 
+        Console.WriteLine("Product Object is not null here");
+        
+        Console.WriteLine("Product OBJECT size here is:"+product_ob.Count);
+
         foreach(var variant in product_ob)
-        {
-          if(variant.Color.Colorname==product.Color && variant.Size.Sizename==product.Size && variant.Version.Versionname==product.Version && variant.Mirror.Mirrorname==product.Mirror)
+        { Console.WriteLine("Product Color here is:"+variant.Color!.Colorname);
+          string variant_color=variant.Color?.Colorname??"";
+          string variant_size=variant.Size?.Sizename??"";
+          string variant_version=variant.Version?.Versionname??"";
+          string variant_mirror=variant.Mirror?.Mirrorname??"";
+          if(variant_color==color && variant_size==size && variant_version==version && variant_mirror==mirror)
           { if(!variant_id.Contains(variant.Id))
             {
             variant_id.Add(variant.Id);
@@ -121,7 +178,7 @@ public class OrderListService:IOrderRepository
    }
    catch(Exception er)
    {
-      Console.WriteLine("Create Order Exception:"+er.InnerException??er.Message);
+      Console.WriteLine("Create Order Exception:"+er.Message);
    }
   return created_res;  
   }
@@ -222,7 +279,7 @@ public async Task checkOrderStatus()
   }
   public async Task<Order> getLatestOrderByUsername(string user_id)
   {
-    var order=await this._context.Orders.Include(c=>c.User).Include(c=>c.Payment).Include(c=>c.OrderDetails).ThenInclude(c=>c.Product).Where(s=>s.User.Id==user_id).OrderByDescending(s=>s.Id).FirstOrDefaultAsync();
+    var order=await this._context.Orders.Include(c=>c.User).Include(c=>c.Payment).OrderByDescending(s=>s.Id).FirstOrDefaultAsync();
     
     string order_id=this.generateOrderId(order.Id);
 

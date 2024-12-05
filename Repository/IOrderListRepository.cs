@@ -19,6 +19,8 @@ public interface IOrderRepository
 
   public Task<int> createOrder(AspNetUser user,List<CartModel> cart,Payment payment,string note);
 
+  public Task<Order> filterOrderDetail(int id);
+
   public Task<int> deleteOrder(int id);
 
   public Task<int> deleteProductOrderDetail(int id);

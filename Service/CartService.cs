@@ -66,6 +66,11 @@ catch(Exception er)
   return add_res;
 }
 
+public async Task clearCart()
+{
+    session.Remove("cart");
+}
+
 public async Task<int> deleteProductFromCart(int product_id)
 {
     int remove_res=0;

@@ -119,7 +119,7 @@ public class PaymentListService:IPaymentRepository
             payment.Status=1;
           }
           this._context.Payments.Update(payment);
-          await this.saveChanges();
+          await this.saveChanges();          
           update_res=1;
         }
       }

@@ -136,12 +136,16 @@ public class CheckoutController : BaseController
  [ValidateAntiForgeryToken]
  [HttpPost]
  public async Task<IActionResult> CheckoutOrder(CheckoutModel checkout)
- {Console.WriteLine("Checkout Submit did come here");
+ {
+  Console.WriteLine("Checkout Submit did come here");
   try
-  {
+  {  
     Console.WriteLine("User name here is:"+checkout.UserName);
+    
     Console.WriteLine("PHONE here is:"+checkout.PhoneNumber);
+    
     Console.WriteLine("Payment method here is:"+checkout.PaymentMethod);
+    
     string username=checkout.UserName;
 
     string email=checkout.Email;
@@ -192,8 +196,13 @@ public class CheckoutController : BaseController
     if(created_order==1)
     { 
       var order=await this._order.getLatestOrderByUsername(asp_user.Id);
+     
+      CheckoutResultModel checkout_result=new CheckoutResultModel{Order=order,Cart=cart};
+     
+      await this._cart.clearCart();
 
-      return View("~/Views/ClientSide/Checkout/CheckoutResult.cshtml",order);
+      return View("~/Views/ClientSide/Checkout/CheckoutResult.cshtml",checkout_result);
+      
     }    
   }
   catch(Exception er)
@@ -211,7 +220,6 @@ public class CheckoutController : BaseController
    int setting_status=await this._setting.getStatusByName("recaptcha");
 
        var cart_value=this._cart.getCart();
-
 
        if(setting_status==1)
        {

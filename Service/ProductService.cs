@@ -226,12 +226,16 @@ public async Task<int> deleteProduct(int id)
 
     public async Task<Dictionary<string,List<string>>> getProductVariant(Product product)
     {
-      Console.WriteLine("Inside here");
+    Console.WriteLine("Inside here");
+    
     var variants=product.Variants;
 
     List<string> versions=new List<string>();
+    
     List<string> colors=new List<string>();
+    
     List<string> sizes=new List<string>();
+    
     List<string> mirrors=new List<string>();
     
   try
@@ -242,22 +246,18 @@ public async Task<int> deleteProduct(int id)
       var color=variant.Color?.Colorname;
       var size=variant.Size?.Sizename;
       var mirror=variant.Mirror?.Mirrorname;
-      if(!string.IsNullOrEmpty(version) && !versions.Contains(version))
-      {
-        versions.Add(version);
-      }
-      if(!string.IsNullOrEmpty(color) && !colors.Contains(color))
-      {
-        colors.Add(color);
-      }
-      if(!string.IsNullOrEmpty(size) && !sizes.Contains(size))
-      {
-        sizes.Add(size);
-      }
-      if(!string.IsNullOrEmpty(mirror) && !mirrors.Contains(mirror))
-      {
-        mirrors.Add(mirror);
-      }
+     
+        versions.Add(version==null?"":version);
+      
+     
+        colors.Add(color==null?"":color);
+      
+     
+        sizes.Add(size==null?"":size);
+      
+     
+        mirrors.Add(mirror==null?"":mirror);
+      
     }
   }
   catch(Exception er)

@@ -183,6 +183,7 @@
     <input type="checkbox" class="form-check-input" id="check-all">
  </th>
               <th class="w-50">Tên sản phẩm</th>
+              <th class="w-50">Kiểu dáng</th>
               <th class="w-25">Giá</th>
               <th class="w-25">Số lượng</th>
               <th class="w-25">Tổng</th>
@@ -193,6 +194,49 @@
             @foreach(var item in Model?.OrderDetails)
             {  int sum=(Convert.ToInt32(item.Price)*item.Quantity);
                sum_order+=sum;
+               string variant_info="";
+               if(!string.IsNullOrEmpty(item.Variant?.Size?.Sizename))
+               { if(string.IsNullOrEmpty(variant_info))
+               {
+                  variant_info+="Kích thước: "+item.Variant?.Size?.Sizename;
+                }
+                else
+                {
+                  variant_info+="/"+"Kích thước: "+item.Variant?.Size?.Sizename;
+                }
+               }
+               if(!string.IsNullOrEmpty(item.Variant?.Color?.Colorname))
+               {
+                if(string.IsNullOrEmpty(variant_info))
+               {
+                  variant_info+="Màu sắc: "+item.Variant?.Color?.Colorname;
+                }
+                else
+                {
+                  variant_info+="/"+"Màu sắc: "+item.Variant?.Color?.Colorname;
+                }
+               }
+               if(!string.IsNullOrEmpty(item.Variant?.Version?.Versionname))
+               {  
+                if(string.IsNullOrEmpty(variant_info))
+               {
+                  variant_info+="Phiên bản: "+item.Variant?.Version?.Versionname;
+                }
+                else
+                {
+                  variant_info+="/"+"Phiên bản: "+item.Variant?.Version?.Versionname+"\n";
+                } 
+               }
+               if(!string.IsNullOrEmpty(item.Variant?.Mirror?.Mirrorname))
+               {    if(string.IsNullOrEmpty(variant_info))
+               {
+                  variant_info+="Loại kính: "+item.Variant?.Mirror?.Mirrorname;
+                }
+                else
+                {
+                  variant_info+="/"+"Loại kính: "+item.Variant?.Mirror?.Mirrorname;
+                } 
+               }
               <tr>
                 <td></td>
                 <td>
@@ -207,6 +251,9 @@
                  </div>
                 <strong>@item.Product.ProductName</strong>
                 </div>
+                </td>
+                <td class="w-50">
+                    @variant_info
                 </td>
                 <td class="w-25">
                     @item.Price VNĐ
