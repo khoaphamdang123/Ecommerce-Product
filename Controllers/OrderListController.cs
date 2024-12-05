@@ -233,6 +233,7 @@ public class OrderListController : Controller
   public async Task<IActionResult> OrderStatus(int id)
   {
     var order=await this._order.findOrderById(id);
+  
     return View("~/Views/OrderList/UpdateOrder.cshtml",order);
   }
 
@@ -303,14 +304,16 @@ public class OrderListController : Controller
     try
     {
 
-    var order=await this._order.findOrderById(id);
+    var order=await this._order.filterOrderDetail(id);
 
     var user_id=order.Userid;
 
     var order_count=this._order.countOrder(user_id);
-    ViewBag.OrderCount=order_count;
 
+    ViewBag.OrderCount=order_count;
+        
     return View(order);
+
     }
     catch(Exception er)
     {

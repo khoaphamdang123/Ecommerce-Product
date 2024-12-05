@@ -18,7 +18,7 @@ public class ManualListController : Controller
 
    private readonly IManualRepository _manual;
    public ManualListController(IManualRepository manual,IProductRepository product,Support_Serive.Service sp,ILogger<ManualListController> logger)
-   {
+  {
   this._manual=manual;
   this._sp=sp;
   this._product=product;

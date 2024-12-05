@@ -18,6 +18,7 @@ public List<int> Prices {get;set;}
 
 public List<string> Brands{get;set;}
 
+
    
     // public FilterProduct(string productname,string start_date,string end_date,string category,string brand,string status)
     // {

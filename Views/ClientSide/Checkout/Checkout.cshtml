@@ -649,8 +649,9 @@
     var checkout_order_btn=document.getElementById("checkout-order-btn"); 
     var username=document.getElementById("username");
     var password= document.getElementById("password");
+    
+    
     checkout_order_btn.addEventListener("click",()=>{
- 
     var is_valid=true;
     const user_name=document.getElementById("user-name");
     const address=document.getElementById("address");
@@ -692,6 +693,7 @@
     payment_input.value=payment_method;
     checkout_form.appendChild(payment_input);
     checkout_form.submit();
+
     });
 
       const accordion = document.getElementById('checkoutAccordion');

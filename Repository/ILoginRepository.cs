@@ -8,8 +8,6 @@ public interface ILoginRepository
 public Task<IEnumerable<ApplicationUser>> getUserList();
 
 public Task<IEnumerable<ApplicationUser>> getUserListByRole(string role);
-
-
 public Task<bool> checkUserRole(string email,string role);
 public Task<bool> checkUserExist(string email);
 public Task<bool> addUser(ApplicationUser user);

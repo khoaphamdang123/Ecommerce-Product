@@ -1,4 +1,5 @@
 @model Product
+@using Newtonsoft.Json;
 @{
     Layout = "_UserLayout";    
     
@@ -20,6 +21,11 @@
     
     List<string> mirrors=new List<string>();
 
+   
+
+
+
+
     if(variants!=null)
     {
         sizes=variants["sizes"];
@@ -27,19 +33,39 @@
         versions=variants["versions"];
         mirrors=variants["mirrors"];
     }
-    
 
+     string sizes_json=JsonConvert.SerializeObject(sizes);
+
+    string colors_json=JsonConvert.SerializeObject(colors);
+
+    string version_json=JsonConvert.SerializeObject(versions);
+    
+    string mirror_json=JsonConvert.SerializeObject(mirrors);
+
+
+
+   List<string> size_value=sizes.Where(p=>p!="").Select(p=>p).Distinct().ToList();
+
+   List<string> color_value=colors.Where(p=>p!="").Select(p=>p).Distinct().ToList();
+
+   List<string> version_value =versions.Where(p=>p!="").Select(p=>p).Distinct().ToList();
+
+   List<string> mirror_value=mirrors.Where(p=>p!="").Select(p=>p).Distinct().ToList();
+    
     int nums_review=0;
+
     int img_count=0;
+
     if(review_list!=null)
     {
      nums_review=review_list.Count;
     }
     var count_stars=ViewBag.count_stars as Dictionary<string,int>;
-    List<double> star_percen=new List<double>();
+    List<double> star_percen=new List<double>();    
    var stats_description=Html.Raw(Model?.Statdescription);
    Console.WriteLine(stats_description);
    var user=this.ViewContext.HttpContext.Session.GetString("UserId");
+   Console.WriteLine("User id here is:"+user);
    
     for(int i=1;i<=5;i++)
     {
@@ -204,12 +230,12 @@
                             </div>
                             <div class="features-des mb-20 mt-10">
                               <div class="product-options">
-                                  @if(sizes.Count>0)
+                                  @if(size_value.Count>0)
                                   {
 <div class="size-selector">
     <h3>Kích thước:</h3>
     <div class="size-buttons" id="size-buttons">
-    @foreach(string size in sizes)
+    @foreach(string size in size_value)
     {  
     <button class="size-btn">@size</button>
     }
@@ -217,12 +243,12 @@
 </div>   
 
 } 
-@if(colors.Count>0)
+@if(color_value.Count>0)
     {
     <div class="color-selector">
     <h3>Màu sắc:</h3>
     <div class="size-buttons" id="color-buttons">
-    @foreach(string color in colors)
+    @foreach(string color in color_value)
     {  
     <button class="size-btn">@color</button>
     }
@@ -231,7 +257,7 @@
       }
 
                     
-                @if(versions.Count>0)
+                @if(version_value.Count>0)
                      {
                     <div class="version-selector">
 
@@ -239,7 +265,7 @@
 
     <div class="size-buttons">
 
-    @foreach(string version in versions)
+    @foreach(string version in version_value)
     {  
     <button  class="size-btn">@version</button>
     }
@@ -247,19 +273,19 @@
 </div>   
                      }
 
-                       @if(mirrors.Count>0)
+                       @if(mirror_value.Count>0)
                      {
                     <div class="mirror-selector">
 
     <h3>Loại kính:</h3>
     <div class="size-buttons">
-    @foreach(string mirror in mirrors)
+    @foreach(string mirror in mirror_value)
     {  
-    <button class="size-btn">@mirror</button>
+    <button class="size-btn">@mirror</button>    
     }
     </div>
 </div>   
-                     }
+                    }
 
                               </div>                 
                                     @* <li><a href=""><i class="fas fa-circle"></i> Bass and Stereo Sound.</a></li>
@@ -728,14 +754,80 @@
             </div>
         </div>
     <script>
+    
+    const sizes=@Html.Raw(sizes_json);
+
+    const colors=@Html.Raw(colors_json);
+
+    const versions=@Html.Raw(version_json);
+
+    const mirrors=@Html.Raw(mirror_json);
+
+    function getAllIndex(buttonId,value)
+    {
+     switch(buttonId)
+     {
+        case:"color-buttons"
+        {
+         return colors.map((color,index)=>color==value?index:-1).filter((val)=>val!==-1);
+        }
+        case:"size-buttons"
+        {
+         return sizes.map((size,index)=>size==value?index:-1).filter((val)=>val!==-1);
+        }
+        case:"version-buttons"
+        {
+         return versions.map((version,index)=>version==value?index:-1).filter((val)=>val!==-1);
+        }
+        case:"mirror-buttons"
+        {
+         return mirrors.map((mirror,index)=>mirror==value?index:-1).filter((val)=>val!==-1);
+        }
+     }
+    }
 
     function handleClickButton(buttonId)
     {
    const container=document.getElementById(buttonId);
+   
+   var all_id=['color-buttons','size-buttons','version-buttons','mirror-buttons'];
+
+   var container_size=null;
+   
+   var container_color=null;
+
+   var container_version=null;
+   
+   var container_mirror = null;
+
+   for(let id of all_id)
+   {
+   
+   if(id==buttonId)
+   {
+    continue;
+   }
+   if(id=='color-buttons')
+   {
+     container_color=document.getElementById(id);
+   }   
+  else if(id=='size-buttons')
+  {
+    container_size=document.getElementById(id);
+  }
+  else if(id=='version-buttons')
+  {
+    container_version=document.getElementById(id);
+  }
+  else if(id=='mirror-buttons')
+  {
+    container_mirror=document.getElementById(id);
+  }
+  }
 
   if(container==null)
   {
-    return;
+    return;    
   }
    container.querySelectorAll('.size-btn').forEach((button,index)=>
    {
@@ -744,10 +836,70 @@
         button.classList.add('active');
     }
     button.addEventListener('click',()=>
-  {
+ {
+ 
+ var button_context=button.textContent;
+ 
+ var all_color_index=null;
+
+ var all_size_index=null;
+
+ var all_version_index=null;
+
+ var all_mirror_index=null;
+
+ if(container_color!=null)
+ {
+   container_color.querySelectorAll('.size-btn').forEach((btn) =>{
+    if(btn.classList.contains('active'))
+    {
+        var color_value=btn.textContent;
+
+        var all_color_index=getAllIndex('color-buttons',color_value);     
+    }
+   });
+ }
+
+ if(container_size!=null)
+ {
+   container_size.querySelectorAll('.size-btn').forEach((btn) =>{
+    if(btn.classList.contains('active'))
+    {
+        var size_value=btn.textContent;
+
+        var all_size_index=getAllIndex('size-buttons',color_value);     
+    }
+   });
+ }
+  if(container_version!=null)
+ {
+   container_version.querySelectorAll('.size-btn').forEach((btn) =>{
+    if(btn.classList.contains('active'))
+    {
+        var version_value=btn.textContent;
+
+        var all_version_index=getAllIndex('version-buttons',color_value);     
+    }
+   });
+ }
+  if(container_mirror!=null)
+ {
+   container_mirror.querySelectorAll('.size-btn').forEach((btn) =>{
+    if(btn.classList.contains('active'))
+    {
+        var mirror_value=btn.textContent;
+
+        var all_mirror_index=getAllIndex('mirror-buttons',color_value);     
+    }
+   });
+ }
+
+ 
+
  container.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('active'));
  
  button.classList.add('active');
+ 
     });
    });        
     }    
@@ -898,8 +1050,10 @@
 
       const zoomedImageModal = document.getElementById('zoomedImageModal');
       currIndex=index;
+
       zoomedImage.src = img.src;
-        document.getElementById("zoomedImageModal").style.display = "flex";        
+      
+      document.getElementById("zoomedImageModal").style.display = "flex";                
         setTimeout(() => {
       zoomedImageModal.classList.add('show');
     }, 10); 
@@ -918,7 +1072,8 @@
       startX = e.clientX;
   });
 
-    carousel.addEventListener("mouseup", (e) => {
+    carousel.addEventListener("mouseup", (e) => 
+    {
       endX = e.clientX;
       handleDrag();
     });
@@ -936,7 +1091,8 @@
     function handleDrag() {
       const threshold = 20; 
       const carouselInstance = bootstrap.Carousel.getInstance(carousel) || new bootstrap.Carousel(carousel);
-      if (startX - endX > threshold) {
+      if (startX - endX > threshold) 
+      {
         carouselInstance.next();
       } else if (endX - startX > threshold) {
         carouselInstance.prev();
@@ -985,7 +1141,7 @@
             }
                 var toast = new bootstrap.Toast(toastEl);
                 
-                 toast.show();
+                toast.show();
             },
             error:function(xhr, status, error)
             {
@@ -1000,7 +1156,6 @@
     });
 
      });
-
 
 
 
@@ -1043,7 +1198,6 @@ function showZoomedImage(index,direction=null) {
         zoomedImageModal.classList.remove('show');
 
   setTimeout(() => {
-
     zoomedImageModal.style.display = 'none'; 
   }, 300);    }
 
