@@ -767,27 +767,128 @@
     {
      switch(buttonId)
      {
-        case:"color-buttons"
+        case "color-buttons":
         {
          return colors.map((color,index)=>color==value?index:-1).filter((val)=>val!==-1);
         }
-        case:"size-buttons"
+        case "size-buttons":
         {
          return sizes.map((size,index)=>size==value?index:-1).filter((val)=>val!==-1);
         }
-        case:"version-buttons"
+        case "version-buttons":
         {
          return versions.map((version,index)=>version==value?index:-1).filter((val)=>val!==-1);
         }
-        case:"mirror-buttons"
+        case "mirror-buttons":
         {
          return mirrors.map((mirror,index)=>mirror==value?index:-1).filter((val)=>val!==-1);
         }
      }
     }
+    
+
+   function initClickButton()
+   { var all_id=['color-buttons','size-buttons','version-buttons','mirror-buttons'];
+   var container=null;
+   var buttonId=null;
+     for(let id of all_id)
+     {
+        container=document.getElementById(id);
+        if(container!=null)
+        {  buttonId=id;
+            break;
+        }
+     }
+    if(container==null)
+    {
+        return;
+    }
+    container.querySelectorAll('.size-btn').forEach((button,index)=>
+    {
+        if(index==0)
+        {
+            button.classList.add('active');
+    var all_container_index=getAllIndex(buttonId,button.textContent);
+
+    var first_index=all_container_index[0];
+
+   var container_size=null;
+   
+   var container_color=null;
+
+   var container_version=null;
+   
+   var container_mirror = null;
+
+   for(let id of all_id)
+   {
+   if(id==buttonId)
+   {
+    continue;    
+   }
+   if(id=='color-buttons')
+   {
+     container_color=document.getElementById(id);
+   }   
+  else if(id=='size-buttons')
+  {
+    container_size=document.getElementById(id);
+  }
+  else if(id=='version-buttons')
+  {
+    container_version=document.getElementById(id);
+  }
+  else if(id=='mirror-buttons')
+  {
+    container_mirror=document.getElementById(id);
+  }
+  }
+  if(container_color!=null && container_color!=container)
+  {
+    container_color.querySelectorAll('.size-btn').forEach((btn,index)=>
+    { btn.classList.remove('active');
+     if(colors[first_index]==btn.textContent)
+     {
+      btn.classList.add('active');
+     }
+    });
+  }
+    if(container_mirror!=null && container_mirror!=container)
+  {
+    container_mirror.querySelectorAll('.size-btn').forEach((btn,index)=>
+    { btn.classList.remove('active');
+     if(mirrors[first_index]==btn.textContent)
+     {
+      btn.classList.add('active');
+     }
+    });
+  }
+    if(container_size!=null && container_size!=container)
+  {
+    container_size.querySelectorAll('.size-btn').forEach((btn,index)=>
+    { btn.classList.remove('active');
+     if(sizes[first_index]==btn.textContent)
+     {
+      btn.classList.add('active');
+     }
+    }); 
+  }
+    if(container_version!=null && container_version!=container)
+  {
+    container_version.querySelectorAll('.size-btn').forEach((btn,index)=>
+    { btn.classList.remove('active');
+     if(versions[first_index]==btn.textContent)
+     {
+      btn.classList.add('active');
+     }
+    });
+  }
+  }
+    });
+   }
 
     function handleClickButton(buttonId)
-    {
+ {
    const container=document.getElementById(buttonId);
    
    var all_id=['color-buttons','size-buttons','version-buttons','mirror-buttons'];
@@ -835,39 +936,39 @@
     {
         button.classList.add('active');
     }
-    button.addEventListener('click',()=>
+ button.addEventListener('click',()=>
  {
  
  var button_context=button.textContent;
  
- var all_color_index=null;
+ var color_value=null;
 
- var all_size_index=null;
+ var size_value=null;
 
- var all_version_index=null;
+ var version_value=null;
 
- var all_mirror_index=null;
+ var mirror_value=null;
+
+ var all_container_index=getAllIndex(buttonId,button_context);
 
  if(container_color!=null)
  {
-   container_color.querySelectorAll('.size-btn').forEach((btn) =>{
+   container_color.querySelectorAll('.size-btn').forEach((btn)=>
+   {
     if(btn.classList.contains('active'))
     {
-        var color_value=btn.textContent;
-
-        var all_color_index=getAllIndex('color-buttons',color_value);     
+         color_value=btn.textContent; 
     }
    });
  }
+
 
  if(container_size!=null)
  {
    container_size.querySelectorAll('.size-btn').forEach((btn) =>{
     if(btn.classList.contains('active'))
     {
-        var size_value=btn.textContent;
-
-        var all_size_index=getAllIndex('size-buttons',color_value);     
+         size_value=btn.textContent;
     }
    });
  }
@@ -876,9 +977,8 @@
    container_version.querySelectorAll('.size-btn').forEach((btn) =>{
     if(btn.classList.contains('active'))
     {
-        var version_value=btn.textContent;
+         version_value=btn.textContent;
 
-        var all_version_index=getAllIndex('version-buttons',color_value);     
     }
    });
  }
@@ -887,14 +987,89 @@
    container_mirror.querySelectorAll('.size-btn').forEach((btn) =>{
     if(btn.classList.contains('active'))
     {
-        var mirror_value=btn.textContent;
-
-        var all_mirror_index=getAllIndex('mirror-buttons',color_value);     
+         mirror_value=btn.textContent;
     }
    });
  }
+  let is_changed=false;
 
- 
+  for(let item of all_container_index)
+  {
+    if(color_value!=null && container_color!=container)
+    {
+        if(colors[item]!=color_value)
+        {
+          is_changed=true;
+        }
+    }
+    if(size_value!=null && container_size!=container)
+    {
+        if(sizes[item]!=size_value)
+        {
+          is_changed=true;
+        }
+    }
+    if(version_value!=null && container_version!=container)
+    {
+        if(versions[item]!=version_value)
+        {
+          is_changed=true;
+        }
+    }
+    if(mirror_value!=null && container_mirror!=container)
+    {
+        if(mirrors[item]!=mirror_value)
+        {
+          is_changed=true;
+        }
+    }
+  }
+
+  if(is_changed)
+  {
+    let container_index=all_container_index[0];
+    if(container_color!=null && container_color!=container)
+    { 
+      container_color.querySelectorAll('.size-btn').forEach((btn,index)=>
+      {btn.classList.remove('active');
+       if(btn.textContent==colors[container_index])
+       {
+        btn.classList.add('active');
+       }
+      });
+    }
+        if(container_size!=null && container_size!=container)
+    { 
+      container_size.querySelectorAll('.size-btn').forEach((btn,index)=>
+      {btn.classList.remove('active');
+       if(btn.textContent==sizess[container_index])
+       {
+        btn.classList.add('active');
+       }
+      });
+    }
+        if(container_version!=null && container_version!=container)
+    { 
+      container_version.querySelectorAll('.size-btn').forEach((btn,index)=>
+      {btn.classList.remove('active');
+       if(btn.textContent==versions[container_index])
+       {
+        btn.classList.add('active');
+       }
+      });
+    }
+        if(container_mirror!=null && container_mirror!=container)
+    { 
+      container_mirror.querySelectorAll('.size-btn').forEach((btn,index)=>
+      {
+        btn.classList.remove('active');
+       if(btn.textContent==mirrors[container_index])
+       {
+        btn.classList.add('active');
+       }
+      });
+    }
+  }
 
  container.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('active'));
  
@@ -904,21 +1079,18 @@
    });        
     }    
     var currIndex=0;
+
     var images=Array.from(document.querySelectorAll('.zoomable-image')).map(img=>img.src);
 
-     document.addEventListener("DOMContentLoaded",()=>{
+     document.addEventListener("DOMContentLoaded",()=>
+     {
      
-    handleClickButton('color-buttons');
-     
-     handleClickButton('size-buttons');
+     initClickButton();
 
-     handleClickButton('version-buttons');
-
-     handleClickButton('mirror-buttons');
-
-     var add_cart=document.querySelectorAll("#add-cart");
+     var add_cart=document.querySelectorAll("#add-cart");     
       
      add_cart.forEach((cart,index)=>{
+     
      cart.addEventListener("click",()=>{
        var product_name=cart.getAttribute("data-product-name");
        var product_id=cart.getAttribute("data-product-id");
@@ -935,11 +1107,13 @@
        if(size_container!=null)
        {
         size_value=size_container.querySelector('.size-btn.active').textContent;
+
         formData.append("size",size_value);
        }
        if(color_container!=null)
        {
         color_value=color_container.querySelector('.size-btn.active').textContent;
+        
         formData.append("color",color_value);
        }
        if(version_container!=null)
@@ -967,7 +1141,9 @@
             success:function(response)
             {
                 const status=response.status;
+
                 const message = response.message;
+                
                 const data=response.data;
              if(data!="")
              {
@@ -989,9 +1165,7 @@
 
                 if(status==1)
                 {
-              
                  toastEl.classList.add('bg-success');
-      
                 }
             else
             {
