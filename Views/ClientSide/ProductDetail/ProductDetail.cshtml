@@ -263,7 +263,7 @@
 
                     <h3>Phiên bản:</h3>
 
-    <div class="size-buttons">
+    <div class="size-buttons"  id="version-buttons">
 
     @foreach(string version in version_value)
     {  
@@ -278,14 +278,14 @@
                     <div class="mirror-selector">
 
     <h3>Loại kính:</h3>
-    <div class="size-buttons">
+    <div class="size-buttons" id="mirror-buttons">
     @foreach(string mirror in mirror_value)
     {  
     <button class="size-btn">@mirror</button>    
     }
     </div>
 </div>   
-                    }
+            }
 
                               </div>                 
                                     @* <li><a href=""><i class="fas fa-circle"></i> Bass and Stereo Sound.</a></li>
@@ -807,7 +807,8 @@
     {
         if(index==0)
         {
-            button.classList.add('active');
+    button.classList.add('active');
+    
     var all_container_index=getAllIndex(buttonId,button.textContent);
 
     var first_index=all_container_index[0];
@@ -887,8 +888,8 @@
     });
    }
 
-    function handleClickButton(buttonId)
- {
+function handleClickButton(buttonId)
+ { 
    const container=document.getElementById(buttonId);
    
    var all_id=['color-buttons','size-buttons','version-buttons','mirror-buttons'];
@@ -900,6 +901,8 @@
    var container_version=null;
    
    var container_mirror = null;
+
+
 
    for(let id of all_id)
    {
@@ -932,13 +935,13 @@
   }
    container.querySelectorAll('.size-btn').forEach((button,index)=>
    {
-    if(index==0)
-    {
-        button.classList.add('active');
-    }
+    
  button.addEventListener('click',()=>
- {
+ { 
+  container.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('active'));
  
+ button.classList.add('active');
+
  var button_context=button.textContent;
  
  var color_value=null;
@@ -949,10 +952,14 @@
 
  var mirror_value=null;
 
+ var len_container=0;
+
+
+
  var all_container_index=getAllIndex(buttonId,button_context);
 
  if(container_color!=null)
- {
+ { len_container++;
    container_color.querySelectorAll('.size-btn').forEach((btn)=>
    {
     if(btn.classList.contains('active'))
@@ -964,7 +971,7 @@
 
 
  if(container_size!=null)
- {
+ { len_container++;
    container_size.querySelectorAll('.size-btn').forEach((btn) =>{
     if(btn.classList.contains('active'))
     {
@@ -973,7 +980,7 @@
    });
  }
   if(container_version!=null)
- {
+ { len_container++;
    container_version.querySelectorAll('.size-btn').forEach((btn) =>{
     if(btn.classList.contains('active'))
     {
@@ -983,7 +990,7 @@
    });
  }
   if(container_mirror!=null)
- {
+ { len_container++;
    container_mirror.querySelectorAll('.size-btn').forEach((btn) =>{
     if(btn.classList.contains('active'))
     {
@@ -994,39 +1001,44 @@
   let is_changed=false;
 
   for(let item of all_container_index)
-  {
+  { 
+    let count_value=0;
+
     if(color_value!=null && container_color!=container)
     {
-        if(colors[item]!=color_value)
-        {
-          is_changed=true;
+        if(colors[item]==color_value)
+        { 
+            count_value++;
         }
     }
     if(size_value!=null && container_size!=container)
-    {
-        if(sizes[item]!=size_value)
-        {
-          is_changed=true;
+    {   
+        if(sizes[item]==size_value)
+        { 
+            count_value++;
         }
     }
     if(version_value!=null && container_version!=container)
     {
-        if(versions[item]!=version_value)
+        if(versions[item]==version_value)
         {
-          is_changed=true;
+            count_value++;
         }
     }
     if(mirror_value!=null && container_mirror!=container)
     {
-        if(mirrors[item]!=mirror_value)
+        if(mirrors[item]==mirror_value)
         {
-          is_changed=true;
+          count_value++;
         }
     }
+    if(count_value==(len_container))
+    {  is_changed=true;
+        break;
+    }
   }
-
-  if(is_changed)
-  {
+  if(!is_changed)
+  { 
     let container_index=all_container_index[0];
     if(container_color!=null && container_color!=container)
     { 
@@ -1071,9 +1083,6 @@
     }
   }
 
- container.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('active'));
- 
- button.classList.add('active');
  
     });
    });        
@@ -1086,6 +1095,14 @@
      {
      
      initClickButton();
+
+     handleClickButton('color-buttons');
+
+     handleClickButton('size-buttons');
+    
+     handleClickButton('version-buttons');
+
+     handleClickButton('mirror-buttons');
 
      var add_cart=document.querySelectorAll("#add-cart");     
       
