@@ -1053,8 +1053,9 @@ function handleClickButton(buttonId)
         if(container_size!=null && container_size!=container)
     { 
       container_size.querySelectorAll('.size-btn').forEach((btn,index)=>
-      {btn.classList.remove('active');
-       if(btn.textContent==sizess[container_index])
+      {
+        btn.classList.remove('active');
+       if(btn.textContent==sizes[container_index])
        {
         btn.classList.add('active');
        }
@@ -1212,7 +1213,7 @@ function handleClickButton(buttonId)
 
     const carousel = document.getElementById("productImageCarousel");
     
-    const navLinks=document.querySelectorAll(".data-nav");
+    const navLinks=document.querySelectorAll(".data-nav");    
 
    carousel.addEventListener("slide.bs.carousel", (e) => {
      const index = e.to;     
