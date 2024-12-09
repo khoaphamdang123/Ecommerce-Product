@@ -531,7 +531,11 @@ fork{
   image-rendering: -webkit-optimize-contrast;
   object-fit: cover;
   border-radius: 8px;
+  
 }
+
+
+
 
 .product-list
 {

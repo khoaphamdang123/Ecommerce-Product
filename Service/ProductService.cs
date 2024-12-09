@@ -28,7 +28,7 @@ public class ProductService:IProductRepository
   {
     try
     {
-       var products=await this._context.Products.Include(p=>p.Brand).Include(p=>p.Category).Include(c=>c.SubCat).Include(p=>p.Variants).Include(p=>p.ProductImages).Include(c=>c.Videos).Include(c=>c.Manuals).ToListAsync();
+       var products=await this._context.Products.Include(p=>p.Brand).Include(p=>p.Category).Include(c=>c.SubCat).Include(p=>p.Variants).ThenInclude(c=>c.Color).Include(p=>p.Variants).ThenInclude(c=>c.Size).Include(p=>p.Variants).ThenInclude(c=>c.Version).Include(p=>p.Variants).ThenInclude(c=>c.Mirror).Include(p=>p.ProductImages).Include(c=>c.Videos).Include(c=>c.Manuals).ToListAsync();
        return products;
     }
     catch(Exception er)
@@ -237,6 +237,8 @@ public async Task<int> deleteProduct(int id)
     List<string> sizes=new List<string>();
     
     List<string> mirrors=new List<string>();
+
+    List<string> prices = new List<string>();
     
   try
   {
@@ -246,6 +248,7 @@ public async Task<int> deleteProduct(int id)
       var color=variant.Color?.Colorname;
       var size=variant.Size?.Sizename;
       var mirror=variant.Mirror?.Mirrorname;
+      var price= variant?.Price.ToString();
      
         versions.Add(version==null?"":version);
       
@@ -257,6 +260,8 @@ public async Task<int> deleteProduct(int id)
       
      
         mirrors.Add(mirror==null?"":mirror);
+
+        prices.Add(price);
       
     }
   }
@@ -270,6 +275,7 @@ public async Task<int> deleteProduct(int id)
       {"colors",colors},
       {"sizes",sizes},
       {"mirrors",mirrors},
+      {"prices",prices}
     };
     return data_val;
     }
@@ -591,6 +597,8 @@ public async Task<int> addNewProduct(AddProductModel model)
 
    
    List<string> versions=model.Version;
+   
+   List<string> prices = model.Prices;
 
           Console.WriteLine("version:"+versions.Count);
 
@@ -652,6 +660,7 @@ Console.WriteLine("colors count:"+colors.Count);
   string size=sizes[i];
   string version=versions[i];
   string mirror=mirrors[i];
+  string price_value = prices[i];
  Console.WriteLine("inside here.");
   var check_color_exist = await this._context.Colors.FirstOrDefaultAsync(c=>c.Colorname==color);
   var check_size_exist = await this._context.Sizes.FirstOrDefaultAsync(c=>c.Sizename==size);
@@ -701,7 +710,7 @@ Console.WriteLine("colors count:"+colors.Count);
 
   var new_mirror_ob = await this._context.Mirrors.FirstOrDefaultAsync(c=>c.Mirrorname==mirror);
 
-  var new_varian_ob=new Variant{Colorid=new_color_ob!=null?new_color_ob.Id:null,Sizeid=new_size_ob!=null?new_size_ob.Id:null,Weight=string.IsNullOrEmpty(weight)?-1:Convert.ToUInt32(weight),Versionid=new_version_ob!=null?new_version_ob.Id:null,Mirrorid=new_mirror_ob!=null?new_mirror_ob.Id:null};
+  var new_varian_ob=new Variant{Colorid=new_color_ob!=null?new_color_ob.Id:null,Sizeid=new_size_ob!=null?new_size_ob.Id:null,Weight=string.IsNullOrEmpty(weight)?-1:Convert.ToUInt32(weight),Price=string.IsNullOrEmpty(price_value)?-1:Convert.ToInt32(price_value),Versionid=new_version_ob!=null?new_version_ob.Id:null,Mirrorid=new_mirror_ob!=null?new_mirror_ob.Id:null};
 
   variant.Add(new_varian_ob); 
  }
@@ -858,7 +867,7 @@ string product_name=model.ProductName;
    
    List<string> weights=model.Weight;
   
-          Console.WriteLine("weight:"+weights.Count);
+        Console.WriteLine("weight:"+weights.Count);
 
    
    List<string> sizes=model.Size;
@@ -872,6 +881,12 @@ string product_name=model.ProductName;
 
    
    List<string> versions=model.Version;
+
+   
+   
+   List<string> prices = model.Prices;
+
+   Console.WriteLine("Price List Size:"+prices.Count);
 
          // Console.WriteLine("version:"+versions.Count);
 
@@ -894,10 +909,11 @@ string product_name=model.ProductName;
    if(sub_cat!=-1)
    {
       var sub_cat_ob=await this.findCatIdBySubId(sub_cat);
+      
       if(sub_cat_ob!=null)
       {
         category=sub_cat_ob.Category.Id;
-      } 
+      }
    }
   Console.WriteLine("check point 1");
 
@@ -920,6 +936,7 @@ string product_name=model.ProductName;
   string size=sizes[i];
   string version=versions[i];
   string mirror=mirrors[i];
+  string price_value=prices[i];
 
   Regex reg=new Regex("[^0-9]");
   weight=reg.Replace(weight,"");
@@ -971,7 +988,7 @@ string product_name=model.ProductName;
 
   var new_mirror_ob = await this._context.Mirrors.FirstOrDefaultAsync(c=>c.Mirrorname==mirror);
 
-  var new_varian_ob=new Variant{Colorid=new_color_ob!=null?new_color_ob.Id:null,Sizeid=new_size_ob!=null?new_size_ob.Id:null,Weight=string.IsNullOrEmpty(weight)?-1:Convert.ToUInt32(weight),Versionid=new_version_ob!=null?new_version_ob.Id:null,Mirrorid=new_mirror_ob!=null?new_mirror_ob.Id:null};
+  var new_varian_ob=new Variant{Colorid=new_color_ob!=null?new_color_ob.Id:null,Sizeid=new_size_ob!=null?new_size_ob.Id:null,Weight=string.IsNullOrEmpty(weight)?-1:Convert.ToUInt32(weight),Price=string.IsNullOrEmpty(price_value)?-1:Convert.ToInt32(price_value),Versionid=new_version_ob!=null?new_version_ob.Id:null,Mirrorid=new_mirror_ob!=null?new_mirror_ob.Id:null};
 
   variant.Add(new_varian_ob); 
  }

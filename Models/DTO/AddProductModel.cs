@@ -42,4 +42,6 @@ public class AddProductModel
     public List<string> Version{get;set;}
 
     public List<string> Mirror{get;set;}
+
+    public List<string> Prices{get;set;}
 }

@@ -19,6 +19,8 @@ public partial class Variant
 
     public decimal? Weight { get; set; }
 
+    public decimal? Price { get; set; }
+
     public virtual Color? Color { get; set; }
 
     public virtual Mirror? Mirror { get; set; }

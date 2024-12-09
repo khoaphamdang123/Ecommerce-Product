@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web;
 using HtmlAgilityPack;
+using System.Web;
 
 namespace Ecommerce_Product.Models;
 
@@ -23,7 +23,7 @@ public partial class Blog
 
     public int CategoryId { get; set; }
 
-  public string GetFirstPContent()
+     public string GetFirstPContent()
     {
         if (string.IsNullOrEmpty(Content))
         { 
@@ -46,5 +46,6 @@ public partial class Blog
         }
         return string.Join(" ",words.Take(30))+"...";
     }
+
     public virtual Category Category { get; set; } = null!;
 }

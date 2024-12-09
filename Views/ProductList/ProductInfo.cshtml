@@ -353,11 +353,15 @@
                         </div>
                             <div class="col-4 mb-2">
                           <label class="form-label" for="version">Phiên bản</label> 
-                          <input class="form-control" id="version" placeholder="Nhập phiên bản" value="@(variant.Version!=null?variant.Version.Versionname:"")">
+                          <input class="form-control" id="version" type="text" placeholder="Nhập phiên bản" value="@(variant.Version!=null?variant.Version.Versionname:"")">
                         </div>
                         <div class="col-4 mb-3">
                           <label class="form-label" for="mirror">Loại kính</label> 
-                          <input class="form-control" id="mirror" placeholder="Nhập loại kính" value="@(variant.Mirror!=null?variant.Mirror.Mirrorname:"")">
+                          <input class="form-control" id="mirror" type="text" placeholder="Nhập loại kính" value="@(variant.Mirror!=null?variant.Mirror.Mirrorname:"")">
+                        </div>
+                          <div class="col-4 mb-3">
+                          <label class="form-label" for="mirror">Giá</label> 
+                          <input class="form-control" id="prices" type="text" placeholder="Nhập giá" value="@(variant.Price!=null?variant.Price:"")">
                         </div>
                         </div>
                     </div>
@@ -385,6 +389,10 @@
                         <div class="col-4 mb-3">
                           <label class="form-label" for="mirror">Loại kính</label> 
                           <input class="form-control" id="mirror" placeholder="Nhập loại kính">
+                        </div>
+                              <div class="col-4 mb-3">
+                          <label class="form-label" for="mirror">Giá</label> 
+                          <input class="form-control" type="text" id="prices" placeholder="Nhập giá">
                         </div>
                         </div>
                     </div>
@@ -1138,7 +1146,7 @@ const file=files[i];
    var versions=document.querySelectorAll("#version");
    var mirrors = document.querySelectorAll("#mirror");
    var sizes= document.querySelectorAll("#size");
-    
+   var prices = document.querySelectorAll("#prices");
    colors.forEach((color)=>{
    formDataVal.append("color",color.value);
    }); 
@@ -1158,6 +1166,10 @@ const file=files[i];
    sizes.forEach((size)=>{
     formDataVal.append("size",size.value);
    });
+
+    prices.forEach((price)=>{
+      formDataVal.append("prices",price.value);
+    });
 
   files_arr.forEach(file=>{
     formDataVal.append("imagefiles",file);
