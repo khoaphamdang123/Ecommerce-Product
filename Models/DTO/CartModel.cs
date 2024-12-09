@@ -12,6 +12,8 @@ namespace Ecommerce_Product.Models
 
    public string Version{get;set;}
 
-   public string Mirror{get;set;} 
+   public string Mirror{get;set;}
+
+   public string Price {get;set;} 
     }
 }

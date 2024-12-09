@@ -21,6 +21,8 @@
     
     List<string> mirrors=new List<string>();
 
+    List<string> prices = new List<string>();
+
    
 
 
@@ -32,6 +34,7 @@
         colors=variants["colors"];
         versions=variants["versions"];
         mirrors=variants["mirrors"];
+        prices=variants["prices"];
     }
 
      string sizes_json=JsonConvert.SerializeObject(sizes);
@@ -41,6 +44,8 @@
     string version_json=JsonConvert.SerializeObject(versions);
     
     string mirror_json=JsonConvert.SerializeObject(mirrors);
+
+    string price_json=JsonConvert.SerializeObject(prices);
 
 
 
@@ -61,7 +66,7 @@
      nums_review=review_list.Count;
     }
     var count_stars=ViewBag.count_stars as Dictionary<string,int>;
-    List<double> star_percen=new List<double>();    
+    List<double> star_percen=new List<double>();   
    var stats_description=Html.Raw(Model?.Statdescription);
    Console.WriteLine(stats_description);
    var user=this.ViewContext.HttpContext.Session.GetString("UserId");
@@ -141,15 +146,14 @@
                                 </li>
                                 }
                                 }
-                              
                             </ul>
                             <div class="product__details-thumb">
                                 <div class="tab-content" id="productThumbContent">
                                     <div class="tab-pane fade show active" id="thumb" role="tabpanel" aria-labelledby="thumb-tab">
                                     <div id="productImageCarousel" class="carousel slide" data-bs-ride="carousel">
-                                        <div class="carousel-inner">                                        
+                                        <div class="carousel-inner text-center">                                        
                                           <div class="carousel-item active">
-                                        <img  draggable="false" src="~/@Model?.Frontavatar.Substring(Model.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="main-img" id="mainImage" class="main-img d-flex zoomable-image">
+                                        <img draggable="false" src="~/@Model?.Frontavatar.Substring(Model.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="main-img" id="mainImage" class="main-img d-flex zoomable-image">
                                             </div>
                                             @foreach(var item in Model?.ProductImages)
                                             {
@@ -187,7 +191,7 @@
                     </div>
                     <div class="col-xl-6">
                         <div class="product__details-content">
-                            <h6>@Model?.ProductName</h6>                                                       
+                            <h6>@Model?.ProductName</h6>                                                                                   
                             <div class="pd-rating mb-10">
                             @if(rating!=0)
                             {   
@@ -226,7 +230,7 @@
                                 <span><button type="button" onclick="scrollToReview()">Thêm đánh giá</button></span>                                
                             </div>
                             <div class="price mb-10">
-                                <span>@Model?.Price</span>                                
+                                <span id="price">@Model.Price</span>                                
                             </div>
                             <div class="features-des mb-20 mt-10">
                               <div class="product-options">
@@ -255,7 +259,6 @@
     </div>
    </div>   
       }
-
                     
                 @if(version_value.Count>0)
                      {
@@ -763,6 +766,8 @@
 
     const mirrors=@Html.Raw(mirror_json);
 
+    const prices = @Html.Raw(price_json);
+
     function getAllIndex(buttonId,value)
     {
      switch(buttonId)
@@ -813,6 +818,12 @@
 
     var first_index=all_container_index[0];
 
+    var price=document.getElementById('price');
+
+
+    price.innerHTML=prices[first_index]+' <u>đ</u>';
+    
+
    var container_size=null;
    
    var container_color=null;
@@ -857,7 +868,9 @@
     if(container_mirror!=null && container_mirror!=container)
   {
     container_mirror.querySelectorAll('.size-btn').forEach((btn,index)=>
-    { btn.classList.remove('active');
+    { 
+     btn.classList.remove('active');
+     
      if(mirrors[first_index]==btn.textContent)
      {
       btn.classList.add('active');
@@ -867,7 +880,9 @@
     if(container_size!=null && container_size!=container)
   {
     container_size.querySelectorAll('.size-btn').forEach((btn,index)=>
-    { btn.classList.remove('active');
+    { 
+     btn.classList.remove('active');
+     
      if(sizes[first_index]==btn.textContent)
      {
       btn.classList.add('active');
@@ -925,7 +940,7 @@ function handleClickButton(buttonId)
   }
   else if(id=='mirror-buttons')
   {
-    container_mirror=document.getElementById(id);
+    container_mirror=document.getElementById(id);    
   }
   }
 
@@ -985,7 +1000,6 @@ function handleClickButton(buttonId)
     if(btn.classList.contains('active'))
     {
          version_value=btn.textContent;
-
     }
    });
  }
@@ -999,10 +1013,12 @@ function handleClickButton(buttonId)
    });
  }
   let is_changed=false;
-
+  let current_item=-1;
   for(let item of all_container_index)
   { 
     let count_value=0;
+
+    current_item=item; 
 
     if(color_value!=null && container_color!=container)
     {
@@ -1082,9 +1098,12 @@ function handleClickButton(buttonId)
        }
       });
     }
+   document.getElementById('price').innerHTML=prices[all_container_index[0]]+' <u>đ</u>';
   }
-
- 
+  else
+  {
+   document.getElementById('price').innerHTML=prices[current_item]+' <u>đ</u>';
+   }
     });
    });        
     }    
@@ -1118,6 +1137,7 @@ function handleClickButton(buttonId)
        var color_container = document.getElementById('color-buttons');
        var version_container = document.getElementById('version-buttons');
        var mirror_container = document.getElementById('mirror-buttons');
+       var price=document.getElementById('price').textContent;
        var size_value=null;
        var color_value=null;
        var version_value=null;
@@ -1150,6 +1170,9 @@ function handleClickButton(buttonId)
        formData.append("quantity",quantity_value);
        
        formData.append("product_name",product_name);
+       
+       formData.append("price",price);
+
        $.ajax({
             url:"@Url.Action("addItemToCart","Cart")",
             type:"POST",
@@ -1163,6 +1186,7 @@ function handleClickButton(buttonId)
                 const message = response.message;
                 
                 const data=response.data;
+
              if(data!="")
              {
                 $("#count-cart").text(data.length);
@@ -1201,7 +1225,7 @@ function handleClickButton(buttonId)
                 toastEl.classList.add('bg-danger');
                 var toast = new bootstrap.Toast(toastEl);
                 toast.show();           
-                 }
+            }
         });
      });
      });
@@ -1231,7 +1255,7 @@ function handleClickButton(buttonId)
     navLinks.forEach((navLink,index) => {
       navLink.addEventListener("click", (e) => 
       {
-      activeIndex(index);
+      activeIndex(index);      
       });
     });
 
@@ -1251,8 +1275,6 @@ function handleClickButton(buttonId)
     }, 10); 
       });
     });
-
-
 
     let startX = 0;
 

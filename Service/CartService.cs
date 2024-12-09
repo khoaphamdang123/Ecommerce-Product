@@ -68,12 +68,13 @@ catch(Exception er)
 
 public async Task clearCart()
 {
-    session.Remove("cart");
+    session.Remove("cart");    
 }
 
 public async Task<int> deleteProductFromCart(int product_id)
 {
     int remove_res=0;
+    
     try
     {
    var cart = getCart();

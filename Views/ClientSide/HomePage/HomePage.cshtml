@@ -1,4 +1,6 @@
-@{
+@using Newtonsoft.Json;
+
+@{ 
     Layout = "_UserLayout";
     var banners=ViewBag.banners;
     var products = ViewBag.products as List<Product>; 
@@ -8,7 +10,16 @@
     var count_reviews=ViewBag.count_reviews as Dictionary<string,int>;
     var slider_content=ViewBag.slider_content as string;
     string value="~/"+@products[0].Frontavatar.Substring(products[0].Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1));
+    
     string user_id=this.ViewContext.HttpContext.Session.GetString("UserId");
+
+
+    List<Product> products_chosen=new List<Product>();
+  
+    foreach(var product in products)
+    {
+        products_chosen.Add(product);
+    }
 
     //List<string> details_img=new List<string>();
     int count_trending=0;
@@ -17,6 +28,7 @@
        class="bs-toast toast fade hide toast-placement-ex top-5 end-0"
        role="alert"
        aria-live="assertive"
+    using Newtonsoft.Json;
        aria-atomic="true"
        data-bs-dismiss="toast"
        style="cursor: pointer; position: fixed; top: 20px; right: 20px; z-index: 5000;"
@@ -266,7 +278,9 @@
                                    <span class="discount">@product?.Discount%</span>
                                    }  
                                 </div>
-                                <div class="product-action product-action-2">
+                                <div class="product-action 
+                                product-action-2">
+                                   
                                     <a href="#" class="icon-box icon-box-1" data-bs-toggle="modal" data-product-name="@product.ProductName" data-product-price="@product.Price" data-main-avatar="@product.Frontavatar" 
                                                     data-product-category="@product?.Category.CategoryName"
                                                     data-product-quantity="@product.Quantity"  
@@ -680,8 +694,8 @@
                                              <li class="star" id="star" data-product-id="" data-star="5" data-user="@user_id"><a href="javascript:void(0);"><i class="fal fa-star"></i></a></li>
                                              <li class="star" id="star" data-product-id="" data-star="4" data-user="@user_id"><a href="javascript:void(0);"><i class="fal fa-star"></i></a></li>
                                              <li class="star" id="star" data-product-id="" data-star="3" data-user="@user_id"><a href="javascript:void(0);"><i class="fal fa-star"></i></a></li>
-                                            <li class="star" id="star" data-product-id=""  data-star="2" data-user="@user_id"><a href="javascript:void(0);"><i class="fal fa-star"></i></a></li>
-                                            <li class="star" id="star" data-product-id=""  data-star="1" data-user="@user_id"><a href="javascript:void(0);"><i class="fal fa-star"></i></a></li>
+                                             <li class="star" id="star" data-product-id=""  data-star="2" data-user="@user_id"><a href="javascript:void(0);"><i class="fal fa-star"></i></a></li>
+                                             <li class="star" id="star" data-product-id=""  data-star="1" data-user="@user_id"><a href="javascript:void(0);"><i class="fal fa-star"></i></a></li>
                                         </ul>
                                         </div>
                                         <div class="product__add-review mb-15">
@@ -783,10 +797,10 @@
                  toastEl.classList.add('bg-success');
       
                 }
-            else
-            {
+               else
+               {
                 toastEl.classList.add('bg-danger');
-            }
+               }
                 var toast = new bootstrap.Toast(toastEl);
                 
                  toast.show();
@@ -805,10 +819,13 @@
      });
 
       document.addEventListener('show.bs.modal', function(event) 
-{
+{   
      if(event.target.id=="productModalId")
      {
         const button = event.relatedTarget;
+
+        var product_chosen_ob=@Html.Raw(products_chosen);
+
                 
         const productName = button.getAttribute('data-product-name');
         
@@ -838,7 +855,8 @@ if (wwwrootIndex !== -1) {
 }    
        var wwwrootPath='@Url.Content("~/")';
        
-        relativePath=wwwrootPath+relativePath.replace(/\\/g, "/");
+      relativePath=wwwrootPath+relativePath.replace(/\\/g, "/");
+       
        sub_img.forEach((img,index)=>{
         if(index==0)
        {
@@ -922,14 +940,14 @@ if (wwwrootIndex !== -1) {
             }
             
                 document.getElementById("toast-title").innerHTML="Thông báo";
+
                 document.getElementById("toast-message").innerHTML=message;
+
                 var toastEl = document.querySelector('.toast');
 
                 if(status==1)
                 {
-              
                  toastEl.classList.add('bg-success');
-      
                 }
             else
             {

@@ -669,6 +669,7 @@ public partial class EcommerceshopContext : DbContext
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Colorid).HasColumnName("colorid");
             entity.Property(e => e.Mirrorid).HasColumnName("mirrorid");
+            entity.Property(e => e.Price).HasColumnName("price");
             entity.Property(e => e.Productid).HasColumnName("productid");
             entity.Property(e => e.Sizeid).HasColumnName("sizeid");
             entity.Property(e => e.Versionid).HasColumnName("versionid");
