@@ -28,6 +28,12 @@ public class CartService:ICartRepository
    return cart;
  }
 
+  public async Task clearCart()
+  {
+    session.Remove("cart");
+  }
+
+
 public List<CartModel> getCart()
 {
     var cart_json = session.GetString("cart");
@@ -39,7 +45,7 @@ public async Task<int> addProductToCart(CartModel model)
 try{
     var cart_list=this.getCart();
 
-    var check_exist=cart_list.FirstOrDefault(c=>c.Product.ProductName==model.Product.ProductName && c.Size==model.Size && c.Color==model.Color && c.Version==model.Version && c.Mirror==model.Mirror);
+    var check_exist=cart_list.FirstOrDefault(c=>c.Product.ProductName==model.Product.ProductName);
     if(check_exist!=null)
     {   
         check_exist.Quantity+=model.Quantity;
@@ -54,6 +60,7 @@ try{
         cart_list.Add(model);
     }
     add_res=1;
+    
     session.SetString("cart",JsonConvert.SerializeObject(cart_list,new JsonSerializerSettings
     {
         ReferenceLoopHandling=ReferenceLoopHandling.Ignore
@@ -66,15 +73,9 @@ catch(Exception er)
   return add_res;
 }
 
-public async Task clearCart()
-{
-    session.Remove("cart");    
-}
-
 public async Task<int> deleteProductFromCart(int product_id)
 {
     int remove_res=0;
-    
     try
     {
    var cart = getCart();
