@@ -1,0 +1,3 @@
+2024-12-11 00:06:01.679 +07:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED shutting down.
+2024-12-11 00:06:01.684 +07:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED paused.
+2024-12-11 00:06:01.688 +07:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED Shutdown complete.
