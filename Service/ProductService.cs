@@ -223,6 +223,13 @@ public async Task<int> deleteProduct(int id)
  return res_del;
 }
 
+  public async Task<List<Variant>> getVariantByProductId(int id)
+  {
+    var products = await this._context.Products.Include(c=>c.Variants).ThenInclude(c=>c.Color).Include(c=>c.Variants).ThenInclude(c=>c.Size).Include(c=>c.Variants).ThenInclude(c=>c.Version).Include(c=>c.Variants).ThenInclude(c=>c.Mirror).FirstOrDefaultAsync(c=>c.Id==id);
+    return products.Variants.ToList();
+  }
+
+
 
     public async Task<Dictionary<string,List<string>>> getProductVariant(Product product)
     {

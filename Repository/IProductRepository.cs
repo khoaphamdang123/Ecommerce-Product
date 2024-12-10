@@ -58,6 +58,8 @@ public interface IProductRepository
 
   public Task<int> updateProduct(int id,AddProductModel product);
 
+  public Task<List<Variant>> getVariantByProductId(int id);
+
   public Task saveChanges();
 
 

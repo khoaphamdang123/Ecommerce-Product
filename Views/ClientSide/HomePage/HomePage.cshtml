@@ -2,24 +2,26 @@
 
 @{ 
     Layout = "_UserLayout";
+    
     var banners=ViewBag.banners;
+    
     var products = ViewBag.products as List<Product>; 
+    
     var categories = ViewBag.categories as List<Category>;
+    
     var brands=ViewBag.brands as List<Brand>;
+    
     var blogs = ViewBag.blogs as List<Blog>;
+    
     var count_reviews=ViewBag.count_reviews as Dictionary<string,int>;
+    
     var slider_content=ViewBag.slider_content as string;
+    
     string value="~/"+@products[0].Frontavatar.Substring(products[0].Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1));
     
     string user_id=this.ViewContext.HttpContext.Session.GetString("UserId");
-
-
-    List<Product> products_chosen=new List<Product>();
-  
-    foreach(var product in products)
-    {
-        products_chosen.Add(product);
-    }
+    
+    string product_chosen="";
 
     //List<string> details_img=new List<string>();
     int count_trending=0;
@@ -140,7 +142,7 @@
                                 <span class="discount">-15%</span>
                                 </div> *@
                                 <div class="product-action product-action-2">
-                                    <a href="javascript:void(0);" class="icon-box icon-box-1" data-bs-toggle="modal" data-product-name="@product.ProductName" data-product-price="@product.Price" data-main-avatar="@product.Frontavatar" 
+                                    <a href="javascript:void(0);" type="button" class="icon-box icon-box-1" data-bs-toggle="modal" data-product-name="@product.ProductName" data-product-price="@product.Price" data-main-avatar="@product.Frontavatar" 
                                                
                                                     data-product-category="@product?.Category.CategoryName"
                                                     data-product-quantity="@product.Quantity" 
@@ -152,6 +154,10 @@
                                                     string val=$"data-img-{i+1}=\"{product.ProductImages.ToList()[i].Avatar}\"";
                                                     @Html.Raw(val);
                                                     }
+                        
+                                                   
+
+
                                                   
 
                                                     data-bs-target="#productModalId">
@@ -706,7 +712,9 @@
                                         <span id="product-price"></span>
                                     </div>
                                     <div class="product__modal-des mt-20 mb-15">
+                                        <div class="product-options">
                                         
+                                        </div>
                                         
                                         @* <ul>
                                             <li><a href="#"><i class="fas fa-circle"></i> Bass and Stereo Sound.</a></li>
@@ -818,14 +826,64 @@
      });
      });
 
-      document.addEventListener('show.bs.modal', function(event) 
-{   
+ document.addEventListener('show.bs.modal', function(event) 
+{    
+alert("event");
      if(event.target.id=="productModalId")
-     {
+     {  
         const button = event.relatedTarget;
 
-        var product_chosen_ob=@Html.Raw(products_chosen);
-
+        const productId=button.getAttribute('data-product-id');
+        var url="@Url.Action("VariantProduct","HomePage",new{id="__id__"})";
+        url=url.replace("__id__",productId);
+       $.ajax({
+            url:url,
+            type:"GET",
+            contentType: false,
+            processData: false, 
+            success:function(response){
+               var value=JSON.parse(response);
+               for(let i=0;i<value.length;i++)
+               {
+                const variant=value[i];
+                var color="";
+                var size="";
+                var version="";
+                var mirror="";
+                var productOptionsContainer = document.querySelector(".product-options");
+                if(variant.Color!=null)
+                { 
+                    color=variant.Color.Colorname;
+                    const selector=document.createElement("div");
+                    selector.classList.add("color-selector");
+                     selector.innerHTML = `
+        <h3>Màu sắc:</h3>
+        <div class="color-buttons">
+            <button class="color-btn">${color}</button>
+        </div>
+    `;
+              productOptionsContainer.appendChild(selector);
+                }
+                if(variant.Size!=null)
+                {
+                    size=variant.Size.Sizename;
+                }
+                if(variant.Version!=null)
+                {
+                    version=variant.Version.Versionname;
+                }
+                if(variant.Mirror!=null)
+                {
+                    mirror=variant.Mirror.Mirrorname;
+                }
+              
+               }
+            },
+         error:function(xhr, status, error)
+            {
+              alert(xhr.responseText);
+                 }
+       });
                 
         const productName = button.getAttribute('data-product-name');
         
@@ -836,6 +894,7 @@
         const category   = button.getAttribute('data-product-category');
 
         const quantity = button.getAttribute('data-product-quantity');
+
         
         for(let i=0;i<=4;i++)
         {   //var sub_img=document.getElementById(`sub-img-${i}`);
@@ -894,7 +953,8 @@ if (wwwrootIndex !== -1) {
        star.setAttribute("data-product-id",button.getAttribute("data-product-id"));
    });
 
-      review_value.textContent=`(${count_review_value} đánh giá)`; 
+        review_value.textContent=`(${count_review_value} đánh giá)`; 
+
 
         document.getElementById('product-name').textContent = productName;
         

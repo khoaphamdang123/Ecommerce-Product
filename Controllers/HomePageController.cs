@@ -1,6 +1,7 @@
 
 using Ecommerce_Product.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 namespace Ecommerce_Product.Controllers;
 public class HomePageController:BaseController
 {
@@ -98,6 +99,17 @@ startTime=DateTime.Now;
     ViewBag.brands=brands;
 
     return View("~/Views/ClientSide/HomePage/HomePage.cshtml");
+}
+[HttpGet]
+[Route("products/{id}/variant")]
+public async Task<IActionResult> VariantProduct(int id)
+{ Console.WriteLine("used to come to this place:"+id);
+  var variants=await this._product.getVariantByProductId(id);
+  string json=JsonConvert.SerializeObject(variants,new JsonSerializerSettings
+    {
+        ReferenceLoopHandling=ReferenceLoopHandling.Ignore
+    });
+  return Ok(json);
 }
 
 }
