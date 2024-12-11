@@ -751,6 +751,357 @@
         </div>
 
     <script>
+  function initClickButton(sizes,colors,versions,mirrors,prices)
+   { var all_id=['color-buttons','size-buttons','version-buttons','mirror-buttons'];
+ 
+   var container=null;
+   var buttonId=null;
+     for(let id of all_id)
+     {
+        container=document.getElementById(id);
+        if(container!=null)
+        {  buttonId=id;
+            break;
+        }
+     }
+    if(container==null)
+    {
+        return;
+    }
+    container.querySelectorAll('.size-btn').forEach((button,index)=>
+    {
+        if(index==0)
+        {
+    button.classList.add('active');
+    
+    var all_container_index=getAllIndex(buttonId,button.textContent,sizes,colors,versions,mirrors);
+
+    var first_index=all_container_index[0];
+
+
+    var price=document.getElementById('product-price');
+
+    var price_value=prices[first_index];
+    if(price_value!=null)
+    {
+    price.innerHTML=prices[first_index]+' <u>đ</u>';
+    }
+
+   var container_size=null;
+   
+   var container_color=null;
+
+   var container_version=null;
+   
+   var container_mirror = null;
+
+   for(let id of all_id)
+   {
+   if(id==buttonId)
+   {
+    continue;    
+   }
+   if(id=='color-buttons')
+   {
+     container_color=document.getElementById(id);
+   }   
+  else if(id=='size-buttons')
+  {
+    container_size=document.getElementById(id);
+  }
+  else if(id=='version-buttons')
+  {
+    container_version=document.getElementById(id);
+  }
+  else if(id=='mirror-buttons')
+  {
+    container_mirror=document.getElementById(id);
+  }
+  }
+  if(container_color!=null && container_color!=container)
+  {
+    container_color.querySelectorAll('.size-btn').forEach((btn,index)=>
+    { btn.classList.remove('active');
+     if(colors[first_index]==btn.textContent)
+     {
+      btn.classList.add('active');
+     }
+    });
+  }
+    if(container_mirror!=null && container_mirror!=container)
+  {
+    container_mirror.querySelectorAll('.size-btn').forEach((btn,index)=>
+    { 
+     btn.classList.remove('active');
+     
+     if(mirrors[first_index]==btn.textContent)
+     {
+      btn.classList.add('active');
+     }
+    });
+  }
+    if(container_size!=null && container_size!=container)
+  {
+    container_size.querySelectorAll('.size-btn').forEach((btn,index)=>
+    { 
+     btn.classList.remove('active');
+     
+     if(sizes[first_index]==btn.textContent)
+     {
+      btn.classList.add('active');
+     }
+    }); 
+  }
+    if(container_version!=null && container_version!=container)
+  {
+    container_version.querySelectorAll('.size-btn').forEach((btn,index)=>
+    { btn.classList.remove('active');
+     if(versions[first_index]==btn.textContent)
+     {
+      btn.classList.add('active');
+     }
+    });
+  }
+  }
+    });
+   }
+
+function getAllIndex(buttonId,value,sizes,colors,versions,mirrors)
+    { 
+     switch(buttonId)
+     {
+        case "color-buttons":
+        {
+         return colors.map((color,index)=>color==value?index:-1).filter((val)=>val!==-1);
+        }
+        case "size-buttons":
+        {
+         return sizes.map((size,index)=>size==value?index:-1).filter((val)=>val!==-1);
+        }
+        case "version-buttons":
+        {
+         return versions.map((version,index)=>version==value?index:-1).filter((val)=>val!==-1);
+        }
+        case "mirror-buttons":
+        {
+         return mirrors.map((mirror,index)=>mirror==value?index:-1).filter((val)=>val!==-1);
+        }
+     }
+    }
+
+    function handleClickButton(buttonId,sizes,colors,versions,mirrors,prices)
+ { 
+   const container=document.getElementById(buttonId);
+   
+   var all_id=['color-buttons','size-buttons','version-buttons','mirror-buttons'];
+
+   var container_size=null;
+   
+   var container_color=null;
+
+   var container_version=null;
+   
+   var container_mirror = null;
+
+
+
+   for(let id of all_id)
+   {
+   
+   if(id==buttonId)
+   {
+    continue;
+   }
+   if(id=='color-buttons')
+   {
+     container_color=document.getElementById(id);
+   }   
+  else if(id=='size-buttons')
+  {
+    container_size=document.getElementById(id);
+  }
+  else if(id=='version-buttons')
+  {
+    container_version=document.getElementById(id);
+  }
+  else if(id=='mirror-buttons')
+  {
+    container_mirror=document.getElementById(id);    
+  }
+  }
+
+  if(container==null)
+  {
+    return;    
+  }
+   container.querySelectorAll('.size-btn').forEach((button,index)=>
+   {
+    
+ button.addEventListener('click',()=>
+ { 
+  container.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('active'));
+ 
+ button.classList.add('active');
+
+ var button_context=button.textContent;
+ 
+ var color_value=null;
+
+ var size_value=null;
+
+ var version_value=null;
+
+ var mirror_value=null;
+
+ var len_container=0;
+
+
+
+ var all_container_index=getAllIndex(buttonId,button_context,sizes,colors,versions,mirrors);
+
+ if(container_color!=null)
+ { len_container++;
+   container_color.querySelectorAll('.size-btn').forEach((btn)=>
+   {
+    if(btn.classList.contains('active'))
+    {
+         color_value=btn.textContent; 
+    }
+   });
+ }
+
+
+ if(container_size!=null)
+ { len_container++;
+   container_size.querySelectorAll('.size-btn').forEach((btn) =>{
+    if(btn.classList.contains('active'))
+    {
+         size_value=btn.textContent;
+    }
+   });
+ }
+  if(container_version!=null)
+ { len_container++;
+   container_version.querySelectorAll('.size-btn').forEach((btn) =>{
+    if(btn.classList.contains('active'))
+    {
+         version_value=btn.textContent;
+    }
+   });
+ }
+  if(container_mirror!=null)
+ { len_container++;
+   container_mirror.querySelectorAll('.size-btn').forEach((btn) =>{
+    if(btn.classList.contains('active'))
+    {
+         mirror_value=btn.textContent;
+    }
+   });
+ }
+  let is_changed=false;
+  let current_item=-1;
+  for(let item of all_container_index)
+  { 
+    let count_value=0;
+
+    current_item=item; 
+
+    if(color_value!=null && container_color!=container)
+    {
+        if(colors[item]==color_value)
+        { 
+            count_value++;
+        }
+    }
+    if(size_value!=null && container_size!=container)
+    {   
+        if(sizes[item]==size_value)
+        { 
+            count_value++;
+        }
+    }
+    if(version_value!=null && container_version!=container)
+    {
+        if(versions[item]==version_value)
+        {
+            count_value++;
+        }
+    }
+    if(mirror_value!=null && container_mirror!=container)
+    {
+        if(mirrors[item]==mirror_value)
+        {
+          count_value++;
+        }
+    }
+    if(count_value==(len_container))
+    {  is_changed=true;
+        break;
+    }
+  }
+  if(!is_changed)
+  { 
+    let container_index=all_container_index[0];
+    if(container_color!=null && container_color!=container)
+    { 
+      container_color.querySelectorAll('.size-btn').forEach((btn,index)=>
+      {btn.classList.remove('active');
+       if(btn.textContent==colors[container_index])
+       {
+        btn.classList.add('active');
+       }
+      });
+    }
+        if(container_size!=null && container_size!=container)
+    { 
+      container_size.querySelectorAll('.size-btn').forEach((btn,index)=>
+      {
+        btn.classList.remove('active');
+       if(btn.textContent==sizes[container_index])
+       {
+        btn.classList.add('active');
+       }
+      });
+    }
+        if(container_version!=null && container_version!=container)
+    { 
+      container_version.querySelectorAll('.size-btn').forEach((btn,index)=>
+      {btn.classList.remove('active');
+       if(btn.textContent==versions[container_index])
+       {
+        btn.classList.add('active');
+       }
+      });
+    }
+        if(container_mirror!=null && container_mirror!=container)
+    { 
+      container_mirror.querySelectorAll('.size-btn').forEach((btn,index)=>
+      {
+        btn.classList.remove('active');
+       if(btn.textContent==mirrors[container_index])
+       {
+        btn.classList.add('active');
+       }
+      });
+    }
+  var price_value=prices[all_container_index[0]];
+  if(price_value!=null)
+  {
+   document.getElementById('product-price').innerHTML=prices[all_container_index[0]]+' <u>đ</u>';
+   }
+  }
+  else
+  {
+  var price_value=prices[all_container_index[0]];
+    if(price_value!=null)
+    {
+   document.getElementById('product-price').innerHTML=prices[current_item]+' <u>đ</u>';
+   }
+   }
+    });
+   });        
+    }    
+    
      document.addEventListener("DOMContentLoaded",()=>{
      
      
@@ -842,13 +1193,20 @@ const modalElement = document.getElementById('productModalId');
             processData: false, 
             success:function(response)
             {
-               var value=JSON.parse(response);
+            var value=JSON.parse(response);
+            
             var productOptionsContainer = document.querySelector(".product-options");
+        
             productOptionsContainer.innerHTML = "";
             var colors=[];
             var sizes=[];
             var versions=[];
             var mirrors=[];
+            var sizes_json=[];
+            var colors_json=[];
+            var versions_json=[];
+            var mirrors_json=[];
+            var prices_json=[];
                for(let i=0;i<value.length;i++)
                {
                 const variant=value[i];
@@ -856,6 +1214,7 @@ const modalElement = document.getElementById('productModalId');
                 var size="";
                 var version="";
                 var mirror="";
+              
                 if(variant.Color!=null)
                 { 
                     color=variant.Color.Colorname;
@@ -865,7 +1224,7 @@ const modalElement = document.getElementById('productModalId');
                     selector.classList.add("color-selector");
                      selector.innerHTML = `
         <h3>Màu sắc:</h3>
-        <div class="size-buttons" id="size-buttons">
+        <div class="size-buttons" id="color-buttons">
   
     <button class="size-btn">${color}</button>
     
@@ -878,8 +1237,11 @@ const modalElement = document.getElementById('productModalId');
             if(!colors.includes(color))
             {
             colors.push(color);
+
+        
+            
             const selecter=productOptionsContainer.querySelector(".color-selector");
-            const button_container=selecter.querySelector("#size-buttons");
+            const button_container=selecter.querySelector("#color-buttons");
             const new_btn=document.createElement("button");
             new_btn.classList.add("size-btn");
             new_btn.textContent=color;
@@ -927,7 +1289,7 @@ const modalElement = document.getElementById('productModalId');
                     selector.classList.add("version-selector");
                      selector.innerHTML = `
         <h3>Phiên bản:</h3>
-        <div class="size-buttons" id="size-buttons">
+        <div class="size-buttons" id="version-buttons">
   
     <button class="size-btn">${version}</button>
     
@@ -941,7 +1303,7 @@ const modalElement = document.getElementById('productModalId');
             {
             versions.push(version);
             const selecter=productOptionsContainer.querySelector(".version-selector");
-            const button_container=selecter.querySelector("#size-buttons");
+            const button_container=selecter.querySelector("#version-buttons");
             const new_btn=document.createElement("button");
             new_btn.classList.add("size-btn");
             new_btn.textContent=version;
@@ -955,10 +1317,11 @@ const modalElement = document.getElementById('productModalId');
                      if(productOptionsContainer.querySelector(".mirror-selector")===null)
                    {
                     const selector=document.createElement("div");
+                    
                     selector.classList.add("mirror-selector");
                      selector.innerHTML = `
         <h3>Loại kính:</h3>
-        <div class="size-buttons" id="size-buttons">
+        <div class="size-buttons" id="mirror-buttons">
   
     <button class="size-btn">${mirror}</button>
     
@@ -972,7 +1335,7 @@ const modalElement = document.getElementById('productModalId');
             {
             mirrors.push(mirror);
             const selecter=productOptionsContainer.querySelector(".mirror-selector");
-            const button_container=selecter.querySelector("#size-buttons");
+            const button_container=selecter.querySelector("#mirror-buttons");
             const new_btn=document.createElement("button");
             new_btn.classList.add("size-btn");
             new_btn.textContent=mirror;
@@ -980,14 +1343,30 @@ const modalElement = document.getElementById('productModalId');
             }
         }
                 }
-              
+                sizes_json.push(size);
+                colors_json.push(color);
+                versions_json.push(version);
+                mirrors_json.push(mirror);
+                prices_json.push(variant.Price);
                }
+        if(value.length>0)
+        {
+            initClickButton(sizes_json,colors_json,versions_json,mirrors_json,prices_json);
+          handleClickButton('color-buttons',sizes_json,colors_json,versions_json,mirrors_json,prices_json);
+
+          handleClickButton('size-buttons',sizes_json,colors_json,versions_json,mirrors_json,prices_json);
+    
+          handleClickButton('version-buttons',sizes_json,colors_json,versions_json,mirrors_json,prices_json);
+
+          handleClickButton('mirror-buttons',sizes_json,colors_json,versions_json,mirrors_json,prices_json);
+        }
             },
          error:function(xhr, status, error)
             {
               alert(xhr.responseText);
                  }
        });
+
                 
         const productName = button.getAttribute('data-product-name');
         
