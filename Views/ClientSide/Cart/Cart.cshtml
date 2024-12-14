@@ -139,10 +139,28 @@
     {
         item.addEventListener("click",()=>
         {
-         const quantity_ob=item.parentElement.querySelector(".quantity-value");         
+         const quantity_ob=item.parentElement.querySelector(".quantity-value");
+         const subtotal_amount=document.getElementById("subtotal-amount");
+        const total_amount=document.getElementById("total-amount");
+        const subtotal_amount_value=parseInt(subtotal_amount.textContent.replace('VNĐ','').trim());
+        const total_amount_value=parseInt(total_amount.textContent.replace('VNĐ','').trim());
+        var row=item.closest('tr');
+      var current_price=row.querySelector('#product-price');
+        var current_price_value=current_price.textContent.replace('đ','').trim();
+            const discount=row.querySelector('#discount').value;
+        const new_price=(parseInt(current_price_value)-(parseInt(current_price_value)*(parseInt(discount))/100));
+
          var quantity=parseInt(quantity_ob.value);
+
+        var prev_quantity=quantity>0?quantity+1:1;
+
          const pricePerItem = parseInt(quantity_ob.getAttribute('data-price'));
-         const subtotal=pricePerItem*quantity;
+        const old_total=new_price*prev_quantity;
+         const subtotal=new_price*quantity;
+         const new_subtotal=subtotal_amount_value-old_total+subtotal;
+         const new_total=total_amount_value-old_total+subtotal;
+         subtotal_amount.textContent=`${new_subtotal} VNĐ`;
+         total_amount.textContent=`${new_total} VNĐ`;
          const subtotalDisplay = quantity_ob.closest('tr').querySelector('.product-subtotal .amount');
          subtotalDisplay.textContent = `${subtotal} đ`;
         });
@@ -153,11 +171,29 @@
         item.addEventListener("click",()=>
         {
         const quantity_ob=item.parentElement.querySelector(".quantity-value");
+        const subtotal_amount=document.getElementById("subtotal-amount");
+        const total_amount=document.getElementById("total-amount");
+        const subtotal_amount_value=parseInt(subtotal_amount.textContent.replace('VNĐ','').trim());
+        const total_amount_value=parseInt(total_amount.textContent.replace('VNĐ','').trim());
+        var row=item.closest('tr');
+        var current_price=row.querySelector('#product-price');
+        var current_price_value=current_price.textContent.replace('đ','').trim();
+        const discount=row.querySelector('#discount').value;
          var quantity=parseInt(quantity_ob.value);
+         var prev_quantity=quantity>1?quantity-1:1;
+        const new_price=(parseInt(current_price_value)-(parseInt(current_price_value)*(parseInt(discount))/100));
+        
          const pricePerItem = parseInt(quantity_ob.getAttribute('data-price'));
-         const subtotal=pricePerItem*quantity;
+         const old_total=new_price*prev_quantity;
+         const subtotal=new_price*quantity;
+         const new_subtotal=subtotal_amount_value-old_total+subtotal;
+         const new_total=total_amount_value-old_total+subtotal;
+         subtotal_amount.textContent=`${new_subtotal} VNĐ`;
+         total_amount.textContent=`${new_total} VNĐ`;
          const subtotalDisplay = quantity_ob.closest('tr').querySelector('.product-subtotal .amount');
          subtotalDisplay.textContent = `${subtotal} đ`;}); 
+         
+
     });
       document.querySelectorAll('.quantity-value').forEach(input => {
       
@@ -207,6 +243,7 @@
          const subtotal=pricePerItem*quantity;
          const subtotalDisplay = quantity_ob.closest('tr').querySelector('.product-subtotal .amount');
          subtotalDisplay.textContent = `${subtotal} đ`;}); 
+
     });
       document.querySelectorAll('.quantity-value').forEach(input => {
       

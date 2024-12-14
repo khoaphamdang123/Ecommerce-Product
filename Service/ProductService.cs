@@ -24,6 +24,21 @@ public class ProductService:IProductRepository
     this._sp_services=sp_services;
   }
 
+  public async Task<IEnumerable<Product>> getProductList()
+  {
+     try
+    {
+       var products=await this._context.Products.Include(p=>p.Brand).Include(p=>p.Category).Include(c=>c.SubCat).Include(p=>p.ProductImages).ToListAsync();
+       return products;
+    }
+    catch(Exception er)
+    {
+        Console.WriteLine("Get all product:"+er.Message);
+    }
+    return null;
+  }
+
+
   public async Task<IEnumerable<Product>> getAllProduct()
   {
     try
@@ -69,7 +84,7 @@ public class ProductService:IProductRepository
 
 public async Task<PageList<Product>> pagingProduct(int page_size,int page)
 {
-   IEnumerable<Product> all_prod= await this.getAllProduct();
+   IEnumerable<Product> all_prod= await this.getProductList();
 
    List<Product> prods=all_prod.OrderByDescending(u=>u.Id).ToList(); 
 

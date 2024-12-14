@@ -75,17 +75,20 @@ public class CartController : BaseController
 
   [Route("cart/add_cart")]
   [HttpPost]
-  public async Task<JsonResult> addItemToCart(string product_name,int quantity,string size="",string color="",string version="",string mirror="")
+  public async Task<JsonResult> addItemToCart(string product_name,int quantity,string size="",string color="",string version="",string mirror="",string price="")
   { Console.WriteLine("Did come to this add cart");
     int add_res=0;
     Console.WriteLine("Color in this cart is:"+color);
 
     Console.WriteLine("Size in this cart is:"+size);
+    
+    Console.WriteLine("Price here is:"+price);
     try
     { 
     var product=await this._product.findProductByName(product_name);
+
   
-        CartModel cart = new CartModel{Product=product,Quantity=quantity,Size=size,Color=color,Version=version,Mirror=mirror};
+        CartModel cart = new CartModel{Product=product,Quantity=quantity,Size=size,Color=color,Version=version,Mirror=mirror,Price=price};
         
         add_res=await this._cart.addProductToCart(cart);
 

@@ -37,7 +37,11 @@
                 <tbody>
                 @foreach(var product in Model.Cart)
                 {   string variant_info="";
-                  
+                string price_value=!string.IsNullOrEmpty(product.Price) ? product.Price : product.Product.Price;
+                
+                int discount=string.IsNullOrEmpty(product.Product.Discount.ToString()) ? 100 : Convert.ToInt32(product.Product.Discount);
+
+
                                           if(!string.IsNullOrEmpty(product.Size))
                                           {
                                              variant_info+="Kích thước: "+product.Size+"\n";
@@ -56,10 +60,11 @@
                                           }
                     Console.WriteLine("Variant info: "+variant_info);
                     <tr>
+                        
                         <td>@product.Product.ProductName</td>
                         <td>@product.Quantity</td>
                         <td>@variant_info</td>
-                        <td>@((Convert.ToInt32(product.Product.Price)-((Convert.ToInt32(product.Product.Price)*product.Product.Discount/100))*product.Quantity))</td>
+                        <td>@((Convert.ToInt32(price_value)-((Convert.ToInt32(price_value)*discount/100))*product.Quantity))</td>
                     </tr>
                     }
                 </tbody>

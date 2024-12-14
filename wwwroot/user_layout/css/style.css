@@ -6345,10 +6345,10 @@ td.product-thumbnail img {
   
   background-color: #f4f4f4;
   border: 2px solid #ccc;
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
   color: #333;
   cursor: pointer;
