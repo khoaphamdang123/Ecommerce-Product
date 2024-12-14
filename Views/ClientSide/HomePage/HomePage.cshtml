@@ -30,7 +30,6 @@
        class="bs-toast toast fade hide toast-placement-ex top-5 end-0"
        role="alert"
        aria-live="assertive"
-    using Newtonsoft.Json;
        aria-atomic="true"
        data-bs-dismiss="toast"
        style="cursor: pointer; position: fixed; top: 20px; right: 20px; z-index: 5000;"
@@ -1455,6 +1454,42 @@ if (wwwrootIndex !== -1) {
        add_cart_btn.addEventListener("click",()=>{ 
          var quantity_value=document.getElementById('quantity-value').value;
          let formData = new FormData();
+    var size_container = document.getElementById('size-buttons');
+       var color_container = document.getElementById('color-buttons');
+       var version_container = document.getElementById('version-buttons');
+       var mirror_container = document.getElementById('mirror-buttons');
+       var price=document.getElementById('product-price').textContent;
+       var size_value=null;
+       var color_value=null;
+       var version_value=null;
+       var mirror_value=null;
+       if(size_container!=null)
+       {
+        size_value=size_container.querySelector('.size-btn.active').textContent;
+
+        formData.append("size",size_value);
+       }
+       if(color_container!=null)
+       {
+        color_value=color_container.querySelector('.size-btn.active').textContent;
+        
+        formData.append("color",color_value);
+       }
+       if(version_container!=null)
+       {
+        version_value=version_container.querySelector('.size-btn.active').textContent;
+        
+        formData.append("version",version_value);
+       }
+       if(mirror_container!=null)
+       {
+        mirror_value=mirror_container.querySelector('.size-btn.active').textContent;
+        formData.append("mirror",mirror_value);
+       }
+
+         formData.append("quantity",quantity_value);
+        
+        formData.append("product_id",productId);
          formData.append("quantity",quantity_value);
          formData.append("product_name",productName);
          $.ajax({
@@ -1502,8 +1537,8 @@ if (wwwrootIndex !== -1) {
             },
             error:function(xhr, status, error)
             { 
-                  document.getElementById("toast-title").innerHTML="Thông báo";
-                 document.getElementById("toast-message").innerHTML=error;
+                document.getElementById("toast-title").innerHTML="Thông báo";
+                document.getElementById("toast-message").innerHTML=error;
                 var toastEl = document.querySelector('.toast');
                 toastEl.classList.add('bg-danger');
                 var toast = new bootstrap.Toast(toastEl);

@@ -44,12 +44,13 @@
                                           {
                                              variant_info+="Loại kính: "+item.Mirror+"\n";
                                           }
-                                          total_amount+=(Convert.ToInt32(item.Product.Price)-(Convert.ToInt32(item.Product.Price)*(discount)/100))*item.Quantity;
+                                         string price_value=!string.IsNullOrEmpty(item.Price) ? item.Price : item.Product.Price;
+                                          total_amount+=(Convert.ToInt32(price_value)-(Convert.ToInt32(item.Product.Price)*(discount)/100))*item.Quantity;
                                        <tr>
                                           <input id="product-id" type="hidden" value="@item.Product.Id">
                                           <td class="product-thumbnail"><img src="~/@item.Product.Frontavatar.Substring(item.Product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="User Front Avatar"></td>
                                           <td class="product-name"><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=item.Product.ProductName})">@item.Product.ProductName</a></td>
-                                          <td class="product-price"><span class="amount">@item.Product.Price đ</span></td>
+                                          <td class="product-price"><span class="amount">@price_value đ</span></td>
                                           <td class="product-quantity">
                                                 <div class="cart-plus-minus"><input class="quantity-value" type="text" value="@item.Quantity" data-price="@(Convert.ToInt32(item.Product.Price))"><div class="dec qtybutton">-</div><div class="inc qtybutton">+</div></div>
                                           </td>
