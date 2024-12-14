@@ -123,7 +123,7 @@
                                                         <div class="col-md-4">
                                                             <div class="features-thum">
                                                                 <div class="features-product-image w-img">
-                                                                    <a href="product-details.html"><img src="~/@product.Frontavatar.Substring(product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt=""></a>
+                                                                    <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=product.ProductName})"><img src="~/@product.Frontavatar.Substring(product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt=""></a>
                                                                 </div>
                                                                 @* <div class="product__offer">
                                                                     <span class="discount">-15%</span>
@@ -146,7 +146,7 @@
                                                         </div>
                                                         <div class="col-md-8">
                                                             <div class="product__content product__content-d">
-                                                                <h6><a href="product-details.html">@product.ProductName</a></h6>
+                                                                <h6><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=product.ProductName})">@product.ProductName</a></h6>
                                                                 <div class="rating mb-5">
                                                                     <ul class="rating-d">
                                                             <li class="star" id="star" data-product-id="@product.Id" data-star="5" data-user="@user_id"><a href="javascript:void(0);"><i class="fal fa-star"></i></a></li>
@@ -161,12 +161,10 @@
                                                                 }                                                                   
                                                                 </div>
                                                                 <div class="features-des">
-                                                                    <ul>
-                                                                        <li><a href="product-details.html"><i class="fas fa-circle"></i> Bass and Stereo Sound.</a></li>
-                                                                        <li><a href="product-details.html"><i class="fas fa-circle"></i> Display with 3088 x 1440 pixels resolution.</a></li>
-                                                                        <li><a href="product-details.html"><i class="fas fa-circle"></i> Memory, Storage &amp; SIM: 12GB RAM, 256GB.</a></li>
-                                                                        <li><a href="product-details.html"><i class="fas fa-circle"></i> Androi v10.0 Operating system.</a></li>
-                                                                    </ul>
+                                                                        <div class="product-option-@product.Id" data-id="@product.Id">
+                                                                            Fuck off
+                                                                         </div>  
+                                                                 
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -443,7 +441,7 @@
             </div>
         </div>
 
-        <script>
+<script>
 
   function initClickButton(sizes,colors,versions,mirrors,prices)
    { var all_id=['color-buttons','size-buttons','version-buttons','mirror-buttons'];
@@ -596,7 +594,6 @@ function getAllIndex(buttonId,value,sizes,colors,versions,mirrors)
    var container_version=null;
    
    var container_mirror = null;
-
 
 
    for(let id of all_id)
@@ -796,9 +793,215 @@ function getAllIndex(buttonId,value,sizes,colors,versions,mirrors)
    });        
     }    
 
-            document.addEventListener("DOMContentLoaded",()=>
-    {
+ function initAllDetailData()
+ {
+    const feature_des=document.querySelectorAll('.features-des');
+ feature_des.forEach((features)=>
+ {
+    var child_div_list=features.querySelectorAll('div');
+    child_div_list.forEach((feature,index)=>{
 
+    var class_name=feature.className.trim();
+
+     const productId=feature.getAttribute('data-id');
+        
+        var url="@Url.Action("VariantProduct","HomePage",new{id="__id__"})";
+        
+        url=url.replace("__id__",productId);
+
+
+$.ajax({
+            url:url,
+            type:"GET",
+            contentType: false,
+            processData: false, 
+            success:function(response)
+            { 
+            var value=JSON.parse(response);
+
+            
+            var productOptionsContainer = document.querySelector(`.${class_name}`);
+        
+            productOptionsContainer.innerHTML = "";
+
+            var colors=[];
+            var sizes=[];
+            var versions=[];
+            var mirrors=[];
+            var sizes_json=[];
+            var colors_json=[];
+            var versions_json=[];
+            var mirrors_json=[];
+            var prices_json=[];
+               for(let i=0;i<value.length;i++)
+               {
+                const variant=value[i];
+                var color="";
+                var size="";
+                var version="";
+                var mirror="";
+              
+                if(variant.Color!=null)
+                { 
+                    color=variant.Color.Colorname;
+                   if(productOptionsContainer.querySelector(".color-selector")===null)
+                   {
+                    const selector=document.createElement("div");
+                    selector.classList.add("color-selector");
+                     selector.innerHTML = `
+        <h3>Màu sắc:</h3>
+        <div class="size-buttons" id="color-buttons">
+  
+    <button class="size-btn">${color}</button>
+    
+    </div>
+    `; 
+              productOptionsContainer.appendChild(selector);
+              colors.push(color);
+        }
+        else{
+            if(!colors.includes(color))
+            {
+            colors.push(color);
+
+        
+            
+            const selecter=productOptionsContainer.querySelector(".color-selector");
+            const button_container=selecter.querySelector("#color-buttons");
+            const new_btn=document.createElement("button");
+            new_btn.classList.add("size-btn");
+            new_btn.textContent=color;
+            button_container.appendChild(new_btn);
+            }
+        }
+                }
+                if(variant.Size!=null)
+                {
+                    size=variant.Size.Sizename;
+                     if(productOptionsContainer.querySelector(".size-selector")===null)
+                   {
+                    const selector=document.createElement("div");
+                    selector.classList.add("size-selector");
+                     selector.innerHTML = `
+        <h3>Kích thước:</h3>
+        <div class="size-buttons" id="size-buttons">
+  
+    <button class="size-btn">${size}</button>
+    
+    </div>
+    `; 
+              productOptionsContainer.appendChild(selector);
+              sizes.push(size);
+        }
+        else{
+            if(!sizes.includes(size))
+            {
+            sizes.push(size);
+            const selecter=productOptionsContainer.querySelector(".size-selector");
+            const button_container=selecter.querySelector("#size-buttons");
+            const new_btn=document.createElement("button");
+            new_btn.classList.add("size-btn");
+            new_btn.textContent=size;
+            button_container.appendChild(new_btn);
+            }
+        }
+                }
+                if(variant.Version!=null)
+                {
+                    version=variant.Version.Versionname;
+                     if(productOptionsContainer.querySelector(".version-selector")===null)
+                   {
+                    const selector=document.createElement("div");
+                    selector.classList.add("version-selector");
+                     selector.innerHTML = `
+        <h3>Phiên bản:</h3>
+        <div class="size-buttons" id="version-buttons">
+  
+    <button class="size-btn">${version}</button>
+    
+    </div>
+    `; 
+              productOptionsContainer.appendChild(selector);
+              versions.push(version);
+        }
+        else{
+            if(!versions.includes(version))
+            {
+            versions.push(version);
+            const selecter=productOptionsContainer.querySelector(".version-selector");
+            const button_container=selecter.querySelector("#version-buttons");
+            const new_btn=document.createElement("button");
+            new_btn.classList.add("size-btn");
+            new_btn.textContent=version;
+            button_container.appendChild(new_btn);
+            }
+        }
+                }
+                if(variant.Mirror!=null)
+                {
+                    mirror=variant.Mirror.Mirrorname;
+                     if(productOptionsContainer.querySelector(".mirror-selector")===null)
+                   {
+                    const selector=document.createElement("div");
+                    
+                    selector.classList.add("mirror-selector");
+                     selector.innerHTML = `
+        <h3>Loại kính:</h3>
+        <div class="size-buttons" id="mirror-buttons">
+  
+    <button class="size-btn">${mirror}</button>
+    
+    </div>
+    `; 
+              productOptionsContainer.appendChild(selector);
+              mirrors.push(mirror);
+        }
+        else{
+             if(!mirrors.includes(mirror))
+            {
+            mirrors.push(mirror);
+            const selecter=productOptionsContainer.querySelector(".mirror-selector");
+            const button_container=selecter.querySelector("#mirror-buttons");
+            const new_btn=document.createElement("button");
+            new_btn.classList.add("size-btn");
+            new_btn.textContent=mirror;
+            button_container.appendChild(new_btn);
+            }
+        }
+                }
+                sizes_json.push(size);
+                colors_json.push(color);
+                versions_json.push(version);
+                mirrors_json.push(mirror);
+                prices_json.push(variant.Price);
+               }
+        if(value.length>0)
+        {
+          initClickButton(sizes_json,colors_json,versions_json,mirrors_json,prices_json);
+
+          handleClickButton('color-buttons',sizes_json,colors_json,versions_json,mirrors_json,prices_json);
+
+          handleClickButton('size-buttons',sizes_json,colors_json,versions_json,mirrors_json,prices_json);
+    
+          handleClickButton('version-buttons',sizes_json,colors_json,versions_json,mirrors_json,prices_json);
+
+          handleClickButton('mirror-buttons',sizes_json,colors_json,versions_json,mirrors_json,prices_json);
+        }
+            },
+         error:function(xhr, status, error)
+            {
+              alert(xhr.responseText);
+                 }
+       });
+
+    });
+    });
+ }
+
+    document.addEventListener("DOMContentLoaded",()=>
+    {
+    initAllDetailData();
+    
     var add_cart=document.querySelectorAll("#add-cart");
       
      add_cart.forEach((cart,index)=>{
@@ -842,12 +1045,18 @@ function getAllIndex(buttonId,value,sizes,colors,versions,mirrors)
 
                 if(status==1)
                 {
-              
+                if(toastEl.classList.contains('bg-danger'))
+                {
+                 toastEl.classList.remove('bg-danger');
+                 }
                  toastEl.classList.add('bg-success');
-      
                 }
             else
+            { 
+            if(toastEl.classList.contains('bg-success'))
             {
+                toastEl.classList.remove('bg-success');
+            }
                 toastEl.classList.add('bg-danger');
             }
                 var toast = new bootstrap.Toast(toastEl);
@@ -868,6 +1077,7 @@ function getAllIndex(buttonId,value,sizes,colors,versions,mirrors)
      });
      //const product_modal=document.getElementById("productModalId");
       const modalElement=document.getElementById("productModalId");
+      
       modalElement.addEventListener('show.bs.modal', function(event) {
      
      if(event.target.id=="productModalId")
@@ -1045,7 +1255,8 @@ function getAllIndex(buttonId,value,sizes,colors,versions,mirrors)
                }
         if(value.length>0)
         {
-            initClickButton(sizes_json,colors_json,versions_json,mirrors_json,prices_json);
+          initClickButton(sizes_json,colors_json,versions_json,mirrors_json,prices_json);
+
           handleClickButton('color-buttons',sizes_json,colors_json,versions_json,mirrors_json,prices_json);
 
           handleClickButton('size-buttons',sizes_json,colors_json,versions_json,mirrors_json,prices_json);
@@ -1173,7 +1384,7 @@ if (wwwrootIndex !== -1) {
        var color_container = document.getElementById('color-buttons');
        var version_container = document.getElementById('version-buttons');
        var mirror_container = document.getElementById('mirror-buttons');
-       var price=document.getElementById('product-price').textContent;
+       var price=document.getElementById('product-price').textContent.replace("đ","").trim().replace(/\s/g, '');
        var size_value=null;
        var color_value=null;
        var version_value=null;
@@ -1208,6 +1419,8 @@ if (wwwrootIndex !== -1) {
 
 
          formData.append("product_name",productName);
+
+        formData.append("price",price);
          
          $.ajax({
             url:"@Url.Action("addItemToCart","Cart")",
@@ -1220,11 +1433,12 @@ if (wwwrootIndex !== -1) {
                 const status=response.status;
                 const message = response.message;
                 const data=response.data;
-                 if(data!="")
+            if(data!="")
              {
                 $("#count-cart").text(data.length);
                
                 var section_url="@Url.Action("SubCartPartialView","Cart")";
+                
                    $.ajax({
                     url:section_url,
                     type:"POST",

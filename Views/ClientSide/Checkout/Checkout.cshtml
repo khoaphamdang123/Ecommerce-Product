@@ -355,9 +355,11 @@
                                         <tbody>
                                           @foreach(var item in Model)
                                           { 
-                                          int discount=string.IsNullOrEmpty(item.Product.Discount.ToString()) ? 0 : Convert.ToInt32(item.Product.Discount);
+                                          int discount=string.IsNullOrEmpty(item.Product.Discount.ToString()) ? 100 : Convert.ToInt32(item.Product.Discount);
                                           
-                                          total_value+=(Convert.ToInt32(item.Product.Price)-(Convert.ToInt32(item.Product.Price)*(discount)/100))*item.Quantity;
+                                          string price_value=!string.IsNullOrEmpty(item.Price) ? item.Price : item.Product.Price;
+
+                                          total_value+=(Convert.ToInt32(price_value)-(Convert.ToInt32(price_value)*(discount)/100))*item.Quantity;
                                            string variant_info="";
                                            if(!string.IsNullOrEmpty(item.Size))
                                            {
@@ -413,7 +415,7 @@
                                                  <strong> @variant_info</strong>
                                                 </td>
                                                 <td class="product-total">
-                                                    <span class="amount">@((Convert.ToInt32(item.Product.Price)-(Convert.ToInt32(item.Product.Price)*(discount)/100))*item.Quantity)</span>
+                                                    <span class="amount">@((Convert.ToInt32(price_value)-(Convert.ToInt32(price_value)*(discount)/100))*item.Quantity)</span>
                                                 </td>
                                             </tr>
                                             @* <tr class="cart_item">

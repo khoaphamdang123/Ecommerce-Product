@@ -141,7 +141,7 @@ public async Task<IActionResult> ProductBySubCategory(int sub_cat_id)
 [Route("collections")]
 public async Task<IActionResult> Products()
 {   
-     var products=await this._product.getAllProduct();
+     var products=await this._product.getProductList();
      string select_size="12";
      
      var product_list_banner=await this._banner.findBannerByName("product_list_banner");

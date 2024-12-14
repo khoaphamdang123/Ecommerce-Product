@@ -44,7 +44,7 @@ public async Task<IActionResult> HomePage()
    
     DateTime startTime=DateTime.Now;
     
-    var products = await this._product.getAllProduct();    
+    var products = await this._product.getProductList();    
     
     DateTime endTime=DateTime.Now;
     

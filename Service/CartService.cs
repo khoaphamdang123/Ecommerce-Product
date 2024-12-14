@@ -42,7 +42,8 @@ public List<CartModel> getCart()
 
 public async Task<int> addProductToCart(CartModel model)
 {   int add_res=0;
-try{
+try
+ {
     var cart_list=this.getCart();
 
     var check_exist=cart_list.FirstOrDefault(c=>c.Product.ProductName==model.Product.ProductName && c.Size==model.Size && c.Color==model.Color && c.Version==model.Version && c.Mirror==model.Mirror);

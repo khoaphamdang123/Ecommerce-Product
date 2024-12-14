@@ -981,7 +981,8 @@ function getAllIndex(buttonId,value,sizes,colors,versions,mirrors)
  }
   if(container_version!=null)
  { len_container++;
-   container_version.querySelectorAll('.size-btn').forEach((btn) =>{
+   container_version.querySelectorAll('.size-btn').forEach((btn) =>
+ {
     if(btn.classList.contains('active'))
     {
          version_value=btn.textContent;
@@ -1362,8 +1363,12 @@ const modalElement = document.getElementById('productModalId');
             },
          error:function(xhr, status, error)
             {
-              alert(xhr.responseText);
-                 }
+               document.getElementById("toast-title").innerHTML="Thông báo";
+                document.getElementById("toast-message").innerHTML=xhr.responseText;
+                var toastEl = document.querySelector('.toast');
+                toastEl.classList.add('bg-danger');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();                 }
        });
 
                 
@@ -1458,7 +1463,7 @@ if (wwwrootIndex !== -1) {
        var color_container = document.getElementById('color-buttons');
        var version_container = document.getElementById('version-buttons');
        var mirror_container = document.getElementById('mirror-buttons');
-       var price=document.getElementById('product-price').textContent;
+       var price=document.getElementById('product-price').textContent.replace("đ","").trim().replace(/\s/g, '');
        var size_value=null;
        var color_value=null;
        var version_value=null;
@@ -1492,6 +1497,7 @@ if (wwwrootIndex !== -1) {
         formData.append("product_id",productId);
          formData.append("quantity",quantity_value);
          formData.append("product_name",productName);
+         formData.append("price",price);
          $.ajax({
             url:"@Url.Action("addItemToCart","Cart")",
             type:"POST",
@@ -1538,7 +1544,7 @@ if (wwwrootIndex !== -1) {
             error:function(xhr, status, error)
             { 
                 document.getElementById("toast-title").innerHTML="Thông báo";
-                document.getElementById("toast-message").innerHTML=error;
+                document.getElementById("toast-message").innerHTML=xhr.responseText;
                 var toastEl = document.querySelector('.toast');
                 toastEl.classList.add('bg-danger');
                 var toast = new bootstrap.Toast(toastEl);

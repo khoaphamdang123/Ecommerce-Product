@@ -45,17 +45,20 @@
                                              variant_info+="Loại kính: "+item.Mirror+"\n";
                                           }
                                          string price_value=!string.IsNullOrEmpty(item.Price) ? item.Price : item.Product.Price;
+                                         int current_price=(Convert.ToInt32(price_value)-(Convert.ToInt32(item.Product.Price)*(discount)/100));
+                                         Console.WriteLine("Price value: "+item.Product.Price);
                                           total_amount+=(Convert.ToInt32(price_value)-(Convert.ToInt32(item.Product.Price)*(discount)/100))*item.Quantity;
                                        <tr>
                                           <input id="product-id" type="hidden" value="@item.Product.Id">
+                                          <input id="discount" type="hidden" value="@discount">
                                           <td class="product-thumbnail"><img src="~/@item.Product.Frontavatar.Substring(item.Product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="User Front Avatar"></td>
                                           <td class="product-name"><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=item.Product.ProductName})">@item.Product.ProductName</a></td>
-                                          <td class="product-price"><span class="amount">@price_value đ</span></td>
+                                          <td class="product-price"><span id="product-price" class="amount">@current_price đ</span></td>
                                           <td class="product-quantity">
-                                                <div class="cart-plus-minus"><input class="quantity-value" type="text" value="@item.Quantity" data-price="@(Convert.ToInt32(item.Product.Price))"><div class="dec qtybutton">-</div><div class="inc qtybutton">+</div></div>
+                                             <div class="cart-plus-minus"><input class="quantity-value" type="text" value="@item.Quantity" data-price="@(Convert.ToInt32(item.Product.Price))"><div class="dec qtybutton">-</div><div class="inc qtybutton">+</div></div>
                                           </td>
                                           <td class="product-price">@variant_info</td>
-                                          <td class="product-subtotal"><span class="amount">@(Convert.ToInt32(item.Product.Price)*item.Quantity) đ</span></td>
+                                          <td class="product-subtotal"><span class="amount">@(current_price*item.Quantity) đ</span></td>
                                           <td class="product-remove"><a href="javascript:void(0);" type="button" class="remove-btn" data-product-id="@item.Product.Id"><i class="fa fa-times"></i></a></td>
                                        </tr>
                                       
@@ -83,8 +86,8 @@
                                     <div class="cart-page-total">
                                        <h2>Giỏ hàng</h2>
                                        <ul class="mb-20">
-                                          <li>Tạm tính <span>@total_amount VNĐ</span></li>
-                                          <li>Tổng tiền<span>@total_amount VNĐ</span></li>
+                                          <li>Tạm tính <span id="subtotal-amount">@total_amount VNĐ</span></li>
+                                          <li>Tổng tiền<span id="total-amount">@total_amount VNĐ</span></li>
                                        </ul>
                                        <a class="tp-btn-h1" href="@Url.Action("Checkout","Checkout")">Tiến hành đặt hàng</a>
                                     </div>

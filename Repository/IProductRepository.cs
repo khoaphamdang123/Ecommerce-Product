@@ -20,6 +20,8 @@ public interface IProductRepository
 
   public Task<PageList<Product>> pagingProductByList(int page_size,int page,IEnumerable<Product> products);
 
+  public Task<IEnumerable<Product>> getProductList();
+
   public Task<IEnumerable<Product>> filterProductByNameAndCategory(string name,string cat);
 
   public Task<int> countProductRatingByStar(int star,int product_id);
