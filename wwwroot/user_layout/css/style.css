@@ -784,7 +784,7 @@ input {
 /*  06. modal CSS
 /*----------------------------------------*/
 .product__modal {
-  max-width: 900px;
+  max-width:1200px;
   padding: 20px;
   padding-top: 27px;
 }
@@ -6304,27 +6304,27 @@ td.product-thumbnail img {
 
 /* Title styling */
 .size-selector h3 {
-  font-size: 18px;
+  font-size: 15px;
   margin-bottom: 10px;
   color: #333;
 }
 
 .color-selector h3{
-  font-size: 18px;
+  font-size: 15px;
   margin-bottom: 10px;
   color: #333;
 }
 
 .version-selector h3
 {
-  font-size: 18px;
+  font-size: 15px;
   margin-bottom: 10px;
   color: #333;
 }
 
 .mirror-selector
 {
-  font-size: 18px;
+  font-size: 15px;
   margin-bottom: 10px;
   color: #333;
 }
@@ -6332,6 +6332,7 @@ td.product-thumbnail img {
 /* Container for buttons */
 .size-buttons {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   margin-top:5px;
 }
@@ -6344,8 +6345,8 @@ td.product-thumbnail img {
   
   background-color: #f4f4f4;
   border: 2px solid #ccc;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   font-size: 14px;
   font-weight: bold;
@@ -6355,6 +6356,7 @@ td.product-thumbnail img {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .size-btn:hover, .size-btn:focus {
@@ -6409,7 +6411,8 @@ p.checkout-coupon input[type=text]::placeholder {
   display: none;
 }
 
-.checkbox-form h3 {
+.checkbox-form h3 
+{
   border-bottom: 1px solid #e4e4e4;
   font-size: 26px;
   margin: 0 0 20px;

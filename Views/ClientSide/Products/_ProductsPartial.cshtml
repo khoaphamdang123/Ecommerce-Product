@@ -399,13 +399,15 @@
                                     <div class="product__price">
                                         <span id="product-price"></span>
                                     </div>
-                                    <div class="product__modal-des mt-20 mb-15">
-                                        <ul>
+                                    <div class="product__modal-des mt-20 mb-15">                                      
+                                          <div class="product-options">
+                                          </div> 
+                                        @* <ul>
                                             <li><a href="#"><i class="fas fa-circle"></i> Bass and Stereo Sound.</a></li>
                                             <li><a href="#"><i class="fas fa-circle"></i> Display with 3088 x 1440 pixels resolution.</a></li>
                                             <li><a href="#"><i class="fas fa-circle"></i> Memory, Storage & SIM: 12GB RAM, 256GB.</a></li>
                                             <li><a href="#"><i class="fas fa-circle"></i> Androi v10.0 Operating system.</a></li>
-                                        </ul>
+                                        </ul> *@
                                     </div>
                                     <div class="product__stock mb-20">
                                         <span class="mr-10">Còn:</span>
@@ -442,11 +444,365 @@
         </div>
 
         <script>
-            document.addEventListener("DOMContentLoaded",()=>{
 
-         var add_cart=document.querySelectorAll("#add-cart");
+  function initClickButton(sizes,colors,versions,mirrors,prices)
+   { var all_id=['color-buttons','size-buttons','version-buttons','mirror-buttons'];
+ 
+   var container=null;
+   var buttonId=null;
+     for(let id of all_id)
+     {
+        container=document.getElementById(id);
+        if(container!=null)
+        {  buttonId=id;
+            break;
+        }
+     }
+    if(container==null)
+    {
+        return;
+    }
+    container.querySelectorAll('.size-btn').forEach((button,index)=>
+    {
+        if(index==0)
+        {
+    button.classList.add('active');
+    
+    var all_container_index=getAllIndex(buttonId,button.textContent,sizes,colors,versions,mirrors);
+
+    var first_index=all_container_index[0];
+
+
+    var price=document.getElementById('product-price');
+
+    var price_value=prices[first_index];
+    if(price_value!=null)
+    {
+    price.innerHTML=prices[first_index]+' <u>đ</u>';
+    }
+
+   var container_size=null;
+   
+   var container_color=null;
+
+   var container_version=null;
+   
+   var container_mirror = null;
+
+   for(let id of all_id)
+   {
+   if(id==buttonId)
+   {
+    continue;    
+   }
+   if(id=='color-buttons')
+   {
+     container_color=document.getElementById(id);
+   }   
+  else if(id=='size-buttons')
+  {
+    container_size=document.getElementById(id);
+  }
+  else if(id=='version-buttons')
+  {
+    container_version=document.getElementById(id);
+  }
+  else if(id=='mirror-buttons')
+  {
+    container_mirror=document.getElementById(id);
+  }
+  }
+  if(container_color!=null && container_color!=container)
+  {
+    container_color.querySelectorAll('.size-btn').forEach((btn,index)=>
+    { btn.classList.remove('active');
+     if(colors[first_index]==btn.textContent)
+     {
+      btn.classList.add('active');
+     }
+    });
+  }
+    if(container_mirror!=null && container_mirror!=container)
+  {
+    container_mirror.querySelectorAll('.size-btn').forEach((btn,index)=>
+    { 
+     btn.classList.remove('active');
+     
+     if(mirrors[first_index]==btn.textContent)
+     {
+      btn.classList.add('active');
+     }
+    });
+  }
+    if(container_size!=null && container_size!=container)
+  {
+    container_size.querySelectorAll('.size-btn').forEach((btn,index)=>
+    { 
+     btn.classList.remove('active');
+     
+     if(sizes[first_index]==btn.textContent)
+     {
+      btn.classList.add('active');
+     }
+    }); 
+  }
+    if(container_version!=null && container_version!=container)
+  {
+    container_version.querySelectorAll('.size-btn').forEach((btn,index)=>
+    { btn.classList.remove('active');
+     if(versions[first_index]==btn.textContent)
+     {
+      btn.classList.add('active');
+     }
+    });
+  }
+  }
+    });
+   }
+
+function getAllIndex(buttonId,value,sizes,colors,versions,mirrors)
+    { 
+     switch(buttonId)
+     {
+        case "color-buttons":
+        {
+         return colors.map((color,index)=>color==value?index:-1).filter((val)=>val!==-1);
+        }
+        case "size-buttons":
+        {
+         return sizes.map((size,index)=>size==value?index:-1).filter((val)=>val!==-1);
+        }
+        case "version-buttons":
+        {
+         return versions.map((version,index)=>version==value?index:-1).filter((val)=>val!==-1);
+        }
+        case "mirror-buttons":
+        {
+         return mirrors.map((mirror,index)=>mirror==value?index:-1).filter((val)=>val!==-1);
+        }
+     }
+    }
+
+    function handleClickButton(buttonId,sizes,colors,versions,mirrors,prices)
+ { 
+   const container=document.getElementById(buttonId);
+   
+   var all_id=['color-buttons','size-buttons','version-buttons','mirror-buttons'];
+
+   var container_size=null;
+   
+   var container_color=null;
+
+   var container_version=null;
+   
+   var container_mirror = null;
+
+
+
+   for(let id of all_id)
+   {
+   
+   if(id==buttonId)
+   {
+    continue;
+   }
+   if(id=='color-buttons')
+   {
+     container_color=document.getElementById(id);
+   }   
+  else if(id=='size-buttons')
+  {
+    container_size=document.getElementById(id);
+  }
+  else if(id=='version-buttons')
+  {
+    container_version=document.getElementById(id);
+  }
+  else if(id=='mirror-buttons')
+  {
+    container_mirror=document.getElementById(id);    
+  }
+  }
+
+  if(container==null)
+  {
+    return;    
+  }
+   container.querySelectorAll('.size-btn').forEach((button,index)=>
+   {
+    
+ button.addEventListener('click',()=>
+ { 
+  container.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('active'));
+ 
+ button.classList.add('active');
+
+ var button_context=button.textContent;
+ 
+ var color_value=null;
+
+ var size_value=null;
+
+ var version_value=null;
+
+ var mirror_value=null;
+
+ var len_container=0;
+
+
+
+ var all_container_index=getAllIndex(buttonId,button_context,sizes,colors,versions,mirrors);
+
+ if(container_color!=null)
+ { len_container++;
+   container_color.querySelectorAll('.size-btn').forEach((btn)=>
+   {
+    if(btn.classList.contains('active'))
+    {
+         color_value=btn.textContent; 
+    }
+   });
+ }
+
+
+ if(container_size!=null)
+ { len_container++;
+   container_size.querySelectorAll('.size-btn').forEach((btn) =>{
+    if(btn.classList.contains('active'))
+    {
+         size_value=btn.textContent;
+    }
+   });
+ }
+  if(container_version!=null)
+ { len_container++;
+   container_version.querySelectorAll('.size-btn').forEach((btn) =>{
+    if(btn.classList.contains('active'))
+    {
+         version_value=btn.textContent;
+    }
+   });
+ }
+  if(container_mirror!=null)
+ { len_container++;
+   container_mirror.querySelectorAll('.size-btn').forEach((btn) =>{
+    if(btn.classList.contains('active'))
+    {
+         mirror_value=btn.textContent;
+    }
+   });
+ }
+  let is_changed=false;
+  let current_item=-1;
+  for(let item of all_container_index)
+  { 
+    let count_value=0;
+
+    current_item=item; 
+
+    if(color_value!=null && container_color!=container)
+    {
+        if(colors[item]==color_value)
+        { 
+            count_value++;
+        }
+    }
+    if(size_value!=null && container_size!=container)
+    {   
+        if(sizes[item]==size_value)
+        { 
+            count_value++;
+        }
+    }
+    if(version_value!=null && container_version!=container)
+    {
+        if(versions[item]==version_value)
+        {
+            count_value++;
+        }
+    }
+    if(mirror_value!=null && container_mirror!=container)
+    {
+        if(mirrors[item]==mirror_value)
+        {
+          count_value++;
+        }
+    }
+    if(count_value==(len_container))
+    {  is_changed=true;
+        break;
+    }
+  }
+  if(!is_changed)
+  { 
+    let container_index=all_container_index[0];
+    if(container_color!=null && container_color!=container)
+    { 
+      container_color.querySelectorAll('.size-btn').forEach((btn,index)=>
+      {btn.classList.remove('active');
+       if(btn.textContent==colors[container_index])
+       {
+        btn.classList.add('active');
+       }
+      });
+    }
+        if(container_size!=null && container_size!=container)
+    { 
+      container_size.querySelectorAll('.size-btn').forEach((btn,index)=>
+      {
+        btn.classList.remove('active');
+       if(btn.textContent==sizes[container_index])
+       {
+        btn.classList.add('active');
+       }
+      });
+    }
+        if(container_version!=null && container_version!=container)
+    { 
+      container_version.querySelectorAll('.size-btn').forEach((btn,index)=>
+      {btn.classList.remove('active');
+       if(btn.textContent==versions[container_index])
+       {
+        btn.classList.add('active');
+       }
+      });
+    }
+        if(container_mirror!=null && container_mirror!=container)
+    { 
+      container_mirror.querySelectorAll('.size-btn').forEach((btn,index)=>
+      {
+        btn.classList.remove('active');
+       if(btn.textContent==mirrors[container_index])
+       {
+        btn.classList.add('active');
+       }
+      });
+    }
+  var price_value=prices[all_container_index[0]];
+  if(price_value!=null)
+  {
+   document.getElementById('product-price').innerHTML=prices[all_container_index[0]]+' <u>đ</u>';
+   }
+  }
+  else
+  {
+  var price_value=prices[all_container_index[0]];
+    if(price_value!=null)
+    {
+   document.getElementById('product-price').innerHTML=prices[current_item]+' <u>đ</u>';
+   }
+   }
+    });
+   });        
+    }    
+
+            document.addEventListener("DOMContentLoaded",()=>
+    {
+
+    var add_cart=document.querySelectorAll("#add-cart");
       
      add_cart.forEach((cart,index)=>{
+    
      cart.addEventListener("click",()=>{
        var product_name=cart.getAttribute("data-product-name");
        var product_id=cart.getAttribute("data-product-id");
@@ -471,6 +827,7 @@
                 $("#count-cart").text(data.length);
                
                 var section_url="@Url.Action("SubCartPartialView","Cart")";
+
                    $.ajax({
                     url:section_url,
                     type:"POST",
@@ -510,10 +867,199 @@
      });
      });
      //const product_modal=document.getElementById("productModalId");
-      document.addEventListener('show.bs.modal', function(event) {
+      const modalElement=document.getElementById("productModalId");
+      modalElement.addEventListener('show.bs.modal', function(event) {
+     
      if(event.target.id=="productModalId")
      {
-        const button = event.relatedTarget;        
+        const button = event.relatedTarget;
+
+        const productId=button.getAttribute('data-product-id');
+        
+        var url="@Url.Action("VariantProduct","HomePage",new{id="__id__"})";
+        
+        url=url.replace("__id__",productId);
+       
+       $.ajax({
+            url:url,
+            type:"GET",
+            contentType: false,
+            processData: false, 
+            success:function(response)
+            {
+            var value=JSON.parse(response);
+            
+            var productOptionsContainer = document.querySelector(".product-options");
+        
+            productOptionsContainer.innerHTML = "";
+            var colors=[];
+            var sizes=[];
+            var versions=[];
+            var mirrors=[];
+            var sizes_json=[];
+            var colors_json=[];
+            var versions_json=[];
+            var mirrors_json=[];
+            var prices_json=[];
+               for(let i=0;i<value.length;i++)
+               {
+                const variant=value[i];
+                var color="";
+                var size="";
+                var version="";
+                var mirror="";
+              
+                if(variant.Color!=null)
+                { 
+                    color=variant.Color.Colorname;
+                   if(productOptionsContainer.querySelector(".color-selector")===null)
+                   {
+                    const selector=document.createElement("div");
+                    selector.classList.add("color-selector");
+                     selector.innerHTML = `
+        <h3>Màu sắc:</h3>
+        <div class="size-buttons" id="color-buttons">
+  
+    <button class="size-btn">${color}</button>
+    
+    </div>
+    `; 
+              productOptionsContainer.appendChild(selector);
+              colors.push(color);
+        }
+        else{
+            if(!colors.includes(color))
+            {
+            colors.push(color);
+
+        
+            
+            const selecter=productOptionsContainer.querySelector(".color-selector");
+            const button_container=selecter.querySelector("#color-buttons");
+            const new_btn=document.createElement("button");
+            new_btn.classList.add("size-btn");
+            new_btn.textContent=color;
+            button_container.appendChild(new_btn);
+            }
+        }
+                }
+                if(variant.Size!=null)
+                {
+                    size=variant.Size.Sizename;
+                     if(productOptionsContainer.querySelector(".size-selector")===null)
+                   {
+                    const selector=document.createElement("div");
+                    selector.classList.add("size-selector");
+                     selector.innerHTML = `
+        <h3>Kích thước:</h3>
+        <div class="size-buttons" id="size-buttons">
+  
+    <button class="size-btn">${size}</button>
+    
+    </div>
+    `; 
+              productOptionsContainer.appendChild(selector);
+              sizes.push(size);
+        }
+        else{
+            if(!sizes.includes(size))
+            {
+            sizes.push(size);
+            const selecter=productOptionsContainer.querySelector(".size-selector");
+            const button_container=selecter.querySelector("#size-buttons");
+            const new_btn=document.createElement("button");
+            new_btn.classList.add("size-btn");
+            new_btn.textContent=size;
+            button_container.appendChild(new_btn);
+            }
+        }
+                }
+                if(variant.Version!=null)
+                {
+                    version=variant.Version.Versionname;
+                     if(productOptionsContainer.querySelector(".version-selector")===null)
+                   {
+                    const selector=document.createElement("div");
+                    selector.classList.add("version-selector");
+                     selector.innerHTML = `
+        <h3>Phiên bản:</h3>
+        <div class="size-buttons" id="version-buttons">
+  
+    <button class="size-btn">${version}</button>
+    
+    </div>
+    `; 
+              productOptionsContainer.appendChild(selector);
+              versions.push(version);
+        }
+        else{
+            if(!versions.includes(version))
+            {
+            versions.push(version);
+            const selecter=productOptionsContainer.querySelector(".version-selector");
+            const button_container=selecter.querySelector("#version-buttons");
+            const new_btn=document.createElement("button");
+            new_btn.classList.add("size-btn");
+            new_btn.textContent=version;
+            button_container.appendChild(new_btn);
+            }
+        }
+                }
+                if(variant.Mirror!=null)
+                {
+                    mirror=variant.Mirror.Mirrorname;
+                     if(productOptionsContainer.querySelector(".mirror-selector")===null)
+                   {
+                    const selector=document.createElement("div");
+                    
+                    selector.classList.add("mirror-selector");
+                     selector.innerHTML = `
+        <h3>Loại kính:</h3>
+        <div class="size-buttons" id="mirror-buttons">
+  
+    <button class="size-btn">${mirror}</button>
+    
+    </div>
+    `; 
+              productOptionsContainer.appendChild(selector);
+              mirrors.push(mirror);
+        }
+        else{
+             if(!mirrors.includes(mirror))
+            {
+            mirrors.push(mirror);
+            const selecter=productOptionsContainer.querySelector(".mirror-selector");
+            const button_container=selecter.querySelector("#mirror-buttons");
+            const new_btn=document.createElement("button");
+            new_btn.classList.add("size-btn");
+            new_btn.textContent=mirror;
+            button_container.appendChild(new_btn);
+            }
+        }
+                }
+                sizes_json.push(size);
+                colors_json.push(color);
+                versions_json.push(version);
+                mirrors_json.push(mirror);
+                prices_json.push(variant.Price);
+               }
+        if(value.length>0)
+        {
+            initClickButton(sizes_json,colors_json,versions_json,mirrors_json,prices_json);
+          handleClickButton('color-buttons',sizes_json,colors_json,versions_json,mirrors_json,prices_json);
+
+          handleClickButton('size-buttons',sizes_json,colors_json,versions_json,mirrors_json,prices_json);
+    
+          handleClickButton('version-buttons',sizes_json,colors_json,versions_json,mirrors_json,prices_json);
+
+          handleClickButton('mirror-buttons',sizes_json,colors_json,versions_json,mirrors_json,prices_json);
+        }
+            },
+         error:function(xhr, status, error)
+            {
+              alert(xhr.responseText);
+                 }
+       });
         
         const productName = button.getAttribute('data-product-name');
         
@@ -619,9 +1165,50 @@ if (wwwrootIndex !== -1) {
 
        add_cart_btn.addEventListener("click",()=>{ 
          var quantity_value=document.getElementById('quantity-value').value;
+        
+
          let formData = new FormData();
+
+        var size_container = document.getElementById('size-buttons');
+       var color_container = document.getElementById('color-buttons');
+       var version_container = document.getElementById('version-buttons');
+       var mirror_container = document.getElementById('mirror-buttons');
+       var price=document.getElementById('product-price').textContent;
+       var size_value=null;
+       var color_value=null;
+       var version_value=null;
+       var mirror_value=null;
+       if(size_container!=null)
+       {
+        size_value=size_container.querySelector('.size-btn.active').textContent;
+
+        formData.append("size",size_value);
+       }
+       if(color_container!=null)
+       {
+        color_value=color_container.querySelector('.size-btn.active').textContent;
+        
+        formData.append("color",color_value);
+       }
+       if(version_container!=null)
+       {
+        version_value=version_container.querySelector('.size-btn.active').textContent;
+        
+        formData.append("version",version_value);
+       }
+       if(mirror_container!=null)
+       {
+        mirror_value=mirror_container.querySelector('.size-btn.active').textContent;
+        formData.append("mirror",mirror_value);
+       }
+
          formData.append("quantity",quantity_value);
+        
+        formData.append("product_id",productId);
+
+
          formData.append("product_name",productName);
+         
          $.ajax({
             url:"@Url.Action("addItemToCart","Cart")",
             type:"POST",
