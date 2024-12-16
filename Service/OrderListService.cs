@@ -186,7 +186,7 @@ if (order != null)
 
 private async Task<IEnumerable<Order>> getOrderByPayment()
 {
-  var orders=await this._context.Orders.Include(c=>c.Payment).Where(c=>c.Payment.Paymentname=="Bank" ||c.Payment.Paymentname=="Paypal").ToListAsync();
+  var orders=await this._context.Orders.Include(c=>c.Payment).Include(c=>c.User).Where(c=>c.Payment.Paymentname=="Bank" ||c.Payment.Paymentname=="Paypal").ToListAsync();
   return orders;
 }
 
@@ -197,9 +197,9 @@ public async Task checkOrderStatus()
   Console.WriteLine("Get In this check order status function");
   var orders=await this.getOrderByPayment();
   if(orders!=null)
-  {
+  {  Console.WriteLine("Get In this check order status function0");
     foreach(var order in orders)
-    {
+    {  
       if(order.Status=="Processing")
       { 
         var created_date=DateTime.Parse(order.Createddate);
@@ -213,13 +213,17 @@ public async Task checkOrderStatus()
         this._context.Orders.Update(order);
       }
      if(order.Status=="Cancelled")
-     {
+     {Console.WriteLine("Get In this check order status function1");
          var created_date=DateTime.Parse(order.Createddate);
+    Console.WriteLine("Get In this check order status function2");
+    Console.WriteLine("Created Date:"+created_date);
         var current_date=DateTime.Now;
         var diff_date=current_date.Subtract(created_date).TotalDays;
+    Console.WriteLine("Diff Date:"+diff_date);
         if(diff_date>=7)
         { 
           var user_email=order.User.Email;
+      Console.WriteLine("Get In this check order status function3");
           
           var user=await this._context.AspNetUsers.Include(c=>c.Roles).FirstOrDefaultAsync(s=>s.Email==user_email);
           

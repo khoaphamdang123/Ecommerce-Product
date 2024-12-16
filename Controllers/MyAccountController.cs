@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
 using reCAPTCHA.AspNetCore;
 using Microsoft.Extensions.Options;
+using Ecommerce_Product.Support_Serive;
 
 namespace Ecommerce_Product.Controllers
 { 
@@ -27,6 +28,8 @@ namespace Ecommerce_Product.Controllers
 
         private readonly IRecaptchaService _recaptcha;
 
+        private readonly SmtpService _smtpService;
+
         private readonly RecaptchaResponse _recaptcha_response;
 
         private readonly ICategoryListRepository _category;
@@ -35,7 +38,7 @@ namespace Ecommerce_Product.Controllers
 
         private readonly ILogger<MyAccountController> _logger;
 
-        public MyAccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager,IUserListRepository userList,ICategoryListRepository category,ILogger<MyAccountController> logger,IRecaptchaService recaptcha,IOptions<RecaptchaResponse> recaptcha_response,ISettingRepository setting,ITrackDataRepository trackData,ILoginRepository loginRepos):base(category,userList)
+        public MyAccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager,IUserListRepository userList,ICategoryListRepository category,ILogger<MyAccountController> logger,IRecaptchaService recaptcha,IOptions<RecaptchaResponse> recaptcha_response,SmtpService smtpService,ISettingRepository setting,ITrackDataRepository trackData,ILoginRepository loginRepos):base(category,userList)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -45,6 +48,7 @@ namespace Ecommerce_Product.Controllers
             _setting=setting;
             _userList=userList;
             _category=category;
+            _smtpService=smtpService;
             _recaptcha_response=recaptcha_response.Value;
             _trackData=trackData;
         }
@@ -244,6 +248,7 @@ namespace Ecommerce_Product.Controllers
     Console.WriteLine("did come to register here");
     try 
     {   int setting_status=await this._setting.getStatusByName("recaptcha");
+
       
         Console.WriteLine("Setting status:"+setting_status);   
         if(setting_status==1)
@@ -427,16 +432,26 @@ namespace Ecommerce_Product.Controllers
         StatusResponse response=new StatusResponse();
         try{
          var user=await this._userManager.FindByEmailAsync(email);
+         int setting_status=await this._setting.getStatusByName("changepassword");
          if(user!=null)
          {
             var change_password=await this._userManager.ChangePasswordAsync(user,password ,new_password);
             if(change_password.Succeeded)
             {
-                response=new StatusResponse{
+                response=new StatusResponse
+                {
                     Status=1,
                     Title="Đổi mật khẩu",
                     Message="Đã đổi mật khẩu thành công"
                 };
+
+                if(setting_status==1)
+                { Console.WriteLine("Send email here");
+                 string html_content=this._smtpService.loginNotify(user.UserName);
+                 Console.WriteLine("Html content here:"+html_content);
+                 await this._smtpService.sendEmailGeneral(1,html_content);
+                }
+            
             }
             else
             { 

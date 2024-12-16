@@ -53,6 +53,68 @@ else{
     return htmlContent;
 }
 
+public string loginNotify(string username)
+{
+   string htmlContent="";
+    
+    string path=this._spService.GetCurrentFilePath("Views/MailTemplate/loginnotify.html");
+    
+    using(StreamReader sr=new StreamReader(path))
+    {
+        htmlContent=sr.ReadToEnd();
+    }
+    htmlContent=htmlContent.Replace("{account_name}",username);
+
+    htmlContent=htmlContent.Replace("{username}","Admin");
+
+    string datetime=DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+
+    htmlContent=htmlContent.Replace("{date_time}",datetime);
+
+    return htmlContent;
+}
+
+public async Task sendEmailGeneral(int type,string htmlContent)
+{
+  try
+  {
+var emailMessage = new MimeMessage();
+
+string receiver="huynhkiengquan123@gmail.com";
+
+string subject="";
+if(type==1)
+{
+  subject="Thông báo người dùng đổi mật khẩu";
+}
+
+   emailMessage.From.Add(new MailboxAddress(this._smtpClient.SenderName,this._smtpClient.SenderEmail));
+
+   emailMessage.To.Add(new MailboxAddress("",receiver));
+
+   emailMessage.Subject=subject;
+
+   var bodyBuilder =new BodyBuilder{HtmlBody=htmlContent};
+   
+   emailMessage.Body=bodyBuilder.ToMessageBody();
+   
+   using(var client = new SmtpClient())
+   {
+      await client.ConnectAsync(_smtpClient.Host,this._smtpClient.Port,this._smtpClient.UseSsl);
+      await client.AuthenticateAsync(this._smtpClient.Username,this._smtpClient.Password);
+      await client.SendAsync(emailMessage);
+      await client.DisconnectAsync(true);
+   }
+   Console.WriteLine("Send Email Success");
+  }
+  catch(Exception er)
+  { 
+    Console.WriteLine("Send Email General Exception:"+er.Message);
+
+    this._logger.LogTrace("Send Email General Exception:"+er.Message);
+  }
+}
+
 
 // public string getCurrentBrowser()
 // {
@@ -74,8 +136,11 @@ public async Task sendEmail(string new_password,string receiver,string subject,i
     // Console.WriteLine("Host:"+this._smtpClient.Host);
 
     string currentOs=this._spService.getCurrentOs();
+    
     string htmlValue=htmlContent(receiver,currentOs,new_password,role);
+    
     Console.WriteLine(currentOs);
+
    var emailMessage = new MimeMessage();
 
    emailMessage.From.Add(new MailboxAddress(this._smtpClient.SenderName,this._smtpClient.SenderEmail));
@@ -91,9 +156,10 @@ public async Task sendEmail(string new_password,string receiver,string subject,i
    using(var client = new SmtpClient())
    {
       await client.ConnectAsync(_smtpClient.Host,this._smtpClient.Port,this._smtpClient.UseSsl);
-      Console.WriteLine("did here");
+      //Console.WriteLine("did here");
+      
       await client.AuthenticateAsync(this._smtpClient.Username,this._smtpClient.Password);
-      Console.WriteLine("Did come to here");
+      //Console.WriteLine("Did come to here");
       await client.SendAsync(emailMessage);
       await client.DisconnectAsync(true);
    }

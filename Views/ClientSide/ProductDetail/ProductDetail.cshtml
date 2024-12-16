@@ -1138,6 +1138,7 @@ function handleClickButton(buttonId)
        var version_container = document.getElementById('version-buttons');
        var mirror_container = document.getElementById('mirror-buttons');
        var price=document.getElementById('price').textContent;
+       price=price.replace('đ','').trim();
        var size_value=null;
        var color_value=null;
        var version_value=null;
