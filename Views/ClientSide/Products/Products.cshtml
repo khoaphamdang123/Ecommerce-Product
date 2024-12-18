@@ -9,6 +9,9 @@
     int select_size=Convert.ToInt32(selected_size);
     
     int count_id=0;
+
+    var current_tab=ViewBag.current_tab!=null?ViewBag.current_tab:0;    
+
     Console.WriteLine("Selected size is:"+selected_size);
     var options = ViewBag.options;
     
@@ -224,6 +227,20 @@
   <script>
 
 document.addEventListener("DOMContentLoaded",()=>{
+
+ var current_t=@Html.Raw(current_tab);
+  
+  if(current_t==1)
+  {
+    var my_tab=new bootstrap.Tab(document.getElementById('FiveCol-tab'));
+    my_tab.show();
+  }
+  else
+  {
+    var my_tab=new bootstrap.Tab(document.getElementById('FourCol-tab'));
+    my_tab.show();
+  }
+
    $(document).ready(function () {
     $("#slider-range").slider({
         range: true,

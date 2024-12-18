@@ -2,7 +2,8 @@
 @{
     string user_id=this.ViewContext.HttpContext.Session.GetString("UserId");
     Console.WriteLine("User Id here is:"+user_id);
-    var count_reviews=ViewBag.count_reviews as Dictionary<string,int>;    
+    var count_reviews=ViewBag.count_reviews as Dictionary<string,int>;
+    var current_tab=ViewBag.current_tab!=null ? ViewBag.current_tab : 0;
 }
  <div
        class="bs-toast toast fade hide toast-placement-ex top-5 end-0"
@@ -216,7 +217,7 @@
                      @if(Model.currentPage==1)
                      {
                         <li class="disabled">
-                            <a href="#">
+                            <a href="#" id="page-btn">
                                 <i class="fal fa-angle-double-left"></i>
                             </a>
                         </li>
@@ -224,7 +225,7 @@
                         @if (Model.currentPage > 1)
                         {
                             <li>
-                                <a href="@Url.Action("ProductsPaging", new {page_size=Model.pageSize, page = Model.currentPage-1,products=Model.item })">
+                                <a href="@Url.Action("ProductsPaging", new {page_size=Model.pageSize, page = Model.currentPage-1,products=Model.item })" id="page-btn">
                                     <i class="fal fa-angle-double-left"></i>
                                 </a>
                             </li>
@@ -232,7 +233,7 @@
 
                         @if (Model.totalPage > 6 && Model.currentPage > 4)
                         {
-                            <li><a href="@Url.Action("ProductsPaging", new {page_size=Model.pageSize, page = 1,products=Model.item })">1</a></li>
+                            <li><a href="@Url.Action("ProductsPaging", new {page_size=Model.pageSize, page = 1,products=Model.item })" id="page-btn">1</a></li>
                             <li><span>...</span></li>
                         }
 
@@ -253,7 +254,7 @@
                             for (int i = startPage; i <= endPage; i++)
                             {
                                 <li>
-                                    <a href="@Url.Action("ProductsPaging", new {page_size=Model.pageSize, page = i,products=Model.item })" class="@(Model.currentPage== i ? "active" : "")">
+                                    <a href="@Url.Action("ProductsPaging", new {page_size=Model.pageSize, page = i,products=Model.item })" id="page-btn" class="@(Model.currentPage== i ? "active" : "")">
                                         @i
                                     </a>
                                 </li>
@@ -263,14 +264,14 @@
                         @if (Model.totalPage > 6 && Model.currentPage< Model.totalPage - 3)
                         {
                             <li><span>...</span></li>
-                            <li><a href="@Url.Action("ProductsPaging", new {page_size=Model.pageSize, page = Model.totalPage,products=Model.item })">@Model.totalPage</a></li>
+                            <li><a href="@Url.Action("ProductsPaging", new {page_size=Model.pageSize, page = Model.totalPage,products=Model.item })"  id="page-btn">@Model.totalPage</a></li>
                         }
 
                         @* Next Button *@
                         @if (Model.currentPage < Model.totalPage)
                         {
                             <li>
-                                <a href="@Url.Action("ProductsPaging", new {page_size=Model.pageSize, page = Model.currentPage+1,products=Model.item })">
+                                <a href="@Url.Action("ProductsPaging", new {page_size=Model.pageSize, page = Model.currentPage+1,products=Model.item })"  id="page-btn">
                                     <i class="fal fa-angle-double-right"></i>
                                 </a>
                             </li>
@@ -278,7 +279,7 @@
                         @if (Model.currentPage == Model.totalPage)
                         {
                             <li class="disabled">
-                                <a href="@Url.Action("ProductsPaging", new {page_size=Model.pageSize, page = Model.currentPage,products=Model.item })">
+                                <a  href="@Url.Action("ProductsPaging", new {page_size=Model.pageSize, page = Model.currentPage,products=Model.item })" id="page-btn">
                                     <i class="fal fa-angle-double-right"></i>
                                 </a>
                             </li>
@@ -445,9 +446,29 @@
         </div>
 
 <script>
+    
+   var current_tab=@Html.Raw(current_tab);
 
+    const tabLink1 = document.getElementById("FourCol-tab");
+        
+    tabLink1.addEventListener("show.bs.tab",()=>{
+            current_tab=0;
+        });
 
+    const tabLink2 = document.getElementById("FiveCol-tab");
+        
+        tabLink2.addEventListener("show.bs.tab",()=>{
+            current_tab=1;
+        });
 
+    var page_btn_list=document.querySelectorAll("#page-btn");
+    page_btn_list.forEach((page_btn)=>{page_btn.addEventListener("click",(event)=>{
+         event.preventDefault();
+         var href=event.target.getAttribute('href');
+         href+='&current_tab='+current_tab;
+         window.location.href=href;
+        })});
+ 
 
   function initClickButton(sizes,colors,versions,mirrors,prices,version,price_id='',class_id='')
    { 
@@ -1062,6 +1083,8 @@ $.ajax({
 
     document.addEventListener("DOMContentLoaded",()=>
     {
+
+    
     initAllDetailData();
     
     var add_cart=document.querySelectorAll("#add-cart");
