@@ -171,6 +171,8 @@ public async Task<IActionResult> Products()
     ViewBag.sub_banner=sub_banner;
     
     ViewBag.count_reviews=count_reviews;
+
+    ViewBag.current_tab=0;
     
     //ViewBag.count_product_reviews=count_product_reviews;
     
@@ -199,10 +201,11 @@ public async Task<IActionResult> Products()
 
 [Route("collections/paging")]
 [HttpGet]
-  public async Task<IActionResult> ProductsPaging([FromQuery]int page_size,IEnumerable<Product> products=null,[FromQuery] int page=1)
+  public async Task<IActionResult> ProductsPaging([FromQuery]int page_size,int current_tab=0,IEnumerable<Product> products=null,[FromQuery] int page=1)
   {
     try{ 
         PageList<Product> prods=null;
+        Console.WriteLine("Current tab here is:"+current_tab);  
         if(products==null)
         {
           prods=await this._product.pagingProduct(page_size,page);
@@ -231,6 +234,8 @@ public async Task<IActionResult> Products()
     ViewBag.count_reviews=count_reviews;
     
    ViewBag.product_banner=product_banner;
+
+   ViewBag.current_tab=current_tab;
     
   //   ViewBag.count_product_reviews=count_product_reviews;
 
