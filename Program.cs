@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Ecommerce_Product.Data;
 using Serilog;
+using StackExchange.Redis;
 using Ecommerce_Product.Models;
 using Ecommerce_Product.Repository;
 using Ecommerce_Product.Service;
@@ -38,9 +39,14 @@ builder.Services.AddQuartz(q =>
 
 builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 
+builder.Services.AddSingleton<IConnectionMultiplexer>(sp=>{
+    var configuration=builder.Configuration.GetSection("Redis:ConnectionString").Value;
+    return ConnectionMultiplexer.Connect(configuration);
+});
 
 builder.Configuration["ConnectionStrings:DefaultConnection"] = 
     $"Host={host};Port={port};Database={database};Username={username};Password={password}";
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

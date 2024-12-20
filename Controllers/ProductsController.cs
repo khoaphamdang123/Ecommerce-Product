@@ -2,6 +2,7 @@
 using Ecommerce_Product.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Ecommerce_Product.Models;
+using Newtonsoft.Json;
 
 namespace Ecommerce_Product.Controllers;
 public class ProductsController:BaseController
@@ -267,7 +268,7 @@ public async Task<IActionResult> Products()
  [HttpPost]
  public async Task<IActionResult> FilterProductByNameAndCategory(string product,string category)
  {  Console.WriteLine("Product name here is:"+product);
-     var products=await this._product.filterProductByNameAndCategory(product,category);
+     var products=await this._product.filterProductByNameAndCategory(product,category);     
      string select_size="12";
      var product_list_banner=await this._banner.findBannerByName("product_list_banner");
      var sub_product_list_banner=await this._banner.findBannerByName("sub_product_banner");
@@ -349,10 +350,13 @@ public async Task<IActionResult> Products()
   }
  if(!string.IsNullOrEmpty(brands))
  {
-    brand_list=brands.Split(',').ToList();
+    brand_list=brands.Split(',').ToList();    
  }
 
  var products=await this._product.filterProductByPriceAndBrands(brand_list,prices_list);
+
+  Console.WriteLine("Number of products here is:"+ products.ToList().Count);
+
     
     
  Console.WriteLine("Number of products here is:"+ products.ToList().Count);  
@@ -367,6 +371,7 @@ public async Task<IActionResult> Products()
  Console.WriteLine("Number of brands here is:"+brands);
 
 Console.WriteLine("gere");
+
 
 return PartialView("~/Views/ClientSide/Products/_ProductsPartial.cshtml",prods); 
  }

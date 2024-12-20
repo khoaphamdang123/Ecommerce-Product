@@ -7,6 +7,9 @@ using System.Drawing;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Text.RegularExpressions;
 using System.Collections.Frozen;
+using StackExchange.Redis;
+using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace Ecommerce_Product.Service;
 
@@ -17,11 +20,48 @@ public class ProductService:IProductRepository
     private readonly IWebHostEnvironment _webHostEnv;
 
     private readonly Support_Serive.Service _sp_services;
-  public ProductService(EcommerceshopContext context,IWebHostEnvironment webHostEnv,Support_Serive.Service sp_services)
+
+    private readonly IConnectionMultiplexer _redis;
+
+    private readonly IDatabase _db;
+  public ProductService(EcommerceshopContext context,IWebHostEnvironment webHostEnv,IConnectionMultiplexer redis,Support_Serive.Service sp_services)
   {
     this._context=context;
     this._webHostEnv=webHostEnv;
+    this._redis=redis;
+    this._db=this._redis.GetDatabase();
     this._sp_services=sp_services;
+  }
+
+  public async Task saveProductRedis(List<Product> products)
+  {
+  try
+  {
+    var json = JsonConvert.SerializeObject(products,new JsonSerializerSettings{
+      ReferenceLoopHandling=ReferenceLoopHandling.Ignore
+    });
+
+
+    await this._db.StringSetAsync("products",json);
+  }
+  catch(Exception er)
+  {
+    Console.WriteLine("Redis save Exception:"+er.Message);
+  }
+  }
+
+  public async Task<List<Product>> getProductRedis()
+  {
+    var products_json=await this._db.StringGetAsync("products");
+
+
+    if(string.IsNullOrEmpty(products_json))
+    {
+      return new List<Product>();
+    }
+    
+    return JsonConvert.DeserializeObject<List<Product>>(products_json);    
+
   }
 
   public async Task<IEnumerable<Product>> getProductList()
@@ -29,6 +69,12 @@ public class ProductService:IProductRepository
      try
     {
        var products=await this._context.Products.Include(p=>p.Brand).Include(p=>p.Category).Include(c=>c.SubCat).Include(p=>p.ProductImages).ToListAsync();
+      string json_products=this._db.StringGet("products");
+      if(string.IsNullOrEmpty(json_products))
+      {
+ Console.WriteLine("did come to this place");
+    await this.saveProductRedis(products);
+    }
        return products;
     }
     catch(Exception er)
@@ -42,8 +88,13 @@ public class ProductService:IProductRepository
   public async Task<IEnumerable<Product>> getAllProduct()
   {
     try
-    {
+    {  
        var products=await this._context.Products.Include(p=>p.Brand).Include(p=>p.Category).Include(c=>c.SubCat).Include(p=>p.Variants).ThenInclude(c=>c.Color).Include(p=>p.Variants).ThenInclude(c=>c.Size).Include(p=>p.Variants).ThenInclude(c=>c.Version).Include(p=>p.Variants).ThenInclude(c=>c.Mirror).Include(p=>p.ProductImages).Include(c=>c.Videos).Include(c=>c.Manuals).ToListAsync();
+       string json_products=this._db.StringGet("products");
+       if(string.IsNullOrEmpty(json_products))
+       { 
+          await this.saveProductRedis(products.ToList());
+       }
        return products;
     }
     catch(Exception er)
@@ -87,6 +138,8 @@ public async Task<PageList<Product>> pagingProduct(int page_size,int page)
    IEnumerable<Product> all_prod= await this.getProductList();
 
    List<Product> prods=all_prod.OrderByDescending(u=>u.Id).ToList(); 
+   
+   
 
    //var users=this._userManager.Users;   
    var prod_list=PageList<Product>.CreateItem(prods.AsQueryable(),page,page_size);
@@ -102,6 +155,8 @@ public async Task<IEnumerable<Product>>getProductBySubCategory(int sub_cat)
 
 public async Task<IEnumerable<Product>> filterProductByNameAndCategory(string product,string category)
 { List<Product> products = new List<Product>(); 
+
+
   if(!string.IsNullOrEmpty(category) && !string.IsNullOrEmpty(product))
 {
     products=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(c=>c.SubCat).Include(c=>c.Variants).Include(c=>c.ProductImages).Where(c=>c.Category.CategoryName==category && c.ProductName.ToLower().Contains(product.ToLower())).ToListAsync();
@@ -235,6 +290,11 @@ public async Task<int> deleteProduct(int id)
  {
     Console.WriteLine("Delete Product Exception:"+er.Message);
  }
+  
+ var products=await this.getAllProduct();
+
+ await this.saveProductRedis(products.ToList());
+
  return res_del;
 }
 
@@ -430,11 +490,13 @@ public async Task<List<Product>> getListProductRating(int star)
     return list_prod;
 }
 
+
 private async Task<int> countReviews(int product_id)
 {
   var count=await this._context.Ratingdetails.Where(c=>c.ProductId==product_id).CountAsync();
   return count;
 }
+
 public async Task<Dictionary<string,int>> countAllReview(List<Product> products)
 {
  Dictionary<string,int> dict = new Dictionary<string, int>();
@@ -445,7 +507,7 @@ public async Task<Dictionary<string,int>> countAllReview(List<Product> products)
   string prod_name=product.ProductName;
   dict.Add(prod_name,count_reviews);
  }
- return dict;
+ return dict; 
 }
 
   public async Task<int> addReviews(int product_id,string user_id,string comment)
@@ -804,6 +866,8 @@ for(int i=0;i<variant_files.Count;i++)
   { created_res=0;
     Console.WriteLine("Add New Product Exception:"+er.Message);
   }
+  var products = await this.getAllProduct();
+  await this.saveProductRedis(products.ToList());
   return created_res;
 }
 
@@ -1157,6 +1221,10 @@ catch(Exception er)
 { 
   Console.WriteLine("Update Product Exception:"+er.Message);
 }
+
+  var products = await this.getAllProduct();
+  await this.saveProductRedis(products.ToList());
+
 return updated_res;
 }
 
@@ -1169,18 +1237,27 @@ public async Task saveChanges()
 
   public async Task<IEnumerable<Product>> filterProductByPriceAndBrands(List<string>brands,List<int>prices)
   {    
-    var products = await this.getAllProduct();
+  var products = await this.getProductRedis();
+  foreach(var product in products)
+  {
+    Console.WriteLine("Brand here is:"+product.Brand?.BrandName??"");
+  }
   if(brands!=null || prices!=null)
   {
     try
     {
-   products= products.Where(c=>brands.Contains(c.Brand?.BrandName.ToString()) || prices.Contains(Convert.ToInt32(c?.Price))).ToList();
+   products= products.Where(c=>brands.Contains(c.Brand?.BrandName.ToString()) && prices.Contains(Convert.ToInt32(c?.Price))).ToList();   
     }
     catch(Exception er)
     {
         Console.WriteLine("Filter Product By Price And Brands Exception:"+er.Message);
     }
   }
+
+  
+    // var product_first=products[0];
+
+    // Console.WriteLine("Product First:"+product_first.ProductName);
     return products;
   }
 
