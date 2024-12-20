@@ -298,12 +298,10 @@ document.addEventListener("DOMContentLoaded",()=>{
                     type: 'GET',
                     data: {pageSize: page_size ,prices:price_value,brands:checked_brands},
                     success: function (data) {
-                        alert(data);
                         $("#productList").html(data);
                     },
                     error: function (xhr, status, error) {
-                        alert(xhr.textContent);
-                        alert(error);
+                      
                     }
                 });
     });
