@@ -1,0 +1,12 @@
+2024-12-19 10:30:25.336 +07:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-12-19 10:30:25.363 +07:00 [INF] Quartz Scheduler created
+2024-12-19 10:30:25.363 +07:00 [INF] JobFactory set to: Quartz.Simpl.MicrosoftDependencyInjectionJobFactory
+2024-12-19 10:30:25.364 +07:00 [INF] RAMJobStore initialized.
+2024-12-19 10:30:25.365 +07:00 [INF] Quartz Scheduler 3.13.1.0 - 'QuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-12-19 10:30:25.366 +07:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-12-19 10:30:25.366 +07:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-12-19 10:30:25.464 +07:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+2024-12-19 10:30:55.405 +07:00 [WRN] Failed to determine the https port for redirect.
+2024-12-19 11:00:32.955 +07:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED shutting down.
+2024-12-19 11:00:32.959 +07:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED paused.
+2024-12-19 11:00:32.965 +07:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED Shutdown complete.
