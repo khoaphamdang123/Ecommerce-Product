@@ -347,9 +347,7 @@
                 <div class="row">
                   @for(int i=0;i<blogs.Count;i++)
                   {  
-                
                 var blog=blogs[i];
-                  
                   if(i>6)
                   {
                     break;
@@ -686,7 +684,7 @@
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                                 <div class="product__modal-content">
-                                    <h4><a href="product-details.html" id="name-link"><span id="product-name"></span></a></h4>
+                                    <h4><a href="product-details.html" id="name-link"><span id="product-name"></span></a></h4>                                    
                                     <div class="product__review d-sm-flex">
                                         <div class="rating rating__shop mb-10 mr-30">
                                          <ul id="quick-view-list">
@@ -1116,7 +1114,57 @@ function getAllIndex(buttonId,value,sizes,colors,versions,mirrors)
        formData.append("product_id",product_id);
        formData.append("quantity",quantity);
        formData.append("product_name",product_name);
-       $.ajax({
+
+   
+      
+        var url="@Url.Action("VariantProduct","HomePage",new{id="__id__"})";
+        
+        url=url.replace("__id__",product_id);
+        
+        $.ajax({
+            url:url,
+            type:"GET",
+            contentType:false,
+            processData:false,
+            success:function(response){
+                if(response!="" && response!=null)
+                {
+                var value = JSON.parse(response);
+                var first_object=value[0];
+                var color_ob=first_object.Color;
+                var size_ob=first_object.Size;
+                var version_ob=first_object.Version;
+                var mirror_ob=first_object.Mirror;
+                var price=first_object.Price;
+                var value='';
+                if(color_ob!=null)
+                {  
+                    formData.append("color",color_ob.Colorname);
+                    value+=color_ob.Colorname;
+                }
+                if(size_ob!=null)
+                {
+                    formData.append("size",size_ob.Sizename);
+                    value+=size_ob.Sizename;
+                }
+                if(version_ob!=null)
+                {
+                    formData.append("version",version_ob.Versionname);
+                    value+=version_ob.Versionname;
+                }
+                if(mirror_ob!=null)
+                {
+                    formData.append("mirror",mirror_ob.Mirrorname);
+                    value+=mirror_ob.Mirrorname;
+                }
+
+                if(price!=null)
+                {
+                    formData.append("price",price);
+                    value+=price;
+                }
+
+             $.ajax({
             url:"@Url.Action("addItemToCart","Cart")",
             type:"POST",
             data:formData,
@@ -1168,6 +1216,76 @@ function getAllIndex(buttonId,value,sizes,colors,versions,mirrors)
                 toast.show();           
                  }
         });
+                
+            }
+        else
+        {
+             $.ajax({
+            url:"@Url.Action("addItemToCart","Cart")",
+            type:"POST",
+            data:formData,
+            contentType: false,
+            processData: false, 
+            success:function(response)
+            {
+                const status=response.status;
+                const message = response.message;
+                const data=response.data;
+             if(data!="")
+             {
+                $("#count-cart").text(data.length);
+               
+                var section_url="@Url.Action("SubCartPartialView","Cart")";
+                   $.ajax({
+                    url:section_url,
+                    type:"POST",
+                    success: function(partialHtml) {
+                        $('#sub-cart-section').html(partialHtml);
+                    }
+                });
+            }
+                document.getElementById("toast-title").innerHTML="Thông báo";
+                document.getElementById("toast-message").innerHTML=message;
+                var toastEl = document.querySelector('.toast');
+
+                if(status==1)
+                {
+              
+                 toastEl.classList.add('bg-success');
+      
+                }
+               else
+               {
+                toastEl.classList.add('bg-danger');
+               }
+                var toast = new bootstrap.Toast(toastEl);
+                
+                 toast.show();
+            },
+            error:function(xhr, status, error)
+            {
+                  document.getElementById("toast-title").innerHTML="Thông báo";
+                 document.getElementById("toast-message").innerHTML=error;
+                var toastEl = document.querySelector('.toast');
+                toastEl.classList.add('bg-danger');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();           
+                 }
+        });
+        }
+            },
+            error:function(xhr,status,error){
+                document.getElementById("toast-title").innerHTML="Thông báo";
+                document.getElementById("toast-message").innerHTML=xhr.responseText;
+                var toastEl = document.querySelector('.toast');
+                toastEl.classList.add('bg-danger');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            }
+        });
+
+      
+      
      });
      });
 

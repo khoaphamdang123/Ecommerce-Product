@@ -289,12 +289,10 @@ document.addEventListener("DOMContentLoaded",()=>{
     
     $(".brand-checkbox").on("change",()=>{
       
-      const page_size= $("#page-size").val();
+      const page_size= $("#page-size").val();      
       
       const price_value=$("#new-amount").val().replace(/VND/g,"");
 
-      
-      
     var checked_brand=$(".brand-checkbox:checked").map(function(){
         return $(this).next().text();
       }).get();
@@ -309,7 +307,6 @@ document.addEventListener("DOMContentLoaded",()=>{
     {
      checkedStars.push(checkbox.getAttribute("data-star"));
     });
-    
     
     var checked_star_value=checkedStars.join(",");
 
