@@ -72,7 +72,7 @@
                             <div class="widget-category-list mt-20">
                                 <form action="#">
                                     <div class="single-widget-rating">
-                                        <input type="checkbox" id="star-item-1" name="star-item">
+                                        <input type="checkbox" id="star-item-1" name="star-item" data-star="5" class="star-checkbox">
                                         <label for="star-item-1">
                                             <i class="fas fa-star"></i>
                                             <i class="fas fa-star"></i>
@@ -86,7 +86,7 @@
                                         </label>
                                     </div>
                                     <div class="single-widget-rating">
-                                        <input type="checkbox" id="star-item-2" name="star-item">
+                                        <input type="checkbox" id="star-item-2" name="star-item" data-star="4"  class="star-checkbox">
                                         <label for="star-item-2">
                                             <i class="fas fa-star"></i>
                                             <i class="fas fa-star"></i>
@@ -99,7 +99,7 @@
                                             }                                        </label> *@
                                     </div>
                                     <div class="single-widget-rating">
-                                        <input type="checkbox" id="star-item-3" name="star-item">
+                                        <input type="checkbox" id="star-item-3" name="star-item" data-star="3"  class="star-checkbox">
                                         <label for="star-item-3">
                                             <i class="fas fa-star"></i>
                                             <i class="fas fa-star"></i>
@@ -112,7 +112,7 @@
                                             }                                        </label> *@
                                     </div>
                                     <div class="single-widget-rating">
-                                        <input type="checkbox" id="star-item-4" name="star-item">
+                                        <input type="checkbox" id="star-item-4" name="star-item" data-star="2" class="star-checkbox">
                                         <label for="star-item-4">
                                             <i class="fas fa-star"></i>
                                             <i class="fas fa-star"></i>
@@ -125,7 +125,7 @@
                                             }                                        </label> *@
                                     </div>
                                     <div class="single-widget-rating">
-                                        <input type="checkbox" id="star-item-5" name="star-item">
+                                        <input type="checkbox" id="star-item-5" name="star-item" data-star="1"  class="star-checkbox">
                                         <label for="star-item-5">
                                             <i class="fas fa-star"></i>
                                             <i class="fal fa-star"></i>
@@ -261,10 +261,20 @@ document.addEventListener("DOMContentLoaded",()=>{
     });
     var checked_brands_value=checkedBrands.join(",");
 
+    var checkedStars = [];
+    
+    var checkboxes_star = document.querySelectorAll('input[name="star-item"]:checked');
+    
+    checkboxes_star.forEach(function(checkbox) {
+        checkedStars.push(checkbox.getAttribute("data-star"));
+    });
+    var checked_star_value=checkedStars.join(",");
+
+
             $.ajax({
                     url: '@Url.Action("FilterProducts", "Products")',
                     type: 'GET',
-                    data: {pageSize: page_size ,prices:value,brands:checked_brands_value},
+                    data: {pageSize: page_size ,prices:value,brands:checked_brands_value,stars:checked_star_value},
                     success: function (data) {
                         $("#productList").html(data);
                     },
@@ -284,19 +294,64 @@ document.addEventListener("DOMContentLoaded",()=>{
       const price_value=$("#new-amount").val().replace(/VND/g,"");
 
       
-      var checked_brand=$(".brand-checkbox:checked").map(function(){
+      
+    var checked_brand=$(".brand-checkbox:checked").map(function(){
         return $(this).next().text();
       }).get();
       
-      var checked_brands=checked_brand.join(",");
+    var checked_brands=checked_brand.join(",");
 
+    var checkedStars = [];
+    
+    var checkboxes = document.querySelectorAll('input[name="star-item"]:checked');
+    
+    checkboxes.forEach(function(checkbox) 
+    {
+     checkedStars.push(checkbox.getAttribute("data-star"));
+    });
+    
+    
+    var checked_star_value=checkedStars.join(",");
 
-      
-      
       $.ajax({
                     url: '@Url.Action("FilterProducts", "Products")',
                     type: 'GET',
-                    data: {pageSize: page_size ,prices:price_value,brands:checked_brands},
+                    data: {pageSize: page_size ,prices:price_value,brands:checked_brands,stars:checked_star_value},
+                    success: function (data) 
+                    {
+                        $("#productList").html(data);
+                    },
+                    error: function(xhr, status, error) 
+                    {
+                    }
+                });
+
+}); 
+   $(".star-checkbox").on("change",()=>{
+
+    const page_size= $("#page-size").val();
+      
+    const price_value=$("#new-amount").val().replace(/VND/g,"");
+
+    var checkedBrands = [];
+    
+    var checkboxes = document.querySelectorAll('input[name="brand-item"]:checked');
+    
+    checkboxes.forEach(function(checkbox) {
+        checkedBrands.push(checkbox.nextElementSibling.textContent);
+    });
+    var checked_brands_value=checkedBrands.join(",");
+    
+     var checked_star=$(".star-checkbox:checked").map(function(){
+        return $(this).attr("data-star");
+      }).get();
+      
+      var checked_stars=checked_star.join(",");
+
+    $.ajax({
+                    url: '@Url.Action("FilterProducts", "Products")',
+                    type: 'GET',
+                    data: {pageSize: page_size ,prices:price_value,brands:checked_brands_value,stars:checked_stars},
                     success: function (data) {
                         $("#productList").html(data);
                     },
@@ -305,8 +360,9 @@ document.addEventListener("DOMContentLoaded",()=>{
                     }
                 });
     });
+     
 
-});
+   });
     
      });
     function hello()
