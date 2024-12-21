@@ -50,7 +50,7 @@ public interface IProductRepository
 
   public Task<IEnumerable<Product>> filterProduct(FilterProduct product);
 
-  public Task<IEnumerable<Product>> filterProductByPriceAndBrands(List<string> brands,List<int> prices);
+  public Task<IEnumerable<Product>> filterProductByPriceAndBrands(List<string> brands,List<int> prices,List<string> stars);
 
   public Task<int> deleteProduct(int id);
 

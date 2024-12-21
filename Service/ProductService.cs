@@ -154,22 +154,18 @@ public async Task<IEnumerable<Product>>getProductBySubCategory(int sub_cat)
 }
 
 public async Task<IEnumerable<Product>> filterProductByNameAndCategory(string product,string category)
-{ List<Product> products = new List<Product>(); 
-
-
+{ List<Product> products = await this.getProductRedis();
+   
   if(!string.IsNullOrEmpty(category) && !string.IsNullOrEmpty(product))
 {
-    products=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(c=>c.SubCat).Include(c=>c.Variants).Include(c=>c.ProductImages).Where(c=>c.Category.CategoryName==category && c.ProductName.ToLower().Contains(product.ToLower())).ToListAsync();
+    products= products.Where(c=>c.Category.CategoryName==category && c.ProductName.ToLower().Contains(product.ToLower())).ToList();
 }
 else if(string.IsNullOrEmpty(category) && !string.IsNullOrEmpty(product))
 {
-      products=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(c=>c.SubCat).Include(c=>c.Variants).Include(c=>c.ProductImages).Where(c=>c.ProductName.ToLower().Contains(product.ToLower())).ToListAsync();
+      products= products.Where(c=>c.ProductName.ToLower().Contains(product.ToLower())).ToList();
 }
-else
-{
-  products=await this.getAllProduct() as List<Product>;
-}
-   return products;   
+
+   return products;         
 }
 public async Task<IEnumerable<Product>> getProductByCategory(string cat)
 {
@@ -877,13 +873,16 @@ public async Task<int> updateProduct(int id,AddProductModel model)
  int updated_res=0; 
 try
 {
-     string temp_front_avatar="";
+   string temp_front_avatar="";
+   
    string temp_back_avatar="";
-   List<string> temp_list_img=new List<string>(); 
-  var product_ob=await this.findProductById(id);
+   
+   List<string> temp_list_img=new List<string>();
+
+   var product_ob=await this.findProductById(id);
 
   
-string product_name=model.ProductName;
+   string product_name=model.ProductName;
 
    Console.WriteLine("Product name:"+product_name);
    
@@ -894,8 +893,7 @@ string product_name=model.ProductName;
    
    int quantity = model.Quantity;
 
-      Console.WriteLine("QUANTITY:"+quantity);
-
+   Console.WriteLine("QUANTITY:"+quantity);
    
    int sub_cat=model.SubCategory;
 
@@ -1235,25 +1233,47 @@ public async Task saveChanges()
 
 
 
-  public async Task<IEnumerable<Product>> filterProductByPriceAndBrands(List<string>brands,List<int>prices)
+  public async Task<IEnumerable<Product>> filterProductByPriceAndBrands(List<string>brands,List<int>prices,List<string> stars)
   {    
+   Console.WriteLine("Star count:"+stars.Count);
   var products = await this.getProductRedis();
-  foreach(var product in products)
+
+  if(brands.Count==0 &&  prices.Count!=0)
   {
-    Console.WriteLine("Brand here is:"+product.Brand?.BrandName??"");
+   products= products.Where(c=>prices.Contains(Convert.ToInt32(c?.Price))).OrderByDescending(c=>c.Id).ToList();   
   }
-  if(brands!=null || prices!=null)
+
+ else if(brands.Count!=0 && prices.Count!=0)
   {
     try
     {
-   products= products.Where(c=>brands.Contains(c.Brand?.BrandName.ToString()) && prices.Contains(Convert.ToInt32(c?.Price))).ToList();   
+   products= products.Where(c=>brands.Contains(c.Brand?.BrandName.ToString()) && prices.Contains(Convert.ToInt32(c?.Price))).OrderByDescending(c=>c.Id).ToList();   
     }
     catch(Exception er)
     {
         Console.WriteLine("Filter Product By Price And Brands Exception:"+er.Message);
     }
   }
+  else
+  {
+    products=new List<Product>();
+  }
 
+  if(products.Count!=0 && stars.Count!=0)
+  { Console.Write("Star count here:"+stars.Count);
+   var count_reviews=await this.countAllReview(products.ToList());
+
+   var products_with_star=new List<Product>();
+
+   foreach(var product in count_reviews)
+   {
+    if(stars.Contains(product.Value.ToString()))
+    {
+      products_with_star.Add(products.FirstOrDefault(c=>c.ProductName==product.Key));
+    }
+   }
+   return products_with_star;
+  }
   
     // var product_first=products[0];
 
@@ -1264,6 +1284,7 @@ public async Task saveChanges()
   public async Task<PageList<Product>> pagingProductByList(int page_size,int page,IEnumerable<Product> products)
   {
        var paging_prods_list =PageList<Product>.CreateItem(products.AsQueryable(),page,page_size);
+       
        return paging_prods_list;
   }
 

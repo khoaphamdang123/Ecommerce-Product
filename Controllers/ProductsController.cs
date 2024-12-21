@@ -143,6 +143,7 @@ public async Task<IActionResult> ProductBySubCategory(int sub_cat_id)
 public async Task<IActionResult> Products()
 {   
      var products=await this._product.getProductList();
+     
      string select_size="12";
      
      var product_list_banner=await this._banner.findBannerByName("product_list_banner");
@@ -332,7 +333,7 @@ public async Task<IActionResult> Products()
 
 
   [HttpGet]
-  public async Task<IActionResult> FilterProducts(int pageSize,string prices,string brands)
+  public async Task<IActionResult> FilterProducts(int pageSize,string prices,string brands,string stars)
   {
  try{
 
@@ -344,6 +345,8 @@ public async Task<IActionResult> Products()
 
  List<string> brand_list= new List<string>();
 
+ List<string> star_list=new List<string>(); 
+
   if(!string.IsNullOrEmpty(prices))
   {
   prices_list = prices.Split('-').Select(int.Parse).ToList();
@@ -353,7 +356,12 @@ public async Task<IActionResult> Products()
     brand_list=brands.Split(',').ToList();    
  }
 
- var products=await this._product.filterProductByPriceAndBrands(brand_list,prices_list);
+ if(!string.IsNullOrEmpty(stars))
+ {
+    star_list = stars.Split(',').ToList();
+ }
+
+ var products=await this._product.filterProductByPriceAndBrands(brand_list,prices_list,star_list);
 
   Console.WriteLine("Number of products here is:"+ products.ToList().Count);
 
