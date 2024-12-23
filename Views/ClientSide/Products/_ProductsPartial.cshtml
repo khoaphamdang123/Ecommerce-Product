@@ -959,11 +959,16 @@ $.ajax({
         
             
             const selecter=productOptionsContainer.querySelector(".color-selectors");
+            
             const button_container=selecter.querySelector(`#colors-buttons-${productId}`);
+            
             const new_btn=document.createElement("button");
             new_btn.classList.add(`size-btns-${productId}`);
+
             new_btn.textContent=color;
+            
             button_container.appendChild(new_btn);
+
             }
         }
                 }
@@ -1121,6 +1126,7 @@ $.ajax({
         size_value=size_container.querySelector(`.size-btns-${product_id}.active`).textContent;
 
         formData.append("size",size_value);
+
        }
        if(color_container!=null)
        {
