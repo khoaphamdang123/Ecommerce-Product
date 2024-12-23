@@ -46,7 +46,6 @@
                                           }
                                          string price_value=!string.IsNullOrEmpty(item.Price) ? item.Price : item.Product.Price;
                                          int current_price=(Convert.ToInt32(price_value)-(Convert.ToInt32(item.Product.Price)*(discount)/100));
-                                         Console.WriteLine("Price value: "+item.Product.Price);
                                           total_amount+=(Convert.ToInt32(price_value)-(Convert.ToInt32(item.Product.Price)*(discount)/100))*item.Quantity;
                                        <tr>
                                           <input id="product-id" type="hidden" value="@item.Product.Id">

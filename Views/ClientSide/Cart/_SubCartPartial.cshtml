@@ -10,7 +10,14 @@
                                     <span class="count" id="count-cart">@Model.Count</span>
                                     <span class="text">
                                     <span class="sub">Giỏ hàng:</span>
-                                    $00.00 </span>
+                                @foreach(var item in Model)
+                                {
+                                    int discount=string.IsNullOrEmpty(item.Product.Discount.ToString()) ? 0 : Convert.ToInt32(item.Product.Discount);
+                                    string price_value=!string.IsNullOrEmpty(item.Price) ? item.Price : item.Product.Price;
+                                    int current_price=(Convert.ToInt32(price_value)-(Convert.ToInt32(item.Product.Price)*(discount)/100));
+                                    total_value+=current_price*item.Quantity;
+                                }
+                                    @total_value VNĐ</span>
                                     </a>
  @if(Model.Count>0)
                 { 
@@ -21,11 +28,14 @@
                                                     <h4>Giỏ hàng của bạn</h4>
                                                     <span>(@Model.Count sản phẩm)</span>
                                                   </div>
-                                        <div id="sub-list-section" class="cart-index">
+                        <div id="sub-list-section" class="cart-index">
                             
-                    @Html.Partial("~/Views/ClientSide/Cart/_SubListPartial.cshtml",Model)
-                                            </div>
+                     @Html.Partial("~/Views/ClientSide/Cart/_SubListPartial.cshtml",Model)
+
+
+                        </div>
                                                     <a href="@Url.Action("Cart","Cart")" class="wc-cart mb-10">Xem giỏ hàng</a>
+                                                    
                                                     <a href="@Url.Action("Checkout","Checkout")" class="wc-checkout">Đặt hàng</a>
                                         </div>
                                     </div>
