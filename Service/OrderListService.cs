@@ -3,6 +3,7 @@ using Ecommerce_Product.Models;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace Ecommerce_Product.Service;
 
@@ -85,11 +86,15 @@ if (order != null)
    try
    {
     Console.WriteLine("Did come to order create section");
-
     var order=new Order
     {
       Status="Processing",
-      Total=(decimal)cart.Sum(s=>(Convert.ToInt32(s.Product.Price)-(Convert.ToInt32(s.Product.Price)*s.Product.Discount/100))*s.Quantity),
+      Total=(decimal)cart.Sum((s)=>{
+        string price_value=string.IsNullOrEmpty(s.Price)?s.Product.Price:s.Price;
+        int discount=string.IsNullOrEmpty(s.Product.Discount.ToString()) ? 0 : Convert.ToInt32(s.Product.Discount);
+        int current_price=Convert.ToInt32(price_value)-(Convert.ToInt32(price_value)*discount/100);
+        return current_price*s.Quantity;
+      }),
       Shippingaddress=string.IsNullOrEmpty(user.Address2)?user.Address1:user.Address2,
       Userid=user.Id,
       Paymentid=payment.Id,
@@ -104,9 +109,7 @@ if (order != null)
     Console.WriteLine("did come to here");
 
     foreach(var product in cart)
-    { 
-
-      
+    {       
       var product_ob=product.Product.Variants;
 
       string color=product.Color;
@@ -121,8 +124,13 @@ if (order != null)
 
 
       List<int> variant_id=new List<int>();
+
+      Console.WriteLine("Product OBJECT size here is:"+product_ob.Count);
+
+
+      Console.WriteLine("JSON PRODUCT:"+JsonConvert.SerializeObject(product_ob),new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
       
-      if(product_ob!=null)
+      if(product_ob!=null && product_ob.Count>0)
       { 
         Console.WriteLine("Product Object is not null here");
         
@@ -142,11 +150,13 @@ if (order != null)
           }
         }
       foreach(var id in variant_id)
-      {
+      {  string price_value=string.IsNullOrEmpty(product.Price)?product.Product.Price:product.Price;
+         int discount=string.IsNullOrEmpty(product.Product.Discount.ToString()) ? 0 : Convert.ToInt32(product.Product.Discount);
+           int current_price=Convert.ToInt32(price_value)-(Convert.ToInt32(price_value)*discount/100);
         var order_detail=new OrderDetail
         {
           Quantity=product.Quantity,
-          Price=Convert.ToInt32(product.Product.Price),
+          Price=current_price,
           Productid=product.Product.Id,
           Orderid=order.Id,
           VariantId=id
@@ -155,11 +165,14 @@ if (order != null)
       }
       }
     else
-    {
+    {  string price_value=product.Product?.Price;
+    Console.WriteLine("Price Value here is:"+price_value); 
+       int discount=string.IsNullOrEmpty(product.Product?.Discount.ToString()) ? 0 : Convert.ToInt32(product.Product.Discount);
+       int current_price=Convert.ToInt32(price_value)-(Convert.ToInt32(price_value)*discount/100);
       var order_detail=new OrderDetail
       {
         Quantity=product.Quantity,
-        Price=Convert.ToInt32(product.Product.Price),
+        Price=current_price,
         Productid=product.Product.Id,
         Orderid=order.Id
       };
@@ -171,9 +184,6 @@ if (order != null)
 
     Console.WriteLine("Create Product Detail for the order");
  
-
-
-
     created_res=1;
    }
    catch(Exception er)
@@ -213,7 +223,8 @@ public async Task checkOrderStatus()
         this._context.Orders.Update(order);
       }
      if(order.Status=="Cancelled")
-     {Console.WriteLine("Get In this check order status function1");
+     {
+      Console.WriteLine("Get In this check order status function1");
          var created_date=DateTime.Parse(order.Createddate);
     Console.WriteLine("Get In this check order status function2");
     Console.WriteLine("Created Date:"+created_date);
@@ -283,7 +294,7 @@ public async Task checkOrderStatus()
   }
   public async Task<Order> getLatestOrderByUsername(string user_id)
   {
-    var order=await this._context.Orders.Include(c=>c.User).Include(c=>c.Payment).OrderByDescending(s=>s.Id).FirstOrDefaultAsync();
+    var order=await this._context.Orders.Include(c=>c.User).Include(c=>c.Payment).Include(c=>c.OrderDetails).ThenInclude(c=>c.Product).OrderByDescending(s=>s.Id).FirstOrDefaultAsync();
     
     string order_id=this.generateOrderId(order.Id);
 

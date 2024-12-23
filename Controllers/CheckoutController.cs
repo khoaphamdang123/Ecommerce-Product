@@ -6,6 +6,7 @@ using Ecommerce_Product.Models;
 using Microsoft.AspNetCore.Authorization;
 using Ecommerce_Product.Repository;
 using Microsoft.Extensions.Options;
+using Ecommerce_Product.Support_Serive;
 using System.IO;
 using System.Configuration;
 
@@ -34,6 +35,8 @@ public class CheckoutController : BaseController
 
     private readonly ISettingRepository _setting;
 
+    private readonly SmtpService _smtpService;
+
 
     private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -41,10 +44,11 @@ public class CheckoutController : BaseController
 
 
    private readonly ICartRepository _cart;
-   public CheckoutController(ICartRepository cart,IProductRepository product,Support_Serive.Service sp,IOrderRepository order,IOptions<RecaptchaResponse> recaptcha_response,ISettingRepository setting,IPaymentRepository payment,IUserListRepository user,ICategoryListRepository category,ILogger<CheckoutController> logger):base(category,user)
+   public CheckoutController(ICartRepository cart,IProductRepository product,Support_Serive.Service sp,SmtpService smtpService,IOrderRepository order,IOptions<RecaptchaResponse> recaptcha_response,ISettingRepository setting,IPaymentRepository payment,IUserListRepository user,ICategoryListRepository category,ILogger<CheckoutController> logger):base(category,user)
   {
   this._cart=cart;
   this._sp=sp;
+  this._smtpService=smtpService;
   this._category=category;
   this._setting=setting;
   this._recaptcha_response=recaptcha_response.Value;
@@ -194,15 +198,27 @@ public class CheckoutController : BaseController
     var created_order=await this._order.createOrder(asp_user,cart,payment,note);
       
     if(created_order==1)
-    { 
+    {  Console.WriteLine("Order created successfully");
       var order=await this._order.getLatestOrderByUsername(asp_user.Id);
-     
-      CheckoutResultModel checkout_result=new CheckoutResultModel{Order=order,Cart=cart};
-     
-      await this._cart.clearCart();
+     Console.WriteLine("render view1");
 
-      return View("~/Views/ClientSide/Checkout/CheckoutResult.cshtml",checkout_result);
-      
+     var render_view = new RazorViewRenderer();
+
+     Console.WriteLine("render view");
+
+     string mail_path="MailTemplate/index.cshtml";
+
+     string render_string=await render_view.RenderViewToStringAsync(mail_path,order);
+
+     await this._smtpService.sendEmailGeneral(2,render_string);
+     
+     Console.WriteLine("Render string here is:"+render_string);
+          
+     CheckoutResultModel checkout_result=new CheckoutResultModel{Order=order,Cart=cart};
+     
+     await this._cart.clearCart();
+
+     return View("~/Views/ClientSide/Checkout/CheckoutResult.cshtml",checkout_result);
     }    
   }
   catch(Exception er)
@@ -215,11 +231,11 @@ public class CheckoutController : BaseController
 
      var payment_methods=await this._payment.getAllPayment();
      
-      ViewBag.payment_methods=payment_methods;
+     ViewBag.payment_methods=payment_methods;
 
-   int setting_status=await this._setting.getStatusByName("recaptcha");
+     int setting_status=await this._setting.getStatusByName("recaptcha");
 
-       var cart_value=this._cart.getCart();
+     var cart_value=this._cart.getCart();
 
        if(setting_status==1)
        {
@@ -233,7 +249,7 @@ public class CheckoutController : BaseController
 
      var user_value=await this._user.findUserByName(username_value);
 
-     ViewBag.user=user_value;
+     ViewBag.user=user_value;     
 
      return View("~/Views/ClientSide/Checkout/Checkout.cshtml");    
  }
@@ -242,6 +258,6 @@ public class CheckoutController : BaseController
   [HttpGet]
   public async Task<IActionResult> CheckoutResult()
   {
-    return View("~/Views/ClientSide/Checkout/CheckoutResult.cshtml");
+    return View("~/Views/ClientSide/Checkout/CheckoutResult.cshtml");    
   }
 }

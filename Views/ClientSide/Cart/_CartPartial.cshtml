@@ -46,7 +46,7 @@
                                           }
                                          string price_value=!string.IsNullOrEmpty(item.Price) ? item.Price : item.Product.Price;
                                          int current_price=(Convert.ToInt32(price_value)-(Convert.ToInt32(item.Product.Price)*(discount)/100));
-                                          total_amount+=(Convert.ToInt32(price_value)-(Convert.ToInt32(item.Product.Price)*(discount)/100))*item.Quantity;
+                                         total_amount+=(Convert.ToInt32(price_value)-(Convert.ToInt32(item.Product.Price)*(discount)/100))*item.Quantity;
                                        <tr>
                                           <input id="product-id" type="hidden" value="@item.Product.Id">
                                           <input id="discount" type="hidden" value="@discount">
@@ -54,7 +54,8 @@
                                           <td class="product-name"><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=item.Product.ProductName})">@item.Product.ProductName</a></td>
                                           <td class="product-price"><span id="product-price" class="amount">@current_price đ</span></td>
                                           <td class="product-quantity">
-                                             <div class="cart-plus-minus"><input class="quantity-value" type="text" value="@item.Quantity" data-price="@(Convert.ToInt32(item.Product.Price))"><div class="dec qtybutton">-</div><div class="inc qtybutton">+</div></div>
+                                             <div class="cart-plus-minus">
+                                             <input class="quantity-value" type="text" value="@item.Quantity" data-price="@(Convert.ToInt32(item.Product.Price))"><div class="dec qtybutton">-</div><div class="inc qtybutton">+</div></div>
                                           </td>
                                           <td class="product-price">@variant_info</td>
                                           <td class="product-subtotal"><span class="amount">@(current_price*item.Quantity) đ</span></td>
@@ -105,7 +106,9 @@
             </div>
          </section>
 <script>
-   var cart_data=@Html.Raw(Json.Serialize(Model));  
+   
+   var cart_data=@Html.Raw(Json.Serialize(Model));
+     
    @* $(document).ready(()=>
    {
     var cart_amount=cart_data.length;

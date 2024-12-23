@@ -1,7 +1,12 @@
 
+@using Ecommerce_Product.Models
+@using Newtonsoft.Json
+@using System.IO
 @model Order
 @{
      int total_value=0;
+     string directory = Directory.GetCurrentDirectory();
+     Console.WriteLine(JsonConvert.SerializeObject(Model,new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
 }
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -18,6 +23,7 @@
             .backgroundTable {margin:0; padding:0; width:100% !important; line-height: 100% !important;}
             .main-temp table { border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; font-family: Helvetica, arial, sans-serif;}
             .main-temp table td {border-collapse: collapse;}
+            
         </style>
         <!-- End Common CSS -->
     </head>
@@ -35,23 +41,23 @@
                                             <tbody>
                                                 <tr>
                                                     <td style="padding-bottom: 10px;">
-                                                        <a href="https://htmlcodex.com"><img src="images/logo.png" alt="PapaChina"/></a>
+                                                        <a href="https://thanhquang-gnss.com"><img src="@directory/wwwroot/user_layout/img/favicon.png" alt="Ecommerce-Shop"/></a>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td style="font-size: 14px; line-height: 18px; color: #666666;">
-                                                        @Model.User.Address1
+                                                        @Model.User?.Address1
                                                     </td>
                                                 </tr>
                                                
                                                 <tr>
                                                     <td style="font-size: 14px; line-height: 18px; color: #666666;">
-                                                        Phone: @Model.User.PhoneNumber | Email: @Model.User.Email
+                                                        Phone: @Model?.User?.PhoneNumber | Email: @Model.User?.Email
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td style="font-size: 14px; line-height: 18px; color: #666666; padding-bottom: 25px;">
-                                                        <strong>Order Number:</strong> @Model.OrderId | <strong>Order Date:</strong>@Model.Createddate
+                                                        <strong>Order Number:</strong> @Model?.OrderId | <strong>Order Date:</strong>@Model?.Createddate
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -75,17 +81,17 @@
                                                 </tr>
                                                 <tr>
                                                     <td style="width: 55%; font-size: 14px; line-height: 18px; color: #666666;">
-                                                        @Model.User.UserName
+                                                        @Model?.User?.UserName
                                                     </td>
                                                     <td style="width: 45%; font-size: 14px; line-height: 18px; color: #666666;">
-                                                        @Model.User.UserName
+                                                        @Model?.User?.UserName
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td style="width: 55%; font-size: 14px; line-height: 18px; color: #666666;">
-                                                        @Model.User.Address1                                                    </td>
+                                                        @Model.User?.Address1                                                    </td>
                                                     <td style="width: 45%; font-size: 14px; line-height: 18px; color: #666666;">
-                                                        @Model.User.Address1
+                                                        @Model.User?.Address1
                                                     </td>
                                                 </tr>
                                                 @* <tr>
@@ -104,22 +110,30 @@
                                 
                                 <!-- Start product Section -->
                              @foreach(var item in Model.OrderDetails)
-                            {   total_value+=Convert.ToInt32(item.Product.Price)*item.Quantity;
+                            {   total_value+=Convert.ToInt32(item?.Price)*item.Quantity;
+                              string img_path=$"{directory}\\wwwroot\\{(item?.Product?.Frontavatar.Substring(item.Product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1)))}";
+
+                              byte[] imageBytes = File.ReadAllBytes(img_path);
+
+                              string base64String = Convert.ToBase64String(imageBytes);
+
+
+
                                 <tr>
                                     <td style="padding-top: 0;">
                                         <table width="560" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner" style="border-bottom: 1px solid #eeeeee;">
                                             <tbody>
                                                 <tr>
                                                     <td rowspan="4" style="padding-right: 10px; padding-bottom: 10px;">
-                                                        <img style="height: 80px;" src="images/product-1.jpg" alt="Product Image" />
+                                        <img style="height: 80px;" src="data:image/jpeg;base64,@base64String" alt="product">
                                                     </td>
                                                     <td colspan="2" style="font-size: 14px; font-weight: bold; color: #666666; padding-bottom: 5px;">
-                                                        @item.Product.ProductName
+                                                        @item?.Product?.ProductName
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td style="font-size: 14px; line-height: 18px; color: #757575; width: 440px;">
-                                                        @item.Quantity
+                                                        @item?.Quantity
                                                     </td>
                                                     <td style="width: 130px;"></td>
                                                 </tr>
@@ -128,7 +142,7 @@
                                                         Color: White & Blue
                                                     </td> *@
                                                     <td style="font-size: 14px; line-height: 18px; color: #757575; text-align: right;">
-                                                        @(item.Product.Price) VNĐ mỗi sản phẩm
+                                                        @(item?.Price) VNĐ mỗi sản phẩm                                                        
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -136,7 +150,7 @@
                                                         Size: XL
                                                     </td> *@
                                                     <td style="font-size: 14px; line-height: 18px; color: #757575; text-align: right; padding-bottom: 10px;">
-                                                        <b style="color: #666666;">@(Convert.ToInt32(item.Product.Price)*item.Quantity)VNĐ</b> tổng cộng
+                                                        <b style="color: #666666;">@(Convert.ToInt32(item?.Price)*item.Quantity)VNĐ</b> tổng cộng
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -144,86 +158,7 @@
                                     </td>
                                 </tr>
                                 }
-                                @* <tr>
-                                    <td style="padding-top: 0;">
-                                        <table width="560" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner" style="border-bottom: 1px solid #eeeeee;">
-                                            <tbody>
-                                                <tr>
-                                                    <td rowspan="4" style="padding-right: 10px; padding-bottom: 10px;">
-                                                        <img style="height: 80px;" src="images/product-2.jpg" alt="Product Image" />
-                                                    </td>
-                                                    <td colspan="2" style="font-size: 14px; font-weight: bold; color: #666666; padding-bottom: 5px;">
-                                                        Aliquam posuere ultrices mi ut rutrum
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="font-size: 14px; line-height: 18px; color: #757575; width: 440px;">
-                                                        Quantity: 100
-                                                    </td>
-                                                    <td style="width: 130px;"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="font-size: 14px; line-height: 18px; color: #757575;">
-                                                        Color: White & Blue
-                                                    </td>
-                                                    <td style="font-size: 14px; line-height: 18px; color: #757575; text-align: right;">
-                                                        $1.23 Per Unit
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="font-size: 14px; line-height: 18px; color: #757575; padding-bottom: 10px;">
-                                                        Size: XL
-                                                    </td>
-                                                    <td style="font-size: 14px; line-height: 18px; color: #757575; text-align: right; padding-bottom: 10px;">
-                                                        <b style="color: #666666;">$1,234.50</b> Total
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                </tr> *@
-                                @* <tr>
-                                    <td style="padding-top: 0;">
-                                        <table width="560" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner" style="border-bottom: 1px solid #eeeeee;">
-                                            <tbody>
-                                                <tr>
-                                                    <td rowspan="4" style="padding-right: 10px; padding-bottom: 10px;">
-                                                        <img style="height: 80px;" src="images/product-3.jpg" alt="Product Image" />
-                                                    </td>
-                                                    <td colspan="2" style="font-size: 14px; font-weight: bold; color: #666666; padding-bottom: 5px;">
-                                                        Phasellus vitae pharetra arcu
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="font-size: 14px; line-height: 18px; color: #757575; width: 440px;">
-                                                        Quantity: 100
-                                                    </td>
-                                                    <td style="width: 130px;"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="font-size: 14px; line-height: 18px; color: #757575;">
-                                                        Color: White & Blue
-                                                    </td>
-                                                    <td style="font-size: 14px; line-height: 18px; color: #757575; text-align: right;">
-                                                        $1.23 Per Unit
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="font-size: 14px; line-height: 18px; color: #757575; padding-bottom: 10px;">
-                                                        Size: XL
-                                                    </td>
-                                                    <td style="font-size: 14px; line-height: 18px; color: #757575; text-align: right; padding-bottom: 10px;">
-                                                        <b style="color: #666666;">$1,234.50</b> Total
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                </tr> *@
-                                <!-- End product Section -->
-                                
-                                <!-- Start calculation Section -->
-                                <tr>
+                           
                                     <td style="padding-top: 0;">
                                         <table width="560" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner" style="border-bottom: 1px solid #bbbbbb; margin-top: -5px;">
                                             <tbody>
@@ -252,22 +187,7 @@
                                                         @total_value VNĐ
                                                     </td>
                                                 </tr>
-                                                @* <tr>
-                                                    <td style="font-size: 14px; font-weight: bold; line-height: 18px; color: #666666;">
-                                                        Payment Term:
-                                                    </td>
-                                                    <td style="font-size: 14px; font-weight: bold; line-height: 18px; color: #666666; text-align: right;">
-                                                        100%
-                                                    </td>
-                                                </tr> *@
-                                                @* <tr>
-                                                    <td style="font-size: 14px; font-weight: bold; line-height: 18px; color: #666666; padding-bottom: 10px;">
-                                                        Deposit Amount
-                                                    </td>
-                                                    <td style="font-size: 14px; font-weight: bold; line-height: 18px; color: #666666; text-align: right; padding-bottom: 10px;">
-                                                        $1,234.50
-                                                    </td>
-                                                </tr> *@
+                                             
                                             </tbody>
                                         </table>
                                     </td>
@@ -281,10 +201,10 @@
                                             <tbody>
                                                 <tr>
                                                     <td colspan="2" style="font-size: 16px; font-weight: bold; color: #666666; padding-bottom: 5px;">
-                                                        Phương thức thanh toán:@Model.Payment.Paymentname
+                                                        Phương thức thanh toán:@Model.Payment?.Paymentname
                                                     </td>
                                                 </tr>
-                                              @if(Model.Payment.Paymentname=="Bank")
+                                              @if(Model.Payment?.Paymentname=="Bank")
                                                 {
                                                 <tr>
                                                     <td style="width: 55%; font-size: 14px; line-height: 18px; color: #666666;">
@@ -308,11 +228,11 @@
                                                         SWIFT Code: 
                                                     </td>
                                                 </tr> *@
-                                                <tr>
+                                                @* <tr>
                                                     <td colspan="2" style="width: 100%; text-align: center; font-style: italic; font-size: 13px; font-weight: 600; color: #666666; padding: 15px 0; border-top: 1px solid #eeeeee;">
                                                         <b style="font-size: 14px;">Note:</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit
                                                     </td>
-                                                </tr>
+                                                </tr> *@
                                                 }
                                             </tbody>
                                         </table>
