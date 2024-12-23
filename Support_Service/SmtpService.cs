@@ -74,18 +74,26 @@ public string loginNotify(string username)
     return htmlContent;
 }
 
-public async Task sendEmailGeneral(int type,string htmlContent)
+public async Task sendEmailGeneral(int type,string htmlContent,string receiver="")
 {
   try
   {
 var emailMessage = new MimeMessage();
 
-string receiver="huynhkiengquan123@gmail.com";
+if(receiver=="")
+{
+ receiver="huynhkiengquan123@gmail.com";
+}
 
 string subject="";
+
 if(type==1)
 {
   subject="Thông báo người dùng đổi mật khẩu";
+}
+else if(type==2)
+{
+  subject="Đặt hàng thành công";
 }
 
    emailMessage.From.Add(new MailboxAddress(this._smtpClient.SenderName,this._smtpClient.SenderEmail));
