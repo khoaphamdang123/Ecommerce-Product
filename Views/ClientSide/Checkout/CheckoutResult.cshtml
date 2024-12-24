@@ -10,18 +10,18 @@
 
         <div class="order-info">
             <h2>Thông tin đơn hàng</h2>
-            <p><strong>Mã đơn hàng:</strong>&nbsp;@Model.Order.OrderId</p>
-            <p><strong>Tên khách hàng:</strong>&nbsp;@Model.Order.User.UserName</p>
-            <p><strong>Tổng tiền:</strong>&nbsp;@Model.Order.Total</p>
+            <p><strong>Mã đơn hàng:</strong>&nbsp;@Model?.Order?.OrderId</p>
+            <p><strong>Tên khách hàng:</strong>&nbsp;@Model.Order?.User.UserName</p>
+            <p><strong>Tổng tiền:</strong>&nbsp;@Model.Order?.Total</p>
             <p><strong>Phí vận chuyển:</strong>&nbsp;Miễn phí</p>
-            <p><strong>Phương thức thanh toán:</strong>&nbsp;@Model.Order.Payment.Paymentname</p>
-            <p><strong>Ghi chú đơn hàng:</strong>&nbsp; @Model.Order.Note</p>
+            <p><strong>Phương thức thanh toán:</strong>&nbsp;@Model.Order?.Payment.Paymentname</p>
+            <p><strong>Ghi chú đơn hàng:</strong>&nbsp; @Model.Order?.Note</p>
         </div>
 
         <div class="shipping-address">
             <h2>Địa chỉ giao hàng</h2>
-            <p>@Model.Order.User.UserName</p>
-            <p>@Model.Order.Shippingaddress</p>
+            <p>@Model.Order.User?.UserName</p>
+            <p>@Model.Order?.Shippingaddress</p>
         </div>
         <div class="order-summary">
             <h2>Chi tiết hóa đơn</h2>
@@ -37,32 +37,32 @@
                 <tbody>
                 @foreach(var product in Model.Cart)
                 {   string variant_info="";
-                string price_value=!string.IsNullOrEmpty(product.Price) ? product.Price : product.Product.Price;
+                string price_value=!string.IsNullOrEmpty(product.Price) ? product.Price : product.Product?.Price;
                 
-                int discount=string.IsNullOrEmpty(product.Product.Discount.ToString()) ? 100 : Convert.ToInt32(product.Product.Discount);
+                int discount=string.IsNullOrEmpty(product.Product?.Discount.ToString()) ? 100 : Convert.ToInt32(product.Product?.Discount);
 
 
-                                          if(!string.IsNullOrEmpty(product.Size))
+                                          if(!string.IsNullOrEmpty(product?.Size))
                                           {
-                                             variant_info+="Kích thước: "+product.Size+"\n";
+                                             variant_info+="Kích thước: "+product?.Size+"\n";
                                           }                                          
-                                          if(!string.IsNullOrEmpty(product.Color))
+                                          if(!string.IsNullOrEmpty(product?.Color))
                                           {
-                                             variant_info+="Màu sắc: "+product.Color+"\n";
+                                             variant_info+="Màu sắc: "+product?.Color+"\n";
                                           }
-                                          if(!string.IsNullOrEmpty(product.Version))
+                                          if(!string.IsNullOrEmpty(product?.Version))
                                           {
-                                             variant_info+="Phiên bản: "+product.Version+"\n";
+                                             variant_info+="Phiên bản: "+product?.Version+"\n";
                                           }
-                                          if(!string.IsNullOrEmpty(product.Mirror))
+                                          if(!string.IsNullOrEmpty(product?.Mirror))
                                           {
-                                             variant_info+="Loại kính: "+product.Mirror+"\n";
+                                             variant_info+="Loại kính: "+product?.Mirror+"\n";
                                           }
                     Console.WriteLine("Variant info: "+variant_info);
                     <tr>
                         
-                        <td>@product.Product.ProductName</td>
-                        <td>@product.Quantity</td>
+                        <td>@product.Product?.ProductName</td>
+                        <td>@product?.Quantity</td>
                         <td>@variant_info</td>
                         <td>@((Convert.ToInt32(price_value)-((Convert.ToInt32(price_value)*discount/100))*product.Quantity))</td>
                     </tr>

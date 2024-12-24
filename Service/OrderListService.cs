@@ -125,32 +125,38 @@ if (order != null)
 
       List<int> variant_id=new List<int>();
 
-      Console.WriteLine("Product OBJECT size here is:"+product_ob.Count);
 
 
-      Console.WriteLine("JSON PRODUCT:"+JsonConvert.SerializeObject(product_ob),new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
-      
-      if(product_ob!=null && product_ob.Count>0)
+
+      if(product_ob!=null)
       { 
         Console.WriteLine("Product Object is not null here");
         
         Console.WriteLine("Product OBJECT size here is:"+product_ob.Count);
 
         foreach(var variant in product_ob)
-        { Console.WriteLine("Product Color here is:"+variant.Color!.Colorname);
+        { Console.WriteLine("Product Color here is:"+variant.Color?.Colorname);
+          if(variant?.Color==null && variant?.Size==null && variant?.Version==null && variant?.Mirror==null)
+          {
+            continue;
+          }
           string variant_color=variant.Color?.Colorname??"";
           string variant_size=variant.Size?.Sizename??"";
           string variant_version=variant.Version?.Versionname??"";
           string variant_mirror=variant.Mirror?.Mirrorname??"";
+
           if(variant_color==color && variant_size==size && variant_version==version && variant_mirror==mirror)
-          { if(!variant_id.Contains(variant.Id))
+          { 
+            if(!variant_id.Contains(variant.Id))
             {
             variant_id.Add(variant.Id);
             }
           }
         }
       foreach(var id in variant_id)
-      {  string price_value=string.IsNullOrEmpty(product.Price)?product.Product.Price:product.Price;
+      {  
+       
+        string price_value=string.IsNullOrEmpty(product.Price)?product.Product.Price:product.Price;
          int discount=string.IsNullOrEmpty(product.Product.Discount.ToString()) ? 0 : Convert.ToInt32(product.Product.Discount);
            int current_price=Convert.ToInt32(price_value)-(Convert.ToInt32(price_value)*discount/100);
         var order_detail=new OrderDetail
