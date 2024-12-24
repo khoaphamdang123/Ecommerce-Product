@@ -29,6 +29,7 @@
     </head>
     <body>
         <table width="100%" cellpadding="0" cellspacing="0" border="0" class="backgroundTable main-temp" style="background-color: #d5d5d5;">
+    using iText.Forms.Xfdf;
             <tbody>
                 <tr>
                     <td>
@@ -46,7 +47,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td style="font-size: 14px; line-height: 18px; color: #666666;">
-                                                        @Model.User?.Address1
+                                                        @(string.IsNullOrEmpty(Model.User?.Address2)?Model.User?.Address1:Model.User?.Address2)                                                    
                                                     </td>
                                                 </tr>
                                                
@@ -89,9 +90,10 @@
                                                 </tr>
                                                 <tr>
                                                     <td style="width: 55%; font-size: 14px; line-height: 18px; color: #666666;">
-                                                        @Model.User?.Address1                                                    </td>
+                                                        @(string.IsNullOrEmpty(Model.User?.Address2)?Model.User?.Address1:Model.User?.Address2)                                                    
+                                                        </td>
                                                     <td style="width: 45%; font-size: 14px; line-height: 18px; color: #666666;">
-                                                        @Model.User?.Address1
+                                                        @(string.IsNullOrEmpty(Model.User?.Address2)?Model.User?.Address1:Model.User?.Address2)                                                    
                                                     </td>
                                                 </tr>
                                                 @* <tr>
@@ -150,7 +152,7 @@
                                                         Size: XL
                                                     </td> *@
                                                     <td style="font-size: 14px; line-height: 18px; color: #757575; text-align: right; padding-bottom: 10px;">
-                                                        <b style="color: #666666;">@(Convert.ToInt32(item?.Price)*item.Quantity)VNĐ</b> tổng cộng
+                                                        <b style="color: #666666;">@(Convert.ToInt32(item?.Price)*item?.Quantity)VNĐ</b> tổng cộng
                                                     </td>
                                                 </tr>
                                             </tbody>

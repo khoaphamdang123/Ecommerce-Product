@@ -211,7 +211,7 @@ public class CheckoutController : BaseController
      string render_string=await render_view.RenderViewToStringAsync(mail_path,order);
 
      await this._smtpService.sendEmailGeneral(2,render_string);
-     
+
      Console.WriteLine("Render string here is:"+render_string);
           
      CheckoutResultModel checkout_result=new CheckoutResultModel{Order=order,Cart=cart};
@@ -245,6 +245,8 @@ public class CheckoutController : BaseController
      if(string.IsNullOrEmpty(username_value))
      {
         return View("~/Views/ClientSide/Checkout/Checkout.cshtml",cart_value);
+
+        
      }
 
      var user_value=await this._user.findUserByName(username_value);
