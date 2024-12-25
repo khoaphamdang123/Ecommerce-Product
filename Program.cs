@@ -227,10 +227,15 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
 
     app.UseHsts();
+
+    Environment.SetEnvironmentVariable("DNS", "https://thanhquang-gnss.com");
 }
 else
 {
     app.UseDeveloperExceptionPage();
+
+    Environment.SetEnvironmentVariable("DNS", "http://localhost:5160");
+
 }
 
 // app.UseStatusCodePagesWithReExecute("/admin/Error/{0}");

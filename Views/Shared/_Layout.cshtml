@@ -189,7 +189,7 @@
                 <div data-i18n="Account Settings">Khách hàng</div>
               </a>
               <ul class="menu-sub">
-                <li class="menu-item @(view_action=="UserList"?"active":"")">
+                <li class="menu-item @((view_action=="UserList"||(view_controller=="UserList" && view_action=="UserListPaging"))?"active":"")">
                   <a href="/admin/user_list" class="menu-link">
                     <div data-i18n="Account">Danh sách khách hàng</div>
                   </a>
@@ -208,7 +208,7 @@
                 <div data-i18n="Account Settings">Admin</div>
               </a>
               <ul class="menu-sub">
-                <li class="menu-item @(view_action=="AdminList"?"active":"")">
+                <li class="menu-item @((view_action=="AdminList"||(view_controller=="AdminList" && view_action=="UserListPaging"))?"active":"")">
                   <a href="/admin/admin_list" class="menu-link">
                     <div data-i18n="Account">Danh sách Admin</div>
                   </a>
@@ -228,7 +228,7 @@
                 <div data-i18n="Account Settings">Category</div>
               </a>
               <ul class="menu-sub">
-                <li class="menu-item @(view_action=="CategoryList"?"active":"")">
+                <li class="menu-item @((view_action=="CategoryList"||view_action=="CategoryListPaging")?"active":"")">
                   <a href="/admin/category_list" class="menu-link">
                     <div data-i18n="Account">Danh sách category</div>
                   </a>
@@ -252,7 +252,7 @@
                 <div data-i18n="Account Settings">Sản phẩm</div>
               </a>
               <ul class="menu-sub">
-                <li class="menu-item @(view_action=="ProductList"?"active":"")">
+                <li class="menu-item @((view_action=="ProductList"||view_action=="ProductListPaging")?"active":"")">
                   <a href="@Url.Action("ProductList","ProductList")" class="menu-link">
                     <div data-i18n="Account">Danh sách sản phẩm</div>
                   </a>
@@ -290,7 +290,7 @@
                 <div data-i18n="Account Settings">Thanh toán</div>
               </a>
               <ul class="menu-sub">
-                <li class="menu-item @(view_action=="PaymentList"?"active":"")">
+                <li class="menu-item @((view_action=="PaymentList"||view_action=="PaymentPaging")?"active":"")">
                   <a href="@Url.Action("PaymentList","PaymentList")" class="menu-link">
                     <div data-i18n="Account">Danh sách phương thức thanh toán</div>
                   </a>
@@ -309,7 +309,7 @@
                 <div data-i18n="Account Settings">Tin tức</div>
               </a>
               <ul class="menu-sub">
-                <li class="menu-item @(view_action=="BlogList"?"active":"")">
+                <li class="menu-item @((view_action=="BlogList"||view_action=="BlogListPaging")?"active":"")">
                   <a href="@Url.Action("BlogList","BlogList")" class="menu-link">
                     <div data-i18n="Account">Danh sách các bài viết</div>
                   </a>
@@ -369,7 +369,7 @@
                 <div data-i18n="Account Settings">Video sản phẩm</div>
               </a>
               <ul class="menu-sub">
-                <li class="menu-item @(view_action=="VideoList"?"active":"")">
+                <li class="menu-item @((view_action=="VideoList"||view_action=="VideoListPaging")?"active":"")">
                   <a href="@Url.Action("VideoList","VideoList")" class="menu-link">
                     <div data-i18n="Account">Danh sách các video</div>
                   </a>
@@ -388,7 +388,7 @@
                 <div data-i18n="Account Settings">Hóa đơn</div>
               </a>
               <ul class="menu-sub">
-                <li class="menu-item @(view_action=="OrderList"?"active":"")">
+                <li class="menu-item @((view_action=="OrderList"||view_action=="OrderListPaging")?"active":"")">
                   <a href="@Url.Action("OrderList","OrderList")" class="menu-link">
                     <div data-i18n="Account">Danh sách hóa đơn</div>
                   </a>
