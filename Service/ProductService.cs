@@ -45,7 +45,6 @@ public class ProductService:IProductRepository
     });
 
 
-
     await this._db.StringSetAsync("products",json);
 
   }
@@ -125,7 +124,7 @@ public class ProductService:IProductRepository
   }
  public async Task<Product> findProductById(int id)
  {
-    var product=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(i=>i.ProductImages).Include(c=>c.Variants).ThenInclude(v=>v.Color).Include(c=>c.Variants).ThenInclude(v=>v.Size).Include(c=>c.Variants).ThenInclude(c=>c.Version).Include(c=>c.Variants).ThenInclude(c=>c.Mirror).Include(c=>c.Videos).Include(c=>c.Manuals).Include(c=>c.ProductImages).FirstOrDefaultAsync(p=>p.Id==id);
+    var product=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(c=>c.ProductImages).Include(c=>c.Variants).ThenInclude(v=>v.Color).Include(c=>c.Variants).ThenInclude(v=>v.Size).Include(c=>c.Variants).ThenInclude(c=>c.Version).Include(c=>c.Variants).ThenInclude(c=>c.Mirror).Include(c=>c.Videos).Include(c=>c.Manuals).FirstOrDefaultAsync(p=>p.Id==id);
     return product;
  }
 
