@@ -36,13 +36,18 @@ public class ProductService:IProductRepository
   public async Task saveProductRedis(List<Product> products)
   {
   try
-  {
+  {  if(await this._db.KeyExistsAsync("products"))
+  { Console.WriteLine("did delete all here");
+    await this._db.KeyDeleteAsync("products");
+  }
     var json = JsonConvert.SerializeObject(products,new JsonSerializerSettings{
       ReferenceLoopHandling=ReferenceLoopHandling.Ignore
     });
 
 
+
     await this._db.StringSetAsync("products",json);
+
   }
   catch(Exception er)
   {
@@ -69,7 +74,7 @@ public class ProductService:IProductRepository
      try
     {
        var products=await this._context.Products.Include(p=>p.Brand).Include(p=>p.Category).Include(c=>c.SubCat).Include(p=>p.ProductImages).ToListAsync();
-      string json_products=this._db.StringGet("products");
+      string json_products=await this._db.StringGetAsync("products");
       if(string.IsNullOrEmpty(json_products))
       {
  Console.WriteLine("did come to this place");
@@ -89,11 +94,11 @@ public class ProductService:IProductRepository
   {
     try
     {  
-       var products=await this._context.Products.Include(p=>p.Brand).Include(p=>p.Category).Include(c=>c.SubCat).Include(p=>p.Variants).ThenInclude(c=>c.Color).Include(p=>p.Variants).ThenInclude(c=>c.Size).Include(p=>p.Variants).ThenInclude(c=>c.Version).Include(p=>p.Variants).ThenInclude(c=>c.Mirror).Include(p=>p.ProductImages).Include(c=>c.Videos).Include(c=>c.Manuals).ToListAsync();
-       string json_products=this._db.StringGet("products");
+       var products=await this._context.Products.Include(p=>p.Brand).Include(p=>p.Category).Include(c=>c.SubCat).Include(p=>p.ProductImages).Include(c=>c.Videos).Include(c=>c.Manuals).ToListAsync();
+       var json_products=await this._db.StringGetAsync("products");
        if(string.IsNullOrEmpty(json_products))
-       { 
-          await this.saveProductRedis(products.ToList());
+       { Console.WriteLine("did come to get all product redis");
+          await this.saveProductRedis(products);
        }
        return products;
     }
@@ -864,8 +869,10 @@ for(int i=0;i<variant_files.Count;i++)
   { created_res=0;
     Console.WriteLine("Add New Product Exception:"+er.Message);
   }
-  var products = await this.getAllProduct();
-  await this.saveProductRedis(products.ToList());
+ if(await this._db.KeyExistsAsync("products"))
+  {
+    await this._db.KeyDeleteAsync("products");
+  }
   return created_res;
 }
 
@@ -1084,13 +1091,16 @@ try
 
 
 Console.WriteLine("did here");
+
+
+
 if(img_files!=null)
 { Console.WriteLine("img avatar here");
  for(int i=0;i<img_files.Count;i++)
  { 
    var img=img_files[i];
    
-   string extension=Path.GetExtension(img.FileName);
+  string extension=Path.GetExtension(img.FileName);
 
   string file_name=Guid.NewGuid().ToString()+extension;
 
@@ -1225,8 +1235,10 @@ catch(Exception er)
   Console.WriteLine("Update Product Exception:"+er.Message);
 }
 
-  var products = await this.getAllProduct();
-  await this.saveProductRedis(products.ToList());
+  if(await this._db.KeyExistsAsync("products"))
+  {
+    await this._db.KeyDeleteAsync("products");
+  }
 
 return updated_res;
 }
