@@ -24,10 +24,10 @@
 
   List<ProductImage> list_img = Model?.ProductImages.ToList();
   
-  var list_img_json=Newtonsoft.Json.JsonConvert.SerializeObject(list_img,new Newtonsoft.Json.JsonSerializerSettings
+  @* var list_img_json=Newtonsoft.Json.JsonConvert.SerializeObject(list_img,new Newtonsoft.Json.JsonSerializerSettings
     {
         ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore
-    });
+    }); *@
 
   var list_img_avatar_json=Newtonsoft.Json.JsonConvert.SerializeObject(list_img_avatar,new Newtonsoft.Json.JsonSerializerSettings
     {
