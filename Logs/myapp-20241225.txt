@@ -1,0 +1,180 @@
+2024-12-25 15:33:11.143 +07:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-12-25 15:33:11.172 +07:00 [INF] Quartz Scheduler created
+2024-12-25 15:33:11.172 +07:00 [INF] JobFactory set to: Quartz.Simpl.MicrosoftDependencyInjectionJobFactory
+2024-12-25 15:33:11.172 +07:00 [INF] RAMJobStore initialized.
+2024-12-25 15:33:11.173 +07:00 [INF] Quartz Scheduler 3.13.1.0 - 'QuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-12-25 15:33:11.173 +07:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-12-25 15:33:11.173 +07:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-12-25 15:33:11.311 +07:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+2024-12-25 15:34:24.703 +07:00 [WRN] Failed to determine the https port for redirect.
+2024-12-25 15:34:34.941 +07:00 [INF] Running in Login Action
+2024-12-25 15:34:43.400 +07:00 [INF] Running in Login Action
+2024-12-25 15:34:57.732 +07:00 [INF] Running in Login Action
+2024-12-25 15:35:11.124 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-12-25 15:35:16.951 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-12-25 15:56:22.993 +07:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-12-25 15:56:23.021 +07:00 [INF] Quartz Scheduler created
+2024-12-25 15:56:23.022 +07:00 [INF] JobFactory set to: Quartz.Simpl.MicrosoftDependencyInjectionJobFactory
+2024-12-25 15:56:23.022 +07:00 [INF] RAMJobStore initialized.
+2024-12-25 15:56:23.022 +07:00 [INF] Quartz Scheduler 3.13.1.0 - 'QuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-12-25 15:56:23.022 +07:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-12-25 15:56:23.023 +07:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-12-25 15:56:23.102 +07:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+2024-12-25 15:58:24.221 +07:00 [WRN] Failed to determine the https port for redirect.
+2024-12-25 15:58:24.641 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-12-25 16:04:14.084 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-12-25 16:05:43.187 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+System.ArgumentOutOfRangeException: startIndex cannot be larger than length of string. (Parameter 'startIndex')
+   at System.String.ThrowSubstringArgumentOutOfRange(Int32 startIndex, Int32 length)
+   at System.String.Substring(Int32 startIndex)
+   at AspNetCoreGeneratedDocument.Views_ClientSide_Products__ProductsPartial.ExecuteAsync()
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.HtmlHelper.RenderPartialCoreAsync(String partialViewName, Object model, ViewDataDictionary viewData, TextWriter writer)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.HtmlHelper.PartialAsync(String partialViewName, Object model, ViewDataDictionary viewData)
+   at Microsoft.AspNetCore.Mvc.Rendering.HtmlHelperPartialExtensions.Partial(IHtmlHelper htmlHelper, String partialViewName, Object model, ViewDataDictionary viewData)
+   at AspNetCoreGeneratedDocument.Views_ClientSide_Products_Products.ExecuteAsync()
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ActionContext actionContext, IView view, ViewDataDictionary viewData, ITempDataDictionary tempData, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor.ExecuteAsync(ActionContext context, ViewResult result)
+   at Microsoft.AspNetCore.Mvc.ViewResult.ExecuteResultAsync(ActionContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Ecommerce_Product.Support_Serive.NotFoundMiddleware.InvokeAsync(HttpContext context)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-12-25 16:06:15.260 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-12-25 16:06:18.637 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+System.ArgumentOutOfRangeException: startIndex cannot be larger than length of string. (Parameter 'startIndex')
+   at System.String.ThrowSubstringArgumentOutOfRange(Int32 startIndex, Int32 length)
+   at System.String.Substring(Int32 startIndex)
+   at AspNetCoreGeneratedDocument.Views_ClientSide_Products__ProductsPartial.ExecuteAsync()
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.HtmlHelper.RenderPartialCoreAsync(String partialViewName, Object model, ViewDataDictionary viewData, TextWriter writer)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.HtmlHelper.PartialAsync(String partialViewName, Object model, ViewDataDictionary viewData)
+   at Microsoft.AspNetCore.Mvc.Rendering.HtmlHelperPartialExtensions.Partial(IHtmlHelper htmlHelper, String partialViewName, Object model, ViewDataDictionary viewData)
+   at AspNetCoreGeneratedDocument.Views_ClientSide_Products_Products.ExecuteAsync()
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ActionContext actionContext, IView view, ViewDataDictionary viewData, ITempDataDictionary tempData, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor.ExecuteAsync(ActionContext context, ViewResult result)
+   at Microsoft.AspNetCore.Mvc.ViewResult.ExecuteResultAsync(ActionContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Ecommerce_Product.Support_Serive.NotFoundMiddleware.InvokeAsync(HttpContext context)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-12-25 16:22:17.276 +07:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED shutting down.
+2024-12-25 16:22:17.280 +07:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED paused.
+2024-12-25 16:22:17.290 +07:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED Shutdown complete.
+2024-12-25 16:22:55.567 +07:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-12-25 16:22:55.596 +07:00 [INF] Quartz Scheduler created
+2024-12-25 16:22:55.596 +07:00 [INF] JobFactory set to: Quartz.Simpl.MicrosoftDependencyInjectionJobFactory
+2024-12-25 16:22:55.596 +07:00 [INF] RAMJobStore initialized.
+2024-12-25 16:22:55.597 +07:00 [INF] Quartz Scheduler 3.13.1.0 - 'QuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-12-25 16:22:55.597 +07:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-12-25 16:22:55.597 +07:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-12-25 16:22:55.698 +07:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+2024-12-25 16:23:01.960 +07:00 [WRN] Failed to determine the https port for redirect.
+2024-12-25 16:23:04.385 +07:00 [INF] Running in Login Action
+2024-12-25 16:23:12.369 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-12-25 16:23:19.292 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-12-25 16:32:55.365 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-12-25 16:33:01.241 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+System.ArgumentNullException: Value cannot be null. (Parameter 'source')
+   at System.Linq.ThrowHelper.ThrowArgumentNullException(ExceptionArgument argument)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at Ecommerce_Product.Service.ProductService.updateProduct(Int32 id, AddProductModel model)
+   at Ecommerce_Product.Controllers.ProductListController.GetSampleInfo(AddProductModel product)
+   at lambda_method1920(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Ecommerce_Product.Support_Serive.NotFoundMiddleware.InvokeAsync(HttpContext context)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-12-25 16:37:07.816 +07:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED shutting down.
+2024-12-25 16:37:07.820 +07:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED paused.
+2024-12-25 16:37:07.838 +07:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED Shutdown complete.
+2024-12-25 16:37:32.676 +07:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-12-25 16:37:32.703 +07:00 [INF] Quartz Scheduler created
+2024-12-25 16:37:32.703 +07:00 [INF] JobFactory set to: Quartz.Simpl.MicrosoftDependencyInjectionJobFactory
+2024-12-25 16:37:32.703 +07:00 [INF] RAMJobStore initialized.
+2024-12-25 16:37:32.703 +07:00 [INF] Quartz Scheduler 3.13.1.0 - 'QuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-12-25 16:37:32.704 +07:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-12-25 16:37:32.704 +07:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-12-25 16:37:32.778 +07:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+2024-12-25 16:37:40.118 +07:00 [WRN] Failed to determine the https port for redirect.
+2024-12-25 16:37:40.574 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-12-25 16:37:48.440 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-12-25 16:40:08.616 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-12-25 16:47:23.075 +07:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED shutting down.
+2024-12-25 16:47:23.085 +07:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED paused.
+2024-12-25 16:47:23.093 +07:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED Shutdown complete.
+2024-12-25 17:10:15.196 +07:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-12-25 17:10:15.224 +07:00 [INF] Quartz Scheduler created
+2024-12-25 17:10:15.224 +07:00 [INF] JobFactory set to: Quartz.Simpl.MicrosoftDependencyInjectionJobFactory
+2024-12-25 17:10:15.224 +07:00 [INF] RAMJobStore initialized.
+2024-12-25 17:10:15.225 +07:00 [INF] Quartz Scheduler 3.13.1.0 - 'QuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-12-25 17:10:15.225 +07:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-12-25 17:10:15.225 +07:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-12-25 17:10:15.295 +07:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+2024-12-25 17:10:40.091 +07:00 [WRN] Failed to determine the https port for redirect.
+2024-12-25 17:10:40.981 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-12-25 17:13:19.422 +07:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED shutting down.
+2024-12-25 17:13:19.424 +07:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED paused.
+2024-12-25 17:13:19.429 +07:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED Shutdown complete.
+2024-12-25 17:14:16.938 +07:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2024-12-25 17:14:16.971 +07:00 [INF] Quartz Scheduler created
+2024-12-25 17:14:16.972 +07:00 [INF] JobFactory set to: Quartz.Simpl.MicrosoftDependencyInjectionJobFactory
+2024-12-25 17:14:16.972 +07:00 [INF] RAMJobStore initialized.
+2024-12-25 17:14:16.973 +07:00 [INF] Quartz Scheduler 3.13.1.0 - 'QuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2024-12-25 17:14:16.973 +07:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2024-12-25 17:14:16.973 +07:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2024-12-25 17:14:17.134 +07:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+2024-12-25 17:15:14.230 +07:00 [WRN] Failed to determine the https port for redirect.
+2024-12-25 17:15:15.004 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-12-25 17:19:40.654 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2024-12-25 17:32:00.776 +07:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED shutting down.
+2024-12-25 17:32:00.778 +07:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED paused.
+2024-12-25 17:32:00.788 +07:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED Shutdown complete.
