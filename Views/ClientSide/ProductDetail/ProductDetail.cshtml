@@ -311,8 +311,9 @@
                                         <a href="@Url.Action("ProductsByCategory","Products",new {category_name=Model?.Category?.CategoryName})">@Model?.Category?.CategoryName</a>
                                     </span>
                                 </div>
-                                <div class="product_info mb-5">
-                                     <span class="posted_in">Nhãn hàng:</span>
+                                <div class="product_info mb-10 mt-10">
+                                <span class="posted_in">
+                                     <span class="title">Nhãn hàng:</span>
                                         <a href="@Url.Action("ProductByBrand","Products",new {brand_name=Model?.Brand?.BrandName})">@Model?.Brand?.BrandName</a>
                                     </span>
                                 </div>
@@ -1438,8 +1439,6 @@ function showZoomedImage(index,direction=null) {
   }, 300);
     
 }
-
-
     </script>
 
 
