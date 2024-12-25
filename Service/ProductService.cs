@@ -942,9 +942,9 @@ try
    Console.WriteLine("Status:"+status);
 
 
-   string folder_name="UploadImages";
+  string folder_name="UploadImages";
 
-   string upload_path=Path.Combine(this._webHostEnv.WebRootPath,folder_name);
+  string upload_path=Path.Combine(this._webHostEnv.WebRootPath,folder_name);
 
   string front_avatar="";
 
@@ -986,7 +986,7 @@ try
    List<IFormFile> img_files=model.ImageFiles;
 
       
-          //  Console.WriteLine("img_file:"+img_files.Count);
+           Console.WriteLine("img_file:"+img_files.Count);
 
    
    List<IFormFile> variant_files = model.VariantFiles;

@@ -9,6 +9,7 @@
    var sub_cat_list = ViewBag.SubCatList as List<SubCategory>; 
    var status_list = new List<string>{"Còn hàng","Hết hàng"};
    string bg_status="";   
+   string dns=Environment.GetEnvironmentVariable("DNS");
    Console.WriteLine("Product Info name:"+Model.ProductName);
    List<string> list_img_avatar = new List<string>();
     if (!string.IsNullOrEmpty(Model?.Backavatar))
@@ -63,7 +64,6 @@
                           Cập nhật sản phẩm thành công
                         </div>
                       </div>
-    
       <div
        class="bs-toast toast toast-danger fade bg-danger hide toast-placement-ex top-5 end-0"
        role="alert"
@@ -216,7 +216,6 @@
           <div class="card-body" id="avatar-files" data-img="@saved_avatar_files">
 <div class="drop-zone" id="drop-zone-avatar">
     <input type="file" id="fileInputAvatar" class="file-input" accept="image/*" multiple hidden />
-   
 <div class="drop-zone-message" id="drop-zone-message-avatar" 
      style="display: @(string.IsNullOrEmpty(Model?.Frontavatar) || string.IsNullOrEmpty(Model?.Backavatar) ? "block" : "none");">       
      <div class="mb-3"> 
@@ -225,13 +224,10 @@
        </div>
         <p style="color:red"><i>Lưu ý chỉ up tối đa 2 hình đại diện cho mặt trước và mặt sau của sản phẩm</i></p>
     </div>
-    
-    
+
  <div id="previewImageContainerAvatar" class="image-preview-container">
     @if (!string.IsNullOrEmpty(Model?.Backavatar) || !string.IsNullOrEmpty(Model?.Frontavatar))
     {
-      
-
         for (int i = 0; i < list_img_avatar.Count; i++)
         {
             string relativePath = list_img_avatar[i].Substring(list_img_avatar[i].IndexOf("wwwroot") + "wwwroot".Length).Replace(@"\", "/");
@@ -266,8 +262,7 @@
     <div id="previewImageContainer" class="image-preview-container">
      @if (Model?.ProductImages.Count>0)
     {  
-       
-        for (int i = 0; i < list_img.Count; i++)
+        for (int i = 0; i < list_img.Count;i++)
         {
             string relativePath = list_img[i].Avatar.Substring(list_img[i].Avatar.IndexOf("wwwroot") + "wwwroot".Length).Replace(@"\", "/");
             <div class="card-1" id="img-@i">
@@ -434,10 +429,8 @@ function variantRemoveBtn(button)
   }
 }
 
-
 document.addEventListener("DOMContentLoaded", function (event)
 { 
-
 
   new FroalaEditor('#Description',{
      heightMin: 300,
@@ -702,13 +695,15 @@ add_variant.addEventListener('click',()=>{
 
  const imgAvatarList=@Html.Raw(list_img_avatar_json);
 
+ const dns="@Html.Raw(dns)";
+
  imgList.forEach(async(file)=>
  {   
     var file_name=file["Avatar"];
     
     var file_name_value=file_name.split('\\').pop();
     
-    const url=`http://localhost:5160/UploadImages/${file_name_value}`;
+    const url=`${dns}/UploadImages/${file_name_value}`;
     
     const response=await fetch(url);
     
@@ -731,7 +726,7 @@ add_variant.addEventListener('click',()=>{
     var file_name_value=file.split('\\').pop();
 
     
-    const url=`http://localhost:5160/UploadImages/${file_name_value}`;
+    const url=`${dns}/UploadImages/${file_name_value}`;
     
     const response=await fetch(url);
     
@@ -817,7 +812,6 @@ const handleFilesAvatar=(e)=>
    const files=e.target.files;
    if(files.length)
    {
-
     var count_child_node=preview_img_avatar.children.length;
 
     if(count_child_node>=2 || files.length>2)
@@ -852,7 +846,7 @@ const file=files[i];
 
        const cardBody = document.createElement('div');
         
-        cardBody.classList.add('card-body-1');
+       cardBody.classList.add('card-body-1');
 
         const cardTitle = document.createElement('h5');
         
@@ -904,7 +898,6 @@ const file=files[i];
     }
     }
  }
-
  
  
  file_input_avatar.addEventListener('change',handleFilesAvatar);
@@ -985,8 +978,8 @@ const file=files[i];
     };
     file_reader.readAsDataURL(file);    
     }
+} 
 }
- }
 
 
  file_input.addEventListener("change",handleFiles);
