@@ -10,6 +10,8 @@
    var status_list = new List<string>{"Còn hàng","Hết hàng"};
    string bg_status="";   
    string dns=Environment.GetEnvironmentVariable("DNS");
+   string env=Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
    Console.WriteLine("Product Info name:"+Model.ProductName);
    List<string> list_img_avatar = new List<string>();
     if (!string.IsNullOrEmpty(Model?.Backavatar))
@@ -697,13 +699,24 @@ add_variant.addEventListener('click',()=>{
 
  const dns="@Html.Raw(dns)";
 
+ const environemnt="@Html.Raw(env)";
+
+
  imgList.forEach(async(file)=>
  {   
     var file_name=file["Avatar"];
     
+    
     var file_name_value=file_name.split('\\').pop();
+
+    if(environemnt=='Production')
+    {
+      file_name_value=file_name.split('\\').pop().split('/').pop();
+    }
+
     
     const url=`${dns}/UploadImages/${file_name_value}`;
+
     
     const response=await fetch(url);
     
@@ -722,9 +735,13 @@ add_variant.addEventListener('click',()=>{
  
   imgAvatarList.forEach(async(file)=>
   {   
-    
+
     var file_name_value=file.split('\\').pop();
 
+    if(environemnt=='Production')
+    {
+      file_name_value=file.split('\\').pop().split('/').pop();
+    }
     
     const url=`${dns}/UploadImages/${file_name_value}`;
     
