@@ -425,9 +425,9 @@
     {
          <a class="page-item" title="1" href="@Url.Action("OrderListPaging",new{page_size=int.Parse(selected_size),page=1,status=string.IsNullOrEmpty(filtered_order)?"":filtered_order})">1</a>
     <span class="page-item" disabled>...</span>
-         <a class="page-item" title="@Model?.currentPage-1" href="@Url.Action("OrderListPaging",new{page_size=int.Parse(selected_size),page=Model?.currentPage-1,status=string.IsNullOrEmpty(filtered_order)?"":filtered_order})">@Model?.currentPage-1</a>
+         <a class="page-item" title="@Model?.currentPage-1" href="@Url.Action("OrderListPaging",new{page_size=int.Parse(selected_size),page=Model?.currentPage-1,status=string.IsNullOrEmpty(filtered_order)?"":filtered_order})">@(Model?.currentPage-1)</a>
     <span class="page-item activate" disabled>@(Model?.currentPage)</span>
-         <a class="page-item" title="@Model?.currentPage+1" href="@Url.Action("OrderListPaging",new{page_size=int.Parse(selected_size),page=Model?.currentPage+1,status=string.IsNullOrEmpty(filtered_order)?"":filtered_order})">@Model?.currentPage+1</a>
+         <a class="page-item" title="@Model?.currentPage+1" href="@Url.Action("OrderListPaging",new{page_size=int.Parse(selected_size),page=Model?.currentPage+1,status=string.IsNullOrEmpty(filtered_order)?"":filtered_order})">@(Model?.currentPage+1)</a>
 
     <span class="page-item" disabled>...</span>
          <a class="page-item" title="@Model?.totalPage" href="@Url.Action("OrderListPaging",new{page_size=int.Parse(selected_size),page=Model?.totalPage,status=string.IsNullOrEmpty(filtered_order)?"":filtered_order})">@Model?.totalPage</a>
@@ -435,7 +435,7 @@
     else{
          <a class="page-item" title="1" href="@Url.Action("OrderListPaging",new{page_size=int.Parse(selected_size),page=1,status=string.IsNullOrEmpty(filtered_order)?"":filtered_order})">1</a>
     <span class="page-item" disabled>...</span>
-         <a class="page-item" title="@Model?.currentPage-4" href="@Url.Action("OrderListPaging",new{page_size=int.Parse(selected_size),page=Model?.currentPage-4,status=string.IsNullOrEmpty(filtered_order)?"":filtered_order})">@Model?.currentPage-4</a>
+         <a class="page-item" title="@Model?.currentPage-4" href="@Url.Action("OrderListPaging",new{page_size=int.Parse(selected_size),page=Model?.currentPage-4,status=string.IsNullOrEmpty(filtered_order)?"":filtered_order})">@(Model?.currentPage-4)</a>
      for(int i=(Model.totalPage-3);i<=Model?.totalPage;i++)
      {
       if(i==Model?.currentPage)
