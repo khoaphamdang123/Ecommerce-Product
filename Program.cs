@@ -52,7 +52,10 @@ builder.Configuration["ConnectionStrings:DefaultConnection"] =
 builder.Services.AddControllersWithViews();
 
 
-var _logger = new LoggerConfiguration().ReadFrom.Configuration(builder.Configuration).Enrich.FromLogContext().CreateLogger();
+var _logger = new LoggerConfiguration().ReadFrom.Configuration(builder.Configuration).Filter.ByExcluding(logEvent =>
+        logEvent.Properties.TryGetValue("SourceContext", out var sourceContext) &&
+        (sourceContext.ToString().Contains("Microsoft") || sourceContext.ToString().Contains("System") || sourceContext.ToString().Contains("Quartz"))
+    ).Enrich.FromLogContext().CreateLogger();
 
 // builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
