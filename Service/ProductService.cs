@@ -10,6 +10,8 @@ using System.Collections.Frozen;
 using StackExchange.Redis;
 using System.Text.Json;
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using iText.Forms.Xfdf;
 
 namespace Ecommerce_Product.Service;
 
@@ -745,6 +747,11 @@ Console.WriteLine("colors count:"+colors.Count);
   string version=versions[i];
   string mirror=mirrors[i];
   string price_value = prices[i];
+  Regex reg=new Regex("[^0-9]");
+  if(weight!=null)
+  {
+  weight=reg.Replace(weight,"");
+  }
  Console.WriteLine("inside here.");
   var check_color_exist = await this._context.Colors.FirstOrDefaultAsync(c=>c.Colorname==color);
   var check_size_exist = await this._context.Sizes.FirstOrDefaultAsync(c=>c.Sizename==size);
@@ -954,12 +961,12 @@ try
 
    List<string> colors=model.Color;
 
-        Console.WriteLine("colors:"+colors.Count);
+        //Console.WriteLine("colors:"+colors.Count);
 
    
    List<string> weights=model.Weight;
   
-        Console.WriteLine("weight:"+weights.Count);
+        //Console.WriteLine("weight:"+weights.Count);
 
    
    List<string> sizes=model.Size;
@@ -978,7 +985,7 @@ try
    
    List<string> prices = model.Prices;
 
-   Console.WriteLine("Price List Size:"+prices.Count);
+   //Console.WriteLine("Price List Size:"+prices.Count);
 
          // Console.WriteLine("version:"+versions.Count);
 
@@ -990,6 +997,9 @@ try
 
    
    List<IFormFile> variant_files = model.VariantFiles;
+
+  //  string version_x=versions[1];
+  //  Console.WriteLine("Version for this product is:"+version_x);
 
   //  Console.WriteLine("Lengh of variant file here is:"+variant_files.Count);
 
@@ -1020,26 +1030,61 @@ try
  string updated_date = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
  
  List<Variant> variant=new List<Variant>();
- 
+
+if(colors!=null)
+{
  for(int i=0;i<colors.Count;i++)
  {
-  string color=colors[i];
-  string weight=weights[i];
-  string size=sizes[i];
-  string version=versions[i];
-  string mirror=mirrors[i];
-  string price_value=prices[i];
+  Console.WriteLine("color:"+colors.Count);
+    Console.WriteLine("weight:"+weights.Count);
+  Console.WriteLine("Inside here:"+sizes.Count);
+    Console.WriteLine("Inside here:"+colors.Count);
+  Console.WriteLine("Inside here:"+versions.Count);
+    Console.WriteLine("Inside here:"+mirrors.Count);
+      Console.WriteLine("prices:"+prices.Count);
 
+
+
+  string? color=colors[i];
+  string? weight=weights[i];
+  string? size=sizes[i];
+  string? version=versions[i];
+  string? mirror=mirrors[i];
+  string? price_value=prices[i];
+  Console.WriteLine("Version:"+version);
   Regex reg=new Regex("[^0-9]");
+  if(weight!=null)
+  {
   weight=reg.Replace(weight,"");
+  }
+  var check_color_exist=new Models.Color();
+  var check_size_exist=new Models.Size();
+  var check_version_exist=new Models.Version();
+  var check_mirror_exist=new Models.Mirror();
 
-  var check_color_exist = await this._context.Colors.FirstOrDefaultAsync(c=>c.Colorname==color);
-  var check_size_exist = await this._context.Sizes.FirstOrDefaultAsync(c=>c.Sizename==size);
-  var check_version_exist = await this._context.Versions.FirstOrDefaultAsync(c=>c.Versionname==version);
-  var check_mirror_exist = await this._context.Mirrors.FirstOrDefaultAsync(c=>c.Mirrorname==mirror);
+ if(!string.IsNullOrEmpty(color))
+ {
+   check_color_exist = await this._context.Colors.FirstOrDefaultAsync(c=>c.Colorname==color);
+ }
+
+  Console.WriteLine("check color exist");
+  if(!string.IsNullOrEmpty(size))
+  {
+   check_size_exist = await this._context.Sizes.FirstOrDefaultAsync(c=>c.Sizename==size);
+  }
+  if(!string.IsNullOrEmpty(version))
+  {
+
+   check_version_exist = await this._context.Versions.FirstOrDefaultAsync(c=>c.Versionname==version);
+  }
+  if(!string.IsNullOrEmpty(mirror))
+  {
+   check_mirror_exist = await this._context.Mirrors.FirstOrDefaultAsync(c=>c.Mirrorname==mirror);
+  }
 
   if(check_color_exist==null)
-  {if(!string.IsNullOrEmpty(color))
+  {
+    if(!string.IsNullOrEmpty(color))
   {
     var new_color = new Models.Color{Colorname=color};
 
@@ -1050,22 +1095,26 @@ try
   {
    if(!string.IsNullOrEmpty(version))
    {
-    var new_version = new Ecommerce_Product.Models.Version{Versionname=version};
+    var new_version = new Models.Version{Versionname=version};
+    
     await this._context.Versions.AddAsync(new_version);
    }
   }
    if(check_size_exist==null)
   { if(!string.IsNullOrEmpty(size))
   {
-    var new_size = new Ecommerce_Product.Models.Size{Sizename=size};
+    var new_size = new Models.Size{Sizename=size};
+    
     await this._context.Sizes.AddAsync(new_size);
   }
   }
    if(check_mirror_exist==null)
-  { if(!string.IsNullOrEmpty(mirror))
+  { 
+    if(!string.IsNullOrEmpty(mirror))
   {
-    var new_mirror = new Ecommerce_Product.Models.Mirror{Mirrorname=mirror};
-    await this._context.Mirrors.AddAsync(new_mirror);
+    var new_mirror = new Mirror{Mirrorname=mirror};
+
+    await this._context.Mirrors.AddAsync(new_mirror);    
   }
   }
 
@@ -1087,6 +1136,7 @@ try
   variant.Add(new_varian_ob);
  } 
  }
+}
 
 
 Console.WriteLine("did here");
@@ -1144,7 +1194,7 @@ else
 List<ProductImage> list_img=new List<ProductImage>();
 
 if(variant_files!=null)
-{Console.WriteLine("Lengh of variant file here is:"+variant_files.Count);
+{//Console.WriteLine("Lengh of variant file here is:"+variant_files.Count);
 for(int i=0;i<variant_files.Count;i++)
 {
   var img = variant_files[i];

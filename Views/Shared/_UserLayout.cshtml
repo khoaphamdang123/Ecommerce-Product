@@ -205,17 +205,13 @@
             </div>
         </div>
     </div>
-    <!-- preloader end -->
 
-      <!-- back to top start -->
       <div class="progress-wrap">
          <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
             <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
          </svg>
       </div>
-      <!-- back to top end -->
-      
-    <!-- header-start -->
+
      <header class="header d-blue-bg">
         <div class="header-top">
             <div class="container">
@@ -223,29 +219,7 @@
                     <div class="row align-items-center">
                         <div class="col-xl-6 col-lg-7">
                             <div class="header-inner-start">
-                                @* <div class="header__currency border-right">
-                                    <div class="s-name">
-                                        <span>Language: </span>
-                                    </div>
-                                    <select>
-                                        <option>English</option>
-                                        <option>Deutsch</option>
-                                        <option>Français</option>
-                                        <option>Espanol</option>
-                                    </select>
-                                </div> *@
-                                @* <div class="header__lang border-right">
-                                    <div class="s-name">
-                                        <span>Currency: </span>
-                                    </div>
-                                    <select>
-                                        <option> USD</option>
-                                        <option>EUR</option>
-                                        <option>INR</option>
-                                        <option>BDT</option>
-                                        <option>BGD</option>
-                                    </select>
-                                </div> *@
+                          
                                 <div class="support d-none d-sm-block">
                                     <p>Cần hỗ trợ? <a href="tel:+001123456789">@(string.IsNullOrEmpty(phone2)?phone1:phone2)</a></p>
                                 </div>
@@ -301,63 +275,7 @@
                                  @if(User.Identity.IsAuthenticated && User.IsInRole("User"))
                     {   
                         @Html.Partial("~/Views/Shared/_LoginUser.cshtml")
-                      @* <div class="nav-item navbar-dropdown dropdown-user dropdown">
-                        <a class="icon-link dropdown-toggle hide-arrow" data-bs-toggle="dropdown" href="javascript:void(0);">
-                      @if(avatar!=null)
-                      { 
-                       if(avatar.Contains("wwwroot"))
-                       { 
-                        <img
-                          src="~/@avatar.Substring(avatar.IndexOf("wwwroot")+("wwwroot".Length+1))"
-                          alt="User Avatar" class="rounded-circle" style="width: 30px; height: 30px; margin-right: 5px;"
-                        />
-                        }
-                        else{
-                      <img
-                        src="@avatar"
-                        alt="User Avatar" class="rounded-circle" style="width: 30px; height: 30px; margin-right: 5px;"
-                        />
-                        }
-                        }
-                    else
-                    {
-                     <img src="@avatar" alt="User Avatar" class="rounded-circle" style="width: 30px; height: 30px; margin-right: 5px;"/>
-                    }
-                     <span class="text">                    
-                     <span class="sub">Xin chào</span>
-                     @User.Identity.Name
-                     </span>
-                    </a>
-                 <ul class="dropdown-menu dropdown-menu-end">
-                   <li class="dropdown-header text-center">
-                    Thông tin User
-                   </li>
-                    <li>
-                      <div class="dropdown-divider"></div>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="@Url.Action("AccountInfo","MyAccount",new{username=username})">
-                        <i class="bx bx-user me-2"></i>
-                        <span class="align-middle">Thông tin User</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="@Url.Action("ChangePassword","MyAccount",new{username=username,email=email,password=password})">
-                        <i class="bx bx-cog me-2"></i>
-                        <span class="align-middle">Đổi mật khẩu</span>
-                      </a>
-                    </li>
-                    <li>
-                      <div class="dropdown-divider"></div>                      
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="@Url.Action("Logout","MyAccount")">
-                        <i class="bx bx-power-off me-2"></i>
-                      <span class="align-middle">Đăng xuất</span>
-                      </a>
-                    </li>
-                  </ul>
-                      </div> *@
+
                     }
                                 else{
                                     <a class="icon-link" href="@Url.Action("MyAccount","MyAccount")" >
@@ -370,138 +288,6 @@
                     <div id="sub-cart-section">
                     @Html.Partial("~/Views/ClientSide/Cart/_SubCartPartial.cshtml",cart);
                     </div>
-   
-@* 
-           <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                  <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-                    <div class="avatar avatar-online">hello
-                      <img src="@avatar" alt class="w-px-40 h-auto rounded-circle" />
-                    </div>
-                  </a>
-                  <ul class="dropdown-menu dropdown-menu-end">
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        <div class="d-flex">
-                          <div class="flex-shrink-0 me-3">
-                            <div class="avatar avatar-online">
-                              <img src="@avatar" alt class="w-px-40 h-auto rounded-circle" />
-                            </div>
-                          </div>
-                          <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">@username</span>
-                            <small class="text-muted">Admin</small>
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <div class="dropdown-divider"></div>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="@Url.Action("AdminInfo","AdminList",new{email=email})">
-                        <i class="bx bx-user me-2"></i>
-                        <span class="align-middle">Thông tin người dùng</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="@Url.Action("ChangePassword","LoginAdmin",new{username=username,email=email,password=password})">
-                        <i class="bx bx-cog me-2"></i>
-                        <span class="align-middle">Đổi mật khẩu</span>
-                      </a>
-                    </li>
-                    <li>
-                      <div class="dropdown-divider"></div>                      
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="@Url.Action("Logout","LoginAdmin")">
-                        <i class="bx bx-power-off me-2"></i>
-                      <span class="align-middle">Log Out</span>
-                      </a>
-                    </li>
-                  </ul>
-                </li> *@                                
-@* 
-                                <div class="block-cart action">
-                                    <a class="icon-link" href="@Url.Action("Cart","Cart")">
-                                    <i class="flaticon-shopping-bag"></i>
-                                    <span class="count" id="count-cart">@cart.Count</span>
-                                    <span class="text">
-                                    <span class="sub">Giỏ hàng:</span>
-                                    $00.00 </span>
-                                    </a>
-                                    <div id="sub-cart-list">
-         @Html.Partial("~/Views/ClientSide/Cart/_SubCartPartial.cshtml",cart);
-                                    </div>
-
-                                     @if(cart.Count>0)
-                                    {
-                                    <div class="cart">
-                                        <div class="cart__mini">
-                                            <ul>
-                                                <li>
-                                                  <div class="cart__title">
-                                                    <h4>Giỏ hàng của bạn</h4>
-                                                    <span>(@cart.Count sản phẩm)</span>
-                                                  </div>
-                                                </li>
-                                               @foreach(var item in cart)
-                                            {   
-                                                total_value+=Convert.ToInt32(item.Product.Price)*item.Quantity;
-                                                <li>
-                                                  <div class="cart__item d-flex justify-content-between align-items-center">
-                                                    <div class="cart__inner d-flex">
-                                             
-                                                      <div class="cart__thumb">
-                                                        <a href="product-details.html">
-                                 <img src="~/@item.Product.Frontavatar.Substring(item.Product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="User Front Avatar">
-                                                        </a> 
-                                                      </div>
-                                              
-                                                      <div class="cart__details">
-                                                        <h6><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=item.Product.ProductName})">@item.Product.ProductName</a></h6>
-                                                      <div class="cart__qty">
-                                                            <span>Số lượng:@item.Quantity</span>
-                                                        </div>
-                                                        <div class="cart__price">
-                                                          <span>(@(Convert.ToInt32(item.Product.Price)*item.Quantity)đ)</span>
-                                                          
-                                                        </div>
-                                                      </div>
-                                                      
-                                                    </div>
-                                                    <div class="cart__del">
-                                                        <a href="#"><i class="fal fa-times"></i></a>
-                                                    </div>
-                                                  </div>
-                                                </li>
-                                        
-                                                }
-                                                <li>
-                                                  <div class="cart__sub d-flex justify-content-between align-items-center">
-                                                    <h6>Tổng tiền</h6>
-                                                    <span class="cart__sub-total">@total_value đ</span>
-                                                  </div>
-                                                </li>
-                                                <li>
-                                                    <a href="@Url.Action("Cart","Cart")" class="wc-cart mb-10">Xem giỏ hàng</a>
-                                                    <a href="checkout.html" class="wc-checkout">Đặt hàng</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    }
-                                else
-                                {  <div class="cart">
-                                    <div class="cart__mini">
-                                   <div class="empty-cart">
-                                     <img src="~/user_layout/img/banner/shopping-bag.png" alt="empty-cart" class="empty-cart-image"/>
-                                    <p class="empty-cart-text">Chưa có sản phẩm nào trong giỏ hàng...</p>
-                                    <a href="@Url.Action("HomePage","HomePage")" class="cart-btn" type="button">Tiếp tục mua sắm</a>
-                                   </div>
-                                   </div>
-                                   </div>
-                                } 
-                                </div> *@
                             </div>
                         </div>
                     </div>
@@ -513,7 +299,6 @@
                 <div class="row g-0 align-items-center">
                         <div class="cat__menu-wrapper side-border d-none d-lg-block">
                             <div class="cat-toggle">
-                                @* <button type="button" class="cat-toggle-btn cat-toggle-btn-1"><i class="fal fa-bars"></i> Shop by department</button> *@
                                 <div class="cat__menu">
                                     <nav id="mobile-menu" style="display: block;">
                                         <ul>
@@ -534,7 +319,8 @@
                                                   {
                                                     <li><a href="@Url.Action("ProductsByCategory","Products",new{category_name=cat.CategoryName})">@cat.CategoryName</a></li>
                                                     }
-                                                else{
+                                                else
+                                                {
                                                 <li><a href="@Url.Action("ProductsByCategory","Products",new{category_name=cat.CategoryName})">@cat.CategoryName<i class="far fa-angle-down"></i></a>
                                                 <ul class="submenu">
                                                     @foreach(var subcat in cat.SubCategory)
@@ -593,18 +379,12 @@
                                         </ul>
                                     </li>
                                     <li><a href="@Url.Action("Blog","Blog")">Blog</a>
-                                        @* <ul class="submenu">
-                                            <li><a href="blog.html">Blog</a></li>
-                                            <li><a href="blog-details.html">Blog Details</a></li>
-                                        </ul> *@
                                     </li>
-                                 
                                 </ul>
                             </nav>
                         </div>
                       </div>
                     </div>
-                 
                 </div>
             </div>
         </div>
@@ -626,7 +406,7 @@
             <div class="offcanvas__search mb-25">
                 <form method="post" asp-action="FilterProductByNameAndCategory" asp-controller="Products">
                     <input type="text" name="product" placeholder="Nhập tên sản phẩm mà bạn muốn tìm...">
-                    <button type="submit" ><i class="far fa-search"></i></button>
+                    <button type="submit" ><i class="far fa-search"></i></button>                    
                 </form>
             </div>
             <div class="mobile-menu fix"></div>
@@ -637,60 +417,9 @@
         </div>
     </div>
 
-
-    @* <div class="offcanvas__area">
-        <div class="offcanvas__wrapper">
-        <div class="offcanvas__close">
-            <button class="offcanvas__close-btn" id="offcanvas__close-btn">
-                <i class="fal fa-times"></i>
-            </button>
-        </div>
-        <div class="offcanvas__content">
-            <div class="offcanvas__logo mb-40">
-                <a href="index.html">
-                <img src="assets/img/logo/logo-white.png" alt="logo">
-                </a>
-            </div>
-            <div class="offcanvas__search mb-25">
-                <form action="#">
-                    <input type="text" placeholder="What are you searching for?">
-                    <button type="submit"><i class="far fa-search"></i></button>
-                </form>
-            </div>
-            <div class="mobile-menu fix mean-container"><div class="mean-bar"><a href="#nav" class="meanmenu-reveal" style="right: 0px; left: auto; display: inline;"><span><span><span></span></span></span></a><nav class="mean-nav">
-                                        <ul style="display: none;">
-                                                <li>
-                                                <a href="@Url.Action("HomePage","HomePage")">Trang chủ
-                                                </a>
-                                            </li>
-                                         <li>
-                                                <a href="@Url.Action("StaticPage","StaticPage",new{page_name=""})">Về chúng tôi
-                                                </a>
-                                            </li> 
-                                            <li class="">
-                                                <a href="@Url.Action("Products","Products")">Sản phẩm<i class="far fa-angle-down"></i></a>
-                                                <ul class="mega-menu" style="display: none;">
-                                                  @foreach(var cat in categories) 
-                                                  { 
-                                                    <li><a href="@Url.Action("ProductsByCategory","Products",new{category_name=cat.CategoryName})">@cat.CategoryName</a></li>
-                                                    }
-                                                   
-                                                </ul>
-                                            <a class="mean-expand" href="#" style="font-size: 18px"><i class="fal fa-plus"></i></a></li>
-                                           
-                                        </ul>
-                                    </nav></div></div>
-            <div class="offcanvas__action">
-
-            </div>
-        </div>
-        </div>
-    </div> *@
     } 
-
         <main role="main" class="pb-3">
-            @RenderBody()
-  
+            @RenderBody()            
      <footer>
     <section class="cta-area d-ldark-bg pt-55 pb-10">
             <div class="container">
@@ -727,7 +456,7 @@
             </div>
 
         </section>
-        </main>
+        </main>        
         <div class="fotter-area d-dark-bg">
             <div class="footer__top pt-80 pb-15">
                 <div class="container">
@@ -787,7 +516,7 @@
                                                                 <li><a href="#">Chính sách bảo hành</a></li>
                                                                 <li><a href="#">Mua hàng từ xa</a></li>
                                                                 <li><a href="#">Chính sách đổi trả</a></li>
-                                                                <li><a href="#">Chính sách bảo mật</a></li>
+                                                                <li><a href="#">Chính sách bảo mật</a></li>                                                                
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -847,32 +576,7 @@
                     <div class="footer__bottom-content pt-55 pb-45">
                         <div class="row">
                             <div class="col-xl-12">
-                                @* <div class="footer__links text-center mb-25">
-                                    <p>
-                                        <a href="faq.html">Online Shopping</a>
-                                        <a href="faq.html">Promotions</a>
-                                        <a href="faq.html">My Orders</a>
-                                        <a href="faq.html">Help</a>
-                                        <a href="faq.html">Customer Service</a>
-                                        <a href="faq.html">Support</a>
-                                        <a href="faq.html">Most Populars</a>
-                                        <a href="faq.html">New Arrivals</a>
-                                        <a href="faq.html">Special Products </a>
-                                        <a href="faq.html">Manufacturers</a>
-                                        <br>
-                                        <a href="faq.html">Garden Equipments</a>
-                                        <a href="faq.html">Powers And Hand Tools </a>
-                                        <a href="faq.html">Utensil &amp; Gadget </a>
-                                        <a href="faq.html">Printers</a>
-                                        <a href="faq.html">Projectors</a>
-                                        <a href="faq.html">Scanners</a>
-                                        <a href="faq.html">Store</a>
-                                        <a href="faq.html">Business</a>
-                                    </p>
-                                </div> *@
-                                @* <div class="payment-image text-center mb-25">
-                                    <a href="contact.html"><img src="assets/img/payment/payment.png" alt=""></a>
-                                </div> *@
+                               
                                 <div class="copy-right-area text-center">
                                     <p>Copyright © <span>ThanhQuangGNSS.</span> All Rights Reserved.</p>
                                 </div>

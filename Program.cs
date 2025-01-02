@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Ecommerce_Product.Data;
 using Serilog;
 using StackExchange.Redis;
@@ -10,9 +9,7 @@ using Ecommerce_Product.Service;
 using Ecommerce_Product.Support_Serive;
 using reCAPTCHA.AspNetCore;
 using Quartz;
-using Quartz.Spi;
 using Ecommerce_Product.Job;
-using Ecommerce_Product.Models;
 
 DotNetEnv.Env.Load();
 
@@ -64,7 +61,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
-
 builder.Services.AddRecaptcha(options =>
 {
     options.SiteKey =builder.Configuration.GetSection("Recapcha")["SiteKey"];
@@ -72,6 +68,7 @@ builder.Services.AddRecaptcha(options =>
 });
 builder.Services.AddDbContext<EcommerceshopContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 builder.Services.AddSession(options=>
 {
