@@ -236,7 +236,7 @@ try
      prod_list= prod_list.Where(c=>c.Category.Id==Convert.ToUInt32(category)).ToList();
    }
    if(!string.IsNullOrEmpty(status))
-   {Console.WriteLine("filter status here");
+   {
        prod_list= prod_list.Where(c=>c.Status==status).ToList();
    }
 }
@@ -292,7 +292,7 @@ public async Task<int> deleteProduct(int id)
  {
     Console.WriteLine("Delete Product Exception:"+er.Message);
  }
- 
+
   if(await this._db.KeyExistsAsync("products"))
   {
     await this._db.KeyDeleteAsync("products");
@@ -304,6 +304,7 @@ public async Task<int> deleteProduct(int id)
   public async Task<List<Variant>> getVariantByProductId(int id)
   {
     var products = await this._context.Products.Include(c=>c.Variants).ThenInclude(c=>c.Color).Include(c=>c.Variants).ThenInclude(c=>c.Size).Include(c=>c.Variants).ThenInclude(c=>c.Version).Include(c=>c.Variants).ThenInclude(c=>c.Mirror).FirstOrDefaultAsync(c=>c.Id==id);
+    
     return products.Variants.ToList();
   }
 
