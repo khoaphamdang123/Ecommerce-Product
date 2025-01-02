@@ -292,10 +292,11 @@ public async Task<int> deleteProduct(int id)
  {
     Console.WriteLine("Delete Product Exception:"+er.Message);
  }
-  
- var products=await this.getAllProduct();
-
- await this.saveProductRedis(products.ToList());
+ 
+  if(await this._db.KeyExistsAsync("products"))
+  {
+    await this._db.KeyDeleteAsync("products");
+  }
 
  return res_del;
 }
@@ -1175,8 +1176,7 @@ if(img_files!=null)
  
    using(var fileStream=new FileStream(file_path,FileMode.Create))
    {
-    await img.CopyToAsync(fileStream);
-   
+    await img.CopyToAsync(fileStream);  
   }
  }
 }
