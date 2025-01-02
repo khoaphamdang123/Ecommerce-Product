@@ -3123,6 +3123,11 @@ input {
   color: #ffffff;
 }
 
+.categories__item {
+  text-align: center; /* Centers the image and content */
+}
+
+
 .categories__item:hover .categories__img img {
   transform: scale(1.1);
 }
@@ -3137,6 +3142,7 @@ input {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  margin-top: 10px;
   padding: 0 30px;
 }
 .categories__content h6 {
