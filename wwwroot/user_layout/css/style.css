@@ -922,10 +922,11 @@ input {
   display: none;
 }
 
-.sidebox-content {
+.sidebox-content 
+{
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.5s ease-out!important;
+  transition: max-height 0.5s ease-out!important;  
 }
 
 .sidebox-content.active {
@@ -6312,13 +6313,13 @@ td.product-thumbnail img {
 
   background-color: #f4f4f4;
   border: 2px solid #ccc;
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
+  width: auto;
+  height: auto;
+  padding: 8px 12px;
   font-size: 12px;
   font-weight: bold;
   color: #333;
-  cursor: pointer;  
+  cursor: pointer;    
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
@@ -6332,9 +6333,10 @@ td.product-thumbnail img {
     
   background-color: #f4f4f4;
   border: 2px solid #ccc;
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
+  width:auto;
+  height: auto;
+  padding: 8px 12px;
+  /* border-radius: 50%; */
   font-size: 12px;
   font-weight: bold;
   color: #333;
