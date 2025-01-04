@@ -176,11 +176,11 @@
                                     <span>(01 review)</span>
                                 </div>
                                 <div class="price">
-                                    <span>@product.Price</span>
+                                    <span>@product.Price đ</span>
                                 </div>
                             </div>
                             <div class="product__add-cart text-center">
-                                <button type="button" id="add-cart" data-product-name="@product.ProductName" data-product-id="@product.Id" class="cart-btn-3 product-modal-sidebar-open-btn d-flex align-items-center justify-content-center w-100">
+                                <button type="button" id="add-cart" data-product-name="@product.ProductName" data-product-id="@product.Id" data-product-price="@product.Price" class="cart-btn-3 product-modal-sidebar-open-btn d-flex align-items-center justify-content-center w-100">
                                     Thêm vào giỏ hàng
                                 </button>
                             </div>
@@ -211,12 +211,13 @@
                 <div class="row">
                 @foreach(var cat in categories)
                 {  
-                    <div class="col-xl-2 col-lg-3 col-md-4">
-    <div class="categories__item p-relative w-img mb-30 text-center">
+    <div class="col-xl-2 col-lg-3 col-md-4">
+    
+     <div class="categories__item p-relative w-img mb-30 text-center">
         <!-- Image -->
         <div class="categories__img b-radius-2">
             <a href="@Url.Action("ProductsByCategory", "Products", new { category_name = cat.CategoryName })">
-                <img src="~/@cat.Avatar.Substring(cat.Avatar.IndexOf("wwwroot") + ("wwwroot".Length + 1))" alt="category">
+                <img src="~/@cat.Avatar.Substring(cat.Avatar.IndexOf("wwwroot") + ("wwwroot".Length + 1))" alt="category">                
             </a>
         </div>
         <!-- Content -->
@@ -232,7 +233,6 @@
         </div>
     </div>
 </div>
-
                     }
                 </div>
             </div>
@@ -269,7 +269,9 @@
                 </div>
                 <div class="row">
                 @for(int j=0;j<products.Count;j++)
-                {  var product=products[j];
+                {  
+                  var product=products[j];
+                   
                    if(j==12)
                    {
                     break;                    
@@ -327,12 +329,13 @@
                                     </ul>
                                 </div>
                                 <div class="price">
-                                    <span>@product.Price</span>
+                                    <span>@product.Price đ</span>
                                 </div>
                             </div>
                             <div class="product__add-cart text-center">
-                                <button type="button" id="add-cart" data-product-name="@product.ProductName" data-product-id="@product.Id" class="cart-btn-3 product-modal-sidebar-open-btn d-flex align-items-center justify-content-center w-100">
-                               Thêm vào giỏ hàng                               
+                                <button type="button" id="add-cart" data-product-name="@product.ProductName" data-product-id="@product.Id"  data-product-price="@product.Price" class="cart-btn-3 product-modal-sidebar-open-btn d-flex align-items-center justify-content-center w-100">
+                               Thêm vào giỏ hàng
+
                                 </button>
                             </div>
                         </div>
@@ -381,7 +384,7 @@
                                 <p>@blog.GetFirstPContent()</p>
                                 
                                 <div class="smblog-foot pt-15">
-                                    <div class="post-readmore">
+                                    <div class="post-readmore">                                        
                                        <a href="@Url.Action("BlogDetail","Blog",new{id=blog.Id})"> Read More <span class="icon"></span></a>
                                     </div>
                                     <div class="post-date">
@@ -665,24 +668,19 @@
                                                <div id="sub-img-1">
                                                 </div>
                                             </button>
-                                             
-
                                         </li>
+
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link" id="nav2-tab" data-bs-toggle="tab" data-bs-target="#nav2" type="button" role="tab" aria-controls="nav2" aria-selected="false">
                                        <div id="sub-img-2">
                                             </div>                                            
                                         </button>
-                                          
-
                                         </li>
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link" id="nav3-tab" data-bs-toggle="tab" data-bs-target="#nav3" type="button" role="tab" aria-controls="nav3" aria-selected="false">
                                             <div id="sub-img-3">
-                                            </div>
-                                            
+                                            </div>                                           
                                             </button>
-
                                         </li>
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link" id="nav4-tab" data-bs-toggle="tab" data-bs-target="#nav4" type="button" role="tab" aria-controls="nav4" aria-selected="false">
@@ -1120,8 +1118,11 @@ function getAllIndex(buttonId,value,sizes,colors,versions,mirrors)
      cart.addEventListener("click",()=>{
        var product_name=cart.getAttribute("data-product-name");
        var product_id=cart.getAttribute("data-product-id");
+       var price_value = cart.getAttribute("data-product-price");
        var quantity=1;
        let formData = new FormData();
+
+       
        formData.append("product_id",product_id);
        formData.append("quantity",quantity);
        formData.append("product_name",product_name);
@@ -1138,7 +1139,8 @@ function getAllIndex(buttonId,value,sizes,colors,versions,mirrors)
             contentType:false,
             processData:false,
             success:function(response){
-                if(response!="" && response!=null)
+             
+                if(response!="" && response!=null && response!='[]')
                 {
                 var value = JSON.parse(response);
                 var first_object=value[0];
@@ -1174,6 +1176,10 @@ function getAllIndex(buttonId,value,sizes,colors,versions,mirrors)
                     formData.append("price",price);
                     value+=price;
                 }
+               else
+               {
+                formData.append("price",price_value);
+               }
 
              $.ajax({
             url:"@Url.Action("addItemToCart","Cart")",
@@ -1218,7 +1224,7 @@ function getAllIndex(buttonId,value,sizes,colors,versions,mirrors)
                  toast.show();
             },
             error:function(xhr, status, error)
-            {
+            {  
                   document.getElementById("toast-title").innerHTML="Thông báo";
                  document.getElementById("toast-message").innerHTML=error;
                 var toastEl = document.querySelector('.toast');

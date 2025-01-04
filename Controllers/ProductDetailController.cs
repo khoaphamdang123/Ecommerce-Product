@@ -3,8 +3,6 @@ using Ecommerce_Product.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Ecommerce_Product.Models;
 using System.Web;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using HtmlAgilityPack;
 using System.Text.RegularExpressions;
 
 namespace Ecommerce_Product.Controllers;
@@ -115,15 +113,39 @@ public async Task<IActionResult> ProductDetail(string product_name)
       }
       if(!string.IsNullOrEmpty(product.Description))
       {
-        product.Description=HttpUtility.HtmlDecode(product.Description);        
+        string regular_text=Regex.Replace(product.Description, "<.*?>", "").Trim();
+       if(regular_text!="Powered by Froala Editor")
+       {
+        product.Description=HttpUtility.HtmlDecode(product.Description);
+       }
+       else
+       {
+      product.Description="";
+       }        
       }
       if(!string.IsNullOrEmpty(product.InboxDescription))
-      {
+      { 
+        string regular_text=Regex.Replace(product.InboxDescription, "<.*?>", "").Trim();
+       if(regular_text!="Powered by Froala Editor")
+       {
         product.InboxDescription=HttpUtility.HtmlDecode(product.InboxDescription);
+       }
+       else
+       {
+      product.InboxDescription="";
+       }
       }
       if(!string.IsNullOrEmpty(product.DiscountDescription))
-      {
+      { 
+        string regular_text=Regex.Replace(product.DiscountDescription, "<.*?>", "").Trim();
+       if(regular_text!="Powered by Froala Editor")
+       {
         product.DiscountDescription=HttpUtility.HtmlDecode(product.DiscountDescription);
+       }
+       else
+       {
+        product.DiscountDescription="";
+       }
       }
     }    
   else

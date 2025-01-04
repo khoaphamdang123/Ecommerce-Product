@@ -41,10 +41,10 @@ public class ManualService:IManualRepository
     string web_link=manual.WebLink;
     string language=manual.Language;
     int product_id=manual.ProductId;
-    string manual_link=pdf_link+","+web_link;
+    string manual_link=web_link;
     string created_date=DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
     string updated_date = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
-    string manual_link_str=string.Join(",",manual_link);    
+    string manual_link_str=manual_link;    
 
 
     var product=await this._context.Products.FirstOrDefaultAsync(p=>p.Id==product_id);

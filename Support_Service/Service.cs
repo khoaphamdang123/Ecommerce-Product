@@ -19,6 +19,12 @@ public class Service
         this._logger=logger;
         this._signInManager=signInManager;
     }
+
+
+public string convertToVND(string value)
+{
+    return Convert.ToInt32(value).ToString("N0");
+}
 public string AddSha256(string data)
  {  
     StringBuilder sha_hash=new StringBuilder();
