@@ -13,14 +13,17 @@ public class ProductsController:BaseController
 
  private readonly ICategoryListRepository _category;
 
+ private readonly Support_Serive.Service _sp_services;
+
  private readonly ILogger<ProductsController> _logger;
 
-public ProductsController(IBannerListRepository banner,IProductRepository product,ICategoryListRepository category,IUserListRepository user,ILogger<ProductsController> logger):base(category,user)
+public ProductsController(IBannerListRepository banner,Support_Serive.Service sp_services,IProductRepository product,ICategoryListRepository category,IUserListRepository user,ILogger<ProductsController> logger):base(category,user)
 {
     this._banner=banner;
     this._product=product;
     this._category=category;
     this._logger=logger;
+    this._sp_services=sp_services;
 }
 
 [Route("collections/category/{category_name}")]
@@ -36,6 +39,8 @@ public async Task<IActionResult> ProductsByCategory(string category_name)
     string product_banner=list_product[0].Image;
     string sub_banner=sub_list[0].Image;
     Dictionary<string,int> count_reviews=await this._product.countAllReview(products.ToList());
+
+
   //  Dictionary<string,int> count_product_reviews=new Dictionary<string, int>();
   //    for(int i=5;i>=1;i--)
   //    {
@@ -74,7 +79,8 @@ public async Task<IActionResult> ProductByBrand(string brand_name)
     var sub_list=sub_product_list_banner.ToList();
     string product_banner=list_product[0].Image;
     string sub_banner=sub_list[0].Image;
-    Dictionary<string,int> count_reviews=await this._product.countAllReview(products.ToList());    
+    Dictionary<string,int> count_reviews=await this._product.countAllReview(products.ToList()); 
+
   //  Dictionary<string,int> count_product_reviews=new Dictionary<string, int>();
   //    for(int i=5;i>=1;i--)
   //    {
@@ -112,7 +118,8 @@ public async Task<IActionResult> ProductBySubCategory(int sub_cat_id)
     var sub_list=sub_product_list_banner.ToList();
     string product_banner=list_product[0].Image;
     string sub_banner=sub_list[0].Image;
-    Dictionary<string,int> count_reviews=await this._product.countAllReview(products.ToList());    
+    Dictionary<string,int> count_reviews=await this._product.countAllReview(products.ToList());   
+
   //  Dictionary<string,int> count_product_reviews=new Dictionary<string, int>();
   //    for(int i=5;i>=1;i--)
   //    {
@@ -151,7 +158,6 @@ public async Task<IActionResult> Products()
      var sub_product_list_banner=await this._banner.findBannerByName("sub_product_banner");
      
      Dictionary<string,int> count_reviews=await this._product.countAllReview(products.ToList());
-     
     //  Dictionary<string,int> count_product_reviews=new Dictionary<string, int>();
      
     //  for(int i=5;i>=1;i--)
@@ -227,6 +233,8 @@ public async Task<IActionResult> Products()
     string sub_banner=sub_list[0].Image;
    // Console.WriteLine("up to this place too");
    Dictionary<string,int> count_reviews=await this._product.countAllReview(prods.item.ToList()); 
+
+   
     //  Dictionary<string,int> count_product_reviews=new Dictionary<string, int>();
     //  for(int i=5;i>=1;i--)
     //  {
@@ -277,6 +285,7 @@ public async Task<IActionResult> Products()
     var sub_list=sub_product_list_banner.ToList();
     string product_banner=list_product[0].Image;
    Dictionary<string,int> count_reviews=await this._product.countAllReview(products.ToList()); 
+
     // Dictionary<string,int> count_product_reviews=new Dictionary<string, int>();
     //  for(int i=5;i>=1;i--)
     //  {
@@ -362,6 +371,8 @@ public async Task<IActionResult> Products()
  }
 
  var products=await this._product.filterProductByPriceAndBrands(brand_list,prices_list,star_list);
+
+  
 
   Console.WriteLine("Number of products here is:"+ products.ToList().Count);
 

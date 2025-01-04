@@ -17,7 +17,10 @@ public class HomePageController:BaseController
  private readonly ILogger<HomePageController> _logger;
  
 
-public HomePageController(IBannerListRepository banner,IProductRepository product,ISettingRepository setting,ICategoryListRepository category,IBlogRepository blog,IUserListRepository user,ILogger<HomePageController> logger):base(category,user)
+ private readonly Support_Serive.Service _sp_services;
+ 
+
+public HomePageController(IBannerListRepository banner,IProductRepository product,Support_Serive.Service sp_service,ISettingRepository setting,ICategoryListRepository category,IBlogRepository blog,IUserListRepository user,ILogger<HomePageController> logger):base(category,user)
 {
     this._banner=banner;
     this._product=product;
@@ -25,6 +28,7 @@ public HomePageController(IBannerListRepository banner,IProductRepository produc
     this._category=category;
     this._setting=setting;
     this._logger=logger;
+    this._sp_services=sp_service;
 }
 
 // public IActionResult HomePage()
@@ -78,8 +82,11 @@ startTime=DateTime.Now;
   endTime=DateTime.Now;
   
   secons=endTime.Second-startTime.Second;
-
-
+  
+  foreach(var item in products)
+  {
+    item.Price=this._sp_services.convertToVND(item.Price);
+  }
     Console.WriteLine("Time taken to get all reviews is:"+secons);
     
     var blogs= await this._blog.getAllBlog();
