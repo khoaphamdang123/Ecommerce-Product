@@ -125,6 +125,7 @@
                 <div class="row">
                 @foreach(var product in products)
                 { 
+
                 count_trending++;
                 
                 if(count_trending<=6)
@@ -135,6 +136,7 @@
                                 <div class="product-image w-img">
                                     <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=product.ProductName.Replace("/","%2F")})">
                                         <img src="~/@product.Frontavatar.Substring(product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="product">
+                                        @* <img src="~/UploadImages/0a73f765-1942-4a78-98d9-0853d41024f8.webp" alt="product"> *@
                                     </a>
                                 </div>
                                 @* <div class="product__offer">
@@ -692,7 +694,8 @@
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                                 <div class="product__modal-content">
-                                    <h4><a href="product-details.html" id="name-link"><span id="product-name"></span></a></h4>                                    
+                                    <h4><a href="product-details.html" id="name-link"><span id="product-name"></span></a></h4>
+                                    <input type="hidden" id="product-id"/>                                  
                                     <div class="product__review d-sm-flex">
                                         <div class="rating rating__shop mb-10 mr-30">
                                          <ul id="quick-view-list">
@@ -756,6 +759,7 @@
         </div>
 
     <script>
+
   function initClickButton(sizes,colors,versions,mirrors,prices)
    { var all_id=['color-buttons','size-buttons','version-buttons','mirror-buttons'];
  
@@ -1110,6 +1114,505 @@ function getAllIndex(buttonId,value,sizes,colors,versions,mirrors)
     
      document.addEventListener("DOMContentLoaded",()=>{
      
+     let modalTriggered=false;
+     
+var modalElement = document.getElementById('productModalId');
+
+   modalElement.addEventListener('hidden.bs.modal', function () {
+        modalTriggered = false;
+    });
+
+ modalElement.addEventListener('show.bs.modal',function(event){
+     if(modalTriggered)
+     { event.preventDefault();
+     return;
+     }
+     if(event.target.id==="productModalId")
+     {     modalTriggered=true;
+
+        const button = event.relatedTarget;
+
+        const productId=button.getAttribute('data-product-id');
+        
+        var url="@Url.Action("VariantProduct","HomePage",new{id="__id__"})";
+        
+        url=url.replace("__id__",productId);
+       
+       $.ajax({
+            url:url,
+            type:"GET",
+            contentType: false,
+            processData: false, 
+            success:function(response)
+            {
+            var value=JSON.parse(response);
+            
+            var productOptionsContainer = document.querySelector(".product-options");
+        
+            productOptionsContainer.innerHTML = "";
+            var colors=[];
+            var sizes=[];
+            var versions=[];
+            var mirrors=[];
+            var sizes_json=[];
+            var colors_json=[];
+            var versions_json=[];
+            var mirrors_json=[];
+            var prices_json=[];
+               for(let i=0;i<value.length;i++)
+               {
+                const variant=value[i];
+                var color="";
+                var size="";
+                var version="";
+                var mirror="";
+              
+                if(variant.Color!=null)
+                { 
+                    color=variant.Color.Colorname;
+                   if(productOptionsContainer.querySelector(".color-selector")===null)
+                   {
+                    const selector=document.createElement("div");
+                    selector.classList.add("color-selector");
+                     selector.innerHTML = `
+        <h3>Màu sắc:</h3>
+        <div class="size-buttons" id="color-buttons">
+  
+    <button class="size-btn">${color}</button>
+    
+    </div>
+    `; 
+              productOptionsContainer.appendChild(selector);
+              colors.push(color);
+        }
+        else{
+            if(!colors.includes(color))
+            {
+            colors.push(color);
+
+        
+            
+            const selecter=productOptionsContainer.querySelector(".color-selector");
+            const button_container=selecter.querySelector("#color-buttons");
+            const new_btn=document.createElement("button");
+            new_btn.classList.add("size-btn");
+            new_btn.textContent=color;
+            button_container.appendChild(new_btn);
+            }
+        }
+                }
+                if(variant.Size!=null)
+                {
+                    size=variant.Size.Sizename;
+                     if(productOptionsContainer.querySelector(".size-selector")===null)
+                   {
+                    const selector=document.createElement("div");
+                    selector.classList.add("size-selector");
+                     selector.innerHTML = `
+        <h3>Kích thước:</h3>
+        <div class="size-buttons" id="size-buttons">
+  
+    <button class="size-btn">${size}</button>
+    
+    </div>
+    `; 
+              productOptionsContainer.appendChild(selector);
+              sizes.push(size);
+        }
+        else{
+            if(!sizes.includes(size))
+            {
+            sizes.push(size);
+            const selecter=productOptionsContainer.querySelector(".size-selector");
+            const button_container=selecter.querySelector("#size-buttons");
+            const new_btn=document.createElement("button");
+            new_btn.classList.add("size-btn");
+            new_btn.textContent=size;
+            button_container.appendChild(new_btn);
+            }
+        }
+                }
+                if(variant.Version!=null)
+                {
+                    version=variant.Version.Versionname;
+                     if(productOptionsContainer.querySelector(".version-selector")===null)
+                   {
+                    const selector=document.createElement("div");
+                    selector.classList.add("version-selector");
+                     selector.innerHTML = `
+        <h3>Phiên bản:</h3>
+        <div class="size-buttons" id="version-buttons">
+  
+    <button class="size-btn">${version}</button>
+    
+    </div>
+    `; 
+              productOptionsContainer.appendChild(selector);
+              versions.push(version);
+        }
+        else{
+            if(!versions.includes(version))
+            {
+            versions.push(version);
+            const selecter=productOptionsContainer.querySelector(".version-selector");
+            const button_container=selecter.querySelector("#version-buttons");
+            const new_btn=document.createElement("button");
+            new_btn.classList.add("size-btn");
+            new_btn.textContent=version;
+            button_container.appendChild(new_btn);
+            }
+        }
+                }
+                if(variant.Mirror!=null)
+                {
+                    mirror=variant.Mirror.Mirrorname;
+                     if(productOptionsContainer.querySelector(".mirror-selector")===null)
+                   {
+                    const selector=document.createElement("div");
+                    
+                    selector.classList.add("mirror-selector");
+                     selector.innerHTML = `
+        <h3>Loại kính:</h3>
+        <div class="size-buttons" id="mirror-buttons">
+  
+    <button class="size-btn">${mirror}</button>
+    
+    </div>
+    `; 
+              productOptionsContainer.appendChild(selector);
+              mirrors.push(mirror);
+        }
+        else{
+             if(!mirrors.includes(mirror))
+            {
+            mirrors.push(mirror);
+            const selecter=productOptionsContainer.querySelector(".mirror-selector");
+            const button_container=selecter.querySelector("#mirror-buttons");
+            const new_btn=document.createElement("button");
+            new_btn.classList.add("size-btn");
+            new_btn.textContent=mirror;
+            button_container.appendChild(new_btn);
+            }
+        }
+                }
+                sizes_json.push(size);
+                colors_json.push(color);
+                versions_json.push(version);
+                mirrors_json.push(mirror);
+                prices_json.push(variant.Price);
+               }
+        if(value.length>0)
+        {
+            initClickButton(sizes_json,colors_json,versions_json,mirrors_json,prices_json);
+          handleClickButton('color-buttons',sizes_json,colors_json,versions_json,mirrors_json,prices_json);
+
+          handleClickButton('size-buttons',sizes_json,colors_json,versions_json,mirrors_json,prices_json);
+    
+          handleClickButton('version-buttons',sizes_json,colors_json,versions_json,mirrors_json,prices_json);
+
+          handleClickButton('mirror-buttons',sizes_json,colors_json,versions_json,mirrors_json,prices_json);
+        }
+            },
+         error:function(xhr, status, error)
+            {
+               document.getElementById("toast-title").innerHTML="Thông báo";
+                document.getElementById("toast-message").innerHTML=xhr.responseText;
+                var toastEl = document.querySelector('.toast');
+                toastEl.classList.add('bg-danger');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();                 }
+       });
+
+                
+        const productName = button.getAttribute('data-product-name');
+        
+        const productPrice = button.getAttribute('data-product-price');
+        
+        const front_image = button.getAttribute('data-main-avatar');
+
+        const category   = button.getAttribute('data-product-category');
+
+        const quantity = button.getAttribute('data-product-quantity');
+
+        
+        for(let i=0;i<=4;i++)
+        {   //var sub_img=document.getElementById(`sub-img-${i}`);
+            const sub_img = document.querySelectorAll(`#sub-img-${i}`);
+            if(button.hasAttribute(`data-img-${i}`))
+            {
+            var data_img=button.getAttribute(`data-img-${i}`);
+            
+         const wwwrootIndex = data_img.indexOf("wwwroot");
+
+
+let relativePath = data_img;
+
+if (wwwrootIndex !== -1) {
+
+    relativePath = data_img.substring(wwwrootIndex + "wwwroot".length + 1);
+}    
+       var wwwrootPath='@Url.Content("~/")';
+       
+      relativePath=wwwrootPath+relativePath.replace(/\\/g, "/");
+       
+       sub_img.forEach((img,index)=>{
+        if(index==0)
+       {
+        img.innerHTML = `<img src="${relativePath}" alt="sub_avatar"">`;
+       }
+       else
+       {
+        img.innerHTML = `<img src="${relativePath}" alt="sub_avatar" style="width:85px;height:85px">`;
+       }
+       });
+            }
+            else{
+       sub_img.forEach(img=>{img.innerHTML = ``;});
+
+            }
+        }
+
+       const count_review_value=button.getAttribute('data-count-review');
+        
+        const main_image = document.getElementById('sub-img-0');
+
+        const cat_link=document.getElementById('link-category');
+
+        const review_value= document.getElementById("review-value");
+
+
+        url='@Url.Action("ProductsByCategory","Products",new{category_name="__id__"})';
+    
+        url=url.replace("__id__",category);
+
+        cat_link.href=url;
+
+
+         document.querySelectorAll("#quick-view-list .star").forEach((star,index)=>{
+       star.setAttribute("data-product-id",button.getAttribute("data-product-id"));
+   });
+
+        review_value.textContent=`(${count_review_value} đánh giá)`; 
+        
+         document.getElementById('product-id').value=productId;
+
+        document.getElementById('product-name').textContent = productName;
+        
+        document.getElementById('product-price').textContent = productPrice;
+
+        document.getElementById('product-category').textContent = category;
+
+        document.getElementById('product-quantity-value').textContent = quantity+ " sản phẩm";
+
+        var name_url='@Url.Action("ProductDetail","ProductDetail",new{product_name="__id__"})';
+
+        name_url=name_url.replace("__id__",productName);
+
+       @* const add_cart_btn=document.getElementById('add-cart-detail');
+       add_cart_btn.addEventListener("click",()=>{ 
+         var quantity_value=document.getElementById('quantity-value').value;
+         let formData = new FormData();
+    var size_container = document.getElementById('size-buttons');
+       var color_container = document.getElementById('color-buttons');
+       var version_container = document.getElementById('version-buttons');
+       var mirror_container = document.getElementById('mirror-buttons');
+       var price=document.getElementById('product-price').textContent.replaceAll("đ","").replaceAll(",","").trim().replaceAll(/\s/g, '');
+       var size_value=null;
+       var color_value=null;
+       var version_value=null;
+       var mirror_value=null;
+       if(size_container!=null)
+       {
+        size_value=size_container.querySelector('.size-btn.active').textContent;
+
+        formData.append("size",size_value);
+       }
+       if(color_container!=null)
+       {
+        color_value=color_container.querySelector('.size-btn.active').textContent;
+        
+        formData.append("color",color_value);
+       }
+       if(version_container!=null)
+       {
+        version_value=version_container.querySelector('.size-btn.active').textContent;
+        
+        formData.append("version",version_value);
+       }
+       if(mirror_container!=null)
+       {
+        mirror_value=mirror_container.querySelector('.size-btn.active').textContent;
+        formData.append("mirror",mirror_value);
+       }
+
+         formData.append("quantity",quantity_value);
+        
+        formData.append("product_id",productId);
+         formData.append("quantity",quantity_value);
+         formData.append("product_name",productName);
+         formData.append("price",price);
+         $.ajax({
+            url:"@Url.Action("addItemToCart","Cart")",
+            type:"POST",
+            data:formData,
+            contentType: false,
+            processData: false,
+            success:function(response)
+            {   
+                const status=response.status;
+                const message = response.message;
+                const data=response.data;
+                 if(data!="")
+             {
+                $("#count-cart").text(data.length);
+               
+                var section_url="@Url.Action("SubCartPartialView","Cart")";
+                   $.ajax({
+                    url:section_url,
+                    type:"POST",
+                    success: function(partialHtml) {
+                        $('#sub-cart-section').html(partialHtml); 
+                    }
+                });
+            }
+            
+                document.getElementById("toast-title").innerHTML="Thông báo";
+
+                document.getElementById("toast-message").innerHTML=message;
+
+                var toastEl = document.querySelector('.toast');
+
+                if(status==1)
+                {
+                 toastEl.classList.add('bg-success');
+                }
+            else
+            {
+                toastEl.classList.add('bg-danger');
+            }
+                var toast = new bootstrap.Toast(toastEl);
+                
+                 toast.show();
+            },
+            error:function(xhr, status, error)
+            { 
+                document.getElementById("toast-title").innerHTML="Thông báo";
+                document.getElementById("toast-message").innerHTML=xhr.responseText;
+                var toastEl = document.querySelector('.toast');
+                toastEl.classList.add('bg-danger');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();
+
+                 }
+        });
+        });  *@
+
+
+        document.getElementById('name-link').href = name_url;
+        }
+ }); 
+
+    const add_cart_btn=document.getElementById('add-cart-detail');
+       add_cart_btn.addEventListener("click",()=>{ 
+         var quantity_value=document.getElementById('quantity-value').value;
+         let formData = new FormData();
+    var size_container = document.getElementById('size-buttons');
+       var color_container = document.getElementById('color-buttons');
+       var version_container = document.getElementById('version-buttons');
+       var mirror_container = document.getElementById('mirror-buttons');
+       var price=document.getElementById('product-price').textContent.replaceAll("đ","").replaceAll(",","").trim().replaceAll(/\s/g, '');
+       var size_value=null;
+       var color_value=null;
+       var version_value=null;
+       var mirror_value=null;
+       var productId=document.getElementById('product-id').value;
+       var productName = document.getElementById('product-name').textContent;
+       if(size_container!=null)
+       {
+        size_value=size_container.querySelector('.size-btn.active').textContent;
+
+        formData.append("size",size_value);
+       }
+       if(color_container!=null)
+       {
+        color_value=color_container.querySelector('.size-btn.active').textContent;
+        
+        formData.append("color",color_value);
+       }
+       if(version_container!=null)
+       {
+        version_value=version_container.querySelector('.size-btn.active').textContent;
+        
+        formData.append("version",version_value);
+       }
+       if(mirror_container!=null)
+       {
+        mirror_value=mirror_container.querySelector('.size-btn.active').textContent;
+        formData.append("mirror",mirror_value);
+       } 
+
+         formData.append("quantity",quantity_value);
+        
+        formData.append("product_id",productId);
+         formData.append("quantity",quantity_value);
+         formData.append("product_name",productName);
+         formData.append("price",price);
+         $.ajax({
+            url:"@Url.Action("addItemToCart","Cart")",
+            type:"POST",
+            data:formData,
+            contentType: false,
+            processData: false,
+            success:function(response)
+            {   
+                const status=response.status;
+                const message = response.message;
+                const data=response.data;
+                 if(data!="")
+             {
+                $("#count-cart").text(data.length);
+               
+                var section_url="@Url.Action("SubCartPartialView","Cart")";
+                   $.ajax({
+                    url:section_url,
+                    type:"POST",
+                    success: function(partialHtml) {
+                        $('#sub-cart-section').html(partialHtml); 
+                    }
+                });
+            }
+            
+                document.getElementById("toast-title").innerHTML="Thông báo";
+
+                document.getElementById("toast-message").innerHTML=message;
+
+                var toastEl = document.querySelector('.toast');
+
+                if(status==1)
+                {
+                 toastEl.classList.add('bg-success');
+                }
+            else
+            {
+                toastEl.classList.add('bg-danger');
+            }
+                var toast = new bootstrap.Toast(toastEl);
+                
+                 toast.show();
+            },
+            error:function(xhr, status, error)
+            { 
+                document.getElementById("toast-title").innerHTML="Thông báo";
+                document.getElementById("toast-message").innerHTML=xhr.responseText;
+                var toastEl = document.querySelector('.toast');
+                toastEl.classList.add('bg-danger');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();
+
+                 }
+        });
+        }); 
+     //addModal();
      
      var add_cart=document.querySelectorAll("#add-cart");
       
@@ -1120,10 +1623,10 @@ function getAllIndex(buttonId,value,sizes,colors,versions,mirrors)
        var price_value = cart.getAttribute("data-product-price");
        var quantity=1;
        let formData = new FormData();
-
-       
        formData.append("product_id",product_id);
+
        formData.append("quantity",quantity);
+
        formData.append("product_name",product_name);
 
    
@@ -1171,7 +1674,8 @@ function getAllIndex(buttonId,value,sizes,colors,versions,mirrors)
                 }
 
                 if(price!=null)
-                {
+                {   
+                    price=price.replaceAll('đ','').replaceAll(',','').trim();
                     formData.append("price",price);
                     value+=price;
                 }
@@ -1305,13 +1809,15 @@ function getAllIndex(buttonId,value,sizes,colors,versions,mirrors)
      });
      });
 
-const modalElement = document.getElementById('productModalId');
+@* var modalElement = document.getElementById('productModalId');
 
+ modalElement.removeEventListener('show.bs.modal',fuckyou); 
 
- modalElement.addEventListener('show.bs.modal', function(event) 
-{    
-     if(event.target.id==="productModalId")
-     {  
+ modalElement.addEventListener('show.bs.modal',fuckyou,{once:true});  *@
+ @* function(event) 
+{     *@
+     @* if(event.target.id==="productModalId")
+     { 
         const button = event.relatedTarget;
 
         const productId=button.getAttribute('data-product-id');
@@ -1597,7 +2103,7 @@ if (wwwrootIndex !== -1) {
        var color_container = document.getElementById('color-buttons');
        var version_container = document.getElementById('version-buttons');
        var mirror_container = document.getElementById('mirror-buttons');
-       var price=document.getElementById('product-price').textContent.replace("đ","").trim().replace(/\s/g, '');
+       var price=document.getElementById('product-price').textContent.replaceAll("đ","").replaceAll(",","").trim().replaceAll(/\s/g, '');
        var size_value=null;
        var color_value=null;
        var version_value=null;
@@ -1690,8 +2196,8 @@ if (wwwrootIndex !== -1) {
 
 
         document.getElementById('name-link').href = name_url;
-        }
-        });
+        } *@
+        @* },{once:true}); *@
 });
     </script>
 
