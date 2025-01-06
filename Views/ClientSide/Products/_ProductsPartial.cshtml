@@ -42,6 +42,7 @@
                                                     <div class="product-image w-img">
                                                         <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=product.ProductName})">
                                                             <img src="~/@product.Frontavatar.Substring(product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="product">
+                                                        @* <img src="~/UploadImages/0a73f765-1942-4a78-98d9-0853d41024f8.webp"> *@
                                                         </a>
                                                     </div>
                                                     <div class="product-action">
@@ -391,6 +392,7 @@
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                                 <div class="product__modal-content">
                                     <h4><a href="" id="product-detail"><span id="product-name"></span></a></h4>
+                                    <input type="hidden" id="product-id" value="" />
                                     <div class="product__review d-sm-flex">
                                         <div class="rating rating__shop mb-10 mr-30">
                                         <ul id="quick-view-list">
@@ -1101,6 +1103,9 @@ $.ajax({
     initAllDetailData();
     
     var add_cart=document.querySelectorAll("#add-cart");
+
+    var add_cart_btn=document.getElementById('add-cart-detail');
+
       
      add_cart.forEach((cart,index)=>{
     
@@ -1115,7 +1120,7 @@ $.ajax({
        var color_container = document.getElementById(`colors-buttons-${product_id}`);
        var version_container = document.getElementById(`versions-buttons-${product_id}`);
        var mirror_container = document.getElementById(`mirrors-buttons-${product_id}`);
-       var price=document.getElementById(`price-${product_id}`).textContent.replace("đ","").replace(",","").trim();
+       var price=document.getElementById(`price-${product_id}`).textContent.replaceAll("đ","").replaceAll(",","").trim();
        if(price=='0')
        {
         price=price_value;
@@ -1214,9 +1219,13 @@ $.ajax({
      });
      });
      //const product_modal=document.getElementById("productModalId");
+
+
+
       const modalElement=document.getElementById("productModalId");
       
       modalElement.addEventListener('show.bs.modal', function(event) {
+
      
      if(event.target.id=="productModalId")
      {
@@ -1499,7 +1508,7 @@ if (wwwrootIndex !== -1) {
 
    review_value.textContent=`(${count_review_value} đánh giá)`;
    
-
+        document.getElementById("product-id").value = productId;
 
         document.getElementById('product-name').textContent = productName;
         
@@ -1509,19 +1518,20 @@ if (wwwrootIndex !== -1) {
 
         document.getElementById('product-quantity-value').textContent = quantity+ " sản phẩm";
 
-       const add_cart_btn=document.getElementById('add-cart-detail');
 
-       add_cart_btn.addEventListener("click",()=>{ 
-         var quantity_value=document.getElementById('quantity-value').value;
+       @* add_cart_btn.addEventListener("click",()=>{ 
         
+        var quantity_value=document.getElementById('quantity-value').value;
 
-         let formData = new FormData();
+        //alert(quantity_value);
+         
+        let formData = new FormData();
 
        var size_container = document.getElementById('size-buttons');
        var color_container = document.getElementById('color-buttons');
        var version_container = document.getElementById('version-buttons');
        var mirror_container = document.getElementById('mirror-buttons');
-       var price=document.getElementById('product-price').textContent.replace("đ","").trim().replace(/\s/g, '');
+       var price=document.getElementById('product-price').textContent.replaceAll("đ","").replaceAll(",","").trim().replace(/\s/g, '');
        var size_value=null;
        var color_value=null;
        var version_value=null;
@@ -1532,6 +1542,120 @@ if (wwwrootIndex !== -1) {
 
         formData.append("size",size_value);
        }
+
+       if(color_container!=null)
+       {
+        color_value=color_container.querySelector('.size-btn.active').textContent;
+        
+        formData.append("color",color_value);
+       }
+       if(version_container!=null)
+       {
+        version_value=version_container.querySelector('.size-btn.active').textContent;
+        
+        formData.append("version",version_value);
+       }
+       if(mirror_container!=null)
+       {
+        mirror_value=mirror_container.querySelector('.size-btn.active').textContent;
+        formData.append("mirror",mirror_value);
+       }
+
+         formData.append("quantity",quantity_value);
+        
+        formData.append("product_id",productId);
+
+
+         formData.append("product_name",productName);
+
+        formData.append("price",price);
+         
+         $.ajax({
+            url:"@Url.Action("addItemToCart","Cart")",
+            type:"POST",
+            data:formData,
+            contentType: false,
+            processData: false,
+            success:function(response)
+            {   
+                const status=response.status;
+                const message = response.message;
+                const data=response.data;
+            if(data!="")
+             {
+                $("#count-cart").text(data.length);
+               
+                var section_url="@Url.Action("SubCartPartialView","Cart")";
+                
+                   $.ajax({
+                    url:section_url,
+                    type:"POST",
+                    success: function(partialHtml) {
+                        $('#sub-cart-section').html(partialHtml); 
+                    }
+                });
+            }
+            
+                document.getElementById("toast-title").innerHTML="Thông báo";
+                document.getElementById("toast-message").innerHTML=message;
+                var toastEl = document.querySelector('.toast');
+
+                if(status==1)
+                {
+              
+                 toastEl.classList.add('bg-success');
+      
+                }
+            else
+            {
+                toastEl.classList.add('bg-danger');
+            }
+                var toast = new bootstrap.Toast(toastEl);
+                
+                 toast.show();
+            },
+            error:function(xhr, status, error)
+            { 
+                  document.getElementById("toast-title").innerHTML="Thông báo";
+                 document.getElementById("toast-message").innerHTML=error;
+                var toastEl = document.querySelector('.toast');
+                toastEl.classList.add('bg-danger');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();           
+                 }
+        });
+        });  *@
+
+        //main_image.innerHTML = `<img src="${relativePath}" alt="avatar">`;
+        }
+        });
+
+
+        add_cart_btn.addEventListener("click",()=>{ 
+        
+        var quantity_value=document.getElementById('quantity-value').value;
+
+         
+        let formData = new FormData();
+
+       var size_container = document.getElementById('size-buttons');
+       var color_container = document.getElementById('color-buttons');
+       var version_container = document.getElementById('version-buttons');
+       var mirror_container = document.getElementById('mirror-buttons');
+       var price=document.getElementById('product-price').textContent.replaceAll("đ","").replaceAll(",","").trim().replace(/\s/g, '');
+       var size_value=null;
+       var color_value=null;
+       var version_value=null;
+       var mirror_value=null;
+       var productId=document.getElementById('product-id').value;
+       var productName=document.getElementById('product-name').textContent;
+       if(size_container!=null)
+       {
+        size_value=size_container.querySelector('.size-btn.active').textContent;
+
+        formData.append("size",size_value);
+       }
+
        if(color_container!=null)
        {
         color_value=color_container.querySelector('.size-btn.active').textContent;
@@ -1615,9 +1739,8 @@ if (wwwrootIndex !== -1) {
         });
         }); 
 
-        //main_image.innerHTML = `<img src="${relativePath}" alt="avatar">`;
-        }
-        });
+
+
      const stars = document.querySelectorAll('.star');
 
         stars.forEach((star, index) => {

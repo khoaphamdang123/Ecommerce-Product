@@ -66,6 +66,7 @@ builder.Services.AddRecaptcha(options =>
     options.SiteKey =builder.Configuration.GetSection("Recapcha")["SiteKey"];
     options.SecretKey =builder.Configuration.GetSection("Recapcha")["SecretKey"];
 });
+
 builder.Services.AddDbContext<EcommerceshopContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
