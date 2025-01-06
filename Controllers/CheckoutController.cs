@@ -150,7 +150,7 @@ public class CheckoutController : BaseController
     
     Console.WriteLine("Payment method here is:"+checkout.PaymentMethod);
     
-    string username=checkout.UserName;
+    string username=checkout.UserName.Replace(" ","_");
 
     string email=checkout.Email;
 
