@@ -5,10 +5,17 @@
    var updated_user=ViewBag.Update_Message;
    var update_status=ViewBag.Status;
    List<string> genders=new List<string>{"Nam","Nữ","Khác"};
+   var image_value = Model?.Avatar.Replace("\\","/");
+  
+  string dns=Environment.GetEnvironmentVariable("DNS");
+
+  string env=Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+
+   Console.WriteLine(image_value);
    Console.WriteLine(Model?.UserName);
    Console.WriteLine("Email here:"+Model?.Email);
    Console.WriteLine("Phone number here:"+Model?.PhoneNumber);
- 
 }
 
 
@@ -175,7 +182,7 @@
                             <label for="phone" class="form-label">Số điện thoại</label>
                             <input
                               class="form-control"
-                              type="text"
+                              type="number"
                               id="phone"
                               name="phonenumber"
                               value="@Model?.PhoneNumber"
@@ -186,8 +193,10 @@
                         <label for="gender" class="form-label">Giới tính</label>
                         <br>
                         <select name="gender" asp-for="@Model.Gender">
+                           
                            @foreach(string gender in genders)
-                           {if(gender==@Model.Gender)
+                           {
+                            if(gender==@Model.Gender)
                            {
                             <option value="@gender" selected>@gender</option>
                             }
@@ -236,8 +245,58 @@
 
       <!-- Overlay -->
       <div class="layout-overlay layout-menu-toggle"></div>
-<script>
- document.getElementById("formAccountSettings").addEventListener("submit",()=>{
+<script type="module">
+ 
+
+var default_img=null;
+
+ async function fetchData(url)
+ {
+  const response = await fetch(url);
+
+  var file_name_value='';
+  
+  return response;
+ }
+  var image_value="@Html.Raw(image_value)";
+
+  const dns ="@Html.Raw(dns)";
+
+  const environemnt="@Html.Raw(env)";
+
+
+  if((image_value!="" || image_value!=null) && !image_value.includes('https'))
+  { 
+     var file_name_value=image_value.split('/').pop();
+
+    if(environemnt=='Production')
+    {
+      file_name_value=image_value.split('/').pop().split('/').pop();
+    }
+
+    const url=`${dns}/UploadImageUser/${file_name_value}`;
+
+    alert(url);
+    
+    const response=await fetchData(url);
+    
+    if(!response.ok)
+    {
+      alert(response.status);
+    }
+
+    const blob =await response.blob();
+
+    const files=new File([blob],file_name_value,{type:blob.type});
+
+  const dataTransfer = new DataTransfer();
+  
+  dataTransfer.items.add(files);
+
+  document.getElementById("upload").files=dataTransfer.files; 
+  }
+ 
+  document.getElementById("formAccountSettings").addEventListener("submit",()=>{
   var is_valid=true;
   var username=document.getElementById("username").value.trim();
   var email = document.getElementById("email").value.trim();
@@ -271,6 +330,7 @@
  else{
   if(password!=confirmPassword && confirmPassword!='')
   {is_valid=false;
+  
     document.getElementById("confirm-password-error").innerHTML="Không trùng khớp với mật khẩu";
   }
   }

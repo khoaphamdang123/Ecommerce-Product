@@ -62,7 +62,11 @@ namespace Ecommerce_Product.Controllers
         // {
         //     return RedirectToAction("Dashboard","Dashboard");            
         // } 
-
+       string user_id = HttpContext.Session.GetString("UserId");
+       if(!string.IsNullOrEmpty(user_id))
+       {
+        return RedirectToAction("HomePage","HomePage");
+       }
         if(Request.Cookies["VisitorCounted"]==null)
         {
         int total_visitor=await this._trackData.getCurrentVisitedCount();
@@ -125,8 +129,10 @@ namespace Ecommerce_Product.Controllers
     try
     {
     _logger.LogInformation("Running in Login Action"); 
+
       
-      string username=model.UserName.Trim();
+       Console.WriteLine("Username here is:"+model.UserName);   
+      string username=model.UserName.Trim().Replace(" ","");
       
       string password = model.Password.Trim();
       
@@ -567,6 +573,16 @@ public async Task<JsonResult> ForgotPasswordHandle(string email)
     [HttpGet]
     public async Task<IActionResult> AccountInfo(string username)
     {   Console.WriteLine("Username here is:"+username);
+        string user_id=HttpContext.Session.GetString("UserId");
+
+        Console.WriteLine("User id here is:"+user_id);
+
+        if(string.IsNullOrEmpty(user_id))
+        { this._logger.LogTrace("User is not authenticated");
+          
+            return RedirectToAction("MyAccount");
+        }
+        
         var user = await this._userList.findUserByName(username);
         
         return View("~/Views/ClientSide/MyAccount/AccountInfo.cshtml",user);
@@ -597,7 +613,11 @@ Console.WriteLine("Update user info did come to this place");
    
     var user_after=await this._userList.findUserById(user.Id);
   if(!string.IsNullOrEmpty(user_after.Avatar))
-  {
+  { this.HttpContext.Session.SetString("Username",user_after.UserName);
+
+    this.HttpContext.Session.SetString("Email",user_after.Email);
+
+
     this.HttpContext.Session.SetString("Avatar",user_after.Avatar);
   }
 
@@ -608,6 +628,7 @@ Console.WriteLine("Update user info did come to this place");
   catch(Exception er)
   {
      Console.WriteLine("Update User Info Exception:"+er.InnerException?.Message??er.Message);
+     
      this._logger.LogTrace("Update User Info Exception:"+er.InnerException?.Message??er.Message); 
   }
   return RedirectToAction("UserList","UserList");
@@ -615,6 +636,7 @@ Console.WriteLine("Update user info did come to this place");
 
         // POST: /Account/Logout
         [Route("logout")]
+        
         [HttpGet]  
         public async Task<IActionResult> Logout()
         {   

@@ -285,7 +285,7 @@
                             <td class="text-center">@current_total_item</td>
                             <td class="text-center">@product.Id</td>
                             <td class="text-center">
-                             <div class="d-flex align-items-center justify-content-start">
+                             <div class="d-flex">
                              @if(!string.IsNullOrEmpty(product.Frontavatar))
                            {
                               <div class="avatar-wrapper">
@@ -374,6 +374,7 @@
     <div class="pagination-container mt-4">
       <div class="page-total">Tổng số sản phẩm:@Model?.totalCount</div>
       <div class="page-list justify-content-center">
+
      @if(Model!=null && Model.hasPreviousPage)
      {
          <a class="page-item" title="Previous" href="@Url.Action("ProductListPaging",new{page_size=int.Parse(selected_size),page=Model?.currentPage-1,productname=(string.IsNullOrEmpty(filtered_product.ProductName)?"":filtered_product.ProductName),startdate=(string.IsNullOrEmpty(filtered_product.StartDate)?"":filtered_product.StartDate),enddate=(string.IsNullOrEmpty(filtered_product.EndDate)?"":filtered_product.EndDate),brand=(string.IsNullOrEmpty(filtered_product.Brand)?"":filtered_product.Brand),category=(string.IsNullOrEmpty(filtered_product.Category)?"":filtered_product.Category),status=(string.IsNullOrEmpty(filtered_product.Status)?"":filtered_product.Status)})"><i class="bx bx-chevron-left"></i></a>
