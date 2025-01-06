@@ -7,15 +7,21 @@
         string email="";
         string password = "";
         string avatar="";
+        string id_user="";
         ChangePassword change_pass= null;
        if(User.Identity.IsAuthenticated)
-       {
+       {id_user=this.ViewContext.HttpContext.Session.GetString("AdminId");
+       Console.WriteLine("Id user is:"+id_user);
         username=this.ViewContext.HttpContext.Session.GetString("Username");
         email=this.ViewContext.HttpContext.Session.GetString("Email");
         password = this.ViewContext.HttpContext.Session.GetString("Password");
         avatar = this.ViewContext.HttpContext.Session.GetString("Avatar");
         change_pass=new ChangePassword(email,password,"");
        }
+        if(string.IsNullOrEmpty(id_user))
+        {Console.WriteLine("in here");
+          Html.ActionLink("Index","LoginAdmin");
+        }
         Console.WriteLine("Current view controller is:"+view_controller);
         Console.WriteLine("Current action is:"+view_action);
     }
