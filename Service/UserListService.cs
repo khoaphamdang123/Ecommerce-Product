@@ -290,8 +290,13 @@ public async Task<bool> createRole(string role)
   if(avatar!=null)
   {
     string filename=Path.GetFileName(avatar.FileName);
+    if(filename.Contains("___"))
+    {
+    var arr_value=filename.Split("___");
+    filename=arr_value[arr_value.Length-1];
+    }
     
-   string file_name=Guid.NewGuid()+"_"+Path.GetFileName(avatar.FileName);
+   string file_name=Guid.NewGuid()+"___"+filename;
 
    Console.WriteLine("File name here is:"+file_name);
   
