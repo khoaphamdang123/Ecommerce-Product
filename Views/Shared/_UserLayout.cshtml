@@ -22,10 +22,11 @@
        var company = ViewBag.Company as ApplicationUser;
 
        string phone1="";
+       
        string phone2="";
 
-
        string[] company_name=company.Address1.Split('!');
+       
        string[] phones= company.PhoneNumber.Split(',');
        
        if(phones.Length>1)
@@ -51,20 +52,23 @@
 <head>
 
     <meta charset="utf-8" />
+    
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+
     <meta name="description" content="A brief description of your webpage. This is what appears on search engine results pages.">
 
     <!-- Keywords for search engines (not very impactful today) -->
     <meta name="keywords" content="thanhquang,thanhquang-gnss,thiết bị hàng hải,phụ kiện garmin,thiết bị cầm tay">
 
-
-
     <!-- Author of the webpage -->
-    <meta name="author" content="thanhquang">
+    <meta name="author" content="thanhquang-gnss,thanhquang">
 
     <!-- Open Graph tags for social media -->
     <meta property="og:title" content="thanhquang">
     <meta property="og:description" content="Công ty Thanhquang bán thiết bị hàng hải và phụ kiện cầm tay garmin.Nơi cung cấp các sản phẩm hàng hải và phụ kiện cầm tay garmin chính hãng">
+    
     <meta property="og:url" content="https://thanhquang-gnss.com">
 
     <!-- Twitter Card tags -->
@@ -77,11 +81,68 @@
     <title>@ViewData["Title"] Thanh Quang Shop</title>
      
      <link rel="canonical" href="https://thanhquang-gnss.com"/>
-      <link rel="shortcut icon" type="image/x-icon" href="~/user_layout/img/favicon.png">
-      <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-      <link rel="stylesheet" href="~/user_layout/css/preloader.css">
-      <link rel="stylesheet" href="~/user_layout/css/bootstrap.css">
-      <link rel="stylesheet" href="~/user_layout/css/meanmenu.css">
+      
+      <link rel="shortcut icon" type="image/x-icon" href="@Url.Content("~/user_layout/img/favicon.png")">
+      
+      <link rel="stylesheet" href="@Url.Content("~/css/site.css")" asp-append-version="true">
+      
+      <link rel="stylesheet" href="@Url.Content("~/user_layout/css/preloader.css")">
+     
+     <link rel="stylesheet" href="@Url.Content("~/user_layout/css/bootstrap.css")">
+        
+    <link rel="stylesheet" href="@Url.Content("~/user_layout/css/meanmenu.css")">
+        
+
+    <link rel="stylesheet" href="@Url.Content("~/user_layout/css/animate.css")">
+        
+     <link rel="stylesheet" href="@Url.Content("~/user_layout/css/animate.css")">
+
+          <link rel="stylesheet" href="@Url.Content("~/user_layout/css/animate.css")">
+
+          <link rel="stylesheet" href="@Url.Content("~/user_layout/css/owl-carousel.css")">
+
+          <link rel="stylesheet" href="@Url.Content("~/user_layout/css/swiper-bundle.css")">
+
+            <link rel="stylesheet" href="@Url.Content("~/user_layout/css/backtotop.css")">
+
+          <link rel="stylesheet" href="@Url.Content("~/user_layout/css/ui-range-slider.css")">
+
+          <link rel="stylesheet" href="@Url.Content("~/user_layout/css/magnific-popup.css")">
+
+          <link rel="stylesheet" href="@Url.Content("~/user_layout/css/nice-select.css")">
+
+          <link rel="stylesheet" href="@Url.Content("~/user_layout/flaticon/flaticon.css")">
+
+          <link rel="stylesheet" href="@Url.Content("~/user_layout/css/font-awesome-pro.css")">
+
+          <link rel="stylesheet" href="@Url.Content("~/user_layout/css/default.css")">
+
+          <link rel="stylesheet" href="@Url.Content("~/user_layout/css/style.css")">
+
+          <link rel="stylesheet" href="@Url.Content("~/user_layout/css/garmin.css")">
+
+          <link rel="stylesheet" href="@Url.Content("~/user_layout/css/gps.css")">
+
+         <link rel="stylesheet" href="@Url.Content("~/user_layout/css/product_detail.css")">
+
+          <link rel="stylesheet" href="@Url.Content("~/vendor/fonts/boxicons.css")">
+
+          <link rel="stylesheet" href="@Url.Content("~/user_layout/css/garmin-style.css")">
+
+         <link rel="stylesheet" href="@Url.Content("~/vendor/css/core_sub_temp.css")" class="template-customizer-core-css">
+
+        <link rel="stylesheet" href="@Url.Content("~/css/demo.css")">
+        
+        <link rel="stylesheet" href="@Url.Content("~/vendor/libs/perfect-scrollbar/perfect-scrollbar.css")">
+
+
+
+
+
+
+
+      @* <link rel="stylesheet" href="~/user_layout/css/bootstrap.css"> *@
+      @* <link rel="stylesheet" href="~/user_layout/css/meanmenu.css">
       <link rel="stylesheet" href="~/user_layout/css/animate.css">
       <link rel="stylesheet" href="~/user_layout/css/owl-carousel.css">
       <link rel="stylesheet" href="~/user_layout/css/swiper-bundle.css">
@@ -92,12 +153,12 @@
       <link rel="stylesheet" href="~/user_layout/flaticon/flaticon.css">
       <link rel="stylesheet" href="~/user_layout/css/font-awesome-pro.css">
       <link rel="stylesheet" href="~/user_layout/css/default.css">
-      <link rel="stylesheet" href="~/user_layout/css/style.css">
+      <link rel="stylesheet" href="~/user_layout/css/style.css"> *@
       @* <link rel="stylesheet" href="~/user_layout/css/garmin.css"> *@
-      <link rel="stylesheet" href="~/user_layout/css/gps.css">
+      @* <link rel="stylesheet" href="~/user_layout/css/gps.css">
       <link rel="stylesheet" href="~/user_layout/css/product_detail.css">
       <link rel="stylesheet" href="~/vendor/fonts/boxicons.css">
-      <link rel="stylesheet"  href="~/user_layout/css/garmin-style.css">
+      <link rel="stylesheet"  href="~/user_layout/css/garmin-style.css"> *@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="~/vendor/css/core_sub_temp.css" class="template-customizer-core-css">
@@ -105,7 +166,7 @@
     <link rel="stylesheet" href="~/css/demo.css">
     @* <link rel="stylesheet" href="~/vendor/css/theme-default.css" class="template-customizer-theme-css" /> *@
     <link rel="stylesheet" href="~/vendor/libs/perfect-scrollbar/perfect-scrollbar.css">
-    <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css">
+    @* <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css"> *@
 
   
    
@@ -586,8 +647,38 @@
     </footer>
     
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="@Url.Content("~/lib/jquery/dist/jquery.min.js")"></script>
+    <script src="@Url.Content("~/lib/bootstrap/dist/js/bootstrap.bundle.min.js")"></script>
+    <script src="@Url.Content("~/user_layout/js/vendor/jquery.js")"></script>
+    <script src="@Url.Content("~/user_layout/js/vendor/waypoints.js")"></script>
+
+    <script src="@Url.Content("~/user_layout/js/bootstrap-bundle.js")"></script>
+
+    <script src="@Url.Content("~/user_layout/js/meanmenu.js")"></script>
+
+    <script src="@Url.Content("~/user_layout/js/swiper-bundle.js")"></script>
+    <script src="@Url.Content("~/user_layout/js/tweenmax.js")"></script>
+    <script src="@Url.Content("~/user_layout/js/owl-carousel.js")"></script>
+    <script src="@Url.Content("~/user_layout/js/magnific-popup.js")"></script>
+    <script src="@Url.Content("~/user_layout/js/parallax.js")"></script>
+    <script src="@Url.Content("~/user_layout/js/backtotop.js")"></script>
+    <script src="@Url.Content("~/user_layout/js/nice-select.js")"></script>
+    <script src="@Url.Content("~/user_layout/js/countdown.min.js")"></script>
+    <script src="@Url.Content("~/user_layout/js/counterup.js")"></script>
+    <script src="@Url.Content("~/user_layout/js/ui-slider-range.js")"></script>
+    <script src="@Url.Content("~/user_layout/js/wow.js")"></script>
+    <script src="@Url.Content("~/user_layout/js/isotope-pkgd.js")"></script>
+    <script src="@Url.Content("~/user_layout/js/imagesloaded-pkgd.js")"></script>
+    <script src="@Url.Content("~/user_layout/js/ajax-form.js")"></script>
+    <script src="@Url.Content("~/user_layout/js/main.js")"></script>
+    <script src="@Url.Content("~/user_layout/js/gps.js")"></script>
+    <script src="@Url.Content("~/js/ui-modals.js")"></script>
+
+
+
+
+
+    @* <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
       <script src="~/user_layout/js/vendor/jquery.js"></script>
       <script src="~/user_layout/js/vendor/waypoints.js"></script>
       <script src="~/user_layout/js/bootstrap-bundle.js"></script>
@@ -610,7 +701,7 @@
       <script src="~/user_layout/js/gps.js"></script>
       <script src="~/user_layout/js/garmin.js"></script> 
 
-     <script src="~/js/ui-modals.js"></script> 
+     <script src="~/js/ui-modals.js"></script>  *@
 
 
 
