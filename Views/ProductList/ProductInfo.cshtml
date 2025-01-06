@@ -1224,7 +1224,7 @@ const file=files[i];
                 },
               error: function (xhr, status, error) 
             {
-               document.getElementById("toast-message").innerHTML=error;
+               document.getElementById("toast-message").innerHTML=xhr.responseText;
                 var toastEl = document.querySelector('.toast-danger');
                 var toast = new bootstrap.Toast(toastEl);
                 toast.show();            

@@ -601,7 +601,7 @@ progress {
 }
 
 .blockquote-footer::before {
-    content: "â€”Â "
+    content: "Ã¢â‚¬â€Ã‚ "
 }
 
 .img-fluid {
@@ -6526,7 +6526,7 @@ fieldset:disabled .btn {
 .carousel-inner {
     position: relative;
     width: 100%;
-    overflow: hidden;
+    overflow: hidden
 }
 
 .carousel-inner::after {
@@ -6543,7 +6543,7 @@ fieldset:disabled .btn {
     margin-right: -100%;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    transition: transform .6s ease-in-out;
+    transition: transform .6s ease-in-out
 }
 
 @media (prefers-reduced-motion:reduce) {
@@ -6551,8 +6551,6 @@ fieldset:disabled .btn {
         transition: none
     }
 }
-
-
 
 .carousel-item-next,
 .carousel-item-prev,
