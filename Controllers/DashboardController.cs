@@ -6,6 +6,7 @@ using Ecommerce_Product.Support_Serive;
 
 namespace Ecommerce_Product.Controllers;
 [Authorize(Roles ="Admin")]
+
 [Route("admin")]
 public class DashboardController : Controller
 {
@@ -28,19 +29,36 @@ public class DashboardController : Controller
 
 
   [Route("dashboard")]
+
   [HttpGet]
   public async Task<IActionResult> Dashboard()
   { 
     try
     {
-    int total_orders=this._dashboard.countToTalOrder();
+
+   string id_user=this.HttpContext.Session.GetString("AdminId");
+   
+   if(string.IsNullOrEmpty(id_user))
+   {
+        return RedirectToAction("Index","LoginAdmin");
+   }
+
+    int total_orders=this._dashboard.countToTalOrder();    
+    
     int profit_in_day=this._dashboard.countProfitByDay(DateTime.Now.Day);
+    
     int order_in_day=this._dashboard.countOrderByDay(DateTime.Now.Day);
+    
     int order_in_year=this._dashboard.countOrderByYear(DateTime.Now.Year);
-    decimal total_profit=this._dashboard.countToTalProfit();
+    
+    decimal total_profit=this._dashboard.countToTalProfit();    
+    
     int total_profit_previous_1_year=this._dashboard.countProfitByYear(DateTime.Now.Year-1);
+    
     int total_profit_previous_2_year=this._dashboard.countProfitByYear(DateTime.Now.Year-2);
+    
     var cat_list = await this._category.getAllCategory();
+    
     int total_visitors=await this._trackData.getCurrentVisitedCount();
     
     Console.WriteLine("len of cat list:"+cat_list.Count().ToString());
@@ -68,15 +86,25 @@ public class DashboardController : Controller
 
     var latest_orders=await this._dashboard.getLatestOrder(5);
     ViewData["total_orders"]=total_orders;
+    
     ViewData["profit_in_day"]=profit_in_day;
+    
     ViewData["order_in_day"]=order_in_day;
+    
     ViewData["order_in_months"]=order_in_months;
+    
     ViewData["order_in_year"]=order_in_year;
+    
     ViewData["profit_by_cats"]=profit_by_cats;
+    
     ViewData["latest_orders"]=latest_orders;
+    
     ViewData["total_profit"]=total_profit;
+    
     ViewData["total_profit_previous_1_year"]=total_profit_previous_1_year;
+    
     ViewData["total_profit_previous_2_year"]=total_profit_previous_2_year;
+    
     ViewData["total_visitors"]=total_visitors;
     
   var viewId="G-KHS83JFC5Y";

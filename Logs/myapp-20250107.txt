@@ -49,3 +49,7 @@
 2025-01-07 15:18:56.718 +07:00 [ERR] Checkout Exception:Could not find file 'C:\Users\QuanDEV\Ecommerce-Product\wwwroot\UploadImages\46715447-c2e7-44a5-905d-eea1ae11514f.webp'.
 2025-01-07 15:19:17.891 +07:00 [ERR] Checkout Exception:Could not find file 'C:\Users\QuanDEV\Ecommerce-Product\wwwroot\UploadImages\46715447-c2e7-44a5-905d-eea1ae11514f.webp'.
 2025-01-07 15:19:42.410 +07:00 [ERR] Checkout Exception:Could not find file 'C:\Users\QuanDEV\Ecommerce-Product\wwwroot\UploadImages\46715447-c2e7-44a5-905d-eea1ae11514f.webp'.
+2025-01-07 15:49:44.023 +07:00 [INF] Running in Login Action
+2025-01-07 15:55:24.655 +07:00 [INF] Running in Login Action
+2025-01-07 15:55:30.758 +07:00 [INF] Running in Login Action
+2025-01-07 15:56:47.619 +07:00 [INF] Running in Login Action

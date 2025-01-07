@@ -32,6 +32,14 @@ public class SettingListController : Controller
   [HttpGet]
   public async Task<IActionResult> SettingList()
   { 
+
+string id_user=this.HttpContext.Session.GetString("AdminId");
+
+if(string.IsNullOrEmpty(id_user))
+{
+  return RedirectToAction("Index","LoginAdmin");
+}
+
     var setting_list=await this._setting.getAllSetting();
     return View(setting_list);
   }
