@@ -243,14 +243,19 @@ public async Task<bool> createRole(string role)
    if(user!=null)
    {
      if(user_info.UserName=="company")
-     {Console.WriteLine("jeree");
-      user.UserName=user_info.UserName;
+     {
+      user.UserName=user_info.UserName.Replace(" ","").Trim();
+      
       user.Email=user_info.Email;
+      
       user.PhoneNumber=user_info.PhoneNumber;
+      
       user.Address1=user_info.Address1;
+      
       user.Address2=user_info.Address2;
     
       var res_update_company=await this._userManager.UpdateAsync(user);
+      
       if(!res_update_company.Succeeded)
       {Console.WriteLine("Error update user");
         foreach(var err in res_update_company.Errors)
@@ -261,16 +266,15 @@ public async Task<bool> createRole(string role)
       res=1;
       return res;
      }
-
-      user.UserName=user_info.UserName;
-      user.Email=user_info.Email;
-      user.PhoneNumber=user_info.PhoneNumber;
+      user.UserName=user_info.UserName.Replace(" ","").Trim();
+      user.Email=user_info.Email.Trim();
+      user.PhoneNumber=user_info.PhoneNumber.Trim();
+      
       user.Address1=user_info.Address1;
+      
       user.Address2=user_info.Address2;
       user.Gender=user_info.Gender;
-      cur_avatar=user.Avatar;
-  
-  
+      cur_avatar=user.Avatar;  
     
    string folder_name="UploadImageUser";
 
@@ -282,9 +286,14 @@ public async Task<bool> createRole(string role)
    }
    string avatar_url="";
   var avatar=user_info.Avatar;
+
   if(avatar!=null)
   {
+    string filename=Path.GetFileName(avatar.FileName);
+    
    string file_name=Guid.NewGuid()+"_"+Path.GetFileName(avatar.FileName);
+
+   Console.WriteLine("File name here is:"+file_name);
   
    string file_path=Path.Combine(upload_path,file_name);
 
@@ -292,9 +301,14 @@ public async Task<bool> createRole(string role)
    {
     await avatar.CopyToAsync(fileStream);
    } 
+   
    avatar_url=file_path;
-    user.Avatar=avatar_url;
-
+   
+   user.Avatar=avatar_url;
+  }
+  else
+  {
+    user.Avatar="https://cdn-icons-png.flaticon.com/128/3135/3135715.png";
   }
   
 

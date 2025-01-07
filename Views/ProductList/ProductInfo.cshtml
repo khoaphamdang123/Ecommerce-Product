@@ -710,7 +710,6 @@ add_variant.addEventListener('click',()=>{
  {   
     var file_name=file["Avatar"];
     
-    
     var file_name_value=file_name.split('\\').pop();
 
     if(environemnt=='Production')
@@ -718,9 +717,7 @@ add_variant.addEventListener('click',()=>{
       file_name_value=file_name.split('\\').pop().split('/').pop();
     }
 
-    
     const url=`${dns}/UploadImages/${file_name_value}`;
-
     
     const response=await fetch(url);
     

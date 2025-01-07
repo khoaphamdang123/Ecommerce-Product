@@ -54,20 +54,20 @@ namespace Ecommerce_Product.Controllers
         public async Task<IActionResult> Index()
         {   
        string id_user=this.HttpContext.Session.GetString("AdminId");
-            if(User.Identity.IsAuthenticated && User.IsInRole("Admin") && !string.IsNullOrEmpty(id_user))
+        
+        if(User.Identity.IsAuthenticated && User.IsInRole("Admin") && !string.IsNullOrEmpty(id_user))
         {
             return RedirectToAction("Dashboard","Dashboard");            
         } 
 
         bool is_saved_account=false;
 
-        
         if(Request.Cookies["SavedAccount"]!=null)
         {
             is_saved_account=true;
             string account=Request.Cookies["SavedAccount"];
             Console.WriteLine("Account here is:"+account);
-            ViewBag.Account=account;
+            ViewBag.Account=account;            
             ViewBag.SavedAccount=is_saved_account;
         }
 
