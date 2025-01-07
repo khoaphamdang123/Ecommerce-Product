@@ -117,7 +117,7 @@ namespace Ecommerce_Product.Controllers
      
         [Route("login")]
         [HttpPost]
-       [AllowAnonymous]
+        [AllowAnonymous]
 
         public async Task<IActionResult> Index(LoginModel model)
         {  
@@ -211,7 +211,7 @@ int setting_status=await this._setting.getStatusByName("recaptcha");
             Response.Cookies.Delete("SavedAccount");
         }
      }
-              HttpContext.Session.SetString("UserId",admin_user.Id);
+              HttpContext.Session.SetString("AdminId",admin_user.Id);
               HttpContext.Session.SetString("Username",admin_user.UserName);
               HttpContext.Session.SetString("Email",admin_user.Email);
               HttpContext.Session.SetString("Password",password);
@@ -248,9 +248,8 @@ int setting_status=await this._setting.getStatusByName("recaptcha");
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(ChangePassword model)
-        {
-         if(ModelState.IsValid)
-         {
+        {  
+      
           string email=model.Email;
           string curr_password= model.Password;
           string new_password = model.New_Password;
@@ -268,7 +267,9 @@ int setting_status=await this._setting.getStatusByName("recaptcha");
              else
              {  
                 ViewBag.ChangePassword="False";
+                
                 ViewBag.ErrorContent="Mật khẩu hiện tại của bạn không đúng";
+             
              foreach(var error in change_password.Errors)
              {
                 this._logger.LogTrace("Change Password Errors:"+error.Description);
@@ -281,7 +282,7 @@ int setting_status=await this._setting.getStatusByName("recaptcha");
              ViewBag.ErrorContent="Email của bạn không đúng";
              this._logger.LogTrace("Change Password Errors:Email is incorrect");
           }           
-         }
+         
          return View(model);
         }
         [Route("forgot_password")]

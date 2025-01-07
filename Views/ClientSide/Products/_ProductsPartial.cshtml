@@ -56,9 +56,10 @@
                                                   @for(int i=0;i<product.ProductImages.ToList().Count;i++)
                                                     {
                                                     string val=$"data-img-{i+1}=\"{product.ProductImages.ToList()[i].Avatar}\"";
-                                                    @Html.Raw(val);
-                                                    }
 
+                                                    @Html.Raw(val);
+                                                    
+                                                    }
                                                     data-bs-target="#productModalId"
                                                     >
                                                             <i class="fal fa-eye"></i>

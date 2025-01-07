@@ -65,9 +65,12 @@ namespace Ecommerce_Product.Controllers
 
         if(Request.Cookies["VisitorCounted"]==null)
         {
-       int total_visitor=await this._trackData.getCurrentVisitedCount();
-       total_visitor+=1;
+        int total_visitor=await this._trackData.getCurrentVisitedCount();
+        
+        total_visitor+=1;
+        
         int updated_res= await this._trackData.updateCurrentVisitedCount(total_visitor);
+        
         CookieOptions options = new CookieOptions{
         Expires=DateTime.Now.AddYears(1),
         IsEssential=true,
@@ -192,7 +195,9 @@ namespace Ecommerce_Product.Controllers
         HttpOnly=true
         };
         string account=username+"\n"+password;
+
         Response.Cookies.Append("UserAccount",account,options);
+        
         }
         }
      if(!is_remember_me)

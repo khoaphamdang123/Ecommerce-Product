@@ -1604,6 +1604,46 @@ img.lazyload:not([src]) {
       right: -10px;
       opacity: 1; } }
 
+
+      .owl-stage-outer {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .owl-stage {
+        display: flex;
+        transition: all 0.3s ease;
+        transform: translate3d(0px, 0px, 0px);
+        width: 100%; /* Set to 100% so it takes up the full width of its container */
+        max-width: 1200px; /* Set a max width to prevent the stage from growing too wide */
+        padding-left: 15px; /* Default padding */
+        padding-right: 15px;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch; /* Default padding */
+    }
+    
+    /* Media Query for Tablet Size (e.g., 768px and below) */
+    @media (max-width: 768px) {
+        .owl-stage {
+            padding-left: 10px; /* Less padding on smaller screens */
+            padding-right: 10px;
+            overflow-x: auto;
+            white-space:nowrap;
+        }
+    }
+    
+    /* Media Query for Mobile Size (e.g., 480px and below) */
+    @media (max-width: 480px) {
+        .owl-stage {
+            padding-left: 5px; /* Even less padding for mobile */
+            padding-right: 5px;
+            overflow-x:auto;
+            white-space:nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+    }
+
 .list-notify .article-item {
   padding: 12px 0; }
   .list-notify .article-item__block {
@@ -12538,38 +12578,38 @@ PAGE FAQS
 
 /* Article Loop */
 .article-loop {
-  margin-bottom: 30px!important; }
+  margin-bottom: 30px; }
   .article-loop .article-inner {
-    background: #fff!important;
-    height: 100% !important;;
-    display: -ms-flexbox !important;
-    display: -webkit-flex !important;
-    display: flex !important;
-    -webkit-flex-wrap: wrap !important;
-    -ms-flex-wrap: wrap !important;
-    flex-wrap: wrap !important;
-    -webkit-flex-direction: column !important;
-    -ms-flex-direction: column !important;
-    flex-direction: column !important;
-    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.08)!important; }
+    background: #fff;
+    height: 100%;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.08); }
   .article-loop .article-image {
-    position: relative!important;
-    overflow: hidden!important; }
+    position: relative;
+    overflow: hidden; }
   .article-loop .article-image img {
-    transition: opacity 0.2s ease-in-out, transform 0.95s cubic-bezier(0.25, 0.46, 0.45, 0.94)!important;
-    -ms-transition: opacity 0.2s ease-in-out, transform 0.95s cubic-bezier(0.25, 0.46, 0.45, 0.94)!important;
-    -webkit-transition: opacity 0.2s ease-in-out, transform 0.95s cubic-bezier(0.25, 0.46, 0.45, 0.94)!important; }
+    transition: opacity 0.2s ease-in-out, transform 0.95s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    -ms-transition: opacity 0.2s ease-in-out, transform 0.95s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    -webkit-transition: opacity 0.2s ease-in-out, transform 0.95s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
   .article-loop .article-detail {
-    padding: 15px 20px!important; }
+    padding: 15px 20px; }
   .article-loop .article-title .post-title {
-    font-size: 20px!important; }
+    font-size: 20px; }
   .article-loop .article-detail .entry-content {
-    font-size: 16px!important;
-    margin-bottom: 8px!important; }
+    font-size: 16px;
+    margin-bottom: 8px; }
   .article-loop .article-post-meta {
-    font-size: 13px!important;
-    color: #74839f!important;
-    margin: 0 0 5px!important; }
+    font-size: 13px;
+    color: #74839f;
+    margin: 0 0 5px; }
     .article-loop .article-post-meta a {
       color: #757575; }
     .article-loop .article-post-meta a:hover {
@@ -12578,14 +12618,14 @@ PAGE FAQS
       position: relative; }
     .article-loop .article-post-meta span + span:before {
       content: '';
-      display: inline-block!important;
-      width: 5px!important;
-      height: 5px!important;
-      margin: -1px 10px 0!important;
-      border-radius: 100%!important;
-      background-color: #74839f!important;
-      opacity: 0.4!important;
-      vertical-align: middle!important; }
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      margin: -1px 10px 0;
+      border-radius: 100%;
+      background-color: #74839f;
+      opacity: 0.4;
+      vertical-align: middle; }
     @media (max-width: 991px) {
       .article-loop .article-post-meta {
         font-size: 10px; }
@@ -12604,15 +12644,15 @@ PAGE FAQS
 
 /* Article */
 .wrapper-contentArticle, .wrapper-contentBlogs {
-  margin-bottom: 40px!important; }
+  margin-bottom: 40px; }
 
 .wrapper-contentArticle .heading-article {
-  margin: 0px 0 20px !important; }
+  margin: 0px 0 20px; }
 
 .wrapper-contentArticle .heading-article h1 {
-  font-size: 22px !important;
-  font-weight: 700 !important;
-  margin: 0 0 10px !important; }
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 10px; }
 
 .boxArticle-detail {
   background: #fff;
@@ -12625,15 +12665,15 @@ PAGE FAQS
   margin-bottom: 30px; }
 
 .inforArticle-content .article-content .box-article-detail {
-  max-width: 860px !important;
-  margin: 0 auto 30px !important; }
+  max-width: 860px;
+  margin: 0 auto 30px; }
 
 .inforArticle-content .article-post-meta {
-  font-size: 13px!important;
-  color: #74839f !important;
-  margin: 0 0 5px !important; }
+  font-size: 13px;
+  color: #74839f;
+  margin: 0 0 5px; }
   .inforArticle-content .article-post-meta a {
-    color: #757575 !important; }
+    color: #757575; }
   .inforArticle-content .article-post-meta a:hover {
     color: var(--shop-color-hover); }
   .inforArticle-content .article-post-meta span {
@@ -13067,41 +13107,71 @@ PAGE FAQS
   .wrapper-contentArticle .heading-article h1 {
     font-size: 22px; }
   .inforArticle-content .article-related {
-    margin-bottom: 20px; }
-  .inforArticle-content .article-related .content-blogs-related {
-    position: relative!important;
-    overflow: hidden!important;
-    margin: 0 -15px!important; }
-  .inforArticle-content .article-related .content-blogs-related .list-blogs-related {
-    white-space: nowrap!important;
-    margin-left: 0!important;
-    margin-right: 0!important;
-    overflow-x: scroll!important;
-    -webkit-overflow-scrolling: touch!important;
-    padding-bottom: 50px!important;
-    margin-bottom: -50px!important;
-    transition: transform 0.25s ease 0s!important;
-    -ms-overflow-style: none!important;
-    scrollbar-width: none!important;
-    display: block!important; }
-  .inforArticle-content .article-related .content-blogs-related .owl-stage 
-  {
-    left: -23px; }
+    .inforArticle-content .article-related {
+      margin-bottom: 20px;
+  }
+  
+  .inforArticle-content .article-related .https {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      margin: 0 -15px;
+  }
+  
+  .inforArticle-content .article-related .https .list-blogs-related {
+      white-space: nowrap;
+      margin-left: 0;
+      margin-right: 0;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 50px;
+      margin-bottom: -50px;
+      transition: transform 0.25s ease;
+      -ms-overflow-style: none; /* Hide scrollbar for IE */
+      scrollbar-width: none; /* Hide scrollbar for Firefox */
+  }
+  
+  .inforArticle-content .article-related .https .list-blogs-related::-webkit-scrollbar {
+      display: none; /* Hide scrollbar for WebKit browsers */
+  }
+  
+  .inforArticle-content .article-related .https .owl-stage {
+      left: 0; /* Remove negative left margin to fix alignment */
+  }
+  
   .inforArticle-content .article-related .list-blogs-related .article-post {
-    display: inline-block;
-    width: 65%;
-    float: none;
-    padding-left: 0;
-    padding-right: 7px;
-    vertical-align: top;
-    white-space: normal; }
+      display: inline-block;
+      width: 100%; /* Ensure the card takes full width */
+      float: none;
+      padding: 0 10px;
+      vertical-align: top;
+      white-space: normal;
+  }
+  
+  .inforArticle-content .article-related .list-blogs-related .article-inner {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+  }
+  
+  .inforArticle-content .article-related .list-blogs-related .article-image img {
+      width: 100%; /* Make the image responsive */
+      height: auto;
+      object-fit: cover;
+  }
+  
   .inforArticle-content .article-comment .title-bl h3 {
-    font-size: 20px; }
+      font-size: 20px;
+  }
+  
   .inforArticle-content .post-navigation .flex-row-articleToolbar .articleToolbar--nav,
   .inforArticle-content .post-navigation .flex-row-articleToolbar .articleToolbar-title p {
-    text-align: center; }
+      text-align: center;
+  }
+  
   .inforArticle-content .post-navigation .flex-row-articleToolbar .articleToolbar-title p {
-    margin-bottom: 20px; } }
+      margin-bottom: 20px;
+  }
 
 /*===== CONTACT +++ ABOUT +++ SEARCH ======================*/
 .heading-pageDetail h1 {
