@@ -84,10 +84,14 @@ if(string.IsNullOrEmpty(id_user))
           ViewBag.select_size=select_size;
           List<string> options=new List<string>(){"7","10","20","50"};
           ViewBag.options=options;
+          
           int processing_count=this._order.countOrderStatus("Processing");
-            int completed_count=this._order.countOrderStatus("Finished");
-            int cancelled_count=this._order.countOrderStatus("Cancelled");
-            int refund_count=this._order.countOrderStatus("Refund");
+          
+          int completed_count=this._order.countOrderStatus("Finished");
+          
+          int cancelled_count=this._order.countOrderStatus("Cancelled");
+            
+          int refund_count=this._order.countOrderStatus("Refund");
 
             ViewBag.processing_count=processing_count; 
             ViewBag.completed_count=completed_count;
