@@ -209,8 +209,11 @@ public async Task<bool> createRole(string role)
   //  avatar_url=file_path;
   // }
      string avatar="https://demos.themeselection.com/sneat-bootstrap-html-admin-template-free/assets/img/avatars/1.png";
+     
      string created_date=DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
-     var new_user=new ApplicationUser{UserName = user.UserName,Email=user.Email,Address1=user.Address1,Address2=user.Address2,Gender=user.Gender,PhoneNumber=user.PhoneNumber,Created_Date=created_date,Seq=seq,Avatar=avatar};
+     
+     var new_user=new ApplicationUser{UserName = user.UserName.Replace(" ",""),Email=user.Email,Address1=user.Address1,Address2=user.Address2,Gender=user.Gender,PhoneNumber=user.PhoneNumber,Created_Date=created_date,Seq=seq,Avatar=avatar};
+     
      var res=await this._userManager.CreateAsync(new_user,user.Password);
      if(res.Succeeded)
      {  
@@ -221,7 +224,7 @@ public async Task<bool> createRole(string role)
      {
       foreach (var error in res.Errors)
     {
-        Console.WriteLine(error.Description);
+        Console.WriteLine("Create User:"+error.Description);
     }
      }
      return res_created;

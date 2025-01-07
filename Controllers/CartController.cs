@@ -51,6 +51,7 @@ public class CartController : BaseController
     if(string.IsNullOrEmpty(this.HttpContext.Session.GetString("UserId")))
     {
       string session_id=Guid.NewGuid().ToString();
+
       this.HttpContext.Session.SetString("UserId",session_id);
     }
     ViewBag.cart = cart;
@@ -205,7 +206,8 @@ url="~/Views/ClientSide/Cart/_CartPartial.cshtml";
  var cart=this._cart.getCart();
 
  return PartialView(url,cart);
-    }
+ 
+  }
     else
     {
  return PartialView(url);

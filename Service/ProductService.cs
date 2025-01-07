@@ -10,8 +10,7 @@ using System.Collections.Frozen;
 using StackExchange.Redis;
 using System.Text.Json;
 using Newtonsoft.Json;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using iText.Forms.Xfdf;
+
 
 namespace Ecommerce_Product.Service;
 
@@ -130,10 +129,17 @@ public class ProductService:IProductRepository
     return product;
  }
 
+public string NormalizeString(string input)
+{
+    // Replace all special characters with a space
+    return Regex.Replace(input, @"[^A-Za-z0-9]+", " ");
+}
+
  public async Task<Product> findProductByName(string name)
  {
+  name=name.Replace("-"," ").Replace("/"," ");
 
-  var product=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(i=>i.ProductImages).Include(c=>c.Variants).ThenInclude(v=>v.Color).Include(c=>c.Variants).ThenInclude(v=>v.Size).Include(c=>c.Variants).ThenInclude(c=>c.Version).Include(c=>c.Variants).ThenInclude(c=>c.Mirror).Include(c=>c.Videos).Include(c=>c.Manuals).FirstOrDefaultAsync(p=>p.ProductName==name);
+  var product=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(i=>i.ProductImages).Include(c=>c.Variants).ThenInclude(v=>v.Color).Include(c=>c.Variants).ThenInclude(v=>v.Size).Include(c=>c.Variants).ThenInclude(c=>c.Version).Include(c=>c.Variants).ThenInclude(c=>c.Mirror).Include(c=>c.Videos).Include(c=>c.Manuals).FirstOrDefaultAsync(p=>p.ProductName.Replace("-"," ").Replace("/"," ")==name);
   
   return product;
  }
@@ -174,8 +180,9 @@ else if(string.IsNullOrEmpty(category) && !string.IsNullOrEmpty(product))
    return products;         
 }
 public async Task<IEnumerable<Product>> getProductByCategory(string cat)
-{
-  var products=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(c=>c.SubCat).Include(c=>c.Variants).Include(c=>c.ProductImages).Where(c=>c.Category.CategoryName==cat).ToListAsync();
+{ 
+  cat=cat.Replace("-"," ").Replace("/"," ");
+  var products=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(c=>c.SubCat).Include(c=>c.Variants).Include(c=>c.ProductImages).Where(c=>c.Category.CategoryName.Replace("-","").Replace("/","")==cat).ToListAsync();
   return products;
 }
 
