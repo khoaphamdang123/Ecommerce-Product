@@ -119,14 +119,14 @@ public class ProductListController : Controller
     try
     {   
     string startdate=products.StartDate;
-    string enddate = products.EndDate;
 
+    string enddate = products.EndDate;
 
  if(!string.IsNullOrEmpty(startdate))
  {
    string[] reformatted=startdate.Trim().Split('-');
 
-   startdate=reformatted[1]+"/"+reformatted[2]+"/"+reformatted[0];
+   startdate=reformatted[1]+"/"+reformatted[2]+"/"+reformatted[0];   
  }
      if(!string.IsNullOrEmpty(enddate))
 { 
@@ -176,7 +176,6 @@ public class ProductListController : Controller
     catch(Exception er)
     {
        this._logger.LogTrace("Remove Product Exception:"+er.Message); 
-     
     }
     return RedirectToAction("ProductList","ProductList");
   }

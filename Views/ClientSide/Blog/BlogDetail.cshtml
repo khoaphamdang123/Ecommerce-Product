@@ -6,6 +6,7 @@
 	var list_blog = ViewBag.list_blog as List<Blog>;
     int next_index=ViewBag.nxt_index!=null?ViewBag.nxt_index:-1;
 	var categories=ViewBag.categories as List<Category>;
+    var blog_name=ViewBag.blog_name;
 	Console.WriteLine(""+next_index);
 
   if(!img_url.Contains("wwwroot"))
@@ -26,9 +27,9 @@ img_url=$"~/{img_url.Substring(img_url.IndexOf("wwwroot")+("wwwroot".Length+1)).
 	<div class="breadcrumb-list blog-breadcrumb ">
 		<nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
-                                  <li class="breadcrumb-item"><a href="@Url.Action("HomePage","HomePage")">Trang chủ</a></li>
-                                  <li class="breadcrumb-item"><a href="@Url.Action("Blog","Blog")">Tin tức</a></li>
-                                  <li class="breadcrumb-item active" aria-current="page"></li>
+                                  <li class="breadcrumb-item" style="font-size: 16px;"><a href="@Url.Action("HomePage","HomePage")">Trang chủ</a></li>
+                                  <li class="breadcrumb-item" style="font-size: 16px;"><a href="@Url.Action("Blog","Blog")">Tin tức</a></li>
+                                  <li class="breadcrumb-item active" aria-current="page" style="font-size: 16px;">@blog_name</li>
                                 </ol>
                               </nav>
 	</div>
@@ -98,10 +99,10 @@ img_url=$"~/{img_url.Substring(img_url.IndexOf("wwwroot")+("wwwroot".Length+1)).
 							<div class="content-blogs-related">
 								<div class="list-blogs-related list-article-content owl-carousel owlCarousel-style owlCarousel-dfex owl-loaded">	
 							
-								<div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all; width: 740px; padding-left: 30px; padding-right: 30px;">
+								<div class="owl-stage-outer"><div class="owl-stage">
 								@foreach(var blog in blog_by_cat)
 								{	
-									<div class="owl-item" style="width:150px;">
+									<div class="owl-item" style="width:400px; margin-right: 20px;">
 									<article class="article-loop">
 										<div class="article-inner">				
 											<div class="article-image">
@@ -115,7 +116,7 @@ img_url=$"~/{img_url.Substring(img_url.IndexOf("wwwroot")+("wwwroot".Length+1)).
 														<a href="@Url.Action("BlogDetail","Blog",new{id=blog.Id})" title="@blog.Blogname">@blog.Blogname</a>
 													</h3>
 												</div>		
-
+												
 												<p class="entry-content">@blog.GetFirstPContent()</p>
 
 												<div class="article-post-meta">   
@@ -129,7 +130,17 @@ img_url=$"~/{img_url.Substring(img_url.IndexOf("wwwroot")+("wwwroot".Length+1)).
 									}
 									</div>
 									</div>
-									<div class="owl-nav"><button type="button" role="presentation" class="owl-prev disabled"><span aria-label="Previous">‹</span></button><button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button></div><div class="owl-dots disabled"></div></div>
+									<div class="owl-nav">
+										<button type="button" role="presentation" class="owl-prev disabled">
+											<span aria-label="Previous">‹</span>
+										</button>
+										<button type="button" role="presentation" class="owl-next"><span aria-label="Next">›
+										</span>
+										</button>
+										</div>
+										<div class="owl-dots disabled">											
+									  </div>
+									</div>
 							</div>							
 						</div>
 					</div>
@@ -188,7 +199,6 @@ img_url=$"~/{img_url.Substring(img_url.IndexOf("wwwroot")+("wwwroot".Length+1)).
 					 @foreach(var sub_cat in cat.SubCategory)
                      {
 						<li><a href="@Url.Action("ProductBySubCategory","Products",new{sub_cat_id=sub_cat.Id})" title="@sub_cat.SubCategoryName">@sub_cat.SubCategoryName</a></li>
-                        
 					 }
 					</ul>
 				</li>

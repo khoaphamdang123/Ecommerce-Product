@@ -374,7 +374,7 @@
                                    <a href="@Url.Action("BlogDetail","Blog",new{id=blog.Id})"><img class="ls-is-cached lazyloaded" data-src="~/@blog.FeatureImage.Substring(blog.FeatureImage.IndexOf("wwwroot")+("wwwroot".Length+1))" src="~/@blog.FeatureImage.Substring(blog.FeatureImage.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="@blog.Blogname"></a>
                                 </div>
                                 <div class="blog-tag">
-                                    <a href="javascript:void(0);">@blog.Category.CategoryName</a>
+                                    <a href="javascript:void(0);">@blog.Category.CategoryName</a>                                    
                                 </div>
                             </div>
                             <div class="smblog-content">
@@ -768,6 +768,7 @@
      for(let id of all_id)
      {
         container=document.getElementById(id);
+        
         if(container!=null)
         {  buttonId=id;
             break;
