@@ -53,7 +53,8 @@ namespace Ecommerce_Product.Controllers
 
         public async Task<IActionResult> Index()
         {   
-            if(User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+       string id_user=this.HttpContext.Session.GetString("AdminId");
+            if(User.Identity.IsAuthenticated && User.IsInRole("Admin") && !string.IsNullOrEmpty(id_user))
         {
             return RedirectToAction("Dashboard","Dashboard");            
         } 
