@@ -12,6 +12,7 @@
       case 1:register_msg="Đăng ký thành công";break;
       case 0:register_msg="Đăng ký thất bại";break;
       case -1:register_msg="Tài khoản đã tồn tại";break;
+      case 2 :register_msg="Link đã hết thời hạn";break;
      }
     }
     Console.WriteLine("register message:"+register_msg);
@@ -390,8 +391,8 @@ else
                 var toast = new bootstrap.Toast(toastEl); *@
                 if(action=="SendMailRegister")
                 {
-                  document.getElementById("toast-title").innerHTML=title;
-                 document.getElementById("toast-message").innerHTML=message;
+                document.getElementById("toast-title").innerHTML=title;
+                document.getElementById("toast-message").innerHTML=message;
                 var toastEl = document.querySelector('.toast');
                 var toast = new bootstrap.Toast(toastEl);
                 toast.show();
@@ -433,7 +434,7 @@ else
       
  }
 
- else if(register_status=="0" || register_status=="-1")
+ else if(register_status=="0" || register_status=="-1" || register_status=="2")
  {
                 document.getElementById("toast-title-error").innerHTML="Đăng ký tài khoản";
                  document.getElementById("toast-message-error").innerHTML=register_msg;
