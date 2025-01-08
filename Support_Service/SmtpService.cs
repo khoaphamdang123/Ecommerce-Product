@@ -2,9 +2,12 @@ using MailKit.Net.Smtp;
 using MimeKit;
 using Microsoft.Extensions.Options;
 using Ecommerce_Product.Models;
+using System.Text;
 using System.Web;
+using System.Security.Cryptography;
 using MimeKit.Cryptography;
 using System.Security.Policy;
+using System.Runtime.InteropServices;
 namespace Ecommerce_Product.Support_Serive;
 public class SmtpService
 {
@@ -22,10 +25,25 @@ public SmtpService(IOptions<SmtpModel> smtpClient,Service spService,ILogger<Smtp
     this._logger=logger;
 }
 
+public string GenerateHmac(string timestamp)
+    {   
+      string serect_key=Environment.GetEnvironmentVariable("SECRET_KEY");
+
+      Console.WriteLine("Secret Key:"+serect_key);
+      
+      using (var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(serect_key)))
+        {
+            byte[] hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(timestamp));
+            
+            return Convert.ToBase64String(hash);
+        }
+    }
+
 
 public string ConvertModelToQueryString<T>(T model)
 {
     var properties = typeof(T).GetProperties();
+    
     var queryString = HttpUtility.ParseQueryString(string.Empty);
 
     foreach (var property in properties)
@@ -36,6 +54,9 @@ public string ConvertModelToQueryString<T>(T model)
 
     return queryString.ToString();
 }
+
+
+
 
 public string RegisterContent(string url)
 {
@@ -68,7 +89,8 @@ if(role==1)
 {
  url="https://thanhquang-gnss.com/LoginAdmin/ChangePassword?email="+receiver+"&password="+random_password;
 }
-else{
+else
+{
  url="https://thanhquang-gnss.com/MyAccount/ChangePassword?email="+receiver+"&password="+random_password;
 }
 
