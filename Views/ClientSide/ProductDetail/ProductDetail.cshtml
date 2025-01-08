@@ -70,7 +70,7 @@
     List<double> star_percen=new List<double>();   
    var stats_description=Html.Raw(Model?.Statdescription);
    Console.WriteLine(stats_description);
-   var user=this.ViewContext.HttpContext.Session.GetString("UserId");
+   var user=this.ViewContext.HttpContext.Session.GetString("UserName");
    Console.WriteLine("User id here is:"+user);
    
     for(int i=1;i<=5;i++)

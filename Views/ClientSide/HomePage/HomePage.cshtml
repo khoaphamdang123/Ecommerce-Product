@@ -19,7 +19,7 @@
     
     string value="~/"+@products[0].Frontavatar.Substring(products[0].Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1));
     
-    string user_id=this.ViewContext.HttpContext.Session.GetString("UserId");
+    string user_id=this.ViewContext.HttpContext.Session.GetString("UserName");
     
     string product_chosen="";
 
