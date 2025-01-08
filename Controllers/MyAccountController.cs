@@ -303,8 +303,11 @@ namespace Ecommerce_Product.Controllers
           }               
         string query_string=this._smtpService.ConvertModelToQueryString(model);
 
+        string date_time = DateTime.Now.ToString("MM/dd/yyy hh:mm:ss");
+
         Console.WriteLine("query string here is:"+query_string);
-        string url="http://localhost:5160/register_handle?"+query_string;
+        
+        string url="http://localhost:5160/register_handle?"+query_string+"&Timestamp="+date_time;
 
         
         string html_content=this._smtpService.RegisterContent(url);
@@ -341,12 +344,31 @@ namespace Ecommerce_Product.Controllers
   
   [Route("register_handle")]
   [HttpGet] 
-  public async Task<IActionResult> RegisterHandle(Register model)
+  public async Task<IActionResult> RegisterHandle(Register model,string Timestamp)
   { 
     StatusResponse response = new StatusResponse();
+
     Console.WriteLine("did come to register here");
+
+    string date_time_value=Timestamp;
+
+    Console.WriteLine("Timestamp here is:"+date_time_value);
+
+   
+
     try 
     {   
+        if(!string.IsNullOrEmpty(date_time_value))
+    {  
+        DateTime targetTime=DateTime.ParseExact(date_time_value,"MM/dd/yyyy HH:mm:ss", null);
+        Console.WriteLine("pass time:"+DateTime.Now.Subtract(targetTime).TotalSeconds.ToString());
+        if(DateTime.Now.Subtract(targetTime).TotalMinutes>5)
+        {
+        TempData["register_status"]=2;
+        
+       return RedirectToAction("MyAccount","MyAccount");
+        }
+    } 
         string? email=model.Email;
         
         
