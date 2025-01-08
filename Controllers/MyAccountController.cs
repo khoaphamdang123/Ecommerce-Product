@@ -135,8 +135,8 @@ namespace Ecommerce_Product.Controllers
     {
     _logger.LogInformation("Running in Login Action"); 
 
+      Console.WriteLine("Username here is:"+model.UserName);   
       
-       Console.WriteLine("Username here is:"+model.UserName);   
       string username=model.UserName.Trim().Replace(" ","");
       
       string password = model.Password.Trim();
@@ -158,7 +158,9 @@ namespace Ecommerce_Product.Controllers
             {   string email=admin_user.Email;
              
                 bool check_is_user=await this._loginRepos.checkUserRole(email,"User");
+                
                 Console.WriteLine("check is admin:"+check_is_user);
+                
                 Console.WriteLine("password here is:"+password);
             if(check_is_user)
             {  
