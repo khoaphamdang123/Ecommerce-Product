@@ -13,10 +13,14 @@
                                 @foreach(var item in Model)
                                 {
                                     int discount=string.IsNullOrEmpty(item.Product.Discount.ToString()) ? 0 : Convert.ToInt32(item.Product.Discount);
+                                    
                                     string price_value=!string.IsNullOrEmpty(item.Price) ? item.Price : item.Product.Price;
+                                    
                                     int current_price=(Convert.ToInt32(price_value)-(Convert.ToInt32(price_value)*(discount)/100));
+                                    
                                     total_value+=current_price*item.Quantity;
-                                }
+                                }   
+
                                     @total_value VNĐ
                                    
                                    </span>
@@ -65,6 +69,7 @@
             var product_id = item.getAttribute("data-product-id");
             var cart_name="view";
             let formData = new FormData();
+
             formData.append("product_id", product_id);
 
             formData.append("view_name",cart_name);
@@ -84,11 +89,11 @@
                 },
                 error: function(xhr, status, error) 
                 {
-                    document.getElementById("toast-title").innerHTML = "Thông báo";
-                    document.getElementById("toast-message").innerHTML = error;
+                    @* document.getElementById("toast-title").innerHTML = "Thông báo";
+                    document.getElementById("toast-message").innerHTML = xhr.responseText;
                     var toastEl = document.querySelector('.toast');
                     toastEl.classList.add('bg-danger');
-                    var toast = new bootstrap.Toast(toastEl);
+                    var toast = new bootstrap.Toast(toastEl); *@
                     //toast.show(); 
                 }
             });

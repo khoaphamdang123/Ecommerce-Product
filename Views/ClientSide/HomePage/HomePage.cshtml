@@ -1,5 +1,5 @@
 @using Newtonsoft.Json;
-
+@using System.Text.RegularExpressions;
 @{ 
     Layout = "_UserLayout";
     
@@ -86,14 +86,19 @@
                     <div class="col-xl-5">
                   <div class="row">
                      @for(int i=0;i<4;i++)
-                     {
+                     {  
+                        var product=products[i];
+
+                        string regex_product=Regex.Replace(product.ProductName,@"[^\w\d]", "-");
+
+                        
                          <div class="col-xl-6 col-lg-6 col-md-6">
                                 <div class="banner__item p-relative w-img mb-30">
                                     <div class="banner__img b-radius-2">
-                                        <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=products[i].ProductName.Replace("/","%2F")})"><img src="~/@products[i].Frontavatar.Substring(products[i].Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt=""></a>
+                                        <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})"><img src="~/@products[i].Frontavatar.Substring(products[i].Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt=""></a>
                                     </div>
                                     <div class="banner__content banner__content-2">
-                                        <h6 style="color: #fcbe00; font-weight: bold;"><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=products[i].ProductName.Replace("/","%2F")})">@products[i].ProductName</a></h6>
+                                        <h6 style="color: #fcbe00; font-weight: bold;"><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})">@products[i].ProductName</a></h6>
                                         <p style="color: #fcbe00; font-weight: bold;">@products[i].Category.CategoryName</p>
                                     </div>
                                 </div>
@@ -125,6 +130,7 @@
                 <div class="row">
                 @foreach(var product in products)
                 { 
+                string regex_product=Regex.Replace(product.ProductName, @"[^\w\d]", "-");
 
                 count_trending++;
                 
@@ -134,7 +140,7 @@
                         <div class="product__item product__item-2 b-radius-2 mb-20">
                             <div class="product__thumb fix">
                                 <div class="product-image w-img">
-                                    <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=product.ProductName.Replace("/","%2F")})">
+                                    <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})">
                                         <img src="~/@product.Frontavatar.Substring(product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="product">
                                         @* <img src="~/UploadImages/0a73f765-1942-4a78-98d9-0853d41024f8.webp" alt="product"> *@
                                     </a>
@@ -159,14 +165,14 @@
                                         <i class="fal fa-eye"></i>
                                         <i class="fal fa-eye"></i>
                                     </a>
-                                    <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=product.ProductName.Replace("/","%2F")})"  class="icon-box icon-box-1">
+                                    <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})"  class="icon-box icon-box-1">
                                         <i class="fal fa-layer-group"></i>
                                         <i class="fal fa-layer-group"></i>
                                     </a>
                                 </div>
                             </div>
                             <div class="product__content product__content-2">
-                                <h6><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=product.ProductName.Replace("/","%2F")})">@product.ProductName</a></h6>
+                                <h6><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})">@product.ProductName</a></h6>
                                 <div class="rating mb-5 mt-10">
                                     <ul>
                                         <li><a href="#"><i class="fal fa-star"></i></a></li>
@@ -273,7 +279,9 @@
                 @for(int j=0;j<products.Count;j++)
                 {  
                   var product=products[j];
-                   
+              
+              string regex_product=Regex.Replace(product.ProductName, @"[^\w\d]", "-");
+  
                    if(j==12)
                    {
                     break;                    
@@ -282,7 +290,7 @@
                         <div class="product__item product__item-2 b-radius-2 mb-20">
                             <div class="product__thumb fix">
                                 <div class="product-image w-img">
-                                    <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=product.ProductName.Replace("/","%2F")})">
+                                    <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})">
                                         <img src="~/@product.Frontavatar.Substring(product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="product">
                                     </a>
                                 </div>
@@ -313,14 +321,14 @@
                                         <i class="fal fa-eye"></i>
                                     </a>
                         
-                                    <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=product.ProductName.Replace("/","%2F")})"  class="icon-box icon-box-1">
+                                    <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})"  class="icon-box icon-box-1">
                                         <i class="fal fa-layer-group"></i>
                                         <i class="fal fa-layer-group"></i>
                                     </a>
                                 </div>
                             </div>
                             <div class="product__content product__content-2">
-                                <h6><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=product.ProductName.Replace("/","%2F")})">@product.ProductName</a></h6>
+                                <h6><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})">@product.ProductName</a></h6>
                                 <div class="rating mb-5 mt-10">
                                     <ul>
                                         <li><a href="#"><i class="fal fa-star"></i></a></li>
@@ -1383,8 +1391,11 @@ if (wwwrootIndex !== -1) {
 
 
         url='@Url.Action("ProductsByCategory","Products",new{category_name="__id__"})';
+
+        var modify_category=category.replace(/[^A-Za-z0-9]+/g, '-');
+
     
-        url=url.replace("__id__",category);
+        url=url.replace("__id__",modify_category);
 
         cat_link.href=url;
 
@@ -1406,8 +1417,10 @@ if (wwwrootIndex !== -1) {
         document.getElementById('product-quantity-value').textContent = quantity+ " sản phẩm";
 
         var name_url='@Url.Action("ProductDetail","ProductDetail",new{product_name="__id__"})';
+        
+        var modify_product_name=productName.replace(/[^A-Za-z0-9]+/g, '-');
 
-        name_url=name_url.replace("__id__",productName);
+        name_url=name_url.replace("__id__",modify_product_name);
 
        @* const add_cart_btn=document.getElementById('add-cart-detail');
        add_cart_btn.addEventListener("click",()=>{ 

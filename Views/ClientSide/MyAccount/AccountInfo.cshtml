@@ -325,10 +325,12 @@ var default_img=null;
   {is_valid=false;
    document.getElementById("password-error").innerHTML="Mật khẩu cần có ít nhất một ký tự in hoa,1 ký tự thường và bao gồm số và ký tự đặc biệt";
   }
- else{
+ else
+ {
   if(password!=confirmPassword && confirmPassword!='')
-  {is_valid=false;
-  
+  {
+    is_valid=false;
+    
     document.getElementById("confirm-password-error").innerHTML="Không trùng khớp với mật khẩu";
   }
   }

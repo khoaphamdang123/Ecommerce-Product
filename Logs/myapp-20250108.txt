@@ -1,0 +1,35 @@
+2025-01-08 12:02:10.750 +07:00 [ERR] Product Detail Exception:The LINQ expression 'DbSet<Product>()
+    .Where(p => Regex.Replace(
+        input: p.ProductName, 
+        pattern: "[^A-Za-z0-9_\.~]+", 
+        replacement: " ") == __name_0)' could not be translated. Additional information: Translation of method 'System.Text.RegularExpressions.Regex.Replace' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information.
+2025-01-08 12:02:14.970 +07:00 [ERR] Product Detail Exception:The LINQ expression 'DbSet<Product>()
+    .Where(p => Regex.Replace(
+        input: p.ProductName, 
+        pattern: "[^A-Za-z0-9_\.~]+", 
+        replacement: " ") == __name_0)' could not be translated. Additional information: Translation of method 'System.Text.RegularExpressions.Regex.Replace' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information.
+2025-01-08 12:02:30.619 +07:00 [ERR] Product Detail Exception:The LINQ expression 'DbSet<Product>()
+    .Where(p => Regex.Replace(
+        input: p.ProductName, 
+        pattern: "[^A-Za-z0-9_\.~]+", 
+        replacement: " ") == __name_0)' could not be translated. Additional information: Translation of method 'System.Text.RegularExpressions.Regex.Replace' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information.
+2025-01-08 12:02:47.341 +07:00 [ERR] Product Detail Exception:The LINQ expression 'DbSet<Product>()
+    .Where(p => Regex.Replace(
+        input: p.ProductName, 
+        pattern: "[^A-Za-z0-9_\.~]+", 
+        replacement: " ") == __name_0)' could not be translated. Additional information: Translation of method 'System.Text.RegularExpressions.Regex.Replace' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information.
+2025-01-08 12:03:22.795 +07:00 [ERR] Product Detail Exception:The LINQ expression 'DbSet<Product>()
+    .Where(p => Regex.Replace(
+        input: p.ProductName, 
+        pattern: "[^A-Za-z0-9_\.~]+", 
+        replacement: " ") == __name_0)' could not be translated. Additional information: Translation of method 'System.Text.RegularExpressions.Regex.Replace' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information.
+2025-01-08 12:03:26.836 +07:00 [ERR] Product Detail Exception:The LINQ expression 'DbSet<Product>()
+    .Where(p => Regex.Replace(
+        input: p.ProductName, 
+        pattern: "[^A-Za-z0-9_\.~]+", 
+        replacement: " ") == __name_0)' could not be translated. Additional information: Translation of method 'System.Text.RegularExpressions.Regex.Replace' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information.
+2025-01-08 12:22:14.152 +07:00 [ERR] Product Detail Exception:The LINQ expression 'DbSet<Product>()
+    .Where(p => ProductService.NormalizeString(p.ProductName) == __name_0)' could not be translated. Additional information: Translation of method 'Ecommerce_Product.Service.ProductService.NormalizeString' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information.
+2025-01-08 13:03:01.715 +07:00 [INF] Blog Name:Gặp gỡ Garmin Zumo XT
+2025-01-08 13:03:04.111 +07:00 [INF] Blog Name:MARQ Gen 2 chính thức: Đồng hồ GPS cao cấp nhất của nhà Garmin
+2025-01-08 13:03:06.154 +07:00 [INF] Blog Name:Edge 1040 series: Luôn sẵn sàng cho mọi chuyến đi

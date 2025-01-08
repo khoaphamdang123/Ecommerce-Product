@@ -62,8 +62,11 @@ namespace Ecommerce_Product.Controllers
         // {
         //     return RedirectToAction("Dashboard","Dashboard");            
         // } 
-       string user_id = HttpContext.Session.GetString("UserId");
-       if(!string.IsNullOrEmpty(user_id))
+       string user_name = HttpContext.Session.GetString("UserName");
+
+       Console.WriteLine("User id here is:"+user_name);  
+
+       if(!string.IsNullOrEmpty(user_name))
        {
         return RedirectToAction("HomePage","HomePage");
        }
@@ -83,14 +86,16 @@ namespace Ecommerce_Product.Controllers
         Response.Cookies.Append("VisitorCounted","true",options);
         }
     
-      bool is_saved_account=false;
+        bool is_saved_account=false;
         
         if(Request.Cookies["UserAccount"]!=null)
         {
             is_saved_account=true;
             string account=Request.Cookies["UserAccount"];
+            
             Console.WriteLine("Account here is:"+account);
             ViewBag.Account=account;
+
             ViewBag.SavedAccount=is_saved_account;
         }
 
@@ -215,8 +220,8 @@ namespace Ecommerce_Product.Controllers
      }
             
               HttpContext.Session.SetString("UserId",admin_user.Id);
-              HttpContext.Session.SetString("Username",admin_user.UserName);
-              HttpContext.Session.SetString("Email",admin_user.Email);
+              HttpContext.Session.SetString("UserName",admin_user.UserName);
+              HttpContext.Session.SetString("EMail",admin_user.Email);
               HttpContext.Session.SetString("Password",password);
               HttpContext.Session.SetString("UserSession", "Active");
               HttpContext.Session.SetString("Avatar",admin_user.Avatar);
