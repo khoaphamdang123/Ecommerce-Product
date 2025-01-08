@@ -2,6 +2,7 @@ using MailKit.Net.Smtp;
 using MimeKit;
 using Microsoft.Extensions.Options;
 using Ecommerce_Product.Models;
+using System.Web;
 using MimeKit.Cryptography;
 using System.Security.Policy;
 namespace Ecommerce_Product.Support_Serive;
@@ -22,6 +23,36 @@ public SmtpService(IOptions<SmtpModel> smtpClient,Service spService,ILogger<Smtp
 }
 
 
+public string ConvertModelToQueryString<T>(T model)
+{
+    var properties = typeof(T).GetProperties();
+    var queryString = HttpUtility.ParseQueryString(string.Empty);
+
+    foreach (var property in properties)
+    {
+        var value = property.GetValue(model)?.ToString() ?? string.Empty;
+        queryString[property.Name] = value;
+    }
+
+    return queryString.ToString();
+}
+
+public string RegisterContent(string url)
+{
+    string htmlContent="";
+    
+    string path=this._spService.GetCurrentFilePath("Views/MailTemplate/Register.html");
+    
+    using(StreamReader sr= new StreamReader(path))
+    {
+        htmlContent=sr.ReadToEnd();
+    }
+
+    htmlContent=htmlContent.Replace("_cur_url_",url);
+
+    return htmlContent;
+}
+
 public string htmlContent(string receiver,string operating_system,string random_password,int role=1)
 {
     string htmlContent="";
@@ -39,7 +70,6 @@ if(role==1)
 }
 else{
  url="https://thanhquang-gnss.com/MyAccount/ChangePassword?email="+receiver+"&password="+random_password;
-
 }
 
     htmlContent=htmlContent.Replace("{name}",receiver);
@@ -74,8 +104,9 @@ public string loginNotify(string username)
     return htmlContent;
 }
 
-public async Task sendEmailGeneral(int type,string htmlContent,string receiver="")
+public async Task<bool> sendEmailGeneral(int type,string htmlContent,string receiver="")
 {
+  bool send_mail=false;
   try
   {
 var emailMessage = new MimeMessage();
@@ -95,6 +126,10 @@ else if(type==2)
 {
   subject="Đặt hàng thành công";
 }
+else if(type==3)
+{
+  subject="Đăng ký tài khoản";
+}
 
    emailMessage.From.Add(new MailboxAddress(this._smtpClient.SenderName,this._smtpClient.SenderEmail));
 
@@ -109,10 +144,16 @@ else if(type==2)
    using(var client = new SmtpClient())
    {
       await client.ConnectAsync(_smtpClient.Host,this._smtpClient.Port,this._smtpClient.UseSsl);
+      
       await client.AuthenticateAsync(this._smtpClient.Username,this._smtpClient.Password);
+      
       await client.SendAsync(emailMessage);
+
       await client.DisconnectAsync(true);
    }
+
+   send_mail=true;
+   
    Console.WriteLine("Send Email Success");
   }
   catch(Exception er)
@@ -121,6 +162,8 @@ else if(type==2)
 
     this._logger.LogTrace("Send Email General Exception:"+er.Message);
   }
+
+  return send_mail;
 }
 
 

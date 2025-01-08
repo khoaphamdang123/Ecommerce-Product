@@ -280,7 +280,7 @@
                 {  
                   var product=products[j];
               
-              string regex_product=Regex.Replace(product.ProductName, @"[^\w\d]", "-");
+                 string regex_product=Regex.Replace(product.ProductName, @"[^\w\d]", "-");
   
                    if(j==12)
                    {
@@ -1389,24 +1389,22 @@ if (wwwrootIndex !== -1) {
 
         const review_value= document.getElementById("review-value");
 
-
         url='@Url.Action("ProductsByCategory","Products",new{category_name="__id__"})';
 
         var modify_category=category.replace(/\s+/g, '-');
 
-    
         url=url.replace("__id__",modify_category);
 
         cat_link.href=url;
 
-
-         document.querySelectorAll("#quick-view-list .star").forEach((star,index)=>{
+        document.querySelectorAll("#quick-view-list .star").forEach((star,index)=>{
+       
        star.setAttribute("data-product-id",button.getAttribute("data-product-id"));
    });
 
         review_value.textContent=`(${count_review_value} đánh giá)`; 
         
-         document.getElementById('product-id').value=productId;
+        document.getElementById('product-id').value=productId;
 
         document.getElementById('product-name').textContent = productName;
         
@@ -1420,9 +1418,7 @@ if (wwwrootIndex !== -1) {
         
         var modify_product_name=productName.replace(/[^\w\d]+/g, '-');
 
-        name_url=name_url.replace("__id__",modify_product_name);
-
-
+        name_url=name_url.replace("__id__",modify_product_name);        
        @* const add_cart_btn=document.getElementById('add-cart-detail');
        add_cart_btn.addEventListener("click",()=>{ 
          var quantity_value=document.getElementById('quantity-value').value;
@@ -1632,6 +1628,7 @@ if (wwwrootIndex !== -1) {
      var add_cart=document.querySelectorAll("#add-cart");
       
      add_cart.forEach((cart,index)=>{
+
      cart.addEventListener("click",()=>{
        var product_name=cart.getAttribute("data-product-name");
        var product_id=cart.getAttribute("data-product-id");

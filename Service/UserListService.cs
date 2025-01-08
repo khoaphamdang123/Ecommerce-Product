@@ -175,6 +175,7 @@ public async Task<bool> createRole(string role)
 
     if(is_existed)
     {   res_created=-1;
+        
         return res_created;
     }
      var users=this._userManager.Users;

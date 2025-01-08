@@ -92,7 +92,7 @@ namespace Ecommerce_Product.Controllers
         {
             is_saved_account=true;
             string account=Request.Cookies["UserAccount"];
-            
+
             Console.WriteLine("Account here is:"+account);
             ViewBag.Account=account;
 
@@ -257,16 +257,19 @@ namespace Ecommerce_Product.Controllers
         return Json(response);
   }
 
+
   [HttpPost]
-  public async Task<JsonResult> RegisterHandle(Register model)
-  { 
-    StatusResponse response = new StatusResponse();
-    Console.WriteLine("did come to register here");
-    try 
-    {   int setting_status=await this._setting.getStatusByName("recaptcha");
+
+  public async Task<JsonResult> SendMailRegister(Register model)
+  {
+     StatusResponse response = new StatusResponse();
+    try
+    {
+     int setting_status=await this._setting.getStatusByName("recaptcha");
 
       
-        Console.WriteLine("Setting status:"+setting_status);   
+    Console.WriteLine("Setting status:"+setting_status);
+
         if(setting_status==1)
              {
              var recapchaResult = await this._recaptcha.Validate(Request);
@@ -278,10 +281,97 @@ namespace Ecommerce_Product.Controllers
                             Title="Đăng ký",
                             Message="Hãy chọn captcha để chứng minh bạn ko phải robot.",
                     };
-            Console.WriteLine("Captcha is not valid here");
-         return Json(response);
+        Console.WriteLine("Captcha is not valid here");
+        
+        return Json(response);
              }
              }
+
+          string subject="Đăng ký tài khoản";
+
+          string email=model.Email.Trim();
+
+          if(string.IsNullOrEmpty(email))
+          {
+            response=new StatusResponse
+            {
+                Status=0,
+                Title="Đăng ký tài khoản",
+                Message="Email không hợp lệ"
+            };
+            return Json(response);
+          }               
+        string query_string=this._smtpService.ConvertModelToQueryString(model);
+
+        Console.WriteLine("query string here is:"+query_string);
+        string url="http://localhost:5160/register_handle?"+query_string;
+
+        
+        string html_content=this._smtpService.RegisterContent(url);
+        // sendEmailGeneral(int type,string htmlContent,string receiver="")
+
+        bool is_send=await this._smtpService.sendEmailGeneral(3,html_content,email);
+
+        if(is_send)
+           {
+            response=new StatusResponse
+            {
+                Status=1,
+                Title="Đăng ký tài khoản",
+                Message="Link đăng ký tài khoản đã được gửi đến email của bạn"
+            };
+           }
+           else{
+            response=new StatusResponse
+            {
+                Status=0,
+                Title="Đăng ký tài khoản",
+                Message="Có lỗi xảy ra trong quá trình gửi tin nhắn"
+            };
+           }
+
+    }
+    catch(Exception er)
+    {   
+        Console.WriteLine("Send Mail Register Exception:"+er.Message);
+        this._logger.LogTrace("Send Mail Register Exception:"+er.Message);
+    }
+    return Json(response);
+  }
+  
+  [Route("register_handle")]
+  [HttpGet] 
+  public async Task<IActionResult> RegisterHandle(Register model)
+  { 
+    StatusResponse response = new StatusResponse();
+    Console.WriteLine("did come to register here");
+    try 
+    {   
+        string? email=model.Email;
+        
+        
+        Console.WriteLine("email here is:"+email);
+        // int setting_status=await this._setting.getStatusByName("recaptcha");
+
+      
+        // Console.WriteLine("Setting status:"+setting_status);   
+        // if(setting_status==1)
+        //      {
+        //      var recapchaResult = await this._recaptcha.Validate(Request);
+
+        //      if(!recapchaResult.success)
+        //      {Console.WriteLine("Captcha is not valid");
+        //     response=new StatusResponse
+        //             {
+        //                     Status=0,
+        //                     Title="Đăng ký",
+        //                     Message="Hãy chọn captcha để chứng minh bạn ko phải robot.",
+        //             };
+        //     Console.WriteLine("Captcha is not valid here");
+        //  return Json(response);
+        //      }
+        //      }
+          
         //     string email=model.Email.Trim();
         //     string username=model.UserName.Trim();
         //     string password=model.Password.Trim();
@@ -295,26 +385,27 @@ namespace Ecommerce_Product.Controllers
             
             int createUser = await this._userList.createUser(model,"User");
             
-            if(createUser==1)
-            { 
-               
-                response=new StatusResponse{
-                    Status=1,
-                    Title="Đăng ký",
-                    Message="Đăng ký thành công",
-                SiteKey=this._recaptcha_response.SiteKey
-
-                };
-            }
-            else{
-                   response=new StatusResponse{
-                    Status=0,
-                    Title="Đăng ký",
-                    Message="Đăng ký thất bại",
-                SiteKey=this._recaptcha_response.SiteKey
-
-                };
-            }
+            TempData["register_status"]=createUser;
+            // if(createUser==1)
+            // { 
+            //     ViewBag.register_status=1;
+            //     // response=new StatusResponse{
+            //     //     Status=1,
+            //     //     Title="Đăng ký",
+            //     //     Message="Đăng ký thành công",
+            //     //    SiteKey=this._recaptcha_response.SiteKey
+            //     // };
+            // }
+            // else{
+                
+            //     ViewBag.register_status=createUser;
+            //     //    response=new StatusResponse{
+            //     //     Status=0,
+            //     //     Title="Đăng ký",
+            //     //     Message="Đăng ký thất bại",
+            //     //     SiteKey=this._recaptcha_response.SiteKey
+            // //}
+            // }
 
     }
     catch(Exception er)
@@ -322,7 +413,8 @@ namespace Ecommerce_Product.Controllers
         Console.WriteLine("Register Exception:"+er.Message);
         this._logger.LogTrace("Register Exception:"+er.Message);
     }
-    return Json(response);
+
+   return RedirectToAction("MyAccount","MyAccount");
   }
      
     //     [Route("login")]
@@ -465,7 +557,7 @@ namespace Ecommerce_Product.Controllers
                 { Console.WriteLine("Send email here");
                  string html_content=this._smtpService.loginNotify(user.UserName);
                  Console.WriteLine("Html content here:"+html_content);
-                 await this._smtpService.sendEmailGeneral(1,html_content);
+                bool is_sent=await this._smtpService.sendEmailGeneral(1,html_content);
                 }
             
             }
