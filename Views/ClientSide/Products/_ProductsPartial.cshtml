@@ -1481,7 +1481,7 @@ if (wwwrootIndex !== -1) {
 
    var url='@Url.Action("ProductsByCategory","Products",new{category_name="__id__"})';
    
-   var modify_category=category.replace(/[^A-Za-z0-9]+/g, '-');
+   var modify_category=category.replace(/[^\w\d]+/g, '-');
 
      url=url.replace("__id__",modify_category);
 
@@ -1507,7 +1507,7 @@ if (wwwrootIndex !== -1) {
    var url_details='@Url.Action("ProductDetail","ProductDetail",new{product_name="__productname__"})';
 
    
-   var modify_product_name=productName.replace(/[^A-Za-z0-9]+/g, '-');
+   var modify_product_name=productName.replace(/[^\w\d]+/g, '-');
 
     
     url_details=url_details.replace("__productname__",modify_product_name);
