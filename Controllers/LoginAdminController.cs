@@ -98,14 +98,17 @@ namespace Ecommerce_Product.Controllers
             return View();
         }
         
-        [Route("{username}/change_password")]
-        
+        [Route("reset_password")]
         [HttpGet]
         public IActionResult ChangePassword(string email,string password)
-        {
+        {  
+            Console.WriteLine("Change password did stay here");
+
             ViewBag.Email=email;
+            
             ViewBag.Password= password;
-            return View();            
+            
+            return View();                        
         }
 
        [Route("forgot_password")]
@@ -248,22 +251,28 @@ int setting_status=await this._setting.getStatusByName("recaptcha");
         [Route("change_password")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangePassword(ChangePassword model)
+        public async Task<IActionResult>ChangePassword(ChangePassword model)
         {  
       
           string email=model.Email;
+          
           string curr_password= model.Password;
+          
           string new_password = model.New_Password;
        
           var user=await this._userManager.FindByEmailAsync(email);
+          
           if(user!=null)
           {
              var change_password=await this._userManager.ChangePasswordAsync(user,curr_password,new_password);
+             
              if(change_password.Succeeded)
              {
                 TempData["ChangePassword"]="True";
+
                 TempData["ChangePasswordContent"] ="Đã đổi mật khẩu thành công"; 
-              return RedirectToAction("Index");
+                
+                return RedirectToAction("Index");
              }
              else
              {  

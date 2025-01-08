@@ -77,6 +77,8 @@ public string RegisterContent(string url)
 public string htmlContent(string receiver,string operating_system,string random_password,int role=1)
 {
     string htmlContent="";
+
+    string dns=Environment.GetEnvironmentVariable("DNS");
     
     string path=this._spService.GetCurrentFilePath("Views/MailTemplate/SendMailTemplate.html");
     
@@ -87,11 +89,11 @@ public string htmlContent(string receiver,string operating_system,string random_
  string url="";
 if(role==1)
 {
- url="https://thanhquang-gnss.com/LoginAdmin/ChangePassword?email="+receiver+"&password="+random_password;
+ url=$"{dns}/admin/reset_password?email="+receiver+"&password="+random_password;
 }
 else
 {
- url="https://thanhquang-gnss.com/MyAccount/ChangePassword?email="+receiver+"&password="+random_password;
+ url=$"{dns}/reset_password?email="+receiver+"&password="+random_password;
 }
 
     htmlContent=htmlContent.Replace("{name}",receiver);
@@ -193,9 +195,12 @@ else if(type==3)
 // {
 //     string web_brower=HttpContext..Headers["User-Agent"].ToString();
 // }
-public async Task sendEmail(string new_password,string receiver,string subject,int role=1)
-{    
-  try{
+public async Task<bool> sendEmail(string new_password,string receiver,string subject,int role=1)
+{   
+  bool is_sent=false;
+  Console.WriteLine("did in this send email function");
+  try
+  {
     // Console.WriteLine("Port:"+this._smtpClient.Port);
     // Console.WriteLine("Username:"+this._smtpClient.Username);
     //     Console.WriteLine("Password:"+this._smtpClient.Password);
@@ -236,10 +241,13 @@ public async Task sendEmail(string new_password,string receiver,string subject,i
       await client.SendAsync(emailMessage);
       await client.DisconnectAsync(true);
    }
+   Console.WriteLine("finish send email");
+   is_sent=true;
   }
   catch(Exception er)
   { this._logger.LogTrace("Smtp Exception:"+er.Message);
     Console.WriteLine("Send Smtp Exception:"+er.Message);
   }
+  return is_sent;
 }
 }

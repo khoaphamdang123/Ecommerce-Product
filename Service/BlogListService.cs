@@ -22,7 +22,8 @@ public class BlogListService:IBlogRepository
   public async Task<IEnumerable<Blog>>getAllBlog()
   {
     var blogs=this._context.Blogs.ToList();
-    return blogs;
+
+    return blogs;    
   }
 
    public async Task<PageList<Blog>> pagingBlogFiles(int page_size,int page,IEnumerable<Blog> blog)
@@ -33,7 +34,7 @@ public class BlogListService:IBlogRepository
    //var users=this._userManager.Users;   
    var paging_list_file=PageList<Blog>.CreateItem(blog.AsQueryable(),page,page_size);
    
-   return paging_list_file;
+   return paging_list_file;   
   }
 
   public async Task<IEnumerable<Blog>> findBlogByCategory(int cat_id)
