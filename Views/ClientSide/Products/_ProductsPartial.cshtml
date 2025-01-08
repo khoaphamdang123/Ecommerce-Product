@@ -1481,7 +1481,7 @@ if (wwwrootIndex !== -1) {
 
    var url='@Url.Action("ProductsByCategory","Products",new{category_name="__id__"})';
    
-   var modify_category=category.replace(/[^\w\d]+/g, '-');
+   var modify_category=category.replace(/\s+/g, '-');
 
      url=url.replace("__id__",modify_category);
 
