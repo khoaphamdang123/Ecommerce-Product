@@ -131,7 +131,7 @@
                                      {
                                     <input type="checkbox" name="rememberme" value="true">
                                      }
-                                        Nhớ mật khẩu
+                                     Nhớ mật khẩu
                                     </label>
                                     </p>
                                     <p class="lost-password">
@@ -227,9 +227,9 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="checkout-form-list">
+                                        <div class="basic-login">
                                             <label>Số điện thoại<span class="required">*</span></label>
-                                            <input type="text" placeholder="Nhập số điện thoại của bạn" id="phone" name="phonenumber" value="@(user!=null?user.PhoneNumber:"")"  @(user!=null?"readonly":"")>
+                                            <input type="number" placeholder="Nhập số điện thoại của bạn" id="phone" name="phonenumber" value="@(user!=null?user.PhoneNumber:"")"  @(user!=null?"readonly":"")>
                                         <span class="text-danger" id="phone-error"></span><br>
 
                                         </div>
@@ -693,6 +693,7 @@
     payment_input.type="text";
     payment_input.name="paymentmethod";
     payment_input.value=payment_method;
+    payment_input.style.display="none";
     checkout_form.appendChild(payment_input);
     checkout_form.submit();
 

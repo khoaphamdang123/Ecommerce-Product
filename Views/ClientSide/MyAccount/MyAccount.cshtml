@@ -2,6 +2,19 @@
     Layout = "_UserLayout";
     var siteKey=ViewBag.SiteKey;
     var account= ViewBag.Account;
+    var register_status=TempData["register_status"];
+    
+    string register_msg="";
+    if(register_status!=null)
+    {
+     switch(register_status)
+     {
+      case 1:register_msg="Đăng ký thành công";break;
+      case 0:register_msg="Đăng ký thất bại";break;
+      case -1:register_msg="Tài khoản đã tồn tại";break;
+     }
+    }
+    Console.WriteLine("register message:"+register_msg);
     var saved_account= ViewBag.SavedAccount;
     string username="";
     string password="";
@@ -28,9 +41,11 @@
                           <i class="bx bx-bell me-2"></i>
                           <div class="me-auto fw-semibold" id="toast-title"></div>
                         </div>
-                        <div class="toast-body" id="toast-message">
+                        <div class="toast-body" id="toast-message">                        
                         </div>
                       </div>
+  
+
       <div
        class="bs-toast toast toast-danger fade bg-danger hide toast-placement-ex top-5 end-0"
        role="alert"
@@ -48,11 +63,10 @@
                           <!--<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>-->
                         </div>
                         <div class="toast-body" id="toast-message-error">
+                          @register_msg
                         </div>
                       </div>
-
-      
-
+ 
 
  <div class="page-banner-area page-banner-height-2" data-background="@Url.Content("~/user_layout/img/banner/page-banner-4.jpg")">
             <div class="container">
@@ -136,20 +150,28 @@
                                 <span class="text-danger" id="password-register-error"></span><br>
 
                                 <label for="con-pass">Nhập lại mật khẩu<span>*</span></label>
+                                
                                 <input id="con-pass" type="password" placeholder="Nhập lại mật khẩu">
+                                
                                 <span class="text-danger" id="re-password-register-error"></span><br>
-
+                                
                                 <label for="phonenumber">Số điện thoại</label>
-                                <input id="phonenumber" name="phonenumber" type="text" placeholder="Nhập số điện thoại">
+                                
+                                <input id="phonenumber" name="phonenumber" type="number" placeholder="Nhập số điện thoại">
+                                
                                 <span class="text-danger" id="phone-error"></span><br>
 
                                <label for="address1">Địa chỉ</label>
+                                
                                 <input id="address1" name="address1" type="text" placeholder="Nhập địa chỉ">
+                                
                                 <ul id="addressSuggestions" class="list-group position-absolute w-100" style="z-index: 1000; display: none;"></ul>
 
                                <label for="address2">Địa chỉ giao hàng</label>
-                                <input id="address2" name="address2" type="text" placeholder="Nhập địa chỉ giao hàng">
-                                  <ul id="addressSuggestions2" class="list-group position-absolute w-100" style="z-index: 1000; display: none;"></ul>
+                                
+                               <input id="address2" name="address2" type="text" placeholder="Nhập địa chỉ giao hàng">
+                               
+                               <ul id="addressSuggestions2" class="list-group position-absolute w-100" style="z-index: 1000; display: none;"></ul>
 
                                <label for="gender">Giới tính</label>
                                <br>
@@ -176,7 +198,8 @@
 </script> *@
 
 <script>
-
+  
+ 
 
  @* let autocompleteService;
    
@@ -276,10 +299,14 @@
  else
  {
     var username=document.getElementById("username-register").value;
+
     var password=  document.getElementById("password-register").value;
+    
     var email = document.getElementById("email").value;
+    
     var re_password = document.getElementById("con-pass").value;
-    action="RegisterHandle";
+    
+    action="SendMailRegister";
 
     if(username=="")
     { is_valid=false;
@@ -318,7 +345,9 @@
 else
 {
   let formDataVal=new FormData(document.getElementById(formId));
+  
   var url='@Url.Action("_action","MyAccount")';
+  
   url=url.replace("_action",action);
 
    $.ajax({  
@@ -330,16 +359,21 @@ else
                 success:function(response)
                 { 
                   var status=response.status;
+
                   var message=response.message;
+                  
                   var title=response.title;
+                  
                   var sitekey=response.siteKey;
          
-                    if(sitekey!=null && siteKey!=undefined)
-                    { 
-                       var siteKey= document.getElementById("sitekey");
-                        siteKey.setAttribute("data-sitekey",sitekey);
-                     grecaptcha.reset();
-                    }
+                  if(sitekey!=null && siteKey!=undefined)
+                  { 
+                      var siteKey= document.getElementById("sitekey");
+                      
+                      siteKey.setAttribute("data-sitekey",sitekey);
+                      
+                      grecaptcha.reset();
+                  }
 
                   if(status==-1 || status==0)
                   { 
@@ -349,13 +383,23 @@ else
                 var toast = new bootstrap.Toast(toastEl);
                 toast.show();
                 }
-
                 else{
                  @* document.getElementById("toast-title").innerHTML=title;
                 document.getElementById("toast-message").innerHTML=message;
                   var toastEl = document.querySelector('.toast');
                 var toast = new bootstrap.Toast(toastEl); *@
+                if(action=="SendMailRegister")
+                {
+                  document.getElementById("toast-title").innerHTML=title;
+                 document.getElementById("toast-message").innerHTML=message;
+                var toastEl = document.querySelector('.toast');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();
+                }
+                else
+                {
                 window.location.href="@Url.Action("HomePage","HomePage")";
+                }
 
                 //toast.show(); 
                 }
@@ -374,7 +418,29 @@ else
 
   document.addEventListener("DOMContentLoaded",()=>{
 
+   var register_status="@Html.Raw(register_status)";
 
+  var register_msg="@Html.Raw(register_msg)";
+
+ if(register_status=="1")
+ {
+                       
+                 document.getElementById("toast-title").innerHTML="Đăng ký tài khoản";
+                 document.getElementById("toast-message").innerHTML=register_msg;
+                var toastEl = document.querySelector('.toast-success');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();       
+      
+ }
+
+ else if(register_status=="0" || register_status=="-1")
+ {
+                document.getElementById("toast-title-error").innerHTML="Đăng ký tài khoản";
+                 document.getElementById("toast-message-error").innerHTML=register_msg;
+                var toastEl = document.querySelector('.toast-danger');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();
+ }
 
   document.getElementById("username-register").addEventListener("keydown",(event)=>{
       var username_error=document.getElementById("username-register-error").value;

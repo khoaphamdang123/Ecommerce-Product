@@ -2,6 +2,30 @@
  @{
     Layout="_UserLayout";
  }
+
+  <div
+       class="bs-toast toast fade bg-success hide toast-placement-ex top-5 end-0"
+       role="alert"
+       aria-live="assertive"
+       aria-atomic="true"
+       data-bs-dismiss="toast"
+       style="cursor: pointer; position: fixed; top: 20px; right: 20px; z-index: 1050;"
+         data-delay="3000"
+         data-bs-autohide="true" 
+         data-bs-delay="3000"
+             >
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold" id="toast-title">
+                            Thông tin đơn hàng
+                          </div>
+                        </div>
+                        <div class="toast-body" id="toast-message">
+                            Chi tiết đơn hàng đã được gửi về email của bạn.                        
+                        </div>
+                      </div>
+  
+
  <div class="confirmation-container">
         <div class="thank-you-message">
             <h1><strong>Cảm ơn bạn đã mua hàng của chúng tôi!</strong></h1>
