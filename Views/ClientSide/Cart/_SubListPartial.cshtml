@@ -1,11 +1,15 @@
   @model List<CartModel>
     @{
         int total_value=0;
+        Console.WriteLine("model count here:"+Model.Count);
     }
+  @if(Model!=null)
+  {
    <ul>
-                                             
-                                               @foreach(var item in Model)
-                                            {   int discount=string.IsNullOrEmpty(item.Product.Discount.ToString()) ? 0 : Convert.ToInt32(item.Product.Discount);
+                                    
+                                          @foreach(var item in Model)
+                                        {   
+                                          int discount=string.IsNullOrEmpty(item.Product.Discount.ToString()) ? 0 : Convert.ToInt32(item.Product.Discount);
                                           string price_value=!string.IsNullOrEmpty(item.Price) ? item.Price : item.Product.Price;
                                          int current_price=(Convert.ToInt32(price_value)-(Convert.ToInt32(price_value)*(discount)/100));
                                           total_value+=current_price*item.Quantity;
@@ -46,6 +50,21 @@
                                                 </li>
                                            
                                             </ul>
+                                }
+                        
+                               else
+                                { 
+                                    <div class="cart">
+                                    <div class="cart__mini">
+                                   <div class="empty-cart">
+                                     <img src="~/user_layout/img/banner/shopping-bag.png" alt="empty-cart" class="empty-cart-image"/>
+                                    <p class="empty-cart-text">Chưa có sản phẩm nào trong giỏ hàng...</p>
+                                    <a href="@Url.Action("HomePage","HomePage")" class="cart-btn" type="button">Tiếp tục mua sắm</a>
+                                   </div>
+                                   </div>
+                                   </div>
+                                }
+                          
 <script>
          var cart=@Html.Raw(Json.Serialize(Model));
 </script>
