@@ -1,5 +1,6 @@
 @model Product
 @using Newtonsoft.Json;
+@using System.Text.RegularExpressions;
 @{
     Layout = "_UserLayout";    
     
@@ -308,7 +309,8 @@
                                 <div class="product_info mb-5">
                                     <span class="posted_in">
                                         <span class="title">Loại sản phẩm:</span>
-                                        <a href="@Url.Action("ProductsByCategory","Products",new {category_name=Model?.Category?.CategoryName})">@Model?.Category?.CategoryName</a>
+
+                                        <a href="@Url.Action("ProductsByCategory","Products",new {category_name=Regex.Replace(Model?.Category?.CategoryName,@"[^\w\d]", "-")})">@Model?.Category?.CategoryName</a>
                                     </span>
                                 </div>
                                 <div class="product_info mb-10 mt-10">

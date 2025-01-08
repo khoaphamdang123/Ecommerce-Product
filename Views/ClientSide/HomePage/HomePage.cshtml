@@ -1392,7 +1392,7 @@ if (wwwrootIndex !== -1) {
 
         url='@Url.Action("ProductsByCategory","Products",new{category_name="__id__"})';
 
-        var modify_category=category.replace(/[^\w\d]+/g, '-');
+        var modify_category=category.replace(/\s+/g, '-');
 
     
         url=url.replace("__id__",modify_category);
@@ -1421,6 +1421,7 @@ if (wwwrootIndex !== -1) {
         var modify_product_name=productName.replace(/[^\w\d]+/g, '-');
 
         name_url=name_url.replace("__id__",modify_product_name);
+
 
        @* const add_cart_btn=document.getElementById('add-cart-detail');
        add_cart_btn.addEventListener("click",()=>{ 
