@@ -168,11 +168,12 @@ namespace Ecommerce_Product.Controllers
 
                 if(!result.Succeeded)
                 {   Console.WriteLine("result here is:"+result.ToString());
+                   
                    response=new StatusResponse{
                           Status=0,
                           Title="Đăng nhập",
                           Message="Mật khẩu không chính xác",
-                        SiteKey=this._recaptcha_response.SiteKey
+                         SiteKey=this._recaptcha_response.SiteKey
 
                    };
             
@@ -222,11 +223,17 @@ namespace Ecommerce_Product.Controllers
      }
             
               HttpContext.Session.SetString("UserId",admin_user.Id);
+              
               HttpContext.Session.SetString("UserName",admin_user.UserName);
+              
               HttpContext.Session.SetString("EMail",admin_user.Email);
+              
               HttpContext.Session.SetString("Password",password);
+              
               HttpContext.Session.SetString("UserSession", "Active");
+              
               HttpContext.Session.SetString("Avatar",admin_user.Avatar);
+              
               response=new StatusResponse{
                             Status=1,
                             Title="Đăng nhập",
@@ -302,7 +309,7 @@ namespace Ecommerce_Product.Controllers
                 Title="Đăng ký tài khoản",
                 Message="Email không hợp lệ"
             };
-            return Json(response);
+            return Json(response);            
           }               
         string query_string=this._smtpService.ConvertModelToQueryString(model);
 
@@ -314,10 +321,8 @@ namespace Ecommerce_Product.Controllers
         
         string url=$"{dns}/register_handle?{query_string}&Timestamp={date_time}&SecurityKey={security_key}";
 
-        
         string html_content=this._smtpService.RegisterContent(url);
         // sendEmailGeneral(int type,string htmlContent,string receiver="")
-
         bool is_send=await this._smtpService.sendEmailGeneral(3,html_content,email);
 
         if(is_send)
@@ -329,7 +334,8 @@ namespace Ecommerce_Product.Controllers
                 Message="Link đăng ký tài khoản đã được gửi đến email của bạn"
             };
            }
-           else{
+           else
+           {
             response=new StatusResponse
             {
                 Status=0,
@@ -337,7 +343,6 @@ namespace Ecommerce_Product.Controllers
                 Message="Có lỗi xảy ra trong quá trình gửi tin nhắn"
             };
            }
-
     }
     catch(Exception er)
     {   
@@ -382,17 +387,19 @@ namespace Ecommerce_Product.Controllers
         if(!string.IsNullOrEmpty(date_time_value))
     {  
         DateTime targetTime=DateTime.ParseExact(date_time_value,"MM/dd/yyyy HH:mm:ss", null);
+
         Console.WriteLine("pass time:"+DateTime.Now.Subtract(targetTime).TotalSeconds.ToString());
+        
         if(DateTime.Now.Subtract(targetTime).TotalMinutes>5)
         {
         TempData["register_status"]=2;
 
-       return RedirectToAction("MyAccount","MyAccount");
+        return RedirectToAction("MyAccount","MyAccount");
+
         }
     } 
-        string? email=model.Email;
-        
-        
+        string? email=model.Email;        
+
         Console.WriteLine("email here is:"+email);
         // int setting_status=await this._setting.getStatusByName("recaptcha");
 
