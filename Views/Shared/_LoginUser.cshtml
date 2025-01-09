@@ -7,12 +7,12 @@
         ChangePassword change_pass= null;
        if(User.Identity.IsAuthenticated && User.IsInRole("User"))
        {
-        username=this.ViewContext.HttpContext.Session.GetString("Username");
+        username=this.ViewContext.HttpContext.Session.GetString("UserName");
         email=this.ViewContext.HttpContext.Session.GetString("Email");
         password = this.ViewContext.HttpContext.Session.GetString("Password");
         avatar = this.ViewContext.HttpContext.Session.GetString("Avatar");
         change_pass=new ChangePassword(email,password,"");
-}  
+        }  
 }
    <div class="nav-item navbar-dropdown dropdown-user dropdown">
                         <a class="icon-link dropdown-toggle hide-arrow" data-bs-toggle="dropdown" href="javascript:void(0);">
