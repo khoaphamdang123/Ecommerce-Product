@@ -1,7 +1,7 @@
 @model PageList<Product>
 @using System.Text.RegularExpressions;
 @{
-    string user_id=this.ViewContext.HttpContext.Session.GetString("UserId");
+    string user_id=this.ViewContext.HttpContext.Session.GetString("UserName");
     
     Console.WriteLine("User Id here is:"+user_id);
     

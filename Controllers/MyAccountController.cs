@@ -246,8 +246,6 @@ namespace Ecommerce_Product.Controllers
                 //   TempData["ErrorContent"]="Username không chính xác";
                   ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             }
-        
-        
         }
         catch(Exception er)
         {
@@ -265,6 +263,9 @@ namespace Ecommerce_Product.Controllers
      StatusResponse response = new StatusResponse();
     try
     {
+
+     string dns=Environment.GetEnvironmentVariable("DNS");
+     
      int setting_status=await this._setting.getStatusByName("recaptcha");
 
       
@@ -307,7 +308,7 @@ namespace Ecommerce_Product.Controllers
 
         Console.WriteLine("query string here is:"+query_string);
         
-        string url="http://localhost:5160/register_handle?"+query_string+"&Timestamp="+date_time;
+        string url=$"{dns}/register_handle?"+query_string+"&Timestamp="+date_time;
 
         
         string html_content=this._smtpService.RegisterContent(url);
@@ -365,7 +366,7 @@ namespace Ecommerce_Product.Controllers
         if(DateTime.Now.Subtract(targetTime).TotalMinutes>5)
         {
         TempData["register_status"]=2;
-        
+
        return RedirectToAction("MyAccount","MyAccount");
         }
     } 
@@ -661,7 +662,7 @@ public async Task<JsonResult> ForgotPasswordHandle(string email)
 
            string subject="Nhận mật khẩu mới";               
            
-           bool is_send= await this._loginRepos.sendEmail(email,email,subject,0);
+           bool is_send= await this._loginRepos.sendEmail("Ecommerce123@",email,subject,0);
 
            if(is_send)
            {
