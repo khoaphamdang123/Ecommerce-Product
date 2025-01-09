@@ -308,9 +308,11 @@ namespace Ecommerce_Product.Controllers
 
         string date_time = DateTime.Now.ToString("MM/dd/yyy hh:mm:ss");
 
-        Console.WriteLine("query string here is:"+query_string);
+        string security_key = this._smtpService.GenerateHmac(date_time).Replace("+","");
+
+        Console.WriteLine("query string here is:"+security_key);
         
-        string url=$"{dns}/register_handle?"+query_string+"&Timestamp="+date_time;
+        string url=$"{dns}/register_handle?{query_string}&Timestamp={date_time}&SecurityKey={security_key}";
 
         
         string html_content=this._smtpService.RegisterContent(url);
@@ -347,7 +349,7 @@ namespace Ecommerce_Product.Controllers
   
   [Route("register_handle")]
   [HttpGet] 
-  public async Task<IActionResult> RegisterHandle(Register model,string Timestamp)
+  public async Task<IActionResult> RegisterHandle(Register model,string Timestamp,string SecurityKey)
   { 
     StatusResponse response = new StatusResponse();
 
@@ -355,12 +357,28 @@ namespace Ecommerce_Product.Controllers
 
     string date_time_value=Timestamp;
 
+    Console.WriteLine("Security key here is:"+Uri.UnescapeDataString(SecurityKey));
+
+
+    string expected_key=this._smtpService.GenerateHmac(date_time_value).Replace("+" ,"");
+
+    Console.WriteLine("Expected key here is:"+expected_key);
+
+
     Console.WriteLine("Timestamp here is:"+date_time_value);
 
    
 
     try 
     {   
+
+    if(!expected_key.Equals(SecurityKey))
+    {
+        TempData["register_status"]=3;
+
+        return RedirectToAction("MyAccount","MyAccount");
+    }
+
         if(!string.IsNullOrEmpty(date_time_value))
     {  
         DateTime targetTime=DateTime.ParseExact(date_time_value,"MM/dd/yyyy HH:mm:ss", null);

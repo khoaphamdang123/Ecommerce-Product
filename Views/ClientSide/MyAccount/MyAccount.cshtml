@@ -13,6 +13,7 @@
       case 0:register_msg="Đăng ký thất bại";break;
       case -1:register_msg="Email này đã tồn tại";break;
       case 2 :register_msg="Link đã hết thời hạn";break;
+      case 3:register_msg="Timestamp đã bị phá hoại";break;
      }
     }
     Console.WriteLine("register message:"+register_msg);
@@ -434,7 +435,7 @@ else
       
  }
 
- else if(register_status=="0" || register_status=="-1" || register_status=="2")
+ else if(register_status=="0" || register_status=="-1" || register_status=="2" || register_status=="3")
  {
                 document.getElementById("toast-title-error").innerHTML="Đăng ký tài khoản";
                  document.getElementById("toast-message-error").innerHTML=register_msg;
