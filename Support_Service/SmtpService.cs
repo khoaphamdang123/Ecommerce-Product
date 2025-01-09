@@ -89,7 +89,8 @@ if(role==1)
 {
  url="https://thanhquang-gnss.com/LoginAdmin/ChangePassword?email="+receiver+"&password="+random_password;
 }
-else{
+else
+{
  url="https://thanhquang-gnss.com/MyAccount/ChangePassword?email="+receiver+"&password="+random_password;
 }
 
