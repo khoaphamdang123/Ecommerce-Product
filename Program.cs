@@ -27,6 +27,7 @@ builder.Services.AddQuartz(q =>
     q.UseMicrosoftDependencyInjectionJobFactory();
 
     q.AddJob<CheckOrderJob>(opts => opts.WithIdentity("CheckOrderJob"));
+    
     q.AddTrigger(opts => opts
         .ForJob("CheckOrderJob")
         .WithIdentity("CheckOrderJobTrigger")
