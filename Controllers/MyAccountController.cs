@@ -115,8 +115,9 @@ namespace Ecommerce_Product.Controllers
             return View("~/Views/ClientSide/MyAccount/ChangePassword.cshtml");
         }
         
-        [Route("change_password/{username}")]
+        [Route("reset_password")]
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult ChangePassword([FromQuery]string username,[FromQuery]string email,[FromQuery]string password)
         {
             ViewBag.Email=email;
@@ -400,7 +401,7 @@ namespace Ecommerce_Product.Controllers
     } 
         string? email=model.Email;        
 
-        Console.WriteLine("email here is:"+email);
+        Console.WriteLine("email here is:"+email);                
         // int setting_status=await this._setting.getStatusByName("recaptcha");
 
       
@@ -604,8 +605,11 @@ namespace Ecommerce_Product.Controllers
                 };
 
                 if(setting_status==1)
-                { Console.WriteLine("Send email here");
+                { 
+                 Console.WriteLine("Send email here");
+                 
                  string html_content=this._smtpService.loginNotify(user.UserName);
+                 
                  Console.WriteLine("Html content here:"+html_content);
                 bool is_sent=await this._smtpService.sendEmailGeneral(1,html_content);
                 }
@@ -613,7 +617,8 @@ namespace Ecommerce_Product.Controllers
             }
             else
             { 
-                response=new StatusResponse{
+                response=new StatusResponse
+                {
                     Status=0,
                     Title="Đổi mật khẩu",
                     Message="Mật khẩu hiện tại của bạn không đúng"
@@ -622,7 +627,8 @@ namespace Ecommerce_Product.Controllers
          }
          else
          {
-            response=new StatusResponse{
+            response=new StatusResponse
+            {
                 Status=0,
                 Title="Đổi mật khẩu",
                 Message="Email của bạn không đúng"
@@ -689,11 +695,12 @@ public async Task<JsonResult> ForgotPasswordHandle(string email)
 
            string subject="Nhận mật khẩu mới";               
            
-           bool is_send= await this._loginRepos.sendEmail("Ecommerce123@",email,subject,0);
+           bool is_send= await this._loginRepos.sendEmail(email,email,subject,0);
 
            if(is_send)
            {
-            response=new StatusResponse{
+            response=new StatusResponse
+            {
                 Status=1,
                 Title="Quên mật khẩu",
                 Message="Tin nhắn khôi phục mật khẩu đã được gửi đến email của bạn"
@@ -711,7 +718,7 @@ public async Task<JsonResult> ForgotPasswordHandle(string email)
     catch(Exception er)
     {
         this._logger.LogTrace("Forgot Password:"+er.Message);
-        Console.WriteLine("Forgot password:",er.Message);
+        Console.WriteLine("Forgot password:"+er.Message);
     }
     return Json(response);
 }
@@ -760,10 +767,10 @@ Console.WriteLine("Update user info did come to this place");
    
     var user_after=await this._userList.findUserById(user.Id);
   if(!string.IsNullOrEmpty(user_after.Avatar))
-  { this.HttpContext.Session.SetString("Username",user_after.UserName);
+  { 
+    this.HttpContext.Session.SetString("UserName",user_after.UserName);
 
     this.HttpContext.Session.SetString("Email",user_after.Email);
-
 
     this.HttpContext.Session.SetString("Avatar",user_after.Avatar);
   }
@@ -788,10 +795,10 @@ Console.WriteLine("Update user info did come to this place");
         public async Task<IActionResult> Logout()
         {   
             await _signInManager.SignOutAsync();
+
             this.HttpContext.Session.Clear();
+
             return RedirectToAction("HomePage","HomePage");
         }
-         
- 
     }
 }
