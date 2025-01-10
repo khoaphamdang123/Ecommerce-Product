@@ -250,34 +250,80 @@ public async Task<bool> createRole(string role)
      {
       user.UserName=user_info.UserName.Replace(" ","").Trim();
       
-      user.Email=user_info.Email;
       
       user.PhoneNumber=user_info.PhoneNumber;
       
       user.Address1=user_info.Address1;
       
       user.Address2=user_info.Address2;
+
+      string extra_info="";
+
+      if(!string.IsNullOrEmpty(user_info.BankName))
+      {
+        Environment.SetEnvironmentVariable("bank",user_info.BankName);
+      }
+
+
+ string qr_code_img=this._support_service.generateQRCode(user_info.BankName,user_info.AccountNum,user_info.AccountName);
+
+ 
+ 
+  Console.WriteLine("QR Code Image:"+qr_code_img);
     
-      var res_update_company=await this._userManager.UpdateAsync(user);
+     Dictionary<string,string> dict_info=new Dictionary<string,string>
+     {
+      {"bank_name",user_info.BankName},
+      {"account_num",user_info.AccountNum},
+      {"account_name",user_info.AccountName},
+      {"facebook",user_info.Facebook},
+      {"zalo",user_info.Zalo},
+      {"youtube",user_info.Youtube},
+      {"instagram",user_info.Instagram},
+      {"telegram",user_info.Telegram},
+     };
+      
+     extra_info=string.Join(Environment.NewLine,dict_info.Select(x=>$"{x.Key}~{x.Value}"));
+     
+     user_info.Email=user_info.Email+"#"+extra_info;
+     
+     user.Email=user_info.Email;
+     
+     Console.WriteLine("Extra Info convert:"+extra_info);    
+
+
+     var res_update_company=await this._userManager.UpdateAsync(user);
       
       if(!res_update_company.Succeeded)
-      {Console.WriteLine("Error update user");
+      {
+        Console.WriteLine("Error update user");
+        
         foreach(var err in res_update_company.Errors)
         {
             Console.WriteLine("Error update user:"+err.Description);
         }
+
       }
+  if(qr_code_img=="ERROR")
+ {
+  return -1;
+ } 
+   Environment.SetEnvironmentVariable("qr_code",qr_code_img);
       res=1;
       return res;
      }
       user.UserName=user_info.UserName.Replace(" ","").Trim();
+      
       user.Email=user_info.Email.Trim();
+      
       user.PhoneNumber=user_info.PhoneNumber.Trim();
       
       user.Address1=user_info.Address1;
       
       user.Address2=user_info.Address2;
+      
       user.Gender=user_info.Gender;
+      
       cur_avatar=user.Avatar;  
     
    string folder_name="UploadImageUser";
@@ -339,7 +385,7 @@ public async Task<bool> createRole(string role)
    }
    catch(Exception er)
    {
-    Console.WriteLine("Update User Info Exception:"+er.Message);
+    Console.WriteLine("Update User Info Exception:"+er.InnerException);
    }
    return res;
   }

@@ -6,12 +6,13 @@ using Ecommerce_Product.Models;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Globalization;
-
+using Ecommerce_Product.Models;
 namespace Ecommerce_Product.Support_Serive;
 public class Service
 {
     private readonly ILogger<Service> _logger;
     private readonly SignInManager<ApplicationUser> _signInManager;
+
 
 
     public Service(ILogger<Service> logger,SignInManager<ApplicationUser> signInManager)
@@ -21,6 +22,89 @@ public class Service
     }
 
 
+public string generateQRCode(string data,string account_num,string account_name)
+{  
+    string qr_code_img="";
+
+    try
+    {
+    string url="https://api.vietqr.io/v2/generate";
+
+    using(var client = new HttpClient())
+    {
+     client.BaseAddress=new Uri(url);
+
+     string[] bank_data_detail=data.Split("*");
+
+     string bank_name=bank_data_detail[0];
+
+     string bank_code = bank_data_detail[1];
+
+     Console.WriteLine("Bank Name:"+bank_name);
+
+     Console.WriteLine("Bank Code:"+bank_code);
+
+     Console.WriteLine("Account Number:"+account_num);
+
+    Console.WriteLine("Account Name:"+account_name);
+
+
+     FormUrlEncodedContent content=new FormUrlEncodedContent(new[]
+     {
+         new KeyValuePair<string,string>("accountNo",account_num),
+         new KeyValuePair<string, string>("accountName",account_name),
+         new KeyValuePair<string,string>("acqId",bank_code),
+         new KeyValuePair<string,string>("template","compact"),
+     });
+
+        HttpResponseMessage response=client.PostAsync(client.BaseAddress,content).Result;
+
+        if(response.IsSuccessStatusCode)
+        {  Console.WriteLine("did success here");
+            string qr_data=response.Content.ReadAsStringAsync().Result;
+            var qr_code=JsonConvert.DeserializeObject<QrModel>(qr_data);
+
+          if(qr_code!=null)
+          { if(qr_code.Code=="00")
+          {
+            qr_code_img=qr_code.Data.QrDataURL;
+          }
+          else
+          {
+            qr_code_img="ERROR";
+          }
+          }
+    }
+    }
+    }
+    catch(Exception er)
+    {  Console.WriteLine("Generate QR Code Exception:"+er.Message);
+        this._logger.LogTrace("Generate QR Code Exception:"+er.Message);
+    }
+    return qr_code_img;
+}
+
+ public BankModel getListBank()
+ {   BankModel bankModel=new BankModel();
+    try
+    {
+    using(HttpClient client=new HttpClient())
+    {
+        client.BaseAddress=new Uri("https://api.vietqr.io/v2/banks");
+        HttpResponseMessage response=client.GetAsync(client.BaseAddress).Result;
+        if(response.IsSuccessStatusCode)
+        {
+            string data=response.Content.ReadAsStringAsync().Result;
+            bankModel=JsonConvert.DeserializeObject<BankModel>(data);
+        }
+    }
+    }
+    catch(Exception er)
+    {
+        this._logger.LogTrace("Get List Bank Exception:"+er.Message);
+    }
+    return bankModel;
+ }
 public string convertToVND(string value)
 {
     return Convert.ToInt32(value).ToString("N0");

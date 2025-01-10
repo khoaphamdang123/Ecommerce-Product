@@ -8,16 +8,23 @@
         string email="";
         string password = "";
         string avatar="";
+       
        int total_value=0;
-        ChangePassword change_pass= null;
+       
+       ChangePassword change_pass= null;
        if(User.Identity.IsAuthenticated && User.IsInRole("User"))
        {
         username=this.ViewContext.HttpContext.Session.GetString("Username");
+
         email=this.ViewContext.HttpContext.Session.GetString("Email");
+        
         password = this.ViewContext.HttpContext.Session.GetString("Password");
+        
         avatar = this.ViewContext.HttpContext.Session.GetString("Avatar");        
+        
         change_pass=new ChangePassword(email,password,"");
        }
+
        var categories = ViewBag.Categories as List<Category>;
 
        var company = ViewBag.Company as ApplicationUser;
@@ -29,6 +36,63 @@
        string[] company_name=company.Address1.Split('!');
        
        string[] phones= company.PhoneNumber.Split(',');
+       
+    string[] email_list=company.Email.Split(' ');
+    
+    string extra_info=email_list[1];
+    
+    string bank_name="";
+    
+    string account_name="";
+
+    string facebook="";
+    
+    string zalo="";
+    
+    string youtube="";
+    
+    string instagram="";
+
+    if(!string.IsNullOrEmpty(extra_info))
+    {
+      string[] info_values=extra_info.Split('\n');
+
+      foreach(var info in info_values)
+      {
+        if(info.Contains("bank_name"))
+        {
+          bank_name=info.Split(':')[1].Trim();
+          Environment.SetEnvironmentVariable("bank",bank_name);
+        }
+        else if(info.Contains("account_name"))
+        {
+          account_name=info.Split(':')[1].Trim();
+        }
+        else if(info.Contains("facebook"))
+        {
+          facebook=info.Split(':')[1].Trim();
+        }
+        else if(info.Contains("zalo"))
+        {
+          zalo=info.Split(':')[1].Trim();
+        }
+        else if(info.Contains("youtube"))
+        {
+          youtube=info.Split(':')[1].Trim();
+        }
+        else if(info.Contains("instagram"))
+        {
+          instagram=info.Split(':')[1].Trim();
+        }
+        else if(info.Contains("qr_code"))
+        {
+            Environment.SetEnvironmentVariable("QR_CODE",info.Split(':')[1].Trim());
+        }
+      }
+    }
+
+    
+       
        
        if(phones.Length>1)
        {
@@ -53,8 +117,8 @@
 <head>
 
     <meta charset="utf-8" />
-    
-    
+
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
 
@@ -93,7 +157,6 @@
         
     <link rel="stylesheet" href="@Url.Content("~/user_layout/css/meanmenu.css")">
         
-
     <link rel="stylesheet" href="@Url.Content("~/user_layout/css/animate.css")">
         
      <link rel="stylesheet" href="@Url.Content("~/user_layout/css/animate.css")">
@@ -492,12 +555,12 @@
                             <p>Chúng tôi xây dựng một hệ thống bán hàng với trách nhiệm và uy tín cao.</p>
                             <div class="cta-social">
                                 <div class="social-icon">
-                                    <a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a>
-                                    <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
-                                    <a href="#" class="youtube"><i class="fab fa-youtube"></i></a>
-                                    <a href="#" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
-                                    <a href="#" class="rss"><i class="fas fa-rss"></i></a>
-                                    <a href="#" class="dribbble"><i class="fab fa-dribbble"></i></a>
+                                    <a href="@facebook" class="facebook"><i class="fab fa-facebook-f" title="facebook"></i></a>
+                                    <a href="#" class="twitter"><i class="fas fa-comment-dots" title="zalo"></i></a>
+                                    <a href="@youtube" class="youtube"><i class="fab fa-youtube" title="youtube"></i></a>
+                                    <a href="#" class="linkedin"><i class="fab fa-linkedin-in" title="linkedin"></i></a>
+                                    <a href="@instagram" class="rss"><i class="fab fa-instagram" title="instagram"></i></a>
+                                    <a href="#" class="dribbble"><i class="fab fa-dribbble" title="dribble"></i></a>
                                 </div>
                             </div>
                         </div>
