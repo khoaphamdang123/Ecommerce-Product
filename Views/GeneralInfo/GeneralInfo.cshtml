@@ -14,7 +14,76 @@
     }
     string[] company_info=Model.Address1.Split('!');
     string company_name=company_info[0];
+    string[] email_list=Model.Email.Split('#');
+    string email=email_list[0];
+    string extra_info=email_list[1];
+    string bank_name="";
+    string account_num="";
+    string account_name="";
+    string bank_value="";
+    string facebook="";
+    string zalo="";
+    string youtube="";
+    string instagram="";
+    string telegram="";
+    if(!string.IsNullOrEmpty(extra_info))
+    {
+      string[] info_values=extra_info.Split('\n');
+
+
+
+
+      foreach(var info in info_values)
+      {
+        if(info.Contains("bank_name"))
+        {
+          bank_value=info.Split('~')[1].Trim();
+        }
+        else if(info.Contains("account_name"))
+        {
+          account_name=info.Split('~')[1].Trim();
+        }
+        else if(info.Contains("account_num"))
+        {
+       account_num=info.Split('~')[1].Trim();
+        }
+        else if(info.Contains("facebook"))
+        {
+          facebook=info.Split('~')[1].Trim();
+        }
+        else if(info.Contains("zalo"))
+        {
+          zalo=info.Split('~')[1].Trim();
+        }
+        else if(info.Contains("youtube"))
+        {
+          youtube=info.Split('~')[1].Trim();
+        }
+        else if(info.Contains("instagram"))
+        {
+          instagram=info.Split('~')[1].Trim();
+        }
+        else if(info.Contains("telegram"))
+        {
+          telegram=info.Split('~')[1].Trim();
+        }
+      }
+    }
+
+    if(!string.IsNullOrEmpty(bank_value))
+    {
+      string[] bank_values=bank_value.Split('*');
+      bank_name=bank_values[0];
+    }
+
+    Console.WriteLine("bank_name here is:"+bank_name);
+
+    Console.WriteLine("account_name here is:"+account_name);
+
+    Console.WriteLine("account_num here is:"+account_num);
+
     string address1=company_info[1];
+    var bank_list = ViewBag.bank_list as List<Bank>;
 }
 
 <div
@@ -39,7 +108,6 @@
  <!-- Content wrapper -->
           <div class="content-wrapper">
             <!-- Content -->
-
             <div class="container-xxl flex-grow-1 container-p-y">
               <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Thông tin chung</h4>
 
@@ -52,7 +120,7 @@
         
                   </ul>
                   <div class="card mb-4">
-                    <h5 class="card-header">Thông tin chung</h5>
+                    <h5 class="card-header">Thông tin chung</h5> 
                  <form id="formAccountSettings"method="post" asp-controller="GeneralInfo" asp-action="updateUser">
                   
                     <div class="card-body">
@@ -72,7 +140,7 @@
                           </div>
                           <div class="mb-3 col-md-6">
                             <label for="email" class="form-label">E-mail</label>
-                            <input class="form-control" type="email" name="email" id="email"  placeholder="Nhập Email" value="@Model?.Email"/>
+                            <input class="form-control" type="email" name="email" id="email" placeholder="Nhập Email" value="@email"/>
                             <span id="email-error" class="text-danger"></span>
                           </div>
                           <div class="mb-3 col-md-6">
@@ -114,6 +182,62 @@
                             <label for="address2" class="form-label">Địa chỉ 2</label>
                             <input type="text" class="form-control" id="address2" name="address2" placeholder="Nhập địa chỉ 2" value="@Model?.Address2"/>
                           </div>
+                          <div class="mb-3 col-md-6">
+                            <label for="bankname" class="form-label">Tên ngân hàng</label>
+                            <select class="select2 form-select" name="bankname" id="bankname">
+                            @if(string.IsNullOrEmpty(bank_name))
+                            {
+                              <option value="" disabled selected>Chọn ngân hàng</option>
+                            }
+                           else
+                           {
+                   <option value="" disabled>Chọn ngân hàng</option>
+                           }
+                              
+                              @if(bank_list!=null)
+                              {
+                              
+                              foreach (var bank in bank_list)
+                              { if(bank_name==bank.ShortName)
+                              {
+                                <option value="@(bank.ShortName+"*"+bank.Bin)" selected>@bank.ShortName</option>
+                               }
+                               else
+                               {
+                           <option value="@(bank.ShortName+"*"+bank.Bin)">@bank.ShortName</option>
+                               }
+                              }
+                              }
+                            </select>
+                          </div>
+                          <div class="mb-3 col-md-6">
+                            <label for="accountname" class="form-label">Số tài khoản</label>
+                            <input type="text" class="form-control" id="accountnum" name="accountnum" placeholder="Nhập số tài khoản" value="@account_num"/>
+                          </div>
+                           <div class="mb-3 col-md-6">
+                            <label for="accountname" class="form-label">Tên tài khoản</label>
+                            <input type="text" class="form-control" id="accountname" name="accountname" placeholder="Nhập tên tài khoản.Lưu ý:Tên tài khoản không được viết có dấu và có ký tự đặc biệt" value="@account_name"/>
+                          </div>
+                            <div class="mb-3 col-md-6">
+                            <label for="facebook" class="form-label">Link Facebook</label>
+                            <input type="text" class="form-control" id="facebook" name="facebook" placeholder="Nhập link facebook" value="@facebook"/>
+                          </div>
+                            <div class="mb-3 col-md-6">
+                            <label for="zalo" class="form-label">Link Zalo</label>
+                            <input type="text" class="form-control" id="zalo" name="zalo" placeholder="Nhập link zalo" value="@zalo"/>
+                          </div>
+                            <div class="mb-3 col-md-6">
+                            <label for="youtube" class="form-label">Link Youtube</label>
+                            <input type="text" class="form-control" id="youtube" name="youtube" placeholder="Nhập link youtube" value="@youtube"/>
+                          </div>
+                            <div class="mb-3 col-md-6">
+                            <label for="instagram" class="form-label">Link Instagram</label>
+                            <input type="text" class="form-control" id="instagram" name="instagram" placeholder="Nhập link instagram" value="@instagram"/>
+                          </div>
+                              <div class="mb-3 col-md-6">
+                            <label for="telegram" class="form-label">Link Telegram</label>
+                            <input type="text" class="form-control" id="telegram" name="telegram" placeholder="Nhập link telegram" value="@telegram"/>
+                          </div>
                         </div>
                         <div class="mt-2">
                           <button type="submit" class="btn btn-primary me-2">Cập nhật Thông tin</button>
@@ -144,6 +268,14 @@
   var hotline=document.getElementById("hotline").value.trim();
   var address1=document.getElementById("address1").value.trim();
   var address2=document.getElementById("address2").value.trim();
+  var bankname=document.getElementById("bankname").value.trim();
+  var accountnum=document.getElementById("accountnum").value.trim();
+  var accountname=document.getElementById("accountname").value.trim();
+  var facebook=document.getElementById("facebook").value.trim();
+  var zalo=document.getElementById("zalo").value.trim();
+  var youtube=document.getElementById("youtube").value.trim();
+  var instagram=document.getElementById("instagram").value.trim();
+  var telegram=document.getElementById("telegram").value.trim();
   var id=document.getElementById("id").value.trim();
   
   @* var confirmPassword = document.getElementById("confirmPassword").value.trim();
@@ -166,11 +298,19 @@
   var phone_combine=phone+','+hotline;
   var address_data=username+'!'+address1;
   formdata.append("username","company");
-    formdata.append("email",email);
-    formdata.append("phonenumber",phone_combine);
+  formdata.append("email",email);
+  formdata.append("phonenumber",phone_combine);
   formdata.append("address1",address_data);
-    formdata.append("address2",address2);
-    formdata.append("id",id);
+  formdata.append("address2",address2);
+  formdata.append("bankname",bankname);
+  formdata.append("accountnum",accountnum);
+  formdata.append("accountname",accountname);
+  formdata.append("facebook",facebook);
+  formdata.append("zalo",zalo);
+  formdata.append("youtube",youtube);
+  formdata.append("instagram",instagram);
+  formdata.append("telegram",telegram);
+  formdata.append("id",id);
     
     $.ajax({
             url: "@Url.Action("updateUser","GeneralInfo")",
@@ -179,11 +319,16 @@
             contentType: false,
             processData: false,
             success: function(response) {
-                   const status=response.status;
+                const status=response.status;
+                
                 const message = response.message;
+                
                 document.getElementById("toast-title").innerHTML="Thông báo";
+                
                 document.getElementById("toast-message").innerHTML=message;
+                
                 var toastEl = document.querySelector('.toast');
+                
                 if(status==1)
                 {
               

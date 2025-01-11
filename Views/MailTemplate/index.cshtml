@@ -2,7 +2,7 @@
 @using Ecommerce_Product.Models
 @using Newtonsoft.Json
 @using System.IO
-@model Order
+@model ReceiptModel
 @{
      int total_value=0;
      string directory = Directory.GetCurrentDirectory();
@@ -29,7 +29,6 @@
     </head>
     <body>
         <table width="100%" cellpadding="0" cellspacing="0" border="0" class="backgroundTable main-temp" style="background-color: #d5d5d5;">
-    using iText.Forms.Xfdf;
             <tbody>
                 <tr>
                     <td>
@@ -47,18 +46,18 @@
                                                 </tr>
                                                 <tr>
                                                     <td style="font-size: 14px; line-height: 18px; color: #666666;">
-                                                        @(string.IsNullOrEmpty(Model.User?.Address2)?Model.User?.Address1:Model.User?.Address2)                                                    
+                                                        @(string.IsNullOrEmpty(Model.Order?.User?.Address2)?Model.Order.User?.Address1:Model.Order?.User?.Address2)                                                    
                                                     </td>
                                                 </tr>
                                                
                                                 <tr>
                                                     <td style="font-size: 14px; line-height: 18px; color: #666666;">
-                                                        Phone: @Model?.User?.PhoneNumber | Email: @Model.User?.Email
+                                                        Phone: @Model?.Order.User?.PhoneNumber | Email: @Model..OrderUser?.Email
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td style="font-size: 14px; line-height: 18px; color: #666666; padding-bottom: 25px;">
-                                                        <strong>Order Number:</strong> @Model?.OrderId | <strong>Order Date:</strong>@Model?.Createddate
+                                                        <strong>Order Number:</strong> @Model.Order?.OrderId | <strong>Order Date:</strong>@Model.Order?.Createddate
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -82,18 +81,18 @@
                                                 </tr>
                                                 <tr>
                                                     <td style="width: 55%; font-size: 14px; line-height: 18px; color: #666666;">
-                                                        @Model?.User?.UserName
+                                                        @Model.Order?.User?.UserName
                                                     </td>
                                                     <td style="width: 45%; font-size: 14px; line-height: 18px; color: #666666;">
-                                                        @Model?.User?.UserName
+                                                        @Model.Order?.User?.UserName
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td style="width: 55%; font-size: 14px; line-height: 18px; color: #666666;">
-                                                        @(string.IsNullOrEmpty(Model.User?.Address2)?Model.User?.Address1:Model.User?.Address2)                                                    
+                                                        @(string.IsNullOrEmpty(Model.Order.User?.Address2)?Model.Order.User?.Address1:Model.Order.User?.Address2)                                                    
                                                         </td>
                                                     <td style="width: 45%; font-size: 14px; line-height: 18px; color: #666666;">
-                                                        @(string.IsNullOrEmpty(Model.User?.Address2)?Model.User?.Address1:Model.User?.Address2)                                                    
+                                                        @(string.IsNullOrEmpty(Model.Order.User?.Address2)?Model.Order.User?.Address1:Model.Order.User?.Address2)                                                    
                                                     </td>
                                                 </tr>
                                                 @* <tr>
@@ -111,7 +110,7 @@
                                 <!-- End address Section -->
                                 
                                 <!-- Start product Section -->
-                             @foreach(var item in Model.OrderDetails)
+                             @foreach(var item in Model.Order.OrderDetails)
                             {   total_value+=Convert.ToInt32(item?.Price)*item.Quantity;
                               string img_path=$"{directory}\\wwwroot\\{(item?.Product?.Frontavatar.Substring(item.Product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1)))}";
 
@@ -203,23 +202,23 @@
                                             <tbody>
                                                 <tr>
                                                     <td colspan="2" style="font-size: 16px; font-weight: bold; color: #666666; padding-bottom: 5px;">
-                                                        Phương thức thanh toán:@Model.Payment?.Paymentname
+                                                        Phương thức thanh toán:@Model.Order?.Payment?.Paymentname
                                                     </td>
                                                 </tr>
-                                              @if(Model.Payment?.Paymentname=="Bank")
+                                              @if(Model.Order?.Payment?.Paymentname=="Bank")
                                                 {
                                                 <tr>
                                                     <td style="width: 55%; font-size: 14px; line-height: 18px; color: #666666;">
-                                                        Tên ngân hàng:&nbsp;TPBank
+                                                        Tên ngân hàng:&nbsp;@Model.BankName
                                                     </td>
                                                     <td style="width: 45%; font-size: 14px; line-height: 18px; color: #666666;">
-                                                        Tên tài khoản: &nbsp;Nguyễn Văn A 
+                                                        Tên tài khoản: &nbsp;@Model.AccountName
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                  
                                                     <td style="width: 45%; font-size: 14px; line-height: 18px; color: #666666;">
-                                                        Số tài khoản:&nbsp;66090781093
+                                                        Số tài khoản:&nbsp;@Model.AccountNumber
                                                     </td>
                                                 </tr>
                                                 @* <tr>
