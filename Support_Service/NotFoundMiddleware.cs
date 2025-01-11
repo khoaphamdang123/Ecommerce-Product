@@ -1,12 +1,15 @@
 using Ecommerce_Product.Repository;
-
-
+using System.Web;
+using Microsoft.AspNetCore.Http;
 namespace Ecommerce_Product.Support_Serive;
 
 public class NotFoundMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly IServiceProvider _serviceProvider;    
+    
+    private string dns=Environment.GetEnvironmentVariable("DNS");
+    
 
     public NotFoundMiddleware(RequestDelegate next,IServiceProvider serviceProvider)
     {
@@ -17,6 +20,7 @@ public class NotFoundMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {   
+        
         if(!IsPageRoute(context.Request.Path.Value))
         {
             await _next(context);
@@ -47,22 +51,24 @@ public class NotFoundMiddleware
             context.Response.Redirect("maintainance");            
             return;
         }
+
     }
     }
+
    
 
     await _next(context);
     
-     
         if (context.Response.StatusCode == 404)
-        {  
+        {  Console.WriteLine("404 ERROR PAGE");
             if (context.Request.Path.StartsWithSegments("/admin"))
             {
                 context.Response.Redirect("Error/404");
             }
             else
             {
-                context.Response.Redirect("404");
+                // Console.WriteLine(context.Response.Body);
+                context.Response.Redirect("/404");
             }
         }
     }

@@ -59,6 +59,7 @@ public class AdminListService:IAdminRepository
    if(!string.IsNullOrEmpty(datetime) && string.IsNullOrEmpty(endtime))
    {
     datetime=datetime.Trim();
+    
     users= users.ToList().Where(c=>DateTime.TryParse(c.Created_Date,out var startDate) && DateTime.TryParse(datetime,out var lowerDate) && startDate.Date==lowerDate.Date).AsQueryable();
    }
    else if(string.IsNullOrEmpty(datetime) && !string.IsNullOrEmpty(endtime))
@@ -67,6 +68,7 @@ public class AdminListService:IAdminRepository
     endtime=endtime.Trim();
    
     users= users.ToList().Where(c=>DateTime.TryParse(c.Created_Date,out var startDate) && DateTime.TryParse(endtime,out var upperDate) && startDate.Date==upperDate.Date).AsQueryable();
+   
    }
    else if(!string.IsNullOrEmpty(datetime) && !string.IsNullOrEmpty(endtime))
    {
@@ -80,8 +82,11 @@ public class AdminListService:IAdminRepository
     public async Task<IEnumerable<ApplicationUser>> getAllUserList()
     {
       string role="Admin";
+      
       var users=this._userManager.Users.ToList();
+      
       List<ApplicationUser> userList=new List<ApplicationUser>();
+
       foreach(var user in users)
       {
         if(await this._userManager.IsInRoleAsync(user,role))
@@ -90,6 +95,7 @@ public class AdminListService:IAdminRepository
         }
       }
       return userList;
+
     }
 
    public async Task<PageList<ApplicationUser>> pagingUser(int page_size,int page)

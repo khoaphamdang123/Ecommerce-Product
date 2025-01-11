@@ -16,7 +16,7 @@ namespace Ecommerce_Product.Controllers;
 [Route("admin")]
 public class PaymentListController : Controller
 {
-    private readonly ILogger<PaymentListController> _logger;
+  private readonly ILogger<PaymentListController> _logger;
 
    private readonly IPaymentRepository _payment;
 
@@ -38,14 +38,16 @@ public class PaymentListController : Controller
     try
     {  
         var payments=await this._payment.pagingPayment(7,1);
+
         return View(payments);
     }
     catch(Exception er)
     {
         this._logger.LogTrace("Get Static File List Exception:"+er.Message);
     }
-    return View();
     
+    return View();
+
   }
 
 
@@ -76,6 +78,7 @@ public class PaymentListController : Controller
   }
 
   [Route("payment/add_payment")]
+  
   [HttpGet]
   public IActionResult AddPayment()
   {
@@ -147,7 +150,7 @@ public class PaymentListController : Controller
   public async Task<IActionResult> DeletePayment(int id)
   {
     try
-    {
+  {
    int remove_res=await this._payment.deletePaymentMethod(id);
    if(remove_res==0)
    {

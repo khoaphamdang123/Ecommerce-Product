@@ -3,6 +3,7 @@
  @{
     Layout="_UserLayout";
     var user=ViewBag.user as ApplicationUser;
+    var company_user=  ViewBag.company as ApplicationUser;
     var payment_methods=ViewBag.payment_methods as List<Payment>;
     Console.WriteLine(payment_methods.Count);
     int total_value=0;
@@ -18,8 +19,50 @@
      username=account_part[0];
      password=account_part[1];
   }
+    
+    string[] email_list=company_user.Email.Split('#');
+    
+    string email=email_list[0];
+    
+    string extra_info=email_list[1];
+    
+    string bank_name="";
+    
+    string account_num="";
+    
+    string account_name="";
+    
+    string bank_value="";
+
+    string qr_code=Environment.GetEnvironmentVariable("qr_code");    
+
+    if(!string.IsNullOrEmpty(extra_info))
+    {
+      string[] info_values=extra_info.Split('\n');
+      foreach(var info in info_values)
+      {
+        if(info.Contains("bank_name"))
+        {
+          bank_value=info.Split('~')[1].Trim();
+        }
+        else if(info.Contains("account_name"))
+        {
+          account_name=info.Split('~')[1].Trim();
+        }
+        else if(info.Contains("account_num"))
+        {
+       account_num=info.Split('~')[1].Trim();
+        }
+      }
+    }
+    if(!string.IsNullOrEmpty(bank_value))
+    {
+      var bank_detail=bank_value.Split('*');
+      bank_name=bank_detail[0];
+    }
 
     Console.WriteLine("Sitekey here is:"+siteKey);
+ 
  } 
  @if(status_checkout==0)
  {
@@ -500,7 +543,7 @@
                                         </h2>
                                         <div id="bankOne" class="accordion-collapse collapse show" aria-labelledby="checkoutOne" data-bs-parent="#checkoutAccordion">
                                             <div class="accordion-body">
-                                             <p><span style="color: red;">*</span>Quý khách thanh toán qua tài khoản sau.Đơn hàng của quý khách sẽ không được giải quyết cho đến khi việc xác nhận chuyển khoản được thực hiện thành công.Sau 1 ngày kể từ lúc đặt hàng,nếu hệ thống kiểm tra và xác nhận đơn hàng vẫn chưa được 
+                                             <p><span style="color: red;">*</span>Quý khách thanh toán qua tài khoản sau.Đơn hàng của quý khách sẽ không được giải quyết cho đến khi việc xác nhận chuyển khoản được thực hiện thành công.Sau 3 ngày kể từ lúc đặt hàng,nếu hệ thống kiểm tra và xác nhận đơn hàng vẫn chưa được 
                                                 chuyển khoản thì hệ thống sẽ tự động hủy đơn hàng.
                                              </p>
                                             <div class="qr-payment">
@@ -508,16 +551,17 @@
         <h3>Thông tin ngân hàng:</h3>
         <ul>
           <li><strong>Số tiền cần chuyển:</strong>&nbsp;@total_value VNĐ</li>
-          <li><strong>Tên ngân hàng:</strong>&nbsp;TPBank</li>
-          <li><strong>Tên chủ thể:</strong>&nbsp;Huỳnh Kiếng Quân</li>
-          <li><strong>Số tài khoản:</strong>&nbsp;66090781093</li>
+          <li><strong>Tên ngân hàng:</strong>&nbsp;@bank_name</li>
+          <li><strong>Tên chủ thể:</strong>&nbsp;@account_name</li>
+          <li><strong>Số tài khoản:</strong>&nbsp;@account_num</li>
           <li><strong>Nội dung:</strong>&nbsp;"#(Mã đơn hàng) chuyển khoản" Vd:#100101 chuyển khoản</li>
         </ul>
       </div>
       <div class="qr-code">
-        <img class="qr-img" src="@Url.Content("~/user_layout/img/banner/z6056074692256_56fd8ba6a61d2214aea036ac22f665d2.jpg")" alt="QR Code">
+        <img class="qr-img" src="@qr_code" alt="QR Code">
       </div>
     </div> 
+                                            
                                             </div>
                                         </div>
                                     </div>
@@ -696,7 +740,6 @@
     payment_input.style.display="none";
     checkout_form.appendChild(payment_input);
     checkout_form.submit();
-
     });
 
       const accordion = document.getElementById('checkoutAccordion');

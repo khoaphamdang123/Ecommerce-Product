@@ -112,7 +112,8 @@ namespace Ecommerce_Product.Controllers
         [AllowAnonymous]
         public IActionResult ChangePassword()
         {  Console.WriteLine("just come here");
-            return View("~/Views/ClientSide/MyAccount/ChangePassword.cshtml");
+           
+           return View("~/Views/ClientSide/MyAccount/ChangePassword.cshtml");
         }
         
         [Route("reset_password")]
@@ -121,8 +122,11 @@ namespace Ecommerce_Product.Controllers
         public IActionResult ChangePassword([FromQuery]string username,[FromQuery]string email,[FromQuery]string password)
         {
             ViewBag.Email=email;
+            
             ViewBag.Password= password;
+            
             Console.WriteLine("Email did pass here:"+email);
+
             return View("~/Views/ClientSide/MyAccount/ChangePassword.cshtml");
         }
 

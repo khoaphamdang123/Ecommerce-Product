@@ -15,8 +15,6 @@ using System.Configuration;
 
 namespace Ecommerce_Product.Controllers;
 
-
-
 public class CheckoutController : BaseController
 {
     private readonly ILogger<CheckoutController> _logger;
@@ -85,11 +83,11 @@ public class CheckoutController : BaseController
      {
        return RedirectToAction("Cart","Cart");
      }
-     string username=HttpContext.Session.GetString("Username");
+     string username=HttpContext.Session.GetString("UserName");
 
      var payment_methods=await this._payment.getAllPayment();
      
-      ViewBag.payment_methods=payment_methods;
+    ViewBag.payment_methods=payment_methods;
 
    int setting_status=await this._setting.getStatusByName("recaptcha");
 
@@ -97,6 +95,7 @@ public class CheckoutController : BaseController
        {
         ViewBag.SiteKey=this._recaptcha_response.SiteKey;
        }
+       
         bool is_saved_account=false;
         
         if(Request.Cookies["UserAccount"]!=null)
@@ -107,19 +106,61 @@ public class CheckoutController : BaseController
             ViewBag.Account=account;
             ViewBag.SavedAccount=is_saved_account;
         }
+     var company = await this._user.findUserByName("company");
+
+        ViewBag.company=company;
+
+     Console.WriteLine("qr hre");
+
+      Console.WriteLine("QR ENV:"+Environment.GetEnvironmentVariable("qr_code"));
+     if(string.IsNullOrEmpty(Environment.GetEnvironmentVariable("qr_code")))
+     {
+    string[] email_list=company.Email.Split('#');
+    string email=email_list[0];
+    string extra_info=email_list[1];
+    string bank_name="";
+    string account_num="";
+    string account_name="";
+    string qr_code="";    
+
+    if(!string.IsNullOrEmpty(extra_info))
+    {
+      string[] info_values=extra_info.Split('\n');
+      foreach(var info in info_values)
+      {
+        if(info.Contains("bank_name"))
+        {
+          bank_name=info.Split('~')[1].Trim();
+        }
+        else if(info.Contains("account_name"))
+        {
+          account_name=info.Split('~')[1].Trim();
+        }
+        else if(info.Contains("account_num"))
+        {
+       account_num=info.Split('~')[1].Trim();
+        }
+      }
+    }
+    qr_code=this._sp.generateQRCode(bank_name,account_num,account_name);
+    Console.WriteLine("QRCODE:"+qr_code);
+    if(!string.IsNullOrEmpty(qr_code) && qr_code!="ERROR")
+    { this._logger.LogInformation("QR Code In Checkout did come here:"+qr_code);
+    Console.WriteLine("QR Code In Checkout did come here:"+qr_code);
+     Environment.SetEnvironmentVariable("qr_code",qr_code);
+    }
+  }
     
      if(string.IsNullOrEmpty(username))
      {
         return View("~/Views/ClientSide/Checkout/Checkout.cshtml",cart);
      }
 
-    
-
+  
    
      var user=await this._user.findUserByName(username);
 
-
-     ViewBag.user=user;
+     ViewBag.user=user;    
     }
     catch(Exception er)
     {   
@@ -206,9 +247,41 @@ public class CheckoutController : BaseController
 
      Console.WriteLine("render view");
 
+     var company_user = await this._user.findUserByName("company");
+
+      
+    string[] email_list=company_user.Email.Split('#');
+    string extra_info=email_list[1];
+    string bank_name="";
+    string account_num="";
+    string account_name="";
+
+    if(!string.IsNullOrEmpty(extra_info))
+    {
+      string[] info_values=extra_info.Split('\n');
+      foreach(var info in info_values)
+      {
+        if(info.Contains("bank_name"))
+        {
+          bank_name=info.Split('~')[1].Trim();
+        }
+        else if(info.Contains("account_name"))
+        {
+          account_name=info.Split('~')[1].Trim();
+        }
+        else if(info.Contains("account_num"))
+        {
+       account_num=info.Split('~')[1].Trim();
+        }
+      }
+    }
+
+
+    ReceiptModel receipt=new ReceiptModel{Order=order,BankName=bank_name,AccountName=account_name,AccountNumber=account_num};
+
      string mail_path="MailTemplate/index.cshtml";
 
-     string render_string=await render_view.RenderViewToStringAsync(mail_path,order);
+     string render_string=await render_view.RenderViewToStringAsync(mail_path,receipt);
 
      bool is_sent=await this._smtpService.sendEmailGeneral(2,render_string);
 

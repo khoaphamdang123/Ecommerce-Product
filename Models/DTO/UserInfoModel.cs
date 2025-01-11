@@ -16,6 +16,22 @@ public class UserInfo
    
    public string Gender{get;set;}
 
+   public string BankName{get;set;}
+
+   public string AccountName{get;set;}
+
+   public string AccountNum{get;set;}
+
+   public string Facebook{get;set;}
+
+   public string Zalo{get;set;}
+
+   public string Youtube{get;set;}
+
+   public string Instagram{get;set;}
+
+   public string Telegram{get;set;}
+   
    public IFormFile Avatar{get;set;}
     
 }
