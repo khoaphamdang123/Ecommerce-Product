@@ -27,7 +27,7 @@ public class BaseController : Controller
         
         ViewBag.Company=user;
     
-    var cart_json =this.HttpContext.Session.GetString("cart");
+    var cart_json = this.HttpContext.Session.GetString("cart");
     
     var cart= cart_json != null ? JsonConvert.DeserializeObject<List<CartModel>>(cart_json) : new List<CartModel>();
     
