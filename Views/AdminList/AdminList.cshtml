@@ -240,14 +240,14 @@
                             <td class="text-center">@user.Created_Date</td>
                             <td class="text-center">
                             <div class="d-flex align-items-center justify-content-center">
-                              <a data-bs-toggle="modal" data-bs-target="#modalLong" class="btn btn-icon delete-record icon-style-delete" id="delete-record-btn" data-email="@user.Email">
+                              <a data-bs-toggle="modal" data-bs-target="#modalLong" class="btn btn-icon delete-record icon-style-delete" id="delete-record-btn" data-email="@user.Email" title="Xóa Admin">
                                 <i class="bx bx-trash bx-md"></i>
                               </a>
                       <div class="modal fade" id="modalLong" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h4 class="modal-title" id="modalLongTitle"><strong>Xóa User</strong></h4>
+                              <h4 class="modal-title" id="modalLongTitle"><strong>Xóa Admin</strong></h4>
                               <button
                                 type="button"
                                 class="btn-close"
@@ -269,10 +269,10 @@
                           </div>
                         </div>
                       </div>
-                                <a href="@Url.Action("AdminInfo",new {email=user.Email})" class="btn btn-icon icon-style-update">
+                                <a href="@Url.Action("AdminInfo",new {email=user.Email})" class="btn btn-icon icon-style-update" title="Xem thông tin">
                                 <i class="bx bx-show bx-md"></i>
                               </a>
-                              <a href="@Url.Action("ResetPasswordUser",new{email=user.Email})" class="btn btn-icon icon-style-reset">
+                              <a href="@Url.Action("ResetPasswordUser",new{email=user.Email})" class="btn btn-icon icon-style-reset" title="Đổi mật khẩu">
                                 <i class="bx bx-key bx-md"></i>
                               </a>
                             </div>

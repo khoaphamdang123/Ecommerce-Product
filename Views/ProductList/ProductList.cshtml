@@ -320,7 +320,7 @@
                             <td class="text-center">@product.UpdatedDate</td>
                             <td class="text-center">
                             <div class="d-flex justify-content-center">
-                              <a data-bs-toggle="modal" data-bs-target="#modalLong" class="btn btn-icon delete-record icon-style-delete mr-2" id="delete-record-btn" data-category="@product.Id">
+                              <a data-bs-toggle="modal" data-bs-target="#modalLong" class="btn btn-icon delete-record icon-style-delete mr-2" id="delete-record-btn" data-category="@product.Id" title="Xóa sản phẩm">
                                 <i class="bx bx-trash bx-md"></i>
                               </a>
                       <div class="modal fade" id="modalLong" tabindex="-1" aria-hidden="true">
@@ -349,16 +349,16 @@
                           </div>
                         </div>
                       </div>
-                                <a href="@Url.Action("ProductInfo",new{id=product.Id})" class="btn btn-icon icon-style-update">
+                                <a href="@Url.Action("ProductInfo",new{id=product.Id})" class="btn btn-icon icon-style-update" title="Chi tiết sản phẩm">
                                 <i class="bx bx-show bx-md"></i>
                               </a>
-                              <a href="@Url.Action("VariantList",new{id=product.Id})" style="margin-right: 5px;" class="btn btn-icon icon-style-reset">
+                              <a href="@Url.Action("VariantList",new{id=product.Id})" style="margin-right: 5px;" class="btn btn-icon icon-style-reset" title="Danh sách biến thể">
                                 <i class="bx bx-cart bx-md"></i>
                               </a>
-                             <a href="@Url.Action("ManualListByProduct","ManualList",new{product_id=product.Id})" class="btn btn-icon">
+                             <a href="@Url.Action("ManualListByProduct","ManualList",new{product_id=product.Id})" class="btn btn-icon" title="Danh sách hướng dẫn">
                                 <i style="color: #696cff; margin-right:5px;" class="bx bx-book bx-md"></i>
                               </a>
-                                <a href="@Url.Action("VideoListByProduct","VideoList",new{product_id=product.Id})" class="btn btn-icon">
+                                <a href="@Url.Action("VideoListByProduct","VideoList",new{product_id=product.Id})" class="btn btn-icon" title="Danh sách video">
                                 <i style="color: #0d6efd;" class="bx bx-video bx-md"></i>
                               </a>
                             </div>

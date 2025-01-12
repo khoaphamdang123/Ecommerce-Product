@@ -244,7 +244,7 @@
                             <td class="text-center">
                        
                             <div class="d-flex align-items-center justify-content-center">
-                              <a data-bs-toggle="modal" data-bs-target="#modalLong" class="btn btn-icon delete-record icon-style-delete" id="delete-record-btn" data-email="@user.Email">
+                              <a data-bs-toggle="modal" data-bs-target="#modalLong" class="btn btn-icon delete-record icon-style-delete" id="delete-record-btn" data-email="@user.Email" title="Xóa User">
                                 <i class="bx bx-trash bx-md"></i>
                               </a>
                       <div class="modal fade" id="modalLong" tabindex="-1" aria-hidden="true">
@@ -273,10 +273,10 @@
                           </div>
                         </div>
                       </div>
-                                <a href="@Url.Action("UserInfo",new {email=user.Email})" class="btn btn-icon icon-style-update">
+                                <a href="@Url.Action("UserInfo",new {email=user.Email})" class="btn btn-icon icon-style-update" title="Xem thông tin User">
                                 <i class="bx bx-show bx-md"></i>
                               </a>
-                              <a href="@Url.Action("ResetPasswordUser",new{email=user.Email})" class="btn btn-icon icon-style-reset">
+                              <a href="@Url.Action("ResetPasswordUser",new{email=user.Email})" class="btn btn-icon icon-style-reset" title="Đặt lại mật khẩu">
                                 <i class="bx bx-key bx-md"></i>
                               </a>
                             </div>
