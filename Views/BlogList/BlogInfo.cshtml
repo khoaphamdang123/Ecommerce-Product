@@ -177,6 +177,9 @@ img_url=$"~/{img_url.Substring(img_url.IndexOf("wwwroot")+("wwwroot".Length+1)).
   new FroalaEditor('#content',
   {
  heightMin: 300,
+ imageUploadToS3: false,
+    imageUploadURL: '/image/upload',
+    imageOutputSize: true,
     toolbarButtons:{  moreText: {
       buttons: [
         'bold', 'italic', 'underline', 'strikeThrough', 
