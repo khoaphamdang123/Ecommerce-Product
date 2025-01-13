@@ -164,7 +164,9 @@ public void writeCsvFile(string file_name,string data)
 {
     try
     {
+    
     string file_path=GetCurrentFilePath(file_name);
+    
     using(var writer=new StreamWriter(file_path,true,Encoding.UTF8))
     {
         writer.WriteLine(data);
@@ -204,13 +206,14 @@ public string getCurrentOs()
 
 // return os_name != null ? os_name.ToString() : "Unknown";
  string os_name="";
+
  if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
  {
      os_name="Windows";
  }
  else if(RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
  {
-     os_name="Linux";
+     os_name="Linux";     
  }
  else if(RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
  {
