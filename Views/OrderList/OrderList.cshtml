@@ -323,7 +323,7 @@
                             <td class="text-center">@order.Createddate</td>
                             <td class="text-center">
                             <div class="d-flex justify-content-center">
-                              <a data-bs-toggle="modal" data-bs-target="#modalLong" class="btn btn-icon delete-record icon-style-delete mr-2" id="delete-record-btn" data-page=@order.Id>                               
+                              <a data-bs-toggle="modal" data-bs-target="#modalLong" class="btn btn-icon delete-record icon-style-delete mr-2" id="delete-record-btn" data-page=@order.Id title="Xóa đơn hàng">                               
                                  <i class="bx bx-trash bx-md"></i>
                               </a>
                       <div class="modal fade" id="modalLong" tabindex="-1" aria-hidden="true">
@@ -352,11 +352,11 @@
                           </div>
                         </div>
                       </div>
-                                <a href="@Url.Action("OrderDetail",new{id=order.Id})" class="btn btn-icon icon-style-update">
+                                <a href="@Url.Action("OrderDetail",new{id=order.Id})" class="btn btn-icon icon-style-update" title="Xem chi tiết">
                                 <i class="bx bx-show bx-md"></i>
                               </a>
                             
-                             <a href="@Url.Action("OrderStatus",new{id=order.Id})" class="btn btn-icon" style="color:#007bff">
+                             <a href="@Url.Action("OrderStatus",new{id=order.Id})" class="btn btn-icon" style="color:#007bff" title="Cập nhật trạng thái">
                                 <i class="bx bx-edit bx-md"></i>
                               </a>
                             </div>
