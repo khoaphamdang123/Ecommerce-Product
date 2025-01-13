@@ -442,6 +442,34 @@ if(string.IsNullOrEmpty(id_user))
 
 
 
+[HttpPost("/image/upload")]
+public async Task<IActionResult> UploadImage(IFormFile file)
+{
+    if (file == null || file.Length == 0)
+    {
+        return BadRequest("No file uploaded.");
+    }
+
+    var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadImages");
+    if (!Directory.Exists(uploadPath))
+    {
+        Directory.CreateDirectory(uploadPath);
+    }
+
+    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+
+    var filePath = Path.Combine(uploadPath, fileName);
+    using (var stream = new FileStream(filePath, FileMode.Create))
+    {
+        await file.CopyToAsync(stream);
+    }
+
+    var imageUrl = $"{Request.Scheme}://{Request.Host}/uploads/{fileName}";
+    
+    return Ok(new { link = imageUrl });
+}
+
+
 
 [Route("product_list/product_info")]
 [HttpPost]

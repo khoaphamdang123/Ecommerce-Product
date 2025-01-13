@@ -435,7 +435,10 @@ document.addEventListener("DOMContentLoaded", function (event)
 { 
 
   new FroalaEditor('#Description',{
-     heightMin: 300,
+    heightMin: 300,
+    imageUploadToS3: false,
+    imageUploadURL: '/image/upload',
+    imageOutputSize: true,
     toolbarButtons:{  moreText: {
       buttons: [
         'bold', 'italic', 'underline', 'strikeThrough', 
@@ -1188,9 +1191,12 @@ const file=files[i];
     variant_file_arr.forEach((file,index)=>{
     formDataVal.append(`variantfiles`,file);
   });
+  
   var id_ob=document.getElementById("product-id");
+  
   let  id_value=id_ob.getAttribute("data-id");
-    let url='@Url.Action("GetSampleInfo", "ProductList")';
+  
+  let url='@Url.Action("GetSampleInfo", "ProductList")';
     $.ajax({
                 url:url,
                 type: 'POST',
