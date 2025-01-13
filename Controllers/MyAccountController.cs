@@ -695,7 +695,7 @@ public async Task<JsonResult> ForgotPasswordHandle(string email)
     try{
    
         
-            Console.WriteLine("Received email:"+email);
+           Console.WriteLine("Received email:"+email);
 
            string subject="Nhận mật khẩu mới";               
            
