@@ -452,6 +452,7 @@ public async Task<IActionResult> UploadImage(IFormFile file)
     }
 
     var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadImages");
+    
     if (!Directory.Exists(uploadPath))
     {
         Directory.CreateDirectory(uploadPath);
