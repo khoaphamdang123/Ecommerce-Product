@@ -444,7 +444,8 @@ if(string.IsNullOrEmpty(id_user))
 
 [HttpPost("/image/upload")]
 public async Task<IActionResult> UploadImage(IFormFile file)
-{
+{  
+  Console.WriteLine("did come to upload image here");
     if (file == null || file.Length == 0)
     {
         return BadRequest("No file uploaded.");
@@ -464,7 +465,9 @@ public async Task<IActionResult> UploadImage(IFormFile file)
         await file.CopyToAsync(stream);
     }
 
-    var imageUrl = $"{Request.Scheme}://{Request.Host}/uploads/{fileName}";
+    var imageUrl = $"{Request.Scheme}://{Request.Host}/UploadImages/{fileName}";
+
+    this._logger.LogInformation("Image URL:"+imageUrl);
     
     return Ok(new { link = imageUrl });
 }
