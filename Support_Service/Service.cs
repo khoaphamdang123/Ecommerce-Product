@@ -7,7 +7,10 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Globalization;
 using Ecommerce_Product.Models;
+using System.Runtime.InteropServices;
+
 namespace Ecommerce_Product.Support_Serive;
+
 public class Service
 {
     private readonly ILogger<Service> _logger;
@@ -195,11 +198,29 @@ public async Task<RecaptchaResponse> ValidateRecaptcha(string recaptchaToken)
 
 public string getCurrentOs()
 {
-    var os_name = (from x in new ManagementObjectSearcher("SELECT Caption FROM Win32_OperatingSystem").Get().Cast<ManagementObject>()
-                      select x.GetPropertyValue("Caption")).FirstOrDefault();
+//     var os_name = (from x in new ManagementObjectSearcher("SELECT Caption FROM Win32_OperatingSystem").Get().Cast<ManagementObject>()
+//                       select x.GetPropertyValue("Caption")).FirstOrDefault();
 
 
-return os_name != null ? os_name.ToString() : "Unknown";
+// return os_name != null ? os_name.ToString() : "Unknown";
+ string os_name="";
+ if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+ {
+     os_name="Windows";
+ }
+ else if(RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+ {
+     os_name="Linux";
+ }
+ else if(RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+ {
+     os_name="OSX";
+ }
+ else
+ {
+     os_name="Unknown";
+ }
+ return os_name;
 }
 
 
