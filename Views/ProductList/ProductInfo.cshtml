@@ -132,21 +132,21 @@
                             <label class="form-label" for="price">
                                 Giá
                             </label>
-                           <input type="number" class="form-control" placeholder="Giá sản phẩm" name="price" id="price" value="@Model?.Price">
+                           <input type="number" class="form-control" placeholder="Giá sản phẩm" name="price" min="0" id="price" value="@Model?.Price">
                            <span class="text-danger" id="price-error"></span>
                          </div>
                         <div class="col-md-4">
                             <label class="form-label" for="quantity">
                                Số lượng sản phẩm
                             </label>
-                           <input type="number" class="form-control" placeholder="Số lượng" name="quantity" id="quantity" value="@Model?.Quantity">
+                           <input type="number" class="form-control" placeholder="Số lượng" name="quantity" min="0" id="quantity" value="@Model?.Quantity">
                          <span class="text-danger" id="quantity-error"></span>
                         </div>
                          <div class="col-md-3">
                           <label class="form-label" for="discount">
                             Giảm giá
                           </label>
-                          <input type="number" class="form-control" placeholder="Giảm giá" name="discount" value="@(string.IsNullOrEmpty(Model.Discount.ToString())?0:Model.Discount)" id="discount">
+                          <input type="number" class="form-control" placeholder="Giảm giá" min="0" max="100" name="discount" value="@(string.IsNullOrEmpty(Model.Discount.ToString())?0:Model.Discount)" id="discount">
                         </div>
                         <div class="col-auto mt-4">
                           <span>%</span>
