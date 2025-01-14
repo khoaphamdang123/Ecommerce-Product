@@ -45,8 +45,8 @@
                                              variant_info+="Loại kính: "+item.Mirror+"\n";
                                           }
                                          string price_value=!string.IsNullOrEmpty(item.Price) ? item.Price : item.Product.Price;
-                                         int current_price=(Convert.ToInt32(price_value)-(Convert.ToInt32(item.Product.Price)*(discount)/100));
-                                         total_amount+=(Convert.ToInt32(price_value)-(Convert.ToInt32(item.Product.Price)*(discount)/100))*item.Quantity;
+                                         int current_price=(Convert.ToInt32(price_value)-(Convert.ToInt32(price_value)*(discount)/100));
+                                         total_amount+=(Convert.ToInt32(price_value)-(Convert.ToInt32(price_value)*(discount)/100))*item.Quantity;
                                        <tr>
                                           <input id="product-id" type="hidden" value="@item.Product.Id">
                                           <input id="discount" type="hidden" value="@discount">
@@ -55,7 +55,7 @@
                                           <td class="product-price"><span id="product-price" class="amount">@current_price đ</span></td>
                                           <td class="product-quantity">
                                              <div class="cart-plus-minus">
-                                             <input class="quantity-value" type="text" value="@item.Quantity" data-price="@(Convert.ToInt32(item.Product.Price))"><div class="dec qtybutton">-</div><div class="inc qtybutton">+</div></div>
+                                             <input class="quantity-value" type="text" value="@item.Quantity" data-price="@(Convert.ToInt32(price_value))"><div class="dec qtybutton">-</div><div class="inc qtybutton">+</div></div>
                                           </td>
                                           <td class="product-price">@variant_info</td>
                                           <td class="product-subtotal"><span class="amount">@(current_price*item.Quantity) đ</span></td>
