@@ -148,7 +148,7 @@
       var current_price=row.querySelector('#product-price');
         var current_price_value=current_price.textContent.replace('đ','').trim();
             const discount=row.querySelector('#discount').value;
-        const new_price=(parseInt(current_price_value)-(parseInt(current_price_value)*(parseInt(discount))/100));
+        const new_price=(parseInt(current_price_value));
 
          var quantity=parseInt(quantity_ob.value);
 
@@ -181,8 +181,7 @@
         const discount=row.querySelector('#discount').value;
          var quantity=parseInt(quantity_ob.value);
          var prev_quantity=quantity>1?quantity-1:1;
-        const new_price=(parseInt(current_price_value)-(parseInt(current_price_value)*(parseInt(discount))/100));
-        
+        const new_price=(parseInt(current_price_value));
          const pricePerItem = parseInt(quantity_ob.getAttribute('data-price'));
          const old_total=new_price*prev_quantity;
          const subtotal=new_price*quantity;
@@ -192,8 +191,6 @@
          total_amount.textContent=`${new_total} VNĐ`;
          const subtotalDisplay = quantity_ob.closest('tr').querySelector('.product-subtotal .amount');
          subtotalDisplay.textContent = `${subtotal} đ`;}); 
-         
-
     });
       document.querySelectorAll('.quantity-value').forEach(input => {
       

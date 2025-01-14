@@ -3220,6 +3220,21 @@ input {
 .product__content .price {
   transition: 0.3s;
 }
+
+.original-price {
+  font-size: 14px;
+  color: #888!important;
+  text-decoration: line-through;
+  margin-right: 10px;
+}
+
+ .discounted-price {
+  font-size: 16px;
+  color: #222;
+  font-weight: 500;
+}
+
+
 .product__content .price span {
   font-size: 16px;
   color: #222;
