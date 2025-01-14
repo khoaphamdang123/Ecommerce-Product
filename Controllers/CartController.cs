@@ -88,7 +88,7 @@ public class CartController : BaseController
     { 
     var product=await this._product.findProductByName(product_name);
 
-  
+
         CartModel cart = new CartModel{Product=product,Quantity=quantity,Size=size,Color=color,Version=version,Mirror=mirror,Price=price};
         
         add_res=await this._cart.addProductToCart(cart);
