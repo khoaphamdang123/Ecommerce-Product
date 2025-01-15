@@ -541,6 +541,7 @@
     var all_id=[];
 
     var container_class='';
+
    
     if(version==0)
     {
@@ -610,6 +611,7 @@
     }
     if(price_value!=null)
     {
+ 
     price.innerHTML='<strong>'+price_value+' đ'+'</strong>';
     if(product_discount!='0')
     {
@@ -1529,6 +1531,11 @@ $.ajax({
                }
 
         var discount = button.getAttribute('data-discount');
+         
+        var origin_price = document.getElementById('origin-price');
+
+        origin_price.innerHTML = '';
+
         if(value.length>0)
         {
         //initClickButton(sizes_json,colors_json,versions_json,mirrors_json,prices_json,1,price_id,productId,productDiscount);
@@ -1546,6 +1553,10 @@ $.ajax({
 
           handleClickButton('mirror-buttons',sizes_json,colors_json,versions_json,mirrors_json,prices_json,0,'','',discount);
         }
+   
+
+        
+
             },
          error:function(xhr, status, error)
             {
