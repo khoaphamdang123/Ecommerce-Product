@@ -1394,7 +1394,11 @@ var modalElement = document.getElementById('productModalId');
                }
 
         const discount=button.getAttribute('data-discount');
+        
+        var origin_price = document.getElementById('origin-price');
 
+        origin_price.innerHTML = '';
+        
         if(value.length>0)
         {
           initClickButton(sizes_json,colors_json,versions_json,mirrors_json,prices_json,discount);
