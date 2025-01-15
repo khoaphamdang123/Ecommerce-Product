@@ -844,10 +844,9 @@
 
     var price=document.querySelector('#product-price');
 
-  if(product_discount!='0')
-   { 
+ 
     origin_price=document.querySelector(`#origin-price`);
-    }
+    
 
     var price_value=prices[first_index];
 
@@ -858,9 +857,13 @@
     if(price_value!=null)
     {
     price.innerHTML='<strong>'+price_value+' đ'+'</strong>';
-    if(origin_price!='')
+    if(product_discount!='0')
     {
     origin_price.innerHTML='<strong>'+prices[first_index]+' đ'+'</strong>';
+    }
+    else
+    {
+        origin_price.innerHTML='';
     }
     }
 
@@ -1458,9 +1461,9 @@ if (wwwrootIndex !== -1) {
        }
        });
             }
-            else{
+            else
+            {
        sub_img.forEach(img=>{img.innerHTML = ``;});
-
             }
         }
 
@@ -1607,20 +1610,36 @@ if (wwwrootIndex !== -1) {
  }); 
 
     const add_cart_btn=document.getElementById('add-cart-detail');
+       
+       
        add_cart_btn.addEventListener("click",()=>{ 
+       
        var quantity_value=document.getElementById('quantity-value').value;
+       
        let formData = new FormData();
+       
        var size_container = document.getElementById('size-buttons');
+       
        var color_container = document.getElementById('color-buttons');
+       
        var version_container = document.getElementById('version-buttons');
+       
        var mirror_container = document.getElementById('mirror-buttons');
+       
        var price=document.getElementById('product-price').textContent.replaceAll("đ","").replaceAll(",","").trim().replaceAll(/\s/g, '');
+       
        var size_value=null;
+       
        var color_value=null;
+       
        var version_value=null;
+       
        var mirror_value=null;
+       
        var productId=document.getElementById('product-id').value;
+
        var productName = document.getElementById('product-name').textContent;
+       
        if(size_container!=null)
        {
         size_value=size_container.querySelector('.size-btn.active').textContent;
@@ -1643,14 +1662,19 @@ if (wwwrootIndex !== -1) {
        {
         mirror_value=mirror_container.querySelector('.size-btn.active').textContent;
         formData.append("mirror",mirror_value);
-       } 
+       }         
 
         formData.append("quantity",quantity_value);
         
         formData.append("product_id",productId);
-         formData.append("quantity",quantity_value);
-         formData.append("product_name",productName);
-         formData.append("price",price);
+        
+        formData.append("quantity",quantity_value);
+        
+        formData.append("product_name",productName);
+        
+        formData.append("price",price);
+
+
          $.ajax({
             url:"@Url.Action("addItemToCart","Cart")",
             type:"POST",

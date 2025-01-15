@@ -598,10 +598,7 @@
     {
     var price=document.querySelector(`#product-price`);
    
-   if(product_discount!='0')
-   { 
     origin_price=document.querySelector(`#origin-price`);
-    }
     }
 
     var price_value=prices[first_index];
@@ -614,9 +611,13 @@
     if(price_value!=null)
     {
     price.innerHTML='<strong>'+price_value+' đ'+'</strong>';
-    if(origin_price!='')
+    if(product_discount!='0')
     {
     origin_price.innerHTML='<strong>'+prices[first_index]+' đ'+'</strong>';
+    }
+    else
+    {
+    origin_price.innerHTML='';
     }
     }
 
@@ -1358,6 +1359,7 @@ $.ajax({
 
         const productId=button.getAttribute('data-product-id');
         
+        
         var url="@Url.Action("VariantProduct","HomePage",new{id="__id__"})";
         
         url=url.replace("__id__",productId);
@@ -1525,7 +1527,6 @@ $.ajax({
                 mirrors_json.push(mirror);
                 prices_json.push(variant.Price);
                }
-        const discount = button.getAttribute('data-discount');
 
 
         if(value.length>0)
@@ -1561,7 +1562,6 @@ $.ajax({
         const category   = button.getAttribute('data-product-category');
 
         const quantity = button.getAttribute('data-product-quantity');
-
 
         const count_review_value=button.getAttribute('data-count-review');
         
