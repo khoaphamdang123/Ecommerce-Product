@@ -13,6 +13,8 @@
     string manual_link = ViewBag.manual_link;
     
     var variants=ViewBag.variants as Dictionary<string,List<string>>;
+
+    string product_discount=Model.Discount.ToString();
     
     List<string> sizes=new List<string>();
     
@@ -34,7 +36,7 @@
         prices=variants["prices"];
     }
 
-     string sizes_json=JsonConvert.SerializeObject(sizes);
+    string sizes_json=JsonConvert.SerializeObject(sizes);
 
     string colors_json=JsonConvert.SerializeObject(colors);
 
@@ -226,8 +228,25 @@
                               }   
                                 <span><button type="button" onclick="scrollToReview()">Thêm đánh giá</button></span>                                
                             </div>
+                           @if(!string.IsNullOrEmpty(Model?.Discount.ToString()) && Model?.Discount!=0)
+                           {
+                               <div class="product__offer_detail">
+                                   <span class="discount mb-10">-@Model?.Discount%</span> 
+                                       </div>
+                           }
                             <div class="price mb-10">
-                                <span id="price">@Model.Price</span>                                
+                                   @if(!string.IsNullOrEmpty(Model?.Discount.ToString()) && Model?.Discount!=0)
+                                   {
+                                    <span class="original-price">@Model.Price đ</span>
+                                    
+                                    <span class="discounted-price">@((Convert.ToInt32(Model.Price.Replace(",","")) * (double)(1 - Model.Discount / 100.0)).ToString()) đ</span>
+                                    }
+                                    else
+                                    {
+                                    <span class="discounted-price">@Model.Price đ</span>   
+                                    }
+                                
+                                @* <span id="price">@Model.Price</span>                                 *@
                             </div>
                             <div class="features-des mb-20 mt-10">
                               <div class="product-options">
@@ -304,9 +323,11 @@
                             <div class="product-tag-area mt-15 mb-10">
                                 <div class="product_info mb-5">
                                     <span class="posted_in">
+                                        
                                         <span class="title">Loại sản phẩm:</span>
 
                                         <a href="@Url.Action("ProductsByCategory","Products",new {category_name=Regex.Replace(Model?.Category?.CategoryName,@"[^\w\d]", "-")})">@Model?.Category?.CategoryName</a>
+                                    
                                     </span>
                                 </div>
                                 <div class="product_info mb-10 mt-10">
@@ -491,7 +512,7 @@
                         }
                     </div>
                       <div class="text-center" style="margin-top: 20px;margin-bottom: 25px;">
-                        <button id="showFullButton" class="btn btn-primary show-btn">+ Xem toàn bộ nội dung</button>
+                        <button id="showFullButton" class="show-btn">+ Xem toàn bộ nội dung</button>
                       </div>
                     </div>
                 
@@ -857,7 +878,7 @@
     }
     
 
-   function initClickButton()
+   function initClickButton(product_discount='0')
    { var all_id=['color-buttons','size-buttons','version-buttons','mirror-buttons'];
    var container=null;
    var buttonId=null;
@@ -883,10 +904,20 @@
 
     var first_index=all_container_index[0];
 
-    var price=document.getElementById('price');
+    var original_price=document.querySelector('.price .original-price');
 
+    var price=document.querySelector('.price .discounted-price');
 
+    if(product_discount!='0')
+    { 
+        var new_price_value=parseInt(prices[first_index])*(1-parseInt(product_discount)/100);
+        price.innerHTML=new_price_value+' <u>đ</u>';
+        original_price.innerHTML=prices[first_index]+' <u>đ</u>';
+    }
+   else
+    {
     price.innerHTML=prices[first_index]+' <u>đ</u>';
+    }
     
 
    var container_size=null;
@@ -968,7 +999,7 @@
     });
    }
 
-function handleClickButton(buttonId)
+function handleClickButton(buttonId,product_discount='0')
  { 
    const container=document.getElementById(buttonId);
    
@@ -1168,7 +1199,25 @@ function handleClickButton(buttonId)
   }
   else
   {
-   document.getElementById('price').innerHTML=prices[current_item]+' <u>đ</u>';
+
+    var new_price=document.querySelector('.price .discounted-price');
+    
+    var original_price=document.querySelector('.price .original-price');
+
+    if(product_discount!='0')
+    {
+        var new_price_value=parseInt(prices[current_item])*(1-parseInt(product_discount)/100);
+        
+        new_price.innerHTML=new_price_value+' <u>đ</u>';
+        
+        original_price.innerHTML=prices[current_item]+' <u>đ</u>';
+    }
+    else
+    {
+        new_price.innerHTML=prices[current_item]+' <u>đ</u>';
+    }
+    
+   @* document.getElementById('price').innerHTML=prices[current_item]+' <u>đ</u>'; *@
    }
     });
    });        
@@ -1179,16 +1228,17 @@ function handleClickButton(buttonId)
 
      document.addEventListener("DOMContentLoaded",()=>
      {
+     var product_discount='@Html.Raw(product_discount)'; 
      
-     initClickButton();
+     initClickButton(product_discount);
 
-     handleClickButton('color-buttons');
+     handleClickButton('color-buttons'.product_discount);
 
-     handleClickButton('size-buttons');
+     handleClickButton('size-buttons',product_discount);
     
-     handleClickButton('version-buttons');
+     handleClickButton('version-buttons',product_discount);
 
-     handleClickButton('mirror-buttons');
+     handleClickButton('mirror-buttons',product_discount);
 
      var show_button=document.getElementById("showFullButton");
 
@@ -1221,7 +1271,15 @@ function handleClickButton(buttonId)
        var color_container = document.getElementById('color-buttons');
        var version_container = document.getElementById('version-buttons');
        var mirror_container = document.getElementById('mirror-buttons');
-       var price=document.getElementById('price').textContent;
+       var price='';
+       if(product_discount!='0')
+       {
+        price=document.querySelector('.price .original-price').textContent;
+       }
+       else
+       {
+        price=document.querySelector('.price .discounted-price').textContent;
+       }
        price=price.replace('đ','').trim();
        var size_value=null;
        var color_value=null;
