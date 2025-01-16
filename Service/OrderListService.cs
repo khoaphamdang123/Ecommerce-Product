@@ -110,15 +110,15 @@ if (order != null)
 
     foreach(var product in cart)
     {       
-      var product_ob=product.Product.Variants;
+      var product_ob=product.Product?.Variants;
 
-      string color=product.Color;
+      string color=product?.Color;
 
-      string size=product.Size;
+      string size=product?.Size;
 
-      string version=product.Version;
+      string version=product?.Version;
 
-      string mirror=product.Mirror;
+      string mirror=product?.Mirror;
 
       Console.WriteLine("Product Color here is:"+color);
 
@@ -128,7 +128,7 @@ if (order != null)
 
 
 
-      if(product_ob!=null)
+      if(product_ob!=null && product_ob.Count>0)
       { 
         Console.WriteLine("Product Object is not null here");
         
@@ -240,7 +240,10 @@ public async Task checkOrderStatus()
         if(diff_date>=7)
         { 
           var user_email=order.User.Email;
-      Console.WriteLine("Get In this check order status function3");
+          
+         Console.WriteLine("User Email here is:"+user_email); 
+
+         Console.WriteLine("Get In this check order status function3");
           
           var user=await this._context.AspNetUsers.Include(c=>c.Roles).FirstOrDefaultAsync(s=>s.Email==user_email);
           

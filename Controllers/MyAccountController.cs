@@ -318,7 +318,7 @@ namespace Ecommerce_Product.Controllers
           }               
         string query_string=this._smtpService.ConvertModelToQueryString(model);
 
-        string date_time = DateTime.Now.ToString("MM/dd/yyy hh:mm:ss");
+        string date_time = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
 
         string security_key = this._smtpService.GenerateHmac(date_time).Replace("+","");
 
@@ -377,8 +377,6 @@ namespace Ecommerce_Product.Controllers
 
     Console.WriteLine("Timestamp here is:"+date_time_value);
 
-   
-
     try 
     {   
 
@@ -405,7 +403,9 @@ namespace Ecommerce_Product.Controllers
     } 
         string? email=model.Email;        
 
-        Console.WriteLine("email here is:"+email);                
+        // Console.WriteLine("email here is:"+email);                
+        
+        
         // int setting_status=await this._setting.getStatusByName("recaptcha");
 
       
