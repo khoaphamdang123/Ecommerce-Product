@@ -246,12 +246,11 @@
                                     <span class="discounted-price">@Model.Price đ</span>   
                                     }
                                 
-                                @* <span id="price">@Model.Price</span>                                 *@
                             </div>
                             <div class="features-des mb-20 mt-10">
                               <div class="product-options">
-                                  @if(size_value.Count>0)
-                                  {
+@if(size_value.Count>0)
+{
 <div class="size-selector">
     <h3>Kích thước:</h3>
     <div class="size-buttons" id="size-buttons">
@@ -269,7 +268,7 @@
     <h3>Màu sắc:</h3>
     <div class="size-buttons" id="color-buttons">
     @foreach(string color in color_value)
-    {  
+    { 
     <button class="size-btn">@color</button>
     }
     </div>
@@ -290,18 +289,22 @@
     }
     </div>
 </div>   
-                     }
+    
+    }
 
-                       @if(mirror_value.Count>0)
-                     {
-                    <div class="mirror-selector">
+ @if(mirror_value.Count>0)
+  {
+    <div class="mirror-selector">
 
     <h3>Loại kính:</h3>
+    
     <div class="size-buttons" id="mirror-buttons">
+    
     @foreach(string mirror in mirror_value)
     {  
     <button class="size-btn">@mirror</button>    
     }
+
     </div>
 </div>   
             }
@@ -896,8 +899,8 @@
     }
     container.querySelectorAll('.size-btn').forEach((button,index)=>
     {
-        if(index==0)
-        {
+    if(index==0)
+   {
     button.classList.add('active');
     
     var all_container_index=getAllIndex(buttonId,button.textContent);
@@ -1013,8 +1016,6 @@ function handleClickButton(buttonId,product_discount='0')
    
    var container_mirror = null;
 
-
-
    for(let id of all_id)
    {
    
@@ -1038,7 +1039,7 @@ function handleClickButton(buttonId,product_discount='0')
   {
     container_mirror=document.getElementById(id);    
   }
-  }
+}
 
   if(container==null)
   {
@@ -1046,11 +1047,13 @@ function handleClickButton(buttonId,product_discount='0')
   }
    container.querySelectorAll('.size-btn').forEach((button,index)=>
    {
-    
+
  button.addEventListener('click',()=>
  { 
-  container.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('active'));
- 
+  
+ container.querySelectorAll('.size-btn').forEach((btn) =>{btn.classList.remove('active');});
+
+   
  button.classList.add('active');
 
  var button_context=button.textContent;
@@ -1064,7 +1067,6 @@ function handleClickButton(buttonId,product_discount='0')
  var mirror_value=null;
 
  var len_container=0;
-
 
 
  var all_container_index=getAllIndex(buttonId,button_context);
@@ -1092,7 +1094,9 @@ function handleClickButton(buttonId,product_discount='0')
    });
  }
   if(container_version!=null)
- { len_container++;
+ { 
+    len_container++;
+   
    container_version.querySelectorAll('.size-btn').forEach((btn) =>{
     if(btn.classList.contains('active'))
     {
@@ -1156,7 +1160,9 @@ function handleClickButton(buttonId,product_discount='0')
     if(container_color!=null && container_color!=container)
     { 
       container_color.querySelectorAll('.size-btn').forEach((btn,index)=>
-      {btn.classList.remove('active');
+      {
+        btn.classList.remove('active');
+       
        if(btn.textContent==colors[container_index])
        {
         btn.classList.add('active');
@@ -1168,6 +1174,7 @@ function handleClickButton(buttonId,product_discount='0')
       container_size.querySelectorAll('.size-btn').forEach((btn,index)=>
       {
         btn.classList.remove('active');
+        
        if(btn.textContent==sizes[container_index])
        {
         btn.classList.add('active');
@@ -1177,7 +1184,9 @@ function handleClickButton(buttonId,product_discount='0')
         if(container_version!=null && container_version!=container)
     { 
       container_version.querySelectorAll('.size-btn').forEach((btn,index)=>
-      {btn.classList.remove('active');
+      {
+        btn.classList.remove('active');
+       
        if(btn.textContent==versions[container_index])
        {
         btn.classList.add('active');
@@ -1232,7 +1241,7 @@ function handleClickButton(buttonId,product_discount='0')
      
      initClickButton(product_discount);
 
-     handleClickButton('color-buttons'.product_discount);
+     handleClickButton('color-buttons',product_discount);
 
      handleClickButton('size-buttons',product_discount);
     
@@ -1301,6 +1310,7 @@ function handleClickButton(buttonId,product_discount='0')
        if(version_container!=null)
        {
         version_value=version_container.querySelector('.size-btn.active').textContent;
+        
         formData.append("version",version_value);
        }
        if(mirror_container!=null)

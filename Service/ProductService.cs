@@ -1311,17 +1311,22 @@ public async Task saveChanges()
   {    
    Console.WriteLine("Star count:"+stars.Count);
   var products = await this.getProductRedis();
+  
+  int min_price=prices[0];
+
+  int max_price=prices[1];
 
   if(brands.Count==0 &&  prices.Count!=0)
-  {
-   products= products.Where(c=>prices.Contains(Convert.ToInt32(c?.Price))).OrderByDescending(c=>c.Id).ToList();   
+  { 
+ 
+   products= products.Where(c=>Convert.ToInt32(c.Price)>=min_price && Convert.ToInt32(c.Price)<=max_price).OrderByDescending(c=>c.Id).ToList();   
   }
 
  else if(brands.Count!=0 && prices.Count!=0)
   {
     try
     {
-   products= products.Where(c=>brands.Contains(c.Brand?.BrandName.ToString()) && prices.Contains(Convert.ToInt32(c?.Price))).OrderByDescending(c=>c.Id).ToList();   
+   products= products.Where(c=>brands.Contains(c.Brand?.BrandName.ToString()) && Convert.ToInt32(c.Price)>=min_price && Convert.ToInt32(c.Price)<=max_price).OrderByDescending(c=>c.Id).ToList();   
     }
     catch(Exception er)
     {
