@@ -245,10 +245,10 @@ document.addEventListener("DOMContentLoaded",()=>{
     $("#slider-range").slider({
         range: true,
         min: 0,
-        max: 5000000,
-        values: [0, 5000000],  
+        max: 50000000,
+        values: [0, 50000000],  
         slide: function (event, ui) {
-            $("#new-amount").val(ui.values[0] + "VND - " + ui.values[1]+"VND");
+            @* $("#new-amount").val(ui.values[0] + "VND - " + ui.values[1]+"VND");
             var value=`${ui.values[0]}-${ui.values[1]}`;
             const page_size= $("#page-size").val();
             const all_selected_brands=document.querySelectorAll('input[name="brand-item"]:checked');
@@ -281,8 +281,47 @@ document.addEventListener("DOMContentLoaded",()=>{
                     error: function (xhr, status, error) {
                         console.error("AJAX Error:", status, error);
                     }
+                }); *@
+        },
+    stop:function(event,ui){
+     $("#new-amount").val(ui.values[0] + "VND - " + ui.values[1]+"VND");
+            var value=`${ui.values[0]}-${ui.values[1]}`;
+            const page_size= $("#page-size").val();
+           
+            const all_selected_brands=document.querySelectorAll('input[name="brand-item"]:checked');
+          
+    var checkedBrands = [];
+    
+    var checkboxes = document.querySelectorAll('input[name="brand-item"]:checked');
+    
+    checkboxes.forEach(function(checkbox) {
+        checkedBrands.push(checkbox.nextElementSibling.textContent);
+    });
+    var checked_brands_value=checkedBrands.join(",");
+
+    var checkedStars = [];
+    
+    var checkboxes_star = document.querySelectorAll('input[name="star-item"]:checked');
+    
+    checkboxes_star.forEach(function(checkbox) {
+        checkedStars.push(checkbox.getAttribute("data-star"));
+    });
+    var checked_star_value=checkedStars.join(",");
+
+
+            $.ajax({
+                    url: '@Url.Action("FilterProducts", "Products")',
+                    type: 'GET',
+                    data: {pageSize: page_size ,prices:value,brands:checked_brands_value,stars:checked_star_value},
+                    success: function (data) {
+                        $("#productList").html(data);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("AJAX Error:", status, error);
+                    }
                 });
-        }
+
+    }
     });
 
     $("#new-amount").val($("#slider-range").slider("values", 0) + "VND - " + $("#slider-range").slider("values", 1)+"VND");
