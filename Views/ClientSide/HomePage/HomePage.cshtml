@@ -99,7 +99,7 @@
                                     </div>
                                     <div class="banner__content banner__content-2">
                                         <h6 style="color: #fcbe00; font-weight: bold;"><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})">@products[i].ProductName</a></h6>
-                                        <p style="color: #fcbe00; font-weight: bold;">@products[i].Category.CategoryName</p>
+                                        @* <p style="color: #fcbe00; font-weight: bold;">@products[i].Category.CategoryName</p> *@
                                     </div>
                                 </div>
                             </div>
@@ -194,6 +194,8 @@
                                     </ul>
                                     <span>(01 review)</span>
                                 </div>
+                              @if(Convert.ToInt32(product.Price.Replace(",",""))>0)
+                              {
                                 <div class="price">
                                     @if(!string.IsNullOrEmpty(product?.Discount.ToString()) && product?.Discount!=0)
                                    {
@@ -206,6 +208,7 @@
                                     <span class="discounted-price">@product.Price đ</span>   
                                     }
                                 </div>
+                                }
                             </div>
                             <div class="product__add-cart text-center">
                             
@@ -360,6 +363,8 @@
                                         <li><a href="#"><i class="fal fa-star"></i></a></li>
                                     </ul>
                                 </div>
+                            @if(Convert.ToInt32(product.Price.Replace(",",""))>0)
+                            {
                                 <div class="price">
                         
                        @if(!string.IsNullOrEmpty(product?.Discount.ToString()) && product?.Discount!=0)
@@ -373,6 +378,7 @@
                                     <span class="discounted-price">@product.Price đ</span>   
                                     }                               
                                 </div>
+                            }
                             </div>
                             <div class="product__add-cart text-center">
                                 <button type="button" id="add-cart" data-product-name="@product.ProductName" data-product-id="@product.Id"  data-product-price="@(!string.IsNullOrEmpty(product?.Discount.ToString()) && product?.Discount!=0?String.Format("{0:N0} đ", Convert.ToInt32(product.Price.Replace(",","")) * (1 - product.Discount / 100)):product.Price)" class="cart-btn-3 product-modal-sidebar-open-btn d-flex align-items-center justify-content-center w-100">
@@ -572,6 +578,7 @@
                     @foreach(var brand in brands)
                         {
                         <div class="brand-item w-img swiper-slide">
+                            
                         <a href="@Url.Action("ProductByBrand","Products",new{brand_name=brand.BrandName})"><img src="~/@brand?.Avatar.Substring(brand.Avatar.IndexOf("wwwroot")+("wwwroot".Length+1))" accesskey="" alt="brand"></a>
                         </div>
                         }
@@ -750,13 +757,10 @@
                                         <span id="review-value"></span>
                                         </div>
                                     </div>
-                                    <div class="product__price">
-                                    
-  
+                                    <div class="product__price" id="product_price_block">
                                         <span id="origin-price" class="original-price"></span>
                                         
                                         <span id="product-price" class="discounted-price"></span>
-
                                     </div>
                                     <div class="product__modal-des mt-20 mb-15">
                                         <div class="product-options">
@@ -866,6 +870,16 @@
         origin_price.innerHTML='';
     }
     }
+  var product_price_block=document.getElementById('product_price_block');
+   
+  if(parseInt(price_value)<=0)
+  {  
+        product_price_block.style.display='none';
+  }
+  else
+  { 
+        product_price_block.style.display='block';
+  }
 
    var container_size=null;
    
@@ -1192,12 +1206,23 @@ function getAllIndex(buttonId,value,sizes,colors,versions,mirrors)
     price_change=prices[current_item];
   }
 
-   
+ 
    document.querySelector(price_name).innerHTML='<strong>'+price_change+' đ'+'</strong>';
 
    if(product_discount!='0')
    {
     document.querySelector(original_price).innerHTML='<strong>'+prices[current_item]+' đ'+'</strong>';
+   }
+   
+   var product_price_block=document.getElementById('product_price_block');
+
+   if(parseInt(prices[current_item])<=0)
+   {
+    product_price_block.style.display='none';
+   }
+   else
+   {
+    product_price_block.style.display='block';
    }
    }
    }
@@ -1497,8 +1522,11 @@ if (wwwrootIndex !== -1) {
         document.getElementById('product-id').value=productId;
 
         document.getElementById('product-name').textContent = productName;
-        
+
+     if(parseInt(productPrice)>0)
+     {
         document.getElementById('product-price').textContent = productPrice;
+     }
 
         document.getElementById('product-category').textContent = category;
 
