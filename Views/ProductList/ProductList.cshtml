@@ -321,7 +321,7 @@
                             <td class="text-center">
                             <div class="d-flex justify-content-center">
                               <a data-bs-toggle="modal" data-bs-target="#modalLong" class="btn btn-icon delete-record icon-style-delete mr-2" id="delete-record-btn" data-category="@product.Id" title="Xóa sản phẩm">
-                                <i class="bx bx-trash bx-md"></i>
+                              <i class="bx bx-trash bx-md"></i>
                               </a>
                       <div class="modal fade" id="modalLong" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -477,7 +477,6 @@
     </div>  
  </div>
   
-
             <div class="content-backdrop fade"></div>
           </div>
           <!-- Content wrapper -->
@@ -499,6 +498,7 @@
      document.getElementById("page-size").addEventListener("change",()=>{
     
      var selected_value=document.getElementById("page-size").value;
+
      if(selected_value)
      {
       selected_value=parseInt(selected_value);
@@ -511,13 +511,13 @@
       window.location.href='@Url.Action("AddProductList","ProductList")';
      });
     
-    document.getElementById("remove-btn").addEventListener('click',()=>{
-  
-    
+    document.getElementById("remove-btn").addEventListener('click',()=>
+    {
+
     delete_category_value=delete_category;
-  
 
      window.location.href='@Url.Action("DeleteProduct","ProductList")'+"?id="+delete_category_value; 
+    
     });
 @*  
  const convertDateTime=()=> {

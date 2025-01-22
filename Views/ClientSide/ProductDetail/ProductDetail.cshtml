@@ -234,7 +234,9 @@
                                    <span class="discount mb-10">-@Model?.Discount%</span> 
                                        </div>
                            }
-                            <div class="price mb-10">
+                          @if(Convert.ToInt32(Model.Price.Replace(",",""))>0)
+                          {
+                            <div class="price mb-10" id="price-block">
                                    @if(!string.IsNullOrEmpty(Model?.Discount.ToString()) && Model?.Discount!=0)
                                    {
                                     <span class="original-price">@Model.Price đ</span>
@@ -247,6 +249,7 @@
                                     }
                                 
                             </div>
+                            }
                             <div class="features-des mb-20 mt-10">
                               <div class="product-options">
 @if(size_value.Count>0)
@@ -921,6 +924,17 @@
     {
     price.innerHTML=prices[first_index]+' <u>đ</u>';
     }
+
+    var product_price_block=document.getElementById('price-block');
+
+    if(parseInt(prices[first_index])<=0)
+    {
+        product_price_block.style.display='none';
+    }
+    else
+    {
+        product_price_block.style.display='block';
+    }
     
 
    var container_size=null;
@@ -1224,6 +1238,17 @@ function handleClickButton(buttonId,product_discount='0')
     else
     {
         new_price.innerHTML=prices[current_item]+' <u>đ</u>';
+    }
+
+    var price_block=document.getElementById('price-block');
+
+    if(parseInt(prices[current_item])<=0)
+    {
+        price_block.style.display='none';
+    }
+    else
+    {
+        price_block.style.display='block';
     }
     
    @* document.getElementById('price').innerHTML=prices[current_item]+' <u>đ</u>'; *@

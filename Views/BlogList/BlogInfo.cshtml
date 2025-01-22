@@ -16,7 +16,6 @@ img_url=$"~/{img_url.Substring(img_url.IndexOf("wwwroot")+("wwwroot".Length+1)).
     }
 
     Console.WriteLine(img_url);
-
 }
 
       <div
@@ -180,6 +179,8 @@ img_url=$"~/{img_url.Substring(img_url.IndexOf("wwwroot")+("wwwroot".Length+1)).
  imageUploadToS3: false,
     imageUploadURL: '/image/upload',
     imageOutputSize: true,
+    videoUpload:true,
+    videoUploadURL:'/video/upload',
     toolbarButtons:{  moreText: {
       buttons: [
         'bold', 'italic', 'underline', 'strikeThrough', 

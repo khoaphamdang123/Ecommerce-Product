@@ -50,6 +50,8 @@ body {
   font-weight: normal;
   color: #666;
   line-height: 26px;
+  margin: 0;
+  padding: 0;
 }
 
 a {
@@ -4703,7 +4705,8 @@ input {
   color: #151515;
   margin-bottom: 15px;
 }
-.comment-textarea:focus {
+.comment-textarea:focus 
+{
   border: 1px solid #fcbe00;
 }
 
@@ -4717,6 +4720,52 @@ input {
   position: relative;
   z-index: 2;
 }
+
+.header-container
+{
+  position:fixed;          
+  width: 100%;
+  z-index: 1030;
+  opacity: 0;
+  transition: all 0.5s ease;
+  transform: translateY(-100%);
+
+  /* height: 210px; */
+}
+
+.header-container.fixed
+{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+.contact-header
+{
+   font-size: 15px;
+    line-height: 1.1;
+    display: block;
+    color: white!important;
+}
+
+.contact-header a
+{
+  color: white!important;
+  transition: color 0.3s ease;
+}
+
+.contact-header a:hover
+{
+  color: #fcbe00!important;
+}
+
+
+.main-container
+{ 
+  padding-top: 220px;
+}
+
+
 
 @keyframes bob-float {
   0% {

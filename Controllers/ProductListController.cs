@@ -460,7 +460,8 @@ public async Task<IActionResult> UploadImage(IFormFile file)
 
     var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
 
-    var filePath = Path.Combine(uploadPath, fileName);
+    var filePath = Path.Combine(uploadPath, fileName);    
+
     using (var stream = new FileStream(filePath, FileMode.Create))
     {
         await file.CopyToAsync(stream);
@@ -471,6 +472,39 @@ public async Task<IActionResult> UploadImage(IFormFile file)
     this._logger.LogInformation("Image URL:"+imageUrl);
     
     return Ok(new { link = imageUrl });
+}
+
+[HttpPost("/video/upload")]
+
+public async Task<IActionResult> UploadVideo(IFormFile file)
+{
+  Console.WriteLine("Upload Video did come to here");
+
+    if(file==null || file.Length==0)
+    {
+      return BadRequest("No file uploaded");
+    }
+
+    var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadVideos");
+    
+    if (!Directory.Exists(uploadPath))
+    {
+        Directory.CreateDirectory(uploadPath);
+    }
+    
+    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+
+    var filePath = Path.Combine(uploadPath, fileName);
+    
+    using(var stream = new FileStream(filePath, FileMode.Create))
+    {
+        await file.CopyToAsync(stream);
+    }
+    var videoUrl = $"{Request.Scheme}://{Request.Host}/UploadVideos/{fileName}";
+
+    this._logger.LogInformation("Video URL:"+videoUrl);    
+    
+    return Ok(new { link = videoUrl }); 
 }
 
 
