@@ -622,6 +622,11 @@ public async Task<int> addNewProduct(AddProductModel model)
    
    int price=model.Price;
 
+   if(price<0)
+   {
+    price=0;
+   }
+
       Console.WriteLine("Price:"+price);
 
    
@@ -810,7 +815,7 @@ Console.WriteLine("colors count:"+colors.Count);
 
   var new_mirror_ob = await this._context.Mirrors.FirstOrDefaultAsync(c=>c.Mirrorname==mirror);
 
-  var new_varian_ob=new Variant{Colorid=new_color_ob!=null?new_color_ob.Id:null,Sizeid=new_size_ob!=null?new_size_ob.Id:null,Weight=string.IsNullOrEmpty(weight)?-1:Convert.ToUInt32(weight),Price=string.IsNullOrEmpty(price_value)?-1:Convert.ToInt32(price_value),Versionid=new_version_ob!=null?new_version_ob.Id:null,Mirrorid=new_mirror_ob!=null?new_mirror_ob.Id:null};
+  var new_varian_ob=new Variant{Colorid=new_color_ob!=null?new_color_ob.Id:null,Sizeid=new_size_ob!=null?new_size_ob.Id:null,Weight=string.IsNullOrEmpty(weight)?-1:Convert.ToUInt32(weight),Price=string.IsNullOrEmpty(price_value)?0:Convert.ToInt32(price_value),Versionid=new_version_ob!=null?new_version_ob.Id:null,Mirrorid=new_mirror_ob!=null?new_mirror_ob.Id:null};
  if(new_color_ob!=null || new_size_ob!=null || new_version_ob!=null || new_mirror_ob!=null)
  {
   variant.Add(new_varian_ob);
@@ -911,6 +916,11 @@ try
    Console.WriteLine("Product name:"+product_name);
    
    int price=model.Price;
+
+   if(price<0)
+   {
+    price=0;
+   }
 
       Console.WriteLine("Price:"+price);
 
@@ -1138,7 +1148,7 @@ if(colors!=null)
 
   var new_mirror_ob = await this._context.Mirrors.FirstOrDefaultAsync(c=>c.Mirrorname==mirror);
 
-  var new_varian_ob=new Variant{Colorid=new_color_ob!=null?new_color_ob.Id:null,Sizeid=new_size_ob!=null?new_size_ob.Id:null,Weight=string.IsNullOrEmpty(weight)?-1:Convert.ToUInt32(weight),Price=string.IsNullOrEmpty(price_value)?-1:Convert.ToInt32(price_value),Versionid=new_version_ob!=null?new_version_ob.Id:null,Mirrorid=new_mirror_ob!=null?new_mirror_ob.Id:null};
+  var new_varian_ob=new Variant{Colorid=new_color_ob!=null?new_color_ob.Id:null,Sizeid=new_size_ob!=null?new_size_ob.Id:null,Weight=string.IsNullOrEmpty(weight)?-1:Convert.ToUInt32(weight),Price=string.IsNullOrEmpty(price_value)?0:Convert.ToInt32(price_value),Versionid=new_version_ob!=null?new_version_ob.Id:null,Mirrorid=new_mirror_ob!=null?new_mirror_ob.Id:null};
 
  if(new_color_ob!=null || new_size_ob!=null || new_version_ob!=null || new_mirror_ob!=null)
  {

@@ -33,7 +33,7 @@
 
 } 
         <section class="breadcrumb__area box-plr-75">
-            <div class="container">
+            <div class="container" style="margin-top: 10px;">
                 <div class="row">
                     <div class="col-xxl-12">
                         <div class="breadcrumb__wrapper">
@@ -68,7 +68,7 @@
                         </div>
                         
                         <div class="product-widget mb-30">
-                            <h5 class="pt-title">Chọn đánh giá sao</h5>
+                            <h5 class="pt-title">Chọn đánh giá sao</h5>                            
                             <div class="widget-category-list mt-20">
                                 <form action="#">
                                     <div class="single-widget-rating">
@@ -151,10 +151,8 @@
                                         <label for="brand-item-@count_id">@brand.BrandName</label>
                                     </div>
                                 }
-                                 
                             </div>
                         </div>
-                       
                     </div>
                     <div class="col-xl-9 col-lg-8">
                         <div class="shop-banner mb-30">
@@ -193,6 +191,7 @@
                                             <div class="product__sorting product__show-no">
 
                                     <select id="page-size" onchange="hello()">
+                                      
                                       @foreach(var option in ViewBag.options)
                                       { 
                                         if(option==selected_size)
@@ -206,20 +205,15 @@
                                       } 
                                     </select>
 
-
-                                    
-                                            </div>
-                                          
-                                        </div>
-                                    </div>
+                                    </div>                  
                                 </div>
+                            </div>
+                        </div>
                         </div>
                         </div>
                         <div id="productList">
                             @Html.Partial("~/Views/ClientSide/Products/_ProductsPartial.cshtml", products)
                         </div>
-                      
-   
                 </div>
             </div>
         </div>
@@ -241,13 +235,15 @@ document.addEventListener("DOMContentLoaded",()=>{
     my_tab.show();
   }
 
-   $(document).ready(function () {
+   $(document).ready(function () 
+   {
     $("#slider-range").slider({
         range: true,
         min: 0,
         max: 50000000,
         values: [0, 50000000],  
-        slide: function (event, ui) {
+        slide: function (event, ui) 
+        {
             @* $("#new-amount").val(ui.values[0] + "VND - " + ui.values[1]+"VND");
             var value=`${ui.values[0]}-${ui.values[1]}`;
             const page_size= $("#page-size").val();
@@ -285,18 +281,21 @@ document.addEventListener("DOMContentLoaded",()=>{
         },
     stop:function(event,ui){
      $("#new-amount").val(ui.values[0] + "VND - " + ui.values[1]+"VND");
-            var value=`${ui.values[0]}-${ui.values[1]}`;
-            const page_size= $("#page-size").val();
+    var value=`${ui.values[0]}-${ui.values[1]}`;
+    
+    const page_size= $("#page-size").val();
            
-            const all_selected_brands=document.querySelectorAll('input[name="brand-item"]:checked');
+    const all_selected_brands=document.querySelectorAll('input[name="brand-item"]:checked');
           
     var checkedBrands = [];
     
     var checkboxes = document.querySelectorAll('input[name="brand-item"]:checked');
-    
+
+
     checkboxes.forEach(function(checkbox) {
         checkedBrands.push(checkbox.nextElementSibling.textContent);
     });
+    
     var checked_brands_value=checkedBrands.join(",");
 
     var checkedStars = [];
@@ -320,7 +319,6 @@ document.addEventListener("DOMContentLoaded",()=>{
                         console.error("AJAX Error:", status, error);
                     }
                 });
-
     }
     });
 
@@ -363,7 +361,8 @@ document.addEventListener("DOMContentLoaded",()=>{
                 });
 
 }); 
-   $(".star-checkbox").on("change",()=>{
+   $(".star-checkbox").on("change",()=>
+   {
 
     const page_size= $("#page-size").val();
       

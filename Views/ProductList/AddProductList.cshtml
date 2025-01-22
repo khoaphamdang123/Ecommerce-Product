@@ -342,6 +342,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
    imageUploadToS3: false,
     imageUploadURL: '/image/upload',
     imageOutputSize: true,
+    videoUpload:true,
+    videoUploadURL:'/video/upload',
     toolbarButtons:{  moreText: {
       buttons: [
         'bold', 'italic', 'underline', 'strikeThrough', 
@@ -380,6 +382,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
  imageUploadToS3: false,
     imageUploadURL: '/image/upload',
     imageOutputSize: true,
+    videoUpload:true,
+    videoUploadURL:'/video/upload',
     toolbarButtons:{  moreText: {
       buttons: [
         'bold', 'italic', 'underline', 'strikeThrough', 
@@ -419,6 +423,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
    imageUploadToS3: false,
     imageUploadURL: '/image/upload',
     imageOutputSize: true,
+    videoUpload:true,
+    videoUploadURL:'/video/upload',
     toolbarButtons:{  moreText: {
       buttons: [
         'bold', 'italic', 'underline', 'strikeThrough', 
@@ -453,10 +459,12 @@ document.addEventListener("DOMContentLoaded", function (event) {
   });
 
   new FroalaEditor('#Discount-Description',{
-    heightMin: 300,
+   heightMin: 300,
    imageUploadToS3: false,
     imageUploadURL: '/image/upload',
     imageOutputSize: true,
+    videoUpload:true,
+    videoUploadURL:'/video/upload',
     toolbarButtons: {  moreText: {
       buttons: [
         'bold', 'italic', 'underline', 'strikeThrough', 
@@ -486,8 +494,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
       ]
     }},
     pluginsEnabled: ['align', 'charCounter', 'codeBeautifier', 'codeView', 'colors', 'draggable', 'embedly', 'emoticons', 'entities', 'file', 'fontFamily', 'fontSize', 'fullscreen', 'image', 'imageManager', 'inlineStyle', 'lineBreaker', 'link', 'lists', 'paragraphFormat', 'paragraphStyle', 'quickInsert', 'quote', 'save', 'table', 'url', 'video', 'wordPaste'],
-    @* colorsBackground: ['#FFFFFF', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'],
-    colorsText: ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00']  *@
+    
   });
 });
 
@@ -549,7 +556,7 @@ add_variant.addEventListener('click',()=>{
        newRow.classList.add('hide');
         
         
-        groupList.appendChild(newRow);
+       groupList.appendChild(newRow);
        
          setTimeout(()=>{
             newRow.classList.remove('hide');

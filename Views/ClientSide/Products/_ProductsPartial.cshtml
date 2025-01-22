@@ -104,8 +104,9 @@
                                                         <span>(@(count_reviews[product.ProductName]) đánh giá)</span>
                                                         }
                                                     </div>
-                                                    
-                                        <div class="price mb-10">
+                                      @if(Convert.ToInt32(product.Price)>0)
+                                      {              
+                         <div class="price mb-10">
         
                        @if(!string.IsNullOrEmpty(product?.Discount.ToString()) && product?.Discount!=0)
                                    {
@@ -120,6 +121,7 @@
                                 <span class="discounted-price">@(String.Format("{0:N0} đ",Convert.ToInt32(product.Price)))</span>                                   
                                     } 
                                      </div>
+                                     }
                                                 </div>
                                                 <div class="product__add-cart-s text-center">
                                                     <button type="button" id="add-cart" data-product-name="@product.ProductName" data-product-id="@product.Id" data-product-price="@(product.Price)" class="cart-btn d-flex mb-10 align-items-center justify-content-center w-100">
@@ -212,6 +214,8 @@
                                                                     <span>(@(count_reviews[product.ProductName]) đánh giá)</span> 
                                                                 }                                                                   
                                                                 </div>
+                      @if(Convert.ToInt32(product.Price.Replace(",",""))>0)
+                      {
                         <div class="price mb-10" id='price-@product.Id'>
                                     
                        @if(!string.IsNullOrEmpty(product?.Discount.ToString()) && product?.Discount!=0)
@@ -227,6 +231,7 @@
                                     <span class="discounted-price" style="font-size: 16px;font-weight: bolder;">@(String.Format("{0:N0} đ",Convert.ToInt32(product.Price)))</span>   
                                     }                                            
                                     </div>
+                        }
                                                                 <div class="features-des">
                                                                         <div class="product-option-@product.Id" data-id="@product.Id" data-discount='@product.Discount'>
                                                                 </div>  
@@ -438,8 +443,7 @@
                                             <button class="nav-link" id="nav4-tab" data-bs-toggle="tab" data-bs-target="#nav4" type="button" role="tab" aria-controls="nav4" aria-selected="false">
                                         <div id="sub-img-4">
                                         </div>
-                                            </button>
-                                       
+                                    </button>
                                         </li>
                                         </ul>
                                 </div>
@@ -465,7 +469,7 @@
                                     
                                         </div>
                                     </div>
-                                    <div class="product__price">
+                                    <div class="product__price" id="product_price_block">
                                         
                                         <span id="origin-price" class="original-price"></span>
                                         
@@ -542,15 +546,16 @@
 
   function initClickButton(sizes,colors,versions,mirrors,prices,version,price_id='',class_id='',product_discount='0')
    { 
-    
+
     var all_id=[];
 
     var container_class='';
-
    
     if(version==0)
     {
+    
     var all_id=['color-buttons','size-buttons','version-buttons','mirror-buttons'];
+    
     container_class='.size-btn';
     }
     else
@@ -592,13 +597,26 @@
 
     var origin_price='';
 
+    var price_value=prices[first_index];
+
+
     if(price_id!='')
-    { 
+    {   
         price=document.querySelector(`#${price_id} .discounted-price`);
+       
        if(product_discount!='0')
        {
         origin_price=document.querySelector(`#${price_id} .original-price`);
         }
+      var price_id_block=document.getElementById(price_id);      
+      if(parseInt(price_value)<=0)
+      {
+        price_id_block.style.display='none';
+      }
+      else
+      {
+        price_id_block.style.display='block';
+      }
     }
     else
     {
@@ -607,7 +625,6 @@
     origin_price=document.querySelector(`#origin-price`);
     }
 
-    var price_value=prices[first_index];
 
 
     if(product_discount!='0')
@@ -627,6 +644,19 @@
     origin_price.innerHTML='';
     }
     }
+
+   var product_price_block=document.getElementById('product_price_block');
+
+
+
+   if(parseInt(prices[first_index])>0)
+   {
+    product_price_block.style.display='block';
+   }
+   else
+   {
+    product_price_block.style.display='none';
+   }
 
    var container_size=null;
    
@@ -986,6 +1016,17 @@ function getAllIndex(buttonId,value,sizes,colors,versions,mirrors)
     price_name=`#${price_id} .discounted-price`;
     
     original_price=`#${price_id} .original-price`;
+
+    var price_id_block=document.getElementById(price_id);
+    
+    if(parseInt(prices[current_item])<=0)
+    {
+        price_id_block.style.display='none';
+    }
+    else
+    {
+        price_id_block.style.display='block';
+    }
    }
    
    
@@ -994,6 +1035,15 @@ function getAllIndex(buttonId,value,sizes,colors,versions,mirrors)
    if(product_discount!='0')
    {
     document.querySelector(original_price).innerHTML='<strong>'+prices[current_item]+' đ'+'</strong>';
+   }
+   var product_price_block=document.getElementById('product_price_block');
+   if(parseInt(prices[current_item])>0)
+   {
+    product_price_block.style.display='block';
+   }
+   else
+   {
+    product_price_block.style.display='none';
    }
    }
    }
@@ -1004,7 +1054,8 @@ function getAllIndex(buttonId,value,sizes,colors,versions,mirrors)
  function initAllDetailData()
  {
     const feature_des=document.querySelectorAll('.features-des');
- feature_des.forEach((features)=>
+    
+    feature_des.forEach((features)=>
  {
     var child_div_list=features.querySelectorAll('div');
     
@@ -1021,8 +1072,6 @@ function getAllIndex(buttonId,value,sizes,colors,versions,mirrors)
         url=url.replace("__id__",productId);
 
         const price_id='price-'+productId;
-
-
 
 $.ajax({
             url:url,
@@ -1116,13 +1165,19 @@ $.ajax({
             if(!sizes.includes(size))
             {
             sizes.push(size);
+            
             const selecter=productOptionsContainer.querySelector(".size-selectors");
+            
             const button_container=selecter.querySelector(`#sizes-buttons-${productId}`);
+            
             const new_btn=document.createElement("button");
   
             new_btn.classList.add(`size-btns-${productId}`);
+           
             new_btn.textContent=size;
+            
             button_container.appendChild(new_btn);
+            
             }
         }
                 }
@@ -1547,7 +1602,6 @@ $.ajax({
 
         //handleClickButton(`colors-buttons-${productId}`,sizes_json,colors_json,versions_json,mirrors_json,prices_json,1,price_id,productId,productDiscount);
 
-
           handleClickButton('color-buttons',sizes_json,colors_json,versions_json,mirrors_json,prices_json,0,'','',discount);
 
           handleClickButton('size-buttons',sizes_json,colors_json,versions_json,mirrors_json,prices_json,0,'','',discount);
@@ -1638,9 +1692,11 @@ if (wwwrootIndex !== -1) {
 
 let relativePath = frontAvatar;
 
-if (wwwrootIndex !== -1) {
-
+if (wwwrootIndex !== -1) 
+{
+   
     relativePath = frontAvatar.substring(wwwrootIndex + "wwwroot".length + 1);
+
 }    
        var wwwrootPath='@Url.Content("~/")';
        
@@ -1654,7 +1710,7 @@ if (wwwrootIndex !== -1) {
    var modify_product_name=productName.replace(/[^\w\d]+/g, '-');
 
     
-    url_details=url_details.replace("__productname__",modify_product_name);
+   url_details=url_details.replace("__productname__",modify_product_name);
 
 
    productDetails.href=url_details;
@@ -1668,8 +1724,11 @@ if (wwwrootIndex !== -1) {
         document.getElementById("product-id").value = productId;
 
         document.getElementById('product-name').textContent = productName;
-        
+
+      if(parseInt(productPrice)>0)
+      {
         document.getElementById('product-price').textContent = productPrice;
+     }
 
         document.getElementById('product-category').textContent = category;
 
@@ -1833,15 +1892,13 @@ if (wwwrootIndex !== -1) {
         formData.append("mirror",mirror_value);
        }
 
-         formData.append("quantity",quantity_value);
+        formData.append("quantity",quantity_value);
         
         formData.append("product_id",productId);
 
+        formData.append("product_name",productName);
 
-         formData.append("product_name",productName);
-
-
-         formData.append("price",price_val);
+        formData.append("price",price_val);
          
          $.ajax({
             url:"@Url.Action("addItemToCart","Cart")",
@@ -1911,13 +1968,20 @@ if (wwwrootIndex !== -1) {
               if(userId==null || userId==undefined || userId=="")
               {
                  document.getElementById("toast-title").innerHTML="Thông báo";
+                 
                  document.getElementById("toast-message").innerHTML="Bạn cần phải đăng nhập để đánh giá sản phẩm";
+                 
                  var toastEl = document.querySelector('.toast');
+                 
                  toastEl.classList.add('bg-warning');
+                 
                  var toast = new bootstrap.Toast(toastEl);
+                 
                  toast.show();
+                 
                  return;
               }
+
               let form=new FormData();
               
               form.append("user_id",userId);
@@ -1926,7 +1990,8 @@ if (wwwrootIndex !== -1) {
 
               form.append("rating",star);
                 
-             $.ajax({
+             $.ajax(
+            {
             url:"@Url.Action("RatingStar","Products")",
             type:"POST",
             data:form,
@@ -1956,12 +2021,17 @@ if (wwwrootIndex !== -1) {
             },
             error:function(xhr, status, error)
             {
-                  document.getElementById("toast-title").innerHTML="Thông báo";
-                 document.getElementById("toast-message").innerHTML=error;
+                document.getElementById("toast-title").innerHTML="Thông báo";
+                
+                document.getElementById("toast-message").innerHTML=error;
+                
                 var toastEl = document.querySelector('.toast');
+                
                 toastEl.classList.add('bg-danger');
+                
                 var toast = new bootstrap.Toast(toastEl);
-                 toast.show();           
+
+                toast.show();
                  }
         });
             });
