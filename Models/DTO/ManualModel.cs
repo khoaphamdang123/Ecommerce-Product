@@ -11,9 +11,9 @@ public partial class ManualModel
 
     public string Language { get; set; } = null!;
 
-    public string PdfLink { get; set; } = null!;
+    public IFormFile PdfLink { get; set; } = null!;
 
-    public string WebLink {get;set;}=null!; 
+    public IFormFile WebLink {get;set;}=null!; 
 
     public string CreatedDate { get; set; } = null!;
 

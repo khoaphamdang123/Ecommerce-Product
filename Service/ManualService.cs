@@ -32,19 +32,62 @@ public class ManualService:IManualRepository
    return paging_list_file;
   }
 
-  public async Task<int> addManual(ManualModel manual)
+  public async Task<int> addManual(ManualModel manual,string scheme,string host)
   { int add_res=0;
     try
     {
     string manual_name=manual.ManualName;
-    string pdf_link=manual.PdfLink;
-    string web_link=manual.WebLink;
+    string pdf_link="";
+    string web_link="";
+
     string language=manual.Language;
     int product_id=manual.ProductId;
-    string manual_link=web_link;
     string created_date=DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
     string updated_date = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
-    string manual_link_str=manual_link;    
+
+    if(manual.PdfLink!=null)
+    {
+       var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadPdf");
+    
+    if (!Directory.Exists(uploadPath))
+    {
+        Directory.CreateDirectory(uploadPath);
+    }
+    
+    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(manual.PdfLink.FileName);
+
+    var filePath = Path.Combine(uploadPath, fileName);
+    
+    using(var stream = new FileStream(filePath, FileMode.Create))
+    {
+        await manual.PdfLink.CopyToAsync(stream);
+    }
+    pdf_link = $"{scheme}://{host}/UploadPdf/{fileName}";
+    }
+
+    if(manual.WebLink!=null)
+    {
+ var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadLink");
+    
+    if (!Directory.Exists(uploadPath))
+    {
+        Directory.CreateDirectory(uploadPath);
+    }
+    
+    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(manual.WebLink.FileName);
+
+    var filePath = Path.Combine(uploadPath, fileName);
+    
+    using(var stream = new FileStream(filePath, FileMode.Create))
+    {
+        await manual.WebLink.CopyToAsync(stream);
+    }
+
+    web_link  = $"{scheme}://{host}/UploadLink/{fileName}";    
+    }
+
+    string manual_link_str=pdf_link+","+web_link;    
+
 
 
     var product=await this._context.Products.FirstOrDefaultAsync(p=>p.Id==product_id);
@@ -65,6 +108,7 @@ public class ManualService:IManualRepository
   public async Task<Manual> findManualById(int id)
   {
     var manual=await this._context.Manuals.FirstOrDefaultAsync(m=>m.Id==id);
+    
     return manual;
   }
 
@@ -97,7 +141,7 @@ public class ManualService:IManualRepository
 
 
 
- public async Task<int>updateManual(int id,ManualModel manual)
+ public async Task<int>updateManual(int id,ManualModel manual,string scheme,string host)
  {
   int update_res=0;
   try
@@ -106,21 +150,87 @@ public class ManualService:IManualRepository
   if(manual_ob!=null)
   {
     string manual_name=manual.ManualName;
-   string pdf_link=manual.PdfLink;
-    string web_link=manual.WebLink;
-    List<string> manual_link_list = new List<string>{pdf_link,web_link};
-    manual_link_list=manual_link_list.Where(c=>!string.IsNullOrEmpty(c)).Distinct().ToList();
+   string pdf_link="";
+    string web_link="";
+    string manual_link_ob=manual_ob.ManualLink;
+    string[] link_details=manual_link_ob.Split(",");
+    string old_pdf_link=link_details[0];
+    string old_web_link=link_details[1];
+    // List<string> manual_link_list = new List<string>{pdf_link,web_link};
+    // manual_link_list=manual_link_list.Where(c=>!string.IsNullOrEmpty(c)).Distinct().ToList();
+    
     string language=manual.Language;
+    
     int product_id=manual.ProductId;
+    
     string manual_link="";
-   if(manual_link_list.Count>1)
-   {  
-     manual_link=string.Join(",",manual_link_list);
-   }
-   else
-   {
-  manual_link=manual_link_list[0];
-   }
+  //  if(manual_link_list.Count>1)
+  //  {  
+  //    manual_link=string.Join(",",manual_link_list);
+  //  }
+  //  else
+  //  {
+  // manual_link=manual_link_list[0];
+  //  }
+
+  if(manual.PdfLink!=null)
+    {
+       var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadPdf");
+    
+    if (!Directory.Exists(uploadPath))
+    {
+        Directory.CreateDirectory(uploadPath);
+    }
+    
+    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(manual.PdfLink.FileName);
+
+    var filePath = Path.Combine(uploadPath, fileName);
+    
+    using(var stream = new FileStream(filePath, FileMode.Create))
+    {
+        await manual.PdfLink.CopyToAsync(stream);
+    }
+    pdf_link = $"{scheme}://{host}/UploadPdf/{fileName}";
+   string[] old_pdf_link_details=old_pdf_link.Split("UploadPdf/");
+   string full_pdf_link=Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadPdf",old_pdf_link_details[1]);
+     Console.WriteLine("Old Pdf Link:"+full_pdf_link);
+
+  if (System.IO.File.Exists(full_pdf_link))
+{
+    System.IO.File.Delete(full_pdf_link);
+}
+    }
+
+    if(manual.WebLink!=null)
+    {
+ var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadLink");
+    
+    if (!Directory.Exists(uploadPath))
+    {
+        Directory.CreateDirectory(uploadPath);
+    }
+    
+    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(manual.WebLink.FileName);
+
+    var filePath = Path.Combine(uploadPath, fileName);
+    
+    using(var stream = new FileStream(filePath, FileMode.Create))
+    {
+        await manual.WebLink.CopyToAsync(stream);
+    }
+
+    web_link  = $"{scheme}://{host}/UploadPdf/{fileName}";
+ string[] old_web_link_details=old_web_link.Split("UploadFile/");
+   string full_web_link=Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadLink",old_web_link_details[1]);
+    if (System.IO.File.Exists(full_web_link))
+    {
+        System.IO.File.Delete(full_web_link);
+    }
+
+    }
+
+    manual_link=pdf_link+","+web_link;
+
     string updated_date = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
 
     var product=await _context.Products.FirstOrDefaultAsync(p=>p.Id==product_id);
