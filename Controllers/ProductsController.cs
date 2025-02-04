@@ -149,7 +149,7 @@ public async Task<IActionResult> ProductBySubCategory(int sub_cat_id)
 [Route("collections")]
 public async Task<IActionResult> Products()
 {   
-     var products=await this._product.getProductList();
+     var products=await this._product.getAllProduct();
      
      string select_size="12";
      

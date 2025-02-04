@@ -41,7 +41,7 @@ public class ProductListController : Controller
   [HttpGet]
   public async Task<IActionResult> ProductList()
   {       
-    
+
   string id_user=this.HttpContext.Session.GetString("AdminId");
 
 if(string.IsNullOrEmpty(id_user))
@@ -203,6 +203,52 @@ if(string.IsNullOrEmpty(id_user))
     return RedirectToAction("ProductList","ProductList");
   }
 
+  [Route("product_list/sort")]
+  [HttpGet]
+
+  public async Task<IActionResult> SortProductList()
+  {
+    try
+    {  
+        var prods=await this._product.getProductRedis();
+        
+        return View(prods);
+    }
+    catch(Exception er)
+    {
+        this._logger.LogTrace("Get Product List Exception:"+er.Message);
+    }
+    return View();
+  }
+
+  [HttpPost]
+  [Route("product_list/sort")]
+  public async Task<JsonResult> SortProduct(List<string> product_list)
+  {
+  Console.WriteLine("Product Json did come to here");
+   try
+   {
+    List<Product> products=new List<Product>();
+    foreach(var product_id in product_list)
+    {
+      var product=await this._product.findProductById(Convert.ToInt32(product_id));
+      if(product!=null)
+      {
+        products.Add(product);
+      }
+    }
+
+   await this._product.saveProductRedis(products);
+
+   }
+   catch(Exception er)
+   {
+    this._logger.LogTrace("Sort Product Exception:"+er.Message);
+    return Json(new{status=0,message=er.Message});
+   }
+   return Json(new{status=1,message="Sắp xếp thành công"});
+  }
+
   [Route("product_list/add")]
   [HttpGet]
   public async Task<IActionResult> AddProductList()
@@ -220,9 +266,13 @@ if(string.IsNullOrEmpty(id_user))
         sub_cat_list.Add(sub_cat);
       }
     }
+    
     ViewBag.CategoryList=category_list;
+    
     ViewBag.BrandList=brand_list;
+    
     ViewBag.SubCatList=sub_cat_list;
+    
     return View();
   }
 

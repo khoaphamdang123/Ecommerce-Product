@@ -45,7 +45,6 @@ public class ProductService:IProductRepository
       ReferenceLoopHandling=ReferenceLoopHandling.Ignore
     });
 
-
     await this._db.StringSetAsync("products",json);
 
   }
@@ -146,15 +145,18 @@ public string NormalizeString(string input)
 
 
 public async Task<PageList<Product>> pagingProduct(int page_size,int page)
-{
-   IEnumerable<Product> all_prod= await this.getProductList();
+{  
+   
+  //  IEnumerable<Product> all_prod= await this.getProductList();
+      IEnumerable<Product> all_prod= await getProductRedis();
 
-   List<Product> prods=all_prod.OrderByDescending(u=>u.Id).ToList(); 
+
+  //  List<Product> prods=all_prod.OrderByDescending(u=>u.Id).ToList(); 
    
    
 
    //var users=this._userManager.Users;   
-   var prod_list=PageList<Product>.CreateItem(prods.AsQueryable(),page,page_size);
+   var prod_list=PageList<Product>.CreateItem(all_prod.AsQueryable(),page,page_size);
    
    return prod_list;
 }
@@ -299,11 +301,25 @@ public async Task<int> deleteProduct(int id)
  {
     Console.WriteLine("Delete Product Exception:"+er.Message);
  }
+  
+  List<Product> new_list=new List<Product>();
 
-  if(await this._db.KeyExistsAsync("products"))
+  var redis_list=await this.getProductRedis();
+
+  foreach(var product in redis_list)
   {
-    await this._db.KeyDeleteAsync("products");
+    if(product.Id!=id)
+    {
+      new_list.Add(product);
+    }
   }
+  
+ await this.saveProductRedis(new_list);
+
+  // if(await this._db.KeyExistsAsync("products"))
+  // {
+  //   await this._db.KeyDeleteAsync("products");
+  // }
 
  return res_del;
 }
@@ -883,16 +899,26 @@ for(int i=0;i<variant_files.Count;i++)
   await this.saveChanges();
 
   created_res=1;
+
   Console.WriteLine("Created res here is:"+created_res);
   }
   catch(Exception er)
   { created_res=0;
     Console.WriteLine("Add New Product Exception:"+er.Message);
   }
- if(await this._db.KeyExistsAsync("products"))
-  {
-    await this._db.KeyDeleteAsync("products");
-  }
+
+  var redis_item=await getProductRedis();
+  
+  var new_add_product =await this.findProductByName(model.ProductName);
+
+  redis_item.Add(new_add_product);
+
+  await this.saveProductRedis(redis_item);
+
+//  if(await this._db.KeyExistsAsync("products"))
+//   {
+//     await this._db.KeyDeleteAsync("products");
+//   }
   return created_res;
 }
 
@@ -1135,10 +1161,10 @@ if(colors!=null)
 
     await this._context.Mirrors.AddAsync(new_mirror);    
   }
+  
   }
 
   await this.saveChanges();
- 
  
   var new_color_ob=await this._context.Colors.FirstOrDefaultAsync(c=>c.Colorname==color);
 
@@ -1302,10 +1328,24 @@ catch(Exception er)
   Console.WriteLine("Update Product Exception:"+er.Message);
 }
 
-  if(await this._db.KeyExistsAsync("products"))
+  var redis_item=await getProductRedis();
+  
+  var new_add_product =await this.findProductByName(model.ProductName);
+  
+  for(int i=0;i<redis_item.Count;i++)
   {
-    await this._db.KeyDeleteAsync("products");
+    if(redis_item[i].Id==id)
+    {
+      redis_item[i]=new_add_product;
+    }
   }
+
+  await this.saveProductRedis(redis_item);
+
+  // if(await this._db.KeyExistsAsync("products"))
+  // {
+  //   await this._db.KeyDeleteAsync("products");
+  // }
 
 return updated_res;
 }
@@ -1320,6 +1360,7 @@ public async Task saveChanges()
   public async Task<IEnumerable<Product>> filterProductByPriceAndBrands(List<string>brands,List<int>prices,List<string> stars)
   {    
    Console.WriteLine("Star count:"+stars.Count);
+  
   var products = await this.getProductRedis();
   
   int min_price=prices[0];
@@ -1328,7 +1369,7 @@ public async Task saveChanges()
 
   if(brands.Count==0 &&  prices.Count!=0)
   { 
- 
+
    products= products.Where(c=>Convert.ToInt32(c.Price)>=min_price && Convert.ToInt32(c.Price)<=max_price).OrderByDescending(c=>c.Id).ToList();   
   }
 
@@ -1376,7 +1417,6 @@ public async Task saveChanges()
        
        return paging_prods_list;
   }
-
 
   public async Task<PageList<Variant>> pagingVariant(int id,int page_size,int page)
   {
