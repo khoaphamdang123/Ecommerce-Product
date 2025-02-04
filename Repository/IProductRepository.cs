@@ -62,6 +62,10 @@ public interface IProductRepository
 
   public Task<List<Variant>> getVariantByProductId(int id);
 
+  public Task<List<Product>> getProductRedis();
+
+  public Task saveProductRedis(List<Product> products);
+
   public Task saveChanges();
 
 

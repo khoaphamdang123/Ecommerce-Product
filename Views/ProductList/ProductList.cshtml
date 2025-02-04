@@ -260,7 +260,7 @@
                            <th class="text-center">Thao tác</th>
                         </tr>
                     </thead>
-                    <tbody class="table-border-bottom-0">
+                    <tbody class="table-border-bottom-0"  id="tableBody">
                        @foreach(var product in Model?.item)
                        { current_total_item+=1;
 
@@ -484,6 +484,9 @@
         <!-- / Layout page -->
 
       <div class="layout-overlay layout-menu-toggle"></div>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.js"></script>
+
   <script>
      let delete_category='';
 
@@ -495,8 +498,8 @@
      })
     });
 
-     document.getElementById("page-size").addEventListener("change",()=>{
-    
+     document.getElementById("page-size").addEventListener("change",()=>
+     {
      var selected_value=document.getElementById("page-size").value;
 
      if(selected_value)
@@ -519,6 +522,22 @@
      window.location.href='@Url.Action("DeleteProduct","ProductList")'+"?id="+delete_category_value; 
     
     });
+    
+    @* var drake = dragula([document.getElementById("tableBody")]);
+
+    drake.on("drag",(el)=>{
+      el.className+='el-drag-ex-1';
+    });
+
+    drake.on("drop",(el)=>{
+  el.className = el.className.replace('el-drag-ex-1', '');
+
+    });
+
+    drake.on('cancel',(el)=>{
+      el.className = el.className.replace('el-drag-ex-1', '');
+    }); *@
+
 @*  
  const convertDateTime=()=> {
 

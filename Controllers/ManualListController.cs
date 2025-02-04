@@ -27,7 +27,8 @@ public class ManualListController : Controller
   [Route("manual_list")]
   [HttpGet]
   public async Task<IActionResult> ManualList()
-  {       string select_size="7";          
+  {       
+          string select_size="7";          
           ViewBag.select_size=select_size;
           List<string> options=new List<string>(){"7","10","20","50"};
           ViewBag.options=options;
@@ -64,10 +65,14 @@ public class ManualListController : Controller
   [HttpGet]
   public async Task<IActionResult> ManualListByProduct(int product_id)
   {
+ 
  string select_size="7";          
+ 
  ViewBag.select_size=select_size; 
+ 
  List<string> options=new List<string>(){"7","10","20","50"};
-  ViewBag.options=options;
+ 
+ ViewBag.options=options;
 
   var manual_files=await this._manual.findManualByProductId(product_id);
  
@@ -140,7 +145,7 @@ public class ManualListController : Controller
    Console.WriteLine("Come to this Manual function");
     try
     {
-    add_res=await this._manual.addManual(manual);
+    add_res=await this._manual.addManual(manual,Request.Scheme.ToString(),Request.Host.ToString());
     }
      catch(Exception er)
     {      
@@ -177,7 +182,7 @@ public class ManualListController : Controller
    int update_res=0;
     try
     {
-    update_res=await this._manual.updateManual(id,manual);    
+    update_res=await this._manual.updateManual(id,manual,Request.Scheme.ToString(),Request.Host.ToString());    
     }
      catch(Exception er)
     {      

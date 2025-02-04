@@ -10,11 +10,11 @@ public interface IManualRepository
 
  public Task<PageList<Manual>> pagingManualFiles(int page_size,int page,IEnumerable<Manual> manual);
 
- public Task<int> addManual(ManualModel manual);
+ public Task<int> addManual(ManualModel manual,string scheme,string host);
 
  public Task<int> deleteManual(int id);
  
- public Task<int> updateManual(int id,ManualModel manual);
+ public Task<int> updateManual(int id,ManualModel manual,string scheme,string host);
 
  public Task<Manual> findManualById(int id);
 
