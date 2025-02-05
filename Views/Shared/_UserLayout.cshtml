@@ -12,6 +12,7 @@
        int total_value=0;
        
        ChangePassword change_pass= null;
+       
        if(User.Identity.IsAuthenticated && User.IsInRole("User"))
        {
         username=this.ViewContext.HttpContext.Session.GetString("Username");
@@ -475,7 +476,25 @@
                       <div class="header__bottom-left d-flex d-xl-block align-items-center">
                         <div class="side-menu d-lg-none mr-20">
                             
-                          <button type="button" class="side-menu-btn offcanvas-toggle-btn"><i class="fas fa-bars"></i></button>
+                       
+    <div class="menu-container">
+        <!-- Menu Button -->
+        <button type="button" class="side-menu-btn offcanvas-toggle-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Search Bar (Hidden on large screens) -->
+        <div class="search-wrapper">
+        <form method="post" asp-action="FilterProductByNameAndCategory" asp-controller="Products">
+
+            <input type="text" name="product" class="search-bar" placeholder="Tìm kiếm sản phẩm...">
+            <button type="submit" class="search-btn">
+                <i class="fas fa-search"></i>
+            </button>
+        </form>
+        </div>
+    </div>
+
                         </div>
                         <div class="main-menu d-none d-lg-block">
                             <nav>

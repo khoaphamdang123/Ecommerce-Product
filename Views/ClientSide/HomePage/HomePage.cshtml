@@ -4,6 +4,8 @@
     Layout = "_UserLayout";
     
     var banners=ViewBag.banners;
+
+    var banners2=ViewBag.banners2;
     
     var products = ViewBag.products as List<Product>; 
     
@@ -48,11 +50,13 @@
         
         <div class="slider-area light-bg-s pt-60">
             <div class="container custom-conatiner">
-                <div class="row">
+                <div class="row"> 
                     <div class="col-xl-7">
                         <div class="swiper-container slider__active pb-30">
                             <div class="slider-wrapper swiper-wrapper">
-                                <div class="single-slider swiper-slide b-radius-2 slider-height-2 d-flex align-items-center" data-background="@banners[0]?.Image.Substring(banners[0]?.Image.IndexOf("wwwroot")+("wwwroot".Length+1)).Replace("\\","/")">
+                            @foreach(var banner in banners)
+                            {
+                                <div class="single-slider swiper-slide b-radius-2 slider-height-2 d-flex align-items-center" data-background="@banner?.Image.Substring(banner.Image.IndexOf("wwwroot")+("wwwroot".Length+1)).Replace("\\","/")">
                                     @* <div class="slider-content slider-content-2">
                                         <h2 data-animation="fadeInLeft" data-delay="1.7s" class="pt-15 slider-title pb-5">Gaming Headset<br> Brilliant Lighting Effect</h2>
                                         <p class="pr-20 slider_text" data-animation="fadeInLeft" data-delay="1.9s">Discount 40% On Products & Free Shipping</p>
@@ -61,24 +65,27 @@
                                         </div>
                                     </div> *@
                                 </div><!-- /single-slider -->
-                                <div class="single-slider swiper-slide b-radius-2 slider-height-2 d-flex align-items-center" data-background="@banners[1]?.Image.Substring(banners[1]?.Image.IndexOf("wwwroot")+("wwwroot".Length+1)).Replace("\\","/")">
+                                }
+                                <!-- /single-slider -->
+                                <div class="main-slider-paginations"></div>
+                            </div>
+                        </div>
+                          
+                          <div class="swiper-container pb-30 second-swiper">
+                            <div class="slider-wrapper swiper-wrapper">
+                            @foreach(var banner in banners2)
+                            {
+                                <div class="single-slider swiper-slide b-radius-2 slider-height-2 d-flex align-items-center" data-background="@banner?.Image.Substring(banner?.Image.IndexOf("wwwroot")+("wwwroot".Length+1)).Replace("\\","/")">
                                     @* <div class="slider-content slider-content-2">
-                                        <h2 data-animation="fadeInLeft" data-delay="1.5s" class="pt-15 slider-title pb-5">SALE 20% OFF<br> SAMSUNG GALAXY BUDS </h2>
-                                        <p class="pr-20 slider_text" data-animation="fadeInLeft" data-delay="1.7s">Discount 30% On Products & Free Shipping</p>
+                                        <h2 data-animation="fadeInLeft" data-delay="1.7s" class="pt-15 slider-title pb-5">Gaming Headset<br> Brilliant Lighting Effect</h2>
+                                        <p class="pr-20 slider_text" data-animation="fadeInLeft" data-delay="1.9s">Discount 40% On Products & Free Shipping</p>
                                         <div class="slider-bottom-btn mt-65">
-                                            <a data-animation="fadeInUp" data-delay="1.9s" href="shop.html" class="st-btn-border b-radius-2">Discover now</a>
+                                            <a data-animation="fadeInUp" data-delay="1.15s" href="shop.html" class="st-btn-border b-radius-2">Discover now</a>
                                         </div>
                                     </div> *@
                                 </div><!-- /single-slider -->
-                                <div class="single-slider b-radius-2 swiper-slide slider-height-2 d-flex align-items-center" data-background="@banners[3]?.Image.Substring(banners[3]?.Image.IndexOf("wwwroot")+("wwwroot".Length+1)).Replace("\\","/")">
-                                    @* <div class="slider-content slider-content-2">
-                                        <h2 data-animation="fadeInLeft" data-delay="1.5s" class="pt-15 slider-title pb-5">Sport Edition<br> Red Special Edition</h2>
-                                        <p class="pr-20 slider_text" data-animation="fadeInLeft" data-delay="1.8s">Wireless Connection With TV, Computer, Laptop... </p>
-                                        <div class="slider-bottom-btn mt-65">
-                                            <a data-animation="fadeInUp" data-delay="1.10s" href="shop.html" class="st-btn-border b-radius-2">Discover now</a>
-                                        </div>
-                                    </div> *@
-                                </div><!-- /single-slider -->
+                                }
+                              
                                 <div class="main-slider-paginations"></div>
                             </div>
                         </div>
@@ -90,9 +97,8 @@
                         var product=products[i];
 
                         string regex_product=Regex.Replace(product.ProductName,@"[^\w\d]", "-");
-
                         
-                         <div class="col-xl-6 col-lg-6 col-md-6">
+                         <div class="col-6 col-xl-6 col-lg-6 col-md-6">
                                 <div class="banner__item p-relative w-img mb-30">
                                     <div class="banner__img b-radius-2">
                                         <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})"><img src="~/@products[i].Frontavatar.Substring(products[i].Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt=""></a>
@@ -103,8 +109,7 @@
                                     </div>
                                 </div>
                             </div>
-                      }
-                           
+                      } 
                         </div>
                     </div>
                 </div>
@@ -127,7 +132,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="d-none d-md-flex row flex-nowrap overflow-auto">
+            
                 @foreach(var product in products)
                 { 
                 string regex_product=Regex.Replace(product.ProductName, @"[^\w\d]", "-");
@@ -135,7 +141,7 @@
                 count_trending++;
                 
                 if(count_trending<=6)
-                {
+                { 
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-3 col-xxl-2">
                         <div class="product__item product__item-2 b-radius-2 mb-20">
                             <div class="product__thumb fix">
@@ -223,8 +229,114 @@
                         break;
                     }
                     }
-        
                 </div>
+
+         <div class="d-md-none swiper mySwiper">
+        <div class="swiper-wrapper">
+            @for (int i = 0; i < products.Take(6).Count(); i += 2)
+            {
+                <div class="swiper-slide">
+                    <div class="row">
+                        @for (int j = i; j < i + 2 && j < products.Count(); j++)
+                        {
+                            var product = products[j];
+                            string regex_product = Regex.Replace(product.ProductName, @"[^\w\d]", "-");
+                            
+                            <div class="col-6">
+                                @* Reuse the same product content *@
+                                <div class="product__item product__item-2 b-radius-2 mb-20">
+                                    @* Include the same product details here *@
+                                    <div class="product__thumb fix">
+                                <div class="product-image w-img">
+                                    <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})">
+                                        <img src="~/@product.Frontavatar.Substring(product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="product">
+                                        @* <img src="~/UploadImages/0a73f765-1942-4a78-98d9-0853d41024f8.webp" alt="product"> *@
+                                    </a>
+                                </div>
+                                <div class="product__offer">
+                                   @if(!string.IsNullOrEmpty(product?.Discount.ToString()) && product?.Discount!=0)
+                                   {
+                                   <span class="discount">-@product?.Discount%</span>
+                                   }  
+                                </div>
+                                @* <div class="product__offer">
+                                <span class="discount">-15%</span>
+                                </div> *@
+                                <div class="product-action product-action-2">
+                                    <a href="javascript:void(0);" type="button" class="icon-box icon-box-1" data-bs-toggle="modal" data-product-name="@product.ProductName" data-product-price="@product.Price" data-product-discount="@product.Discount" data-main-avatar="@product.Frontavatar" 
+                                               
+                                                    data-product-category="@product?.Category.CategoryName"
+                                                    data-product-quantity="@product.Quantity" 
+                                                    data-product-id="@product.Id"
+                                                    data-count-review="@count_reviews[product.ProductName]"
+                                                    data-discount="@product.Discount"
+                                                    data-img-0="@product.Frontavatar"
+                                                    @for(int z=0;z<product.ProductImages.ToList().Count;z++)
+                                                    {
+                                                    string val=$"data-img-{z+1}=\"{product.ProductImages.ToList()[z].Avatar}\"";
+
+                                                    @Html.Raw(val);
+
+                                                    }
+                                                    data-bs-target="#productModalId"
+                                                    title="Xem nhanh">
+                                        <i class="fal fa-eye"></i>
+                                        <i class="fal fa-eye"></i>
+                                        
+                                    </a>
+                                    <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})"  class="icon-box icon-box-1" title="Chi tiết sản phẩm">
+                                        <i class="fal fa-layer-group"></i>
+                                        <i class="fal fa-layer-group"></i>
+                                    </a>
+                                </div>
+                            </div>
+                                <div class="product__content product__content-2">
+                                <h6><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})">@product.ProductName</a></h6>
+                                <div class="rating mb-5 mt-10">
+                                    <ul>
+                                        <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                        <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                        <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                        <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                        <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                    </ul>
+                                    <span>(01 review)</span>
+                                </div>
+                              @if(Convert.ToInt32(product.Price.Replace(",",""))>0)
+                              {
+                                <div class="price">
+                                    @if(!string.IsNullOrEmpty(product?.Discount.ToString()) && product?.Discount!=0)
+                                   {
+                                    <span class="original-price">@product.Price đ</span>
+                                    
+                                    <span class="discounted-price">@String.Format("{0:N0} đ", Convert.ToInt32(product.Price.Replace(",","")) * (double)(1 - product.Discount / 100.0))</span>
+                                    }
+                                    else
+                                    {
+                                    <span class="discounted-price">@product.Price đ</span>   
+                                    }
+                                </div>
+                                }
+                            </div>
+                            <div class="product__add-cart text-center">
+                            
+                                <button type="button" id="add-cart" data-product-name="@product.ProductName" data-product-id="@product.Id" data-product-price="@(!string.IsNullOrEmpty(product?.Discount.ToString()) && product?.Discount!=0?String.Format("{0:N0} đ", Convert.ToInt32(product.Price.Replace(",","")) * (1 - product.Discount / 100)):product.Price)" class="cart-btn-3 product-modal-sidebar-open-btn d-flex align-items-center justify-content-center w-100">
+                                    Thêm vào giỏ hàng
+                                </button>
+                            </div>
+                                    @* Add content and price display *@
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+               
             </div>
         </section>
 
@@ -243,7 +355,7 @@
                 <div class="row">
                 @foreach(var cat in categories)
                 {  
-    <div class="col-xl-2 col-lg-3 col-md-4">
+    <div class="col-xl-2 col-lg-3 col-md-4 col-6">
     
      <div class="categories__item p-relative w-img mb-30 text-center">
         <!-- Image -->
@@ -299,7 +411,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="d-none d-md-flex row">
                 @for(int j=0;j<products.Count;j++)
                 {  
                   var product=products[j];
@@ -389,8 +501,117 @@
                     </div>
                     }
                 </div>
+
+
+
+        <div class="d-md-none swiper mySwiper">
+        <div class="swiper-wrapper">
+            @for (int i = 0; i < products.Count(); i += 2)
+            {
+                <div class="swiper-slide">
+                    <div class="row">
+                        @for (int j = i; j < i + 2 && j < products.Count(); j++)
+                        {
+                            var product = products[j];
+                            string regex_product = Regex.Replace(product.ProductName, @"[^\w\d]", "-");
+                            
+                            <div class="col-6">
+                                @* Reuse the same product content *@
+                                <div class="product__item product__item-2 b-radius-2 mb-20">
+                                    @* Include the same product details here *@
+                                    <div class="product__thumb fix">
+                                <div class="product-image w-img">
+                                    <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})">
+                                        <img src="~/@product.Frontavatar.Substring(product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="product">
+                                        @* <img src="~/UploadImages/0a73f765-1942-4a78-98d9-0853d41024f8.webp" alt="product"> *@
+                                    </a>
+                                </div>
+                                <div class="product__offer">
+                                   @if(!string.IsNullOrEmpty(product?.Discount.ToString()) && product?.Discount!=0)
+                                   {
+                                   <span class="discount">-@product?.Discount%</span>
+                                   }  
+                                </div>
+                                @* <div class="product__offer">
+                                <span class="discount">-15%</span>
+                                </div> *@
+                                <div class="product-action product-action-2">
+                                    <a href="javascript:void(0);" type="button" class="icon-box icon-box-1" data-bs-toggle="modal" data-product-name="@product.ProductName" data-product-price="@product.Price" data-product-discount="@product.Discount" data-main-avatar="@product.Frontavatar" 
+                                               
+                                                    data-product-category="@product?.Category.CategoryName"
+                                                    data-product-quantity="@product.Quantity" 
+                                                    data-product-id="@product.Id"
+                                                    data-count-review="@count_reviews[product.ProductName]"
+                                                    data-discount="@product.Discount"
+                                                    data-img-0="@product.Frontavatar"
+                                                    @for(int z=0;z<product.ProductImages.ToList().Count;z++)
+                                                    {
+                                                    string val=$"data-img-{z+1}=\"{product.ProductImages.ToList()[z].Avatar}\"";
+
+                                                    @Html.Raw(val);
+
+                                                    }
+                                                    data-bs-target="#productModalId"
+                                                    title="Xem nhanh">
+                                        <i class="fal fa-eye"></i>
+                                        <i class="fal fa-eye"></i>
+                                        
+                                    </a>
+                                    <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})"  class="icon-box icon-box-1" title="Chi tiết sản phẩm">
+                                        <i class="fal fa-layer-group"></i>
+                                        <i class="fal fa-layer-group"></i>
+                                    </a>
+                                </div>
+                            </div>
+                                <div class="product__content product__content-2">
+                                <h6><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})">@product.ProductName</a></h6>
+                                <div class="rating mb-5 mt-10">
+                                    <ul>
+                                        <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                        <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                        <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                        <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                        <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                    </ul>
+                                    <span>(01 review)</span>
+                                </div>
+                              @if(Convert.ToInt32(product.Price.Replace(",",""))>0)
+                              {
+                                <div class="price">
+                                    @if(!string.IsNullOrEmpty(product?.Discount.ToString()) && product?.Discount!=0)
+                                   {
+                                    <span class="original-price">@product.Price đ</span>
+                                    
+                                    <span class="discounted-price">@String.Format("{0:N0} đ", Convert.ToInt32(product.Price.Replace(",","")) * (double)(1 - product.Discount / 100.0))</span>
+                                    }
+                                    else
+                                    {
+                                    <span class="discounted-price">@product.Price đ</span>   
+                                    }
+                                </div>
+                                }
+                            </div>
+                            <div class="product__add-cart text-center">
+                            
+                                <button type="button" id="add-cart" data-product-name="@product.ProductName" data-product-id="@product.Id" data-product-price="@(!string.IsNullOrEmpty(product?.Discount.ToString()) && product?.Discount!=0?String.Format("{0:N0} đ", Convert.ToInt32(product.Price.Replace(",","")) * (1 - product.Discount / 100)):product.Price)" class="cart-btn-3 product-modal-sidebar-open-btn d-flex align-items-center justify-content-center w-100">
+                                    Thêm vào giỏ hàng
+                                </button>
+                            </div>
+                                    @* Add content and price display *@
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
             </div>
         </section>
+        
     <div class="blog-area light-bg-s pt-20 pb-30">
             <div class="container custom-conatiner">
                 <div class="row">
@@ -405,14 +626,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+
+                <div class="d-none d-md-flex row flex-nowrap overflow-auto">
                   @for(int i=0;i<blogs.Count;i++)
                   {  
                 var blog=blogs[i];
+                  
                   if(i>6)
                   {
                     break;                
                   }
+
                     <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-4">
                         <div class="single-smblog mb-30">
                             <div class="smblog-thum">
@@ -442,132 +666,64 @@
                         </div>
                     </div>
                     }
-                    @* <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-4">
-                        <div class="single-smblog mb-30">
-                            <div class="smblog-thum">
-                                <div class="blog-image w-img">
-                                    <a href="blog-details.html"><img src="assets/img/blog/sm-b-2.jpg" alt=""></a>
-                                </div>
-                                <div class="blog-tag">
-                                    <a href="#">New</a>
-                                </div>
-                            </div>
-                            <div class="smblog-content">
-                                <h6><a href="blog-details.html">Top 5 Best Digital Cameras for 2021 You Should Buy</a></h6>
-                                <span class="author mb-10">posted by <a href="#">Angelia</a></span>
-                                <p>It is accompanied by a case that can contain...</p>
-                                <div class="smblog-foot pt-15">
-                                    <div class="post-readmore">
-                                        <a href="#">Read More <span class="icon"></span></a>
-                                    </div>
-                                    <div class="post-date">
-                                        <a href="#">Jan 24, 2022</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> *@
-                    @* <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-4">
-                        <div class="single-smblog mb-30">
-                            <div class="smblog-thum">
-                                <div class="blog-image w-img">
-                                    <a href="blog-details.html"><img src="assets/img/blog/sm-b-3.jpg" alt=""></a>
-                                </div>
-                                <div class="blog-tag">
-                                    <a href="#">Update</a>
-                                </div>
-                            </div>
-                            <div class="smblog-content">
-                                <h6><a href="blog-details.html">Capture the moment with 4 cameras on Oppo A92</a></h6>
-                                <span class="author mb-10">posted by <a href="#">Iqbal</a></span>
-                                <p>It is accompanied by a case that can contain...</p>
-                                <div class="smblog-foot pt-15">
-                                    <div class="post-readmore">
-                                        <a href="#"> Read More <span class="icon"></span></a>
-                                    </div>
-                                    <div class="post-date">
-                                        <a href="#">Jan 24, 2022</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> *@
-                    @* <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-4">
-                        <div class="single-smblog mb-30">
-                            <div class="smblog-thum">
-                                <div class="blog-image w-img">
-                                    <a href="blog-details.html"><img src="assets/img/blog/sm-b-4.jpg" alt=""></a>
-                                </div>
-                                <div class="blog-tag">
-                                    <a href="#">Offer</a>
-                                </div>
-                            </div>
-                            <div class="smblog-content">
-                                <h6><a href="blog-details.html">Use Headphones Properly Not To Damage Your Hearing</a></h6>
-                                <span class="author mb-10">posted by <a href="#">Jenny</a></span>
-                                <p>It is accompanied by a case that can contain...</p>
-                                <div class="smblog-foot pt-15">
-                                    <div class="post-readmore">
-                                        <a href="#"> Read More <span class="icon"></span></a>
-                                    </div>
-                                    <div class="post-date">
-                                        <a href="#">Jan 24, 2022</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> *@
-                    @* <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-4">
-                        <div class="single-smblog mb-30">
-                            <div class="smblog-thum">
-                                <div class="blog-image w-img">
-                                    <a href="blog-details.html"><img src="assets/img/blog/sm-b-5.jpg" alt=""></a>
-                                </div>
-                                <div class="blog-tag">
-                                    <a href="#">Common</a>
-                                </div>
-                            </div>
-                            <div class="smblog-content">
-                                <h6><a href="blog-details.html">Laptops Become More Common in Everyday Life</a></h6>
-                                <span class="author mb-10">posted by <a href="#">Nihal Fultu</a></span>
-                                <p>It is accompanied by a case that can contain...</p>
-                                <div class="smblog-foot pt-15">
-                                    <div class="post-readmore">
-                                        <a href="#"> Read More <span class="icon"></span></a>
-                                    </div>
-                                    <div class="post-date">
-                                        <a href="#">Jan 24, 2022</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> *@
-                    @* <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-4">
-                        <div class="single-smblog mb-30">
-                            <div class="smblog-thum">
-                                <div class="blog-image w-img">
-                                    <a href="blog-details.html"><img src="assets/img/blog/sm-b-6.jpg" alt=""></a>
-                                </div>
-                                <div class="blog-tag">
-                                    <a href="#">Hot</a>
-                                </div>
-                            </div>
-                            <div class="smblog-content">
-                                <h6><a href="blog-details.html">Do you know how to wear headphones properly?</a></h6>
-                                <span class="author mb-10">posted by <a href="#">Rosanlina</a></span>
-                                <p>It is accompanied by a case that can contain...</p>
-                                <div class="smblog-foot pt-15">
-                                    <div class="post-readmore">
-                                        <a href="#"> Read More <span class="icon"></span></a>
-                                    </div>
-                                    <div class="post-date">
-                                        <a href="#">Jan 24, 2022</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> *@
+              
                 </div>
+
+
+     <div class="d-md-none swiper mySwiper">
+     
+     <div class="swiper-wrapper">
+     
+                  @for(int i=0;i<blogs.Count;i++)
+                  {  
+                <div class="swiper-slide">
+                    <div class="row">
+              @for(int j=i;j<i+2 && j<blogs.Count;j++)
+              {
+                var blog=blogs[j];
+                  
+                  if(i>6)
+                  {
+                    break;                
+                  }
+
+                    <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-4">
+                        <div class="single-smblog mb-30">
+                            <div class="smblog-thum">
+                                <div class="blog-image w-img">
+                                   <a href="@Url.Action("BlogDetail","Blog",new{id=blog.Id})"><img class="ls-is-cached lazyloaded" data-src="~/@blog.FeatureImage.Substring(blog.FeatureImage.IndexOf("wwwroot")+("wwwroot".Length+1))" src="~/@blog.FeatureImage.Substring(blog.FeatureImage.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="@blog.Blogname"></a>
+                                </div>
+                                <div class="blog-tag">
+                                    <a href="javascript:void(0);">@blog.Category.CategoryName</a>                                    
+                                </div>
+                            </div>
+                            <div class="smblog-content">
+                                <h6><a href="@Url.Action("BlogDetail","Blog",new{id=blog.Id})">@blog.Blogname</a></h6>
+
+                                <span class="author mb-10">posted by <a href="javascript:void(0);"> @blog.Author</a></span>
+                                
+                                <p>@blog.GetFirstPContent()</p>
+                                
+                                <div class="smblog-foot pt-15">
+                                    <div class="post-readmore">                                        
+                                       <a href="@Url.Action("BlogDetail","Blog",new{id=blog.Id})"> Read More <span class="icon"></span></a>
+                                    </div>
+                                    <div class="post-date">
+                                        <a href="javascript:void(0);">-@(blog.Updateddate)</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+                </div>
+                
+                    }
+              
+                </div>
+     </div>
+
             </div>
         </div>
 
@@ -808,6 +964,26 @@
         </div>
 
     <script>
+    @* function initSwiper() {
+    if (window.innerWidth <= 768) {
+        alert("here");
+        if (!document.querySelector(".swiper").swiper) {
+            alert("hllo");
+            new Swiper(".product-slider", {
+                slidesPerView: 2,
+                spaceBetween: 10,
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,
+                }
+            });
+        }
+    }
+}
+
+window.addEventListener("load", initSwiper);
+
+window.addEventListener("resize", initSwiper); *@
 
   function initClickButton(sizes,colors,versions,mirrors,prices,product_discount='0')
    { 
@@ -1231,6 +1407,39 @@ function getAllIndex(buttonId,value,sizes,colors,versions,mirrors)
     }    
     
      document.addEventListener("DOMContentLoaded",()=>{
+            var swiper = new Swiper(".mySwiper", {
+            slidesPerView: 1,
+            spaceBetween: 10,
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+        });   
+
+     var swiper_2 = new Swiper('.second-swiper', {
+            loop: true,
+            speed: 1000, // Transition speed in milliseconds (1 second)
+            effect: 'fade', // Smooth fade effect
+            fadeEffect: {
+                crossFade: true // Ensures smooth crossfade between slides
+            }, // Enables infinite looping
+            pagination: {
+                el: '.main-slider-paginations', // Pagination element
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            autoplay: {
+                delay: 3000, // Slide delay in milliseconds
+                disableOnInteraction: false,
+            },
+        });
      
      let modalTriggered=false;
      
