@@ -22,7 +22,7 @@ public class ManualController:BaseController
  private readonly Support_Serive.Service _sp_services;
  
 
-public ManualController(IBannerListRepository banner,IManualRepository manual,IVideoRepository video,Support_Serive.Service sp_service,ISettingRepository setting,ICategoryListRepository category,IUserListRepository user,ILogger<ManualController> logger):base(category,user)
+public ManualController(IBannerListRepository banner,IManualRepository manual,IVideoRepository video,Support_Serive.Service sp_service,ISettingRepository setting,ICategoryListRepository category,IUserListRepository user ,ILogger<ManualController> logger):base(category,user,banner)
 {
     this._banner=banner;
     this._manual=manual;

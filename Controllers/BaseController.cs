@@ -11,10 +11,13 @@ public class BaseController : Controller
 
     private readonly IUserListRepository _user;
 
-    public BaseController(ICategoryListRepository category,IUserListRepository user)
+    private readonly IBannerListRepository _banner;
+
+    public BaseController(ICategoryListRepository category,IUserListRepository user,IBannerListRepository banner)
     {
         this._category = category;
         this._user = user;
+        this._banner=banner;
     }
 
     public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -22,6 +25,10 @@ public class BaseController : Controller
         var categories = await this._category.getAllCategory();
         
         var user = await this._user.findUserByName("company");
+
+        var logo= await this._banner.findBannerByName("logo");
+
+        ViewBag.Logo = logo;
         
         ViewBag.Categories = categories;
         

@@ -20,7 +20,7 @@ public class HomePageController:BaseController
  private readonly Support_Serive.Service _sp_services;
  
 
-public HomePageController(IBannerListRepository banner,IProductRepository product,Support_Serive.Service sp_service,ISettingRepository setting,ICategoryListRepository category,IBlogRepository blog,IUserListRepository user,ILogger<HomePageController> logger):base(category,user)
+public HomePageController(IBannerListRepository banner,IProductRepository product,Support_Serive.Service sp_service,ISettingRepository setting,ICategoryListRepository category,IBlogRepository blog,IUserListRepository user,ILogger<HomePageController> logger):base(category,user,banner)
 {
     this._banner=banner;
     this._product=product;

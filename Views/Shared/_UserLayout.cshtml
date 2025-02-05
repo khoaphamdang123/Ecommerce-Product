@@ -8,6 +8,19 @@
         string email="";
         string password = "";
         string avatar="";
+       string logo_path="";
+    
+    var logo = ViewBag.Logo as List<Banner>;
+        
+        Console.WriteLine("Current logo is:"+logo.Count);
+      if(logo.Count>0)
+      {
+       string logo_extension=logo[0].Image.Substring(logo[0].Image.IndexOf("wwwroot")+("wwwroot".Length+1));
+       
+       logo_path=logo_extension;
+
+       Console.WriteLine("Current logo path is:"+logo_path);
+       }
        
        int total_value=0;
        
@@ -148,7 +161,7 @@
      
      <link rel="canonical" href="https://thanhquang-gnss.com"/>
       
-      <link rel="shortcut icon" type="image/x-icon" href="@Url.Content("~/user_layout/img/favicon.png")">
+      <link rel="shortcut icon" type="image/x-icon" href="@(logo_path)" />
       
       <link rel="stylesheet" href="@Url.Content("~/css/site.css")" asp-append-version="true">
       
@@ -374,7 +387,7 @@
                         <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4">
                             <div class="header__info">
                                 <div class="logo">
-                                    <a href="@Url.Action("HomePage","HomePage")" class="logo-image"><img src="~/user_layout/img/favicon.png" alt="logo"></a>
+                                    <a href="@Url.Action("HomePage","HomePage")" class="logo-image"><img src="@logo_path" alt="logo"></a>
                                 </div>
                             </div>
                         </div>
@@ -550,7 +563,7 @@
         <div class="offcanvas__content">
             <div class="offcanvas__logo mb-40">
                 <a href="@Url.Action("HomePage","HomePage")">
-                <img src="~/user_layout/img/favicon.png" alt="logo">
+                <img src="@logo_path" alt="logo">
                 </a>
             </div>
             <div class="offcanvas__search mb-25">

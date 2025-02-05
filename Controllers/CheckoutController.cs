@@ -42,7 +42,7 @@ public class CheckoutController : BaseController
 
 
    private readonly ICartRepository _cart;
-   public CheckoutController(ICartRepository cart,IProductRepository product,Support_Serive.Service sp,SmtpService smtpService,IOrderRepository order,IOptions<RecaptchaResponse> recaptcha_response,ISettingRepository setting,IPaymentRepository payment,IUserListRepository user,ICategoryListRepository category,ILogger<CheckoutController> logger):base(category,user)
+   public CheckoutController(ICartRepository cart,IProductRepository product,Support_Serive.Service sp,IBannerListRepository banner,SmtpService smtpService,IOrderRepository order,IOptions<RecaptchaResponse> recaptcha_response,ISettingRepository setting,IPaymentRepository payment,IUserListRepository user,ICategoryListRepository category,ILogger<CheckoutController> logger):base(category,user,banner)
   {
   this._cart=cart;
   this._sp=sp;

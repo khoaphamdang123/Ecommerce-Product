@@ -17,7 +17,7 @@ public class ProductsController:BaseController
 
  private readonly ILogger<ProductsController> _logger;
 
-public ProductsController(IBannerListRepository banner,Support_Serive.Service sp_services,IProductRepository product,ICategoryListRepository category,IUserListRepository user,ILogger<ProductsController> logger):base(category,user)
+public ProductsController(IBannerListRepository banner,Support_Serive.Service sp_services,IProductRepository product,ICategoryListRepository category,IUserListRepository user,ILogger<ProductsController> logger):base(category,user,banner)
 {
     this._banner=banner;
     this._product=product;
