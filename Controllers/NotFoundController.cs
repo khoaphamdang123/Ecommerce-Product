@@ -7,7 +7,7 @@ public class NotFoundController:BaseController
 private readonly ILogger<NotFoundController> _logger;
 private readonly ICategoryListRepository _category;
 
-public NotFoundController(ICategoryListRepository category,IUserListRepository user,ILogger<NotFoundController> logger):base(category,user)
+public NotFoundController(ICategoryListRepository category,IUserListRepository user,IBannerListRepository banner,ILogger<NotFoundController> logger):base(category,user,banner)
 {
     this._category=category;
     this._logger=logger;
