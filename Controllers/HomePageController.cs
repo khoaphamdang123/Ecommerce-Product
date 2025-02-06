@@ -45,7 +45,8 @@ public async Task<IActionResult> HomePage()
 {   
     var banners= await this._banner.findBannerByName("Home");
 
-   
+    var banners2=await this._banner.findBannerByName("Home 2");
+
     DateTime startTime=DateTime.Now;
     
     var products = await this._product.getProductRedis();    
@@ -73,9 +74,10 @@ public async Task<IActionResult> HomePage()
     endTime=DateTime.Now;
     
     secons=endTime.Second-startTime.Second;
-         Console.WriteLine("Time taken to get all brands is:"+secons);
+    
+    Console.WriteLine("Time taken to get all brands is:"+secons);
  
-startTime=DateTime.Now;
+    startTime=DateTime.Now;
   
   Dictionary<string,int> count_reviews=await this._product.countAllReview(products.ToList()); 
   
@@ -98,6 +100,8 @@ startTime=DateTime.Now;
     ViewBag.count_reviews=count_reviews;
     
     ViewBag.banners=banners;
+
+    ViewBag.banners2=banners2;
 
     ViewBag.products = products;
 

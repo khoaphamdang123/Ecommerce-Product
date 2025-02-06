@@ -14969,9 +14969,8 @@ MODAL SIZEGUIDE
   bottom: 0;
   z-index: 1000;
   background-color: transparent;
-  display: none;
-  opacity: 0;
-  visibility: hidden;
+  opacity: 1;
+  visibility: visible;
   transition: background-color 0.1s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), visibility 0.3s cubic-bezier(0.645, 0.045, 0.355, 1); }
 
 .addThis_contact__icons {
@@ -15151,11 +15150,11 @@ MODAL SIZEGUIDE
     transform: scale(1); }
   .addThis_contact__dialog.active + .addThis_contact__icons .svgico > svg {
     opacity: 0;
-    visibility: hidden;
+    visibility: visible;
     transform: scale(0.3); }
   .addThis_contact__dialog.active + .addThis_contact__icons .box-live {
     opacity: 0;
-    visibility: hidden; }
+    visibility: visible; }
 
 @media (min-width: 992px) {
   .addThis_contact__lists .addThis_listing .addThis_item--icon:hover {

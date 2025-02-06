@@ -61,7 +61,9 @@ public class ProductService:IProductRepository
 
     if(string.IsNullOrEmpty(products_json))
     {
-      return new List<Product>();
+      var products=await this._context.Products.Include(p=>p.Brand).Include(p=>p.Category).Include(c=>c.SubCat).Include(p=>p.ProductImages).ToListAsync();
+      await this.saveProductRedis(products);
+      return products;
     }
     
     return JsonConvert.DeserializeObject<List<Product>>(products_json);    
