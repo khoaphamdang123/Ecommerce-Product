@@ -21,18 +21,21 @@
 
 .awesomplete {
     color: #fff;
-    position: relative
+    position: relative;
 }
 
-.awesomplete [hidden] {
-    display: none
+.awesomplete [hidden] 
+{
+    display: none;
 }
 
-.awesomplete>input {
-    display: block
+.awesomplete>input 
+{
+    display: block;
 }
 
-.awesomplete>ul {
+.awesomplete>ul 
+{
     max-height: 50vh;
     overflow-y: auto;
     background: #fff;

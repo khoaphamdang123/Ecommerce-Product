@@ -293,6 +293,86 @@ input {
 }
 
 
+.menu-container {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between button and search bar */
+}
+
+/* Style the menu button */
+.side-menu-btn {
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+/* Search bar wrapper (for input + button) */
+.search-wrapper {
+  display: none; /* Hidden by default */
+  position: relative;
+  width: 300px;
+}
+
+/* Style the search bar */
+.search-bar {
+  width: 100%;
+  padding: 8px 35px 8px 10px; /* Space for the search icon */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+/* Search button inside input */
+.search-btn {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #555;
+}
+
+
+/* Show search bar only on small screens */
+@media screen and (max-width: 768px) 
+{
+  .search-wrapper {
+    display: block;
+}
+}
+
+
+
+.swiper-wrapper
+{
+  overflow:visible!important;
+}
+
+.swiper {
+  width: 100%!important;
+  overflow: hidden!important;  
+}
+
+
+
+
+/* For small screens, adjust slider height to fit the image */
+@media (max-width: 768px) {
+  .swiper-container {
+      height: auto!important; 
+  }
+
+  .single-slider {
+      height: auto!important; /* Auto height for small screens */
+      min-height: 200px!important; /* Set a minimum height if needed */
+  }
+}
+
+
+
 .z-tooltip {
   position: absolute;
   top: -22px;
