@@ -17,7 +17,7 @@ public class StaticPageController:BaseController
 
  private readonly ILogger<StaticPageController> _logger;
 
-public StaticPageController(ICategoryListRepository category,IStaticFilesRepository static_files,IUserListRepository user,ILogger<StaticPageController> logger):base(category,user)
+public StaticPageController(ICategoryListRepository category,IBannerListRepository banner,IStaticFilesRepository static_files,IUserListRepository user,ILogger<StaticPageController> logger):base(category,user,banner)
 {
    
     this._category=category;

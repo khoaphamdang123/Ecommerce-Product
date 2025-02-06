@@ -373,6 +373,8 @@ input {
 
 
 
+
+
 .z-tooltip {
   position: absolute;
   top: -22px;
@@ -1313,6 +1315,8 @@ input {
 .logo .logo-image img {
   display: block;
   max-width: 210px;
+  width: 70px;
+  height: 70px;
   padding: 5px 0;
 }
 @media only screen and (min-width: 576px) and (max-width: 767px) {
