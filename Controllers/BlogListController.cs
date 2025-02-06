@@ -13,7 +13,7 @@ using Org.BouncyCastle.Asn1.Mozilla;
 namespace Ecommerce_Product.Controllers;
 [Authorize(Roles ="Admin")]
 [Route("admin")]
-public class BlogListController : Controller
+public class BlogListController : BaseAdminController
 {
     private readonly ILogger<BlogListController> _logger;
 
@@ -21,7 +21,7 @@ public class BlogListController : Controller
 
    private readonly IBlogRepository _blog;
 
-   public BlogListController(IBlogRepository blog,ICategoryListRepository category,ILogger<BlogListController> logger)
+   public BlogListController(IBlogRepository blog,ICategoryListRepository category,IBannerListRepository banner,ILogger<BlogListController> logger):base(banner)
    {
   this._blog=blog;
   this._category=category;

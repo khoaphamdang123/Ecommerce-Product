@@ -14,13 +14,13 @@ namespace Ecommerce_Product.Controllers;
 [Authorize(Roles ="Admin")]
 
 [Route("admin")]
-public class PaymentListController : Controller
+public class PaymentListController : BaseAdminController
 {
   private readonly ILogger<PaymentListController> _logger;
 
    private readonly IPaymentRepository _payment;
 
-   public PaymentListController(IPaymentRepository payment,ILogger<PaymentListController> logger)
+   public PaymentListController(IPaymentRepository payment,IBannerListRepository banner,ILogger<PaymentListController> logger):base(banner)
    {
   this._payment=payment;
 

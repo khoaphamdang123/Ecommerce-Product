@@ -13,7 +13,7 @@ using Org.BouncyCastle.Asn1.Mozilla;
 namespace Ecommerce_Product.Controllers;
 [Authorize(Roles="Admin")]
 [Route("admin")]
-public class SettingListController : Controller
+public class SettingListController : BaseAdminController
 {
     private readonly ILogger<SettingListController> _logger;    
 
@@ -23,7 +23,7 @@ public class SettingListController : Controller
 
 
    
-   public SettingListController(ISettingRepository setting,ILogger<SettingListController> logger)
+   public SettingListController(ISettingRepository setting,IBannerListRepository banner,ILogger<SettingListController> logger):base(banner)
    {
   this._setting=setting;
   this._logger=logger;   

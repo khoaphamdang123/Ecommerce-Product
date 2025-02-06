@@ -13,7 +13,7 @@ using Org.BouncyCastle.Asn1.Mozilla;
 namespace Ecommerce_Product.Controllers;
 [Authorize(Roles ="Admin")]
 [Route("admin")]
-public class StaticFilesController : Controller
+public class StaticFilesController : BaseAdminController
 {
     private readonly ILogger<StaticFilesController> _logger;
     // private readonly ICategoryRepository _categoryList;
@@ -24,7 +24,7 @@ public class StaticFilesController : Controller
     //    this._categoryList=categoryList; 
     // }
    private readonly IStaticFilesRepository _static_files;
-   public StaticFilesController(IStaticFilesRepository static_files,ILogger<StaticFilesController> logger)
+   public StaticFilesController(IStaticFilesRepository static_files,IBannerListRepository banner,ILogger<StaticFilesController> logger):base(banner)
    {
   this._static_files=static_files;
   this._logger=logger;     
