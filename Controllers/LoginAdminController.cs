@@ -14,7 +14,7 @@ using Microsoft.Extensions.Options;
 namespace Ecommerce_Product.Controllers
 { 
     [Route("admin")]
-    public class LoginAdminController : Controller
+    public class LoginAdminController : BaseAdminController
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         
@@ -34,7 +34,7 @@ namespace Ecommerce_Product.Controllers
 
 
 
-        public LoginAdminController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager,ILogger<LoginAdminController> logger,IRecaptchaService recaptcha,IOptions<RecaptchaResponse> recaptcha_response,ISettingRepository setting,ITrackDataRepository trackData,ILoginRepository loginRepos)
+        public LoginAdminController(SignInManager<ApplicationUser> signInManager,UserManager<ApplicationUser> userManager,IBannerListRepository banner,ILogger<LoginAdminController> logger,IRecaptchaService recaptcha,IOptions<RecaptchaResponse> recaptcha_response,ISettingRepository setting,ITrackDataRepository trackData,ILoginRepository loginRepos):base(banner)
         {
             _signInManager = signInManager;
             _userManager = userManager;

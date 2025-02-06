@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 namespace Ecommerce_Product.Controllers;
 [Authorize(Roles ="Admin")]
 [Route("admin")]
-public class ManualListController : Controller
+public class ManualListController : BaseAdminController
 {
     private readonly ILogger<ManualListController> _logger;
 
@@ -17,7 +17,7 @@ public class ManualListController : Controller
     private readonly Support_Serive.Service _sp;
 
    private readonly IManualRepository _manual;
-   public ManualListController(IManualRepository manual,IProductRepository product,Support_Serive.Service sp,ILogger<ManualListController> logger)
+   public ManualListController(IManualRepository manual,IProductRepository product,IBannerListRepository banner,Support_Serive.Service sp,ILogger<ManualListController> logger):base(banner)
   {
   this._manual=manual;
   this._sp=sp;

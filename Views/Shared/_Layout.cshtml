@@ -8,6 +8,20 @@
         string password = "";
         string avatar="";
         string id_user="";
+
+        string logo_path="";
+    
+    var logo = ViewBag.Logo as List<Banner>;
+        
+        Console.WriteLine("Current logo is:"+logo.Count);
+      if(logo.Count>0)
+      {
+       string logo_extension=logo[0].Image.Substring(logo[0].Image.IndexOf("wwwroot")+("wwwroot".Length+1));
+       
+       logo_path=logo_extension;
+
+       Console.WriteLine("Current logo admin path is:"+logo_path);
+       }
         ChangePassword change_pass= null;
        if(User.Identity.IsAuthenticated)
        {id_user=this.ViewContext.HttpContext.Session.GetString("AdminId");
@@ -37,7 +51,7 @@
     <link rel="stylesheet" href="~/css/demo.css"/>
     <link rel="stylesheet" href="~/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
     <link rel="stylesheet" href="~/vendor/css/pages/page-auth.css"/>
-    <link rel="icon" type="image/x-icon" href="~/img/favicon/favicon.ico"/>
+    <link rel="icon" type="image/x-icon" href="~/@(logo_path)"/>
     <link rel="stylesheet" href="~/vendor/css/pages/page-misc.css"/>
     <link rel="stylesheet" href="~/vendor/fonts/boxicons.css"/>
     <link rel="stylesheet" href="~/vendor/libs/apex-charts/apex-charts.css" />

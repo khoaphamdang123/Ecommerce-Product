@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace Ecommerce_Product.Controllers;
 [Route("admin")]
-public class OrderListController : Controller
+public class OrderListController : BaseAdminController
 {
     private readonly ILogger<OrderListController> _logger;
 
@@ -23,7 +23,7 @@ public class OrderListController : Controller
 
 
    
-   public OrderListController(IOrderRepository order,ILogger<OrderListController> logger)
+   public OrderListController(IOrderRepository order,IBannerListRepository banner,ILogger<OrderListController> logger):base(banner)
    {
   this._order=order;
   this._logger=logger;   

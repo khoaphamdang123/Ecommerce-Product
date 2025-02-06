@@ -8,7 +8,7 @@ namespace Ecommerce_Product.Controllers;
 [Authorize(Roles ="Admin")]
 
 [Route("admin")]
-public class CategoryListController : Controller
+public class CategoryListController : BaseAdminController
 {
     private readonly ILogger<CategoryListController> _logger;
 
@@ -22,7 +22,7 @@ public class CategoryListController : Controller
 
    private readonly ICategoryListRepository _category;
    
-   public CategoryListController(ICategoryListRepository category,ILogger<CategoryListController> logger)
+   public CategoryListController(ICategoryListRepository category,IBannerListRepository banner,ILogger<CategoryListController> logger):base(banner)
    {
     this._category=category;
     this._logger=logger;

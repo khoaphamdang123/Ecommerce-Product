@@ -10,7 +10,7 @@ using System.Drawing.Text;
 namespace Ecommerce_Product.Controllers;
 [Authorize(Roles ="Admin")]
 [Route("admin")]
-public class UserListController : Controller
+public class UserListController : BaseAdminController
 {
     private readonly ILogger<UserListController> _logger;
 
@@ -23,7 +23,7 @@ public class UserListController : Controller
     private readonly IWebHostEnvironment _webHostEnv;
 
 
-    public UserListController(ILogger<UserListController> logger,IUserListRepository userList,IConfiguration configure,Support_Serive.Service sp_service,IWebHostEnvironment webHost)
+    public UserListController(ILogger<UserListController> logger,IBannerListRepository banner,IUserListRepository userList,IConfiguration configure,Support_Serive.Service sp_service,IWebHostEnvironment webHost):base(banner)
     {
         _logger = logger;
         this._userList=userList;
