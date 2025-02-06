@@ -12,7 +12,7 @@ using System.ComponentModel;
 namespace Ecommerce_Product.Controllers;
 [Authorize(Roles ="Admin")]
 [Route("admin")]
-public class ProductListController : Controller
+public class ProductListController : BaseAdminController
 {
     private readonly ILogger<ProductListController> _logger;
 
@@ -30,7 +30,7 @@ public class ProductListController : Controller
   private readonly IWebHostEnvironment _webHostEnv;
   
    
-   public ProductListController(IProductRepository product,ICategoryListRepository category,ILogger<ProductListController> logger,IWebHostEnvironment webHostEnv)
+   public ProductListController(IProductRepository product,IBannerListRepository banner,ICategoryListRepository category,ILogger<ProductListController> logger,IWebHostEnvironment webHostEnv):base(banner)
    {
     this._product=product;
     this._category=category;

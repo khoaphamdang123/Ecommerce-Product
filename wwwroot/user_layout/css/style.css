@@ -339,9 +339,11 @@ input {
 /* Show search bar only on small screens */
 @media screen and (max-width: 768px) 
 {
-  .search-wrapper {
+  .search-wrapper 
+{
     display: block;
 }
+
 }
 
 
@@ -360,7 +362,8 @@ input {
 
 
 /* For small screens, adjust slider height to fit the image */
-@media (max-width: 768px) {
+@media (max-width: 768px) 
+{
   .swiper-container {
       height: auto!important; 
   }
@@ -2584,7 +2587,10 @@ input {
 .offcanvas__close-btn:hover {
   background: #222;
 }
-.offcanvas__logo {
+.offcanvas__logo 
+{
+  width: 60px;
+  height: 60px;
   padding-bottom: 20px;
   border-bottom: 1px solid #e5e5e5;
 }

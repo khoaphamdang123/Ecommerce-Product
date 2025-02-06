@@ -8,7 +8,7 @@ namespace Ecommerce_Product.Controllers;
 [Authorize(Roles ="Admin")]
 
 [Route("admin")]
-public class DashboardController : Controller
+public class DashboardController : BaseAdminController
 {
     private readonly ILogger<DashboardController> _logger;
 
@@ -19,7 +19,7 @@ public class DashboardController : Controller
     private readonly ITrackDataRepository _trackData;
 
 
-   public DashboardController(IDashboardRepository dashboard,ICategoryListRepository category,ITrackDataRepository trackData,ILogger<DashboardController> logger)
+   public DashboardController(IDashboardRepository dashboard,ICategoryListRepository category,ITrackDataRepository trackData,IBannerListRepository banner,ILogger<DashboardController> logger):base(banner)
    {
   this._dashboard=dashboard;
   this._logger=logger;

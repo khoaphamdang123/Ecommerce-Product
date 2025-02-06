@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 namespace Ecommerce_Product.Controllers;
 [Authorize(Roles ="Admin")]
 [Route("admin")]
-public class GeneralInfoController : Controller
+public class GeneralInfoController : BaseAdminController
 {
     private readonly ILogger<GeneralInfoController> _logger;
 
@@ -16,7 +16,7 @@ public class GeneralInfoController : Controller
 
    private readonly Support_Serive.Service _sp;
 
-   public GeneralInfoController(IUserListRepository user,Support_Serive.Service sp,ILogger<GeneralInfoController> logger)
+   public GeneralInfoController(IUserListRepository user,IBannerListRepository banner,Support_Serive.Service sp,ILogger<GeneralInfoController> logger):base(banner)
    {
     this._user=user;
     this._sp=sp;

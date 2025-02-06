@@ -102,6 +102,10 @@ public class BannerListService:IBannerListRepository
       this._context.Banners.Add(banner_ob);
       await this.saveChanges();
       created_res=1;
+    if(banner.BannerName=="logo")
+    {
+      Environment.SetEnvironmentVariable("Logo", avatar_url);
+    }
     }
     catch(Exception ex)
     {

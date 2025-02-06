@@ -10,7 +10,7 @@ namespace Ecommerce_Product.Controllers;
 [Authorize(Roles ="Admin")]
 
 [Route("admin")]
-public class VideoListController : Controller
+public class VideoListController : BaseAdminController
 {
     private readonly ILogger<VideoListController> _logger;
 
@@ -19,7 +19,7 @@ public class VideoListController : Controller
     private readonly Support_Serive.Service _sp;
 
    private readonly IVideoRepository _video;
-   public VideoListController(IVideoRepository video,IProductRepository product,Support_Serive.Service sp,ILogger<VideoListController> logger)
+   public VideoListController(IVideoRepository video,IProductRepository product,IBannerListRepository banner,Support_Serive.Service sp,ILogger<VideoListController> logger):base(banner)
    {
   this._video=video;
   this._sp=sp;
