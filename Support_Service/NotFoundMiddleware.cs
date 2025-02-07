@@ -68,6 +68,7 @@ public class NotFoundMiddleware
             else
             {
                 // Console.WriteLine(context.Response.Body);
+            Console.WriteLine("404 ERROR PAGE:"+context.Request.Path);
                 context.Response.Redirect("/404");
             }
         }

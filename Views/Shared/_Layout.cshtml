@@ -11,12 +11,11 @@
 
         string logo_path="";
     
-    var logo = ViewBag.Logo as List<Banner>;
         
-        Console.WriteLine("Current logo is:"+logo.Count);
-      if(logo.Count>0)
+      if(!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("Logo")))
       {
-       string logo_extension=logo[0].Image.Substring(logo[0].Image.IndexOf("wwwroot")+("wwwroot".Length+1));
+      string logo=Environment.GetEnvironmentVariable("Logo");
+       string logo_extension=logo.Substring(logo.IndexOf("wwwroot")+("wwwroot".Length+1));
        
        logo_path=logo_extension;
 
