@@ -118,7 +118,7 @@ public class BannerListService:IBannerListRepository
 
   public async Task<IEnumerable<Banner>> findBannerByName(string name)
   {
-    var banner=await this._context.Banners.Where(s=>s.Bannername.Contains(name)).ToListAsync();
+    var banner=await this._context.Banners.Where(s=>s.Bannername==name).ToListAsync();
     return banner;
   }
 
