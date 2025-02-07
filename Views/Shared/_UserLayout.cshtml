@@ -9,17 +9,25 @@
         string password = "";
         string avatar="";
        string logo_path="";
+
+       string logo_path_temp="7e6df1cf-4caa-48a1-b115-66c650c5e069_channels4_profile.jpg";
     
-    var logo = ViewBag.Logo as List<Banner>;
         
-        Console.WriteLine("Current logo is:"+logo.Count);
-      if(logo.Count>0)
+      if(!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("Logo")))
       {
-       string logo_extension=logo[0].Image.Substring(logo[0].Image.IndexOf("wwwroot")+("wwwroot".Length+1));
-       
+      string logo=Environment.GetEnvironmentVariable("Logo");
+       string logo_extension=logo.Substring(logo.IndexOf("wwwroot")+("wwwroot".Length+1));
+       if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")=="Development")
+       {
+        logo_path="http://localhost:5160/"+logo_extension;
+       }
+       else
+       {
+    logo_path="https://thanhquang-gnss.com/"+logo_extension;
+       }
        logo_path=logo_extension;
 
-       Console.WriteLine("Current logo path is:"+logo_path);
+       Console.WriteLine("Current logo admin path is:"+logo_path);
        }
        
        int total_value=0;
@@ -357,14 +365,14 @@
             <div class="container">
                 <div class="header-inner">
                     <div class="row align-items-center">
-                        <div class="col-xl-6 col-lg-7">
+                        @* <div class="col-xl-6 col-lg-7">
                             <div class="header-inner-start">
                           
                                 <div class="support d-none d-sm-block">
                                     <p>Cần hỗ trợ? <a href="tel:+001123456789">@(string.IsNullOrEmpty(phone2)?phone1:phone2)</a></p>
                                 </div>
                             </div>
-                        </div>
+                        </div> *@
                         @* <div class="col-xl-6 col-lg-5 d-none d-lg-block">
                             <div class="header-inner-end text-md-end">
                                 <div class="ovic-menu-wrapper">
@@ -387,7 +395,7 @@
                         <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4">
                             <div class="header__info">
                                 <div class="logo">
-                                    <a href="@Url.Action("HomePage","HomePage")" class="logo-image"><img src="@logo_path" alt="logo"></a>
+                                    <a href="@Url.Action("HomePage","HomePage")" class="logo-image"><img src="~/@(logo_path)" alt="logo"></a>
                                 </div>
                             </div>
                         </div>
@@ -563,7 +571,7 @@
         <div class="offcanvas__content">
             <div class="offcanvas__logo mb-40">
                 <a href="@Url.Action("HomePage","HomePage")">
-                <img src="@logo_path" alt="logo">
+                <img src="~/@(logo_path)" alt="logo">
                 </a>
             </div>
             <div class="offcanvas__search mb-25">
