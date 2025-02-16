@@ -10,13 +10,13 @@ namespace Ecommerce_Product.Controllers;
 [Authorize(Roles ="Admin")]
 
 [Route("admin")]
-public class AdminListController : Controller
+public class AdminListController : BaseAdminController
 {
     private readonly ILogger<AdminListController> _logger;
 
     private readonly IAdminRepository _userList;
 
-    public AdminListController(ILogger<AdminListController> logger,IAdminRepository userList)
+    public AdminListController(ILogger<AdminListController> logger,IBannerListRepository banner,IAdminRepository userList):base(banner)
     {
         _logger = logger;
         this._userList=userList;
