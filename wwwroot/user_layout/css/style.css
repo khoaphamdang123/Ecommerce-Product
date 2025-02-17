@@ -2527,6 +2527,18 @@ input {
   color: #222;
 }
 
+
+
+@media (max-width: 768px) {
+  .heade-mid-inner {
+    padding:5px!important; /* Reduce padding to make the header shorter */
+  }
+  .header-action {
+      margin-top: -25px!important; /* Move up more on smaller screens */
+  }
+
+}
+
 /*----------------------------------------*/
 /*  00. OFF CANVAS CSS START
 /*----------------------------------------*/

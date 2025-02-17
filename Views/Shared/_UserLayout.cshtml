@@ -361,19 +361,19 @@
       </div>
 
      <header class="header d-blue-bg">
-        <div class="header-top">
+        @* <div class="header-top">
             <div class="container">
                 <div class="header-inner">
                     <div class="row align-items-center">
-                        @* <div class="col-xl-6 col-lg-7">
+                        <div class="col-xl-6 col-lg-7">
                             <div class="header-inner-start">
                           
                                 <div class="support d-none d-sm-block">
                                     <p>Cần hỗ trợ? <a href="tel:+001123456789">@(string.IsNullOrEmpty(phone2)?phone1:phone2)</a></p>
                                 </div>
                             </div>
-                        </div> *@
-                        @* <div class="col-xl-6 col-lg-5 d-none d-lg-block">
+                        </div>
+                        <div class="col-xl-6 col-lg-5 d-none d-lg-block">
                             <div class="header-inner-end text-md-end">
                                 <div class="ovic-menu-wrapper">
                                     <ul>
@@ -383,11 +383,11 @@
                                     </ul>
                                 </div>
                             </div>
-                        </div> *@
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </div> *@
         <div class="header-mid">
             <div class="container">
                 <div class="heade-mid-inner">
@@ -397,6 +397,7 @@
                                 <div class="logo">
                                     <a href="@Url.Action("HomePage","HomePage")" class="logo-image"><img src="~/@(logo_path)" alt="logo"></a>
                                 </div>
+                            
                             </div>
                         </div>
                         <div class="col-xl-5 col-lg-4 d-none d-lg-block">
@@ -427,7 +428,8 @@
                         @Html.Partial("~/Views/Shared/_LoginUser.cshtml")
 
                     }
-                                else{
+                                else
+                                {
                                     <a class="icon-link" href="@Url.Action("MyAccount","MyAccount")" >
                                     <i class="flaticon-user"></i> 
                                     <span class="text">
