@@ -54,6 +54,26 @@ public class ProductService:IProductRepository
   }
   }
 
+  public async Task saveProminentProductRedis(List<Product> products)
+  {
+    try
+    {
+ if(await this._db.KeyExistsAsync("prominent_products"))
+  { Console.WriteLine("did delete all here");
+    await this._db.KeyDeleteAsync("prominent_products");
+  }
+    var json = JsonConvert.SerializeObject(products,new JsonSerializerSettings{
+      ReferenceLoopHandling=ReferenceLoopHandling.Ignore
+    });
+
+    await this._db.StringSetAsync("prominent_products",json);
+    }
+  catch(Exception er)
+  {
+    Console.WriteLine("Redis save Exception:"+er.Message);
+  }
+  }
+
   public async Task<List<Product>> getProductRedis()
   {
     var products_json=await this._db.StringGetAsync("products");
@@ -68,6 +88,19 @@ public class ProductService:IProductRepository
     
     return JsonConvert.DeserializeObject<List<Product>>(products_json);    
 
+  }
+
+  public async Task<List<Product>> getProminentProductRedis()
+  {
+    var product_json = await this._db.StringGetAsync("prominent_products");
+
+    if(string.IsNullOrEmpty(product_json))
+    {
+      var products=await this._context.Products.Include(p=>p.Brand).Include(p=>p.Category).Include(c=>c.SubCat).Include(p=>p.ProductImages).ToListAsync();
+      await this.saveProminentProductRedis(products);
+      return products;    
+    }
+      return JsonConvert.DeserializeObject<List<Product>>(product_json);    
   }
 
   public async Task<IEnumerable<Product>> getProductList()
@@ -145,6 +178,23 @@ public string NormalizeString(string input)
   return product;
  }
 
+
+public async Task<PageList<Product>> pagingProminentProduct(int page_size,int page)
+{  
+   
+  //  IEnumerable<Product> all_prod= await this.getProductList();
+      IEnumerable<Product> all_prod= await getProminentProductRedis();
+
+
+  //  List<Product> prods=all_prod.OrderByDescending(u=>u.Id).ToList(); 
+   
+   
+
+   //var users=this._userManager.Users;   
+   var prod_list=PageList<Product>.CreateItem(all_prod.AsQueryable(),page,page_size);
+   
+   return prod_list;
+}
 
 public async Task<PageList<Product>> pagingProduct(int page_size,int page)
 {  
@@ -1204,8 +1254,9 @@ if(img_files!=null)
    
    if(i==0)
    {
+
    front_avatar=file_path;
-   
+
    if(!string.IsNullOrEmpty(product_ob.Frontavatar))
    {
     temp_front_avatar=product_ob.Frontavatar;

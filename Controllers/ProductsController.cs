@@ -146,6 +146,70 @@ public async Task<IActionResult> ProductBySubCategory(int sub_cat_id)
 }
 
 
+[Route("prominent_products/collections")]
+
+public async Task<IActionResult> ProminentProducts()
+{
+   var products=await this._product.getProminentProductRedis();
+     
+     string select_size="12";
+     
+     var product_list_banner=await this._banner.findBannerByName("product_list_banner");
+     
+     var sub_product_list_banner=await this._banner.findBannerByName("sub_product_banner");
+     
+     Dictionary<string,int> count_reviews=await this._product.countAllReview(products.ToList());
+    //  Dictionary<string,int> count_product_reviews=new Dictionary<string, int>();
+     
+    //  for(int i=5;i>=1;i--)
+    //  {
+    //   List<Product> prod=await this._product.getListProductRating(i);
+    //   count_product_reviews.Add(i.ToString(),prod.Count);
+    //  }
+
+    var list_product=product_list_banner.ToList();
+    
+    var sub_list=sub_product_list_banner.ToList();
+    
+    string product_banner=list_product[0].Image;
+    
+    string sub_banner=sub_list[0].Image;
+    
+    ViewBag.product_banner=product_banner;
+    
+    ViewBag.sub_banner=sub_banner;
+    
+    ViewBag.count_reviews=count_reviews;
+
+    ViewBag.current_tab=0;
+    
+    //ViewBag.count_product_reviews=count_product_reviews;
+    
+    ViewBag.selected_size=select_size;
+    
+    List<string> options=new List<string>(){"12","24","36","48"};
+    
+    ViewBag.options=options;          
+    
+    FilterProduct prod_filter=new FilterProduct("","","","","","");
+    
+    ViewBag.filter_obj=prod_filter;
+    
+    var cats=await this._category.getAllCategory();
+    
+    var brands=await this._category.getAllBrandList();
+    
+    ViewBag.brands=brands;
+
+    ViewBag.type=2;
+    
+    var prods=await this._product.pagingProminentProduct(12,1);
+    
+    ViewBag.products=prods;
+
+    return View("~/Views/ClientSide/Products/Products.cshtml");   
+}
+
 [Route("collections")]
 public async Task<IActionResult> Products()
 {   
@@ -209,16 +273,27 @@ public async Task<IActionResult> Products()
 
 [Route("collections/paging")]
 [HttpGet]
-  public async Task<IActionResult> ProductsPaging([FromQuery]int page_size,int current_tab=0,IEnumerable<Product> products=null,[FromQuery] int page=1)
+  public async Task<IActionResult> ProductsPaging([FromQuery]int page_size,int current_tab=0,[FromQuery] IEnumerable<Product> products=null,[FromQuery] int page=1,int type=1)
   {
     try{ 
         PageList<Product> prods=null;
+
+        Console.WriteLine("TYPE HERE IS:"+type);
         Console.WriteLine("Current tab here is:"+current_tab);  
         if(products==null)
-        {
+        {          Console.WriteLine("Paging by product normal.");
+
+          if(type==1)
+          {
           prods=await this._product.pagingProduct(page_size,page);
+          }
+          else
+          {
+            prods=await this._product.pagingProminentProduct(page_size,page);
+          }
         }
         else{
+          Console.WriteLine("Paging by product list.");
           prods=await this._product.pagingProductByList(page_size,page,products);
         }
           string select_size=page_size.ToString();
@@ -246,6 +321,11 @@ public async Task<IActionResult> Products()
    ViewBag.product_banner=product_banner;
 
    ViewBag.current_tab=current_tab;
+
+   if(type!=1)
+   {
+    ViewBag.type=2;
+   }
     
   //   ViewBag.count_product_reviews=count_product_reviews;
 
