@@ -8,6 +8,8 @@
     var banners2=ViewBag.banners2;
     
     var products = ViewBag.products as List<Product>; 
+
+    var prominent_products = ViewBag.prominent_products as List<Product>;
     
     var categories = ViewBag.categories as List<Category>;
     
@@ -94,7 +96,7 @@
                   <div class="row">
                      @for(int i=0;i<4;i++)
                      {  
-                        var product=products[i];
+                        var product=prominent_products[i];
 
                         string regex_product=Regex.Replace(product.ProductName,@"[^\w\d]", "-");
                         
@@ -127,14 +129,14 @@
                                 <h5 class="st-titile">Sản phẩm nổi bật</h5>
                             </div>
                             <div class="button-wrap button-wrap-2">
-                                <a href="@Url.Action("Products","Products")">Xem toàn bộ sản phẩm<i class="fal fa-chevron-right"></i></a>                                
+                                <a href="@Url.Action("ProminentProducts","Products")">Xem toàn bộ sản phẩm<i class="fal fa-chevron-right"></i></a>                                
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="d-none d-md-flex row flex-nowrap overflow-auto">
             
-                @foreach(var product in products)
+                @foreach(var product in prominent_products)
                 { 
                 string regex_product=Regex.Replace(product.ProductName, @"[^\w\d]", "-");
 

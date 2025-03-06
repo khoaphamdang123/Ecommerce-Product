@@ -39,7 +39,7 @@
              >
                         <div class="toast-header">
                           <i class="bx bx-bell me-2"></i>
-                          <div class="me-auto fw-semibold">Sắp xếp sản phẩm</div>
+                          <div class="me-auto fw-semibold">Sắp xếp sản phẩm nổi bật</div>
                           <!--<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>-->
                         </div>
                         <div class="toast-body">
@@ -51,9 +51,8 @@
   
           <div class="content-wrapper">
             <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Sản phẩm/</span>Sắp xếp sản phẩm</h4>
+            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Sản phẩm/</span>Sắp xếp sản phẩm nổi bật</h4>
                 <div class="card">
-                
                 <div class="card-datatable border-bottom">
                     <div class="row">
                         <div class="col-md-11 d-flex justify-content-end align-items-center mt-3">
@@ -242,7 +241,7 @@
 
   sort_btn.addEventListener('click',()=>{
     $.ajax({
-      url:'@Url.Action("SortProduct","ProductList")',
+      url:'@Url.Action("SortProminentProduct","ProductList")',
       type:'POST',
       data:{
         product_list:$("#tableBody").children().map((index,el)=>el.children[1].innerText).get()

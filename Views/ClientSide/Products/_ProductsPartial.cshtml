@@ -12,6 +12,8 @@
     var count_reviews=ViewBag.count_reviews as Dictionary<string,int>;
 
     var current_tab=ViewBag.current_tab!=null ? ViewBag.current_tab : 0;
+
+    int type=ViewBag.type!=null ? ViewBag.type : 1;
 }
  <div
        class="bs-toast toast fade hide toast-placement-ex top-5 end-0"
@@ -295,7 +297,7 @@
                         @if (Model.currentPage > 1)
                         {
                             <li>
-                                <a href="@Url.Action("ProductsPaging", new {page_size=Model.pageSize, page = Model.currentPage-1,products=Model.item })" id="page-btn">
+                                <a href="@Url.Action("ProductsPaging", new {page_size=Model.pageSize, page = Model.currentPage-1,products=Model.item,type=type})" id="page-btn">
                                     <i class="fal fa-angle-double-left"></i>
                                 </a>
                             </li>
@@ -303,7 +305,7 @@
 
                         @if (Model.totalPage > 6 && Model.currentPage > 4)
                         {
-                            <li><a href="@Url.Action("ProductsPaging", new {page_size=Model.pageSize, page = 1,products=Model.item })" id="page-btn">1</a></li>
+                            <li><a href="@Url.Action("ProductsPaging", new {page_size=Model.pageSize, page = 1,products=Model.item,type=type })" id="page-btn">1</a></li>
                             <li><span>...</span></li>
                         }
 
@@ -324,7 +326,7 @@
                             for (int i = startPage; i <= endPage; i++)
                             {
                                 <li>
-                                    <a href="@Url.Action("ProductsPaging", new {page_size=Model.pageSize, page = i,products=Model.item })" id="page-btn" class="@(Model.currentPage== i ? "active" : "")">
+                                    <a href="@Url.Action("ProductsPaging", new {page_size=Model.pageSize, page = i,products=Model.item,type=type })" id="page-btn" class="@(Model.currentPage== i ? "active" : "")">
                                         @i
                                     </a>
                                 </li>
@@ -334,14 +336,14 @@
                         @if (Model.totalPage > 6 && Model.currentPage< Model.totalPage - 3)
                         {
                             <li><span>...</span></li>
-                            <li><a href="@Url.Action("ProductsPaging", new {page_size=Model.pageSize, page = Model.totalPage,products=Model.item })"  id="page-btn">@Model.totalPage</a></li>
+                            <li><a href="@Url.Action("ProductsPaging", new {page_size=Model.pageSize, page = Model.totalPage,products=Model.item,type=type })"  id="page-btn">@Model.totalPage</a></li>
                         }
 
                         @* Next Button *@
                         @if (Model.currentPage < Model.totalPage)
                         {
                             <li>
-                                <a href="@Url.Action("ProductsPaging", new {page_size=Model.pageSize, page = Model.currentPage+1,products=Model.item })"  id="page-btn">
+                                <a href="@Url.Action("ProductsPaging", new {page_size=Model.pageSize, page = Model.currentPage+1,products=Model.item,type=type })"  id="page-btn">
                                     <i class="fal fa-angle-double-right"></i>
                                 </a>
                             </li>
@@ -349,7 +351,7 @@
                         @if (Model.currentPage == Model.totalPage)
                         {
                             <li class="disabled">
-                                <a  href="@Url.Action("ProductsPaging", new {page_size=Model.pageSize, page = Model.currentPage,products=Model.item })" id="page-btn">
+                                <a  href="@Url.Action("ProductsPaging", new {page_size=Model.pageSize, page = Model.currentPage,products=Model.item,type=type })" id="page-btn">
                                     <i class="fal fa-angle-double-right"></i>
                                 </a>
                             </li>

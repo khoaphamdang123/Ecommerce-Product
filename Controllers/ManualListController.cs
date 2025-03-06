@@ -35,8 +35,10 @@ public class ManualListController : BaseAdminController
     try
     {   
        var manual=await this._manual.getAllManual();
+
        var manual_files=await this._manual.pagingManualFiles(7,1,manual);
-        return View(manual_files);
+      
+       return View(manual_files);
     }
     catch(Exception er)
     {

@@ -72,7 +72,7 @@
                                        <div class="coupon">
                                           <input id="coupon_code" class="input-text" name="coupon_code" value="" placeholder="Coupon code" type="text">
                                           <button class="tp-btn-h1" name="apply_coupon" type="submit">
-                                             Apply coupon
+                                             Apply coupon                                             
                                           </button>
                                        </div>
                                        <div class="coupon2">
@@ -107,8 +107,7 @@
          </section>
 <script>
    
-   var cart_data=@Html.Raw(Json.Serialize(Model));
-     
+   var cart_data=@Html.Raw(Json.Serialize(Model));        
    @* $(document).ready(()=>
    {
     var cart_amount=cart_data.length;

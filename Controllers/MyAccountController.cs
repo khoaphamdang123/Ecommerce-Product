@@ -387,18 +387,17 @@ namespace Ecommerce_Product.Controllers
         return RedirectToAction("MyAccount","MyAccount");
     }
 
-        if(!string.IsNullOrEmpty(date_time_value))
+    if(!string.IsNullOrEmpty(date_time_value))
     {  
-        DateTime targetTime=DateTime.ParseExact(date_time_value,"MM/dd/yyyy HH:mm:ss", null);
+        DateTime targetTime=DateTime.ParseExact(date_time_value,"MM/dd/yyyy HH:mm:ss",null);
 
         Console.WriteLine("pass time:"+DateTime.Now.Subtract(targetTime).TotalSeconds.ToString());
         
-        if(DateTime.Now.Subtract(targetTime).TotalMinutes>5)
+    if(DateTime.Now.Subtract(targetTime).TotalMinutes>5)
         {
         TempData["register_status"]=2;
 
-        return RedirectToAction("MyAccount","MyAccount");
-
+        return RedirectToAction("MyAccount","MyAccount");                
         }
     } 
         string? email=model.Email;        
@@ -466,10 +465,12 @@ namespace Ecommerce_Product.Controllers
     catch(Exception er)
     {
         Console.WriteLine("Register Exception:"+er.Message);
+        
         this._logger.LogTrace("Register Exception:"+er.Message);
     }
 
    return RedirectToAction("MyAccount","MyAccount");
+
   }
      
     //     [Route("login")]
@@ -588,17 +589,20 @@ namespace Ecommerce_Product.Controllers
     }
 
     //[Route("change_password_handle")]
-[HttpPost]
+    [HttpPost]
     public async Task<JsonResult> ChangePasswordHandle(string email,string password,string new_password)
     {  
 
         StatusResponse response=new StatusResponse();
-        try{
+
+        try
+        {
          var user=await this._userManager.FindByEmailAsync(email);
          int setting_status=await this._setting.getStatusByName("changepassword");
          if(user!=null)
          {
             var change_password=await this._userManager.ChangePasswordAsync(user,password ,new_password);
+            
             if(change_password.Succeeded)
             {
                 response=new StatusResponse
@@ -610,14 +614,14 @@ namespace Ecommerce_Product.Controllers
 
                 if(setting_status==1)
                 { 
-                 Console.WriteLine("Send email here");
+                Console.WriteLine("Send email here");
+
+                string html_content=this._smtpService.loginNotify(user.UserName);
                  
-                 string html_content=this._smtpService.loginNotify(user.UserName);
-                 
-                 Console.WriteLine("Html content here:"+html_content);
+                Console.WriteLine("Html content here:"+html_content);
+                
                 bool is_sent=await this._smtpService.sendEmailGeneral(1,html_content);
-                }
-            
+                }          
             }
             else
             { 
@@ -695,10 +699,10 @@ public async Task<JsonResult> ForgotPasswordHandle(string email)
     try{
    
         
-           Console.WriteLine("Received email:"+email);
+           Console.WriteLine("Received email:"+email);           
 
-           string subject="Nhận mật khẩu mới";               
-           
+           string subject="Nhận mật khẩu mới";
+                          
            bool is_send= await this._loginRepos.sendEmail(email,email,subject,0);
 
            if(is_send)
@@ -711,7 +715,8 @@ public async Task<JsonResult> ForgotPasswordHandle(string email)
             };
            }
            else{
-            response=new StatusResponse{
+            response=new StatusResponse
+            {
                 Status=0,
                 Title="Quên mật khẩu",
                 Message="Có lỗi xảy ra trong quá trình gửi tin nhắn"
@@ -736,21 +741,26 @@ public async Task<JsonResult> ForgotPasswordHandle(string email)
         Console.WriteLine("User id here is:"+user_id);
 
         if(string.IsNullOrEmpty(user_id))
-        { this._logger.LogTrace("User is not authenticated");
+        { 
+            this._logger.LogTrace("User is not authenticated");
           
             return RedirectToAction("MyAccount");
         }
-        
+
         var user = await this._userList.findUserByName(username);
         
-        return View("~/Views/ClientSide/MyAccount/AccountInfo.cshtml",user);
+        return View("~/Views/ClientSide/MyAccount/AccountInfo.cshtml",user);                
     }
 
 [HttpPost]
 [Route("user/update_info")]
 public async Task<IActionResult> AccountInfoUpdate(UserInfo user)
-{ int res_update=0;
+{ 
+
+int res_update=0;
+
 Console.WriteLine("Update user info did come to this place");
+
   try
   {
 
@@ -766,10 +776,12 @@ Console.WriteLine("Update user info did come to this place");
     else
     {
       ViewBag.Status=0;
+
       ViewBag.Update_Message="Cập nhật User thất bại";
     }
    
-    var user_after=await this._userList.findUserById(user.Id);
+  var user_after=await this._userList.findUserById(user.Id);
+  
   if(!string.IsNullOrEmpty(user_after.Avatar))
   { 
     this.HttpContext.Session.SetString("UserName",user_after.UserName);
@@ -779,8 +791,7 @@ Console.WriteLine("Update user info did come to this place");
     this.HttpContext.Session.SetString("Avatar",user_after.Avatar);
   }
 
-
-        return View("~/Views/ClientSide/MyAccount/AccountInfo.cshtml",user_after);
+    return View("~/Views/ClientSide/MyAccount/AccountInfo.cshtml",user_after);        
 
   }
   catch(Exception er)
@@ -793,8 +804,8 @@ Console.WriteLine("Update user info did come to this place");
 } 
 
         // POST: /Account/Logout
-        [Route("logout")]
-        
+        [Route("logout")]        
+
         [HttpGet]  
         public async Task<IActionResult> Logout()
         {   
