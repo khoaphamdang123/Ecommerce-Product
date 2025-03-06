@@ -35,7 +35,7 @@ public class ProductListController : BaseAdminController
     this._product=product;
     this._category=category;
     this._webHostEnv=webHostEnv;
-    this._logger=logger; 
+    this._logger=logger;     
    }
   [Route("product_list")]
   [HttpGet]
@@ -203,22 +203,66 @@ if(string.IsNullOrEmpty(id_user))
     return RedirectToAction("ProductList","ProductList");
   }
 
-  [Route("product_list/sort")]
+  [Route("prominent_product_list/sort")]
   [HttpGet]
-
-  public async Task<IActionResult> SortProductList()
+  public async Task<IActionResult> SortProminentProductList()
   {
     try
-    {  
-        var prods=await this._product.getProductRedis();
+    {
+        var prods=await this._product.getProminentProductRedis();
         
         return View(prods);
     }
     catch(Exception er)
     {
-        this._logger.LogTrace("Get Product List Exception:"+er.Message);
+        this._logger.LogTrace("Get Prominent Product List Exception:"+er.Message);
     }
-    return View();
+    return View();    
+  }
+
+  [Route("prominent_product_list/sort")]
+  [HttpPost]
+  public async Task<JsonResult> SortProminentProduct(List<string> product_list)
+  {
+    Console.WriteLine("Product Prominent Json did come to here");
+  try
+   {
+    List<Product> products=new List<Product>();
+    foreach(var product_id in product_list)
+    {
+      var product=await this._product.findProductById(Convert.ToInt32(product_id));
+      if(product!=null)
+      {
+        products.Add(product);
+      }
+    }
+
+   await this._product.saveProminentProductRedis(products);
+
+   }
+   catch(Exception er)
+   {
+    this._logger.LogTrace("Sort Prominent Product Exception:"+er.Message);
+    return Json(new{status=0,message=er.Message});
+   }
+   return Json(new{status=1,message="Sắp xếp thành công"});
+  }
+
+  [Route("product_list/sort")]
+  [HttpGet]
+  public async Task<IActionResult> SortProductList()
+  {
+    try
+    {  
+        var prods=await this._product.getProductRedis();
+
+        return View(prods);
+    }
+    catch(Exception er)
+    {
+        this._logger.LogTrace("Get Product List Exception:"+er.Message);
+    }  
+    return View();            
   }
 
   [HttpPost]
@@ -226,7 +270,7 @@ if(string.IsNullOrEmpty(id_user))
   public async Task<JsonResult> SortProduct(List<string> product_list)
   {
   Console.WriteLine("Product Json did come to here");
-   try
+  try
    {
     List<Product> products=new List<Product>();
     foreach(var product_id in product_list)

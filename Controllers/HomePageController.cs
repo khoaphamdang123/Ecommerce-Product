@@ -31,12 +31,6 @@ public HomePageController(IBannerListRepository banner,IProductRepository produc
     this._sp_services=sp_service;
 }
 
-// public IActionResult HomePage()
-// {
-//   return View();
-// }
-
-
 
 [HttpGet]
 [Route("")]
@@ -49,7 +43,9 @@ public async Task<IActionResult> HomePage()
 
     DateTime startTime=DateTime.Now;
     
-    var products = await this._product.getProductRedis();    
+    var products = await this._product.getProductRedis();
+
+    var prominent_products = await this._product.getProminentProductRedis();    
     
     DateTime endTime=DateTime.Now;
     
@@ -92,7 +88,7 @@ public async Task<IActionResult> HomePage()
     Console.WriteLine("Time taken to get all reviews is:"+secons);
     
     var blogs= await this._blog.getAllBlog();
-
+    
     var slider_content=await this._setting.getContentByName("homepage");
 
     ViewBag.slider_content=slider_content;
@@ -104,6 +100,8 @@ public async Task<IActionResult> HomePage()
     ViewBag.banners2=banners2;
 
     ViewBag.products = products;
+
+    ViewBag.prominent_products=prominent_products;
 
     ViewBag.blogs=blogs;
         

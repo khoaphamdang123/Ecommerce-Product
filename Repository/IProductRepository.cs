@@ -18,6 +18,8 @@ public interface IProductRepository
 
   public Task<PageList<Product>> pagingProduct(int page_size,int page);
 
+  public Task<PageList<Product>> pagingProminentProduct(int page_size,int page);
+
   public Task<PageList<Product>> pagingProductByList(int page_size,int page,IEnumerable<Product> products);
 
   public Task<IEnumerable<Product>> getProductList();
@@ -64,7 +66,12 @@ public interface IProductRepository
 
   public Task<List<Product>> getProductRedis();
 
+  public Task<List<Product>> getProminentProductRedis();
+
   public Task saveProductRedis(List<Product> products);
+
+  public Task saveProminentProductRedis(List<Product> products);
+
 
   public Task saveChanges();
 
