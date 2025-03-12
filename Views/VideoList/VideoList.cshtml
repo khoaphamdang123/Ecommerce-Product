@@ -86,7 +86,19 @@
                         <div class="col-md-2">
                             <div class="ms-2">   
                             <div class="data-length">
-                                <label>
+
+                              <input type="search" class="form-control" name="productname" id='video-name' placeholder="Tìm sản phẩm">
+                          
+                          <button type="button" id="video-name-btn"  class="btn btn-primary">Tìm kiếm</button> 
+                              
+                            </div>
+                            </div>
+                        </div>
+                            <div class="col-md-10">
+                            <div class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-6 mb-md-0 mt-n6 mt-md-0 gap-md-4">
+                            <div class="data-filter">
+                            <div class="dt-buttons btn-group flex-wrap">
+                              <label>
                                     <select class="form-select" id="page-size">
                                  
                                         @foreach(var option in ViewBag.options)
@@ -100,13 +112,6 @@
                                         }
                                     </select>
                                 </label>
-                            </div>
-                            </div>
-                        </div>
-                            <div class="col-md-10">
-                            <div class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-6 mb-md-0 mt-n6 mt-md-0 gap-md-4">
-                            <div class="data-filter">
-                            <div class="dt-buttons btn-group flex-wrap">
                                 <button class="btn btn-secondary add-new btn-primary" id="add-page-btn" tabindex="0" aria-controls="DataTables_Table_0" type="button"><span><i class="bx bx-plus bx-sm me-0 me-sm-2"></i><span class="d-none d-sm-inline-block">Thêm video</span></span></button>
                             </div>
                             </div>
@@ -204,7 +209,7 @@
                 </table>
                 </div>
     <div class="pagination-container mt-4">
-      <div class="page-total">Tổng số trang:@Model?.totalCount</div>
+      <div class="page-total">Tổng số trang:@Model?.totalPage</div>
       <div class="page-list justify-content-center">
      @if(Model!=null && Model.hasPreviousPage)
      {
@@ -317,11 +322,25 @@
       <div class="layout-overlay layout-menu-toggle"></div>
   <script>
      let delete_page='';
+     
+     var video_filter_btn=document.getElementById("video-name-btn");
 
+     video_filter_btn.addEventListener('click',()=>
+     {
+      var video_name=document.getElementById("video-name").value.trim();
+
+      var url='@Url.Action("FilterVideo","VideoList",new{product_name="__product_name__"})';
+
+      url=url.replace("__product_name__",video_name);
+
+      window.location.href=url;
+      
+     });
 
     var all_delete_btn=document.querySelectorAll('#delete-record-btn');
 
-    all_delete_btn.forEach((btn)=>{
+    all_delete_btn.forEach((btn)=>
+    {
     btn.addEventListener('click',()=>{
     delete_page=btn.getAttribute('data-page');
      })

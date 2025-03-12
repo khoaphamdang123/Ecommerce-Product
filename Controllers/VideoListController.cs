@@ -162,6 +162,28 @@ public class VideoListController : BaseAdminController
     }  
    }
   
+  [Route("video_list/filter")]
+
+  [HttpGet]
+
+  public async Task<IActionResult> FilterVideo(string product_name)
+  {
+    var video_filter=await this._video.findVideoByProductName(product_name);
+    
+    var video_paging=await this._video.pagingVideo(video_filter.ToList().Count,1,video_filter);
+
+    List<string> options=new List<string>(){"7","10","20","50"};
+          
+    ViewBag.options=options;
+                  
+    string select_size="7";
+          
+    ViewBag.select_size=select_size;
+          
+   return View("~/Views/VideoList/VideoList.cshtml",video_paging);  
+
+  }
+
   [Route("video_list/{id}")]
   [HttpGet]
 

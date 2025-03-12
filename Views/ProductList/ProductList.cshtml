@@ -203,9 +203,8 @@
                                     </select>
                                 </label>
                             </div> *@
-                          <label>
-                            <input type="search" class="form-control" name="productname" placeholder="Tìm sản phẩm">
-                          </label>
+                            <input type="search" class="form-control" name="productname" id='product-name' placeholder="Tìm sản phẩm">
+                          <button type="button" id="product-name-btn"  class="btn btn-primary">Tìm kiếm</button>
                       </div>
                             </div>
                         </div>
@@ -488,9 +487,20 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.js"></script>
 
   <script>
-     let delete_category='';
+    
+    let delete_category='';
 
     var all_delete_btn=document.querySelectorAll('#delete-record-btn');
+
+    var filter_product_btn=document.getElementById('product-name-btn');
+
+    filter_product_btn.addEventListener('click',()=>
+    {
+      var product_filter = document.getElementById('product-name');
+      var url='@Url.Action("ProductsByName","ProductList",new{product_name="__product__name"})';
+      url=url.replace('__product__name',product_filter.value);  
+      window.location.href=url;
+    });
 
     all_delete_btn.forEach((btn)=>{
     btn.addEventListener('click',()=>{
