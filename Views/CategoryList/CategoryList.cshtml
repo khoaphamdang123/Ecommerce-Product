@@ -185,6 +185,9 @@
                     <tbody class="table-border-bottom-0">
                        @foreach(var category in Model?.item)
                        { current_total_item+=1;
+                         var avatarUrl = string.IsNullOrEmpty(category.Avatar) 
+        ? "https://cdn-icons-png.flaticon.com/128/16955/16955062.png" 
+        : Url.Content("~/" +category.Avatar.Substring(category.Avatar.IndexOf("wwwroot") + ("wwwroot".Length + 1)));
                          <tr>
                             <td class="text-center">@current_total_item</td>
                             <td class="text-center">@category.Id</td>
@@ -192,7 +195,7 @@
                              <div class="d-flex align-items-center justify-content-center">
                               <div class="avatar-wrapper">
                                 <div class="avatar avatar-sm me-2">
-                                 <img src="~/@category.Avatar.Substring(category.Avatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="Category Avatar">
+                                 <img src="@avatarUrl">
                                 </div>
                               </div>
                               <strong>@category.CategoryName</strong>
