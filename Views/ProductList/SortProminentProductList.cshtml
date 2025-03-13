@@ -258,12 +258,13 @@
         }
         else
         {
-          toast.classList.add('bg-danger');
+          toast.classList.add('bg-danger');          
         }
         var toast_bs = new bootstrap.Toast(toast);
         toast_bs.show();
       },
-        error:(xhr,status,error)=>{
+        error:(xhr,status,error)=>
+        {
            alert(xhr.responseText);
         }
     });

@@ -20,6 +20,8 @@ public interface IManualRepository
 
  public Task<IEnumerable<Manual>> findManualByProductId(int product_id);
 
+ public Task<IEnumerable<Manual>> filterManualByProductName(string product_name);
+
  public Task saveChanges();
 
 }

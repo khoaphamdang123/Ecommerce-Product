@@ -134,8 +134,9 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="d-none d-md-flex row flex-nowrap overflow-auto">
-            
+
                 @foreach(var product in prominent_products)
                 { 
                 string regex_product=Regex.Replace(product.ProductName, @"[^\w\d]", "-");
@@ -159,6 +160,7 @@
                                    <span class="discount">-@product?.Discount%</span>
                                    }  
                                 </div>
+                                
                                 @* <div class="product__offer">
                                 <span class="discount">-15%</span>
                                 </div> *@

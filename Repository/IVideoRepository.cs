@@ -20,6 +20,8 @@ public interface IVideoRepository
 
  public Task<IEnumerable<Video>> findVideoByProductId(int product_id);
 
+ public Task<IEnumerable<Video>> findVideoByProductName(string product_name);
+
  public Task saveChanges(); 
 
 }

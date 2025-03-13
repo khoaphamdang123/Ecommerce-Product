@@ -257,9 +257,7 @@ public async Task<IActionResult> Products()
     FilterProduct prod_filter=new FilterProduct("","","","","","");
     
     ViewBag.filter_obj=prod_filter;
-    
-    var cats=await this._category.getAllCategory();
-    
+        
     var brands=await this._category.getAllBrandList();
     
     ViewBag.brands=brands;
@@ -366,14 +364,7 @@ public async Task<IActionResult> Products()
     string product_banner=list_product[0].Image;
    Dictionary<string,int> count_reviews=await this._product.countAllReview(products.ToList()); 
 
-    // Dictionary<string,int> count_product_reviews=new Dictionary<string, int>();
-    //  for(int i=5;i>=1;i--)
-    //  {
-    //   List<Product> prod=await this._product.getListProductRating(i);
-    //   count_product_reviews.Add(i.ToString(),prod.Count);
-    //  }
     ViewBag.count_reviews=count_reviews;
-     // ViewBag.count_product_reviews=count_product_reviews;
 
     string sub_banner=sub_list[0].Image;
     ViewBag.product_banner=product_banner;
@@ -384,7 +375,6 @@ public async Task<IActionResult> Products()
           ViewBag.options=options;
           FilterProduct prod_filter=new FilterProduct("","","","","","");
           ViewBag.filter_obj=prod_filter;
-          var cats=await this._category.getAllCategory();
           var brands=await this._category.getAllBrandList();
           ViewBag.brands=brands;          
          var prods=await this._product.pagingProductByList(12,1,products);
@@ -440,6 +430,7 @@ public async Task<IActionResult> Products()
   {
   prices_list = prices.Split('-').Select(int.Parse).ToList();
   }
+
  if(!string.IsNullOrEmpty(brands))
  {
     brand_list=brands.Split(',').ToList();    
@@ -471,9 +462,9 @@ public async Task<IActionResult> Products()
 
 Console.WriteLine("gere");
 
-
 return PartialView("~/Views/ClientSide/Products/_ProductsPartial.cshtml",prods); 
- }
+ 
+}
  catch(Exception er)
  {
     Console.WriteLine(er.Message);

@@ -30,12 +30,27 @@ body
 }
 
 
-
 .data-length
 {
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap:10px;
 }
+
+.data-length input
+{
+  width: 200px;
+}
+
+.data-length button {
+  white-space: nowrap;
+  flex-shrink: 0; 
+  cursor: pointer; 
+  z-index: 1; 
+}
+
 
 .data-filter
 {
