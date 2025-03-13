@@ -359,13 +359,16 @@
                 <div class="row">
                 @foreach(var cat in categories)
                 {  
+                 var avatarUrl = string.IsNullOrEmpty(cat.Avatar) 
+        ? "https://cdn-icons-png.flaticon.com/128/16955/16955062.png" 
+        : Url.Content("~/" +cat.Avatar.Substring(cat.Avatar.IndexOf("wwwroot") + ("wwwroot".Length + 1)));
     <div class="col-xl-2 col-lg-3 col-md-4 col-6">
     
      <div class="categories__item p-relative w-img mb-30 text-center">
         <!-- Image -->
         <div class="categories__img b-radius-2">
             <a href="@Url.Action("ProductsByCategory", "Products", new { category_name = cat.CategoryName })">
-                <img src="~/@cat.Avatar.Substring(cat.Avatar.IndexOf("wwwroot") + ("wwwroot".Length + 1))" alt="category">                
+                <img src="@avatarUrl" alt="category">                
             </a>
         </div>
         <!-- Content -->
@@ -735,13 +738,18 @@
             <div class="container custom-conatiner">
                 <div class="brand-slider brand-slider-2 swiper-container pt-35 pb-30">
                     <div class="swiper-wrapper">
-                    @foreach(var brand in brands)
-                        {
-                        <div class="brand-item w-img swiper-slide">
-                            
-                        <a href="@Url.Action("ProductByBrand","Products",new{brand_name=brand.BrandName})"><img src="~/@brand?.Avatar.Substring(brand.Avatar.IndexOf("wwwroot")+("wwwroot".Length+1))" accesskey="" alt="brand"></a>
-                        </div>
-                        }
+       @foreach (var brand in brands)
+{
+    var avatarUrl = string.IsNullOrEmpty(brand?.Avatar) 
+        ? "https://cdn-icons-png.flaticon.com/128/16955/16955062.png" 
+        : Url.Content("~/" + brand.Avatar.Substring(brand.Avatar.IndexOf("wwwroot") + ("wwwroot".Length + 1)));
+
+    <div class="brand-item w-img swiper-slide">
+        <a href="@Url.Action("ProductByBrand", "Products", new { brand_name = brand?.BrandName })">
+            <img src="@avatarUrl" alt="brand">
+        </a>
+    </div>
+}
                     </div>
                 </div>
             </div>
