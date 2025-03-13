@@ -233,6 +233,8 @@ public class CategoryListController : BaseAdminController
   {
 
   Console.WriteLine("Mã hàng:"+id);
+try
+{
   int res_delete=await this._category.deleteBrand(id);
   
   if(res_delete==1)
@@ -245,6 +247,11 @@ public class CategoryListController : BaseAdminController
   TempData["Status_Delete"]=0;
   TempData["Message_Delete"] = $"Xóa nhãn hàng mã {id} thất bại";
    }
+}
+catch(Exception er)
+{
+  Console.WriteLine("Delete Brand Exception:"+er.Message);
+}
     return RedirectToAction("BrandList");
   }
   [Route("category_list/{category}/brand/add/delete")]
