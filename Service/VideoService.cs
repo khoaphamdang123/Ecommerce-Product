@@ -64,6 +64,20 @@ public class VideoService:IVideoRepository
     return video;
   }
 
+   public async Task<IEnumerable<Video>> findVideoByProductName(string product_name)
+   {
+    var video_all=await getAllVideo();
+
+    if(!string.IsNullOrEmpty(product_name))
+    {
+      product_name=product_name.ToLower();
+      video_all=video_all.Where(m=>m.Product.ProductName.ToLower().Contains(product_name)).ToList();
+    }
+
+    return video_all;
+   }
+
+
  public async Task<int> deleteVideo(int id)
  {
     int delete_res=0;

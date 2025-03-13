@@ -87,20 +87,12 @@
                         <div class="col-md-2">
                             <div class="ms-2">   
                             <div class="data-length">
-                                <label>
-                                    <select class="form-select" id="page-size">
-                                 
-                                        @foreach(var option in ViewBag.options)
-                                        { if(option==selected_size)
-                                        {
-                                          <option value="@option" selected>@option</option>
-                                        }
-                                        else{
-                                           <option value="@option">@option</option>
-                                        }
-                                        }
-                                    </select>
-                                </label>
+                                
+                          <input type="search" class="form-control" name="productname" id='manual-name' placeholder="Tìm sản phẩm">
+                          
+                          <button type="button" id="manual-name-btn"  class="btn btn-primary">Tìm kiếm</button> 
+                                
+                        
                             </div>
                             </div>
                         </div>
@@ -108,7 +100,25 @@
                             <div class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-6 mb-md-0 mt-n6 mt-md-0 gap-md-4">
                             <div class="data-filter">
                             <div class="dt-buttons btn-group flex-wrap">
+                                  <label>
+                                    <select class="form-select" id="page-size">
+
+                                        @foreach(var option in ViewBag.options)
+                                        { 
+                                        if(option==selected_size)
+                                        {
+                                          <option value="@option" selected>@option</option>
+                                        }
+                                        else{
+                                           <option value="@option">@option</option>                                           
+                                        }
+                                        }
+                                    </select>
+                                </label>
+
+                                <div class="btn-group">
                                 <button class="btn btn-secondary add-new btn-primary" id="add-page-btn" tabindex="0" aria-controls="DataTables_Table_0" type="button"><span><i class="bx bx-plus bx-sm me-0 me-sm-2"></i><span class="d-none d-sm-inline-block">Thêm file hướng dẫn</span></span></button>
+                                </div>
                             </div>
                             </div>
                             </div>
@@ -210,7 +220,7 @@
                 </table>
                 </div>
     <div class="pagination-container mt-4">
-      <div class="page-total">Tổng số trang:@Model?.totalCount</div>
+      <div class="page-total">Tổng số trang:@(Model?.totalPage<0?"":Model?.totalPage)</div>
       <div class="page-list justify-content-center">
      @if(Model!=null && Model.hasPreviousPage)
      {
@@ -324,6 +334,19 @@
   <script>
      let delete_page='';
 
+    var manual_list_btn=document.getElementById("manual-name-btn");
+
+    manual_list_btn.addEventListener('click',()=>
+    {
+    var manual_name=document.getElementById("manual-name").value;
+
+
+    var url='@Url.Action("FilterManual","ManualList",new{product_name="__product_name__"})';
+
+    url=url.replace("__product_name__",manual_name);
+
+    window.location.href=url;
+    });
 
     var all_delete_btn=document.querySelectorAll('#delete-record-btn');
 

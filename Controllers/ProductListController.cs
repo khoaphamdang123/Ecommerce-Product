@@ -203,6 +203,27 @@ if(string.IsNullOrEmpty(id_user))
     return RedirectToAction("ProductList","ProductList");
   }
 
+[Route("product_list/filter")]
+[HttpGet]
+public async Task<IActionResult> ProductsByName(string product_name)
+{    Console.WriteLine("Product name here is:"+product_name);
+     var products=await this._product.filterProductByNameAndCategory(product_name,"");
+     string select_size="7";
+
+          ViewBag.selected_size=select_size;
+          List<string> options=new List<string>(){"7","10","20","50"};
+          ViewBag.options=options;
+          FilterProduct prod_filter=new FilterProduct("","","","","","");
+          ViewBag.filter_obj=prod_filter;         
+          var cats=await this._category.getAllCategory();
+          var brands=await this._category.getAllBrandList();
+          ViewBag.CatList=cats;
+          ViewBag.BrandList = brands;
+          ViewBag.StatusList = new List<string>{"Hết hàng","Còn hàng"};
+          var prods=await this._product.pagingProductByList(products.ToList().Count,1,products);
+          return View("~/Views/ProductList/ProductList.cshtml",prods);
+}
+
   [Route("prominent_product_list/sort")]
   [HttpGet]
   public async Task<IActionResult> SortProminentProductList()
@@ -325,6 +346,7 @@ if(string.IsNullOrEmpty(id_user))
   [HttpPost]
   public async Task<JsonResult> GetSampleData(AddProductModel model)
 { Console.WriteLine("used to stay here:"+model.ProductName);
+    
     StatusResponse response_data; 
 
     int created_res = await this._product.addNewProduct(model);
@@ -353,8 +375,9 @@ if(string.IsNullOrEmpty(id_user))
             Message = "Thêm sản phẩm thành công"
         };
     }
-
+    
     return Json(response_data);
+    
 }
 
 

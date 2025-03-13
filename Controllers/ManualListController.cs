@@ -163,6 +163,41 @@ public class ManualListController : BaseAdminController
       return Json(new {status=1,message="Thêm tài liệu thành công"});
     }  
    }
+
+
+  [Route("manual_list/filter")]
+
+  [HttpGet]
+
+  public async Task<IActionResult> FilterManual(string product_name)
+  {
+      var manual_files=await this._manual.filterManualByProductName(product_name);
+
+     var manual_page_list=await this._manual.pagingManualFiles(manual_files.ToList().Count,1,manual_files);
+     
+    try
+    {
+      
+          List<string> options=new List<string>(){"7","10","20","50"};
+          
+          ViewBag.options=options;
+                            
+          ViewBag.select_size="7";
+
+          
+          return View("~/Views/ManualList/ManualList.cshtml",manual_page_list);
+    }
+    catch(Exception er)
+    {
+        this._logger.LogError("Filter Manual Exception:"+er.Message);
+
+        Console.WriteLine("Filter Manual Exception:"+er.Message);
+    }
+
+    return View("~/Views/ManualList/ManualList.cshtml",manual_page_list);
+    
+  }
+
   
   [Route("manual_list/{id}")]
   [HttpGet]

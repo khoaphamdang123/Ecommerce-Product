@@ -62,7 +62,9 @@ public class ManualService:IManualRepository
     {
         await manual.PdfLink.CopyToAsync(stream);
     }
+
     pdf_link = $"{scheme}://{host}/UploadPdf/{fileName}";
+    
     }
 
     if(manual.WebLink!=null)
@@ -111,6 +113,23 @@ public class ManualService:IManualRepository
     
     return manual;
   }
+
+   public async Task<IEnumerable<Manual>> filterManualByProductName(string product_name)
+   { 
+    
+    var manual_all=await this.getAllManual();
+
+    if(!string.IsNullOrEmpty(product_name))
+    {
+      product_name=product_name.ToLower();
+     
+     manual_all=manual_all.Where(m=>m.Product.ProductName.ToLower().Contains(product_name)).ToList();
+    }
+    
+    return manual_all;
+
+   }
+
 
  public async Task<int> deleteManual(int id)
  {
