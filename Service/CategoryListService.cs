@@ -3,6 +3,7 @@ using Ecommerce_Product.Models;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using Microsoft.AspNetCore.Http.Connections;
+using Newtonsoft.Json;
 
 namespace Ecommerce_Product.Service;
 public class CategoryListService:ICategoryListRepository
@@ -511,10 +512,11 @@ public async Task<int> deleteBrand(int brand_category)
 {  int delete_res=0;
     try
     {
-        var brand_cat_detail=await this._context.CategoryBrandDetail.FirstOrDefaultAsync(c=>c.Id==brand_category);
+        var brand_cat_detail=await this._context.CategoryBrandDetail.Include(c=>c.Brand).FirstOrDefaultAsync(c=>c.Id==brand_category);
         string curr_avatar= brand_cat_detail.Brand.Avatar;
       if(brand_cat_detail!=null)
       { delete_res=1;
+      Console.WriteLine("Brand cat here");
         this._context.CategoryBrandDetail.Attach(brand_cat_detail);
         this._context.CategoryBrandDetail.Remove(brand_cat_detail);
         await this.saveChange();
