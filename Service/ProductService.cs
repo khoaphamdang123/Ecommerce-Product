@@ -960,12 +960,18 @@ for(int i=0;i<variant_files.Count;i++)
   }
 
   var redis_item=await getProductRedis();
+
+  var prominent_item=await getProminentProductRedis();
   
   var new_add_product =await this.findProductByName(model.ProductName);
 
   redis_item.Add(new_add_product);
 
+  prominent_item.Add(new_add_product);
+
   await this.saveProductRedis(redis_item);
+
+  await this.saveProminentProductRedis(prominent_item);
 
 //  if(await this._db.KeyExistsAsync("products"))
 //   {
@@ -1382,6 +1388,8 @@ catch(Exception er)
 }
 
   var redis_item=await getProductRedis();
+
+  var prominent_item=await getProminentProductRedis();
   
   var new_add_product =await this.findProductByName(model.ProductName);
   
@@ -1391,9 +1399,15 @@ catch(Exception er)
     {
       redis_item[i]=new_add_product;
     }
+    if(prominent_item[i].Id==id)
+    {
+      prominent_item[i]=new_add_product;
+    }
   }
 
   await this.saveProductRedis(redis_item);
+
+  await this.saveProminentProductRedis(prominent_item);
 
   // if(await this._db.KeyExistsAsync("products"))
   // {
