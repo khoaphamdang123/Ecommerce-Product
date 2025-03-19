@@ -386,10 +386,12 @@ int create_res=0;
 
 public async Task<IEnumerable<Brand>> getAllBrandList()
 {
-    var brand_list=this._context.Brands.ToList();
+    // var brand_list=this._context.Brands.ToList();
+    var brand_list= this._context.CategoryBrandDetail.Include(c=>c.Brand).Select(x=>x.Brand).ToList();
 
     return brand_list;
 }
+
 
 
 public async Task<IEnumerable<CategoryBrandDetail>> findBrandById(int category)
@@ -511,24 +513,34 @@ public async Task<int> createBrand(int category,string brand_name,IFormFile avat
 public async Task<int> deleteBrand(int brand_category)
 {  int delete_res=0;
     try
-    {
-        var brand_cat_detail=await this._context.CategoryBrandDetail.Include(c=>c.Brand).FirstOrDefaultAsync(c=>c.Id==brand_category);
+    {  
+        var brand_cat_detail=await this._context.CategoryBrandDetail.FirstOrDefaultAsync(c=>c.Id==brand_category);
         string curr_avatar= brand_cat_detail.Brand.Avatar;
       if(brand_cat_detail!=null)
-      { delete_res=1;
+      { 
+        
+      delete_res=1;
+      
       Console.WriteLine("Brand cat here");
-        this._context.CategoryBrandDetail.Attach(brand_cat_detail);
+
+        // this._context.CategoryBrandDetail.Attach(brand_cat_detail);
         this._context.CategoryBrandDetail.Remove(brand_cat_detail);
-        await this.saveChange();
+        
+        // this._context.Brands.Remove(brand);
+
+        Console.WriteLine("Did remove brand");
+        
+        await this.saveChange();        
+       
        if(!string.IsNullOrEmpty(curr_avatar))
        {
-        await this._support_service.removeFiles(curr_avatar);
+        await this._support_service.removeFiles(curr_avatar);        
        }
       }
     }
     catch(Exception er)
     {
-        Console.WriteLine("Delete Brand Exception:"+er.Message);
+        Console.WriteLine("Delete Brand Exception:"+er.InnerException??er.Message);
     }
     return delete_res;
 }
@@ -538,11 +550,11 @@ public async Task<int> deleteSubCategory(int sub_category)
 {int res_del=0;
     try
     {  
-       var sub_cat=await this.findSingleSubcat(sub_category);
+       var sub_cat=await this.findSingleSubcat(sub_category);              
        if(sub_cat!=null)
        { res_del=1;
          this._context.SubCategory.Remove(sub_cat);
-         await this.saveChange();
+         await this.saveChange();         
        }
     }
     catch(Exception er)
@@ -553,10 +565,13 @@ public async Task<int> deleteSubCategory(int sub_category)
 }
 
 public async Task<int> updateSubCategory(int id,SubCategory SubCategory)
-{  int res_update=0;
+{  
+    int res_update=0;
+    
     try
     {
    var sub_cat=await this.findSingleSubcat(id);
+      
    if(sub_cat!=null)
    {
     sub_cat.SubCategoryName=SubCategory.SubCategoryName;
@@ -564,7 +579,7 @@ public async Task<int> updateSubCategory(int id,SubCategory SubCategory)
     sub_cat.UpdatedDate=DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss");
     this._context.Update(sub_cat);
     await this.saveChange();
-    res_update=1;
+    res_update=1;    
    }
     }
     catch(Exception er)

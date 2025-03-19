@@ -34,6 +34,7 @@ public Task<bool> checkSubCatExist(string sub_cat);
 
 public Task<IEnumerable<Brand>> getAllBrandList();
 
+
 public Task<PageList<CategoryBrandDetail>> pagingBrand(int category,int page_size,int page);
 
 public Task<int> createBrand(int category,string brand_name,IFormFile avatar);
