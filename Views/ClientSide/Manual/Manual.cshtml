@@ -1,5 +1,5 @@
 @model List<Manual>
-
+@using Newtonsoft.Json;
 @{
     Layout = "_UserLayout";
     var avatar="";
@@ -14,11 +14,15 @@
         avatar=@Model[0]?.Product.Frontavatar.Substring(Model[0].Product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1)).Replace("\\","/");
 
         product_name=Model[0].Product.ProductName;
+        
     }
-   Manual english_model=Model.Where(x=>(x.Language=="English" || x.Language=="Vietnamese") && x.ProductId==Model[0].ProductId).FirstOrDefault();
+   Manual english_model=Model.Where(x=>(x.Language=="English" || x.Language=="Vietnamese (Vietnam)") && x.ProductId==Model[0].ProductId).FirstOrDefault();
+
    if(english_model!=null)
    {
-    string[] link_details=english_model.ManualLink.Split(',');
+  
+  string[] link_details=english_model.ManualLink.Split(',');
+  
   if(link_details.Length>1)
   {
     pdf_link=link_details[0];
@@ -167,7 +171,7 @@
   }
   }
                     <tr>
-                 @if(manual.Language=="Vietnamese")
+                 @if(manual.Language=="Vietnamese (Vietnam)")
                  {
                     <td>
  Tiếng Việt
@@ -178,9 +182,17 @@
                     @manual.Language
                     </td>
                  }
-                    <td><a href="@detail_pdf" class="sp__international-manuals-list__manual js__manual-link">Hướng dẫn sử dụng (PDF)</a>
-                    
-                    <a href="@detail_web" class="sp__international-manuals-list__manual js__manual-link">Hướng dẫn sử dụng (Web)</a></td>
+                 <td>
+                   @if(!string.IsNullOrEmpty(detail_pdf))
+                   {
+                    <a href="@detail_pdf" class="sp__international-manuals-list__manual js__manual-link">Hướng dẫn sử dụng (PDF)</a>
+                    }
+
+                   @if(!string.IsNullOrEmpty(detail_web))
+                   {
+                    <a href="@detail_web" class="sp__international-manuals-list__manual js__manual-link">Hướng dẫn sử dụng (Web)</a>
+                    }
+                    </td>
                 </tr>
             }
                     @* <tr><td>Tiếng Việt</td><td><a href="https://static.garmin.com/pumac/etrex22x32x_OM_VI-VN.pdf" class="sp__international-manuals-list__manual js__manual-link">Hướng dẫn sử dụng (PDF)</a><a href="https://www8.garmin.com/manuals-apac/webhelp/etrex22x32x/VI-VN/home.html" class="sp__international-manuals-list__manual js__manual-link">Hướng dẫn sử dụng (Web)</a></td></tr>
