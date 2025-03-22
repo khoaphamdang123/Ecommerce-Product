@@ -72,8 +72,6 @@ public interface IProductRepository
 
   public Task saveProminentProductRedis(List<Product> products);
 
-
   public Task saveChanges();
-
-
+  
 }
