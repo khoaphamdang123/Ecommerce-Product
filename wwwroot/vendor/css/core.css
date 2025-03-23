@@ -290,7 +290,7 @@ svg {
   vertical-align: middle;
 }
 
-table {
+/* table {
   caption-side: bottom;
   border-collapse: collapse;
 }
@@ -317,7 +317,40 @@ th {
   border-color: inherit;
   border-style: solid;
   border-width: 0;
+} */
+
+ table 
+{
+  caption-side: bottom;
+  border-collapse: collapse;
 }
+
+caption {
+  padding-top: 0.625rem;
+  padding-bottom: 0.625rem;
+  color: #a1acb8;
+  text-align: left;
+}
+
+th 
+{
+  font-weight: 600;
+  text-align: inherit;
+  text-align: -webkit-match-parent;
+}
+
+thead,
+tbody,
+tfoot,
+tr,
+td,
+th {
+  border-color: inherit;
+  border-style: solid;
+  border-width: 0;
+}
+
+
 
 label {
   display: inline-block;
@@ -335,7 +368,8 @@ input,
 button,
 select,
 optgroup,
-textarea {
+textarea 
+{
   margin: 0;
   font-family: inherit;
   font-size: inherit;
