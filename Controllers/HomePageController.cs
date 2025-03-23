@@ -107,6 +107,8 @@ public async Task<IActionResult> HomePage()
         
     ViewBag.brands=brands;
 
+    Console.WriteLine("Brand count is:"+brands.Count().ToString());
+
     return View("~/Views/ClientSide/HomePage/HomePage.cshtml");
 }
 [HttpGet]

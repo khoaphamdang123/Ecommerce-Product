@@ -14,6 +14,7 @@
     var categories = ViewBag.categories as List<Category>;
     
     var brands=ViewBag.brands as List<Brand>;
+
     
     var blogs = ViewBag.blogs as List<Blog>;
     
@@ -495,8 +496,8 @@
                                 </div>
                             @if(Convert.ToInt32(product.Price.Replace(",",""))>0)
                             {
-                                <div class="price">
-                        
+                    <div class="price">
+                       
                        @if(!string.IsNullOrEmpty(product?.Discount.ToString()) && product?.Discount!=0)
                                    {
                                     <span class="original-price">@product.Price đ</span>
@@ -952,7 +953,7 @@
             </div>
         </div>
 
-        <section class="brand-area light-bg-s pb-60">
+        @* <section class="brand-area light-bg-s pb-60">
             <div class="container custom-conatiner">
                 <div class="brand-slider brand-slider-2 swiper-container pt-35 pb-30">
                     <div class="swiper-wrapper">
@@ -971,7 +972,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> *@
         <!-- brand-area-end -->
 
         <!-- features-2__area-start -->
