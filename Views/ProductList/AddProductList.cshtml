@@ -654,14 +654,14 @@ const handleFilesAvatar=(e)=>
         $('.alert').addClass('show');
         window.scrollTo({top:0,behavior:'smooth'});
         setTimeout(()=>{
-           $('.alert').removeClass('show');
+        $('.alert').removeClass('show');
         },5000);
         return;
     }
     drop_zone_msg_avatar.style.display='none';
     drop_zone_avatar.style.alignItems='start';
    for(let i=0;i<2;i++)
-   {
+{
 const file=files[i];
  files_arr.push(file);
     const file_reader= new FileReader();
@@ -687,7 +687,7 @@ const file=files[i];
         cardTitle.textContent = file.name;
        
        const remove_btn=document.createElement("button");
-       
+              
        remove_btn.textContent='Xóa';
        
        remove_btn.classList.add('btn', 'btn-danger', 'remove-btn');
