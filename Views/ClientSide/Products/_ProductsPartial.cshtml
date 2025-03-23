@@ -559,10 +559,12 @@
     var all_id=['color-buttons','size-buttons','version-buttons','mirror-buttons'];
     
     container_class='.size-btn';
+
     }
     else
     {
         var all_id=['colors-buttons','sizes-buttons','versions-buttons','mirrors-buttons'];
+        
         container_class='.size-btns-'+class_id;
     }
    
@@ -571,7 +573,8 @@
    var buttonId=null;
 
      for(let id of all_id)
-     { if(class_id!='')
+     { 
+     if(class_id!='')
        {
         id=id+'-'+class_id;
         }

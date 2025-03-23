@@ -183,6 +183,7 @@
                                                     data-bs-target="#productModalId"
                                                     title="Xem nhanh">
                                         <i class="fal fa-eye"></i>
+                                        
                                         <i class="fal fa-eye"></i>
                                         
                                     </a>
@@ -344,7 +345,7 @@
             </div>
         </section>
 
-        <section class="categories__area light-bg-s pt-20 pb-10">
+        @* <section class="categories__area light-bg-s pt-20 pb-10">
             <div class="container custom-conatiner">
                 <div class="row">
                     <div class="col-xl-12">
@@ -387,7 +388,9 @@
                     }
                 </div>
             </div>
-        </section>
+        </section> *@
+
+
 
 
         <section class="moveing-text-area">
@@ -404,7 +407,227 @@
             </div>
         </section>
 
-        <section class="recomand-product-area light-bg-s pt-50 pb-15">
+        @foreach(var cat in categories)
+        {    
+        var products_cat=products.Where(p=>p.Category.CategoryName==cat.CategoryName).ToList();
+        
+        if(products_cat.Count<1)
+        {
+            continue;
+        }
+              <section class="recomand-product-area light-bg-s pt-50 pb-15">
+            <div class="container custom-conatiner">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="section__head d-flex justify-content-between mb-30">
+                            <div class="section__title section__title-2">
+                                <h5 class="st-titile">@cat.CategoryName</h5>
+                            </div>
+                            <div class="button-wrap button-wrap-2">
+                                <a href="@Url.Action("ProductsByCategory","Products",new{category_name=cat.CategoryName})">Xem toàn bộ sản phẩm <i class="fal fa-chevron-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-none d-md-flex row">
+                @for(int j=0;j<products_cat.Count;j++)
+                {  
+                  var product=products_cat[j];
+              
+                 string regex_product=Regex.Replace(product.ProductName, @"[^\w\d]", "-");
+  
+                   if(j==12)
+                   {
+                    break;                    
+                   }
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-3 col-xxl-2">
+                        <div class="product__item product__item-2 b-radius-2 mb-20">
+                            <div class="product__thumb fix">
+                                <div class="product-image w-img">
+                                    <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})">
+                                        <img src="~/@product.Frontavatar.Substring(product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="product">
+                                    </a>
+                                </div>
+                                <div class="product__offer">
+                                   @if(!string.IsNullOrEmpty(product?.Discount.ToString()) && product?.Discount!=0)
+                                   {
+                                   <span class="discount">-@product?.Discount%</span>
+                                   }  
+                                </div>
+                                <div class="product-action 
+                                product-action-2">
+                                   
+                                    <a href="#" class="icon-box icon-box-1" data-bs-toggle="modal" data-product-name="@product.ProductName" data-product-price="@product.Price" data-main-avatar="@product.Frontavatar" 
+                                                    data-product-category="@product?.Category.CategoryName"
+                                                    data-product-quantity="@product.Quantity"  
+                                                    data-product-id="@product.Id"
+                                                    data-count-review="@count_reviews[product.ProductName]"
+                                                    data-discount="@product.Discount"
+                                                    data-img-0="@product.Frontavatar"
+                                                   @for(int i=0;i<product.ProductImages.ToList().Count;i++)
+                                                    {
+                                                    string val=$"data-img-{i+1}=\"{product.ProductImages.ToList()[i].Avatar}\"";
+                                                    @Html.Raw(val);
+                                                    }
+                                                    data-bs-target="#productModalId" title="Xem nhanh">
+
+                                        <i class="fal fa-eye"></i>
+                                        
+                                        <i class="fal fa-eye"></i>
+                                    </a>
+
+                                    <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})"  class="icon-box icon-box-1" title="Chi tiết sản phẩm">
+                                        <i class="fal fa-layer-group"></i>
+                                        <i class="fal fa-layer-group"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="product__content product__content-2">
+                                <h6><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})">@product.ProductName</a></h6>
+                                <div class="rating mb-5 mt-10">
+                                    <ul>
+                                        <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                        <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                        <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                        <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                        <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                    </ul>
+                                </div>
+                            @if(Convert.ToInt32(product.Price.Replace(",",""))>0)
+                            {
+                                <div class="price">
+                        
+                       @if(!string.IsNullOrEmpty(product?.Discount.ToString()) && product?.Discount!=0)
+                                   {
+                                    <span class="original-price">@product.Price đ</span>
+                                    
+                                    <span class="discounted-price">@String.Format("{0:N0} đ", Convert.ToInt32(product.Price.Replace(",","")) * (double)(1 - product.Discount / 100.0))</span>
+                                    }
+                                    else
+                                    {
+                                    <span class="discounted-price">@product.Price đ</span>   
+                                    }                               
+                                </div>
+                            }
+                            </div>
+                            <div class="product__add-cart text-center">
+                                <button type="button" id="add-cart" data-product-name="@product.ProductName" data-product-id="@product.Id"  data-product-price="@(!string.IsNullOrEmpty(product?.Discount.ToString()) && product?.Discount!=0?String.Format("{0:N0} đ", Convert.ToInt32(product.Price.Replace(",","")) * (1 - product.Discount / 100)):product.Price)" class="cart-btn-3 product-modal-sidebar-open-btn d-flex align-items-center justify-content-center w-100">
+                               Thêm vào giỏ hàng
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+
+
+
+        <div class="d-md-none swiper mySwiper">
+        <div class="swiper-wrapper">
+            @for (int i = 0; i < products.Count(); i += 2)
+            {
+                <div class="swiper-slide">
+
+                    <div class="row">
+                       
+                        @for (int j = i; j < i + 2 && j < products.Count(); j++)
+                        {
+                            var product = products[j];
+
+                            string regex_product = Regex.Replace(product.ProductName, @"[^\w\d]", "-");
+
+                            <div class="col-6">
+                                <div class="product__item product__item-2 b-radius-2 mb-20">
+                                    <div class="product__thumb fix">
+                                <div class="product-image w-img">
+                                    <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})">
+                                        <img src="~/@product.Frontavatar.Substring(product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="product">
+                                    </a>
+                                </div>
+                                <div class="product__offer">
+                                   @if(!string.IsNullOrEmpty(product?.Discount.ToString()) && product?.Discount!=0)
+                                   {
+                                   <span class="discount">-@product?.Discount%</span>
+                                   }  
+                                </div>
+                                <div class="product-action product-action-2">
+                                    <a href="javascript:void(0);" type="button" class="icon-box icon-box-1" data-bs-toggle="modal" data-product-name="@product.ProductName" data-product-price="@product.Price" data-product-discount="@product.Discount" data-main-avatar="@product.Frontavatar" 
+                                               
+                                                    data-product-category="@product?.Category.CategoryName"
+                                                    data-product-quantity="@product.Quantity" 
+                                                    data-product-id="@product.Id"
+                                                    data-count-review="@count_reviews[product.ProductName]"
+                                                    data-discount="@product.Discount"
+                                                    data-img-0="@product.Frontavatar"
+                                                    @for(int z=0;z<product.ProductImages.ToList().Count;z++)
+                                                    {
+                                                    string val=$"data-img-{z+1}=\"{product.ProductImages.ToList()[z].Avatar}\"";
+
+                                                    @Html.Raw(val);
+
+                                                    }
+                                                    data-bs-target="#productModalId"
+                                                    title="Xem nhanh">
+                                        <i class="fal fa-eye"></i>
+                                        <i class="fal fa-eye"></i>
+                                        
+                                    </a>
+                                    <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})"  class="icon-box icon-box-1" title="Chi tiết sản phẩm">
+                                        <i class="fal fa-layer-group"></i>
+                                        <i class="fal fa-layer-group"></i>
+                                    </a>
+                                </div>
+                            </div>
+                                <div class="product__content product__content-2">
+                                <h6><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})">@product.ProductName</a></h6>
+                                <div class="rating mb-5 mt-10">
+                                    <ul>
+                                        <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                        <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                        <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                        <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                        <li><a href="#"><i class="fal fa-star"></i></a></li>
+                                    </ul>
+                                    <span>(01 review)</span>
+                                </div>
+                              @if(Convert.ToInt32(product.Price.Replace(",",""))>0)
+                              {
+                                <div class="price">
+                                    @if(!string.IsNullOrEmpty(product?.Discount.ToString()) && product?.Discount!=0)
+                                   {
+                                    <span class="original-price">@product.Price đ</span>
+                                    
+                                    <span class="discounted-price">@String.Format("{0:N0} đ", Convert.ToInt32(product.Price.Replace(",","")) * (double)(1 - product.Discount / 100.0))</span>
+                                    }
+                                    else
+                                    {
+                                    <span class="discounted-price">@product.Price đ</span>   
+                                    }
+                                </div>
+                                }
+                            </div>
+                            <div class="product__add-cart text-center">
+                            
+                                <button type="button" id="add-cart" data-product-name="@product.ProductName" data-product-id="@product.Id" data-product-price="@(!string.IsNullOrEmpty(product?.Discount.ToString()) && product?.Discount!=0?String.Format("{0:N0} đ", Convert.ToInt32(product.Price.Replace(",","")) * (1 - product.Discount / 100)):product.Price)" class="cart-btn-3 product-modal-sidebar-open-btn d-flex align-items-center justify-content-center w-100">
+                                    Thêm vào giỏ hàng
+                                </button>
+                            </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+            </div>
+        </section>
+        }
+
+        @* <section class="recomand-product-area light-bg-s pt-50 pb-15">
             <div class="container custom-conatiner">
                 <div class="row">
                     <div class="col-xl-12">
@@ -520,17 +743,15 @@
                         @for (int j = i; j < i + 2 && j < products.Count(); j++)
                         {
                             var product = products[j];
+
                             string regex_product = Regex.Replace(product.ProductName, @"[^\w\d]", "-");
                             
                             <div class="col-6">
-                                @* Reuse the same product content *@
                                 <div class="product__item product__item-2 b-radius-2 mb-20">
-                                    @* Include the same product details here *@
                                     <div class="product__thumb fix">
                                 <div class="product-image w-img">
                                     <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})">
                                         <img src="~/@product.Frontavatar.Substring(product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="product">
-                                        @* <img src="~/UploadImages/0a73f765-1942-4a78-98d9-0853d41024f8.webp" alt="product"> *@
                                     </a>
                                 </div>
                                 <div class="product__offer">
@@ -539,9 +760,7 @@
                                    <span class="discount">-@product?.Discount%</span>
                                    }  
                                 </div>
-                                @* <div class="product__offer">
-                                <span class="discount">-15%</span>
-                                </div> *@
+                              
                                 <div class="product-action product-action-2">
                                     <a href="javascript:void(0);" type="button" class="icon-box icon-box-1" data-bs-toggle="modal" data-product-name="@product.ProductName" data-product-price="@product.Price" data-product-discount="@product.Discount" data-main-avatar="@product.Frontavatar" 
                                                
@@ -604,7 +823,6 @@
                                     Thêm vào giỏ hàng
                                 </button>
                             </div>
-                                    @* Add content and price display *@
                                 </div>
                             </div>
                         }
@@ -617,7 +835,7 @@
         <div class="swiper-button-prev"></div>
     </div>
             </div>
-        </section>
+        </section> *@
         
     <div class="blog-area light-bg-s pt-20 pb-30">
             <div class="container custom-conatiner">

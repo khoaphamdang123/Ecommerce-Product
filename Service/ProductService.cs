@@ -237,7 +237,7 @@ public async Task<IEnumerable<Product>> getProductByCategory(string cat)
 { 
   cat=cat.Replace("-"," ").Replace("/"," ");
   var products=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(c=>c.SubCat).Include(c=>c.Variants).Include(c=>c.ProductImages).Where(c=>c.Category.CategoryName.Replace("-","").Replace("/","")==cat).ToListAsync();
-  return products;
+  return products;  
 }
 
   public async Task<IEnumerable<Product>> getProductByBrand(string brand)
