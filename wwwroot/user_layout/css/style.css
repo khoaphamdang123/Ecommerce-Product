@@ -2539,6 +2539,24 @@ input {
 
 }
 
+
+.about-info
+{
+ display: inline-block;
+ white-space: nowrap;
+ width: auto; 
+padding: 5px 10px;
+}
+@media(max-width: 768px)
+{
+  .about-info
+  {
+    display: inline;
+    white-space: normal;
+   padding-top: 5px;
+  }
+}
+
 /*----------------------------------------*/
 /*  00. OFF CANVAS CSS START
 /*----------------------------------------*/
