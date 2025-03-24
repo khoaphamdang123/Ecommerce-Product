@@ -2489,13 +2489,15 @@ input {
     width: 88%;
   }
 }
+
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   .cat__menu {
     width: 93%;
   }
 }
 
-.cat-toggle-btn-1 {
+.cat-toggle-btn-1 
+{
   color: #ffffff;
   text-transform: uppercase;
   font-size: 14px;
@@ -2553,7 +2555,7 @@ input {
   {
     display: inline;
     white-space: normal;
-   padding-top: 5px;
+    padding-top: 5px;
   }
 }
 
