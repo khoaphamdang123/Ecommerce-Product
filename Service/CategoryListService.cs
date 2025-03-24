@@ -513,9 +513,9 @@ public async Task<int> createBrand(int category,string brand_name,IFormFile avat
 public async Task<int> deleteBrand(int brand_category)
 {  int delete_res=0;
     try
-    {  
+    {   
         var brand_cat_detail=await this._context.CategoryBrandDetail.FirstOrDefaultAsync(c=>c.Id==brand_category);
-        string curr_avatar= brand_cat_detail.Brand.Avatar;
+        string curr_avatar= brand_cat_detail.Brand?.Avatar;
       if(brand_cat_detail!=null)
       { 
         
@@ -523,7 +523,8 @@ public async Task<int> deleteBrand(int brand_category)
       
       Console.WriteLine("Brand cat here");
 
-        // this._context.CategoryBrandDetail.Attach(brand_cat_detail);
+        this._context.CategoryBrandDetail.Attach(brand_cat_detail);
+        
         this._context.CategoryBrandDetail.Remove(brand_cat_detail);
         
         // this._context.Brands.Remove(brand);
@@ -540,7 +541,7 @@ public async Task<int> deleteBrand(int brand_category)
     }
     catch(Exception er)
     {
-        Console.WriteLine("Delete Brand Exception:"+er.InnerException??er.Message);
+        Console.WriteLine("Delete Brand Exception:"+er.Message);
     }
     return delete_res;
 }
