@@ -432,7 +432,7 @@
                 <div class="d-none d-md-flex row">
                 @for(int j=0;j<products_cat.Count;j++)
                 {  
-                  var product=products[j];
+                  var product=products_cat[j];
               
                  string regex_product=Regex.Replace(product.ProductName, @"[^\w\d]", "-");
   
