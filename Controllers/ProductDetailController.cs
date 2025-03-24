@@ -114,6 +114,7 @@ public async Task<IActionResult> ProductDetail(string product_name)
       if(!string.IsNullOrEmpty(product.Description))
       {
         string regular_text=Regex.Replace(product.Description, "<.*?>", "").Trim();
+       
        if(regular_text!="Powered by Froala Editor")
        {
         product.Description=HttpUtility.HtmlDecode(product.Description);
