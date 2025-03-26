@@ -2232,7 +2232,7 @@ li.sp__text-result {
 .sp__manuals--list-contents {
     flex-basis: 100%;
     padding: 1rem 0;
-    border-bottom: 1px solid #fff000
+    border-bottom: 1px solid #fff000;
 }
 
 .sp__manuals--list-contents ul li:first-child {
@@ -3977,8 +3977,10 @@ li.sp__text-result {
     width: 100%
 }
 
-@media screen and (min-width: 1024px) {
-    .sp__hero-banner__figure {
+@media screen and (min-width: 1024px) 
+{
+    .sp__hero-banner__figure 
+    {
         padding-bottom:33.33vh
     }
 }
@@ -4033,9 +4035,12 @@ li.sp__text-result {
     }
 }
 
-.sp__transition__enhancedContact__content-container {
+.sp__transition__enhancedContact__content-container 
+{
     max-width: 1440px;
+
     margin: 0 auto;
+    
     padding: 2rem
 }
 
