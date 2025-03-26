@@ -39,7 +39,7 @@ builder.Services.AddQuartz(q =>
 
 FirebaseApp.Create(new AppOptions()
 {
-  Credential=GoogleCredential.FromFile("ecommerce-product-92f11-firebase-adminsdk-fbsvc-e1e2744d2c.json")
+  Credential=GoogleCredential.FromFile("ecommerce-product-92f11-firebase-adminsdk-fbsvc-b877dd5236.json")
 });
 
 builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);

@@ -26,7 +26,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-  <None Update="ecommerce-product-92f11-firebase-adminsdk-fbsvc-e1e2744d2c.json">
+  <None Update="ecommerce-product-92f11-firebase-adminsdk-fbsvc-b877dd5236.json">
     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
   </None>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
