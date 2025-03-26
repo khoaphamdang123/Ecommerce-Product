@@ -143,6 +143,26 @@ public class ProductService:IProductRepository
     return null;
   }
 
+
+  public async Task<IEnumerable<Product>> getAllProduct()
+  {
+    try
+    {  
+       var products=await this._context.Products.Include(p=>p.Brand).Include(p=>p.Category).Include(c=>c.SubCat).Include(p=>p.ProductImages).Include(c=>c.Videos).Include(c=>c.Manuals).ToListAsync();
+       var json_products=await this._db.StringGetAsync("products");
+       if(string.IsNullOrEmpty(json_products))
+       { Console.WriteLine("did come to get all product redis");
+          await this.saveProductRedis(products);
+       }
+       return products;
+    }
+    catch(Exception er)
+    {
+        Console.WriteLine("Get all product:"+er.Message);
+    }
+    return null;
+  }
+
   public async Task<Manual> findManualByLanguage(string language,Product product)
   { var manual_ob=new Manual();
     try
@@ -201,6 +221,7 @@ public async Task<PageList<Product>> pagingProduct(int page_size,int page)
    
   //  IEnumerable<Product> all_prod= await this.getProductList();
       IEnumerable<Product> all_prod= await getProductRedis();
+
 
 
   //  List<Product> prods=all_prod.OrderByDescending(u=>u.Id).ToList(); 
@@ -288,12 +309,15 @@ try
    
    if(!string.IsNullOrEmpty(brand))
    {
-   Console.WriteLine("filter brand here");
+   Console.WriteLine("filter brand here");   
+
    prod_list= prod_list.Where(c=>c.Brand.Id==Convert.ToInt32(brand)).ToList();
+
    }
 
    if(!string.IsNullOrEmpty(category))
-   {Console.WriteLine("filter cat here");
+   {
+     Console.WriteLine("filter cat here");
      prod_list= prod_list.Where(c=>c.Category.Id==Convert.ToUInt32(category)).ToList();
    }
    if(!string.IsNullOrEmpty(status))
@@ -311,6 +335,7 @@ return prod_list;
 public IEnumerable<ProductImage> findProductImageByProductId(int id)
 {
  var product_img=this._context.ProductImages.Where(p=>p.Productid==id).ToList();
+ 
  return product_img; 
 }
 
@@ -332,7 +357,9 @@ public async Task<int> deleteProduct(int id)
    if(product!=null)
    {
   this._context.Products.Remove(product);
+  
   await this.saveChanges();  
+  
   res_del=1;
    }
 

@@ -11,6 +11,8 @@ using reCAPTCHA.AspNetCore;
 using Quartz;
 using Ecommerce_Product.Job;
 
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 DotNetEnv.Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,6 +37,12 @@ builder.Services.AddQuartz(q =>
     );
 });
 
+
+FirebaseApp.Create(new AppOptions()
+{
+  Credential=GoogleCredential.FromFile("ecommerce-product-92f11-firebase-adminsdk-fbsvc-b877dd5236.json")
+});
+
 builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 
 builder.Services.AddSingleton<IConnectionMultiplexer>(sp=>{
@@ -42,8 +50,10 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(sp=>{
     return ConnectionMultiplexer.Connect(configuration);
 });
 
+
 builder.Configuration["ConnectionStrings:DefaultConnection"] = 
     $"Host={host};Port={port};Database={database};Username={username};Password={password}";
+
 
 
 // Add services to the container.
@@ -79,6 +89,7 @@ builder.Services.AddSession(options=>
   options.Cookie.IsEssential=true;  
 });
 
+builder.Services.AddSingleton<FirebaseService>();
 
 builder.Services.AddMvc(options => options.EnableEndpointRouting = false);
 
@@ -237,8 +248,9 @@ else
     app.UseDeveloperExceptionPage();
 
     Environment.SetEnvironmentVariable("DNS", "http://localhost:5160");
-
 }
+
+
 
 // app.UseStatusCodePagesWithReExecute("/admin/Error/{0}");
 
@@ -253,7 +265,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseMiddleware<NotFoundMiddleware>();
-
 
 app.MapControllerRoute(
     name: "default",
