@@ -1,8 +1,6 @@
 
 using Ecommerce_Product.Repository;
-
 using Ecommerce_Product.Support_Serive;
->>>>>>> bb5dabf247b842cd557f80f717a377316ec84216
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 namespace Ecommerce_Product.Controllers;

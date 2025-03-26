@@ -124,24 +124,6 @@ public class ProductService:IProductRepository
   }
 
 
-  public async Task<IEnumerable<Product>> getAllProduct()
-  {
-    try
-    {  
-       var products=await this._context.Products.Include(p=>p.Brand).Include(p=>p.Category).Include(c=>c.SubCat).Include(p=>p.ProductImages).Include(c=>c.Videos).Include(c=>c.Manuals).ToListAsync();
-       var json_products=await this._db.StringGetAsync("products");
-       if(string.IsNullOrEmpty(json_products))
-       { Console.WriteLine("did come to get all product redis");
-          await this.saveProductRedis(products);
-       }
-       return products;
-    }
-    catch(Exception er)
-    {
-        Console.WriteLine("Get all product:"+er.Message);
-    }
-    return null;
-  }
 
 
   public async Task<IEnumerable<Product>> getAllProduct()

@@ -16,11 +16,7 @@
         product_name=Model[0].Product.ProductName;
         
     }
-<<<<<<< HEAD
-   Manual english_model=Model.Where(x=>(x.Language=="English" || x.Language=="Vietnamese (Vietnam)") && x.ProductId==Model[0].ProductId).FirstOrDefault();
-=======
    Manual english_model=Model.Where(x=>(x.Language=="English" || x.Language.Contains("Vietnamese")) && x.ProductId==Model[0].ProductId).FirstOrDefault();
->>>>>>> bb5dabf247b842cd557f80f717a377316ec84216
 
    if(english_model!=null)
    {
@@ -50,7 +46,6 @@
     {
         web_link=link_details[0];
         web_modifield_date=english_model.UpdatedDate;
-
   }
    }
    }
@@ -175,11 +170,8 @@
   }
   }
                     <tr>
-<<<<<<< HEAD
-                 @if(manual.Language=="Vietnamese (Vietnam)")
-=======
+
                  @if(manual.Language.Contains("Vietnamese"))
->>>>>>> bb5dabf247b842cd557f80f717a377316ec84216
                  {
                     <td>
  Tiếng Việt
