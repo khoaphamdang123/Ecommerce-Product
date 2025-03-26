@@ -13,6 +13,10 @@ public interface ISettingRepository
    public Task<int> getStatusByName(string name);
 
    public Task<string> getContentByName(string name);
-   
+
+   public Task<Setting> getSettingObjByName(string name);
+
+   public Task<int> updateFirebaseSetting(FirebaseSettingModel setting);
+
    public Task saveChanges();
 }

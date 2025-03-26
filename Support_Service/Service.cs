@@ -233,6 +233,8 @@ public async Task logoutUser()
    await this._signInManager.SignOutAsync();
 }
 
+
+
 public List<string> getListOfLanguage()
 {
     List<string> languages=new List<string>();

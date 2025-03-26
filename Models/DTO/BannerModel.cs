@@ -10,6 +10,6 @@ namespace Ecommerce_Product.Models
 
     public string? UpdatedDate { get; set; }
 
-    public IFormFile Image { get; set; }    
+    public IFormFile Image { get; set; }   
     }
 }

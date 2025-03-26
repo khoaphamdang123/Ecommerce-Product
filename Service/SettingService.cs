@@ -20,7 +20,7 @@ public class SettingService:ISettingRepository
 
    public async Task<string> getContentByName(string name)
    {
-      string content="";
+      string content="";            
       var setting=await this._context.Settings.FirstOrDefaultAsync(s=>s.Settingname==name);
       if(setting!=null)
       {
@@ -30,12 +30,52 @@ public class SettingService:ISettingRepository
    }
 
 
+   public async Task<Setting> getSettingObjByName(string name)
+   {
+     var setting_obj=await this._context.Settings.FirstOrDefaultAsync(s=>s.Settingname==name);
+     
+     return setting_obj;
+
+   }
+
+
 
 public async Task<IEnumerable<Setting>> getAllSetting()
 {
     var settings=this._context.Settings.ToList();
     
     return settings;
+}
+
+
+public async Task<int> updateFirebaseSetting(FirebaseSettingModel setting)
+{
+  int update_res=0;
+
+  try
+  { 
+    Console.WriteLine("In firebase update");
+    var setting_obj=await this._context.Settings.FirstOrDefaultAsync(s=>s.Settingname=="Firebase");
+    if(setting_obj!=null)
+    {    Console.WriteLine("firebase update not null here");
+
+      string updatetime=DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss");
+      setting_obj.Updateddate=updatetime;
+      setting_obj.Status=setting.Status;
+      setting_obj.Firebase_Mess=setting.Firebase_Mess;
+      this._context.Settings.Update(setting_obj);
+      await this.saveChanges();
+      update_res=1;
+    }
+  }
+  catch(Exception e)
+  {
+    update_res=0;
+    Console.WriteLine("Update Firebase Setting Exception:"+e.Message);
+  }
+
+  return update_res;
+
 }
 
 

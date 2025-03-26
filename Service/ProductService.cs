@@ -288,12 +288,15 @@ try
    
    if(!string.IsNullOrEmpty(brand))
    {
-   Console.WriteLine("filter brand here");
+   Console.WriteLine("filter brand here");   
+
    prod_list= prod_list.Where(c=>c.Brand.Id==Convert.ToInt32(brand)).ToList();
+
    }
 
    if(!string.IsNullOrEmpty(category))
-   {Console.WriteLine("filter cat here");
+   {
+     Console.WriteLine("filter cat here");
      prod_list= prod_list.Where(c=>c.Category.Id==Convert.ToUInt32(category)).ToList();
    }
    if(!string.IsNullOrEmpty(status))
@@ -311,6 +314,7 @@ return prod_list;
 public IEnumerable<ProductImage> findProductImageByProductId(int id)
 {
  var product_img=this._context.ProductImages.Where(p=>p.Productid==id).ToList();
+ 
  return product_img; 
 }
 
@@ -332,7 +336,9 @@ public async Task<int> deleteProduct(int id)
    if(product!=null)
    {
   this._context.Products.Remove(product);
+  
   await this.saveChanges();  
+  
   res_del=1;
    }
 

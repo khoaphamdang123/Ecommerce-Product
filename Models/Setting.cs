@@ -16,4 +16,7 @@ public partial class Setting
     public string? Updateddate { get; set; }
 
     public string? App { get; set; }
+
+    public string? Firebase_Mess{get;set;}
+
 }

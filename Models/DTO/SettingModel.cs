@@ -17,4 +17,8 @@ public string Maintainance{get;set;}
 
 public string HomePage{get;set;}
 
+public string Firebase_Mess{get;set;}
+
+public int Status{get;set;}
+
 }

@@ -428,7 +428,12 @@
                 </li>
               </ul>
             </li>    
-
+            <li class="menu-item @(view_controller=="Firebase"?"active":"")">
+              <a href="@Url.Action("Firebase","Firebase")" class="menu-link">
+                <i class="menu-icon tf-icons bx bxl-firebase"></i>
+                <div data-i18n="Account Settings">Thông báo Firebase</div>                                
+              </a>
+            </li>  
                 <li class="menu-item @(view_controller=="SettingList"?"active":"")">
               <a href="@Url.Action("SettingList","SettingList")" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-cog"></i>

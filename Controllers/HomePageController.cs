@@ -1,5 +1,6 @@
 
 using Ecommerce_Product.Repository;
+using Ecommerce_Product.Support_Serive;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 namespace Ecommerce_Product.Controllers;
@@ -18,9 +19,11 @@ public class HomePageController:BaseController
  
 
  private readonly Support_Serive.Service _sp_services;
+
+ private readonly FirebaseService _firebase_service;
  
 
-public HomePageController(IBannerListRepository banner,IProductRepository product,Support_Serive.Service sp_service,ISettingRepository setting,ICategoryListRepository category,IBlogRepository blog,IUserListRepository user,ILogger<HomePageController> logger):base(category,user,banner)
+public HomePageController(IBannerListRepository banner,IProductRepository product,Support_Serive.Service sp_service,ISettingRepository setting,ICategoryListRepository category,IBlogRepository blog,IUserListRepository user,FirebaseService firebase_service,ILogger<HomePageController> logger):base(category,user,banner)
 {
     this._banner=banner;
     this._product=product;
@@ -28,6 +31,7 @@ public HomePageController(IBannerListRepository banner,IProductRepository produc
     this._category=category;
     this._setting=setting;
     this._logger=logger;
+    this._firebase_service=firebase_service;
     this._sp_services=sp_service;
 }
 
@@ -83,7 +87,7 @@ public async Task<IActionResult> HomePage()
   
   foreach(var item in products)
   {
-    item.Price=this._sp_services.convertToVND(item.Price);
+    item.Price=this._sp_services.convertToVND(item.Price);    
   }
     Console.WriteLine("Time taken to get all reviews is:"+secons);
     

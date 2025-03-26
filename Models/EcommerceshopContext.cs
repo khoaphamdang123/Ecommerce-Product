@@ -591,6 +591,9 @@ public partial class EcommerceshopContext : DbContext
             entity.Property(e => e.Updateddate)
                 .HasColumnType("character varying")
                 .HasColumnName("updateddate");
+            entity.Property(e => e.Firebase_Mess)
+                .HasColumnType("character varying")
+                .HasColumnName("firebase_mess");
         });
 
         modelBuilder.Entity<Size>(entity =>

@@ -163,8 +163,6 @@ img_url=$"~/{img_url.Substring(img_url.IndexOf("wwwroot")+("wwwroot".Length+1)).
                 </div>
               </div>
             </div>
-
-      
             <div class="content-backdrop fade"></div>
           </div>
       <div class="layout-overlay layout-menu-toggle"></div>
@@ -262,7 +260,8 @@ img_url=$"~/{img_url.Substring(img_url.IndexOf("wwwroot")+("wwwroot".Length+1)).
       "Indie Flower, cursive": "Indie Flower"
    },
    fontFamilySelection: true,
-    fontSize: ['8', '9', '10', '11', '12', '14', '16', '18', '20', '22', 
+   
+   fontSize: ['8', '9', '10', '11', '12', '14', '16', '18', '20', '22', 
               '24', '26', '28', '30', '32', '34', '36', '38', '40', '42', 
               '44', '46', '48', '50', '52', '54', '56', '58', '60', '64', 
               '68', '72', '76', '80', '84', '88', '92', '96', '100', '110', 
@@ -311,7 +310,7 @@ img_url=$"~/{img_url.Substring(img_url.IndexOf("wwwroot")+("wwwroot".Length+1)).
   
   if(file_name==='')
   {
-    is_valid=false;
+    is_valid=false;    
     document.getElementById("file-name-error").innerHTML='Không được để trống thông tin này';
   }
 

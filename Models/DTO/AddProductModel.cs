@@ -24,7 +24,6 @@ public class AddProductModel
 
     public int Discount{get;set;}
 
-
     public string DiscountDescription{get;set;}
     
     public string InboxDescription{get;set;}

@@ -31,5 +31,5 @@ public partial class Variant
 
     public virtual Size? Size { get; set; }
 
-    public virtual Version? Version { get; set; }
+    public virtual Version? Version { get; set; }    
 }
