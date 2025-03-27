@@ -77,10 +77,11 @@ public class ProductService:IProductRepository
   public async Task<List<Product>> getProductRedis()
   {
     var products_json=await this._db.StringGetAsync("products");
-
+     
 
     if(string.IsNullOrEmpty(products_json))
     {
+
       var products=await this._context.Products.Include(p=>p.Brand).Include(p=>p.Category).Include(c=>c.SubCat).Include(p=>p.ProductImages).ToListAsync();
       await this.saveProductRedis(products);
       return products;
@@ -203,6 +204,7 @@ public async Task<PageList<Product>> pagingProduct(int page_size,int page)
    
   //  IEnumerable<Product> all_prod= await this.getProductList();
       IEnumerable<Product> all_prod= await getProductRedis();
+
 
 
 

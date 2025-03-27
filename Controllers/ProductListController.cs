@@ -250,14 +250,18 @@ public async Task<IActionResult> ProductsByName(string product_name)
     Console.WriteLine("Product Prominent Json did come to here");
   try
    {
+
     List<Product> products=new List<Product>();
+
     foreach(var product_id in product_list)
     {
       var product=await this._product.findProductById(Convert.ToInt32(product_id));
+      
       if(product!=null)
       {
         products.Add(product);
       }
+
     }
 
    await this._product.saveProminentProductRedis(products);
