@@ -264,7 +264,6 @@ app.UseAuthorization();
 
 app.UseMiddleware<NotFoundMiddleware>();
 
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=HomePage}/{action=home}/{id?}"

@@ -16,7 +16,7 @@
         product_name=Model[0].Product.ProductName;
         
     }
-   Manual english_model=Model.Where(x=>(x.Language=="English" || x.Language=="Vietnamese (Vietnam)") && x.ProductId==Model[0].ProductId).FirstOrDefault();
+   Manual english_model=Model.Where(x=>(x.Language=="English" || x.Language.Contains("Vietnamese")) && x.ProductId==Model[0].ProductId).FirstOrDefault();
 
    if(english_model!=null)
    {
@@ -171,7 +171,7 @@
   }
   }
                     <tr>
-                 @if(manual.Language=="Vietnamese (Vietnam)")
+                 @if(manual.Language.Contains("Vietnamese"))
                  {
                     <td>
  Tiếng Việt
