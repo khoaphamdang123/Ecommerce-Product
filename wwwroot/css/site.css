@@ -45,15 +45,13 @@ body
   width: 200px;
 }
 
-=======
-}
+
 
 .data-length input
 {
   width: 200px;
 }
 
->>>>>>> bb5dabf247b842cd557f80f717a377316ec84216
 .data-length button {
   white-space: nowrap;
   flex-shrink: 0; 

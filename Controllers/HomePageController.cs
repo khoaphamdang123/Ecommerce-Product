@@ -19,6 +19,8 @@ public class HomePageController:BaseController
  
 
  private readonly Support_Serive.Service _sp_services;
+
+ private readonly FirebaseService _firebase_service;
  
 
 
