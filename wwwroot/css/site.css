@@ -40,8 +40,6 @@ body
 }
 
 
-
-
 .data-length input
 {
   width: 200px;
@@ -72,13 +70,15 @@ body
     text-align: center;
     margin-right: 20px;
   }
+
   .pagination-container
   {
-    flex-wrap: wrap;
+    flex-wrap: wrap; 
     flex-direction:column-reverse;
   }
 
-  .pagination-container .page-total{
+  .pagination-container .page-total
+  {
     display: inline-block;
     width: auto;
     margin: 5px auto;
@@ -128,7 +128,7 @@ body
   display: inline-block;
   padding: 0 10px;
   background-color:#ced1d5;
-  border-radius: 5px;
+  border-radius: 5px;  
   transition: background-color 0.3s ease;
 }
 
@@ -144,6 +144,7 @@ color: #696cff;
   color: #696cff;
 }
 
+
 .activate
 {
   background-color: #696cff!important;
@@ -155,12 +156,14 @@ color: #696cff;
 .icon-style-delete
 {
   color:#ff3e1d !important;
-  margin-right: 5px;
+  
+  margin-right: 5px;  
 }
 
 .icon-style-update
 { 
   color: #71dd37 !important; 
+  
   margin-right: 5px;
 }
 
@@ -172,8 +175,10 @@ color: #696cff;
 
 
 .transition-wrapper {
+  
   transition: all 0.3s ease-in-out;
-  overflow: hidden;
+  
+  overflow: hidden;  
 }
 
 .transition-wrapper.hidden {
@@ -196,7 +201,7 @@ color: #696cff;
   align-items: center;
   justify-content: center;
   text-align: center;
-  border-radius: 10px;
+  border-radius: 10px;  
   margin: 20px 0;
   position: relative;
   cursor: pointer;
@@ -240,11 +245,6 @@ color: #696cff;
   margin-top: 10px;
   gap:20px;
 }
-
-
-
-
-
 
 
 .card-1 {
@@ -292,6 +292,7 @@ color: #696cff;
 .data-repeater-item.hide
 {
   opacity: 0;
+
   max-height: 0px;
 }
 
@@ -312,7 +313,7 @@ color: #696cff;
   border:none;
   border-radius: 50%;
   width: 25px;
-  height: 25px;
+  height: 25px;  
   cursor: pointer;
   display: none;
   font-size: 16px;
@@ -348,6 +349,8 @@ color: #696cff;
 {
   width: 40px !important;
 }
+
+
 .rounded-2{
   border-radius: 0.375rem !important;
 }

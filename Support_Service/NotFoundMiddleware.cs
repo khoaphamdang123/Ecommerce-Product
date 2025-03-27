@@ -42,16 +42,14 @@ public class NotFoundMiddleware
     var isUserMaintenancePage = path.Contains("maintainance", StringComparison.OrdinalIgnoreCase);
    
     Console.WriteLine("USER MAINTENANCE:"+isUserMaintenancePage);
-
-
         //var _sp_services = scope.ServiceProvider.GetRequiredService<Service>();
          status=await _setting.getStatusByName("maintainance");
             if(status==1 && !isUserMaintenancePage)
         {  
             context.Response.Redirect("maintainance");            
+            
             return;
         }
-
     }
     }
 

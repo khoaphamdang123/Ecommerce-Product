@@ -1,7 +1,0 @@
-2025-01-01 12:10:39.634 +07:00 [INF] Running in Login Action
-2025-01-01 15:38:10.079 +07:00 [INF] Running in Login Action
-2025-01-01 15:43:52.923 +07:00 [INF] admin123 delete product 63 successfully
-2025-01-01 15:44:03.306 +07:00 [INF] admin123 delete product 61 successfully
-2025-01-01 15:47:17.035 +07:00 [INF] admin123 delete product 60 successfully
-2025-01-01 15:47:22.130 +07:00 [INF] admin123 delete product 59 successfully
-2025-01-01 15:51:46.493 +07:00 [INF] Running in Login Action
