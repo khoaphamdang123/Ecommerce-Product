@@ -66,9 +66,18 @@ public interface IProductRepository
 
   public Task<List<Product>> getProductRedis();
 
+  public Task<List<Product>> getAllProductList();
+
+  public Task<List<Product>> getAllProminentProductList();
+
   public Task<List<Product>> getProminentProductRedis();
 
+  public Task SaveProduct(List<Product> products);
+
   public Task saveProductRedis(List<Product> products);
+
+    public Task saveProminentProduct(List<Product> products);
+
 
   public Task saveProminentProductRedis(List<Product> products);
 

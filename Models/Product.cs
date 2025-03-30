@@ -39,6 +39,10 @@ public partial class Product
 
     public int? Discount { get; set; }
 
+    public int? SortId{get;set;}
+
+    public int? SortProminentId{get;set;}
+
     public virtual Brand? Brand { get; set; }
 
     public virtual ICollection<CartDetail> CartDetails { get; set; } = new List<CartDetail>();

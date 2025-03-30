@@ -50,9 +50,10 @@ public async Task<IActionResult> HomePage()
 
     DateTime startTime=DateTime.Now;
     
-    var products = await this._product.getProductRedis();
+    var products = await this._product.getAllProductList();
+    
 
-    var prominent_products = await this._product.getProminentProductRedis();    
+    var prominent_products = await this._product.getAllProminentProductList();    
     
     DateTime endTime=DateTime.Now;
     

@@ -33,6 +33,26 @@ public class ProductService:IProductRepository
     this._db=this._redis.GetDatabase();
     this._sp_services=sp_services;
   }
+  
+
+  public async Task SaveProduct(List<Product> products)
+  {
+    try
+    {
+       int sort_id=0;
+     foreach(var product in products)
+     { 
+      sort_id+=1;
+      product.SortId=sort_id;
+      this._context.Products.Update(product);
+     } 
+   await this.saveChanges();
+    }
+    catch(Exception er)
+    {
+      Console.WriteLine("Save Product Exception:"+er.Message);
+    }
+  }
 
   public async Task saveProductRedis(List<Product> products)
   {
@@ -52,6 +72,26 @@ public class ProductService:IProductRepository
   {
     Console.WriteLine("Redis save Exception:"+er.Message);
   }
+  }
+ 
+  
+  public async Task saveProminentProduct(List<Product> products)
+  {
+    try
+    {
+     int sort_prominent_id=0;
+     foreach(var product in products)
+     { 
+      sort_prominent_id+=1;
+      product.SortProminentId=sort_prominent_id;
+      this._context.Products.Update(product);
+     } 
+   await this.saveChanges();
+    }
+    catch(Exception er)
+    {
+      Console.WriteLine("Save prominent product list:"+er.Message);
+    }
   }
 
   public async Task saveProminentProductRedis(List<Product> products)
@@ -125,6 +165,51 @@ public class ProductService:IProductRepository
   }
 
 
+  public async Task<List<Product>> getAllProductList()
+  { 
+    var products=new List<Product>();
+    try
+    {
+     products=await this._context.Products.Include(p=>p.Brand).Include(p=>p.Category).Include(c=>c.SubCat).Include(p=>p.ProductImages).OrderBy(p=>p.SortId).ToListAsync();
+    // int sort_id=0;
+    // int sort_prominent_id=0; 
+    // foreach(var product in products)
+    // {
+    //   if(product.SortId==null)
+    //   {
+    //     sort_id+=1;
+    //     product.SortId=sort_id;
+    //   }
+    //   if(product.SortProminentId==null)
+    //   {
+    //     sort_prominent_id+=1;
+    //     product.SortProminentId=sort_prominent_id;
+    //   }
+    //  this._context.Products.Update(product);
+     
+    // }
+    }
+    catch(Exception er)
+    {
+      Console.WriteLine("Get all product list exception:"+er.Message);
+    }
+    return products;
+  }
+
+    public async Task<List<Product>> getAllProminentProductList()
+    {
+   var products=new List<Product>();
+      try
+      {
+       products=await this._context.Products.Include(p=>p.Brand).Include(p=>p.Category).Include(c=>c.SubCat).Include(p=>p.ProductImages).OrderBy(p=>p.SortProminentId).ToListAsync();
+      }
+      catch(Exception er)
+      {
+        Console.WriteLine("Get all prominent product list exception:"+er.Message);
+      }
+      return products;
+    }
+
 
 
   public async Task<IEnumerable<Product>> getAllProduct()
@@ -186,7 +271,7 @@ public async Task<PageList<Product>> pagingProminentProduct(int page_size,int pa
 {  
    
   //  IEnumerable<Product> all_prod= await this.getProductList();
-      IEnumerable<Product> all_prod= await getProminentProductRedis();
+      IEnumerable<Product> all_prod= await getAllProminentProductList();
 
 
   //  List<Product> prods=all_prod.OrderByDescending(u=>u.Id).ToList(); 
@@ -203,10 +288,7 @@ public async Task<PageList<Product>> pagingProduct(int page_size,int page)
 {  
    
   //  IEnumerable<Product> all_prod= await this.getProductList();
-      IEnumerable<Product> all_prod= await getProductRedis();
-
-
-
+      IEnumerable<Product> all_prod= await getAllProductList();
 
   //  List<Product> prods=all_prod.OrderByDescending(u=>u.Id).ToList(); 
    
@@ -225,7 +307,7 @@ public async Task<IEnumerable<Product>>getProductBySubCategory(int sub_cat)
 }
 
 public async Task<IEnumerable<Product>> filterProductByNameAndCategory(string product,string category)
-{ List<Product> products = await this.getProductRedis();
+{ List<Product> products = await this.getAllProductList();
    
   if(!string.IsNullOrEmpty(category) && !string.IsNullOrEmpty(product))
 {
@@ -365,19 +447,19 @@ public async Task<int> deleteProduct(int id)
     Console.WriteLine("Delete Product Exception:"+er.Message);
  }
   
-  List<Product> new_list=new List<Product>();
+//   List<Product> new_list=new List<Product>();
 
-  var redis_list=await this.getProductRedis();
+//   var redis_list=await this.getProductRedis();
 
-  foreach(var product in redis_list)
-  {
-    if(product.Id!=id)
-    {
-      new_list.Add(product);
-    }
-  }
+//   foreach(var product in redis_list)
+//   {
+//     if(product.Id!=id)
+//     {
+//       new_list.Add(product);
+//     }
+//   }
   
- await this.saveProductRedis(new_list);
+//  await this.saveProductRedis(new_list);
 
   // if(await this._db.KeyExistsAsync("products"))
   // {
@@ -953,9 +1035,13 @@ for(int i=0;i<variant_files.Count;i++)
     await img.CopyToAsync(fileStream);
   }
 }
-}
+} 
+  
+ var latest_sort_id=await this._context.Products.MaxAsync(c=>c.SortId)??0;
 
- var product= new Product{ProductName=product_name,CategoryId=category,Discount=discount,SubCatId=sub_cat==-1?null:sub_cat,BrandId=brand==-1?null:brand,Price=price.ToString(),Quantity=quantity,Status="Còn hàng",Description=description,Statdescription=stat_description,InboxDescription=inbox_description,DiscountDescription=discount_description,Frontavatar=front_avatar,Backavatar=back_avatar,CreatedDate=created_date,UpdatedDate=updated_date,ProductImages=list_img,Variants=variant};
+ var new_sort_id=latest_sort_id+1;
+
+ var product= new Product{ProductName=product_name,CategoryId=category,Discount=discount,SubCatId=sub_cat==-1?null:sub_cat,BrandId=brand==-1?null:brand,Price=price.ToString(),Quantity=quantity,Status="Còn hàng",Description=description,Statdescription=stat_description,InboxDescription=inbox_description,DiscountDescription=discount_description,Frontavatar=front_avatar,Backavatar=back_avatar,SortId=new_sort_id,SortProminentId=new_sort_id,CreatedDate=created_date,UpdatedDate=updated_date,ProductImages=list_img,Variants=variant};
 
   await this._context.Products.AddAsync(product);
 
@@ -970,19 +1056,19 @@ for(int i=0;i<variant_files.Count;i++)
     Console.WriteLine("Add New Product Exception:"+er.Message);
   }
 
-  var redis_item=await getProductRedis();
+  // var redis_item=await getProductRedis();
 
-  var prominent_item=await getProminentProductRedis();
+  // var prominent_item=await getProminentProductRedis();
   
-  var new_add_product =await this.findProductByName(model.ProductName);
+  // var new_add_product =await this.findProductByName(model.ProductName);
 
-  redis_item.Add(new_add_product);
+  // redis_item.Add(new_add_product);
 
-  prominent_item.Add(new_add_product);
+  // prominent_item.Add(new_add_product);
 
-  await this.saveProductRedis(redis_item);
+  // await this.saveProductRedis(redis_item);
 
-  await this.saveProminentProductRedis(prominent_item);
+  // await this.saveProminentProductRedis(prominent_item);
 
 //  if(await this._db.KeyExistsAsync("products"))
 //   {
@@ -1252,16 +1338,15 @@ if(colors!=null)
  }
 }
 
-
 Console.WriteLine("did here");
 
-
-
 if(img_files!=null)
-{ Console.WriteLine("img avatar here");
+{ 
+ Console.WriteLine("img avatar here");
+ 
  for(int i=0;i<img_files.Count;i++)
  { 
-   var img=img_files[i];
+  var img=img_files[i];
    
   string extension=Path.GetExtension(img.FileName);
 
@@ -1398,27 +1483,27 @@ catch(Exception er)
   Console.WriteLine("Update Product Exception:"+er.Message);
 }
 
-  var redis_item=await getProductRedis();
+  // var redis_item=await getProductRedis();
 
-  var prominent_item=await getProminentProductRedis();
+  // var prominent_item=await getProminentProductRedis();
   
-  var new_add_product =await this.findProductByName(model.ProductName);
+  // var new_add_product =await this.findProductByName(model.ProductName);
   
-  for(int i=0;i<redis_item.Count;i++)
-  {
-    if(redis_item[i].Id==id)
-    {
-      redis_item[i]=new_add_product;
-    }
-    if(prominent_item[i].Id==id)
-    {
-      prominent_item[i]=new_add_product;
-    }
-  }
+  // for(int i=0;i<redis_item.Count;i++)
+  // {
+  //   if(redis_item[i].Id==id)
+  //   {
+  //     redis_item[i]=new_add_product;
+  //   }
+  //   if(prominent_item[i].Id==id)
+  //   {
+  //     prominent_item[i]=new_add_product;
+  //   }
+  // }
 
-  await this.saveProductRedis(redis_item);
+  // await this.saveProductRedis(redis_item);
 
-  await this.saveProminentProductRedis(prominent_item);
+  // await this.saveProminentProductRedis(prominent_item);
 
   // if(await this._db.KeyExistsAsync("products"))
   // {
@@ -1439,7 +1524,7 @@ public async Task saveChanges()
   {    
    Console.WriteLine("Star count:"+stars.Count);
   
-  var products = await this.getProductRedis();
+  var products = await this.getAllProductList();
   
   int min_price=prices[0];
 

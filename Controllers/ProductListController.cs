@@ -232,7 +232,7 @@ public async Task<IActionResult> ProductsByName(string product_name)
   {
     try
     {
-        var prods=await this._product.getProminentProductRedis();
+        var prods=await this._product.getAllProminentProductList();
         
         return View(prods);
     }
@@ -264,7 +264,7 @@ public async Task<IActionResult> ProductsByName(string product_name)
 
     }
 
-   await this._product.saveProminentProductRedis(products);
+   await this._product.saveProminentProduct(products);
 
    }
    catch(Exception er)
@@ -281,7 +281,7 @@ public async Task<IActionResult> ProductsByName(string product_name)
   {
     try
     {  
-        var prods=await this._product.getProductRedis();
+        var prods=await this._product.getAllProductList();
 
         return View(prods);
     }
@@ -309,7 +309,7 @@ public async Task<IActionResult> ProductsByName(string product_name)
       }
     }
 
-   await this._product.saveProductRedis(products);
+   await this._product.SaveProduct(products);
 
    }
    catch(Exception er)

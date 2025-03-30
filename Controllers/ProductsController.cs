@@ -150,7 +150,7 @@ public async Task<IActionResult> ProductBySubCategory(int sub_cat_id)
 
 public async Task<IActionResult> ProminentProducts()
 {
-   var products=await this._product.getProminentProductRedis();
+   var products=await this._product.getAllProminentProductList();
      
      string select_size="12";
      
@@ -213,7 +213,7 @@ public async Task<IActionResult> ProminentProducts()
 [Route("collections")]
 public async Task<IActionResult> Products()
 {   
-     var products=await this._product.getAllProduct();
+     var products=await this._product.getAllProductList();
      
      string select_size="12";
      
