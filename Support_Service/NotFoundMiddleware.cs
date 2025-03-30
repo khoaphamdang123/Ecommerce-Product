@@ -26,6 +26,12 @@ public class NotFoundMiddleware
             await _next(context);
             return;
         }
+
+        if(context.Request.Path.Value.Equals("/admin",StringComparison.OrdinalIgnoreCase)||context.Request.Path.Value.Equals("/admin/",StringComparison.OrdinalIgnoreCase))
+        { 
+            context.Response.Redirect("/admin/login");
+        }
+
         int status=0;
 
         var path = context.Request.Path.Value;
@@ -56,7 +62,7 @@ public class NotFoundMiddleware
    
 
     await _next(context);
-    
+   
         if (context.Response.StatusCode == 404)
         {  Console.WriteLine("404 ERROR PAGE");
             if (context.Request.Path.StartsWithSegments("/admin"))
@@ -74,7 +80,7 @@ public class NotFoundMiddleware
 
     private bool IsPageRoute(string path)
 {
-    return (path .StartsWith("/") || path.StartsWith("/admin") || path.StartsWith("/page"))
+    return (path.StartsWith("/") || path.StartsWith("/admin") || path.StartsWith("/page"))
            && !path.Contains(".")
            && !path.StartsWith("/assets") && !path.StartsWith("/css") 
            && !path.StartsWith("/js") && !path.StartsWith("/images");
