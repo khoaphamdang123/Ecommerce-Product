@@ -133,14 +133,13 @@
              @if(english_model!=null)
              {
                 <div class="sp__manuals--list-wrapper"><ul><li class="sp__manuals--list-contents"><ul><li class="sp__manuals--list-contents-item">
-                <a href="@pdf_link">Hướng dẫn sử dụng (PDF)</a></li><li class="sp__manuals--list-contents-item"><div class="sp__manuals--list-contents-item-group"><div class="sp__manuals--list-contents-item"><span>Phiên bản chỉnh sửa </span> A</div><div class="sp__manuals--list-contents-item">@pdf_modifield_date</div>
+                <a href="@pdf_link" id="pdf-download">Hướng dẫn sử dụng (PDF)</a></li><li class="sp__manuals--list-contents-item"><div class="sp__manuals--list-contents-item-group"><div class="sp__manuals--list-contents-item"><span>Phiên bản chỉnh sửa </span> A</div><div class="sp__manuals--list-contents-item">@pdf_modifield_date</div>
                 <!----></div></li></ul></li><li class="sp__manuals--list-contents"><ul>
                     <li class="sp__manuals--list-contents-item"><a href="@web_link">Hướng dẫn sử dụng (Web)</a></li>
                     <li class="sp__manuals--list-contents-item"><div class="sp__manuals--list-contents-item-group"><div class="sp__manuals--list-contents-item"><span>Phiên bản chỉnh sửa </span> A</div><div class="sp__manuals--list-contents-item">@web_modifield_date</div><!----></div>
                     </li></ul></li></ul>
                 </div>
                 }
- 
                     <div>
                 <table class="sp__international-manuals-list">
                     <thead>
@@ -185,7 +184,7 @@
                  <td>
                    @if(!string.IsNullOrEmpty(detail_pdf))
                    {
-                    <a href="@detail_pdf" class="sp__international-manuals-list__manual js__manual-link">Hướng dẫn sử dụng (PDF)</a>
+                    <a href="@detail_pdf"  id="pdf-download-detail" class="sp__international-manuals-list__manual js__manual-link">Hướng dẫn sử dụng (PDF)</a>
                     }
 
                    @if(!string.IsNullOrEmpty(detail_web))
@@ -227,5 +226,44 @@
                 </div><!----></div>
         </div>
     </section>
+    <script>
+        document.addEventListener("DOMContentLoaded",()=>{
+         
+         function checkMobileScreen()
+         {
+           return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+         }
+
+        function downloadLink(url,filename)
+        {
+            fetch(url).then(response=>response.blob()).then(blob=>{
+              const blobUrl=URL.createObjectURL(blob);
+                const a=document.createElement("a");
+                a.href=blobUrl;
+                a.download=filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(blobUrl);
+            }).catch((error)=>{
+                alert(error);
+            }); 
+        }
+
+        var pdf_link=document.getElementById("pdf-download-detail");
+
+            pdf_link.addEventListener("click",(e)=>{
+                if(checkMobileScreen())
+                {   
+                    e.preventDefault();
+                    const url=pdf_link.href;
+                    const filename=url.split('/').pop();
+                    downloadLink(url,filename);
+                }
+            });
+        
+        
+        });
+    </script>
 
 
