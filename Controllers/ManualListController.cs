@@ -53,7 +53,7 @@ public class ManualListController : BaseAdminController
    { 
    List<string> languages = this._sp.getListOfLanguage();
    
-   var products=await this._product.getAllProduct();
+   var products=await this._product.getAllProductList();
    
    ViewBag.language_list=languages;
    

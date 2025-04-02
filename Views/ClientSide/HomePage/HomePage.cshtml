@@ -14,8 +14,7 @@
     var categories = ViewBag.categories as List<Category>;
     
     var brands=ViewBag.brands as List<Brand>;
-
-    
+  
     var blogs = ViewBag.blogs as List<Blog>;
     
     var count_reviews=ViewBag.count_reviews as Dictionary<string,int>;
@@ -1038,6 +1037,16 @@
         
 
     <!-- shop modal start -->
+
+    <div class="modal fade" id="adModal" tabindex="-1" aria-labelledby="adModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <button type="button" class="btn-close position-absolute top-0 end-0 m-2" data-bs-dismiss="modal" id="ad-close" aria-label="Close"></button>
+            <div class="modal-body" id="ad-content">
+            </div>
+        </div>
+    </div>
+</div>
   
         <div class="modal fade" id="productModalId" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered product__modal" role="document">
@@ -1082,7 +1091,6 @@
                                             </div>
                                         </div>
                                     
-                         
                                         </div>
                                     <ul class="nav nav-tabs" id="modalTab" role="tablist">
                                         
@@ -1091,7 +1099,6 @@
                                                <div id="sub-img-0">
                                                 </div>
                                             </button>
-
                                         </li>  
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link" id="nav1-tab" data-bs-toggle="tab" data-bs-target="#nav1" type="button" role="tab" aria-controls="nav1" aria-selected="false">
@@ -1102,9 +1109,9 @@
 
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link" id="nav2-tab" data-bs-toggle="tab" data-bs-target="#nav2" type="button" role="tab" aria-controls="nav2" aria-selected="false">
-                                       <div id="sub-img-2">
-                                            </div>                                            
-                                        </button>
+                                       <div id="sub-img-2">                                       
+                                       </div>                                            
+                                            </button>
                                         </li>
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link" id="nav3-tab" data-bs-toggle="tab" data-bs-target="#nav3" type="button" role="tab" aria-controls="nav3" aria-selected="false">
@@ -1146,7 +1153,6 @@
                                     </div>
                                     <div class="product__modal-des mt-20 mb-15">
                                         <div class="product-options">
-                                        
                                         </div>
                                         
                                         @* <ul>
@@ -1188,6 +1194,70 @@
                 </div>
             </div>
         </div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
+
+import { getMessaging, getToken, onMessage } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-messaging.js';
+ 
+let notify_data='';
+
+const firebaseConfig = 
+{
+  apiKey: "AIzaSyDZOrJVLQc24tlu6e_TXCkJB_GnaRTPV6c",
+  authDomain: "ecommerce-product-92f11.firebaseapp.com",
+  projectId: "ecommerce-product-92f11",
+  storageBucket: "ecommerce-product-92f11.firebasestorage.app",
+  messagingSenderId: "249111678935",
+  appId: "1:249111678935:web:811cdd36ea4e372b7dc592"
+};
+
+const firebase = initializeApp(firebaseConfig);
+
+Notification.requestPermission();
+
+const firebase_message = getMessaging(firebase);
+
+getToken(firebase_message,{vapidKey:"BAtgAjb0P9Pf6_wh_lVaYAlK7UxAvl7pz3tOmEcfJbwgoHeKRTRpPtNK8fHyB2aXv5ZKr32eeIumlLxMpYIbe20"}).then((token)=>
+{
+    var formData = new FormData();
+
+    formData.append("token",token);
+
+    $.ajax({
+        url:'@Url.Action("FirebaseToken","HomePage")',
+        type:'POST',
+        data:formData,
+        contentType:false,
+        processData:false,
+        success:function(data)
+        {
+            if(data.status==1)
+            {
+                var ad_content=document.getElementById('ad-content');
+            setTimeout(()=>
+            {
+               if(notify_data!='')
+               {
+                ad_content.innerHTML=notify_data;
+                $('#adModal').modal('show');
+               }
+            },500);
+            }
+        },
+        error:function(xhr,err,status)
+        {
+            alert('Error:'+xhr.responseText);
+        }
+    });
+})
+
+onMessage(firebase_message,(payload)=>
+{ 
+    notify_data=payload.notification.body;
+  @* alert(payload.notification.body); *@
+});
+</script>
 
     <script>
     @* function initSwiper() {
@@ -1243,17 +1313,14 @@ window.addEventListener("resize", initSwiper); *@
 
     var first_index=all_container_index[0];
 
-    
     var price='';
 
     var origin_price='';
 
     var price=document.querySelector('#product-price');
 
- 
     origin_price=document.querySelector(`#origin-price`);
     
-
     var price_value=prices[first_index];
 
     if(product_discount!='0')
@@ -1265,13 +1332,14 @@ window.addEventListener("resize", initSwiper); *@
     price.innerHTML='<strong>'+price_value+' đ'+'</strong>';
     if(product_discount!='0')
     {
-    origin_price.innerHTML='<strong>'+prices[first_index]+' đ'+'</strong>';
+    origin_price.innerHTML='<strong>'+prices[first_index]+' đ'+'</strong>';    
     }
     else
     {
-        origin_price.innerHTML='';
+        origin_price.innerHTML='';        
     }
     }
+
   var product_price_block=document.getElementById('product_price_block');
    
   if(parseInt(price_value)<=0)
@@ -2406,6 +2474,8 @@ if (wwwrootIndex !== -1) {
      });
      });
 
+
+
 @* var modalElement = document.getElementById('productModalId');
 
  modalElement.removeEventListener('show.bs.modal',fuckyou); 
@@ -2790,11 +2860,11 @@ if (wwwrootIndex !== -1) {
                  }
         });
         }); 
-
-
+       
         document.getElementById('name-link').href = name_url;
         } *@
         @* },{once:true}); *@
+
 });
     </script>
 

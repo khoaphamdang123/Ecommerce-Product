@@ -2,6 +2,7 @@
 using Ecommerce_Product.Repository;
 using Ecommerce_Product.Support_Serive;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.JSInterop.Implementation;
 using Newtonsoft.Json;
 namespace Ecommerce_Product.Controllers;
 public class HomePageController:BaseController
@@ -38,12 +39,12 @@ public HomePageController(IBannerListRepository banner,IProductRepository produc
     this._sp_services=sp_service;
 }
 
-
 [HttpGet]
 [Route("")]
 [Route("home")]
 public async Task<IActionResult> HomePage()
-{   
+{  try
+{
     var banners= await this._banner.findBannerByName("Home");
 
     var banners2=await this._banner.findBannerByName("Home 2");
@@ -51,10 +52,9 @@ public async Task<IActionResult> HomePage()
     DateTime startTime=DateTime.Now;
     
     var products = await this._product.getAllProductList();
-    
-
-    var prominent_products = await this._product.getAllProminentProductList();    
-    
+  
+    var prominent_products = await this._product.getAllProminentProductList();
+        
     DateTime endTime=DateTime.Now;
     
     int secons=endTime.Second-startTime.Second;
@@ -83,11 +83,11 @@ public async Task<IActionResult> HomePage()
  
     startTime=DateTime.Now;
   
-  Dictionary<string,int> count_reviews=await this._product.countAllReview(products.ToList()); 
+   Dictionary<string,int> count_reviews=await this._product.countAllReview(products.ToList()); 
   
-  endTime=DateTime.Now;
+   endTime=DateTime.Now;
   
-  secons=endTime.Second-startTime.Second;
+   secons=endTime.Second-startTime.Second;
   
   foreach(var item in products)
   {
@@ -99,7 +99,7 @@ public async Task<IActionResult> HomePage()
     
     var slider_content=await this._setting.getContentByName("homepage");
 
-    ViewBag.slider_content=slider_content;
+    ViewBag.slider_content=slider_content;    
 
     ViewBag.count_reviews=count_reviews;
     
@@ -117,6 +117,12 @@ public async Task<IActionResult> HomePage()
 
     Console.WriteLine("Brand count is:"+brands.Count().ToString());
 
+}  
+catch(Exception er)
+{
+  Console.WriteLine("HomePage Exception:"+er.Message);
+}
+
     return View("~/Views/ClientSide/HomePage/HomePage.cshtml");
 }
 [HttpGet]
@@ -133,5 +139,25 @@ public async Task<IActionResult> VariantProduct(int id)
 
   return Ok(json);
 
+}
+[Route("/firebase_token")]
+[HttpPost]
+
+public async Task<JsonResult> FirebaseToken(string token)
+{  
+  Console.WriteLine("Token firebase is:"+token);
+   var settings = await this._setting.getSettingObjByName("Firebase");
+   if(settings!=null)
+   {
+    var setting_status = settings.Status;
+    if(setting_status==1)
+    {
+      var firebase_message = settings.Firebase_Mess;
+      await this._firebase_service.sendFirebaseMessage(token,"Notification",firebase_message);
+      return Json(new {status=1,message="Send Firebase Message Success."}); 
+    }
+   }  
+   return Json(new {status=0,message="Firebase message not active"});
+    
 }
 }

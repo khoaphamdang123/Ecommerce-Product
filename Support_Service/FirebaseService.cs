@@ -13,6 +13,7 @@ public async Task<string> sendFirebaseMessage(string token,string title,string m
     var messages=new Message()
     {
      Token=token,
+     
      Notification=new Notification()
      {
         Title=title,
@@ -20,6 +21,8 @@ public async Task<string> sendFirebaseMessage(string token,string title,string m
      }
     };
 
+    Console.WriteLine("Token here is:"+token);
     return await FirebaseMessaging.DefaultInstance.SendAsync(messages);
 }
+
 }

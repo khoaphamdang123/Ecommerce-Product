@@ -247,7 +247,8 @@
       data:{
         product_list:$("#tableBody").children().map((index,el)=>el.children[1].innerText).get()
       },
-      success:(data)=>{
+      success:(data)=>
+      {
         var status=data.status;
         var message =data.message;
         var toast=document.querySelector('.bs-toast');

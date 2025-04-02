@@ -222,14 +222,13 @@ document.addEventListener("DOMContentLoaded",()=>
 
   const contentSection=document.getElementById('contentSection');
 
-
   if(contentToggle.checked)
   {
     contentSection.classList.add('visible');
     
     contentSection.classList.remove('hidden');
 
-    contentToggle.value=1;
+    contentToggle.value=1;        
   } 
   else
   {
@@ -237,8 +236,7 @@ document.addEventListener("DOMContentLoaded",()=>
     
     contentSection.classList.remove('visible');
 
-    contentToggle.value=0;
-
+    contentToggle.value=0;    
   } 
 
   contentToggle.addEventListener('change',()=>
@@ -250,7 +248,6 @@ document.addEventListener("DOMContentLoaded",()=>
         contentSection.classList.remove('hidden');
 
         contentToggle.value=1;
-
     }
     else
     {
@@ -258,8 +255,7 @@ document.addEventListener("DOMContentLoaded",()=>
 
         contentSection.classList.remove('visible');
 
-        contentToggle.value=0;
-
+        contentToggle.value=0;        
     }
   });
 
@@ -268,13 +264,19 @@ document.addEventListener("DOMContentLoaded",()=>
         $("#save-changes").click(function() {
             $("form").each(function() 
             {
-                this.submit();
+                this.submit();                
             });
         });
 
-        $("#unchecked-btn").click(function(){
-            $("input[type=checkbox]").each(function(){
+        $("#unchecked-btn").click(function()
+        {
+            $("input[type=checkbox]").each(function()
+            {
                 $(this).prop("checked", false);
+                
+                contentSection.classList.remove('visible');
+                
+                contentSection.classList.add('hidden');
             });
         });
     });

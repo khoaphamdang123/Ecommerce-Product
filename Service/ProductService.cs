@@ -217,11 +217,11 @@ public class ProductService:IProductRepository
     try
     {  
        var products=await this._context.Products.Include(p=>p.Brand).Include(p=>p.Category).Include(c=>c.SubCat).Include(p=>p.ProductImages).Include(c=>c.Videos).Include(c=>c.Manuals).ToListAsync();
-       var json_products=await this._db.StringGetAsync("products");
-       if(string.IsNullOrEmpty(json_products))
-       { Console.WriteLine("did come to get all product redis");
-          await this.saveProductRedis(products);
-       }
+      //  var json_products=await this._db.StringGetAsync("products");
+      //  if(string.IsNullOrEmpty(json_products))
+      //  { Console.WriteLine("did come to get all product redis");
+      //     await this.saveProductRedis(products);
+      //  }
        return products;
     }
     catch(Exception er)
@@ -1519,8 +1519,7 @@ public async Task saveChanges()
 }
 
 
-
-  public async Task<IEnumerable<Product>> filterProductByPriceAndBrands(List<string>brands,List<int>prices,List<string> stars)
+public async Task<IEnumerable<Product>> filterProductByPriceAndBrands(List<string>brands,List<int>prices,List<string> stars)
   {    
    Console.WriteLine("Star count:"+stars.Count);
   

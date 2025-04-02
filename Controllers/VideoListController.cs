@@ -37,9 +37,12 @@ public class VideoListController : BaseAdminController
           ViewBag.options=options;
     try
     {   
-       var video=await this._video.getAllVideo();
+        var video=await this._video.getAllVideo();
+        
         var video_files=await this._video.pagingVideo(7,1,video);
+        
         Console.WriteLine("Video Files:"+video_files.item.Count);
+        
         return View(video_files);
     }
     catch(Exception er)
@@ -54,7 +57,7 @@ public class VideoListController : BaseAdminController
    public async Task<IActionResult> AddVideo()
    { 
    
-   var products=await this._product.getAllProduct();
+   var products=await this._product.getAllProductList();
    
    
    ViewBag.products=products;

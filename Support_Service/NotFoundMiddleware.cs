@@ -17,7 +17,6 @@ public class NotFoundMiddleware
         _serviceProvider=serviceProvider;
     }
     
-
     public async Task InvokeAsync(HttpContext context)
     {   
         
@@ -29,7 +28,7 @@ public class NotFoundMiddleware
 
         if(context.Request.Path.Value.Equals("/admin",StringComparison.OrdinalIgnoreCase)||context.Request.Path.Value.Equals("/admin/",StringComparison.OrdinalIgnoreCase))
         { 
-            context.Response.Redirect("/admin/login");
+            context.Response.Redirect("/admin/login");            
         }
 
         int status=0;
@@ -53,7 +52,7 @@ public class NotFoundMiddleware
             if(status==1 && !isUserMaintenancePage)
         {  
             context.Response.Redirect("maintainance");            
-            
+
             return;
         }
     }

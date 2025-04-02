@@ -1,0 +1,23 @@
+2025-04-02 11:32:12.116 +07:00 [INF] Running in Login Action
+2025-04-02 11:51:25.501 +07:00 [INF] Running in Login Action
+2025-04-02 11:51:43.819 +07:00 [INF] Image URL:http://localhost:5160/UploadImages/69a3663b-3b42-492a-8813-524148d1493b.jpg
+2025-04-02 11:52:00.994 +07:00 [INF] Image URL:http://localhost:5160/UploadImages/250ed266-7b8c-4995-8620-8562801575e5.jpg
+2025-04-02 11:52:05.936 +07:00 [INF] admin123 Updated Setting Successfully
+2025-04-02 11:52:49.605 +07:00 [INF] Image URL:http://localhost:5160/UploadImages/775c2690-496a-4d71-9eaf-339729f377f8.jpg
+2025-04-02 11:52:52.332 +07:00 [INF] admin123 Updated Setting Successfully
+2025-04-02 11:53:21.866 +07:00 [INF] admin123 Updated Setting Successfully
+2025-04-02 11:53:21.887 +07:00 [INF] admin123 Updated Setting Successfully
+2025-04-02 11:55:39.476 +07:00 [INF] Image URL:http://localhost:5160/UploadImages/6380c9e0-b316-46a9-a144-c3b602fb0a31.jpg
+2025-04-02 11:56:09.008 +07:00 [INF] Image URL:http://localhost:5160/UploadImages/d67a2549-42f9-4d18-8481-5aae64f358d9.jpg
+2025-04-02 11:56:10.523 +07:00 [INF] admin123 Updated Setting Successfully
+2025-04-02 11:56:29.010 +07:00 [INF] admin123 Updated Setting Successfully
+2025-04-02 11:57:24.168 +07:00 [INF] admin123 Updated Setting Successfully
+2025-04-02 11:57:50.529 +07:00 [INF] admin123 Updated Setting Successfully
+2025-04-02 11:57:50.557 +07:00 [INF] admin123 Updated Setting Successfully
+2025-04-02 11:57:54.252 +07:00 [INF] admin123 Updated Setting Successfully
+2025-04-02 11:58:20.863 +07:00 [INF] admin123 Updated Setting Successfully
+2025-04-02 11:58:25.607 +07:00 [INF] admin123 Updated Setting Successfully
+2025-04-02 11:58:25.690 +07:00 [INF] admin123 Updated Setting Successfully
+2025-04-02 12:03:56.927 +07:00 [INF] admin123 Updated Setting Successfully
+2025-04-02 12:04:09.462 +07:00 [INF] admin123 Updated Setting Successfully
+2025-04-02 12:07:29.264 +07:00 [INF] admin123 Updated Setting Successfully

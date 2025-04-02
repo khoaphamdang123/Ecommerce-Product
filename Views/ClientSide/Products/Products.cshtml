@@ -280,7 +280,8 @@ document.addEventListener("DOMContentLoaded",()=>{
                     }
                 }); *@
         },
-    stop:function(event,ui){
+    stop:function(event,ui)
+    {
      $("#new-amount").val(ui.values[0] + "VND - " + ui.values[1]+"VND");
     var value=`${ui.values[0]}-${ui.values[1]}`;
     
@@ -291,7 +292,6 @@ document.addEventListener("DOMContentLoaded",()=>{
     var checkedBrands = [];
     
     var checkboxes = document.querySelectorAll('input[name="brand-item"]:checked');
-
 
     checkboxes.forEach(function(checkbox) {
         checkedBrands.push(checkbox.nextElementSibling.textContent);
@@ -308,7 +308,6 @@ document.addEventListener("DOMContentLoaded",()=>{
     });
     var checked_star_value=checkedStars.join(",");
 
-
             $.ajax({
                     url: '@Url.Action("FilterProducts", "Products")',
                     type: 'GET',
@@ -316,8 +315,9 @@ document.addEventListener("DOMContentLoaded",()=>{
                     success: function (data) {
                         $("#productList").html(data);
                     },
-                    error: function (xhr, status, error) {
-                        console.error("AJAX Error:", status, error);
+                    error: function (xhr, status, error) 
+                    {
+                     console.error("AJAX Error:", status, error);
                     }
                 });
     }
@@ -406,7 +406,7 @@ document.addEventListener("DOMContentLoaded",()=>{
       var selected_value=document.getElementById("page-size").value;
      if(selected_value!=null)
      {
-      selected_value=parseInt(selected_value);
+      selected_value=parseInt(selected_value);      
       @* var url='@Url.Action("ProductsPaging", "Products"),new{page_size=__page_size__}';
       
       url=url.replace("__page_size__",selected_value); *@
