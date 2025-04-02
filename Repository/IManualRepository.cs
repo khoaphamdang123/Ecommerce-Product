@@ -23,5 +23,4 @@ public interface IManualRepository
  public Task<IEnumerable<Manual>> filterManualByProductName(string product_name);
 
  public Task saveChanges();
-
 }

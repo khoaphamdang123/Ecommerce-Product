@@ -142,7 +142,6 @@ public async Task<IActionResult> VariantProduct(int id)
 }
 [Route("/firebase_token")]
 [HttpPost]
-
 public async Task<JsonResult> FirebaseToken(string token)
 {  
   Console.WriteLine("Token firebase is:"+token);
@@ -150,14 +149,15 @@ public async Task<JsonResult> FirebaseToken(string token)
    if(settings!=null)
    {
     var setting_status = settings.Status;
+    
     if(setting_status==1)
     {
       var firebase_message = settings.Firebase_Mess;
       await this._firebase_service.sendFirebaseMessage(token,"Notification",firebase_message);
       return Json(new {status=1,message="Send Firebase Message Success."}); 
     }
+    
    }  
    return Json(new {status=0,message="Firebase message not active"});
-    
 }
 }

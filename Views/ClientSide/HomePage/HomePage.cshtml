@@ -1222,7 +1222,7 @@ getToken(firebase_message,{vapidKey:"BAtgAjb0P9Pf6_wh_lVaYAlK7UxAvl7pz3tOmEcfJbw
 {
     var formData = new FormData();
 
-    formData.append("token",token);
+    formData.append("token",token);    
 
     $.ajax({
         url:'@Url.Action("FirebaseToken","HomePage")',
@@ -1235,11 +1235,12 @@ getToken(firebase_message,{vapidKey:"BAtgAjb0P9Pf6_wh_lVaYAlK7UxAvl7pz3tOmEcfJbw
             if(data.status==1)
             {
                 var ad_content=document.getElementById('ad-content');
+            
             setTimeout(()=>
             {
                if(notify_data!='')
                {
-                ad_content.innerHTML=notify_data;
+                ad_content.innerHTML=notify_data.replace("Froala Editor","").replace("Powered by","");
                 $('#adModal').modal('show');
                }
             },500);
@@ -1467,11 +1468,8 @@ function getAllIndex(buttonId,value,sizes,colors,versions,mirrors)
    
    var container_mirror = null;
 
-
-
    for(let id of all_id)
    {
-   
    if(id==buttonId)
    {
     continue;

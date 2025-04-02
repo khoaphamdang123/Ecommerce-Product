@@ -387,10 +387,11 @@ input {
   color: white!important;;
 }
 
-#ad-close:focus {
+#ad-close:focus 
+{
   box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.5)!important; 
   background-color: transparent!important;
-  outline: none!important;
+  outline: none!important;  
 }
 
 
@@ -418,6 +419,8 @@ input {
   visibility: hidden;
   opacity: 0;
 }
+
+
 .z-tooltip::after {
   position: absolute;
   content: "";
@@ -433,7 +436,8 @@ input {
 }
 
 @media (min-width: 1400px) {
-  .custom-conatiner {
+  .custom-conatiner 
+  {
     max-width: 1730px;
   }
 }
