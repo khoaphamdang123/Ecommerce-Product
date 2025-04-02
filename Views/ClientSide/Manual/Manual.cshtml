@@ -258,7 +258,7 @@
             if(checkMobileScreen())
             {   
                 e.preventDefault();
-                const url=pdf_temp_link.href;
+                const url=pdf_temp_link.href.replace('http','https');
                 const filename=url.split('/').pop();
                 downloadLink(url,filename);
             }
@@ -268,7 +268,7 @@
                 if(checkMobileScreen())
                 {   
                     e.preventDefault();
-                    const url=pdf_link.href;
+                    const url=pdf_link.href.replace('http','https');
                     const filename=url.split('/').pop();
                     downloadLink(url,filename);
                 }
