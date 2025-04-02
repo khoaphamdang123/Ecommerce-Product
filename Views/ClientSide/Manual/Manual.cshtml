@@ -237,15 +237,23 @@
         function downloadLink(url,filename)
         {
             fetch(url).then(response=>response.blob()).then(blob=>{
-              const blobUrl=URL.createObjectURL(blob);
-                const a=document.createElement("a");
+               const blobUrl=URL.createObjectURL(blob);
+               
+               const a=document.createElement("a");
+                
                 a.href=blobUrl;
+                
                 a.download=filename;
+                
                 document.body.appendChild(a);
+                
                 a.click();
+                
                 document.body.removeChild(a);
-                URL.revokeObjectURL(blobUrl);
-            }).catch((error)=>{
+
+                URL.revokeObjectURL(blobUrl);                
+            }).catch((error)=>
+            {
                 alert(error);
             }); 
         }
@@ -254,7 +262,8 @@
 
         var pdf_temp_link=document.getElementById("pdf-download");
 
-        pdf_temp_link.addEventListener("click",(e)=>{
+        pdf_temp_link.addEventListener("click",(e)=>
+        {
             if(checkMobileScreen())
             {   
                 e.preventDefault();
@@ -264,7 +273,8 @@
             }
         });
 
-            pdf_link.addEventListener("click",(e)=>{
+            pdf_link.addEventListener("click",(e)=>
+            {
                 if(checkMobileScreen())
                 {   
                     e.preventDefault();
@@ -273,8 +283,6 @@
                     downloadLink(url,filename);
                 }
             });
-        
-        
         });
     </script>
 
