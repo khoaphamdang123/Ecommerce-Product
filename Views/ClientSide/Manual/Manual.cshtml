@@ -252,6 +252,18 @@
 
         var pdf_link=document.getElementById("pdf-download-detail");
 
+        var pdf_temp_link=document.getElementById("pdf-download");
+
+        pdf_temp_link.addEventListener("click",(e)=>{
+            if(checkMobileScreen())
+            {   
+                e.preventDefault();
+                const url=pdf_temp_link.href;
+                const filename=url.split('/').pop();
+                downloadLink(url,filename);
+            }
+        });
+
             pdf_link.addEventListener("click",(e)=>{
                 if(checkMobileScreen())
                 {   
