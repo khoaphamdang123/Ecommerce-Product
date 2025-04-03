@@ -56,7 +56,7 @@ public async Task<IActionResult> ProductDetail(string product_name)
     { 
       var products_image=product.ProductImages.Count;
       
-      var manual = await this._product.findManualByLanguage("English",product);
+      // var manual = await this._product.findManualByLanguage("English",product);
 
       var variants=await this._product.getProductVariant(product);
 
@@ -68,10 +68,10 @@ public async Task<IActionResult> ProductDetail(string product_name)
       {
       ViewBag.variants=variants;
       }
-       if(manual!=null)
-       {
-        ViewBag.manual_link=manual.ManualLink;
-       }
+      //  if(manual!=null)
+      //  {
+      //   ViewBag.manual_link=manual.ManualLink;
+      //  }
       
       List<Product> single_product = new List<Product>{product};      
       
@@ -108,7 +108,6 @@ public async Task<IActionResult> ProductDetail(string product_name)
         // stat_description=HttpUtility.HtmlDecode(stat_description);
 
         // stat_description=stat_description.Replace("<p>","").Replace("</p>","").Replace("<span style=\"white-space: normal;\">","").Replace("</span>","").Replace("<span style=\"white-space:pre;\"","").Replace(">>",">");
-        
         product.Statdescription=HttpUtility.HtmlDecode(product.Statdescription);
       }
       if(!string.IsNullOrEmpty(product.Description))
@@ -138,7 +137,8 @@ public async Task<IActionResult> ProductDetail(string product_name)
       }
       if(!string.IsNullOrEmpty(product.DiscountDescription))
       { 
-        string regular_text=Regex.Replace(product.DiscountDescription, "<.*?>", "").Trim();
+       string regular_text=Regex.Replace(product.DiscountDescription, "<.*?>", "").Trim();
+
        if(regular_text!="Powered by Froala Editor")
        {
         product.DiscountDescription=HttpUtility.HtmlDecode(product.DiscountDescription);

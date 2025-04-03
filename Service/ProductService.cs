@@ -261,7 +261,7 @@ public string NormalizeString(string input)
  {
   name=name.Replace("-"," ").Replace("/"," ");
 
-  var product=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(i=>i.ProductImages).Include(c=>c.Variants).ThenInclude(v=>v.Color).Include(c=>c.Variants).ThenInclude(v=>v.Size).Include(c=>c.Variants).ThenInclude(c=>c.Version).Include(c=>c.Variants).ThenInclude(c=>c.Mirror).Include(c=>c.Videos).Include(c=>c.Manuals).FirstOrDefaultAsync(p=>p.ProductName.Replace("-"," ").Replace("/"," ")==name);
+  var product=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(i=>i.ProductImages).Include(c=>c.Variants).ThenInclude(v=>v.Color).Include(c=>c.Variants).ThenInclude(v=>v.Size).Include(c=>c.Variants).ThenInclude(c=>c.Version).Include(c=>c.Variants).ThenInclude(c=>c.Mirror).Include(c=>c.Videos).FirstOrDefaultAsync(p=>p.ProductName.Replace("-"," ").Replace("/"," ")==name);
   
   return product;
  }

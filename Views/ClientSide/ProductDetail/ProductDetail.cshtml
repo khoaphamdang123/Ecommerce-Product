@@ -10,7 +10,7 @@
     
     var review_list = ViewBag.review_list as List<Reviewdetail>;
     
-    string manual_link = ViewBag.manual_link;
+    @* string manual_link = ViewBag.manual_link; *@
     
     var variants=ViewBag.variants as Dictionary<string,List<string>>;
 
@@ -25,7 +25,6 @@
     List<string> mirrors=new List<string>();
 
     List<string> prices = new List<string>();
-
 
     if(variants!=null)
     {

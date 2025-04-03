@@ -73,19 +73,19 @@ width="100%" height="500" style="border:0;" allowfullscreen="" loading="lazy"></
 			    
                 <li class=""><a href="@Url.Action("AboutUs","StaticPage")" title="About Us"><span>Về chúng tôi</span></a></li>
 			 
-             @foreach(var cat in categories )
+             @foreach(var cat in categories)
              { 
             if(cat.SubCategory.Count>0)
              {
 				<li class="has-submenu level0">
 					<a href="@Url.Action("ProductsByCategory","Products",new{category_name=cat.CategoryName})" title="@cat.CategoryName">@cat.CategoryName<span class="icon-submenu toggle-icon">+</span></a>
-					<ul class="submenu-links">
 
-					 @foreach(var sub_cat in cat.SubCategory)
+                    <ul class="submenu-links">
+					 
+                    @foreach(var sub_cat in cat.SubCategory)
                      {
 						<li><a href="@Url.Action("ProductBySubCategory","Products",new{sub_cat_id=sub_cat.Id})" title="@sub_cat.SubCategoryName">@sub_cat.SubCategoryName</a></li>
                      }
-
 					</ul>
 				</li>
                 }
@@ -99,8 +99,6 @@ width="100%" height="500" style="border:0;" allowfullscreen="" loading="lazy"></
 			</ul>
 		</div>
 	</div>
-
-	<!-- Banner sidebar  -->
 
 	<div class="group-sidebox-banner">
 		<div class="groupbanner_image"> 
