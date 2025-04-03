@@ -813,7 +813,7 @@ Console.WriteLine("Update user info did come to this place");
 
             this.HttpContext.Session.Clear();
 
-            return RedirectToAction("HomePage","HomePage");
+            return RedirectToAction("HomePage","HomePage");            
         }
     }
 }
