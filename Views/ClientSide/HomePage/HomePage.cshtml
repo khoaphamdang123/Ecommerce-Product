@@ -98,7 +98,7 @@
                      {  
                         var product=prominent_products[i];
 
-                        string regex_product=Regex.Replace(product.ProductName,@"[^\w\d]", "-");
+                        string regex_product=Regex.Replace(product.ProductName,@"[^\w\d+]", "-");
                         
                          <div class="col-6 col-xl-6 col-lg-6 col-md-6">
                                 <div class="banner__item p-relative w-img mb-30">
@@ -139,7 +139,7 @@
 
                 @foreach(var product in prominent_products)
                 { 
-                string regex_product=Regex.Replace(product.ProductName, @"[^\w\d]", "-");
+                string regex_product=Regex.Replace(product.ProductName, @"[^\w\d+]", "-");
 
                 count_trending++;
                 
@@ -245,7 +245,7 @@
                         @for (int j = i; j < i + 2 && j < products.Count(); j++)
                         {
                             var product = products[j];
-                            string regex_product = Regex.Replace(product.ProductName, @"[^\w\d]", "-");
+                            string regex_product = Regex.Replace(product.ProductName, @"[^\w\d+]", "-");
                             
                             <div class="col-6">
                                 @* Reuse the same product content *@
@@ -431,7 +431,7 @@
                 {  
                   var product=products_cat[j];
               
-                 string regex_product=Regex.Replace(product.ProductName, @"[^\w\d]", "-");
+                 string regex_product=Regex.Replace(product.ProductName, @"[^\w\d+]", "-");
   
                    if(j==12)
                    {
@@ -531,7 +531,7 @@
                         {
                             var product = products[j];
 
-                            string regex_product = Regex.Replace(product.ProductName, @"[^\w\d]", "-");
+                            string regex_product = Regex.Replace(product.ProductName, @"[^\w\d+]", "-");
 
                             <div class="col-6">
                                 <div class="product__item product__item-2 b-radius-2 mb-20">

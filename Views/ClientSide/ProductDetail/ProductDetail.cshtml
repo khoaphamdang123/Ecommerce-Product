@@ -13,8 +13,9 @@
     @* string manual_link = ViewBag.manual_link; *@
     
     var variants=ViewBag.variants as Dictionary<string,List<string>>;
+    
 
-    string product_discount=Model.Discount.ToString();
+    string? product_discount=Model.Discount.ToString();
     
     List<string> sizes=new List<string>();
     
