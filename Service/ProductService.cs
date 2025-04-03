@@ -1457,6 +1457,7 @@ else
     product_ob.Statdescription=product.Statdescription;
     product_ob.InboxDescription=product.InboxDescription;
     product_ob.DiscountDescription=product.DiscountDescription;
+    product_ob.UpdatedDate=product.UpdatedDate;
     this._context.Products.Update(product_ob);
     await this.saveChanges();
     Console.WriteLine("DID STAY HERE");
