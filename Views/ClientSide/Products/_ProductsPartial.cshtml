@@ -39,7 +39,7 @@
                                     <div class="row g-0">
                                     @foreach(var product in Model.item)
                                     {   
-                                        string regex_product=Regex.Replace(product.ProductName, @"[^\w\d+]", "-");
+                                 string regex_product=Regex.Replace(product.ProductName, @"[^\w\d+,]", "-");
 
                                         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-6">
                                             <div class="product__item product__item-d">
@@ -161,7 +161,7 @@
                                 <div class="tp-wrapper-2">
                                 @foreach(var product in Model.item)
                                 { 
-                                    string regex_product=Regex.Replace(product.ProductName,@"[^\w\d+]", "-");
+                                    string regex_product=Regex.Replace(product.ProductName,@"[^\w\d+,]", "-");
 
                                     <div class="single-item-pd">
                                         <div class="row align-items-center">

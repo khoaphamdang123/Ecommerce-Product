@@ -170,7 +170,7 @@ public class ProductService:IProductRepository
     var products=new List<Product>();
     try
     {
-     products=await this._context.Products.Include(p=>p.Brand).Include(p=>p.Category).Include(c=>c.SubCat).Include(p=>p.ProductImages).OrderBy(p=>p.SortId).ToListAsync();
+     products=await this._context.Products.Include(p=>p.Brand).Include(p=>p.Category).Include(c=>c.SubCat).Include(p=>p.ProductImages).OrderBy(p=>p.SortId).ToListAsync();          
     // int sort_id=0;
     // int sort_prominent_id=0; 
     // foreach(var product in products)
@@ -193,23 +193,23 @@ public class ProductService:IProductRepository
     {
       Console.WriteLine("Get all product list exception:"+er.Message);
     }
-    return products;
+    return products;    
   }
 
     public async Task<List<Product>> getAllProminentProductList()
     {
-   var products=new List<Product>();
+     var products=new List<Product>();
+
       try
       {
        products=await this._context.Products.Include(p=>p.Brand).Include(p=>p.Category).Include(c=>c.SubCat).Include(p=>p.ProductImages).OrderBy(p=>p.SortProminentId).ToListAsync();
       }
       catch(Exception er)
       {
-        Console.WriteLine("Get all prominent product list exception:"+er.Message);
+        Console.WriteLine("Get all prominent product list exception:"+er.Message);        
       }
-      return products;
+      return products;      
     }
-
 
 
   public async Task<IEnumerable<Product>> getAllProduct()
@@ -229,15 +229,17 @@ public class ProductService:IProductRepository
         Console.WriteLine("Get all product:"+er.Message);
     }
     return null;
-  }
+  } 
+ 
 
   public async Task<Manual> findManualByLanguage(string language,Product product)
-  { var manual_ob=new Manual();
+  { 
+    var manual_ob=new Manual();
     try
     {
     var manuals=product.Manuals;
     
-    manual_ob=manuals.FirstOrDefault(c=>c.Language==language);
+    manual_ob=manuals.FirstOrDefault(c=>c.Language==language);       
     }
     catch(Exception er)
     {
@@ -248,6 +250,7 @@ public class ProductService:IProductRepository
  public async Task<Product> findProductById(int id)
  {
     var product=await this._context.Products.Include(c=>c.Category).Include(c=>c.Brand).Include(c=>c.ProductImages).Include(c=>c.Variants).ThenInclude(v=>v.Color).Include(c=>c.Variants).ThenInclude(v=>v.Size).Include(c=>c.Variants).ThenInclude(c=>c.Version).Include(c=>c.Variants).ThenInclude(c=>c.Mirror).Include(c=>c.Videos).Include(c=>c.Manuals).FirstOrDefaultAsync(p=>p.Id==id);
+    
     return product;
  }
 
@@ -353,6 +356,7 @@ try
    if(!string.IsNullOrEmpty(prod_name))
    {
     prod_name=prod_name.Trim();
+    
     prod_list= prod_list.Where(c=>c.ProductName.ToLower()==prod_name.ToLower()).ToList();    
    }
    if(!string.IsNullOrEmpty(start_date) && string.IsNullOrEmpty(end_date))
@@ -505,18 +509,14 @@ public async Task<int> deleteProduct(int id)
       var price= variant?.Price.ToString();
      
         versions.Add(version==null?"":version);
-      
-     
+    
         colors.Add(color==null?"":color);
-      
-     
+       
         sizes.Add(size==null?"":size);
-      
      
         mirrors.Add(mirror==null?"":mirror);
 
         prices.Add(price);
-      
     }
   }
   catch(Exception er)
@@ -628,31 +628,38 @@ try
 }
 catch(Exception er)
 {
-  Console.WriteLine("Get Single Product Rating Exception:"+er.Message);
+  Console.WriteLine("Get Single Product Rating Exception:"+er.Message);  
 }
 return value;
 }
 public async Task<List<Product>> getListProductRating(int star)
-{ List<Product> list_prod= new List<Product>();
+{ 
+  List<Product> list_prod= new List<Product>();
+  
   try
   {
     var products=await this.getAllProduct();
+    
     List<int> stars=new List<int>{1,2,3,4,5};
     
     foreach(var product in products)
     {
-      int prod_id=product.Id;
+    int prod_id=product.Id;
+    
     Dictionary<int,int> dict= new Dictionary<int, int>();
+    
     foreach(int star_val in stars)
     {
       int prod_val=await countProductRatingByStar(star_val,prod_id);
       dict.Add(star_val,prod_val);
     }
     int star_rate=await calculateAvgStar(dict);
+    
     if(star_rate==star)
     {
       list_prod.Add(product);
     }
+
     }
   }
   catch(Exception er)
@@ -911,7 +918,6 @@ variant_files = model.VariantFiles;
  
  List<Variant> variant=new List<Variant>();
  
-
 Console.WriteLine("colors count:"+colors.Count);
 
  for(int i=0;i<colors.Count;i++)
@@ -1161,22 +1167,17 @@ try
 
    List<string> colors=model.Color;
 
-        //Console.WriteLine("colors:"+colors.Count);
-
    
    List<string> weights=model.Weight;
   
-        //Console.WriteLine("weight:"+weights.Count);
 
    
    List<string> sizes=model.Size;
 
-          //Console.WriteLine("sizes:"+sizes.Count);
 
    
    List<string> mirrors=model.Mirror;
 
-          //Console.WriteLine("mirror:"+mirrors.Count);
 
    
    List<string> versions=model.Version;
@@ -1185,27 +1186,15 @@ try
    
    List<string> prices = model.Prices;
 
-   //Console.WriteLine("Price List Size:"+prices.Count);
-
-         // Console.WriteLine("version:"+versions.Count);
-
 
    List<IFormFile> img_files=model.ImageFiles;
 
       
-           Console.WriteLine("img_file:"+img_files.Count);
+   Console.WriteLine("img_file:"+img_files.Count);
 
    
    List<IFormFile> variant_files = model.VariantFiles;
 
-  //  string version_x=versions[1];
-  //  Console.WriteLine("Version for this product is:"+version_x);
-
-  //  Console.WriteLine("Lengh of variant file here is:"+variant_files.Count);
-
-          // Console.WriteLine("variant file:"+variant_files.Count);
-
-   
 
 
    if(sub_cat!=-1)
@@ -1243,8 +1232,6 @@ if(colors!=null)
     Console.WriteLine("Inside here:"+mirrors.Count);
       Console.WriteLine("prices:"+prices.Count);
 
-
-
   string? color=colors[i];
   string? weight=weights[i];
   string? size=sizes[i];
@@ -1274,8 +1261,7 @@ if(colors!=null)
   }
   if(!string.IsNullOrEmpty(version))
   {
-
-   check_version_exist = await this._context.Versions.FirstOrDefaultAsync(c=>c.Versionname==version);
+   check_version_exist = await this._context.Versions.FirstOrDefaultAsync(c=>c.Versionname==version);   
   }
   if(!string.IsNullOrEmpty(mirror))
   {
@@ -1316,10 +1302,9 @@ if(colors!=null)
 
     await this._context.Mirrors.AddAsync(new_mirror);    
   }
-  
   }
 
-  await this.saveChanges();
+  await this.saveChanges();  
  
   var new_color_ob=await this._context.Colors.FirstOrDefaultAsync(c=>c.Colorname==color);
 
@@ -1367,9 +1352,10 @@ if(img_files!=null)
    else
    {
     back_avatar=file_path;
+
     if(!string.IsNullOrEmpty(product_ob.Backavatar))
     {
-      temp_back_avatar=product_ob.Backavatar;
+      temp_back_avatar=product_ob.Backavatar;         
     }
    }
  
@@ -1428,12 +1414,11 @@ else
   {
     if(!string.IsNullOrEmpty(prod_img.Avatar))
     {
-      temp_list_img.Add(prod_img.Avatar);
+      temp_list_img.Add(prod_img.Avatar);      
     }
   }
   Console.WriteLine("temp list img count:"+temp_list_img.Count);
 }
-
 
  var product= new Product{ProductName=product_name,Discount=discount,CategoryId=category,SubCatId=sub_cat==-1?null:sub_cat,BrandId=brand==-1?null:brand,Price=price.ToString(),Quantity=quantity,Status=status,Description=description,Statdescription=stat_description,InboxDescription=inbox_description,DiscountDescription=discount_description,Frontavatar=string.IsNullOrEmpty(front_avatar)?"":front_avatar,Backavatar=string.IsNullOrEmpty(back_avatar)?"":back_avatar,UpdatedDate=updated_date,ProductImages=list_img.Count==0?list_img:list_img,Variants=variant};
 
@@ -1449,8 +1434,6 @@ else
     product_ob.Frontavatar=product.Frontavatar;
     product_ob.Backavatar=product.Backavatar;
     product_ob.ProductImages=product.ProductImages;
-      Console.WriteLine("DID STAY HEREe");
-
     product_ob.Variants=product.Variants;
     product_ob.Status=product.Status;
     product_ob.Description=product.Description;
@@ -1516,7 +1499,7 @@ return updated_res;
 
 public async Task saveChanges()
 {
-    await this._context.SaveChangesAsync();
+    await this._context.SaveChangesAsync();    
 }
 
 
@@ -1585,8 +1568,7 @@ public async Task<IEnumerable<Product>> filterProductByPriceAndBrands(List<strin
   {
    try
    {
-
-    var products=await this.findProductById(id);
+    var products=await this.findProductById(id);    
 
     IEnumerable<Variant> all_variant= products.Variants;
 
@@ -1594,7 +1576,7 @@ public async Task<IEnumerable<Product>> filterProductByPriceAndBrands(List<strin
 
    var variant_list =PageList<Variant>.CreateItem(variants.AsQueryable(),page,page_size);
    
-   return variant_list;
+   return variant_list;   
    }
    catch(Exception er)
    {

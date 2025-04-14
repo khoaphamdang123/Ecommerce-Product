@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Ecommerce_Product.Repository;
 using Microsoft.Extensions.Options;
 using Ecommerce_Product.Support_Serive;
-using System.IO;
-using System.Configuration;
+using PayPalCheckoutSdk.Orders;
+using Newtonsoft.Json;
 
 
 
@@ -40,9 +40,12 @@ public class CheckoutController : BaseController
 
     private readonly IPaymentRepository _payment;
 
+    private readonly IConfiguration _configuration;
+
+    private readonly PaypalService _paypalService;
 
    private readonly ICartRepository _cart;
-   public CheckoutController(ICartRepository cart,IProductRepository product,Support_Serive.Service sp,IBannerListRepository banner,SmtpService smtpService,IOrderRepository order,IOptions<RecaptchaResponse> recaptcha_response,ISettingRepository setting,IPaymentRepository payment,IUserListRepository user,ICategoryListRepository category,ILogger<CheckoutController> logger):base(category,user,banner)
+   public CheckoutController(ICartRepository cart,IProductRepository product,Support_Serive.Service sp,IBannerListRepository banner,SmtpService smtpService,IOrderRepository order,IOptions<RecaptchaResponse> recaptcha_response,ISettingRepository setting,IPaymentRepository payment,IUserListRepository user,ICategoryListRepository category,IConfiguration configuration,PaypalService paypalService,ILogger<CheckoutController> logger):base(category,user,banner)
   {
   this._cart=cart;
   this._sp=sp;
@@ -53,7 +56,9 @@ public class CheckoutController : BaseController
   this._product=product;
   this._order=order;
   this._logger=logger; 
-  this._payment=payment;    
+  this._payment=payment;  
+  this._configuration=configuration;
+  this._paypalService=paypalService;  
   this._user=user;
    }
 
@@ -110,7 +115,7 @@ public class CheckoutController : BaseController
 
         ViewBag.company=company;
 
-     Console.WriteLine("qr hre");
+     Console.WriteLine("qr here");
 
       Console.WriteLine("QR ENV:"+Environment.GetEnvironmentVariable("qr_code"));
      if(string.IsNullOrEmpty(Environment.GetEnvironmentVariable("qr_code")))
@@ -206,6 +211,39 @@ public class CheckoutController : BaseController
     string payment_method=checkout.PaymentMethod;
 
     var check_user_exist=await this._user.checkUserExist(email,username);
+
+    // var paypal_request = new OrdersCreateRequest(); 
+
+    // paypal_request.Prefer("return=representation");
+
+    // paypal_request.RequestBody(new OrderRequest{
+    //   CheckoutPaymentIntent="CAPTURE",
+    //   PurchaseUnits = new List<PurchaseUnitRequest>
+    //         {
+    //             new PurchaseUnitRequest
+    //             {
+    //                 AmountWithBreakdown = new AmountWithBreakdown
+    //                 {
+    //                     CurrencyCode = "USD",
+    //                     Value = "5.00" // Fixed $5 amount
+    //                 },
+    //                 Description = "Order Payment"
+    //             }
+    //         },
+    //         ApplicationContext = new ApplicationContext
+    //         {
+    //             ReturnUrl = Url.Action("CaptureOrder", "Checkout", null, "http"),
+    //             CancelUrl = Url.Action("CancelOrder", "Checkout", null, "http")
+    //         }
+    // });
+
+    // var paypal_client=this._paypalService.getClient();
+
+    // var paypal_response=await paypal_client.Execute(paypal_request);
+
+    // Console.WriteLine("Paypal response here is:"+JsonConvert.SerializeObject(paypal_response));
+
+     //return View("~/Views/ClientSide/Checkout/Checkout.cshtml");    
   
     ApplicationUser user= new ApplicationUser();
 
@@ -234,27 +272,27 @@ public class CheckoutController : BaseController
 
     Console.WriteLine("User Id here is:"+user.Id);
     
-    var asp_user = await this._user.getAspUser(user.Id);
+    var asp_user = await this._user.getAspUser(user.Id);    
 
     var created_order=await this._order.createOrder(asp_user,cart,payment,note);
       
     if(created_order==1)
-    {  Console.WriteLine("Order created successfully");
+    {  
+      Console.WriteLine("Order created successfully");
       var order=await this._order.getLatestOrderByUsername(asp_user.Id);
-     Console.WriteLine("render view1");
-
-     var render_view = new RazorViewRenderer();
-
-     Console.WriteLine("render view");
-
-     var company_user = await this._user.findUserByName("company");
-
       
-    string[] email_list=company_user.Email.Split('#');
-    string extra_info=email_list[1];
-    string bank_name="";
-    string account_num="";
-    string account_name="";
+      Console.WriteLine("render view1");
+
+      var render_view = new RazorViewRenderer();
+
+      Console.WriteLine("render view");
+
+      var company_user = await this._user.findUserByName("company"); 
+      string[] email_list=company_user.Email.Split('#');
+      string extra_info=email_list[1];
+      string bank_name="";
+      string account_num="";
+      string account_name="";
 
     if(!string.IsNullOrEmpty(extra_info))
     {
@@ -275,7 +313,6 @@ public class CheckoutController : BaseController
         }
       }
     }
-
 
     ReceiptModel receipt=new ReceiptModel{Order=order,BankName=bank_name,AccountName=account_name,AccountNumber=account_num};
 

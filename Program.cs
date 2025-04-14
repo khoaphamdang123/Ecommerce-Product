@@ -24,6 +24,11 @@ var database = Environment.GetEnvironmentVariable("DB_NAME");
 var username = Environment.GetEnvironmentVariable("DB_USER");
 var password = Environment.GetEnvironmentVariable("DB_PASSWORD");
 
+var paypal_client_id=Environment.GetEnvironmentVariable("PAYPAL_CLIENT_ID");
+
+var paypal_client_secret=Environment.GetEnvironmentVariable("PAYPAL_CLIENT_SECRET");
+
+
 builder.Services.AddQuartz(q =>
 {
     q.UseMicrosoftDependencyInjectionJobFactory();
@@ -51,10 +56,12 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(sp=>{
 });
 
 
+builder.Configuration["Paypal:ClientId"] = paypal_client_id;
+
+builder.Configuration["Paypal:ClientSecret"] = paypal_client_secret;
+
 builder.Configuration["ConnectionStrings:DefaultConnection"] = 
     $"Host={host};Port={port};Database={database};Username={username};Password={password}";
-
-
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -130,6 +137,8 @@ builder.Services.AddScoped<ITrackDataRepository,TrackdataService>();
 builder.Services.AddTransient<Service>();
 
 builder.Services.AddTransient<SmtpService>();
+
+builder.Services.AddSingleton<PaypalService>();
 
 //builder.Services.AddSingleton(provider => new GoogleAnalyticsService());
 
