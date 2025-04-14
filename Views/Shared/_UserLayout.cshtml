@@ -25,7 +25,8 @@
        {
     logo_path="https://thanhquang-gnss.com/"+logo_extension;
        }
-       logo_path=logo_extension;
+       
+    @* logo_path=logo_extension; *@
 
        Console.WriteLine("Current logo admin path is:"+logo_path);
        }
@@ -171,7 +172,7 @@
      
      <link rel="canonical" href="https://thanhquang-gnss.com"/>
       
-      <link rel="shortcut icon" type="image/x-icon" href="@(logo_path)" />
+      <link rel="shortcut icon" type="image/x-icon" href="@(logo_path)"/>      
       
       <link rel="stylesheet" href="@Url.Content("~/css/site.css")" asp-append-version="true">
       
@@ -397,7 +398,7 @@
                         <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4">
                             <div class="header__info">
                                 <div class="logo">
-                                    <a href="@Url.Action("HomePage","HomePage")" class="logo-image"><img src="~/@(logo_path)" alt="logo"></a>
+                                    <a href="@Url.Action("HomePage","HomePage")" class="logo-image"><img src="@(logo_path)" alt="logo"></a>
                                 </div>
                             
                             </div>
@@ -575,7 +576,7 @@
         <div class="offcanvas__content">
             <div class="offcanvas__logo mb-40">
                 <a href="@Url.Action("HomePage","HomePage")">
-                <img src="~/@(logo_path)" alt="logo">
+                <img src="@(logo_path)" alt="logo">
                 </a>
             </div>
             <div class="offcanvas__search mb-25">

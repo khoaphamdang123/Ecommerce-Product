@@ -30,11 +30,13 @@
   padding: 0 8px;
   box-sizing: border-box; }
 
-.mfp-container:before {
+.mfp-container:before 
+{
   content: '';
   display: inline-block;
   height: 100%;
-  vertical-align: middle; }
+  vertical-align: middle;   
+}
 
 .mfp-align-top .mfp-container:before {
   display: none; }
