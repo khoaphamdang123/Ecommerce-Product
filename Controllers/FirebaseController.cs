@@ -42,7 +42,6 @@ if(string.IsNullOrEmpty(id_user))
   if(setting_obj!=null)
   {
     ViewBag.setting=setting_obj;
-    
   }
 }
 catch(Exception er)

@@ -25,6 +25,37 @@ public class Service
     }
 
 
+public async Task<string> convertVNDToUSD(string value)
+{   string ussd_value="";
+    try
+    {
+    string url="https://api.exchangerate-api.com/v4/latest/VND";
+    using(var client=new HttpClient())
+    {
+        client.BaseAddress=new Uri(url);
+        HttpResponseMessage response=await client.GetAsync(client.BaseAddress);
+        if(response.IsSuccessStatusCode)
+        {
+            string data=await response.Content.ReadAsStringAsync();
+            var json_data=JsonConvert.DeserializeObject<ExchangeRateModel>(data);
+            if(json_data!=null)
+            {   
+                decimal exchange_rate=json_data.Rates.USD;
+                decimal vnd_value=Convert.ToDecimal(value);
+                decimal usd_value=vnd_value/exchange_rate;
+                Console.WriteLine("Usd value:"+usd_value.ToString("N0"));
+                return usd_value.ToString("N0");
+            }
+        }
+    }
+}
+    catch(Exception er)
+    {
+        Console.WriteLine("Convert VND to USD Exception:"+er.Message);
+    }
+    return ussd_value;
+}
+
 public string generateQRCode(string data,string account_num,string account_name)
 {  
     string qr_code_img="";
@@ -32,7 +63,7 @@ public string generateQRCode(string data,string account_num,string account_name)
     try
     {
     string url="https://api.vietqr.io/v2/generate";
-
+    
     using(var client = new HttpClient())
     {
      client.BaseAddress=new Uri(url);
@@ -49,9 +80,8 @@ public string generateQRCode(string data,string account_num,string account_name)
 
      Console.WriteLine("Account Number:"+account_num);
 
-    Console.WriteLine("Account Name:"+account_name);
-
-
+     Console.WriteLine("Account Name:"+account_name);
+         
      FormUrlEncodedContent content=new FormUrlEncodedContent(new[]
      {
          new KeyValuePair<string,string>("accountNo",account_num),
@@ -88,7 +118,9 @@ public string generateQRCode(string data,string account_num,string account_name)
 }
 
  public BankModel getListBank()
- {   BankModel bankModel=new BankModel();
+ {  
+    BankModel bankModel=new BankModel();
+    
     try
     {
     using(HttpClient client=new HttpClient())
@@ -97,7 +129,8 @@ public string generateQRCode(string data,string account_num,string account_name)
         HttpResponseMessage response=client.GetAsync(client.BaseAddress).Result;
         if(response.IsSuccessStatusCode)
         {
-            string data=response.Content.ReadAsStringAsync().Result;
+            string data=response.Content.ReadAsStringAsync().Result;            
+            
             bankModel=JsonConvert.DeserializeObject<BankModel>(data);
         }
     }
@@ -110,7 +143,7 @@ public string generateQRCode(string data,string account_num,string account_name)
  }
 public string convertToVND(string value)
 {
-    return Convert.ToInt32(value).ToString("N0");
+    return Convert.ToInt32(value).ToString("N0");    
 }
 public string AddSha256(string data)
  {  

@@ -12,6 +12,7 @@
     var status_checkout = ViewBag.Status;
     var account= ViewBag.Account;
     var saved_account= ViewBag.SavedAccount;
+    string paypal_client_id=Environment.GetEnvironmentVariable("PAYPAL_CLIENT_ID");
      string username="";
      string password="";
  if(account!=null)
@@ -93,7 +94,8 @@
             });
         </script>
         }
-        
+
+@Html.AntiForgeryToken()        
   
   <div
        class="bs-toast toast fade hide toast-placement-ex top-5 end-0"
@@ -578,9 +580,9 @@
                                         <div id="paypal" class="accordion-collapse collapse" aria-labelledby="paypalThree" data-bs-parent="#checkoutAccordion">
           <div class="accordion-body">
       <div class="payment-method">
-        <div class="visa-logo">
+        @* <div class="visa-logo">
           <img src="@Url.Content("~/user_layout/img/banner/card.png")" alt="Visa Logo">
-        </div>
+        </div> *@
           <h3>Thanh toán sử dụng Paypal</h3>
         <div class="credit-card-form">
             <div id="paypal-button-container" class="text-center"></div>
@@ -609,10 +611,9 @@
                                         </div>
                                     </div>
         }
-
                      if(payment.Paymentname=="Master Card" && payment.Status==1)
                                     {
-                                          <div class="accordion-item">
+                                    <div class="accordion-item">
                                         <h2 class="accordion-header" id="paypalThree">
                                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#visa" aria-expanded="false" aria-controls="visa">
                                             Thanh toán qua Visa Card
@@ -704,35 +705,13 @@
             </div>
         </section>
 
-@* <script src="https://www.paypal.com/sdk/js?client-id=ATCI8e6eaWYIzp3Gd-1Vi_0og9c2w5HzVLGYDHYaNXLuDChqgKCNfwFfbXbTjJsbYyIbhUlLhiqTe5_f&currency=USD"></script> *@
-<script>
 
-    @* paypal.Buttons({
-            createOrder: function(data, actions) {
-                return actions.order.create({
-                    purchase_units: [{
-                        amount: {
-                            value: '9.99', 
-                            currency_code: 'USD'
-                        }
-                    }]
-                });
-            },
-            // Finalize the transaction
-            onApprove: function(data, actions) {
-                return actions.order.capture().then(function(details) {
-                    // Show a success message to the buyer
-                    alert('Transaction completed by ' + details.payer.name.given_name);
-                    // Optionally redirect or call your backend
-                    // window.location.href = '/Payment/Success';
-                });
-            },
-            // Handle errors
-            onError: function(err) {
-                console.error('An error occurred during the transaction', err);
-                alert('An error occurred. Please try again.');
-            }
-        }).render('#paypal-button-container'); *@
+
+<script src="https://www.paypal.com/sdk/js?client-id=@paypal_client_id" data-namespace="paypal_sdk"></script>
+
+<script>
+  
+ 
 
 
     var payment_method='';
@@ -740,6 +719,7 @@
     const getAccordionItem=()=>
     {
      const openItem=document.querySelector('.accordion-collapse.show');
+
      if(openItem)
      {
   payment_method=openItem.id;
@@ -764,13 +744,136 @@
     };
 
     document.addEventListener("DOMContentLoaded",()=>{
-    getAccordionItem();
+
+ var is_paypal_enable=document.getElementById("paypal-button-container");
+
+    function getToken()
+    {   alert( document.querySelector('input[name="__RequestVerificationToken"]').value);
+        return document.querySelector('input[name="__RequestVerificationToken"]').value;
+    }
+
+  if(is_paypal_enable!=null)
+  {
+ const total_price = '@total_value';
+    
+    paypal_sdk.Buttons({
+           style:
+           {
+            layout:'vertical',
+            color:'gold',
+            tagline:'false',
+            size:'responsive',
+            shape:'rect'
+           },
+            createOrder: function(data, actions) 
+            { 
+    const user_name=document.getElementById("user-name");
+    const address=document.getElementById("address");
+    const phone=document.getElementById("phone");
+    const email=document.getElementById("email");
+    var is_valid=false;
+     if(user_name.value=="")
+    {    is_valid=true;
+        document.getElementById("name-error").innerHTML="*Tên không được để trống";
+    }
+    if(address.value=="")
+    { is_valid=true;
+        document.getElementById("address-error").innerHTML="*Địa chỉ không được để trống";
+    }
+    if(phone.value=="")
+    { is_valid=true;
+        document.getElementById("phone-error").innerHTML="*Số điện thoại không được để trống";
+        
+    }
+    if(email.value=="")
+    { is_valid=true;
+        document.getElementById("email-error").innerHTML="*Email không được để trống";
+    }
+
+    if(is_valid)
+    {
+        return;
+    }  
+
+      payment_method=convertPaymentMethod(payment_method);
+          
+    const checkout_obj=
+    {
+    username:user_name.value,
+    address1:address.value,
+    phonenumber:phone.value,
+    email:email.value,
+    paymentmethod:payment_method
+    };
+
+              return fetch('/checkout/createOrder',{
+                method:'POST',
+                headers: 
+                {
+                 'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({total_price:total_price,checkout:checkout_obj})
+              })
+            .then(function(res)
+            {   
+                return res.json();
+            }).then(function(data)
+            {    
+                  return data.orderId;                  
+            })
+            },
+          onApprove: function(data, actions) {
+            return fetch('/checkout/capture?token='+data.orderID)
+            .then(function(res) 
+            {   
+                return res.json();
+            })
+            .then(function(details) 
+            {  
+                if(details.status===1) 
+                {  var checkout=details.checkout;
+                   var note=document.getElementById("checkout-mess");
+                    if(note!=null)
+                    {
+                        note.value="Đã thanh toán thành công qua Paypal";
+                    }
+    var checkout_form=document.getElementById("checkout-form");
+    var payment_input=document.createElement("input");
+    payment_input.type="text";
+    payment_input.name="paymentmethod";
+    payment_input.value=payment_method;
+    payment_input.style.display="none";
+    checkout_form.appendChild(payment_input);
+    checkout_form.submit();
+                    @* return fetch('/checkout/submit',{
+                        method:'POST',
+                        headers: 
+                        {
+                            'Content-Type': 'application/json',
+                             'RequestVerificationToken': getToken()
+                        },
+                        body: JSON.stringify(checkout)
+                    }); *@
+                
+                } else 
+                {
+                    alert('Payment failed: ' + details.message);
+                }
+            });
+        },
+            // Handle errors
+            onError: function(err) {
+                console.error('An error occurred during the transaction', err);
+                @* alert('An error occurred. Please try again.'); *@
+            }
+        }).render('#paypal-button-container');
+    }
+    getAccordionItem();    
     var form=document.getElementById("signinForm");
     var checkout_form=document.getElementById("checkout-form");
     var checkout_order_btn=document.getElementById("checkout-order-btn"); 
     var username=document.getElementById("username");
     var password= document.getElementById("password");
-    
     
     checkout_order_btn.addEventListener("click",()=>{
     var is_valid=true;
@@ -808,23 +911,31 @@
     }
 
     payment_method=convertPaymentMethod(payment_method);
+
     var payment_input=document.createElement("input");
+    
     payment_input.type="text";
+    
     payment_input.name="paymentmethod";
+    
     payment_input.value=payment_method;
+    
     payment_input.style.display="none";
+    
     checkout_form.appendChild(payment_input);
-    checkout_form.submit();
+    
+    checkout_form.submit();    
     });
 
       const accordion = document.getElementById('checkoutAccordion');
 
-        accordion.addEventListener('show.bs.collapse', (event) => {
+      accordion.addEventListener('show.bs.collapse', (event) => 
+        {
             payment_method=event.target.id;
         });
 
-
-    form.addEventListener("submit",()=>{
+    form.addEventListener("submit",()=>
+    {
       event.preventDefault();
       var is_valid=true;
      var username_val=username.value;
@@ -841,8 +952,7 @@
         
         is_valid=false;
 
-        document.getElementById("password-error").innerHTML="Mật khẩu không được để trống";   
-        
+        document.getElementById("password-error").innerHTML="Mật khẩu không được để trống";           
         }
         if(is_valid==false)
         {
@@ -850,7 +960,7 @@
         }
 
       let formDataVal=new FormData(form);
-      
+    
       var url='@Url.Action("LoginHandle","MyAccount")';
       
       $.ajax({  

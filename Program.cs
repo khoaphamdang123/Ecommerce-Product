@@ -141,13 +141,9 @@ builder.Services.AddTransient<SmtpService>();
 builder.Services.AddSingleton<PaypalService>();
 
 //builder.Services.AddSingleton(provider => new GoogleAnalyticsService());
-
-
 builder.Services.AddHttpContextAccessor();
 
-
 builder.Services.Configure<SmtpModel>(builder.Configuration.GetSection("SmtpModel"));
-
 
 builder.Services.Configure<RecaptchaResponse>(builder.Configuration.GetSection("Recapcha"));
 
@@ -157,11 +153,8 @@ builder.Services.Configure<RecaptchaResponse>(builder.Configuration.GetSection("
 //         options.LoginPath = "/admin/login";  
 //     });  
 
-
-
-
  builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options=>{
-      options.Password.RequireDigit = false;
+        options.Password.RequireDigit = false;
         options.Password.RequiredLength = 1; 
         options.Password.RequireNonAlphanumeric = false;
         options.Password.RequireUppercase = false;
@@ -171,7 +164,7 @@ builder.Services.Configure<RecaptchaResponse>(builder.Configuration.GetSection("
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-    builder.Services.ConfigureApplicationCookie(options =>
+builder.Services.ConfigureApplicationCookie(options =>
 {
   options.Cookie.HttpOnly = true;  
   options.ExpireTimeSpan = TimeSpan.FromHours(1);  
@@ -181,8 +174,7 @@ builder.Services.Configure<RecaptchaResponse>(builder.Configuration.GetSection("
   options.Events.OnRedirectToLogin = context =>
     {
         context.Response.Redirect("/admin/login");
-        return Task.CompletedTask;
-        
+        return Task.CompletedTask;        
     };
 });
 
@@ -207,7 +199,6 @@ Console.WriteLine("Current Environement is:"+builder.Environment.EnvironmentName
 
 
 var app = builder.Build(); 
-
 
 
 app.UseSession();

@@ -15,18 +15,12 @@ namespace Ecommerce_Product.Controllers;
 [Route("admin")]
 public class StaticFilesController : BaseAdminController
 {
-    private readonly ILogger<StaticFilesController> _logger;
-    // private readonly ICategoryRepository _categoryList;
-
-    // public CategoryListController(ILogger<CategoryListController> logger,ICategoryRepository categoryList)
-    // {
-    //     _logger = logger;
-    //    this._categoryList=categoryList; 
-    // }
+   private readonly ILogger<StaticFilesController> _logger;
    private readonly IStaticFilesRepository _static_files;
    public StaticFilesController(IStaticFilesRepository static_files,IBannerListRepository banner,ILogger<StaticFilesController> logger):base(banner)
    {
   this._static_files=static_files;
+
   this._logger=logger;     
    }
   [Route("file_list")]
@@ -39,7 +33,8 @@ public class StaticFilesController : BaseAdminController
     try
     {  
         var static_files=await this._static_files.pagingStaticFiles(7,1);
-        return View(static_files);
+
+        return View(static_files);        
     }
     catch(Exception er)
     {
@@ -50,7 +45,7 @@ public class StaticFilesController : BaseAdminController
 
 
   [Route("file_list/paging")]
-   [HttpGet]
+  [HttpGet]
   public async Task<IActionResult> StaticFilesPaging([FromQuery]int page_size,[FromQuery] int page=1)
   {
     try{
@@ -115,6 +110,7 @@ public class StaticFilesController : BaseAdminController
     try
     {
    int remove_res=await this._static_files.deletePage(id);
+
    if(remove_res==0)
    {
    TempData["Status_Delete"]=0;

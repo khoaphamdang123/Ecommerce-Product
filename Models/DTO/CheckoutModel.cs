@@ -14,4 +14,14 @@ namespace Ecommerce_Product.Models
 
    public string Note{get;set;}
  }
+
+public class CheckoutItemModel
+{
+  public CheckoutModel Checkout{get;set;}
+
+  public string Total_Price{get;set;}
+
+  public string OrderId{get;set;}
+}
+
 }

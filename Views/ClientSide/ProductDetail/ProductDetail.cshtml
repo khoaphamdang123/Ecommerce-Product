@@ -412,7 +412,7 @@
         </div>
     </div>
 </div>
-                        </div>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -517,7 +517,7 @@
                         }
                         </div>
                     </div>
-                      <div class="text-center" style="margin-top: 20px;margin-bottom: 25px;">
+                      <div class="text-center" style="margin-top:20px;margin-bottom: 25px;">
                         <button id="showFullButton" class="show-btn" style="font-weight: bold;">+ Xem toàn bộ nội dung</button>
                       </div>
                     </div>
@@ -546,7 +546,6 @@
                                 <div class="refresh-container">
                                        @Html.Raw(Model?.Statdescription.Replace("Froala Editor","").Replace("Powered by",""))
                                 </div>
-
             }     
                     </div>
                 
@@ -572,9 +571,10 @@
                                       {
                                     <h6 class="">Chưa có đánh giá nào cho sản phẩm này</h6>
                                       }
-                                      else{
+                                      else
+                                      {
                                         <h6>Có @(nums_review) đánh giá cho "<span>@Model.ProductName</span>"</h6>
-                                        }
+                                      }
                                    @if(review_list!=null)
                                    {
                                     @foreach(var review in review_list)
@@ -607,7 +607,6 @@
                                           {
                                            <p class="text-danger">*Bạn cần phải đăng nhập để thêm đánh giá*</p>
                                            }
-                                
                                         <div class="comment-input-box">
                                            <form id="review-form" method="post">
                                               <div class="row">                                            
@@ -653,8 +652,8 @@
                      
                     string embed_code=embed_code_arr[embed_code_arr.Length-1];
                      
-                    string embed_url="https://www.youtube.com/embed/"+embed_code;
-                     
+                    string embed_url="https://www.youtube.com/embed/"+embed_code;                    
+                                         
                 <div class="col-md-6 mb-3">
       <iframe width="560" height="315" src="@embed_url" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>

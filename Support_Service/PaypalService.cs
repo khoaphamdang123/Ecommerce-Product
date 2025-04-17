@@ -14,8 +14,9 @@ public class PaypalService
    public PayPalHttpClient getClient()
    {
  
-Console.WriteLine("Paypal Client ID:"+this._configuration["Paypal:Mode"]);
-  PayPalEnvironment environment = this._configuration["Paypal:Mode"]=="sandbox" ? new SandboxEnvironment(this._configuration["Paypal:ClientId"],this._configuration["Paypal:ClientSecret"]):new LiveEnvironment(this._configuration["Paypal:ClientId"],this._configuration["Paypal:ClientSecret"]);
+  Console.WriteLine("Paypal Client ID:"+this._configuration["Paypal:Mode"]);
+  
+  PayPalEnvironment environment = this._configuration["Paypal:Mode"]=="sandbox" ? new SandboxEnvironment(this._configuration["Paypal:ClientId"],this._configuration["Paypal:ClientSecret"]):new LiveEnvironment(this._configuration["Paypal:ClientId"],this._configuration["Paypal:ClientSecret"]);  
   
   return new PayPalHttpClient(environment);  
    }

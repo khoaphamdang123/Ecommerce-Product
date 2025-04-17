@@ -12,8 +12,6 @@ using System.IO;
 
 namespace Ecommerce_Product.Controllers;
 
-
-
 public class CartController : BaseController
 {
     private readonly ILogger<CartController> _logger;

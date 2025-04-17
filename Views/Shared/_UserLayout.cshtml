@@ -413,7 +413,7 @@
                                     <div class="header__search-cat">
                             <select name="category" id="filter-cat">
                                             <option value="">Loại sản phẩm</option>
-                                            
+
                                             @foreach(var category in categories)
                                             {  
                                                 <option value="@category.CategoryName">@category.CategoryName</option>
@@ -429,7 +429,6 @@
                                  @if(User.Identity.IsAuthenticated && User.IsInRole("User"))
                     {   
                         @Html.Partial("~/Views/Shared/_LoginUser.cshtml")
-
                     }
                                 else
                                 {
@@ -471,10 +470,11 @@
                                                   @foreach(var cat in categories)
                                                   {
                                     string regex_cat=Regex.Replace(cat.CategoryName,@"[^\w\d]", "-");
+                                                  
                                                   if(cat.SubCategory==null)
                                                   {
                                                     <li><a href="@Url.Action("ProductsByCategory","Products",new{category_name=regex_cat})">@cat.CategoryName</a></li>
-                                                    }
+                                                  }
                                                 else
                                                 {
                                                 <li><a href="@Url.Action("ProductsByCategory","Products",new{category_name=regex_cat})">@cat.CategoryName<i class="far fa-angle-down"></i></a>
@@ -504,12 +504,9 @@
                             
                        
     <div class="menu-container">
-        <!-- Menu Button -->
         <button type="button" class="side-menu-btn offcanvas-toggle-btn">
             <i class="fas fa-bars"></i>
         </button>
-
-        <!-- Search Bar (Hidden on large screens) -->
         <div class="search-wrapper">
         <form method="post" asp-action="FilterProductByNameAndCategory" asp-controller="Products">
 
@@ -529,7 +526,9 @@
                                         <a href="@Url.Action("HomePage","HomePage")">Trang chủ</a>
                                     </li>
                                     <li><a href="@Url.Action("AboutUs","StaticPage")">Về chúng tôi</a></li>
-                                    <li class="product-list"><a href="@Url.Action("Products","Products")">Sản phẩm<i class="far fa-angle-down"></i></a>
+                                    <li class="product-list">
+                                    <a href="@Url.Action("Products","Products")">Sản phẩm<i class="far fa-angle-down"></i>
+                                    </a>
                                      <ul class="dropdown">
                                            @foreach(var cat in categories)
                                            {
@@ -593,7 +592,7 @@
     </div>
     } 
         <main role="main" class="pb-3" id="main-container">
-            @RenderBody()
+            @RenderBody()            
           @* <div class="floating-button-container">
         <!-- Round Button -->
         <div class="floating-button" onclick="toggleOptions()">
@@ -626,7 +625,7 @@
 								</linearGradient>
 							</defs>
 						</svg>
-						<span class="tooltip-text">Gọi ngay cho chúng tôi</span>
+						<span class="tooltip-text">Gọi ngay cho chúng tôi</span>                        
 					</a>
 				</li>
 				<li class="addThis_item">

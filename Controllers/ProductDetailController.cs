@@ -145,7 +145,7 @@ public async Task<IActionResult> ProductDetail(string product_name)
        }
        else
        {
-        product.DiscountDescription="";
+        product.DiscountDescription="";        
        }
       }
     }    
@@ -160,8 +160,7 @@ public async Task<IActionResult> ProductDetail(string product_name)
     Console.WriteLine("Product Detail Exception:"+er.Message);
     this._logger.LogError("Product Detail Exception:"+er.Message);
  }          
-    return View("~/Views/ClientSide/ProductDetail/ProductDetail.cshtml");
-
+    return View("~/Views/ClientSide/ProductDetail/ProductDetail.cshtml");    
 }
 
 [HttpPost]
@@ -197,7 +196,7 @@ public async Task<JsonResult> addProductReviews(string product_id,string user_id
   }
 else
 {
-  return Json(new{status=0,message=$"Thêm đánh giá cho sản phẩm mã {product_id} thất bại"});
+  return Json(new{status=0,message=$"Thêm đánh giá cho sản phẩm mã {product_id} thất bại"});  
 }
 }
 }
