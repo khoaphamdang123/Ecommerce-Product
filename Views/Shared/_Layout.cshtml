@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en" data-bs-theme-value="@Environment.GetEnvironmentVariable("THEME")">
     @{
         var view_controller=ViewContext.RouteData.Values["controller"]?.ToString();
         var view_action = ViewContext.RouteData.Values["action"]?.ToString();
@@ -619,15 +619,38 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@4.0.7/js/froala_editor.pkgd.min.js"></script>
 
 <script>
-   const dark_button=document.querySelector("[data-bs-theme-value='dark']");
+
+  document.addEventListener("DOMContentLoaded", function() {
+        const theme=localStorage.getItem("THEME");
+        
+        document.documentElement.setAttribute('data-bs-theme', theme);
+      
+      const dark_button=document.querySelector("[data-bs-theme-value='dark']");
     const light_button=document.querySelector("[data-bs-theme-value='light']");
 
+    if(theme==='dark')
+    {
+      dark_button.setAttribute('aria-pressed', 'true');
+      dark_button.classList.add('active');
+      light_button.setAttribute('aria-pressed', 'false');
+      light_button.classList.remove('active');
+    }
+    else
+    {
+      light_button.setAttribute('aria-pressed', 'true');
+      light_button.classList.add('active');
+      dark_button.setAttribute('aria-pressed', 'false');
+      dark_button.classList.remove('active');
+    }
+   
     dark_button.addEventListener("click",function(){
      document.documentElement.setAttribute('data-bs-theme', 'dark');
      dark_button.setAttribute('aria-pressed', 'true');
      dark_button.classList.add('active');
      light_button.setAttribute('aria-pressed', 'false');
      light_button.classList.remove('active');
+
+     localStorage.setItem("THEME",'dark');
     });
 
     light_button.addEventListener("click",function(){
@@ -636,7 +659,13 @@
      light_button.classList.add('active');
      dark_button.setAttribute('aria-pressed', 'false');
      dark_button.classList.remove('active');
+     
+     localStorage.setItem("THEME",'light');
+
     });
+    });
+
+   
 </script>
 
    @* <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
