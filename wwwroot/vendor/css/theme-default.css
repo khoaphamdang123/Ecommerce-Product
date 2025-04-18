@@ -632,11 +632,11 @@ a:hover {
   border-color: rgba(86, 106, 127, 0.075);
 }
 
-.layout-navbar {
+/* .layout-navbar {
   background-color: rgba(255, 255, 255, 0.95) !important;
   -webkit-backdrop-filter: saturate(200%) blur(6px);
           backdrop-filter: saturate(200%) blur(6px);
-}
+} */
 
 .navbar-detached {
   box-shadow: 0 0 0.375rem 0.25rem rgba(161, 172, 184, 0.15);

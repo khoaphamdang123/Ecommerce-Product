@@ -64,7 +64,7 @@
                 
                 string price_value=!string.IsNullOrEmpty(product.Price) ? product.Price : product.Product?.Price;
                 
-                int discount=string.IsNullOrEmpty(product.Product?.Discount.ToString()) ? 100 : Convert.ToInt32(product.Product?.Discount);
+                int discount=string.IsNullOrEmpty(product.Product?.Discount.ToString()) ? 100 : Convert.ToInt32(product.Product?.Discount);                
 
 
                                           if(!string.IsNullOrEmpty(product?.Size))
@@ -101,6 +101,6 @@
     {
                 var toastEl = document.querySelector('.toast');
                 var toast = new bootstrap.Toast(toastEl);
-                toast.show();                
+                toast.show();                               
     });
  </script>

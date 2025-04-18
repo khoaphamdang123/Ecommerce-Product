@@ -8,8 +8,11 @@
 'use strict';
 
 // JS global variables
-let config = {
-  colors: {
+let config = 
+{
+
+  colors: 
+  {
     primary: '#696cff',
     secondary: '#8592a3',
     success: '#71dd37',
@@ -25,3 +28,5 @@ let config = {
     borderColor: '#eceef1'
   }
 };
+
+

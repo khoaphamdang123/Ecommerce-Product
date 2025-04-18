@@ -40,6 +40,7 @@
     if(!string.IsNullOrEmpty(extra_info))
     {
       string[] info_values=extra_info.Split('\n');
+
       foreach(var info in info_values)
       {
         if(info.Contains("bank_name"))
@@ -83,16 +84,17 @@
                           <div class="me-auto fw-semibold">Đặt hàng</div>
                         </div>
                         <div class="toast-body">
-                         @(message_checkout)
+                         @(message_checkout)                         
                         </div>
                       </div>
                         <script>
-            document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('DOMContentLoaded', function() 
+            {
                 var toastEl = document.querySelector('.toast');
                 var toast = new bootstrap.Toast(toastEl);
-                toast.show();
+                toast.show();                
             });
-        </script>
+        </script>        
         }
 
 @Html.AntiForgeryToken()        
@@ -236,9 +238,9 @@
                                     </div> *@
                                     <div class="col-md-12">
                                         <div class="checkout-form-list">
-                                            <label>Địa chỉ<span class="required">*</span></label>
+                                            <label>Địa chỉ<span class="required">*</span></label>                                            
                                             <input type="text" placeholder="Nhập địa chỉ giao hàng" id="address" name="address1" value="@(user!=null?!string.IsNullOrEmpty(user.Address2)?user.Address2:user.Address1:"")">
-                                            <span class="text-danger" id="address-error"></span><br>
+                                            <span class="text-danger" id="address-error"></span><br>                                            
                                         </div>
                                     </div>
                                     @* <div class="col-md-12">
@@ -276,7 +278,6 @@
                                             <label>Số điện thoại<span class="required">*</span></label>
                                             <input type="number" placeholder="Nhập số điện thoại của bạn" id="phone" name="phonenumber" value="@(user!=null?user.PhoneNumber:"")"  @(user!=null?"readonly":"")>
                                         <span class="text-danger" id="phone-error"></span><br>
-
                                         </div>
                                     </div>
                                     @* <div class="col-md-12">
@@ -292,6 +293,7 @@
                                         </div>
                                     </div> *@
                                 </div>
+
                                 <div class="different-address">
                                     @* <div class="ship-different-title">
                                         <h3>
@@ -405,12 +407,14 @@
                                           string price_value=!string.IsNullOrEmpty(item.Price) ? item.Price : item.Product.Price;
 
                                           total_value+=(Convert.ToInt32(price_value)-(Convert.ToInt32(price_value)*(discount)/100))*item.Quantity;
+                                           
                                            string variant_info="";
+                                           
                                            if(!string.IsNullOrEmpty(item.Size))
                                            {
                                             if(string.IsNullOrEmpty(variant_info))
                                             {
-                                                variant_info+=item.Size;
+                                                variant_info+=item.Size;                                                                                                
                                             }
                                             else
                                             {
@@ -452,7 +456,6 @@
                                                 variant_info+="/"+item.Mirror;
                                             }
                                            }
-                                        
                                         
                                             <tr class="cart_item">
                                                 <td class="product-name">
@@ -505,8 +508,6 @@
                                 </div>
                             </form>
                                 <div class="payment-method">
-                                    
-                               
                             <div class="accordion" id="checkoutAccordion">
                                   
                                   @foreach(var payment in payment_methods)
@@ -562,8 +563,7 @@
       <div class="qr-code">
         <img class="qr-img" src="@qr_code" alt="QR Code">
       </div>
-    </div> 
-                                            
+    </div>                                           
                                             </div>
                                         </div>
                                     </div>
@@ -571,13 +571,13 @@
                                   
                                     if(payment.Paymentname=="Paypal" && payment.Status==1)
                                     {
-                                          <div class="accordion-item">
+                                    <div class="accordion-item">
                                         <h2 class="accordion-header" id="paypalThree">
                                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#paypal" aria-expanded="false" aria-controls="paypal">
                                             Thanh toán qua Paypal
                                             </button>
                                         </h2>
-                                        <div id="paypal" class="accordion-collapse collapse" aria-labelledby="paypalThree" data-bs-parent="#checkoutAccordion">
+      <div id="paypal" class="accordion-collapse collapse" aria-labelledby="paypalThree" data-bs-parent="#checkoutAccordion">
           <div class="accordion-body">
       <div class="payment-method">
         @* <div class="visa-logo">
@@ -616,16 +616,16 @@
                                     <div class="accordion-item">
                                         <h2 class="accordion-header" id="paypalThree">
                                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#visa" aria-expanded="false" aria-controls="visa">
-                                            Thanh toán qua Visa Card
+                                            Thanh toán qua Visa Card                                            
                                             </button>
                                         </h2>
                                         <div id="visa" class="accordion-collapse collapse" aria-labelledby="paypalThree" data-bs-parent="#checkoutAccordion">
           <div class="accordion-body">
       <div class="payment-method">
         <div class="visa-logo">
-          <img src="@Url.Content("~/user_layout/img/banner/card.png")" alt="Visa Logo">
+          <img src="@Url.Content("~/user_layout/img/banner/card.png")" alt="Visa Logo"> 
         </div>
-          <h3>Thanh toán sử dụng Visa Card</h3>
+          <h3>Thanh toán sử dụng Visa Card</h3>          
         <div class="credit-card-form">
           <div class="form-group">
             <label for="card-holder"><strong>Tên chủ thể thẻ</strong></label>
@@ -706,14 +706,12 @@
         </section>
 
 
-
 <script src="https://www.paypal.com/sdk/js?client-id=@paypal_client_id" data-namespace="paypal_sdk"></script>
+
+
 
 <script>
   
- 
-
-
     var payment_method='';
 
     const getAccordionItem=()=>
@@ -725,7 +723,7 @@
   payment_method=openItem.id;
      }
     };
-
+     
     const convertPaymentMethod=(payment_method)=>
     {
         switch(payment_method)
@@ -742,10 +740,11 @@
             return "";
         }
     };
-
-    document.addEventListener("DOMContentLoaded",()=>{
-
- var is_paypal_enable=document.getElementById("paypal-button-container");
+    
+    document.addEventListener("DOMContentLoaded",()=>
+    {
+    
+    var is_paypal_enable=document.getElementById("paypal-button-container");
 
     function getToken()
     {   alert( document.querySelector('input[name="__RequestVerificationToken"]').value);
@@ -754,8 +753,8 @@
 
   if(is_paypal_enable!=null)
   {
- const total_price = '@total_value';
-    
+    const total_price = '@total_value';
+     
     paypal_sdk.Buttons({
            style:
            {
@@ -771,20 +770,26 @@
     const address=document.getElementById("address");
     const phone=document.getElementById("phone");
     const email=document.getElementById("email");
-    var is_valid=false;
+    var is_valid=false;        
      if(user_name.value=="")
     {    is_valid=true;
-        document.getElementById("name-error").innerHTML="*Tên không được để trống";
+         
+         document.getElementById("name-error").innerHTML="*Tên không được để trống";
     }
     if(address.value=="")
-    { is_valid=true;
-        document.getElementById("address-error").innerHTML="*Địa chỉ không được để trống";
+    { 
+      is_valid=true;
+      
+      document.getElementById("address-error").innerHTML="*Địa chỉ không được để trống";
     }
     if(phone.value=="")
-    { is_valid=true;
+    { 
+        is_valid=true;
+        
         document.getElementById("phone-error").innerHTML="*Số điện thoại không được để trống";
         
     }
+
     if(email.value=="")
     { is_valid=true;
         document.getElementById("email-error").innerHTML="*Email không được để trống";
@@ -795,7 +800,7 @@
         return;
     }  
 
-      payment_method=convertPaymentMethod(payment_method);
+    payment_method=convertPaymentMethod(payment_method);
           
     const checkout_obj=
     {
@@ -822,21 +827,26 @@
                   return data.orderId;                  
             })
             },
-          onApprove: function(data, actions) {
+          onApprove: function(data, actions) 
+          {
             return fetch('/checkout/capture?token='+data.orderID)
             .then(function(res) 
             {   
-                return res.json();
+                return res.json();                
             })
             .then(function(details) 
             {  
                 if(details.status===1) 
-                {  var checkout=details.checkout;
+                {  
+                   var checkout=details.checkout;
+                   
                    var note=document.getElementById("checkout-mess");
-                    if(note!=null)
+                    
+                   if(note!=null)
                     {
                         note.value="Đã thanh toán thành công qua Paypal";
                     }
+    
     var checkout_form=document.getElementById("checkout-form");
     var payment_input=document.createElement("input");
     payment_input.type="text";
@@ -855,7 +865,8 @@
                         body: JSON.stringify(checkout)
                     }); *@
                 
-                } else 
+                } 
+                else 
                 {
                     alert('Payment failed: ' + details.message);
                 }
@@ -863,38 +874,41 @@
         },
             // Handle errors
             onError: function(err) {
-                console.error('An error occurred during the transaction', err);
+                console.error('An error occurred during the transaction', err);                
                 @* alert('An error occurred. Please try again.'); *@
             }
-        }).render('#paypal-button-container');
+        }).render('#paypal-button-container');        
     }
-    getAccordionItem();    
-    var form=document.getElementById("signinForm");
+    getAccordionItem();        
+    var form=document.getElementById("signinForm");        
     var checkout_form=document.getElementById("checkout-form");
     var checkout_order_btn=document.getElementById("checkout-order-btn"); 
     var username=document.getElementById("username");
-    var password= document.getElementById("password");
-    
+    var password= document.getElementById("password");    
     checkout_order_btn.addEventListener("click",()=>{
     var is_valid=true;
     const user_name=document.getElementById("user-name");
     const address=document.getElementById("address");
     const phone=document.getElementById("phone");
     const email=document.getElementById("email");
+
     if(user_name.value=="")
     {
         is_valid=false;
         document.getElementById("name-error").innerHTML="*Tên không được để trống";
     }
+
     if(address.value=="")
     {
         is_valid=false;
 
         document.getElementById("address-error").innerHTML="*Địa chỉ không được để trống";
     }
+
     if(phone.value=="")
     {
         is_valid=false;
+
         document.getElementById("phone-error").innerHTML="*Số điện thoại không được để trống";
     }
     if(email.value=="")
