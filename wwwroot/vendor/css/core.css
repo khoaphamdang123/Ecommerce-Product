@@ -96,7 +96,7 @@
   --bs-tertiary-color-rgb: 100, 110, 120;
   --bs-tertiary-bg: #e9eaec;
   --bs-tertiary-bg-rgb: 233, 234, 236;
-  --bs-heading-color: #384551;
+  --bs-heading-color: #697a8d;
   --bs-link-color: #696cff;
   --bs-link-color-rgb: 105, 108, 255;
   --bs-link-decoration: none;
@@ -25370,10 +25370,10 @@ li:not(:first-child) .dropdown-item,.dropdown-menu .dropdown-item:not(:first-chi
 :root,[data-bs-theme=light] {
   --bs-menu-bg: var(--bs-paper-bg);
   --bs-menu-bg-rgb: var(--bs-paper-bg-rgb);
-  --bs-menu-color: #384551;
+  --bs-menu-color: #697a8d;
   --bs-menu-color-rgb: 56, 69, 81;
   --bs-menu-hover-bg: #f2f3f3;
-  --bs-menu-hover-color: #384551;
+  --bs-menu-hover-color: #697a8d;
   --bs-menu-sub-active-bg: var(--bs-primary-bg-subtle);
   --bs-menu-sub-active-color: var(--bs-primary);
   --bs-menu-active-color: var(--bs-primary);
@@ -25767,11 +25767,14 @@ li:not(:first-child) .dropdown-item,.dropdown-menu .dropdown-item:not(:first-chi
 }
 
 .menu-link,.menu-horizontal-prev,.menu-horizontal-next {
-  color: var(--bs-menu-color)
+  /* color: var(--bs-menu-color) */
+  color:#697a8d;
 }
 
 .menu-link:hover,.menu-link:focus,.menu-horizontal-prev:hover,.menu-horizontal-prev:focus,.menu-horizontal-next:hover,.menu-horizontal-next:focus {
-  color: var(--bs-menu-hover-color)
+  /* color: var(--bs-menu-hover-color) */
+  color:#697a8d;
+
 }
 
 .menu-item.disabled .menu-link,.menu-horizontal-prev.disabled,.menu-horizontal-next.disabled 
