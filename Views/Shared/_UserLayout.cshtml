@@ -362,7 +362,7 @@
             <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
          </svg>
       </div>
-
+    
      <header class="header d-blue-bg">
         @* <div class="header-top">
             <div class="container">
@@ -412,6 +412,7 @@
                                     </div>
                                     <div class="header__search-cat">
                             <select name="category" id="filter-cat">
+                                            
                                             <option value="">Loại sản phẩm</option>
 
                                             @foreach(var category in categories)
@@ -439,7 +440,7 @@
                                     Tài khoản của tôi </span>
                                     </a>
                     }
-                    <div id="sub-cart-section">
+                <div id="sub-cart-section">
                     @Html.Partial("~/Views/ClientSide/Cart/_SubCartPartial.cshtml",cart)
                     </div>
                             </div>
@@ -469,7 +470,8 @@
                                                 <ul class="submenu">
                                                   @foreach(var cat in categories)
                                                   {
-                                    string regex_cat=Regex.Replace(cat.CategoryName,@"[^\w\d]", "-");
+                                    
+                                                 string regex_cat=Regex.Replace(cat.CategoryName,@"[^\w\d]", "-");
                                                   
                                                   if(cat.SubCategory==null)
                                                   {
@@ -565,7 +567,7 @@
         </div>
      </header>
 
-<div class="offcanvas__area" style="z-index: 1050;">
+@* <div class="offcanvas__area" style="z-index: 1050;">
         <div class="offcanvas__wrapper">
         <div class="offcanvas__close">
             <button class="offcanvas__close-btn" id="offcanvas__close-btn">
@@ -589,7 +591,7 @@
             </div>
         </div>
         </div>
-    </div>
+    </div> *@
     } 
         <main role="main" class="pb-3" id="main-container">
             @RenderBody()            

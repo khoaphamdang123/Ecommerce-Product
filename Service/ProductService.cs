@@ -25,6 +25,7 @@ public class ProductService:IProductRepository
     private readonly IConnectionMultiplexer _redis;
 
     private readonly IDatabase _db;
+
   public ProductService(EcommerceshopContext context,IWebHostEnvironment webHostEnv,IConnectionMultiplexer redis,Support_Serive.Service sp_services)
   {
     this._context=context;
@@ -678,7 +679,9 @@ private async Task<int> countReviews(int product_id)
 
 public async Task<Dictionary<string,int>> countAllReview(List<Product> products)
 {
+ 
  Dictionary<string,int> dict = new Dictionary<string, int>();
+ 
  foreach(var product in products)
  {
   int prod_id=product.Id;
@@ -686,7 +689,9 @@ public async Task<Dictionary<string,int>> countAllReview(List<Product> products)
   string prod_name=product.ProductName;
   dict.Add(prod_name,count_reviews);
  }
+ 
  return dict; 
+
 }
 
   public async Task<int> addReviews(int product_id,string user_id,string comment)
@@ -696,8 +701,11 @@ public async Task<Dictionary<string,int>> countAllReview(List<Product> products)
       string created_date=DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
     
       var review=new Reviewdetail{ProductId=product_id,UserId=user_id,ReviewText=comment,CreatedDate=created_date};
+      
       await this._context.Reviewdetails.AddAsync(review);
+      
       await this.saveChanges();
+      
       res_add=1;
     }
     catch(Exception er)
@@ -766,10 +774,12 @@ public async Task<int> addRatingStar(int product_id,string user_id,int star)
 public async Task<bool> checkProductExist(string product_name)
 {
   var product=await this._context.Products.FirstOrDefaultAsync(c=>c.ProductName==product_name);
+  
   if(product!=null)
   {
     return true;
   }
+
   return false;
 }
 
@@ -788,14 +798,14 @@ public async Task<int> addNewProduct(AddProductModel model)
 
    Console.WriteLine("Product name:"+product_name);
    
-   int price=model.Price;
+   int price=model.Price;   
 
    if(price<0)
    {
     price=0;
    }
 
-      Console.WriteLine("Price:"+price);
+    Console.WriteLine("Price:"+price);
 
    
    int quantity = model.Quantity;
@@ -805,31 +815,32 @@ public async Task<int> addNewProduct(AddProductModel model)
    
    int sub_cat=model.SubCategory;
 
-      Console.WriteLine("Subcat:"+sub_cat);
+    Console.WriteLine("Subcat:"+sub_cat);
 
    
    int brand=model.Brand;
-      Console.WriteLine("brand:"+brand);
+    Console.WriteLine("brand:"+brand);
 
 
    int category = model.Category;
 
-         Console.WriteLine("category:"+category);
+    Console.WriteLine("category:"+category);
 
 
    string description=model.Description;
 
    string stat_description=model.StatDescription;
 
-         Console.WriteLine("description:"+description);
+    Console.WriteLine("description:"+description);
 
    
    string inbox_description=model.InboxDescription;
    
-      Console.WriteLine("inbox:"+inbox_description);
+    Console.WriteLine("inbox:"+inbox_description);
 
 
    string discount_description = model.DiscountDescription;
+
 
     Console.WriteLine("discount:"+discount_description);
 
@@ -856,12 +867,12 @@ public async Task<int> addNewProduct(AddProductModel model)
    
    List<string> sizes=model.Size;
 
-          Console.WriteLine("sizes:"+sizes.Count);
+    Console.WriteLine("sizes:"+sizes.Count);
 
    
    List<string> mirrors=model.Mirror;
 
-          Console.WriteLine("mirror:"+mirrors.Count);
+    Console.WriteLine("mirror:"+mirrors.Count);
 
    
    List<string> versions=model.Version;
@@ -1087,6 +1098,7 @@ for(int i=0;i<variant_files.Count;i++)
 public async Task<int> updateProduct(int id,AddProductModel model)
 {
  int updated_res=0; 
+
 try
 {
    string temp_front_avatar="";
@@ -1097,7 +1109,6 @@ try
 
    var product_ob=await this.findProductById(id);
 
-  
    string product_name=model.ProductName;
 
    Console.WriteLine("Product name:"+product_name);
@@ -1106,10 +1117,10 @@ try
 
    if(price<0)
    {
-    price=0;
+    price=0;    
    }
 
-      Console.WriteLine("Price:"+price);
+    Console.WriteLine("Price:"+price);
 
    
    int quantity = model.Quantity;
@@ -1442,13 +1453,18 @@ else
     product_ob.DiscountDescription=product.DiscountDescription;
     product_ob.UpdatedDate=product.UpdatedDate;
     this._context.Products.Update(product_ob);
+
     await this.saveChanges();
+    
     Console.WriteLine("DID STAY HERE");
+    
     updated_res=1;
+    
     if(!string.IsNullOrEmpty(temp_front_avatar))
     {
       await this._sp_services.removeFiles(temp_front_avatar);
     }
+    
     if(!string.IsNullOrEmpty(temp_back_avatar))
     {
       await this._sp_services.removeFiles(temp_back_avatar);
@@ -1568,15 +1584,15 @@ public async Task<IEnumerable<Product>> filterProductByPriceAndBrands(List<strin
   {
    try
    {
-    var products=await this.findProductById(id);    
-
+    var products=await this.findProductById(id);
+    
     IEnumerable<Variant> all_variant= products.Variants;
 
-   List<Variant> variants=all_variant.OrderByDescending(u=>u.Id).ToList(); 
+    List<Variant> variants=all_variant.OrderByDescending(u=>u.Id).ToList(); 
 
-   var variant_list =PageList<Variant>.CreateItem(variants.AsQueryable(),page,page_size);
+    var variant_list =PageList<Variant>.CreateItem(variants.AsQueryable(),page,page_size);
    
-   return variant_list;   
+    return variant_list;   
    }
    catch(Exception er)
    {
@@ -1584,7 +1600,4 @@ public async Task<IEnumerable<Product>> filterProductByPriceAndBrands(List<strin
    }
    return null;
   }
- 
-
-
 }

@@ -28,7 +28,7 @@ public class NotFoundMiddleware
 
         if(context.Request.Path.Value.Equals("/admin",StringComparison.OrdinalIgnoreCase)||context.Request.Path.Value.Equals("/admin/",StringComparison.OrdinalIgnoreCase))
         { 
-            context.Response.Redirect("/admin/login");            
+            context.Response.Redirect("/admin/login");                        
         }
 
         int status=0;
@@ -78,11 +78,12 @@ public class NotFoundMiddleware
     }
 
     private bool IsPageRoute(string path)
-{
+{   
+
     return (path.StartsWith("/") || path.StartsWith("/admin") || path.StartsWith("/page"))
            && !path.Contains(".")
            && !path.StartsWith("/assets") && !path.StartsWith("/css") 
            && !path.StartsWith("/js") && !path.StartsWith("/images");
 }
-      
+    
 }

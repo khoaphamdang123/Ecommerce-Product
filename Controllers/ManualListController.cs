@@ -59,7 +59,7 @@ public class ManualListController : BaseAdminController
    
    ViewBag.products=products;
     
-   return View();
+   return View();   
    }
 
   [Route("{product_id}/manual_list")]
@@ -68,19 +68,19 @@ public class ManualListController : BaseAdminController
   public async Task<IActionResult> ManualListByProduct(int product_id)
   {
  
- string select_size="7";          
+  string select_size="7";          
  
- ViewBag.select_size=select_size; 
+  ViewBag.select_size=select_size; 
  
- List<string> options=new List<string>(){"7","10","20","50"};
+  List<string> options=new List<string>(){"7","10","20","50"};
  
- ViewBag.options=options;
+  ViewBag.options=options;
 
   var manual_files=await this._manual.findManualByProductId(product_id);
  
   var manual_page_list=await this._manual.pagingManualFiles(7,1,manual_files);
 
-  return View("~/Views/ManualList/ManualList.cshtml",manual_page_list);
+  return View("~/Views/ManualList/ManualList.cshtml",manual_page_list);  
   }
   [Route("manual_list/paging")]
   
@@ -95,7 +95,7 @@ public class ManualListController : BaseAdminController
       }
          var files=await this._manual.pagingManualFiles(page_size,page,manual);
       
-          List<string> options=new List<string>(){"7","10","20","50"};
+          List<string> options=new List<string>(){"7","10","20","50"};          
           
           ViewBag.options=options;
                   
@@ -118,8 +118,8 @@ public class ManualListController : BaseAdminController
   public async Task<IActionResult> DeleteManual(int id)
   {
   int delete_res=0;
- try
- {
+  try
+  {
    delete_res=await this._manual.deleteManual(id);
     
    if(delete_res==0)
@@ -130,6 +130,7 @@ public class ManualListController : BaseAdminController
     else
     {
       TempData["Status_Delete"]=1;
+
       TempData["Message_Delete"]="Xóa tài liệu thành công";      
     }
  }

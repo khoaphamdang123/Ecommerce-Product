@@ -409,13 +409,11 @@ public async Task<IActionResult> Products()
     }
  }
 
-
-
   [HttpGet]
   public async Task<IActionResult> FilterProducts(int pageSize,string prices,string brands,string stars)
   {
  try{
-
+ 
   Console.WriteLine("pagesize:"+pageSize);
   
   string pricess = prices;

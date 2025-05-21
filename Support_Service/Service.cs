@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Globalization;
 using Ecommerce_Product.Models;
 using System.Runtime.InteropServices;
+using HtmlAgilityPack;
+using System.Text.RegularExpressions;
 
 namespace Ecommerce_Product.Support_Serive;
 
@@ -56,91 +58,134 @@ public async Task<string> convertVNDToUSD(string value)
     return ussd_value;
 }
 
-public string generateQRCode(string data,string account_num,string account_name)
-{  
-    string qr_code_img="";
-
-    try
+    public string generateQRCode(string data, string account_num, string account_name)
     {
-    string url="https://api.vietqr.io/v2/generate";
-    
-    using(var client = new HttpClient())
-    {
-     client.BaseAddress=new Uri(url);
+        string qr_code_img = "";
 
-     string[] bank_data_detail=data.Split("*");
+        try
+        {
+            string url = "https://api.vietqr.io/v2/generate";
 
-     string bank_name=bank_data_detail[0];
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(url);
 
-     string bank_code = bank_data_detail[1];
+                string[] bank_data_detail = data.Split("*");
 
-     Console.WriteLine("Bank Name:"+bank_name);
+                string bank_name = bank_data_detail[0];
 
-     Console.WriteLine("Bank Code:"+bank_code);
+                string bank_code = bank_data_detail[1];
 
-     Console.WriteLine("Account Number:"+account_num);
+                Console.WriteLine("Bank Name:" + bank_name);
 
-     Console.WriteLine("Account Name:"+account_name);
-         
-     FormUrlEncodedContent content=new FormUrlEncodedContent(new[]
-     {
+                Console.WriteLine("Bank Code:" + bank_code);
+
+                Console.WriteLine("Account Number:" + account_num);
+
+                Console.WriteLine("Account Name:" + account_name);
+
+                FormUrlEncodedContent content = new FormUrlEncodedContent(new[]
+                {
          new KeyValuePair<string,string>("accountNo",account_num),
          new KeyValuePair<string, string>("accountName",account_name),
          new KeyValuePair<string,string>("acqId",bank_code),
          new KeyValuePair<string,string>("template","compact"),
      });
 
-        HttpResponseMessage response=client.PostAsync(client.BaseAddress,content).Result;
+                HttpResponseMessage response = client.PostAsync(client.BaseAddress, content).Result;
 
-        if(response.IsSuccessStatusCode)
-        {  Console.WriteLine("did success here");
-            string qr_data=response.Content.ReadAsStringAsync().Result;
-            var qr_code=JsonConvert.DeserializeObject<QrModel>(qr_data);
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("did success here");
+                    string qr_data = response.Content.ReadAsStringAsync().Result;
+                    var qr_code = JsonConvert.DeserializeObject<QrModel>(qr_data);
 
-          if(qr_code!=null)
-          { if(qr_code.Code=="00")
-          {
-            qr_code_img=qr_code.Data.QrDataURL;
-          }
-          else
-          {
-            qr_code_img="ERROR";
-          }
-          }
-    }
-    }
-    }
-    catch(Exception er)
-    {  Console.WriteLine("Generate QR Code Exception:"+er.Message);
-        this._logger.LogTrace("Generate QR Code Exception:"+er.Message);
-    }
-    return qr_code_img;
-}
-
- public BankModel getListBank()
- {  
-    BankModel bankModel=new BankModel();
-    
-    try
-    {
-    using(HttpClient client=new HttpClient())
-    {
-        client.BaseAddress=new Uri("https://api.vietqr.io/v2/banks");
-        HttpResponseMessage response=client.GetAsync(client.BaseAddress).Result;
-        if(response.IsSuccessStatusCode)
+                    if (qr_code != null)
+                    {
+                        if (qr_code.Code == "00")
+                        {
+                            qr_code_img = qr_code.Data.QrDataURL;
+                        }
+                        else
+                        {
+                            qr_code_img = "ERROR";
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception er)
         {
-            string data=response.Content.ReadAsStringAsync().Result;            
-            
-            bankModel=JsonConvert.DeserializeObject<BankModel>(data);
+            Console.WriteLine("Generate QR Code Exception:" + er.Message);
+            this._logger.LogTrace("Generate QR Code Exception:" + er.Message);
+        }
+        return qr_code_img;
+    }
+
+public string AddImportantToStyles(string htmlContent)
+{
+    if (string.IsNullOrEmpty(htmlContent))
+        return htmlContent;
+
+    var doc = new HtmlDocument();
+    doc.LoadHtml(htmlContent);
+
+    // Handle inline styles
+    var nodesWithStyle = doc.DocumentNode.SelectNodes("//@style");
+    if (nodesWithStyle != null)
+    {
+        foreach (var node in nodesWithStyle)
+        {
+            var style = node.GetAttributeValue("style", "");
+            if (!string.IsNullOrEmpty(style))
+            {
+                // Add !important to each style rule
+                var modifiedStyle = Regex.Replace(style, @"([^;]+)(;|$)", "$1 !important$2");
+                node.SetAttributeValue("style", modifiedStyle);
+            }
         }
     }
-    }
-    catch(Exception er)
+
+    // Handle <style> tags
+    var styleNodes = doc.DocumentNode.SelectNodes("//style");
+    if (styleNodes != null)
     {
-        this._logger.LogTrace("Get List Bank Exception:"+er.Message);
+        foreach (var styleNode in styleNodes)
+        {
+            var css = styleNode.InnerHtml;
+            // Add !important to each CSS rule
+            var modifiedCss = Regex.Replace(css, @"([^;{]+)(;|$)", "$1 !important$2");
+            styleNode.InnerHtml = modifiedCss;
+        }
     }
-    return bankModel;
- }
+
+    return doc.DocumentNode.OuterHtml;
+}
+
+    public BankModel getListBank()
+    {
+        BankModel bankModel = new BankModel();
+
+        try
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://api.vietqr.io/v2/banks");
+                HttpResponseMessage response = client.GetAsync(client.BaseAddress).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    string data = response.Content.ReadAsStringAsync().Result;
+
+                    bankModel = JsonConvert.DeserializeObject<BankModel>(data);
+                }
+            }
+        }
+        catch (Exception er)
+        {
+            this._logger.LogTrace("Get List Bank Exception:" + er.Message);
+        }
+        return bankModel;
+    }
 public string convertToVND(string value)
 {
     return Convert.ToInt32(value).ToString("N0");    

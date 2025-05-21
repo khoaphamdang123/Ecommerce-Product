@@ -197,11 +197,13 @@
                             <label class="form-label" for="brand">Chọn Trạng thái</label>
                             <select class="form-select select-2" id="brand-select" name="status">
                               @foreach(var status in status_list)
-                              { if(status==Model?.Status)
+                              { 
+                            if(status==Model?.Status)
                               {
                                 <option value="@status" selected>@status</option>   
                               }
-                              else{
+                              else
+                              {
                                 <option value="@status">@status</option>   
                               }                             
                               }

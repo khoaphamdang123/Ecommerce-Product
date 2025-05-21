@@ -14,7 +14,6 @@ public partial class EcommerceshopContext : DbContext
         : base(options)
     {
     }
-
     public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
 
     public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Ecommerce_Product.Models;
 using System.Web;
 using System.Text.RegularExpressions;
+using Ecommerce_Product.Support_Serive;
 
 namespace Ecommerce_Product.Controllers;
 public class ProductDetailController:BaseController
@@ -14,15 +15,18 @@ public class ProductDetailController:BaseController
 
 private readonly ICategoryListRepository _category;
 
-private readonly ILogger<ProductDetailController> _logger;
+  private readonly ILogger<ProductDetailController> _logger;
 
-public ProductDetailController(IBannerListRepository banner,IProductRepository product,ICategoryListRepository category,IUserListRepository user,ILogger<ProductDetailController> logger):base(category,user,banner)
-{
-    this._banner=banner;
-    this._product=product;
-    this._category=category;
-    this._logger=logger;
-}
+private readonly Support_Serive.Service _sp;
+
+  public ProductDetailController(IBannerListRepository banner, IProductRepository product, ICategoryListRepository category, IUserListRepository user,Support_Serive.Service sp, ILogger<ProductDetailController> logger) : base(category, user, banner)
+  {
+    this._banner = banner;
+    this._product = product;
+    this._category = category;
+    this._sp = sp;
+    this._logger = logger;
+  }
 
 [Route("product/details/{product_name}")]
 [HttpGet]
@@ -108,7 +112,7 @@ public async Task<IActionResult> ProductDetail(string product_name)
         // stat_description=HttpUtility.HtmlDecode(stat_description);
 
         // stat_description=stat_description.Replace("<p>","").Replace("</p>","").Replace("<span style=\"white-space: normal;\">","").Replace("</span>","").Replace("<span style=\"white-space:pre;\"","").Replace(">>",">");
-        product.Statdescription=HttpUtility.HtmlDecode(product.Statdescription);
+        product.Statdescription=this._sp.AddImportantToStyles(HttpUtility.HtmlDecode(product.Statdescription));
       }
       if(!string.IsNullOrEmpty(product.Description))
       {
@@ -116,7 +120,7 @@ public async Task<IActionResult> ProductDetail(string product_name)
        
        if(regular_text!="Powered by Froala Editor")
        {
-        product.Description=HttpUtility.HtmlDecode(product.Description);
+        product.Description=this._sp.AddImportantToStyles(HttpUtility.HtmlDecode(product.Description));
        }
        else
        {
@@ -128,7 +132,7 @@ public async Task<IActionResult> ProductDetail(string product_name)
         string regular_text=Regex.Replace(product.InboxDescription, "<.*?>", "").Trim();
        if(regular_text!="Powered by Froala Editor")
        {
-        product.InboxDescription=HttpUtility.HtmlDecode(product.InboxDescription);
+        product.InboxDescription=this._sp.AddImportantToStyles(HttpUtility.HtmlDecode(product.InboxDescription));
        }
        else
        {
@@ -141,7 +145,7 @@ public async Task<IActionResult> ProductDetail(string product_name)
 
        if(regular_text!="Powered by Froala Editor")
        {
-        product.DiscountDescription=HttpUtility.HtmlDecode(product.DiscountDescription);
+        product.DiscountDescription=this._sp.AddImportantToStyles(HttpUtility.HtmlDecode(product.DiscountDescription));
        }
        else
        {

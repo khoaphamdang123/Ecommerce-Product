@@ -86,6 +86,7 @@ public class DashboardController : BaseAdminController
 
 
     var latest_orders=await this._dashboard.getLatestOrder(5);
+    
     ViewData["total_orders"]=total_orders;
     
     ViewData["profit_in_day"]=profit_in_day;
@@ -108,11 +109,11 @@ public class DashboardController : BaseAdminController
     
     ViewData["total_visitors"]=total_visitors;
     
-  var viewId="G-KHS83JFC5Y";
+    var viewId="G-KHS83JFC5Y";
   
-  DateTime startDate = DateTime.Now.AddDays(-30);
+    DateTime startDate = DateTime.Now.AddDays(-30);
   
-  DateTime endDate = DateTime.Now;
+    DateTime endDate = DateTime.Now;
     
   }
     catch(Exception er)

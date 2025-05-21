@@ -114,7 +114,7 @@ public class CartController : BaseController
   [HttpPost]
   public async Task<IActionResult> SubCartPartialView()
   {
-    var cart=this._cart.getCart();
+    var cart=this._cart.getCart();    
     return PartialView("~/Views/ClientSide/Cart/_SubCartPartial.cshtml",cart);
   }
   

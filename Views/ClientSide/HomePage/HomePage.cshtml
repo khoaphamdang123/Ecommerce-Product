@@ -552,7 +552,7 @@
                                                     {
                                                     string val=$"data-img-{z+1}=\"{product.ProductImages.ToList()[z].Avatar}\"";
                                                     
-                                                    @Html.Raw(val);                                                    
+                                                    @Html.Raw(val);
                                                     }
                                                     data-bs-target="#productModalId"
                                                     title="Xem nhanh">
@@ -589,7 +589,7 @@
                                     }
                                     else
                                     {
-                                    <span class="discounted-price">@product.Price đ</span>   
+                                    <span class="discounted-price">@product.Price đ</span>                                       
                                     }
                                 </div>
                                 }
@@ -871,7 +871,7 @@
                                        <a href="@Url.Action("BlogDetail","Blog",new{id=blog.Id})"> Read More <span class="icon"></span></a>
                                     </div>
                                     <div class="post-date">
-                                        <a href="javascript:void(0);">-@(blog.Updateddate)</a>
+                                        <a href="javascript:void(0);">-@(blog.Updateddate)</a>                                        
                                     </div>
                                 </div>
                             </div>
@@ -1734,8 +1734,11 @@ var modalElement = document.getElementById('productModalId');
     });
 
  modalElement.addEventListener('show.bs.modal',function(event){
+     
      if(modalTriggered)
-     { event.preventDefault();
+     { 
+     event.preventDefault();
+     
      return;
      }
      if(event.target.id==="productModalId")
@@ -2193,12 +2196,11 @@ if (wwwrootIndex !== -1) {
         
         formData.append("product_id",productId);
         
-        formData.append("quantity",quantity_value);
+        //formData.append("quantity",quantity_value);
         
         formData.append("product_name",productName);
         
         formData.append("price",price);
-
 
          $.ajax({
             url:"@Url.Action("addItemToCart","Cart")",
@@ -2211,7 +2213,7 @@ if (wwwrootIndex !== -1) {
                 const status=response.status;
                 const message = response.message;
                 const data=response.data;
-                 if(data!="")
+            if(data!="")
              {
                 $("#count-cart").text(data.length);
                

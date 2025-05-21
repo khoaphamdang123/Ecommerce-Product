@@ -388,11 +388,12 @@ document.addEventListener("DOMContentLoaded",()=>{
                     url: '@Url.Action("FilterProducts", "Products")',
                     type: 'GET',
                     data: {pageSize: page_size ,prices:price_value,brands:checked_brands_value,stars:checked_stars},
-                    success: function (data) {
+                    success: function (data) 
+                    {
                         $("#productList").html(data);
                     },
-                    error: function (xhr, status, error) {
-                      
+                    error: function (xhr, status, error) 
+                    {
                     }
                 });
     });
@@ -401,10 +402,14 @@ document.addEventListener("DOMContentLoaded",()=>{
    });
     
      });
+
+
+
     function hello()
     { 
       var selected_value=document.getElementById("page-size").value;
-     if(selected_value!=null)
+      
+      if(selected_value!=null)
      {
       selected_value=parseInt(selected_value);      
       @* var url='@Url.Action("ProductsPaging", "Products"),new{page_size=__page_size__}';

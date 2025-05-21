@@ -5,6 +5,7 @@
     Layout = "_UserLayout";    
     
     var count_reviews=ViewBag.count_reviews as Dictionary<string,int>;
+
     
     var rating=ViewBag.rating_star;
     
@@ -67,7 +68,7 @@
     var count_stars=ViewBag.count_stars as Dictionary<string,int>;
     List<double> star_percen=new List<double>();   
    var stats_description=Html.Raw(Model?.Statdescription);
-   Console.WriteLine(stats_description);
+   Console.WriteLine("Stats:"+stats_description);
    var user=this.ViewContext.HttpContext.Session.GetString("UserName");
    Console.WriteLine("User id here is:"+user);
    
@@ -157,7 +158,7 @@
                                             @foreach(var item in Model?.ProductImages)
                                             {
                                             <div class="carousel-item">
-                                             <img draggable="false" src="~/@item.Avatar.Substring(item.Avatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="main-img" id="subImage" class="d-flex img-fluild zoomable-image">
+                                             <img draggable="fal se" src="~/@item.Avatar.Substring(item.Avatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="main-img" id="subImage" class="d-flex img-fluild zoomable-image">
                                             </div>
                                             }
                                         </div>                                        
@@ -243,7 +244,7 @@
                                     }
                                     else
                                     {
-                                    <span class="discounted-price">@Model.Price đ</span>   
+                                    <span class="discounted-price">@Model.Price đ</span>                                       
                                     }
                                 
                             </div>
@@ -277,7 +278,7 @@
       }
                     
                 @if(version_value.Count>0)
-                     {
+            {
                     <div class="version-selector">
 
                     <h3>Phiên bản:</h3>
