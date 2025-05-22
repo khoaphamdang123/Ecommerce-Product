@@ -511,12 +511,31 @@
                             <h6 class="des-sm-title">Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC.</h6>
                             <p class="des-text mb-25">Sound of Marshall, unplugs the chords, and takes the show on the road. Weighing in under 7 pounds, the Kilburn is a lightweight piece of vintage styled engineering. Setting the bar as one of the loudest speakers in its class, the Kilburn is a compact, stout-hearted hero with a well-balanced audio which boasts a clear midrange and extended highs for a sound that is both articulate and pronounced. The analogue knobs allow you to fine tune the controls to your personal preferences while the guitar-influenced leather strap enables easy and stylish travel.</p>
                         </div> *@
-                        <div class="refresh-container">
-                        @if(!string.IsNullOrEmpty(Model?.Description))
-                        {
-                            @Html.Raw(Model?.Description.Replace("Froala Editor","").Replace("Powered by",""))
-                        }
-                        </div>
+                           @if(!string.IsNullOrEmpty(Model.Description))
+                         {
+        <style>
+        .refresh-container table {
+            width: 100% !important; /* Force table to take full container width */
+            max-width: 100%; /* Prevent overflow */
+            margin-bottom: 1rem; /* Bootstrap-like spacing */
+        }
+        .refresh-container table td, .refresh-container table th {
+            padding: 0.75rem; /* Consistent padding */
+            vertical-align: middle; /* Center content vertically */
+        }
+    </style>
+
+    <div class="refresh-container container">
+        <div class="table-responsive">
+            @Html.Raw(Model.Description
+                ?.Replace("Froala Editor", "")
+                .Replace("Powered by", "")
+                .Replace("<img", "<img class='img-fluid'")
+                .Replace("<table", "<table class='table table-bordered table-striped'")
+            )
+        </div>
+    </div>
+            }  
                     </div>
                       <div class="text-center" style="margin-top:20px;margin-bottom: 25px;">
                         <button id="showFullButton" class="show-btn" style="font-weight: bold;">+ Xem toàn bộ nội dung</button>
@@ -525,31 +544,88 @@
                 
                      <div class="tab-pane fade" id="inbox-des" role="tabpanel" aria-labelledby="inbox-des-tab">
                         
-                        @if(!string.IsNullOrEmpty(Model?.InboxDescription))
-                        {  <div class="refresh-container">
-                            @Html.Raw(Model?.InboxDescription.Replace("Froala Editor","").Replace("Powered by",""))
-                            </div>
-                        }
+                           @if(!string.IsNullOrEmpty(Model.InboxDescription))
+                         {
+        <style>
+        .refresh-container table {
+            width: 100% !important; /* Force table to take full container width */
+            max-width: 100%; /* Prevent overflow */
+            margin-bottom: 1rem; /* Bootstrap-like spacing */
+        }
+        .refresh-container table td, .refresh-container table th {
+            padding: 0.75rem; /* Consistent padding */
+            vertical-align: middle; /* Center content vertically */
+        }
+    </style>
+
+    <div class="refresh-container container">
+        <div class="table-responsive">
+            @Html.Raw(Model.InboxDescription
+                ?.Replace("Froala Editor", "")
+                .Replace("Powered by", "")
+                .Replace("<img", "<img class='img-fluid'")
+                .Replace("<table", "<table class='table table-bordered table-striped'")
+            )
+        </div>
+    </div>
+            }  
                     </div>
 
                        <div class="tab-pane fade" id="discount-des" role="tabpanel" aria-labelledby="discount-des-tab">
                     
-                        @if(!string.IsNullOrEmpty(Model?.DiscountDescription))
-                        {  <div class="refresh-container">
-                            @Html.Raw(Model?.DiscountDescription.Replace("Froala Editor","").Replace("Powered by",""))
-                            </div>
-                        }
+        @if(!string.IsNullOrEmpty(Model.DiscountDescription))
+        {
+        <style>
+        .refresh-container table {
+            width: 100% !important; /* Force table to take full container width */
+            max-width: 100%; /* Prevent overflow */
+            margin-bottom: 1rem; /* Bootstrap-like spacing */
+        }
+        .refresh-container table td, .refresh-container table th {
+            padding: 0.75rem; /* Consistent padding */
+            vertical-align: middle; /* Center content vertically */
+        }
+    </style>
+
+    <div class="refresh-container container">
+        <div class="table-responsive">
+            @Html.Raw(Model.DiscountDescription
+                ?.Replace("Froala Editor", "")
+                .Replace("Powered by", "")
+                .Replace("<img", "<img class='img-fluid'")
+                .Replace("<table", "<table class='table table-bordered table-striped'")
+            )
+        </div>
+    </div>
+            }  
                     </div>
                     <div class="tab-pane fade" id="aditional" role="tabpanel" aria-labelledby="aditional-tab">
                         @if(!string.IsNullOrEmpty(Model.Statdescription))
                          {
-           @* <iframe style="width: 100%; border: none;" srcdoc="@Html.Raw(System.Web.HttpUtility.HtmlEncode(Model.Statdescription))"></iframe>                          *@
-                                <div class="refresh-container">
-                                       @Html.Raw(Model?.Statdescription.Replace("Froala Editor","").Replace("Powered by",""))
-                                </div>
+        <style>
+        .refresh-container table {
+            width: 100% !important; /* Force table to take full container width */
+            max-width: 100%; /* Prevent overflow */
+            margin-bottom: 1rem; /* Bootstrap-like spacing */
+        }
+        .refresh-container table td, .refresh-container table th {
+            padding: 0.75rem; /* Consistent padding */
+            vertical-align: middle; /* Center content vertically */
+        }
+    </style>
+
+    <div class="refresh-container container">
+        <div class="table-responsive">
+            @Html.Raw(Model.Statdescription
+                ?.Replace("Froala Editor", "")
+                .Replace("Powered by", "")
+                .Replace("<img", "<img class='img-fluid'")
+                .Replace("<table", "<table class='table table-bordered table-striped'")
+            )
+        </div>
+    </div>
             }     
                     </div>
-                
                     <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
                         <div class="product__details-review">
                             <div class="row">

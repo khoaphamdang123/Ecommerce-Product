@@ -122,44 +122,46 @@ public async Task<string> convertVNDToUSD(string value)
         return qr_code_img;
     }
 
-public string AddImportantToStyles(string htmlContent)
-{
-    if (string.IsNullOrEmpty(htmlContent))
-        return htmlContent;
-
-    var doc = new HtmlDocument();
-    doc.LoadHtml(htmlContent);
-
-    // Handle inline styles
-    var nodesWithStyle = doc.DocumentNode.SelectNodes("//@style");
-    if (nodesWithStyle != null)
+    public string AddImportantToStyles(string htmlContent)
     {
-        foreach (var node in nodesWithStyle)
+        if (string.IsNullOrEmpty(htmlContent))
+            return htmlContent;
+
+        var doc = new HtmlDocument();
+
+        doc.LoadHtml(htmlContent);
+
+        // Handle inline styles
+        var nodesWithStyle = doc.DocumentNode.SelectNodes("//@style");
+        if (nodesWithStyle != null)
         {
-            var style = node.GetAttributeValue("style", "");
-            if (!string.IsNullOrEmpty(style))
+            foreach (var node in nodesWithStyle)
             {
-                // Add !important to each style rule
-                var modifiedStyle = Regex.Replace(style, @"([^;]+)(;|$)", "$1 !important$2");
-                node.SetAttributeValue("style", modifiedStyle);
+                var style = node.GetAttributeValue("style", "");
+                if (!string.IsNullOrEmpty(style))
+                {
+                    // Add !important to each style rule
+                    var modifiedStyle = Regex.Replace(style, @"([^;]+)(;|$)", "$1 !important$2");
+                    node.SetAttributeValue("style", modifiedStyle);
+                }
             }
         }
-    }
 
-    // Handle <style> tags
-    var styleNodes = doc.DocumentNode.SelectNodes("//style");
-    if (styleNodes != null)
-    {
-        foreach (var styleNode in styleNodes)
+        // Handle <style> tags
+        var styleNodes = doc.DocumentNode.SelectNodes("//style");
+        if (styleNodes != null)
         {
-            var css = styleNode.InnerHtml;
-            // Add !important to each CSS rule
-            var modifiedCss = Regex.Replace(css, @"([^;{]+)(;|$)", "$1 !important$2");
-            styleNode.InnerHtml = modifiedCss;
+            foreach (var styleNode in styleNodes)
+            {
+                var css = styleNode.InnerHtml;
+                // Add !important to each CSS rule
+                var modifiedCss = Regex.Replace(css, @"([^;{]+)(;|$)", "$1 !important$2");
+                styleNode.InnerHtml = modifiedCss;
+            }
         }
-    }
 
-    return doc.DocumentNode.OuterHtml;
+        return doc.DocumentNode.OuterHtml;
+            
 }
 
     public BankModel getListBank()
