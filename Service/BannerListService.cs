@@ -132,6 +132,7 @@ public class BannerListService:IBannerListRepository
     if(banner_ob!=null)
     {
       updated_res=1;
+
       banner_ob.Bannername=banner.BannerName;
       
       string folder_name="UploadImageBanner";
@@ -143,27 +144,31 @@ public class BannerListService:IBannerListRepository
         Directory.CreateDirectory(upload_path);
       }
       var avatar_obj=banner.Image;
-      if(avatar_obj!=null)
-      {  Console.WriteLine("banner is not null");
-        string file_name=Guid.NewGuid()+"_"+Path.GetFileName(avatar_obj.FileName);
-  
-        string file_path=Path.Combine(upload_path,file_name);
+      
+      if (avatar_obj != null)
+      {
+        Console.WriteLine("banner is not null");
+        string file_name = Guid.NewGuid() + "_" + Path.GetFileName(avatar_obj.FileName);
 
-        using(var fileStream=new FileStream(file_path,FileMode.Create))
+        string file_path = Path.Combine(upload_path, file_name);
+
+        using (var fileStream = new FileStream(file_path, FileMode.Create))
         {
           await avatar_obj.CopyToAsync(fileStream);
-        } 
-        avatar_url=file_path;
+        }
+       
+        avatar_url = file_path;
 
-        string curr_image=banner_ob.Image;
+        string curr_image = banner_ob.Image;
 
-        if(!string.IsNullOrEmpty(curr_image))
+        if (!string.IsNullOrEmpty(curr_image))
         {
           await this._sp_services.removeFiles(curr_image);
         }
-            banner_ob.Image=avatar_url;
+        banner_ob.Image = avatar_url;
       }  
       this._context.Banners.Update(banner_ob);
+
       await this.saveChanges();
     }
     return updated_res;

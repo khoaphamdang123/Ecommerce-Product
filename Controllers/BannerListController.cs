@@ -74,8 +74,16 @@ public class BannerListController : BaseAdminController
   public async Task<IActionResult> AddBanner(BannerModel banner)
   {
   try{
-
-    int created_res=await this._banner.addBanner(banner);
+      int created_res = 0;
+      try
+      {
+        created_res = await this._banner.addBanner(banner);
+      }
+      catch(Exception er)
+      {
+        Console.WriteLine("Add Banner Exception:" + er.Message);
+        this._logger.LogError("Add Banner Exception:" + er.Message);
+      }
     ViewBag.Status=created_res;
     if(created_res==0)
     {
@@ -108,27 +116,40 @@ public class BannerListController : BaseAdminController
     return View(banner);
   }
 
-    [Route("banner/{id}/info")]
-    
-    [HttpPost]
+  [Route("banner/{id}/info")]
 
-    public async Task<IActionResult> BannerInfo(int id,BannerModel banner)
-    {   
-    
-        int update_res=await this._banner.updateBanner(id,banner);
-        ViewBag.Status=update_res;
-        if(update_res==0)
-        {
-            this._logger.LogInformation($"{this.HttpContext.Session.GetString("Username")} Updated Banner Failed");
-            ViewBag.Update_Banner="Cập nhật banner thất bại";
-        }
-        else
-        {  this._logger.LogInformation($"{this.HttpContext.Session.GetString("Username")} Updated Banner Successfully");
-            ViewBag.Update_Banner="Cập nhật banner thành công";
-        }
-        var banner_ob=await this._banner.findBannerById(id);
-       
-        return View(banner_ob);
+  [HttpPost]
+
+  public async Task<IActionResult> BannerInfo(int id, BannerModel banner)
+  {
+    int update_res = 0;
+    try
+    {
+       update_res = await this._banner.updateBanner(id, banner);
+    }
+    catch (Exception er)
+    {
+      Console.WriteLine("Update Banner Exception:" + er.Message);
+      this._logger.LogError("Update Banner Exception:" + er.Message);
+    }
+    ViewBag.Status = update_res;
+    if (update_res == 0)
+    {
+      this._logger.LogInformation($"{this.HttpContext.Session.GetString("Username")} Updated Banner Failed");
+
+      ViewBag.Update_Banner = "Cập nhật banner thất bại";
+    }
+    else
+    {
+      this._logger.LogInformation($"{this.HttpContext.Session.GetString("Username")} Updated Banner Successfully");
+
+      ViewBag.Update_Banner = "Cập nhật banner thành công";
+    }
+
+    var banner_ob = await this._banner.findBannerById(id);
+
+    return View(banner_ob);
+
     }
 
 }
