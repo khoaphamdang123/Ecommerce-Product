@@ -411,29 +411,29 @@
                                         <button class="button" type="submit"><i class="far fa-search"></i></button>
                                     </div>
                                     <div class="header__search-cat">
+
                             <select name="category" id="filter-cat">
                                             
                                             <option value="">Loại sản phẩm</option>
 
                                             @foreach(var category in categories)
                                             {  
-                                                <option value="@category.CategoryName">@category.CategoryName</option>
+                                                <option value="@category.CategoryName">@category.CategoryName</option>                                                
                                             } 
-
-                                        </select>
-                                    </div>
-                                </form>
+                            </select>
+                            </div>
+                            </form>
                             </div>
                         </div>
                         <div class="col-xl-4 col-lg-5 col-md-8 col-sm-8">
                             <div class="header-action" id="user_avatar">
-                                 @if(User.Identity.IsAuthenticated && User.IsInRole("User"))
+                    @if(User.Identity.IsAuthenticated && User.IsInRole("User"))
                     {   
-                        @Html.Partial("~/Views/Shared/_LoginUser.cshtml")
+                        @Html.Partial("~/Views/Shared/_LoginUser.cshtml")                                                
                     }
                                 else
                                 {
-                                    <a class="icon-link" href="@Url.Action("MyAccount","MyAccount")" >
+                                    <a class="icon-link" href="@Url.Action("MyAccount","MyAccount")">
                                     <i class="flaticon-user"></i> 
                                     <span class="text">
                                     <span class="sub">Đăng nhập</span>
@@ -472,7 +472,8 @@
                                                   {
                                     
                                                  string regex_cat=Regex.Replace(cat.CategoryName,@"[^\w\d]", "-");
-                                                  
+
+
                                                   if(cat.SubCategory==null)
                                                   {
                                                     <li><a href="@Url.Action("ProductsByCategory","Products",new{category_name=regex_cat})">@cat.CategoryName</a></li>
