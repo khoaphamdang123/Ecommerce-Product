@@ -26,14 +26,10 @@ public class BaseController : Controller
         
         var user = await this._user.findUserByName("company");
     
-      if(string.IsNullOrEmpty(Environment.GetEnvironmentVariable("Logo")))
-      {
         var logo= await this._banner.findBannerByName("logo");
 
         Environment.SetEnvironmentVariable("Logo",logo.ToList()[0].Image);  
 
-     }
-        
         ViewBag.Categories = categories;
         
         ViewBag.Company=user;
