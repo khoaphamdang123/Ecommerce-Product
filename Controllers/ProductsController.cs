@@ -36,8 +36,18 @@ public async Task<IActionResult> ProductsByCategory(string category_name)
      var sub_product_list_banner=await this._banner.findBannerByName("sub_product_banner");
     var list_product=product_list_banner.ToList();
     var sub_list=sub_product_list_banner.ToList();
-    string product_banner=list_product[0].Image;
-    string sub_banner=sub_list[0].Image;
+
+      string product_banner = "";
+
+      string sub_banner = ""; 
+     if(list_product.Count > 0)
+     {
+         product_banner = list_product[0].Image;
+     }
+      if(sub_list.Count > 0)
+      {
+          sub_banner = sub_list[0].Image;
+      }
     Dictionary<string,int> count_reviews=await this._product.countAllReview(products.ToList());
 
 
@@ -75,10 +85,20 @@ public async Task<IActionResult> ProductByBrand(string brand_name)
      string select_size="12";
      var product_list_banner=await this._banner.findBannerByName("product_list_banner");
      var sub_product_list_banner=await this._banner.findBannerByName("sub_product_banner");
-    var list_product=product_list_banner.ToList();
+  var list_product=product_list_banner.ToList();
     var sub_list=sub_product_list_banner.ToList();
-    string product_banner=list_product[0].Image;
-    string sub_banner=sub_list[0].Image;
+
+      string product_banner = "";
+
+      string sub_banner = ""; 
+     if(list_product.Count > 0)
+     {
+         product_banner = list_product[0].Image;
+     }
+      if(sub_list.Count > 0)
+      {
+          sub_banner = sub_list[0].Image;
+      }
     Dictionary<string,int> count_reviews=await this._product.countAllReview(products.ToList()); 
 
   //  Dictionary<string,int> count_product_reviews=new Dictionary<string, int>();
@@ -114,10 +134,20 @@ public async Task<IActionResult> ProductBySubCategory(int sub_cat_id)
      string select_size="12";
      var product_list_banner=await this._banner.findBannerByName("product_list_banner");
      var sub_product_list_banner=await this._banner.findBannerByName("sub_product_banner");
-    var list_product=product_list_banner.ToList();
+     var list_product=product_list_banner.ToList();
     var sub_list=sub_product_list_banner.ToList();
-    string product_banner=list_product[0].Image;
-    string sub_banner=sub_list[0].Image;
+
+      string product_banner = "";
+
+      string sub_banner = ""; 
+     if(list_product.Count > 0)
+     {
+         product_banner = list_product[0].Image;
+     }
+      if(sub_list.Count > 0)
+      {
+          sub_banner = sub_list[0].Image;
+      }
     Dictionary<string,int> count_reviews=await this._product.countAllReview(products.ToList());   
 
   //  Dictionary<string,int> count_product_reviews=new Dictionary<string, int>();
@@ -168,12 +198,20 @@ public async Task<IActionResult> ProminentProducts()
     //  }
 
     var list_product=product_list_banner.ToList();
-    
+
     var sub_list=sub_product_list_banner.ToList();
-    
-    string product_banner=list_product[0].Image;
-    
-    string sub_banner=sub_list[0].Image;
+
+      string product_banner = "";
+
+      string sub_banner = ""; 
+     if(list_product.Count > 0)
+     {
+         product_banner = list_product[0].Image;
+     }
+      if(sub_list.Count > 0)
+      {
+          sub_banner = sub_list[0].Image;
+      }
     
     ViewBag.product_banner=product_banner;
     
@@ -230,13 +268,21 @@ public async Task<IActionResult> Products()
     //   count_product_reviews.Add(i.ToString(),prod.Count);
     //  }
 
-    var list_product=product_list_banner.ToList();
-    
+  var list_product=product_list_banner.ToList();
+
     var sub_list=sub_product_list_banner.ToList();
-    
-    string product_banner=list_product[0].Image;
-    
-    string sub_banner=sub_list[0].Image;
+
+      string product_banner = "";
+
+      string sub_banner = ""; 
+     if(list_product.Count > 0)
+     {
+         product_banner = list_product[0].Image;
+     }
+      if(sub_list.Count > 0)
+      {
+          sub_banner = sub_list[0].Image;
+      }
     
     ViewBag.product_banner=product_banner;
     
@@ -301,9 +347,18 @@ public async Task<IActionResult> Products()
     var list_product=product_list_banner.ToList();
     var sub_list=sub_product_list_banner.ToList();
 
-    string product_banner=list_product[0].Image;
+      string product_banner = "";
+
+      string sub_banner = ""; 
+     if(list_product.Count > 0)
+     {
+         product_banner = list_product[0].Image;
+     }
+      if(sub_list.Count > 0)
+      {
+          sub_banner = sub_list[0].Image;
+      }
     //Console.WriteLine("Product banner here:"+product_banner);
-    string sub_banner=sub_list[0].Image;
    // Console.WriteLine("up to this place too");
    Dictionary<string,int> count_reviews=await this._product.countAllReview(prods.item.ToList()); 
 
@@ -359,14 +414,28 @@ public async Task<IActionResult> Products()
      string select_size="12";
      var product_list_banner=await this._banner.findBannerByName("product_list_banner");
      var sub_product_list_banner=await this._banner.findBannerByName("sub_product_banner");
+
     var list_product=product_list_banner.ToList();
+
     var sub_list=sub_product_list_banner.ToList();
-    string product_banner=list_product[0].Image;
-   Dictionary<string,int> count_reviews=await this._product.countAllReview(products.ToList()); 
+
+      string product_banner = "";
+
+      string sub_banner = ""; 
+     if(list_product.Count > 0)
+     {
+         product_banner = list_product[0].Image;
+     }
+      if(sub_list.Count > 0)
+      {
+          sub_banner = sub_list[0].Image;
+      }
+
+   Dictionary<string, int> count_reviews=await this._product.countAllReview(products.ToList()); 
 
     ViewBag.count_reviews=count_reviews;
 
-    string sub_banner=sub_list[0].Image;
+  
     ViewBag.product_banner=product_banner;
     ViewBag.sub_banner=sub_banner;
 

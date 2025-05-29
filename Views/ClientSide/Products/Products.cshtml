@@ -158,8 +158,14 @@
                     <div class="col-xl-9 col-lg-8">
                         <div class="shop-banner mb-30">
                             <div class="banner-image">
+                              @if(!string.IsNullOrEmpty(product_banner))
+                              {
                                 <img class="banner-l" src="~/@product_banner.Substring(product_banner.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="banner">
+                                }
+                                  @if(!string.IsNullOrEmpty(sub_product_banner))
+                              {
                                 <img class="banner-sm" src="~/@sub_product_banner.Substring(sub_product_banner.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="">
+                                }
                            
                             </div>
                         </div>
