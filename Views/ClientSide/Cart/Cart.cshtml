@@ -311,10 +311,12 @@ attachRemoveButtonListeners();
         {
             formData.append(`quantities[${index}]`,item);
         });
+
         product_ids.forEach((item,index)=>
         {
             formData.append(`product_ids[${index}]`,item);
         });
+        
         $.ajax({
             url: "@Url.Action("updateCart","Cart")",
             type: "POST",

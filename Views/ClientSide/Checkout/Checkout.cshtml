@@ -20,7 +20,7 @@
      username=account_part[0];
      password=account_part[1];
   }
-    
+
     string[] email_list=company_user.Email.Split('#');
     
     string email=email_list[0];
@@ -35,11 +35,11 @@
     
     string bank_value="";
 
-    string qr_code=Environment.GetEnvironmentVariable("qr_code");    
-
+    string qr_code=Environment.GetEnvironmentVariable("qr_code");
+        
     if(!string.IsNullOrEmpty(extra_info))
     {
-      string[] info_values=extra_info.Split('\n');
+      string[] info_values=extra_info.Split('\n');      
 
       foreach(var info in info_values)
       {
@@ -60,6 +60,7 @@
     if(!string.IsNullOrEmpty(bank_value))
     {
       var bank_detail=bank_value.Split('*');
+
       bank_name=bank_detail[0];
     }
 
@@ -625,10 +626,11 @@
         <div class="visa-logo">
           <img src="@Url.Content("~/user_layout/img/banner/card.png")" alt="Visa Logo"> 
         </div>
-          <h3>Thanh toán sử dụng Visa Card</h3>          
+          <h3>Thanh toán sử dụng Visa Card</h3>   
         <div class="credit-card-form">
           <div class="form-group">
             <label for="card-holder"><strong>Tên chủ thể thẻ</strong></label>
+
             <input type="text" id="card-holder" name="card-holder" placeholder="John Doe">
           </div>
           <div class="form-group">
