@@ -17,12 +17,12 @@ public class FirebaseController : BaseAdminController
 
    private readonly ISettingRepository _setting;
 
+  public FirebaseController(FirebaseService firebase_serivce, ISettingRepository setting, IBannerListRepository banner, ILogger<FirebaseController> logger) : base(banner)
+  {
+    this._firebase_serive = firebase_serivce;
+    this._setting = setting;
+    this._logger = logger;
 
-   public FirebaseController(FirebaseService firebase_serivce,ISettingRepository setting,IBannerListRepository banner,ILogger<FirebaseController> logger):base(banner)
-   {
-  this._firebase_serive=firebase_serivce;
-  this._setting=setting;
-  this._logger=logger;   
    }
 [Route("firebase")]
 
@@ -37,12 +37,13 @@ if(string.IsNullOrEmpty(id_user))
 {
   return RedirectToAction("Index","LoginAdmin");    
 }
+ 
   var setting_obj=await this._setting.getSettingObjByName("Firebase");
 
-  if(setting_obj!=null)
-  {
-    ViewBag.setting=setting_obj;
-  }
+      if (setting_obj != null)
+      {
+        ViewBag.setting = setting_obj;        
+      } 
 }
 catch(Exception er)
 {

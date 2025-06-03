@@ -80,10 +80,12 @@ public partial class EcommerceshopContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql("Host=14.225.212.107;Database=ecommerceshop;Port=5433;Username=postgres;Password=miyuki123");
+        => optionsBuilder.UseNpgsql($"Host={Environment.GetEnvironmentVariable("DB_HOST")};Database={Environment.GetEnvironmentVariable("DB_NAME")};Port={Environment.GetEnvironmentVariable("DB_PORT")};Username={Environment.GetEnvironmentVariable("DB_USER")};Password={Environment.GetEnvironmentVariable("DB_PASSWORD")};");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
+    { 
+        base.OnModelCreating(modelBuilder);
+
         modelBuilder.Entity<AspNetRole>(entity =>
         {
             entity.HasIndex(e => e.NormalizedName, "RoleNameIndex").IsUnique();
@@ -99,6 +101,7 @@ public partial class EcommerceshopContext : DbContext
             entity.HasOne(d => d.Role).WithMany(p => p.AspNetRoleClaims).HasForeignKey(d => d.RoleId);
         });
 
+
         modelBuilder.Entity<AspNetUser>(entity =>
         {
             entity.HasIndex(e => e.NormalizedEmail, "EmailIndex");
@@ -111,9 +114,9 @@ public partial class EcommerceshopContext : DbContext
             entity.Property(e => e.CreatedDate)
                 .HasColumnType("character varying")
                 .HasColumnName("Created_Date");
-            entity.Property(e => e.Email).HasMaxLength(256);
+            entity.Property(e => e.Email).HasColumnType("text");
             entity.Property(e => e.Gender).HasColumnType("character varying");
-            entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
+            entity.Property(e => e.NormalizedEmail).HasColumnType("text");
             entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
             entity.Property(e => e.Seq).HasDefaultValueSql("nextval('user_number_seq'::regclass)");
             entity.Property(e => e.UserName).HasMaxLength(256);

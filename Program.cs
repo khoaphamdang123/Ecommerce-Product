@@ -13,10 +13,10 @@ using Ecommerce_Product.Job;
 
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
+
 DotNetEnv.Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 var host = Environment.GetEnvironmentVariable("DB_HOST");
 var port = Environment.GetEnvironmentVariable("DB_PORT");
@@ -45,14 +45,18 @@ builder.Services.AddQuartz(q =>
 
 FirebaseApp.Create(new AppOptions()
 {
-  Credential=GoogleCredential.FromFile("ecommerce-product-92f11-firebase-adminsdk-fbsvc-b877dd5236.json")
+    Credential = GoogleCredential.FromFile("ecommerce-product-92f11-firebase-adminsdk-fbsvc-b877dd5236.json")
 });
+
 
 builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 
-builder.Services.AddSingleton<IConnectionMultiplexer>(sp=>{
-    var configuration=builder.Configuration.GetSection("Redis:ConnectionString").Value;
-    return ConnectionMultiplexer.Connect(configuration);
+builder.Services.AddSingleton<IConnectionMultiplexer>(sp=>
+{
+
+    var configuration = builder.Configuration.GetSection("Redis:ConnectionString").Value;
+
+    return ConnectionMultiplexer.Connect(configuration);    
 });
 
 
