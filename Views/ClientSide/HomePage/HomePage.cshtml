@@ -103,7 +103,7 @@
                          <div class="col-6 col-xl-6 col-lg-6 col-md-6">
                                 <div class="banner__item p-relative w-img mb-30">
                                     <div class="banner__img b-radius-2">
-                                        <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})"><img src="~/@product.Frontavatar.Substring(product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))"alt=""></a>
+                                        <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})"><img src="~/@product.Frontavatar.Substring(product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" style="width:339px !important;height:339px !important;" alt=""></a>
                                     </div>
                                     <div class="banner__content banner__content-2">
                                         <h6 style="color: #fcbe00; font-weight: bold;"><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})">@product.ProductName</a></h6>
@@ -150,7 +150,7 @@
                             <div class="product__thumb fix">
                                 <div class="product-image w-img">
                                     <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})">
-                                        <img src="~/@product.Frontavatar.Substring(product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="product">
+                                        <img src="~/@product.Frontavatar.Substring(product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" style="width:227px !important;height:227px !important;" alt="product">
                                         @* <img src="~/UploadImages/0a73f765-1942-4a78-98d9-0853d41024f8.webp" alt="product"> *@
                                     </a>
                                 </div>
@@ -252,14 +252,14 @@
                                     <div class="product__thumb fix">
                                 <div class="product-image w-img">
                                     <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})">
-                                        <img src="~/@product.Frontavatar.Substring(product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="product">
+                                        <img src="~/@product.Frontavatar.Substring(product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" style="width:227px !important;height:227px !important;" alt="product">
                                     </a>
                                 </div>
                                 <div class="product__offer">
                                    @if(!string.IsNullOrEmpty(product?.Discount.ToString()) && product?.Discount!=0)
                                    {
                                    <span class="discount">-@product?.Discount%</span>
-                                   }  
+                                   }
                                 </div>
                          
                                 <div class="product-action product-action-2">
@@ -434,7 +434,7 @@
                             <div class="product__thumb fix">
                                 <div class="product-image w-img">
                                     <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})">
-                                        <img src="~/@product.Frontavatar.Substring(product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="product">
+                                        <img src="~/@product.Frontavatar.Substring(product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" style="width:227px !important;height:227px !important;" alt="product">
                                     </a>
                                 </div>
                                 <div class="product__offer">
@@ -530,7 +530,7 @@
                                     <div class="product__thumb fix">
                                 <div class="product-image w-img">
                                     <a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})">
-                                        <img src="~/@product.Frontavatar.Substring(product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="product">
+                                        <img src="~/@product.Frontavatar.Substring(product.Frontavatar.IndexOf("wwwroot")+("wwwroot".Length+1))" style="width:227px !important;height:227px !important;" alt="product">
                                     </a>
                                 </div>
                                 <div class="product__offer">
