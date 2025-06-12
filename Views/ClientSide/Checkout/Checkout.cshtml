@@ -766,18 +766,20 @@
             size:'responsive',
             shape:'rect'
            },
-            createOrder: function(data, actions) 
-            { 
+        createOrder: function(data, actions) 
+    { 
     const user_name=document.getElementById("user-name");
     const address=document.getElementById("address");
     const phone=document.getElementById("phone");
     const email=document.getElementById("email");
     var is_valid=false;        
      if(user_name.value=="")
-    {    is_valid=true;
+    {    
+         is_valid=true;
          
          document.getElementById("name-error").innerHTML="*Tên không được để trống";
     }
+
     if(address.value=="")
     { 
       is_valid=true;
@@ -857,7 +859,7 @@
     payment_input.style.display="none";
     checkout_form.appendChild(payment_input);
     checkout_form.submit();
-                    @* return fetch('/checkout/submit',{
+                    return fetch('/checkout/submit',{
                         method:'POST',
                         headers: 
                         {
@@ -865,7 +867,7 @@
                              'RequestVerificationToken': getToken()
                         },
                         body: JSON.stringify(checkout)
-                    }); *@
+                    });
                 
                 } 
                 else 

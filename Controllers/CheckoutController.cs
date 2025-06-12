@@ -188,7 +188,7 @@ public async Task<IActionResult> CreateOrder([FromBody] CheckoutItemModel checko
 { 
 try
 {
-Console.WriteLine("total price:"+checkout_item.Total_Price);
+    Console.WriteLine("total price:"+checkout_item.Total_Price);
     
     var paypal_request = new OrdersCreateRequest(); 
     
@@ -200,10 +200,10 @@ Console.WriteLine("total price:"+checkout_item.Total_Price);
 
     Console.WriteLine("Checkout here is:"+JsonConvert.SerializeObject(checkout));
     
-    paypal_request.Prefer("return=representation");        
-
-    string usd_value=await this._sp.convertVNDToUSD(total_price);
-        
+    paypal_request.Prefer("return=representation");
+              
+    string usd_value=await this._sp.convertVNDToUSD(total_price);      
+              
     paypal_request.RequestBody(new OrderRequest{
       CheckoutPaymentIntent="CAPTURE",
       PurchaseUnits = new List<PurchaseUnitRequest>
@@ -230,8 +230,7 @@ Console.WriteLine("total price:"+checkout_item.Total_Price);
     var paypal_response=await paypal_client.Execute(paypal_request);
 
     Console.WriteLine("Paypal response here is:"+JsonConvert.SerializeObject(paypal_response));
-
-    
+   
     var paypal_result=paypal_response.Result<PayPalCheckoutSdk.Orders.Order>();
 
     Console.WriteLine("Paypal Result:"+JsonConvert.SerializeObject(paypal_result));
