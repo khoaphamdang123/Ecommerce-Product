@@ -52,7 +52,7 @@ public async Task<int> addProductToCart(CartModel model)
             if (check_exist != null)
             {
                 check_exist.Quantity += model.Quantity;
-
+                
                 session.SetString("cart", JsonConvert.SerializeObject(cart_list, new JsonSerializerSettings
                 {
                     ReferenceLoopHandling = ReferenceLoopHandling.Ignore
@@ -88,11 +88,13 @@ public async Task<int> deleteProductFromCart(int product_id)
     if(product!=null)
     {  
         cart.Remove(product);
+
         session.SetString("cart",JsonConvert.SerializeObject(cart,new JsonSerializerSettings
         {
             ReferenceLoopHandling=ReferenceLoopHandling.Ignore
         }));
-        remove_res=1;
+        
+        remove_res =1;
     }
     }
     catch(Exception er)
