@@ -153,6 +153,42 @@ public class CategoryListController : BaseAdminController
   return View();
  }
 
+  [HttpPost]
+  [Route("category_list/sort")]
+  public async Task<JsonResult> SortCategory(List<string> category_list)
+  {
+  Console.WriteLine("Category Json did come to here");
+  try
+   {
+    List<Category> categories=new List<Category>();
+    
+    Console.WriteLine("Category list length:"+category_list.Count);
+    if(category_list.Count==0)
+    {
+      return Json(new{status=0,message="Không có loại sản phẩm nào để sắp xếp"});
+    }
+    for (int i=category_list.Count-1;i>=0;i--)
+      {
+        var category_id = category_list[i];
+        Console.WriteLine("Category id:"+category_id);
+        var category = await this._category.findCategoryById(Convert.ToInt32(category_id));
+        if (category != null)
+        {
+          categories.Add(category);
+        }
+      }
+
+   await this._category.SaveCategory(categories);
+
+   }
+   catch(Exception er)
+   {
+    this._logger.LogTrace("Sort Category Exception:"+er.Message);
+    return Json(new{status=0,message=er.Message});
+   }
+   return Json(new{status=1,message="Sắp xếp thành công"});
+  }
+
   [Route("category_list/{category}/brand")]
   [HttpGet]
   public async Task<IActionResult> BrandList(int category)

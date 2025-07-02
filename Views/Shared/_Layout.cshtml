@@ -22,8 +22,10 @@
        Console.WriteLine("Current logo admin path is:"+logo_path);
        }
         ChangePassword change_pass= null;
+
        if(User.Identity.IsAuthenticated)
-       {id_user=this.ViewContext.HttpContext.Session.GetString("AdminId");
+       {
+        id_user=this.ViewContext.HttpContext.Session.GetString("AdminId");
        Console.WriteLine("Id user is:"+id_user);
         username=this.ViewContext.HttpContext.Session.GetString("Username");
         email=this.ViewContext.HttpContext.Session.GetString("Email");
@@ -55,9 +57,7 @@
     <link rel="stylesheet" href="~/vendor/fonts/boxicons.css"/>
     <link rel="stylesheet" href="~/vendor/libs/apex-charts/apex-charts.css" />
 
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.css">
-
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.1/css/bootstrap.min.css" rel="stylesheet">

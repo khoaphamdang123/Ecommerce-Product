@@ -13,6 +13,8 @@ public partial class Category
 
     public string? UpdatedDate { get; set; }
 
+    public int? Sort_Id{ get; set; }
+
     public string? Avatar { get; set; }
 
     public virtual ICollection<Blog> Blogs { get; set; } = new List<Blog>();

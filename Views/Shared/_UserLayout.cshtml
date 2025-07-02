@@ -190,7 +190,7 @@
 
           <link rel="stylesheet" href="@Url.Content("~/user_layout/css/swiper-bundle.css")">
 
-            <link rel="stylesheet" href="@Url.Content("~/user_layout/css/backtotop.css")">
+          <link rel="stylesheet" href="@Url.Content("~/user_layout/css/backtotop.css")">
 
           <link rel="stylesheet" href="@Url.Content("~/user_layout/css/ui-range-slider.css")">
 
@@ -465,7 +465,6 @@
                                     
                                                  string regex_cat=Regex.Replace(cat.CategoryName,@"[^\w\d]", "-");
 
-
                                                   if(cat.SubCategory==null)
                                                   {
                                                     <li><a href="@Url.Action("ProductsByCategory","Products",new{category_name=regex_cat})">@cat.CategoryName</a></li>
@@ -496,15 +495,13 @@
                     <div class="col-lg-6 col-md-6 col-3">
                       <div class="header__bottom-left d-flex d-xl-block align-items-center">
                         <div class="side-menu d-lg-none mr-20">
-                            
-                       
+
     <div class="menu-container">
         <button type="button" class="side-menu-btn offcanvas-toggle-btn">
             <i class="fas fa-bars"></i>
         </button>
         <div class="search-wrapper">
         <form method="post" asp-action="FilterProductByNameAndCategory" asp-controller="Products">
-
             <input type="text" name="product" class="search-bar" placeholder="Tìm kiếm sản phẩm...">
             <button type="submit" class="search-btn">
                 <i class="fas fa-search"></i>
@@ -512,8 +509,7 @@
         </form>
         </div>
     </div>
-
-                        </div>
+</div>
                         <div class="main-menu d-none d-lg-block">
                             <nav>
                                 <ul>
@@ -661,7 +657,7 @@
 						<span class="tooltip-text">Đăng kí thông tin và để lại lời nhắn</span>
 					</a>
 				</li> *@
-				<li class="addThis_item">
+				@* <li class="addThis_item">
 					<a class="addThis_item--icon cta-submitform" href="/about-us" aria-label="Liên hệ">
 						<svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<circle cx="22" cy="22" r="22" fill="url(#paint5_linear)"></circle>
@@ -675,7 +671,7 @@
 						</svg>
 						<span class="tooltip-text">Xem địa chỉ doanh nghiệp</span>
 					</a>
-				</li>
+				</li> *@
 			</ul>	
 		</div>
 	</div>
@@ -704,9 +700,9 @@
                                     <a href="@facebook" class="facebook" target="_blank"><i class="fab fa-facebook-f" title="facebook"></i></a>
                                     <a href="@zalo" class="twitter" target="_blank"><i class="fas fa-comment-dots" title="zalo"></i></a>
                                     <a href="@youtube" target="_blank" class="youtube"><i class="fab fa-youtube" title="youtube"></i></a>
-                                    <a href="#" class="linkedin"><i class="fab fa-linkedin-in" title="linkedin"></i></a>
+                                    @* <a href="#" class="linkedin"><i class="fab fa-linkedin-in" title="linkedin"></i></a> *@
                                     <a href="@instagram" class="rss" target="_blank"><i class="fab fa-instagram" title="instagram"></i></a>
-                                    <a href="#" class="dribbble" target="_blank"><i class="fab fa-dribbble" title="dribble"></i></a>
+                                    @* <a href="#" class="dribbble" target="_blank"><i class="fab fa-dribbble" title="dribble"></i></a> *@
                                 </div>
                             </div>
                         </div>

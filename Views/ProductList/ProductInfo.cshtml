@@ -350,7 +350,7 @@
                           <label class="form-label" for="size">Kích thước</label> 
                           <input class="form-control" id="size" type="text" placeholder="Nhập kích thước" value="@(variant.Size!=null?variant.Size.Sizename:"")">
                         </div>
-                            <div class="col-4 mb-2">
+                        <div class="col-4 mb-2">
                           <label class="form-label" for="version">Phiên bản</label> 
                           <input class="form-control" id="version" type="text" placeholder="Nhập phiên bản" value="@(variant.Version!=null?variant.Version.Versionname:"")">
                         </div>
@@ -359,9 +359,7 @@
                           <input class="form-control" id="mirror" type="text" placeholder="Nhập loại kính" value="@(variant.Mirror!=null?variant.Mirror.Mirrorname:"")">
                         </div>
                           <div class="col-4 mb-3">
-                          
                           <label class="form-label" for="mirror">Giá</label> 
-                          
                           <input class="form-control" id="prices" type="text" placeholder="Nhập giá" value="@(variant.Price!=null?variant.Price:"")">
                         </div>
                         </div>
@@ -636,7 +634,8 @@ document.addEventListener("DOMContentLoaded", function (event)
    fontSizeSelection: true,
     pluginsEnabled: ['align', 'charCounter', 'codeBeautifier', 'codeView', 'colors', 'draggable', 'embedly', 'emoticons', 'entities', 'file', 'fontFamily', 'fontSize', 'fullscreen', 'image', 'imageManager', 'inlineStyle', 'lineBreaker', 'link', 'lists', 'paragraphFormat', 'paragraphStyle', 'quickInsert', 'quote', 'save', 'table', 'url', 'video', 'wordPaste'],
     colorsBackground: ['#FFFFFF', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'],
-    colorsText: ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'] 
+    colorsText: ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00'] ,
+    pasteClean: false
   });
 
 

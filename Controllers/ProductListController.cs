@@ -347,146 +347,147 @@ public async Task<IActionResult> ProductsByName(string product_name)
     return View();
   }
 
-  
+
   [Route("product_list/add_val")]
   [HttpPost]
   public async Task<JsonResult> GetSampleData(AddProductModel model)
-{ Console.WriteLine("used to stay here:"+model.ProductName);
-    
-    StatusResponse response_data; 
+  {
+    Console.WriteLine("used to stay here:" + model.ProductName);
+
+    StatusResponse response_data;
 
     int created_res = await this._product.addNewProduct(model);
 
     if (created_res == 0)
-    {  
-        response_data = new StatusResponse 
-        {
-            Status = 0,
-            Message = "Thêm sản phẩm thất bại"
-        };
+    {
+      response_data = new StatusResponse
+      {
+        Status = 0,
+        Message = "Thêm sản phẩm thất bại"
+      };
     }
     else if (created_res == -1)
     {
-        response_data = new StatusResponse  
-        {
-            Status = -1,
-            Message = "Sản phẩm đã tồn tại trong hệ thống"
-        };
+      response_data = new StatusResponse
+      {
+        Status = -1,
+        Message = "Sản phẩm đã tồn tại trong hệ thống"
+      };
     }
     else
     {
-        response_data = new StatusResponse  
-        {
-            Status = 1,
-            Message = "Thêm sản phẩm thành công"
-        };
+      response_data = new StatusResponse
+      {
+        Status = 1,
+        Message = "Thêm sản phẩm thành công"
+      };
     }
-    
+
     return Json(response_data);
     
 }
 
 
- 
-
-// [Route("product_list/add_val")]
-//  [HttpPost]
-//  public async Task<JsonResult> AddProductListJson(AddProductModel model)
-//  {
-//   try
-//   {
-//  int created_res=await this._product.addNewProduct(model);
-//  if(created_res==0)
-//  {  
-//  var response_data={
-//     "status":"0",
-//     "created_product":"Thêm sản phẩm thất bại"
-//       };
-//  }
-//  else if(created_res==-1)
-//  {
-//  var response_data={
-//     "status":"-1",
-//     "created_product":"Sản phẩm đã tồn tại trogng hệ thống"
-//       };
-//  }
-//  else
-//  {
-//   var response_data={
-//     "status":"1",
-//     "created_product":"Thêm sản phẩm"
-//       };
-//  }
-//  }
-//   catch(Exception er)
-//   {
-//     this._logger.LogTrace("Add Product Exception:"+er.Message);
-//     Console.WriteLine("Add Product List Exception:"+er.Message);
-//   }
-//   return Json(response_data);
-//  }
 
 
-//   [Route("product_list/add")]
-//   [HttpPost]
-//   public async Task<IActionResult> AddProductList(AddProductModel model)
-//   {
-//   try
-//   {
+  // [Route("product_list/add_val")]
+  //  [HttpPost]
+  //  public async Task<JsonResult> AddProductListJson(AddProductModel model)
+  //  {
+  //   try
+  //   {
+  //  int created_res=await this._product.addNewProduct(model);
+  //  if(created_res==0)
+  //  {  
+  //  var response_data={
+  //     "status":"0",
+  //     "created_product":"Thêm sản phẩm thất bại"
+  //       };
+  //  }
+  //  else if(created_res==-1)
+  //  {
+  //  var response_data={
+  //     "status":"-1",
+  //     "created_product":"Sản phẩm đã tồn tại trogng hệ thống"
+  //       };
+  //  }
+  //  else
+  //  {
+  //   var response_data={
+  //     "status":"1",
+  //     "created_product":"Thêm sản phẩm"
+  //       };
+  //  }
+  //  }
+  //   catch(Exception er)
+  //   {
+  //     this._logger.LogTrace("Add Product Exception:"+er.Message);
+  //     Console.WriteLine("Add Product List Exception:"+er.Message);
+  //   }
+  //   return Json(response_data);
+  //  }
 
-//  int created_res=await this._product.addNewProduct(model);
 
-//  if(created_res==0)
-//  {  
-//   ViewBag.Status=0;
-//   ViewBag.Created_Product="Thêm sản phẩm thất bại";
-//  }
-//  else if(created_res==-1)
-//  {
-//   ViewBag.Status=-1;
-//   TempData["Status"]="-1";
-//   ViewBag.Created_Product="Sản phẩm đã tồn tại trong hệ thống";
-//  }
-//  else
-//  {
-//  ViewBag.Status=1;
-//  ViewBag.Created_Product="Thêm sản phẩm thành công";
-//  }
-//  }
-//   catch(Exception er)
-//   {
-//     this._logger.LogTrace("Add Product Exception:"+er.Message);
-//     Console.WriteLine("Add Product List Exception:"+er.Message);
-//   }
-// var category_list=await this._category.getAllCategory(); 
-    
-//     var brand_list = await this._category.getAllBrandList();
+  //   [Route("product_list/add")]
+  //   [HttpPost]
+  //   public async Task<IActionResult> AddProductList(AddProductModel model)
+  //   {
+  //   try
+  //   {
 
-//     List<SubCategory> sub_cat_list=new List<SubCategory>();
+  //  int created_res=await this._product.addNewProduct(model);
 
-//     foreach(var cat in category_list)
-//     {
-//       foreach(var sub_cat in cat.SubCategory)
-//       {
-//         sub_cat_list.Add(sub_cat);
-//       }
-//     }
-//     ViewBag.CategoryList=category_list;
-//     ViewBag.BrandList=brand_list;
-//     ViewBag.SubCatList=sub_cat_list;
-//   return View();
-//   }
+  //  if(created_res==0)
+  //  {  
+  //   ViewBag.Status=0;
+  //   ViewBag.Created_Product="Thêm sản phẩm thất bại";
+  //  }
+  //  else if(created_res==-1)
+  //  {
+  //   ViewBag.Status=-1;
+  //   TempData["Status"]="-1";
+  //   ViewBag.Created_Product="Sản phẩm đã tồn tại trong hệ thống";
+  //  }
+  //  else
+  //  {
+  //  ViewBag.Status=1;
+  //  ViewBag.Created_Product="Thêm sản phẩm thành công";
+  //  }
+  //  }
+  //   catch(Exception er)
+  //   {
+  //     this._logger.LogTrace("Add Product Exception:"+er.Message);
+  //     Console.WriteLine("Add Product List Exception:"+er.Message);
+  //   }
+  // var category_list=await this._category.getAllCategory(); 
+
+  //     var brand_list = await this._category.getAllBrandList();
+
+  //     List<SubCategory> sub_cat_list=new List<SubCategory>();
+
+  //     foreach(var cat in category_list)
+  //     {
+  //       foreach(var sub_cat in cat.SubCategory)
+  //       {
+  //         sub_cat_list.Add(sub_cat);
+  //       }
+  //     }
+  //     ViewBag.CategoryList=category_list;
+  //     ViewBag.BrandList=brand_list;
+  //     ViewBag.SubCatList=sub_cat_list;
+  //   return View();
+  //   }
 
   [Route("product_list/{id}/variant")]
   [HttpGet]
   public async Task<IActionResult> VariantList(int id)
   {
-      string select_size="7";
-          ViewBag.select_size=select_size;
-          List<string> options=new List<string>(){"7","10","20","50"};
-          ViewBag.options=options;
-         var variant_list=await this._product.pagingVariant(id,7,1);
-         return View(variant_list);
+    string select_size = "7";
+    ViewBag.select_size = select_size;
+    List<string> options = new List<string>() { "7", "10", "20", "50" };
+    ViewBag.options = options;
+    var variant_list = await this._product.pagingVariant(id, 7, 1);
+    return View(variant_list);    
   }
   
 

@@ -24,8 +24,7 @@
    status_delete=Convert.ToInt32(TempData["Status_Delete"]);
   }
   var message_delete =TempData["Message_Delete"];
- 
- 
+  
   string delete_email_value="";
   
   if((filtered_user)==null)
@@ -97,6 +96,27 @@
         </script>
 }
 
+
+<div
+       class="bs-toast toast fade hide bg-success toast-placement-ex top-5 end-0"
+       role="alert"
+       aria-live="assertive"
+       aria-atomic="true"
+        data-bs-dismiss="toast"
+        style="cursor: pointer;"
+         data-delay="3000"
+         data-bs-autohide="true" 
+         data-bs-delay="3000"
+             >
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold"> Cập nhật Category</div>
+                        </div>
+                        <div class="toast-body">
+                        </div>
+                      </div>
+       
+
     <!-- Layout wrapper -->
   
 
@@ -150,7 +170,7 @@
                             </div>
                             </div>
                         </div>
-                            <div class="col-md-10">
+                            <div class="col-md-9">
                             <div class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-6 mb-md-0 mt-n6 mt-md-0 gap-md-4">
                             <div class="data-filter">
                             <div class="dt-buttons btn-group flex-wrap">
@@ -159,6 +179,8 @@
                                     <ul class="dropdown-menu" aria-labelledby="exportDropdown">
                                        <li><a class="dropdown-item" href="@Url.Action("ExportExcelCategory","CategoryList")">Định dạng Excel</a></li>
                                     </ul>    
+                                <button class="btn btn-secondary add-new btn-primary" id="sort-order-btn" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"><span><i class="bx bx-plus bx-sm me-0 me-sm-2"></i><span class="d-none d-sm-inline-block">Cập nhật thứ tự</span></span></button>
+
                                 </div>
                                 <button class="btn btn-secondary add-new btn-primary" id="add-category-btn" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"><span><i class="bx bx-plus bx-sm me-0 me-sm-2"></i><span class="d-none d-sm-inline-block">Thêm loại sản phẩm mới</span></span></button>
                             </div>
@@ -182,7 +204,7 @@
                            </th>
                         </tr>
                     </thead>
-                    <tbody class="table-border-bottom-0">
+                    <tbody class="table-border-bottom-0" id="tableBody">
                        @foreach(var category in Model?.item)
                        { current_total_item+=1;
                          var avatarUrl = string.IsNullOrEmpty(category.Avatar) 
@@ -367,6 +389,9 @@
         <!-- / Layout page -->
 
       <div class="layout-overlay layout-menu-toggle"></div>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.js"></script>
+
   <script>
      let delete_category='';
 
@@ -399,6 +424,54 @@
   
 
      window.location.href='@Url.Action("DeleteCategory","CategoryList")'+"?id="+delete_category_value; 
+    });
+
+    var sort_order_btn = document.getElementById("sort-order-btn");
+
+    sort_order_btn.addEventListener("click", () => {
+       $.ajax({
+      url:'@Url.Action("SortCategory","CategoryList")',
+      type:'POST',
+      data:{
+        category_list:$("#tableBody").children().map((index,el)=>el.children[1].innerText).get()
+      },
+      success:(data)=>
+      {
+        var status=data.status;
+        var message =data.message;
+        var toast=document.querySelector('.bs-toast');
+        var toast_body=toast.querySelector('.toast-body');
+        toast_body.innerHTML=message;
+        if(status==1)
+        {
+        toast.classList.add('bg-success');
+        }
+        else
+        {
+          toast.classList.add('bg-danger');
+        }
+        var toast_bs = new bootstrap.Toast(toast);
+        toast_bs.show();
+      },
+        error:(xhr,status,error)=>{
+           alert(xhr.responseText);
+        }
+    });
+    });
+
+    var drake = dragula([document.getElementById("tableBody")]);
+
+    drake.on("drag",(el)=>{
+      el.className+='el-drag-ex-1';      
+    });
+
+    drake.on("drop",(el)=>
+    {
+  el.className = el.className.replace('el-drag-ex-1', '');
+    });
+
+    drake.on('cancel',(el)=>{
+      el.className = el.className.replace('el-drag-ex-1', '');
     });
 @*  
  const convertDateTime=()=> {

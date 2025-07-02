@@ -250,7 +250,8 @@
                             </div>
                             }
                             <div class="features-des mb-20 mt-10">
-                              <div class="product-options">
+                            
+                            <div class="product-options">
 @if(size_value.Count>0)
 {
 <div class="size-selector">
@@ -601,7 +602,7 @@
                     </div>
                     <div class="tab-pane fade" id="aditional" role="tabpanel" aria-labelledby="aditional-tab">
                         @if(!string.IsNullOrEmpty(Model.Statdescription))
-                         {
+    {
         <style>
         .refresh-container table {
             width: 100% !important; /* Force table to take full container width */
@@ -613,7 +614,7 @@
             vertical-align: middle; /* Center content vertically */
         }
     </style>
-
+  
     <div class="refresh-container container">
         <div class="table-responsive">
             @Html.Raw(Model.Statdescription
@@ -626,6 +627,7 @@
     </div>
             }     
                     </div>
+
                     <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
                         <div class="product__details-review">
                             <div class="row">
@@ -661,9 +663,7 @@
                                                 <img src="~/@review.User.Avatar.Substring(review.User.Avatar.IndexOf("wwwroot")+("wwwroot".Length+1))" alt="User avatar"
                                                 class="rounded-circle" style="width: 60px; height: 60px; margin-right: 5px;">
                                             </div>
-
                                             <div class="review-details-content">
-                                                
                                                 <div class="name-date mb-30 mt-15">
                                                     <h6> @review.User.UserName – <span>@review.CreatedDate</span></h6>
                                                 </div>
@@ -683,18 +683,19 @@
                                           @if(string.IsNullOrEmpty(user))
                                           {
                                            <p class="text-danger">*Bạn cần phải đăng nhập để thêm đánh giá*</p>
-                                           }
+                                          }
+
                                         <div class="comment-input-box">
                                            <form id="review-form" method="post">
                                               <div class="row">                                            
                                                  <div class="col-xxl-12">
                                                     @if(string.IsNullOrEmpty(user))
                                                     {  
-                                                       <textarea placeholder="Đánh giá của bạn..." disabled class="comment-input comment-textarea"></textarea>
+                                                    <textarea placeholder="Đánh giá của bạn..." disabled class="comment-input comment-textarea"></textarea>
                                                     }
                                                     else
                                                     {
-                                                <textarea placeholder="Đánh giá của bạn..." class="comment-input comment-textarea" name="review"></textarea>
+                                                    <textarea placeholder="Đánh giá của bạn..." class="comment-input comment-textarea" name="review"></textarea>
                                                     }
                                                  </div>
                                                  <div class="col-xxl-12">
@@ -723,9 +724,9 @@
                     <div class="row">
                     @foreach(var video in Model.Videos)
                     {
-                    string video_url=video.Link;
+                    string video_url=video.Link;                    
                      
-                    string[] embed_code_arr=video_url.Split('/');
+                    string[] embed_code_arr=video_url.Split('/');                    
                      
                     string embed_code=embed_code_arr[embed_code_arr.Length-1];
                      
@@ -941,7 +942,7 @@
 
     const mirrors=@Html.Raw(mirror_json);
 
-    const prices = @Html.Raw(price_json);
+    const prices = @Html.Raw(price_json);       
 
     function getAllIndex(buttonId,value)
     {
@@ -961,8 +962,8 @@
         }
         case "mirror-buttons":
         {
-         return mirrors.map((mirror,index)=>mirror==value?index:-1).filter((val)=>val!==-1);
-        }
+         return mirrors.map((mirror,index)=>mirror==value?index:-1).filter((val)=>val!==-1);         
+        }        
      }
     }
     
@@ -993,13 +994,12 @@
 
     var first_index=all_container_index[0];
 
-    var original_price=document.querySelector('.price .original-price');
+    var original_price=document.querySelector('.price .original-price');    
 
     var price=document.querySelector('.price .discounted-price');
 
   if(original_price!=null)
   {
-   alert("here");
     if(product_discount!='0')
     { 
         var new_price_value=parseInt(prices[first_index])*(1-parseInt(product_discount)/100);
@@ -1398,8 +1398,9 @@ function handleClickButton(buttonId,product_discount='0')
        var size_container = document.getElementById('size-buttons');
        var color_container = document.getElementById('color-buttons');
        var version_container = document.getElementById('version-buttons');
-       var mirror_container = document.getElementById('mirror-buttons');
+       var mirror_container = document.getElementById('mirror-buttons');       
        var price='';
+
        if(product_discount!='0')
        {
         price=document.querySelector('.price .original-price').textContent;
@@ -1410,18 +1411,20 @@ function handleClickButton(buttonId,product_discount='0')
        }
       if(price!=null)
       {
-       price=price.replace('đ','').trim();
+       price=price.replace('đ','').trim();       
       }
        var size_value=null;
        var color_value=null;
        var version_value=null;
        var mirror_value=null;
+
        if(size_container!=null)
        {
         size_value=size_container.querySelector('.size-btn.active').textContent;
 
         formData.append("size",size_value);
        }
+       
        if(color_container!=null)
        {
         color_value=color_container.querySelector('.size-btn.active').textContent;
@@ -1438,6 +1441,7 @@ function handleClickButton(buttonId,product_discount='0')
        if(mirror_container!=null)
        {
         mirror_value=mirror_container.querySelector('.size-btn.active').textContent;
+        
         formData.append("mirror",mirror_value);
        }
 
@@ -1455,6 +1459,7 @@ function handleClickButton(buttonId,product_discount='0')
             data:formData,
             contentType: false,
             processData: false, 
+            
             success:function(response)
             {
                 const status=response.status;
@@ -1478,17 +1483,20 @@ function handleClickButton(buttonId,product_discount='0')
                 });
             }
                 document.getElementById("toast-title").innerHTML="Thông báo";
+                
                 document.getElementById("toast-message").innerHTML=message;
+                
                 var toastEl = document.querySelector('.toast');
 
                 if(status==1)
                 {
                  toastEl.classList.add('bg-success');
                 }
-            else
-            {
+               else
+                {
                 toastEl.classList.add('bg-danger');
-            }
+                }
+                
                 var toast = new bootstrap.Toast(toastEl);
                 
                  toast.show();

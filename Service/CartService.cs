@@ -25,13 +25,14 @@ public class CartService:ICartRepository
   public async Task<Cart> getUserCart(string user_id)
   {
    var cart=await this._context.Carts.Include(c=>c.CartDetails).ThenInclude(c=>c.Product).FirstOrDefaultAsync(s=>s.Userid==user_id);
+
    return cart;
  }
 
-  public async Task clearCart()
-  {
+    public async Task clearCart()
+    {
     session.Remove("cart");
-  }
+    }
 
 
 public List<CartModel> getCart()
@@ -42,38 +43,39 @@ public List<CartModel> getCart()
 
 public async Task<int> addProductToCart(CartModel model)
 {   int add_res=0;
-try
- {
-    var cart_list=this.getCart();
+        try
+        {
+            var cart_list = this.getCart();            
 
-    var check_exist=cart_list.FirstOrDefault(c=>c.Product.ProductName==model.Product.ProductName && c.Size==model.Size && c.Color==model.Color && c.Version==model.Version && c.Mirror==model.Mirror);
-    
-    if(check_exist!=null)
-    {   
-        check_exist.Quantity+=model.Quantity;
+            var check_exist = cart_list.FirstOrDefault(c => c.Product.ProductName == model.Product.ProductName && c.Size == model.Size && c.Color == model.Color && c.Version == model.Version && c.Mirror == model.Mirror);
 
-        session.SetString("cart",JsonConvert.SerializeObject(cart_list,new JsonSerializerSettings
-    {
-        ReferenceLoopHandling=ReferenceLoopHandling.Ignore
-    }));
-        return -1;
-    }
-    else
-    {
-        cart_list.Add(model);
-    }
-    add_res=1;
-    
-    session.SetString("cart",JsonConvert.SerializeObject(cart_list,new JsonSerializerSettings
-    {
-        ReferenceLoopHandling=ReferenceLoopHandling.Ignore
-    }));
-} 
-catch(Exception er)
-{
-    Console.WriteLine("Add Product To Cart Exception:"+er.Message);
+            if (check_exist != null)
+            {
+                check_exist.Quantity += model.Quantity;
+
+                session.SetString("cart", JsonConvert.SerializeObject(cart_list, new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                }));
+                return -1;
+            }
+            else
+            {
+                cart_list.Add(model);
+            }
+            add_res = 1;
+
+            session.SetString("cart", JsonConvert.SerializeObject(cart_list, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            }));
 }
+        catch (Exception er)
+        {
+            Console.WriteLine("Add Product To Cart Exception:" + er.Message);
+        }
   return add_res;
+  
 }
 
 public async Task<int> deleteProductFromCart(int product_id)
@@ -81,7 +83,7 @@ public async Task<int> deleteProductFromCart(int product_id)
     int remove_res=0;
     try
     {
-   var cart = getCart();
+   var cart = getCart();   
     var product = cart.FirstOrDefault(c=>c.Product.Id==product_id);
     if(product!=null)
     {  

@@ -32,10 +32,16 @@ public Task<int> createSubCategory(string subcategoryname,int categoryid);
 
 public Task<bool> checkSubCatExist(string sub_cat);
 
-public Task<IEnumerable<Brand>> getAllBrandList();
+    public Task<IEnumerable<Brand>> getAllBrandList();
 
 
-public Task<PageList<CategoryBrandDetail>> pagingBrand(int category,int page_size,int page);
+    public Task SaveCategory(List<Category> categories);
+
+
+public Task<IEnumerable<Category>> getCategoryListBySortId();
+
+
+    public Task<PageList<CategoryBrandDetail>> pagingBrand(int category, int page_size, int page);
 
 public Task<int> createBrand(int category,string brand_name,IFormFile avatar);
 

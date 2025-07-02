@@ -92,7 +92,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="product__content-3">
+                                                    <div class="product-name-fixed">
                                                     <h6><a href="@Url.Action("ProductDetail","ProductDetail",new{product_name=regex_product})">@product.ProductName</a></h6>
+                                                    </div>
                                                     <div class="rating mb-5">
                                                         <ul>
                                                             <li class="star" id="star" data-product-id="@product.Id" data-star="5" data-user="@user_id"><a href="javascript:void(0);"><i class="fal fa-star"></i></a></li>
@@ -107,7 +109,7 @@
                                                         }
                                                     </div>
                                       @if(Convert.ToInt32(product.Price)>0)
-                                      {              
+                            {              
                          <div class="price mb-10">
         
                        @if(!string.IsNullOrEmpty(product?.Discount.ToString()) && product?.Discount!=0)

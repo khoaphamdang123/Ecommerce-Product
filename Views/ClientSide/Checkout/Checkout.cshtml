@@ -771,9 +771,9 @@
     const user_name=document.getElementById("user-name");
     const address=document.getElementById("address");
     const phone=document.getElementById("phone");
-    const email=document.getElementById("email");
+    const email=document.getElementById("email");    
     var is_valid=false;        
-     if(user_name.value=="")
+    if(user_name.value=="")
     {    
          is_valid=true;
          
@@ -784,18 +784,20 @@
     { 
       is_valid=true;
       
-      document.getElementById("address-error").innerHTML="*Địa chỉ không được để trống";
+      document.getElementById("address-error").innerHTML="*Địa chỉ không được để trống";      
     }
+
     if(phone.value=="")
     { 
         is_valid=true;
         
-        document.getElementById("phone-error").innerHTML="*Số điện thoại không được để trống";
-        
+        document.getElementById("phone-error").innerHTML="*Số điện thoại không được để trống";           
     }
 
     if(email.value=="")
-    { is_valid=true;
+    {   
+        is_valid=true;
+        
         document.getElementById("email-error").innerHTML="*Email không được để trống";
     }
 
@@ -828,7 +830,7 @@
                 return res.json();
             }).then(function(data)
             {    
-                  return data.orderId;                  
+                  return data.orderId;                                    
             })
             },
           onApprove: function(data, actions) 
@@ -849,8 +851,7 @@
                    if(note!=null)
                     {
                         note.value="Đã thanh toán thành công qua Paypal";
-                    }
-    
+                    }    
     var checkout_form=document.getElementById("checkout-form");
     var payment_input=document.createElement("input");
     payment_input.type="text";
@@ -868,7 +869,6 @@
                         },
                         body: JSON.stringify(checkout)
                     });
-                
                 } 
                 else 
                 {
@@ -877,7 +877,8 @@
             });
         },
             // Handle errors
-            onError: function(err) {
+            onError: function(err) 
+            {
                 console.error('An error occurred during the transaction', err);                
                 @* alert('An error occurred. Please try again.'); *@
             }
@@ -906,30 +907,32 @@
     {
         is_valid=false;
 
-        document.getElementById("address-error").innerHTML="*Địa chỉ không được để trống";
+        document.getElementById("address-error").innerHTML="*Địa chỉ không được để trống";       
     }
 
     if(phone.value=="")
     {
         is_valid=false;
 
-        document.getElementById("phone-error").innerHTML="*Số điện thoại không được để trống";
+        document.getElementById("phone-error").innerHTML="*Số điện thoại không được để trống;
     }
+
     if(email.value=="")
     {
         is_valid=false;
 
         document.getElementById("email-error").innerHTML="*Email không được để trống";
     }
+
     if(!is_valid)
     {  
         event.preventDefault();
         
-        return;
+        return;        
     }
 
     payment_method=convertPaymentMethod(payment_method);
-
+    
     var payment_input=document.createElement("input");
     
     payment_input.type="text";
@@ -1050,7 +1053,7 @@
                     type:"POST",
                     success: function(partialHtml) 
                     {
-                        $('#user_avatar').html(partialHtml);
+                        $('#user_avatar').html(partialHtml);                                                                                                  
                     }
                 });  
 
@@ -1059,7 +1062,7 @@
                 
                 var toast = new bootstrap.Toast(toastEl);
                 
-                toast.show();
+                toast.show();                
 
                 },
                 error: function (xhr, status, error) 
@@ -1068,7 +1071,7 @@
                 document.getElementById("toast-message-error").innerHTML=error;
                 var toastEl = document.querySelector('.toast');
                 var toast = new bootstrap.Toast(toastEl);
-                toast.show();                            
+                toast.show();                
               }
             });
     });

@@ -5798,6 +5798,11 @@ input
   width: 100%;
 }
 
+
+.product-name-fixed {
+    min-height: 3em; 
+}
+
 .ad-width {
   
   width: 150px;

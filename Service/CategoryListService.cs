@@ -19,58 +19,96 @@ public class CategoryListService:ICategoryListRepository
     this._webHostEnv=webHostEnv;
     this._support_service=support_service;
   }
-
-
-public async Task<IEnumerable<Category>> getAllCategory()
-{    
+  public async Task<IEnumerable<Category>> getCategoryListBySortId()
+  { var categories = new List<Category>();
     try
     {
-     var categories=this._context.Categories.Include(c=>c.SubCategory).ToList();
-     return categories;     
+     categories = await this._context.Categories.OrderBy(c => c.Sort_Id).ToListAsync();
+
+     return categories;
     }
-    catch(Exception er)
+    catch (Exception er)
     {
-        Console.WriteLine("Get All Category Exception:"+er.Message);
-    
+      Console.WriteLine("Get Category List By Sort Id Exception:" + er.Message);
     }
-    return null;
-}
+    return categories;
+  }
+
+
+  public async Task SaveCategory(List<Category> categories)
+  {
+    try
+    {
+      Console.WriteLine("Save Category here is:" + categories.Count.ToString());
+      int sort_id = 0;
+      foreach (var category in categories)
+      {
+        sort_id += 1;
+        category.Sort_Id = sort_id;
+        this._context.Categories.Update(category);
+      }
+      await this.saveChange();
+    }
+    catch (Exception er)
+    {
+      Console.WriteLine("Save Category Exception:" + er.Message);
+    }
+  }
+
+
+
+
+
+  public async Task<IEnumerable<Category>> getAllCategory()
+  {
+    try
+    {
+      var categories = this._context.Categories.Include(c => c.SubCategory).OrderBy(c => c.Sort_Id).ToList();
+      return categories;
+    }
+    catch (Exception er)
+    {
+      Console.WriteLine("Get All Category Exception:" + er.Message);
+    }
+    return null;        
+  }
 public async Task<IEnumerable<Category>> filterCategoryList(FilterCategory category)
 { 
   var cat_list=this._context.Categories.ToList();
-  
-  try
-  {
-   string category_name=category.Category;
-   string start_date=category.StartDate;
-   string end_date = category.EndDate;
-   if(!string.IsNullOrEmpty(category_name))
-   {
-    category_name=category_name.Trim();
-    cat_list= cat_list.Where(c=>c.CategoryName.ToLower()==category_name.ToLower()).ToList();
-   }
-   if(!string.IsNullOrEmpty(start_date) && string.IsNullOrEmpty(end_date))
-   {
-    start_date=start_date.Trim();
-    cat_list= cat_list.Where(c=>DateTime.TryParse(c.CreatedDate,out var startDate) && DateTime.TryParse(start_date,out var lowerDate) && startDate.Date==lowerDate.Date).ToList();
-   }
-   else if(string.IsNullOrEmpty(start_date) && !string.IsNullOrEmpty(end_date))
-   { 
-    
-    end_date=end_date.Trim();
-   
-    cat_list= cat_list.Where(c=>DateTime.TryParse(c.CreatedDate,out var startDate) && DateTime.TryParse(end_date,out var upperDate) && startDate.Date==upperDate.Date).ToList();
-   }
-   else if(!string.IsNullOrEmpty(start_date) && !string.IsNullOrEmpty(end_date))
-   {
-    start_date=start_date.Trim();
-    end_date=end_date.Trim();
-    cat_list=cat_list.Where(c=>DateTime.TryParse(c.CreatedDate,out var createdDate)&& DateTime.TryParse(start_date,out var startDate) && DateTime.TryParse(end_date,out var endDate) && createdDate>=startDate && createdDate<=endDate).ToList();
-   }
-  }
-  catch(Exception er)
-  {
-    Console.WriteLine("Filter Category Exception:"+er.Message);
+
+    try
+    {
+      string category_name = category.Category;
+      string start_date = category.StartDate;
+      string end_date = category.EndDate;
+      if (!string.IsNullOrEmpty(category_name))
+      {
+        category_name = category_name.Trim();
+
+        cat_list = cat_list.Where(c => c.CategoryName.ToLower() == category_name.ToLower()).ToList();
+      }
+      if (!string.IsNullOrEmpty(start_date) && string.IsNullOrEmpty(end_date))
+      {
+        start_date = start_date.Trim();
+        
+        cat_list = cat_list.Where(c => DateTime.TryParse(c.CreatedDate, out var startDate) && DateTime.TryParse(start_date, out var lowerDate) && startDate.Date == lowerDate.Date).ToList();
+      }
+      else if (string.IsNullOrEmpty(start_date) && !string.IsNullOrEmpty(end_date))
+      {
+        end_date = end_date.Trim();
+
+        cat_list = cat_list.Where(c => DateTime.TryParse(c.CreatedDate, out var startDate) && DateTime.TryParse(end_date, out var upperDate) && startDate.Date == upperDate.Date).ToList();
+      }
+      else if (!string.IsNullOrEmpty(start_date) && !string.IsNullOrEmpty(end_date))
+      {
+        start_date = start_date.Trim();
+        end_date = end_date.Trim();
+        cat_list = cat_list.Where(c => DateTime.TryParse(c.CreatedDate, out var createdDate) && DateTime.TryParse(start_date, out var startDate) && DateTime.TryParse(end_date, out var endDate) && createdDate >= startDate && createdDate <= endDate).ToList();
+      }
+    }
+    catch (Exception er)
+    {
+      Console.WriteLine("Filter Category Exception:" + er.Message);
   }
   return cat_list;
 }
@@ -78,12 +116,12 @@ public async Task<IEnumerable<Category>> filterCategoryList(FilterCategory categ
 public async Task<PageList<Category>> pagingCategory(int page_size,int page)
 {
  
-   IEnumerable<Category> all_cat= await this.getAllCategory();
+   IEnumerable<Category> all_cat= await this.getCategoryListBySortId();
 
-   List<Category> cats=all_cat.OrderByDescending(u=>u.Id).ToList(); 
+  //  List<Category> cats=all_cat.OrderByDescending(u=>u.Id).ToList(); 
 
    //var users=this._userManager.Users;   
-   var cat_list=PageList<Category>.CreateItem(cats.AsQueryable(),page,page_size);
+   var cat_list=PageList<Category>.CreateItem(all_cat.AsQueryable(),page,page_size);
    
    return cat_list;
 }
@@ -117,7 +155,7 @@ public async Task<int> createCategory(AddCategoryModel category)
     {   create_res=-1;
         return create_res;
     }
-     string folder_name="UploadImageCategory";
+   string folder_name="UploadImageCategory";
 
    string upload_path=Path.Combine(this._webHostEnv.WebRootPath,folder_name);
 
@@ -125,7 +163,9 @@ public async Task<int> createCategory(AddCategoryModel category)
    {
     Directory.CreateDirectory(upload_path);
    }
-   string avatar_url="";
+
+  string avatar_url="";
+
   var avatar_obj=category.Avatar;
   if(avatar_obj!=null)
   {

@@ -281,6 +281,7 @@ public partial class EcommerceshopContext : DbContext
             entity.Property(e => e.Id).HasDefaultValueSql("nextval('category_id_seq'::regclass)");
             entity.Property(e => e.Avatar).HasColumnType("character varying");
             entity.Property(e => e.CategoryName).HasColumnType("character varying");
+            entity.Property(e=>e.Sort_Id).HasColumnName("sort_id");
             entity.Property(e => e.CreatedDate)
                 .HasColumnType("character varying")
                 .HasColumnName("Created_Date");
