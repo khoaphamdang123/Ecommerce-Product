@@ -644,10 +644,20 @@
   white-space: normal !important;      /* Allow multi-line wrap */
 }
 
+.refresh-container table td {
+  overflow: visible !important;
+}
+
 /* ✅ Only for small screens: override inline widths */
 @@media (max-width: 768px) {
-  .refresh-container table td {
+ .refresh-container table td,
+  .refresh-container table th {
+    width: 100% !important;
     max-width: 100% !important;
+  }
+
+    .refresh-container table {
+    table-layout: fixed !important;
   }
  
 }
