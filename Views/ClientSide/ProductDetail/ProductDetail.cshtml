@@ -533,6 +533,24 @@
             word-break: break-word;
             white-space: normal;
         }
+        @@media (max-width: 768px) 
+{
+ .refresh-container table td,
+ .refresh-container table th 
+  {
+     width: auto !important; /* Allows width to fit content */
+    max-width: 100% !important;
+    }
+  }
+
+  .refresh-container table 
+  {
+    table-layout: auto !important; 
+    width: 100% !important;
+
+  }
+ 
+}
     </style>
 
     <div class="refresh-container container">
@@ -542,6 +560,8 @@
                 .Replace("Powered by", "")
                 .Replace("<img", "<img class='img-fluid'")
                 .Replace("<table", "<table class='table table-bordered table-striped'")
+                .Replace("margin: 0in -31.5pt 0in 0in", "margin: 0in 0in 0in 0in")
+
             )
         </div>
     </div>
@@ -574,6 +594,24 @@
             word-break: break-word!important;
             white-space: normal!important;
         }
+        @@media (max-width: 768px) 
+{
+ .refresh-container table td,
+ .refresh-container table th 
+  {
+     width: auto !important; /* Allows width to fit content */
+    max-width: 100% !important;
+    }
+  }
+
+  .refresh-container table 
+  {
+    table-layout: auto !important; 
+    width: 100% !important;
+
+  }
+ 
+}
     </style>
 
     <div class="refresh-container container">
@@ -583,6 +621,8 @@
                 .Replace("Powered by", "")
                 .Replace("<img", "<img class='img-fluid'")
                 .Replace("<table", "<table class='table table-bordered table-striped'")
+                .Replace("margin: 0in -31.5pt 0in 0in", "margin: 0in 0in 0in 0in")
+
             )
         </div>
     </div>
@@ -611,6 +651,25 @@
             word-break: break-word!important;
             white-space: normal!important;
         }
+        @@media (max-width: 768px) 
+{
+ .refresh-container table td,
+ .refresh-container table th 
+  {
+     width: auto !important; /* Allows width to fit content */
+    max-width: 100% !important;
+    }
+  }
+
+  .refresh-container table 
+  {
+    table-layout: auto !important; 
+    width: 100% !important;
+
+  }
+ 
+}
+        
     </style>
 
     <div class="refresh-container container">
@@ -620,6 +679,8 @@
                 .Replace("Powered by", "")
                 .Replace("<img", "<img class='img-fluid'")
                 .Replace("<table", "<table class='table table-bordered table-striped'")
+                .Replace("margin: 0in -31.5pt 0in 0in", "margin: 0in 0in 0in 0in")
+
             )
         </div>
     </div>
@@ -630,9 +691,8 @@
     {
         <style>
 .refresh-container table {
-  table-layout: fixed !important;
+  table-layout: auto !important;
   width: 100% !important;
-  border-collapse: collapse !important;
 }
 
 /* Core cell styles for wrapping */
@@ -640,24 +700,25 @@
 .refresh-container table th {
   word-wrap: break-word !important;
   overflow-wrap: break-word !important;
-  word-break: break-all !important;    /* Strongest for forcing wrap mid-word */
-  white-space: normal !important;      /* Allow multi-line wrap */
+  word-break: break-all !important;
 }
 
-.refresh-container table td {
-  overflow: visible !important;
-}
 
-/* ✅ Only for small screens: override inline widths */
-@@media (max-width: 768px) {
+@@media (max-width: 768px) 
+{
  .refresh-container table td,
-  .refresh-container table th {
-    width: 100% !important;
+ .refresh-container table th 
+  {
+     width: auto !important; /* Allows width to fit content */
     max-width: 100% !important;
+    }
   }
 
-    .refresh-container table {
-    table-layout: fixed !important;
+  .refresh-container table 
+  {
+    table-layout: auto !important; 
+    width: 100% !important;
+
   }
  
 }
@@ -671,6 +732,7 @@
                 .Replace("Powered by", "")
                 .Replace("<img", "<img class='img-fluid'")
                 .Replace("<table", "<table class='table table-bordered table-striped'")
+                .Replace("margin: 0in -31.5pt 0in 0in", "margin: 0in 0in 0in 0in")
             )
         </div>
     </div>
