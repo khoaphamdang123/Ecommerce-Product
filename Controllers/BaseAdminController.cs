@@ -18,11 +18,11 @@ public class BaseAdminController : Controller
 
     public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
-     
-        var logo= await this._banner.findBannerByName("logo");
+
+        var logo = await this._banner.findBannerByName("logo");
 
         ViewBag.Logo = logo;
-    
-    await next();
+
+        await next();        
     }
 }

@@ -629,39 +629,23 @@
                         @if(!string.IsNullOrEmpty(Model.Statdescription))
     {
         <style>
-          .refresh-container table {
-    width: 100% !important; /* Force table to take full container width */
-    max-width: 100%; /* Prevent overflow */
-    margin-bottom: 1rem; /* Bootstrap-like spacing */
-    table-layout: auto !important; /* Allow table to adjust column widths based on content */
-    word-wrap: break-word !important;
-    overflow-wrap: break-word !important;
-}
+             .refresh-container table {
+            width: 100% !important; /* Force table to take full container width */
+            max-width: 100%; /* Prevent overflow */
+            margin-bottom: 1rem; /* Bootstrap-like spacing */
+            table-layout: auto!important;
+            word-wrap: break-word!important;
+            overflow-wrap: break-word!important;
 
-.refresh-container table td, .refresh-container table th {
-    padding: 0.75rem !important; /* Consistent padding */
-    vertical-align: middle !important; /* Center content vertically */
-    word-wrap: break-word !important;
-    overflow-wrap: break-word !important;
-    word-break: break-word !important;
-    white-space: normal !important;
-    box-sizing: border-box !important; /* Ensure padding/borders are included in width */
-}
-
-/* Override inline negative margins in <p> elements */
-.refresh-container table td p {
-    margin: 0 !important; /* Reset any negative margins */
-    padding: 0 !important; /* Ensure no extra padding */
-    word-wrap: break-word !important;
-    overflow-wrap: break-word !important;
-    word-break: break-word !important;
-}
-
-/* Override inline width styles to prevent overflow */
-.refresh-container table td {
-    width: auto !important; /* Allow flexible widths */
-    max-width: 100% !important; /* Prevent overflow */
-}
+        }
+        .refresh-container table td, .refresh-container table th {
+            padding: 0.75rem!important; /* Consistent padding */
+            vertical-align: middle!important; /* Center content vertically */
+            word-wrap: break-word!important;
+            overflow-wrap: break-word!important;
+            word-break: break-word!important;
+            white-space: normal!important;
+        }
         </style>
   
     <div class="refresh-container container">
