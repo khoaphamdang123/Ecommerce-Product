@@ -447,6 +447,7 @@
                                 <li class="nav-item" role="presentation">
                                   <button class="nav-link" id="discount-des-tab" data-bs-toggle="tab" data-bs-target="#discount-des" type="button" role="tab" aria-controls="discount-des" aria-selected="false">Thông tin giảm giá</button>
                                 </li>
+                            
                             }
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="review-tab" data-bs-toggle="tab" data-bs-target="#review" type="button" role="tab" aria-controls="review" aria-selected="false">Đánh giá</button> 
@@ -560,18 +561,18 @@
             width: 100% !important; /* Force table to take full container width */
             max-width: 100%; /* Prevent overflow */
             margin-bottom: 1rem; /* Bootstrap-like spacing */
-            table-layout: fixed;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
+            table-layout: fixed!important;
+            word-wrap: break-word!important;
+            overflow-wrap: break-word!important;
 
         }
         .refresh-container table td, .refresh-container table th {
-            padding: 0.75rem; /* Consistent padding */
-            vertical-align: middle; /* Center content vertically */
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            word-break: break-word;
-            white-space: normal;
+            padding: 0.75rem!important; /* Consistent padding */
+            vertical-align: middle!important; /* Center content vertically */
+            word-wrap: break-word!important;
+            overflow-wrap: break-word!important;
+            word-break: break-word!important;
+            white-space: normal!important;
         }
     </style>
 
@@ -593,22 +594,22 @@
         @if(!string.IsNullOrEmpty(Model.DiscountDescription))
         {
         <style>
-         .refresh-container table {
+            .refresh-container table {
             width: 100% !important; /* Force table to take full container width */
             max-width: 100%; /* Prevent overflow */
             margin-bottom: 1rem; /* Bootstrap-like spacing */
-            table-layout: fixed;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
+            table-layout: fixed!important;
+            word-wrap: break-word!important;
+            overflow-wrap: break-word!important;
 
         }
         .refresh-container table td, .refresh-container table th {
-            padding: 0.75rem; /* Consistent padding */
-            vertical-align: middle; /* Center content vertically */
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            word-break: break-word;
-            white-space: normal;
+            padding: 0.75rem!important; /* Consistent padding */
+            vertical-align: middle!important; /* Center content vertically */
+            word-wrap: break-word!important;
+            overflow-wrap: break-word!important;
+            word-break: break-word!important;
+            white-space: normal!important;
         }
     </style>
 
@@ -628,24 +629,24 @@
                         @if(!string.IsNullOrEmpty(Model.Statdescription))
     {
         <style>
-        .refresh-container table {
+             .refresh-container table {
             width: 100% !important; /* Force table to take full container width */
             max-width: 100%; /* Prevent overflow */
             margin-bottom: 1rem; /* Bootstrap-like spacing */
-            table-layout: fixed;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
+            table-layout: fixed!important;
+            word-wrap: break-word!important;
+            overflow-wrap: break-word!important;
 
         }
         .refresh-container table td, .refresh-container table th {
-            padding: 0.75rem; /* Consistent padding */
-            vertical-align: middle; /* Center content vertically */
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            word-break: break-word;
-            white-space: normal;
+            padding: 0.75rem!important; /* Consistent padding */
+            vertical-align: middle!important; /* Center content vertically */
+            word-wrap: break-word!important;
+            overflow-wrap: break-word!important;
+            word-break: break-word!important;
+            white-space: normal!important;
         }
-    </style>
+        </style>
   
     <div class="refresh-container container">
         <div class="table-responsive">
