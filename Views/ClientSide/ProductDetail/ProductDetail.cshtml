@@ -432,7 +432,7 @@
                              @if(!string.IsNullOrEmpty(Model?.Statdescription))
                              {
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="aditional-tab" data-bs-toggle="tab" data-bs-target="#aditional" type="button" role="tab" aria-controls="aditional" aria-selected="false">Thông số</button>
+                                    <button class="nav-link" id="aditional-tab" data-bs-toggle="tab" data-bs-target="#aditional" type="button" role="tab" aria-controls="aditional" aria-selected="false">Thông số kỹ thuật</button>
                                   </li>
                                   }
                             @if(!string.IsNullOrEmpty(Model?.InboxDescription))
@@ -519,10 +519,18 @@
             width: 100% !important; /* Force table to take full container width */
             max-width: 100%; /* Prevent overflow */
             margin-bottom: 1rem; /* Bootstrap-like spacing */
+            table-layout: fixed;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+
         }
         .refresh-container table td, .refresh-container table th {
             padding: 0.75rem; /* Consistent padding */
             vertical-align: middle; /* Center content vertically */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-word;
+            white-space: normal;
         }
     </style>
 
@@ -548,14 +556,22 @@
                            @if(!string.IsNullOrEmpty(Model.InboxDescription))
                          {
         <style>
-        .refresh-container table {
+           .refresh-container table {
             width: 100% !important; /* Force table to take full container width */
             max-width: 100%; /* Prevent overflow */
             margin-bottom: 1rem; /* Bootstrap-like spacing */
+            table-layout: fixed;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+
         }
         .refresh-container table td, .refresh-container table th {
             padding: 0.75rem; /* Consistent padding */
             vertical-align: middle; /* Center content vertically */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-word;
+            white-space: normal;
         }
     </style>
 
@@ -577,14 +593,22 @@
         @if(!string.IsNullOrEmpty(Model.DiscountDescription))
         {
         <style>
-        .refresh-container table {
+         .refresh-container table {
             width: 100% !important; /* Force table to take full container width */
             max-width: 100%; /* Prevent overflow */
             margin-bottom: 1rem; /* Bootstrap-like spacing */
+            table-layout: fixed;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+
         }
         .refresh-container table td, .refresh-container table th {
             padding: 0.75rem; /* Consistent padding */
             vertical-align: middle; /* Center content vertically */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-word;
+            white-space: normal;
         }
     </style>
 
@@ -608,10 +632,18 @@
             width: 100% !important; /* Force table to take full container width */
             max-width: 100%; /* Prevent overflow */
             margin-bottom: 1rem; /* Bootstrap-like spacing */
+            table-layout: fixed;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+
         }
         .refresh-container table td, .refresh-container table th {
             padding: 0.75rem; /* Consistent padding */
             vertical-align: middle; /* Center content vertically */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-word;
+            white-space: normal;
         }
     </style>
   

@@ -1370,6 +1370,23 @@ input
   z-index: 2;
 }
 
+@media only screen and (min-width: 992px) 
+{
+  .heade-mid-inner {
+    max-height: 65px;
+    padding: 30px 0;
+  border-bottom: 1px solid;
+  border-color: rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 2;
+   /* optional: hide overflow if content exceeds */
+  }
+
+  .move-up-row {
+  margin-top: -30px;
+}
+}
+
 .header__search {
   margin-left: -30px;
   width: 630px;
@@ -5800,8 +5817,13 @@ input
 
 
 .product-name-fixed {
-    min-height: 4em; 
+    min-height: 4em;
 }
+
+
+
+
+
 
 .ad-width {
   
