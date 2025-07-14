@@ -271,7 +271,7 @@ public async Task<bool> createRole(string role)
  
   Console.WriteLine("QR Code Image:"+qr_code_img);
     
-     Dictionary<string,string> dict_info=new Dictionary<string,string>
+     Dictionary<string,string> dict_info=new Dictionary<string, string>
      {
       {"bank_name",user_info.BankName},
       {"account_num",user_info.AccountNum},
@@ -281,6 +281,7 @@ public async Task<bool> createRole(string role)
       {"youtube",user_info.Youtube},
       {"instagram",user_info.Instagram},
       {"telegram",user_info.Telegram},
+      {"description",user_info.Description}
      };
       
      extra_info=string.Join(Environment.NewLine,dict_info.Select(x=>$"{x.Key}~{x.Value}"));
@@ -290,7 +291,6 @@ public async Task<bool> createRole(string role)
      user.Email=user_info.Email;
      
      Console.WriteLine("Extra Info convert:"+extra_info);    
-
 
      var res_update_company=await this._userManager.UpdateAsync(user);
       

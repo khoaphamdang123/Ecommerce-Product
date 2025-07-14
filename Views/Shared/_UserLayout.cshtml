@@ -76,6 +76,8 @@
     
     string instagram="";
 
+    string description="";
+
     if(!string.IsNullOrEmpty(extra_info))
     {
       string[] info_values=extra_info.Split('\n');
@@ -111,6 +113,10 @@
         {
             Environment.SetEnvironmentVariable("QR_CODE",info.Split('~')[1].Trim());
         }
+        else if(info.Contains("description"))
+        {
+          description=info.Split('~')[1].Trim();
+        }
       }
     }
 
@@ -145,7 +151,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
 
-    <meta name="description" content="A brief description of your webpage. This is what appears on search engine results pages.">
+    <meta name="description" content="@description">
 
     <!-- Keywords for search engines (not very impactful today) -->
     <meta name="keywords" content="thanhquang,thanhquang-gnss,thiết bị hàng hải,phụ kiện garmin,thiết bị cầm tay">

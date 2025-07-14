@@ -210,8 +210,8 @@ public async Task<int> updateUser(UserInfo user_info)
       user.PhoneNumber=user_info.PhoneNumber;
       user.Address1=user_info.Address1;
       user.Address2=user_info.Address2;
-      user.Gender=user_info.Gender;
-      cur_avatar=user.Avatar;
+      user.Gender=user_info.Gender;      
+      cur_avatar =user.Avatar;
     
    string folder_name="UploadImageAdmin";
 

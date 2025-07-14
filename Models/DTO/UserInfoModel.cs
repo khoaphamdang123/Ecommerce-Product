@@ -36,6 +36,8 @@ public class UserInfo
 
    public string Telegram{get;set;}
    
-   public IFormFile Avatar{get;set;}
+   public string Description{get;set;}
+   
+   public IFormFile Avatar { get; set; }
     
 }
