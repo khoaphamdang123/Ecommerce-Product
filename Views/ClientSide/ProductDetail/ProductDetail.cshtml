@@ -629,23 +629,23 @@
                         @if(!string.IsNullOrEmpty(Model.Statdescription))
     {
         <style>
-             .refresh-container table {
-            width: 100% !important; /* Force table to take full container width */
-            max-width: 100%; /* Prevent overflow */
-            margin-bottom: 1rem; /* Bootstrap-like spacing */
-            table-layout: auto!important;
-            word-wrap: break-word!important;
-            overflow-wrap: break-word!important;
+    .refresh-container table {
+  width: 100% !important;        /* Full width */
+  max-width: 100% !important;
+  margin-bottom: 1rem !important;
+  table-layout: fixed !important;  /* ✅ Key fix */
+  border-collapse: collapse !important;
+}
 
-        }
-        .refresh-container table td, .refresh-container table th {
-            padding: 0.75rem!important; /* Consistent padding */
-            vertical-align: middle!important; /* Center content vertically */
-            word-wrap: break-word!important;
-            overflow-wrap: break-word!important;
-            word-break: break-word!important;
-            white-space: normal!important;
-        }
+.refresh-container table td,
+.refresh-container table th {
+  padding: 0.75rem !important;
+  vertical-align: middle !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  word-break: break-word !important;
+  white-space: normal !important; /* allow wrapping */
+}
         </style>
   
     <div class="refresh-container container">
