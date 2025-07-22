@@ -443,11 +443,9 @@
                             }
                             @if(!string.IsNullOrEmpty(Model?.DiscountDescription))
                             {
-                                
                                 <li class="nav-item" role="presentation">
                                   <button class="nav-link" id="discount-des-tab" data-bs-toggle="tab" data-bs-target="#discount-des" type="button" role="tab" aria-controls="discount-des" aria-selected="false">Thông tin giảm giá</button>
                                 </li>
-                            
                             }
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="review-tab" data-bs-toggle="tab" data-bs-target="#review" type="button" role="tab" aria-controls="review" aria-selected="false">Đánh giá</button> 
@@ -455,7 +453,7 @@
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="support-tab" data-bs-toggle="tab" data-bs-target="#support" type="button" role="tab" aria-controls="support" aria-selected="false">Hỗ trợ</button>
                             </li>
-                              </ul>
+                        </ul>
                         </div>
                     </div>
                 </div>
@@ -514,17 +512,17 @@
                             <p class="des-text mb-25">Sound of Marshall, unplugs the chords, and takes the show on the road. Weighing in under 7 pounds, the Kilburn is a lightweight piece of vintage styled engineering. Setting the bar as one of the loudest speakers in its class, the Kilburn is a compact, stout-hearted hero with a well-balanced audio which boasts a clear midrange and extended highs for a sound that is both articulate and pronounced. The analogue knobs allow you to fine tune the controls to your personal preferences while the guitar-influenced leather strap enables easy and stylish travel.</p>
                         </div> *@
                            @if(!string.IsNullOrEmpty(Model.Description))
-                         {
+     {
         <style>
-        .refresh-container table {
-            width: 100% !important; /* Force table to take full container width */
-            max-width: 100%; /* Prevent overflow */
-            margin-bottom: 1rem; /* Bootstrap-like spacing */
-            table-layout: fixed;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
+            .refresh-container table {
+                width: 100% !important; /* Force table to take full container width */
+                max-width: 100%; /* Prevent overflow */
+                margin-bottom: 1rem; /* Bootstrap-like spacing */
+                table-layout: fixed;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
 
-        }
+            }
         .refresh-container table td, .refresh-container table th {
             padding: 0.75rem; /* Consistent padding */
             vertical-align: middle; /* Center content vertically */
@@ -537,15 +535,18 @@
 {
  .refresh-container table td,
  .refresh-container table th 
-  {
-     width: auto !important; /* Allows width to fit content */
-    max-width: 100% !important;
+  { 
+     width: auto !important; 
+
+     max-width: 100% !important;
+
     }
   }
 
   .refresh-container table 
   {
-    table-layout: auto !important; 
+    table-layout: fixed !important; 
+    
     width: 100% !important;
 
   }
@@ -606,7 +607,7 @@
 
   .refresh-container table 
   {
-    table-layout: auto !important; 
+    table-layout: fixed !important; 
     width: 100% !important;
 
   }
@@ -663,7 +664,7 @@
 
   .refresh-container table 
   {
-    table-layout: auto !important; 
+    table-layout: fixed !important; 
     width: 100% !important;
 
   }
@@ -709,16 +710,17 @@
  .refresh-container table td,
  .refresh-container table th 
   {
-     width: auto !important; /* Allows width to fit content */
+    width: auto !important; /* Allows width to fit content */
+
     max-width: 100% !important;
     }
   }
 
   .refresh-container table 
   {
-    table-layout: auto !important; 
-    width: 100% !important;
+    table-layout: fixed !important;
 
+    width: 100% !important;
   }
  
 }

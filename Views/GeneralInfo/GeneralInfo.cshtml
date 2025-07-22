@@ -330,7 +330,8 @@
             contentType: false,
             processData: false,
             success: function(response) {
-                const status=response.status;
+                
+                const status=response.status;                
                 
                 const message = response.message;
                 
@@ -338,29 +339,28 @@
                 
                 document.getElementById("toast-message").innerHTML=message;
                 
-                var toastEl = document.querySelector('.toast');
+                var toastEl = document.querySelector('.toast');                
                 
                 if(status==1)
                 {
-              
-                 toastEl.classList.add('bg-success');
-      
+                 toastEl.classList.add('bg-success');                 
                 }
-            else
-            {
-                toastEl.classList.add('bg-danger');
-            }
-                var toast = new bootstrap.Toast(toastEl);
+                else
+                {
+                    toastEl.classList.add('bg-danger');
+                }
+                    
+                 var toast = new bootstrap.Toast(toastEl);
                 
                  toast.show();
             },
             error: function(xhr, status, error) {
                 document.getElementById("toast-title").innerHTML = "Thông báo";
                 document.getElementById("toast-message").innerHTML = error;
-                var toastEl = document.querySelector('.toast');
+                var toastEl = document.querySelector('.toast');                                
                 toastEl.classList.add('bg-danger');
                 var toast = new bootstrap.Toast(toastEl);
-                toast.show(); 
+                toast.show();                                
             }
         });
  });
